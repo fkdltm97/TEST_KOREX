@@ -12,14 +12,40 @@ import EditBtn from '../../img/member/edit_btn.png';
 import SaveBtn from '../../img/member/save_btn.png';
 
 
-export default function SubTitle({title,rank,path,cursor}) {
+export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,editOffButtonBox}) {
     //back button
     const history = useHistory();
     const goBack = () =>{
         history.goBack();
     }
 
+    //수정버튼 클릭시 저장버튼 변경
+    const editCheck = () =>{
+      return editButtonBox;
+    }
+    // 저장버튼 클릭시 수정버튼으로 변경
+    const editOffCheck = () =>{
+      return editOffButtonBox;
+    }
 
+    //수정버튼
+    const btnlist = () => {
+        switch(edit){
+            case 1 : //수정
+                    return (
+                      <Link onClick={editCheck()}>
+                        <EditImg src={EditBtn}/>
+                      </Link>
+                    );
+            case 2 : //저장
+                    return (
+                      <Link onClick={editOffCheck()}>
+                        <SaveImg src={SaveBtn}/>
+                      </Link>
+                    );
+            default : return null;
+        }
+      }
 
     return (
         <Container>
@@ -29,15 +55,10 @@ export default function SubTitle({title,rank,path,cursor}) {
                 <BackImg src={BackBtn}/>
               </Link>
               <TitleTxt>
-                <Link to={path} style={{cursor:cursor}}>{title}</Link>
+                <Link to={path} style={{cursor:cursor}}>{title}<Arrow>{arrow}</Arrow></Link>
               </TitleTxt>
               {
-                rank ?
-                <Link>
-                  <EditImg src={EditBtn}/>
-                </Link>
-                :
-                null
+                btnlist()
               }
             </InSubTitle>
           </WrapSubTitle>
@@ -102,4 +123,12 @@ const EditImg = styled.img`
         right:calc(100vw*(36/428));
     }
 
+`
+const Arrow = styled.span`
+  display:inline-block;
+  font-size:12px;
+  color:#979797;
+  vertical-align:middle;
+`
+const SaveImg = styled(EditImg)`
 `

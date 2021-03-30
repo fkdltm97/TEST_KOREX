@@ -20,15 +20,15 @@ import BackBtn from '../../../img/notice/back_btn.png';
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function ImgDetail({detailImg, openDetailImg}){
-  if(detailImg == false)
+export default function ImgDetail({detailimg, setDetailImg}){
+  if(detailimg == false)
     return null;
     return (
       <Container>
-        <SwiperBg onClick={()=>{openDetailImg(false)}}></SwiperBg>
+        <SwiperBg onClick={()=>{setDetailImg(false)}}></SwiperBg>
           <SwiperBennerWrap className="img_swiper">
             <CloseImg>
-              <Link onClick={()=>{openDetailImg(false)}}>
+              <Link onClick={()=>{setDetailImg(false)}}>
                 <ModalClose src={CloseBtn}/>
               </Link>
             </CloseImg>
@@ -59,13 +59,12 @@ export default function ImgDetail({detailImg, openDetailImg}){
 
 const Container = styled.div`
   width:100%;
-  display:none;
 
 `
 const SwiperBg = styled.div`
   position:fixed;
   width:100%;
-  z-index:900;
+  z-index:1001;
   height:100%;left:0;top:0;display:block;content:'';
   background:rgba(0,0,0,0.2);
 `
@@ -89,11 +88,11 @@ const ModalClose = styled.img`
 const SwiperBennerWrap = styled.div`
   position:fixed;
   left:50%;top:50%;transform:translate(-50%,-50%);
-  width:1100px;
+  width:1252px;
   height:auto;
-  z-index:1000;
+  z-index:1002;
   @media ${(props) => props.theme.container} {
-      width:calc(100vw*(1100/1436));
+      width:calc(100vw*(1252/1436));
     }
   @media ${(props) => props.theme.mobile} {
       width:100%;

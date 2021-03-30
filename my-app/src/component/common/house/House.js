@@ -17,7 +17,7 @@ import IconRecent from "../../../img/main/icon_view.png";
 import ItemImg from "../../../img/main/item01.png";
 
 import { Mobile, PC } from "../../../MediaQuery"
-export default function House({house, openHouse ,live, openLive}) {
+export default function House({house, openHouse ,live, setLive, detailimg, setDetailImg}) {
 
   //모달창 내 페이지 이동
   const [pageIndex , setPageIndex] = useState(0);
@@ -25,7 +25,7 @@ export default function House({house, openHouse ,live, openLive}) {
   const pageLoader = () =>{
     switch (pageIndex) {
       case 0: return <HouseList updatePageIndex={updatePageIndex}/>;
-      case 1: return <HouseDetail updatePageIndex={updatePageIndex}/>;
+      case 1: return <HouseDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg}/>;
       default :return <HouseList updatePageIndex={updatePageIndex}/>;
     }
   }
@@ -99,9 +99,14 @@ const ModalContent = styled.div`
   z-index:1000;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-}
+  &::-webkit-scrollbar {display: none;}
+
+  @media ${(props) => props.theme.container} {
+      width:90%;
+      height:calc(100vw*(800/1436));
+      overflow:hidden;
+    }
+
 `
 const ModalClose = styled.div`
   position:absolute;

@@ -217,12 +217,19 @@ const Container = styled.div`
 const ModalTop = styled.div`
   width:100%;
   margin-bottom:22px;
+  @media ${(props) => props.theme.container} {
+      margin-bottom:calc(100vw*(22/1436));
+    }
 `
 const Title = styled.h1`
   font-size:20px;
   color:#707070;
   font-weight:800;
   padding-left:20px;
+  transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(20/1436));
+    }
 `
 const ModalSelect = styled.div`
   width:100%;
@@ -230,6 +237,7 @@ const ModalSelect = styled.div`
   padding-top:20px;
   display:flex;justify-content:center;align-items:flex-start;
   background:#f8f7f7;border-top:1px solid #b9b9b9;
+
 `
 const SearchIcon = styled.div`
   width:30px;height:30px;text-align:center;
@@ -254,12 +262,16 @@ const ItemList = styled.li`
   font-size:13px;color:#707070;
   text-align:center;cursor:pointer;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(13/1436));
+    }
 
 `
 const Span = styled.span`
   font-size:13px;color:#707070;
   text-align:center;cursor:pointer;
   font-weight:600;transform:skew(-0.1deg);
+
 `
 const ItemSubdepth = styled.ul`
   width:100%;height:auto;
@@ -327,16 +339,25 @@ const ListTop = styled.div`
   padding-bottom:19px;
   margin-top:19px;
   border-bottom:1px solid #f2f2f2;
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(20/1436));
+    }
 `
 const Green = styled.span`
   font-size:20px;color:#01684b;margin:0 5px;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(20/1436));
+    }
 `
 const WrapList = styled.div`
   padding:20px 17.5px 20px 35px;
   height:395px;
   overflow-y:scroll;
   scrollbar:auto;
+  @media ${(props) => props.theme.container} {
+      height:calc(100vw*(395/1436));
+    }
 `
 const ListUl = styled.ul`
   width:100%;
@@ -368,17 +389,27 @@ const LiTitle = styled.h2`
   transform:skew(-0.1deg);
   color:#4a4a4a;
   margin-bottom:10px;
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(20/1436));
+      margin-bottom:calc(100vw*(10/1436));
+    }
 `
 const Number = styled.span`
   font-size:14px;color:#979797;
   display:inline-block;margin-left:15px;
-  vertical-align:baseline;
+  vertical-align:baseline;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(15/1436));
+    }
 `
 const Option = styled.div`
   font-size:15px;font-weight:800;
   transform:skew(-0.1deg);
   color:#4a4a4a;
   margin-bottom:3px;
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(16/1436));
+    }
 `
 const Address = styled(Option)`
   color:#707070;
@@ -415,6 +446,9 @@ const DescTitle = styled.p`
   font-size:15px;color:#4a4a4a;
   text-align:left;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(16/1436));
+    }
 `
 const DescInfo = styled(DescTitle)`
   text-align:right;

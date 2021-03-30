@@ -21,7 +21,9 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Reserve({setMap,setFilter,setReserve}) {
+import ReserveListPage from "./ReserveList";
+
+export default function Reserve({setMap,setFilter,setReserve, value, type, type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -103,47 +105,7 @@ export default function Reserve({setMap,setFilter,setReserve}) {
               }
 
               return(
-                <Li opacity={type2}>
-                  <Img>
-                    <ItemImg src={value.src} alt="img"/>
-                  {/*상품이미지가 없을경우*/}
-                    {/* <ItemImg src={Noimg} alt="img"/> */}
-                  </Img>
-                  <Infos>
-                    <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
-                    <Number>등록번호 {value.number}</Number>
-                    <Address>
-                      <Link onClick={() => {setMap(true)}}>
-                        <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
-                      </Link>
-                    </Address>
-                    <DateTime>
-                      <Date>{value.date}</Date>
-                      <Time>{value.time}</Time>
-                    </DateTime>
-                  </Infos>
-                  <RightMenu>
-                    <Alarm>
-                      <AlarmCheck type="checkbox" id="alarm_check" name=""/>
-                      <Label for="alarm_check"/>
-                    </Alarm>
-                    <Menu>
-                      <Link onClick={showModal}>
-                        <MenuIcon/>
-                          {
-                            menu ?
-                            <InMenu>
-                              <Div><Link>예약취소</Link></Div>
-                              <Div><Link onClick={()=>{setReserve(true)}}>수정</Link></Div>
-                              <Div><Link>삭제</Link></Div>
-                            </InMenu>
-                            :
-                            null
-                          }
-                      </Link>
-                    </Menu>
-                  </RightMenu>
-                </Li>
+                <ReserveListPage setMap={setMap} setFilter={setFilter} setReserve={setReserve} value={value} type={type} type2={type2}/>
               )
             })
           }
@@ -385,6 +347,7 @@ const InMenu = styled.ul`
 
 `
 const Div = styled.li`
+  position:relative;
   font-size:13px;
   transform:skew(-0.1deg);
   border-radius:8px;
@@ -399,4 +362,7 @@ const Div = styled.li`
     &:first-child{padding-top:calc(100vw*(8/428));}
     &:last-child{padding-bottom:calc(100vw*(8/428));}
   }
+`
+const InDiv = styled.div`
+  width:100%;height:100%;
 `

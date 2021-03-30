@@ -18,45 +18,83 @@ import PersonalAndCompany from './mypageTop/PersonalAndCompany';
 import ProfessionalBroker from './mypageTop/ProfessionalBroker';
 import Agency from './mypageTop/Agency';
 
-export default function JoinInput() {
+export default function JoinInput({profileedit,profileeditCheck}) {
+  const valueChk = () =>{
+    return profileeditCheck;
+  }
+
+  //수정버튼
+  const profilelist = () => {
+      switch(profileedit){
+          case 1 :
+                  return (
+                    <ProfileTop>
+                      <ProfileImg>
+                        <Profile src={Img}/>
+                      {/*Edit버튼 눌렀을때 아래 나와야함*/}
+                        {/*
+                        <File type="file" name="" id="file"/>
+                        <Label for="file"/>
+                        */}
+                      </ProfileImg>
+                      <ProfileName>
+                        <Input type="text" name="" placeholder="이름을 설정해주세요." disabled/>
+                  {/*전문중개사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
+                      {/*
+                        <BrokerTag style={{display:"block"}}>
+                          <BrokerKinds>관리자</BrokerKinds>
+                          <MarkerImg>전문</MarkerImg>
+                        </BrokerTag> */}
+                  {/*분양대행사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
+                      {/*
+                        <BrokerTag style={{display:"block"}}>
+                          <BrokerKinds>관리자</BrokerKinds>
+                        </BrokerTag> */}
+                      </ProfileName>
+                    </ProfileTop>
+                  );
+          case 2 :
+                  return (
+                    <ProfileTop>
+                      <ProfileImg>
+                        <Profile src={Img}/>
+                        <File type="file" name="" id="file"/>
+                        <Label for="file"/>
+                      </ProfileImg>
+                      <ProfileName>
+                        <InputBorder type="text" name="" placeholder="이름을 설정해주세요."/>
+                  {/*전문중개사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
+                      {/*
+                        <BrokerTag style={{display:"block"}}>
+                          <BrokerKinds>관리자</BrokerKinds>
+                          <MarkerImg>전문</MarkerImg>
+                        </BrokerTag> */}
+                  {/*분양대행사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
+                      {/*
+                        <BrokerTag style={{display:"block"}}>
+                          <BrokerKinds>관리자</BrokerKinds>
+                        </BrokerTag> */}
+                      </ProfileName>
+                    </ProfileTop>
+                  );
+          default : return null;
+      }
+    }
 
     return (
         <Container>
           <WrapProfile>
             <MypageTxt>마이페이지</MypageTxt>
-            <ProfileTop>
-              <ProfileImg>
-                <Profile src={Img}/>
-              {/*Edit버튼 눌렀을때 아래 나와야함*/}
-                {/*
-                <File type="file" name="" id="file"/>
-                <Label for="file"/>
-                */}
-              </ProfileImg>
-              <ProfileName>
-                <Input type="text" name="" value="이름을 설정해주세요." disabled/>
-          {/*전문중개사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
-              {/*
-                <BrokerTag style={{display:"block"}}>
-                  <BrokerKinds>관리자</BrokerKinds>
-                  <MarkerImg>전문</MarkerImg>
-                </BrokerTag> */}
-          {/*분양대행사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
-              {/*
-                <BrokerTag style={{display:"block"}}>
-                  <BrokerKinds>관리자</BrokerKinds>
-                </BrokerTag> */}
-              </ProfileName>
-            </ProfileTop>
+            {
+              profilelist()
+            }
             <ProfileMiddle> {/*컴포넌트로 분리했습니다! (mypageTop 폴더)*/}
               {/*개인&기업일때 상단*/}
                 <PersonalAndCompany/>
-
               {/*중개사(일반)일때 없음*/}
 
               {/*전문중개사일때*/}
                 {/*<ProfessionalBroker/>*/}
-
               {/*분양대행사일때*/}
                 {/*<Agency/>*/}
             </ProfileMiddle>
@@ -122,33 +160,33 @@ export default function JoinInput() {
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link to="/Reservation" className="data_link"></Link>
+                  <Link className="data_link"></Link>
                   <LinkTxt>내 Live 시청 예약</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link to="/Reservation" className="data_link"></Link>
+                  <Link className="data_link"></Link>
                   <LinkTxt>내 방문예약</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
             {/*전문중개사(관리자)*/}
                 <Li>
-                  <Link to="/Reservation" className="data_link"></Link>
+                  <Link className="data_link"></Link>
                   <LinkTxt>물건관리</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link to="/Reservation" className="data_link"></Link>
+                  <Link className="data_link"></Link>
                   <LinkTxt>물건투어예약접수 관리</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link to="/Reservation" className="data_link"></Link>
+                  <Link className="data_link"></Link>
                   <LinkTxt>전문중개사무소 신청</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/Request" className="data_link"></Link>
                   <LinkTxt>내 중개 의뢰</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
@@ -236,7 +274,7 @@ const ProfileImg = styled.div`
     }
 `
 const File = styled.input`
-  display:none;
+  display: none;
 `
 const Label = styled.label`
   display:inline-block;
@@ -247,6 +285,8 @@ const Label = styled.label`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(27/428));
     height:calc(100vw*(27/428));
+    right:calc(100vw*(-5/428));
+    bottom:calc(100vw*(-5/428));
     }
 `
 const Profile = styled.img`
@@ -256,7 +296,7 @@ const ProfileName = styled.div`
   display:inline-block;
   width:295px;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(200/428));
+    width:calc(100vw*(250/428));
     }
 
 `
@@ -267,12 +307,16 @@ const Input = styled.input`
   font-size:15px;
   background:transparent;
   font-weight:800;transform:skew(-0.1deg);
-  &::placeholder{color:#979797;}
+  &::placeholder{color:#4a4a4a;font-weight:600;transform:skew(-0.1deg);}
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(14/428));
     height:calc(100vw*(43/428));
     padding-left:calc(100vw*(20/428));
     }
+`
+const InputBorder = styled(Input)`
+  border:1px solid #e4e4e4;
+  border-radius:5px;
 `
 const ProfileMiddle = styled.div`
   width:100%;

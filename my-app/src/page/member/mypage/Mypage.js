@@ -13,6 +13,8 @@ import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
+import ImgDetail from "../../../component/common/house/ImgDetail";
+import LiveModal from "../../../component/common/house/LiveModal";
 
 
 
@@ -32,14 +34,38 @@ export default function Join() {
   //분양 모달
   const [house, setHouse] = useState(false);
   const openHouse = (onOff) =>{ setHouse(onOff);}
+  //라이브 시청 모달
+  const [live, setLive] = useState(false);
+  //분양 상세이미지 모달
+  const [detailimg, setDetailImg] = useState(false);
+
+  //수정버튼 클릭시 저장버튼 변경
+  const [editCheck,setEditChk] = useState(1);//기본값 1(EDIT버튼)
+  const editButtonBox = () =>{
+      setEditChk(2);
+      return setValueChk(2);
+  }
+  const editOffButtonBox = () =>{
+      setEditChk(1);
+      return setValueChk(1);
+  }
+
+  //저장버튼 클릭시 변경
+  const [valueChk,setValueChk] = useState(1);
+  const profileeditCheck = () =>{
+      setEditChk(1);
+      return setValueChk(1);
+  }
 
     return (
         <>
-          <House house={house} openHouse={openHouse}/>
+          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          <LiveModal live={live} setLive={setLive}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-              <SubTitle title={"마이페이지"} rank={true} path={"/"} cursor={"default"}/>
-              <MyProfile/>
+              <SubTitle title={"마이페이지"} path={"/"} cursor={"default"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>
+              <MyProfile profileedit={valueChk}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

@@ -27,7 +27,7 @@ import BrokerJoin from './page/member/broker/Join';
 import JoinSearchResult from './page/member/broker/JoinSearchResult';
 import JoinBusinessNumber from './page/member/broker/JoinBusinessNumber';
 import BrokerJoinAgree from './page/member/broker/BrokerJoinAgree';
-import Registration from  './page/member/broker/Registration';
+import BrokerRegistration from  './page/member/broker/BrokerRegistration';
 import BrokerLogin from './page/member/broker/Login';
 /*분양대행사*/
 import AgencyJoin from './page/member/agency/Join';
@@ -40,6 +40,10 @@ import Mypage from './page/member/mypage/Mypage';
 import Reservation from './page/member/mypage/Reservation';
 import Team from './page/member/mypage/Team';
 import CompanyProfile from './page/member/mypage/CompanyProfile';
+import Request from './page/member/mypage/Request';
+
+/*map*/
+import Map from './page/map/Map';
 
 export default function App(){
 
@@ -65,7 +69,7 @@ export default function App(){
             <Route exact path="/JoinSearchResult" component={JoinSearchResult}/>
             <Route exact path="/JoinBusinessNumber" component={JoinBusinessNumber}/>
             <Route exact path="/BrokerJoinAgree" component={BrokerJoinAgree}/>
-            <Route exact path="/Registration" component={Registration}/>
+            <Route exact path="/BrokerRegistration" component={BrokerRegistration}/>
             <Route exact path="/BrokerLogin" component={BrokerLogin}/>
             {/*분양대행사*/}
             <Route exact path="/AgencyJoin" component={AgencyJoin}/>
@@ -78,10 +82,14 @@ export default function App(){
             <Route exact path="/Reservation" component={Reservation}/>
             <Route exact path="/Team" component={Team}/>
             <Route exact path="/CompanyProfile" component={CompanyProfile}/>
+            <Route exact path="/Request" component={Request}/>
+
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>
             <Route exact path="/MbHouse" component={MbHouse}/>
             <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>
+            {/*map*/}
+            <Route exact path="/Map" component={Map}/>
         </Router>
 
     );

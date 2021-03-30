@@ -11,15 +11,15 @@ import CloseIcon from "../../../img/main/modal_close.png";
 import Check from "../../../img/member/check.png";
 import Checked from "../../../img/member/checked.png";
 
-export default function LiveModal({live, openLive}){
+export default function LiveModal({live, setLive}){
   if(live == false)
     return null;
     return (
       <Container>
-        <ModalBg onClick={()=>{openLive(false)}}></ModalBg>
+        <ModalBg onClick={()=>{setLive(false)}}></ModalBg>
         <Wraplive>
             <ModalClose>
-                <Link onClick={()=>{openLive(false)}}>
+                <Link onClick={()=>{setLive(false)}}>
                 <CloseImg src={CloseIcon}/>
               </Link>
             </ModalClose>
@@ -64,10 +64,10 @@ const ModalBg = styled.div`
   position:fixed;
   width:100%;height:100%;left:0;top:0;
   display:block;content:'';background:rgba(0,0,0,0.05);
-  z-index:900;
+  z-index:1001;
 `
 const Wraplive = styled.div`
-  position:fixed;z-index:1000;
+  position:fixed;z-index:1002;
   width:535px;height:520px;
   background:#fff;
   border-radius:24px;

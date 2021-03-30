@@ -23,12 +23,8 @@ import Checked from "../../../img/member/checked.png";
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function HouseList({updatePageIndex}){
+export default function HouseList({updatePageIndex,setLive,setDetailImg}){
 
-  //라이브 시청 모달
-  const [live, setLive] = useState(false);
-  //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
   const [active,setActive] = useState(false);
 
 
@@ -151,86 +147,6 @@ export default function HouseList({updatePageIndex}){
                 <BottomTxt>채팅상담</BottomTxt>
               </BottomButton>
             </Wrap>
-
-
-            {/*라이브 시청 예약 모달*/}
-              { live ?
-                <WrapModal>
-                    <ModalBg onClick={()=>{setLive(false)}}></ModalBg>
-                    <Wraplive>
-                      <ModalClose>
-                          <Link onClick={()=>{setLive(false)}}>
-                          <CloseImg src={CloseIcon}/>
-                        </Link>
-                      </ModalClose>
-                      <LiveModalTop>
-                        <LiveTitle>Live 시청예약</LiveTitle>
-                      </LiveModalTop>
-                      <ModalBody>
-                        <Box>
-                          <BoxTitle>이름</BoxTitle>
-                          <InputText type="text" name="" placeholder="이름을 입력해 주세요."></InputText>
-                        </Box>
-                        <Box>
-                          <BoxTitle>이메일</BoxTitle>
-                          <InputText type="email" name="" placeholder="이메일을 입력해 주세요."></InputText>
-                        </Box>
-                        <Checkbox>
-                          <CheckInput type="checkbox" name="" id="Check"></CheckInput>
-                          <LiveLabel for="Check" className="check_label">
-                            <Span className="chk_on_off"></Span>
-                            개인정보 수집 또는 이용동의
-                          </LiveLabel>
-                          <ViewTerm>
-                            <Link>
-                              자세히보기
-                            </Link>
-                          </ViewTerm>
-                        </Checkbox>
-                      </ModalBody>
-                      <ModalBtn>
-                        <Confirm type="submit" name="">확인</Confirm>
-                      </ModalBtn>
-                  </Wraplive>
-                </WrapModal>
-                :
-                null
-              }
-              {/*이미지 디테일 모달*/}
-
-                {
-                  detailimg ?
-                    <SwiperWrap className="img_swiper">
-                    <SwiperBg onClick={()=>{setDetailImg(false)}}></SwiperBg>
-                      <SwiperCloseImg>
-                        <Link onClick={()=>{setDetailImg(false)}}>
-                          <SwipeClose src={CloseIcon}/>
-                        </Link>
-                      </SwiperCloseImg>
-                      <Swiper
-                        spaceBetween={5}
-                        slidesPerView={1}
-                        loop={true}
-                        autoplay={false}
-                        navigation={{ clickable: true }}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
-                      >
-                        <SwiperSlide>
-                          <Imgbox>
-                            <SwipeImg src={SwipImg} alt="img"/>
-                          </Imgbox>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Imgbox>
-                            <SwipeImg src={SwipImg} alt="img"/>
-                          </Imgbox>
-                        </SwiperSlide>
-                      </Swiper>
-                    </SwiperWrap>
-                :
-                null
-            }
       </Container>
     );
 }
@@ -243,11 +159,17 @@ const ModalTop = styled.div`
   position:relative;
   width:100%;
   margin-bottom:22px;
+  @media ${(props) => props.theme.container} {
+      margin-bottom:calc(100vw*(22/1436));
+    }
 `
 const Title = styled.h2`
   font-size:20px;color:#707070;
   padding-left:38.5px;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(20/1436));
+    }
 `
 const Back = styled.div`
   position:absolute;
@@ -268,6 +190,9 @@ const WrapDetail = styled.div`
 `
 const LeftDetail = styled.div`
   width:470px;
+  @media ${(props) => props.theme.container} {
+      width:45%;
+    }
 
 `
 const SwiperBennerWrap = styled.div`
@@ -293,6 +218,9 @@ const Tag = styled.div`
   border:1px solid #e4e4e4;border-radius:15px;
   background:#f8f7f7;
   &:last-child{margin-right:0;}
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(15/1436));
+    }
 
 `
 const LeftButtons = styled(HashTag)`
@@ -314,6 +242,10 @@ const IconImg = styled.img`
   display:block;
   width:20px;height:20px;
   margin:0 auto;
+  @media ${(props) => props.theme.container} {
+      width:calc(100vw*(20/1436));
+      height:calc(100vw*(20/1436));
+    }
 
 `
 const Txt = styled.p`
@@ -322,6 +254,10 @@ const Txt = styled.p`
   width:100%;
   margin-top:1px;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      margin-top:calc(100vw*(2/1436));
+    }
+
 
 `
 const RightDetail = styled.div`
@@ -331,18 +267,29 @@ const RightDetail = styled.div`
   height:416px;
   background:#f8f7f7;
   padding:29px;
+  @media ${(props) => props.theme.container} {
+      width:55%;
+      height:calc(100vw*(420/1436));
+    }
 
 `
 const RightTop = styled.div`
   width:100%;
   padding-bottom:20px;
   border-bottom:1px solid #d0d0d0;
+  @media ${(props) => props.theme.container} {
+      width:100%;
+      padding-bottom:calc(100vw*(20/1436));
+    }
 
 `
 const TopTitle = styled.h2`
   font-size:18px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   margin-bottom:5px;
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(18/1436));
+    }
 
 `
 const Number = styled.span`
@@ -350,11 +297,17 @@ const Number = styled.span`
   font-weight:800;transform:skew(-0.1deg);
   display:inline-block;
   margin-left:10px;
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(14/1436));
+    }
 `
 const Option = styled.p`
   font-size:14px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   margin-bottom:5px;
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(14/1436));
+    }
 
 `
 const Address = styled(Option)`
@@ -391,6 +344,10 @@ const DTitle = styled.p`
   width:170px;
   font-size:15px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      width:calc(100vw*(170/1436));
+      font-size:calc(100vw*(15/1436));
+    }
 
 `
 const DescInfo = styled(DTitle)`
@@ -408,6 +365,11 @@ const Wrap = styled.div`
   border-radius:34px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
   background-color: #ffffff;
+  @media ${(props) => props.theme.container} {
+      width:calc(100vw*(365/1436));
+      height:calc(100vw*(60/1436));
+      margin:calc(100vw*(20/1436)) auto 0;
+    }
 
 `
 const BottomButton = styled.div`
@@ -424,6 +386,9 @@ const BottomTxt = styled.p`
   display:inline-block;
   font-size:15px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(14/1436));
+    }
 
 `
 const Line = styled.div`

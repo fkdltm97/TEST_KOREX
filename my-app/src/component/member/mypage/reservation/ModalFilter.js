@@ -213,12 +213,11 @@ const FilterSelectSort = styled.div`
   text-align:center;
   font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
   border-radius:4px;border:1px solid #a3a3a3;
-  background:#fff url(${ArrowDown}) no-repeat 400px 16px; background-size:100% 100% 13px 8px;
+  background:#fff;
   z-index:9999;
   @media ${(props) => props.theme.mobile} {
     top:calc(100vw*(22/428));
     font-size:calc(100vw*(14/428));
-    background:#fff url(${ArrowDown}) no-repeat calc(100vw*(320/428)) calc(100vw*(16/428)); background-size:100% 100% calc(100vw*(13/428)) calc(100vw*(8/428));
   }
 `
 const FilterSelectCondition = styled(FilterSelectSort)`
@@ -232,8 +231,11 @@ const Option = styled.div`
   text-align:center;
   cursor:pointer;
   transition:all 0.3s;
+  background:url(${ArrowDown}) no-repeat 400px 16px;
+  background-size:13px 8px;
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(12/428)) 0;
+    background:url(${ArrowDown}) no-repeat calc(100vw*(320/428)) calc(100vw*(16/428)); background-size:calc(100vw*(13/428)) calc(100vw*(8/428));
   }
 
 `

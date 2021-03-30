@@ -21,7 +21,7 @@ export default function SearchResult() {
               <Div>본인 맞으십니까?</Div>
             </WrapResultBox>
             <ConfirmBtn>
-              <Link to="/Registration">
+              <Link to="/BrokerRegistration">
                 <NoBtn type="button" name="">아니오</NoBtn>
               </Link>
               <Link to="/JoinBusinessNumber">

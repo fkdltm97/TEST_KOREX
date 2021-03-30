@@ -13,7 +13,8 @@ import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
-
+import ImgDetail from "../../../component/common/house/ImgDetail";
+import LiveModal from "../../../component/common/house/LiveModal";
 
 
 export default function Join() {
@@ -32,10 +33,16 @@ export default function Join() {
   //분양 모달
   const [house, setHouse] = useState(false);
   const openHouse = (onOff) =>{ setHouse(onOff);}
+  //라이브 시청 모달
+  const [live, setLive] = useState(false);
+  //분양 상세이미지 모달
+  const [detailimg, setDetailImg] = useState(false);
 
     return (
         <>
-          <House house={house} openHouse={openHouse}/>
+          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          <LiveModal live={live} setLive={setLive}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
               <SubTitle title={"소속선택"} rank={true} path={"/"} cursor={"default"}/>
@@ -53,6 +60,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 309px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

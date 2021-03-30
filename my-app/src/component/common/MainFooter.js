@@ -63,6 +63,8 @@ export default function MainFooter({openTermService, openTermPrivacy, openTermLo
 }
 
 const Container = styled.div`
+    position:relative;
+    z-index:2;
     width: 100%;
     height:203px;
     padding:39px 0 38px 0;
@@ -84,7 +86,7 @@ const FooterInner = styled.div`
       }
     @media ${(props) => props.theme.mobile} {
         position:relative;
-        width:calc(100vw*(370/428));
+        width:calc(100vw*(390/428));
         padding-bottom:calc(100vw*(55/428));
         align-items:center;
         flex-wrap:wrap;

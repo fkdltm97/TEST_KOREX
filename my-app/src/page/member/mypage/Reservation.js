@@ -16,7 +16,8 @@ import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
-
+import ImgDetail from "../../../component/common/house/ImgDetail";
+import LiveModal from "../../../component/common/house/LiveModal";
 
 
 export default function Join() {
@@ -35,6 +36,10 @@ export default function Join() {
   //분양 모달
   const [house, setHouse] = useState(false);
   const openHouse = (onOff) =>{ setHouse(onOff);}
+  //라이브 시청 모달
+  const [live, setLive] = useState(false);
+  //분양 상세이미지 모달
+  const [detailimg, setDetailImg] = useState(false);
 
   //지도 모달창
   const [map,setMap] = useState(false);
@@ -42,17 +47,20 @@ export default function Join() {
   const [filter,setFilter] = useState(false);
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
+
     return (
         <>
-          <House house={house} openHouse={openHouse}/>
+          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          <LiveModal live={live} setLive={setLive}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
             {/*개인로 로그인했을때*/}
-              <SubTitle title={"개인"} rank={true} cursor={"default"}/>
+              <SubTitle title={"개인"} rank={false} cursor={"default"}/>
             {/*기업으로 로그인했을때*/}
-              {/*<SubTitle title={"소속명　∨"} path={""}rank={true}/>*/}
+              {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
             {/*중개사로 로그인했을때*/}
-              {/*<SubTitle title={"럭키공인중개사　∨"} rank={true}/>*/}
+              {/*<SubTitle title={"럭키공인중개사　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
               <ModalMap map={map} setMap={setMap}/>
               <ModalFilter filter={filter} setFilter={setFilter}/>
               <ModalReserve reserve={reserve} setReserve={setReserve}/>
