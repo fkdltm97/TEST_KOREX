@@ -13,11 +13,11 @@ import Mypage from '../../img/main/mypage_icon.png';
 import WrapMap from './map/WrapMap';
 import WrapSideBar from './sidebar/WrapSideBar';
 
-export default function MainHeader({openHouse, rank}) {
+export default function MainHeader({openHouse, rank, setReport}) {
     return (
         <Container>
           <WrapMap/>{/*지도 컴포넌트*/}
-          <WrapSideBar/>{/*사이드바 컴포넌트*/}
+          <WrapSideBar setReport={setReport}/>{/*사이드바 컴포넌트*/}
         </Container>
   );
 }

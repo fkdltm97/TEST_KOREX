@@ -12,7 +12,7 @@ import EditBtn from '../../../../img/member/edit_btn.png';
 import SaveBtn from '../../../../img/member/save_btn.png';
 
 
-export default function SubTitle({title}) {
+export default function SubTitle({title,updatePageIndex,historyInfo}) {
     //back button
     const history = useHistory();
     const goBack = () =>{
@@ -22,7 +22,7 @@ export default function SubTitle({title}) {
         <Container>
           <WrapSubTitle>
             <InSubTitle>
-              <Link onClick={goBack}>
+              <Link onClick={()=>{updatePageIndex(historyInfo.prevIndex.length == 0 ? -1 : historyInfo.prevIndex.pop())}}>
                 <BackImg src={BackBtn}/>
               </Link>
               <TitleTxt>{title}</TitleTxt>

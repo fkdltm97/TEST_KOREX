@@ -221,6 +221,11 @@ background-size:18px 18px;appearance:none;}
 .nav-tabs li:first-child{margin-right:24px;}
 .nav-tabs li:first-child:after{position:absolute;right:-13px;top:50%;content:'';display:block;transform:translateY(-50%);width:1px; height:16.5px;background:#707070;}
 
+.detail_swiper .swiper-button-prev:after, .detail_swiper .swiper-button-next:after{font-size:0;width:16px;height:25px;}
+.detail_swiper .swiper-button-prev:after{background:url(img/main/prev.png) no-repeat;background-size:100% 100%;}
+.detail_swiper .swiper-button-next:after{background:url(img/main/next.png) no-repeat;background-size:100% 100%;}
+.detail_swiper .swiper-button-prev{left:30px;}
+.detail_swiper .swiper-button-next{right:30px;}
 
 @media scree and (max-width:1436px){
 

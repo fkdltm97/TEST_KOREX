@@ -8,6 +8,7 @@ import styled from "styled-components"
 import MapHeader from '../../component/map/MapHeader';
 import MainMap from '../../component/map/MainMap';
 import WrapSideBar from '../../component/map/sidebar/WrapSideBar';
+import ReportModal from '../../component/map/sidebar/modal/ReportModal';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';
@@ -37,6 +38,9 @@ export default function NoticeDetail() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
 
+  //신고모달
+  const [report,setReport] = useState(false);
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -44,7 +48,8 @@ export default function NoticeDetail() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MapHeader openHouse={openHouse}/>
           <Container>
-              <MainMap/>
+              <ReportModal report={report} setReport={setReport}/>
+              <MainMap setReport={setReport}/>
           </Container>
         </>
   );

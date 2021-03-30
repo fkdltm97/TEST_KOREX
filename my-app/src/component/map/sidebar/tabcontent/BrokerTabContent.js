@@ -15,56 +15,57 @@ import Profile from "../../../../img/map/profile_img.png";
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
-
-export default function ItemTabContent() {
-  const BrokerListItem =[
-  {
-    broker_id : 0,
-    path:"/",
-    tag1:"아파트·현대아이리스",
-    tag2:"상가",
-    tag3:"사무실",
-    name:"럭키 공인중개사",
-    address:"강남구 논현동 104-5",
-    sell_kind1:2,
-    sell_kind2:7,
-    sell_kind3:9,
-    profile_img:Profile
-  },
-  {
-    broker_id : 1,
-    path:"/",
-    tag1:"아파트·현대아이리스",
-    tag2:"상가",
-    tag3:"사무실",
-    name:"럭키 공인중개사",
-    address:"강남구 논현동 104-5",
-    sell_kind1:2,
-    sell_kind2:7,
-    sell_kind3:9,
-    profile_img:Profile
-  },
-  {
-    broker_id : 3,
-    path:"/",
-    tag1:"아파트·현대아이리스",
-    tag2:"상가",
-    tag3:"사무실",
-    name:"럭키 공인중개사",
-    address:"강남구 논현동 104-5",
-    sell_kind1:2,
-    sell_kind2:7,
-    sell_kind3:9,
-    profile_img:Profile
-  }
+const BrokerListItem =[
+{
+  broker_id : 0,
+  path:"/",
+  tag1:"아파트·현대아이리스",
+  tag2:"상가",
+  tag3:"사무실",
+  name:"럭키 공인중개사",
+  address:"강남구 논현동 104-5",
+  sell_kind1:2,
+  sell_kind2:7,
+  sell_kind3:9,
+  profile_img:Profile
+},
+{
+  broker_id : 1,
+  path:"/",
+  tag1:"아파트·현대아이리스",
+  tag2:"상가",
+  tag3:"사무실",
+  name:"럭키 공인중개사",
+  address:"강남구 논현동 104-5",
+  sell_kind1:2,
+  sell_kind2:7,
+  sell_kind3:9,
+  profile_img:Profile
+},
+{
+  broker_id : 3,
+  path:"/",
+  tag1:"아파트·현대아이리스",
+  tag2:"상가",
+  tag3:"사무실",
+  name:"럭키 공인중개사",
+  address:"강남구 논현동 104-5",
+  sell_kind1:2,
+  sell_kind2:7,
+  sell_kind3:9,
+  profile_img:Profile
+}
 ]
+
+export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
+
     return (
         <Container>
         {
           BrokerListItem.map((value) => {
             return(
               <TabContent>
-                <Link className="data_link"></Link>
+                <Link onClick={() => { updatePageIndex(2); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
                   <TopBox>
                     <Tag>{value.tag1}</Tag>
                     <Tag>{value.tag2}</Tag>
@@ -89,7 +90,7 @@ export default function ItemTabContent() {
                     </RightContent>
                   </BottomBox>
                 </TabContent>
-              
+
             )
           })
         }

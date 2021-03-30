@@ -21,31 +21,173 @@ import { Mobile, PC } from "../../../MediaQuery";
 import ItemTabContent from "./tabcontent/ItemTabContent";
 import BrokerTabContent from "./tabcontent/BrokerTabContent";
 
-export default function MainHeader({openHouse, rank}) {
 
+const ItemListItem =[
+{
+  item_id : 0,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+},
+{
+  item_id : 1,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+},
+{
+  item_id : 2,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+},
+{
+  item_id : 3,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+},
+{
+  item_id : 4,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+},
+{
+  item_id : 5,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+},
+{
+  item_id : 6,
+  path:"/",
+  startDate:"20.00.00",
+  endDate: "20.00.00",
+  kind:"아파트",
+  detail:"자이 109동",
+  price:"전세 12억 5,000",
+  floor:"층수",
+  Area:"공급면적",
+  expenses:"관리비",
+  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+}
+]
+
+
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport}) {
+    const [activeIndex,setActiveIndex] = useState(0);
     return (
         <Container>
-            <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="Tabs">
-        {/*아파트 탭*/}
-              <Tab label="아파트 303" className="tab ApartTab">
-            {/*tabcontent 폴더에 컴포넌트로 따로 빼놓았습니다.*/}
-                <ItemTabContent/>
-              </Tab>
+          <WrapTab className="Tabs">
+            <WrapTabBtn>
+              <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = true; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
+              <Part/>
+              <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
+            </WrapTabBtn>
+            {
+              historyInfo.prevTab ?
+                <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={0}/>
+                :
+                <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
+             }
+          </WrapTab>
 
-        {/*전문중개사 탭*/}
-              <Tab label="전문중개사 37" className="tab ProTab">
-                {/*tabcontent 폴더에 컴포넌트로 따로 빼놓았습니다.*/}
-                <BrokerTabContent/>
-              </Tab>
-            </Tabs>
         </Container>
   );
 }
 
+
+/*
+{/*전문매물(초록색) 버튼이 활성화 됐을때}
+    // <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="Tabs">
+{/*아파트 탭}
+      <Tab label="아파트 303" className="tab ApartTab">
+    {/*tabcontent 폴더에 컴포넌트로 따로 빼놓았습니다.}
+        <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem}/>
+      </Tab>
+
+{/*전문중개사 탭}
+      <Tab label="전문중개사 37" className="tab ProTab">
+        {/*tabcontent 폴더에 컴포넌트로 따로 빼놓았습니다.}
+        <BrokerTabContent updatePageIndex={updatePageIndex}/>
+      </Tab>
+    </Tabs>
+
+*/
 const Container = styled.div `
   padding:0 22px;
 `
 const WrapMainSide = styled.section`
+`
+const WrapTab = styled.div`
+
+`
+const WrapTabBtn = styled.div`
+  display:flex;justify-content:center;align-items:center;
+`
+const Span = styled.span`
+  display:inline-block;
+  font-size:18px;font-weight:800;
+  transform:skew(-0.1deg);
+  color:${({active}) => active ? "#01684b" : "#707070"};
+  cursor:pointer;
+`
+const Span2 = styled.span`
+  display:inline-block;
+  font-size:18px;font-weight:800;
+  transform:skew(-0.1deg);
+  color:${({active}) => active ? "#4a4a4a" : "#070707"};
+  cursor:pointer;
+`
+const Orange = styled.span`
+  color:${({active}) => active ? "#FF7B01" : "#070707"};
+`
+const Part = styled.span`
+  display:inline-block;width:1px;height:16px;
+  background:#707070;margin:0 14px;
 `
 const TabContent = styled.div`
   position:relative;

@@ -8,11 +8,7 @@ import styled from "styled-components"
 import 'swiper/swiper-bundle.css';
 
 //img
-import NavIcon from '../../../img/main/nav_btn.png';
-import Logo from '../../../img/main/header_logo.png';
-import PCLogo from '../../../img/main/pc_header_logo.png';
-import Mypage from '../../../img/main/mypage_icon.png';
-import Item from "../../../img/map/map_item.png";
+import Arrow from "../../../img/map/filter_next.png";
 import Detail from "../../../img/map/detail_img.png";
 import Trade from "../../../img/map/trade.png";
 import Report from "../../../img/map/report.png";
@@ -23,6 +19,7 @@ import Chat from "../../../img/map/chat.png";
 import Exit from "../../../img/main/exit.png";
 import Checked from "../../../img/map/checked.png";
 import Check from "../../../img/main/heart.png";
+import Profile from "../../../img/map/profile_img.png";
 
 // components
 import { Mobile, PC } from "../../../MediaQuery";
@@ -33,16 +30,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideItemDetail({openHouse, rank}) {
+export default function SideItemDetail({openHouse, rank, updatePageIndex,historyInfo,report,setReport }) {
 
     return (
         <Container>
-          <SideSubTitle title={"물건 상세"}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
+          <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
           <TopDetailImg>
               <SwiperBennerWrap className="detail_swiper">
                   <Swiper
                     slidesPerView={1}
-                    loop={true}
+                    loop={false}
                     autoplay={true}
                     navigation={{ clickable: true }}
                     onSlideChange={() => console.log('slide change')}
@@ -74,7 +71,7 @@ export default function SideItemDetail({openHouse, rank}) {
               <ButtonTitle>실거래</ButtonTitle>
             </Button>
             <Button>
-              <Link className="data_link"/>
+              <Link onClick={() => {setReport(true)}} className="data_link"/>
               <IconImg src={Report}/>
               <ButtonTitle>허위매물신고</ButtonTitle>
             </Button>
@@ -103,6 +100,202 @@ export default function SideItemDetail({openHouse, rank}) {
               <Desc>매물특징 칸입니다. 작은 설명 칸입니다.</Desc>
             </ItemInfo>
           </TopMainInfoBox>
+    <WrapAllInfos>
+        {/*물건*/}
+          <WrapItemInfo>
+            <TitleBox>
+              <Title>물건</Title>
+              <ArrowImg src={Arrow}/>
+            </TitleBox>
+            <ItemInfoList>
+              <Li>
+                <SubTitle>해당층/총층</SubTitle>
+                <SubDesc>4/20층</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>공급/전용면적</SubTitle>
+                <SubDesc>60/52.89m²
+                <Link>
+                  <ChangeMImg src={ChangeM}/>
+                </Link>
+                </SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>방/욕실 수</SubTitle>
+                <SubDesc>2/1개</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>방향</SubTitle>
+                <SubDesc>방향</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>현관구조</SubTitle>
+                <SubDesc>현관구조</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>난방</SubTitle>
+                <SubDesc>난방</SubDesc>
+              </Li>
+            </ItemInfoList>
+            <ToggleOpenClose>
+              <Text>접기</Text>
+            </ToggleOpenClose>
+          </WrapItemInfo>
+      {/*거래*/}
+          <WrapTradeInfo>
+            <TitleBox>
+              <Title>거래</Title>
+              <ArrowImg src={Arrow}/>
+            </TitleBox>
+            <ItemInfoList>
+              <Li>
+                <SubTitle>관리비</SubTitle>
+                <SubDesc>5만원</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>관리비 포함</SubTitle>
+                <SubDesc>전기, 가스, 수도, 인터넷, 티비</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>입주가능일</SubTitle>
+                <SubDesc>2016.05.10 </SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>계약갱신청구권행사여부 확인</SubTitle>
+                <SubDesc>확인</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>융자금</SubTitle>
+                <SubDesc>00원</SubDesc>
+              </Li>
+              <Li>
+                <SubTitle>기보증금/월세</SubTitle>
+                <SubDesc>-</SubDesc>
+              </Li>
+            </ItemInfoList>
+            <ToggleOpenClose>
+              <Text>접기</Text>
+            </ToggleOpenClose>
+          </WrapTradeInfo>
+
+        {/*옵션*/}
+            <WrapOptionInfo>
+              <TitleBox>
+                <Title>옵션</Title>
+                <ArrowImg src={Arrow}/>
+              </TitleBox>
+              <ItemInfoList>
+                <Li>
+                  <SubTitle>공간</SubTitle>
+                  <SubDesc>발코니</SubDesc>
+                </Li>
+              </ItemInfoList>
+            </WrapOptionInfo>
+
+          {/*매물설명*/}
+            <WrapOptionInfo>
+              <TitleBox>
+                <Title>매물설명</Title>
+                <ArrowImg src={Arrow}/>
+              </TitleBox>
+              <ItemInfoList>
+                <Li>
+                  <TextArea>
+                  [ 위 치 / 교통 ]  <br/><br/>
+                  ㅇ 논현동 서울세관 블럭에 위치한 신축 2룸입니다<br/><br/>
+                  ㅇ 7호선 강남구청역 <br/><br/>
+                  [ 인테리어/특징 ]  <br/><br/>
+                  ㅇ 건물외관부터 내부관리상태 A급으로 유지중입니다^_^<br/><br/>
+                  ㅇ 고급마감재사용 및 옵션으로 고풍스러운 실내분위기연출<br/><br/>
+                  ㅇ 채광이 좋아 밝고 화사한 분위기로 아주 세련된 투룸입니다<br/><br/>
+                  ㅇ 2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습
+                  니다<br/><br/>
+                  </TextArea>
+                </Li>
+              </ItemInfoList>
+              <ToggleOpenClose>
+                <Text>접기</Text>
+              </ToggleOpenClose>
+            </WrapOptionInfo>
+
+        {/*단지&건물*/}
+            <WrapTradeInfo>
+              <TitleBox>
+                <Title>단지/건물</Title>
+                <ArrowImg src={Arrow}/>
+              </TitleBox>
+              <ItemInfoList>
+                <Li>
+                  <SubTitle>사용승인일</SubTitle>
+                  <SubDesc>2016.05.10 </SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>총세대수</SubTitle>
+                  <SubDesc>300 세대</SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>총주차대수</SubTitle>
+                  <SubDesc>21대 /  세대당 0.55대 협의주차</SubDesc>
+                </Li>
+              </ItemInfoList>
+            </WrapTradeInfo>
+        {/*위치*/}
+            <WrapTradeInfo>
+              <TitleBox>
+                <Title>위치</Title>
+                <ArrowImg src={Arrow}/>
+              </TitleBox>
+              <ItemInfoList>
+                <Li>
+                  <MapAddress>강남구 논현동 104-5</MapAddress>
+                  <ChangeAddress>
+                    <ChangeImg src={Change}/>
+                    <ChangeTxt>도로명</ChangeTxt>
+                  </ChangeAddress>
+                </Li>
+              </ItemInfoList>
+              <MapArea></MapArea>
+            </WrapTradeInfo>
+        </WrapAllInfos>
+        {/*전문중개사 정보*/}
+        <BrokerInfo>
+            <TopBox>
+              <Tag>아파트·현대아이리스</Tag>
+              <Tag>상가</Tag>
+              <Tag>사무실</Tag>
+            </TopBox>
+            <MiddleBox>
+              <LeftContent>
+                <BrokerInfoDetail>
+                  <BrokerName>럭키 공인중개사</BrokerName>
+                  <BrokerAddress>강남구 논현동 104-5</BrokerAddress>
+                  <SellList>
+                    <List>매매 <ColorOrange>2</ColorOrange></List>
+                    <Part/>
+                    <List>전세 <ColorOrange>7</ColorOrange></List>
+                    <Part/>
+                    <List>월세 <ColorOrange>9</ColorOrange></List>
+                  </SellList>
+                </BrokerInfoDetail>
+              </LeftContent>
+              <RightContent>
+                <ItemImg src={Profile}/>
+              </RightContent>
+            </MiddleBox>
+            <BottomBox>
+              <ToCall>
+                <Link className="data_link"/>
+                <BottomImg src={Call}/>
+                <BottomTxt>전화 상담</BottomTxt>
+              </ToCall>
+              <LongPart/>
+              <ToChat>
+                <Link className="data_link"/>
+                <BottomImg src={Chat}/>
+                <BottomTxt>채팅 상담</BottomTxt>
+              </ToChat>
+            </BottomBox>
+        </BrokerInfo>
         </Container>
   );
 }
@@ -152,7 +345,7 @@ const TopMainInfoBox = styled.div`
   width:450px;
   margin:0 auto;
   border-top:1px solid #f2f2f2;
-  padding:15px 20px 20px;
+  padding:20px;
 `
 const LikeBox = styled.div`
   position:absolute;
@@ -175,16 +368,18 @@ const Number = styled.p`
 `
 const ExclusiveBox = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
-  width:170px;
+  width:175px;
   height:25px;
   padding: 6px 15px;
   border: solid 1px #2b664d;
+  margin:8px 0 12px;
 `
 const Green = styled.div`
   font-size:12px;color:#2b664d;
-  font-weight:600;transform:skew(-0.1deg);
+  font-weight:800;transform:skew(-0.1deg);
 `
 const WrapDate = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
   margin-left:8px;
 `
 const StartDate = styled(Green)`
@@ -195,25 +390,221 @@ const Line = styled(StartDate)`
 const EndDate = styled(StartDate)`
 `
 const ItemInfo = styled.div`
+
 `
 const Name = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
+  margin-bottom:10px;
 `
 const Kind = styled(StartDate)`
 `
 const Address = styled.div`
   font-size:21px;font-weight:800;
   transform:skew(-0.1deg);
-  color:#2b664d;margin-left:5px;
-  margin-bottom:6px;
+  color:#2b664d;margin-left:8px;
+
 `
 const Price = styled.div`
 font-size:26px;font-weight:800;
 transform:skew(-0.1deg);
-color:#4a4a4a;margin-left:5px;
+color:#4a4a4a;
 `
 const Desc = styled.div`
   border-top:1px solid #f2f2f2;
+  margin-top:20px;
   padding-top:22px;
   font-size:15px;color:#707070;font-weight:600;
   transform:skew(-0.1deg);
+`
+const WrapAllInfos = styled.div`
+  width:100%;
+  border-top:8px solid #e4e4e4;
+  border-bottom:8px solid #e4e4e4;
+`
+
+const WrapItemInfo = styled.div`
+  width:100%;
+`
+const TitleBox = styled.div`
+  width:100%;
+  padding:20px 45px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid #f2f2f2;border-bottom:1px solid #f2f2f2;
+  cursor:pointer;
+`
+const Title = styled.h3`
+  font-size:20px;color:#4a4a4a;font-weight:800;
+  transform:skew(-0.1deg);
+`
+const ArrowImg = styled.img`
+  width:10px;
+  transform:rotate(270deg);
+`
+const ItemInfoList = styled.ul`
+  width:450px;
+  margin:0 auto;
+`
+const Li = styled.li`
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;
+  padding:15px 20px;
+  border-bottom:1px solid #f2f2f2;
+  &:last-child{border-bottom:none;}
+`
+const SubTitle = styled.p`
+  font-size:15px; color:#898989;
+  font-weight:600;transform:skew(-0.1deg);
+  margin-right:10px;
+`
+const SubDesc = styled(SubTitle)`
+  color:#4a4a4a;
+  margin-right:0px;
+`
+const ToggleOpenClose = styled.div`
+  width:100%;
+  padding:16px 0;
+  background:#fbfbfb;
+  text-align:center;
+  cursor:pointer;
+  border-top:1px solid #f2f2f2;
+  border-bottom:1px solid #f2f2f2;
+`
+const Text = styled.p`
+  font-size:15px;color:#707070;
+  font-weight:600;transform:skew(-0.1deg);
+`
+
+const WrapTradeInfo = styled(WrapItemInfo)`
+  border-top:none;
+`
+const WrapOptionInfo = styled(WrapItemInfo)`
+  border-top:none;
+`
+const TextArea = styled.div`
+  font-size:15px;font-weight:600;
+  transform:skew(-0.1deg);color:#4a4a4a;
+  line-height:1.33;
+`
+const MapAddress = styled.div`
+  font-size:15px;color:#4a4a4a;font-weight:600;
+  transform:skew(-0.1deg);
+`
+const ChangeAddress = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
+  cursor:pointer;
+`
+const ChangeImg = styled.img`
+  display:inline-block;
+  width:13px;
+`
+const ChangeMImg = styled.img`
+  width:20px;margin-left:10px;
+`
+const ChangeTxt = styled.p`
+  font-size:10px;font-weight:800;transform:skew(-0.1deg);
+  color:#979797;margin-left:5px;
+`
+const MapArea = styled.div`
+  width:100%;height:315px;
+  background:#eee;
+`
+
+const BrokerInfo = styled.div`
+  width:100%;padding:0 16px;
+  margin-top:43px;
+`
+const TopBox = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
+  flex-wrap:wrap;
+  width:100%;
+  margin-bottom:14px;
+  padding-left:30px;
+`
+const Tag = styled.div`
+  border-radius: 15px;
+  border: solid 1px #e4e4e4;
+  background-color: #f8f7f7;
+  height:30px;
+  padding:7px 16px;
+  margin-right:5px;
+  font-size:15px;color:#01684b;
+  font-weight:600;transform:skew(-0.1deg);
+  text-align:center;
+`
+const MiddleBox = styled.div`
+  padding:0 30px;
+  display:flex;justify-content:space-between;align-items:center;
+`
+const LeftContent = styled.div`
+`
+const BrokerInfoDetail = styled.div`
+`
+const BrokerName = styled.div`
+  font-size:25px;font-weight:800;transform:skew(-0.1deg);
+  color:#4a4a4a;
+  margin-bottom:13px;
+`
+const BrokerAddress = styled.div`
+  display:inline-block;
+  font-size:15px;color:#4a4a4a;
+  font-weight:700;transform:skew(-0.1deg);
+  margin-bottom:13px;
+`
+
+const ColorOrange = styled.span`
+  display:inline-block;
+  font-size:15px;color:#fe7a01;
+  vertical-align:middle;
+  margin-left:3px;
+  font-weight:800;transform:skew(-0.1deg);
+`
+const SellList = styled.div`
+  width:100%;display:flex;
+  justify-content:flex-start;align-items:center;
+`
+const List = styled(ColorOrange)`
+  color:#4a4a4a;
+  margin-right:7px;
+`
+const Part = styled.div`
+  display:inline-block;
+  width:1px;height:12px;
+  background:#4a4a4a;
+  margin-right:7px;
+`
+
+const RightContent = styled.div`
+  position:relative;
+  width:95px;height:95px;
+`
+const ItemImg = styled.img`
+  width:100%;height:100%;
+  border-radius:100%;
+`
+const BottomBox = styled.div`
+  display:flex;justify-content:center;align-items:center;
+  width:100%;
+  height: 84px;
+  margin:60px 0 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+  border: solid 3px #efefef;
+`
+const ToCall = styled.div`
+  position:relative;
+  display:flex;justify-content:flex-start;align-items:center;
+`
+const BottomImg = styled.img`
+  width:20px;height:20px;
+  display:inline-block;
+`
+const BottomTxt = styled.p`
+  font-size:18px;font-weight:600;
+  transform:skew(-0.1deg);margin-left:10px;
+`
+const ToChat = styled(ToCall)`
+`
+const LongPart = styled.p`
+  width:1px;height:30px;background:#979797;
+  margin:0 50px;
 `

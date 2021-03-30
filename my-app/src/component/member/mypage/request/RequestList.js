@@ -66,7 +66,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>삭제</InDiv>
                         </Div>
                       {/*거래 준비 상태일때*/}
-
+{/*
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래 개시</InDiv>
@@ -91,7 +91,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-
+*/}
                       </InMenu>
                       :
                       null
