@@ -41,6 +41,7 @@ import Reservation from './page/member/mypage/Reservation';
 import Team from './page/member/mypage/Team';
 import CompanyProfile from './page/member/mypage/CompanyProfile';
 import Request from './page/member/mypage/Request';
+import MyLike from './page/member/mypage/MyLike';
 
 /*map*/
 import Map from './page/map/Map';
@@ -83,7 +84,8 @@ export default function App(){
             <Route exact path="/Team" component={Team}/>
             <Route exact path="/CompanyProfile" component={CompanyProfile}/>
             <Route exact path="/Request" component={Request}/>
-
+            <Route exact path="/MyLike" component={MyLike}/>
+            
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>
             <Route exact path="/MbHouse" component={MbHouse}/>

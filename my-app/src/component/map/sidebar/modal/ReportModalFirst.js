@@ -11,41 +11,50 @@ import Close from "../../../../img/main/modal_close.png";
 import Check from "../../../../img/map/radio.png";
 import Checked from "../../../../img/map/radio_chk.png";
 
-//component
-import ReportModalFirst from "./ReportModalFirst";
-import ReportModalSecond from "./ReportModalSecond";
-import ReportModalThird from "./ReportModalThird";
-import ReportModalComplete from "./ReportModalComplete";
 
-export default function ReportModal({report,setReport}) {
-  const [pageIndex , setPageIndex] = useState(0);
-
-  const pageLoader = () =>{
-    switch (pageIndex) {
-      case 0: return <ReportModalFirst updatePageIndex={updatePageIndex} report={report} setReport={setReport}/>;
-      case 1: return <ReportModalSecond updatePageIndex={updatePageIndex} report={report} setReport={setReport}/>;
-      case 2: return <ReportModalThird updatePageIndex={updatePageIndex} report={report} setReport={setReport}/>
-      case 3: return <ReportModalComplete updatePageIndex={updatePageIndex} report={report} setReport={setReport}/>
-      default :return <ReportModalFirst updatePageIndex={updatePageIndex} report={report} setReport={setReport}/>;
-    }
+export default function ReportModalFirst({report,setReport,updatePageIndex}) {
+  const [select,setSelect] = useState(false);
+  const showModal =()=>{
+    setSelect(!select);
   }
-  const updatePageIndex = (index) =>{
-    if(index == 0)
-      setPageIndex(0);
-    else if(index == 1)
-      setPageIndex(1);
-    else
-      setPageIndex(index);
-  }
-
   if(report == false)
   return null;
     return (
         <Container>
-            <Bg onClick={() => {setReport(false)}}/>
-            {
-              pageLoader()
-            }
+            <WrapModal>
+              <CloseBtn>
+                <CloseImg onClick={() => {setReport(false);updatePageIndex(0)}} src={Close}/>
+              </CloseBtn>
+              <InCont>
+                <TopTitleTxt>허위매물 신고</TopTitleTxt>
+                <RadioBox>
+                  <Box>
+                    <Radio type="radio" name="report" id="no"/>
+                    <Label for="no">
+                      <Span/>
+                      없는 매물
+                    </Label>
+                  </Box>
+                  <Box>
+                    <Radio type="radio" name="report" id="diffrent"/>
+                    <Label for="diffrent">
+                      <Span/>
+                      정보와 다른 매물
+                    </Label>
+                  </Box>
+                </RadioBox>
+              </InCont>
+              <AgreeCheck>
+                <Desc>허위·악성신고자는 사이트 이용이 제한될 수 있습니다. 동의하시겠습니까?</Desc>
+                <AgreeCheckBox>
+                  <CheckBox type="checkbox" name="" id="check"/>
+                  <CheckLabel for="check" onClick={() => {updatePageIndex(1)}}>
+                    <CheckSpan/>
+                    동의합니다.
+                  </CheckLabel>
+                </AgreeCheckBox>
+              </AgreeCheck>
+            </WrapModal>
         </Container>
   );
 }

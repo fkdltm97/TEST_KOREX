@@ -1,0 +1,122 @@
+//react
+import React ,{useState, useEffect} from 'react';
+import {Link} from "react-router-dom";
+
+//css
+import styled from "styled-components"
+import Item from "../../../../img/map/map_item.png";
+import FilterDown from "../../../../img/map/filter_down_arrow.png";
+import FilterNext from "../../../../img/map/filter_next.png";
+import FilterClose from "../../../../img/map/filter_close.png";
+import Checked from "../../../../img/map/checked.png";
+import Check from "../../../../img/main/heart.png";
+import Profile from "../../../../img/map/profile_img.png";
+// components
+import { Mobile, PC } from "../../../../MediaQuery";
+
+const DanjiListItem =[
+{
+  danji_id : 0,
+  path:"/",
+  title:"SM 드림빌",
+  address:"서울특별시 강남구 삼성동 200-13",
+  date:"21.02.01",
+  price:"매매 3억5,000",
+  floor:"7층",
+  src:FilterNext
+},
+{
+  danji_id : 1,
+  path:"/",
+  title:"강변삼부",
+  address:"서울특별시 강남구 삼성동 200-13",
+  date:"21.02.01",
+  price:"매매 3억5,000",
+  floor:"7층",
+  src:FilterNext
+},
+{
+  danji_id : 2,
+  path:"/",
+  title:"골든카운티",
+  address:"서울특별시 강남구 삼성동 200-13",
+  date:"21.02.01",
+  price:"매매 3억5,000",
+  floor:"7층",
+  src:FilterNext
+}
+]
+
+export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) {
+
+    return (
+        <Container>
+        {
+            DanjiListItem.map((value) => {
+              return(
+                <TabContent>
+                  <Link onClick={() => { updatePageIndex(2); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
+                    <TopBox>
+                      <Title>{value.title}</Title>
+                      <Address>{value.address}</Address>
+                      <DanjiInfo>
+                        <Date>{value.date}</Date>
+                        <Price>{value.price}</Price>
+                        <Floor>{value.floor}</Floor>
+                      </DanjiInfo>
+                      <LeftImg>
+                        <Img src={value.src}/>
+                      </LeftImg>
+                    </TopBox>
+                  </TabContent>
+              )
+            })
+          }
+        </Container>
+  );
+}
+
+const Container = styled.div`
+`
+const TabContent = styled.div`
+  position:relative;
+  padding:30px 27px 0 27px;margin-top:17px;
+  margin-bottom:30px;
+  border-top:1px solid #f2f2f2;
+`
+const TopBox = styled.div`
+  display:block;
+  width:100%;
+  position:relative;
+`
+const Title= styled.h2`
+  font-size:25px;color:#4a4a4a;
+  font-weight:800;transform:skew(-0.1deg);
+  margin-bottom:10px;
+`
+const Address = styled.p`
+  font-size:15px;color:#707070;
+  margin-bottom:10px;
+  font-weight:600;transform:skew(-0.1deg);
+`
+const DanjiInfo = styled.div`
+  display:flex;justify-content:flex-start;align-item:center;
+`
+const Date = styled(Address)`
+  color:#01684b;
+  margin-bottom:0;
+`
+const Price = styled(Date)`
+  margin:0 8px;
+`
+const Floor = styled(Date)`
+`
+const LeftImg = styled.div`
+  position:absolute;
+  top:50%;transform:translateY(-50%);
+  right:0;
+`
+const Img = styled.img`
+  width:10px;
+  display:inline-block;
+`

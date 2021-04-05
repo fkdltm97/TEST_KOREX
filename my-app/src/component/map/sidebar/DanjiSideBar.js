@@ -18,7 +18,7 @@ import View from "../../../img/main/icon_view.png";
 // components
 import { Mobile, PC } from "../../../MediaQuery";
 import ItemTabContent from "./tabcontent/ItemTabContent";
-import BrokerTabContent from "./tabcontent/BrokerTabContent";
+import DanjiTabContent from "./tabcontent/DanjiTabContent";
 
 const ItemListItem =[
 {
@@ -115,7 +115,7 @@ const ItemListItem =[
 ]
 
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,setMap}) {
     const [activeIndex,setActiveIndex] = useState(0);
 
     return (
@@ -125,11 +125,11 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
           <WrapTabBtn>
             <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
             <Part/>
-            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = true; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
+            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = true; return JSON.parse(JSON.stringify(e));});}}>아파트단지 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
           </WrapTabBtn>
             {
               historyInfo.prevTab ?
-                <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
+                <DanjiTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo} setMap={setMap}/>
                 :
                 <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={0}/>
              }

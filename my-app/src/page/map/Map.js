@@ -7,8 +7,9 @@ import styled from "styled-components"
 //component
 import MapHeader from '../../component/map/MapHeader';
 import MainMap from '../../component/map/MainMap';
-import WrapSideBar from '../../component/map/sidebar/WrapSideBar';
 import ReportModal from '../../component/map/sidebar/modal/ReportModal';
+import ModalMap from '../../component/map/sidebar/modal/ModalMap';
+import FilterCloseAndReset from '../../component/map/map/FilterCloseAndReset';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';
@@ -40,6 +41,9 @@ export default function NoticeDetail() {
 
   //신고모달
   const [report,setReport] = useState(false);
+  //단지위치 모달
+  const [map,setMap] = useState(false);
+
 
     return (
         <>
@@ -48,8 +52,9 @@ export default function NoticeDetail() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MapHeader openHouse={openHouse}/>
           <Container>
+              <ModalMap map={map} setMap={setMap}/>
               <ReportModal report={report} setReport={setReport}/>
-              <MainMap setReport={setReport}/>
+              <MainMap setReport={setReport} setMap={setMap}/>
           </Container>
         </>
   );

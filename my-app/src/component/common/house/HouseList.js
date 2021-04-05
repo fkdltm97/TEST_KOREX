@@ -9,6 +9,7 @@ import styled from "styled-components"
 //img
 import ItemImg from "../../../img/main/item01.png";
 import Heart from "../../../img/main/heart.png";
+import HeartCheck from "../../../img/main/heart_check.png";
 import IconSearch from "../../../img/main/icon_search.png";
 import IconRecent from "../../../img/main/icon_view.png";
 
@@ -142,7 +143,11 @@ export default function HouseList({updatePageIndex}){
                 <Link onClick={() => {updatePageIndex(1)}}>
                   <LiImg src={ItemImg}/>
                   <LiDesc>
-                    <LiTitle>충남내포신도시2차대방엘리움더센트럴<Number>2D0000324</Number></LiTitle>
+                    <LiTitle>
+                    충남내포신도시2차대방엘리움더센트럴
+                    <Number>2D0000324</Number>
+                    <LiveView>Live 방송 예고</LiveView>
+                    </LiTitle>
                     <Option>충청남도 / 아파트 / 민간분양</Option>
                     <Address>충청남도 홍성군 홍북읍 신경리</Address>
                   </LiDesc>
@@ -213,6 +218,7 @@ export default function HouseList({updatePageIndex}){
 
 const Container = styled.div`
   width:100%;
+  
 `
 const ModalTop = styled.div`
   width:100%;
@@ -397,11 +403,35 @@ const LiTitle = styled.h2`
 const Number = styled.span`
   font-size:14px;color:#979797;
   display:inline-block;margin-left:15px;
+  margin-right:23px;
   vertical-align:baseline;transform:skew(-0.1deg);
   @media ${(props) => props.theme.container} {
       font-size:calc(100vw*(15/1436));
     }
 `
+const LiveView = styled.span`
+  display:inline-block;
+  width:82px;height:25px;border-radius:8px;
+  line-height:25px;
+  background:#fe7a01;
+  text-align:center;
+  font-size:10px;
+  cursor:pointer;
+  color:#fff;font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(10/1436));
+      width:calc(100vw*(82/1436));
+      height:calc(100vw*(25/1436));
+      line-height:calc(100vw*(25/1436));
+    }
+  @media ${(props) => props.theme.mobile} {
+    position:absolute;left:calc(100vw*(90/428));top:calc(100vw*(-8/428));
+    width:calc(100vw*(82/428));height:calc(100vw*(25/428));
+    line-height:calc(100vw*(25/428));
+    font-size:calc(100vw*(10/428));
+    }
+`
+
 const Option = styled.div`
   font-size:15px;font-weight:800;
   transform:skew(-0.1deg);
@@ -422,7 +452,7 @@ const LikeBtn = styled.div`
 `
 const Like = styled.input`
   display:none;
-  /*&:checked + .check_label{width:15px;height:15px;background:url() no-repeat;background-size:100% 100%;}*/
+  &:checked + .check_label{width:29px;height:29px;background:url(${HeartCheck}) no-repeat center center;background-size:17px 17px;}
 `
 const Label = styled.label`
   display:inline-block;

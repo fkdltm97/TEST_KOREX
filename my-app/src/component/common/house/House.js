@@ -77,7 +77,9 @@ export default function House({house, openHouse ,live, setLive, detailimg, setDe
 
 const Container = styled.div`
   width:100%;
-
+  @media ${(props) => props.theme.mobile} {
+      display:none;
+    }
 `
 
 const ModalBg = styled.div`

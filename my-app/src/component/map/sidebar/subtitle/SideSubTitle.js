@@ -12,7 +12,7 @@ import EditBtn from '../../../../img/member/edit_btn.png';
 import SaveBtn from '../../../../img/member/save_btn.png';
 
 
-export default function SubTitle({title,updatePageIndex,historyInfo}) {
+export default function SubTitle({title,updatePageIndex,historyInfo,value}) {
     //back button
     const history = useHistory();
     const goBack = () =>{

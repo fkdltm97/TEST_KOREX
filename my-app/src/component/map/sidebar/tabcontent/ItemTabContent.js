@@ -1,7 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import {Tabs, Tab} from 'react-bootstrap-tabs';
 
 //css
 import styled from "styled-components"
@@ -11,12 +10,13 @@ import FilterNext from "../../../../img/map/filter_next.png";
 import FilterClose from "../../../../img/map/filter_close.png";
 import Checked from "../../../../img/map/checked.png";
 import Check from "../../../../img/main/heart.png";
+import HeartCheck from "../../../../img/main/heart_check.png";
 
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
 
-export default function ItemTabContent({updatePageIndex,itemList,setHistoryInfo,index}) {
+export default function ItemTabContent({updatePageIndex,itemList,setHistoryInfo,setReport,index}) {
 
 
     return (
@@ -160,7 +160,7 @@ const LikeBox = styled.div`
 const Input = styled.input`
   display:none;
   &:checked + label{
-    background:#fff url(${Checked}); background-repeat:no-repeat;
+    background:#fff url(${HeartCheck}); background-repeat:no-repeat;
     background-position:center center; background-size:17px 17px;}
 `
 const CheckLabel = styled.label`

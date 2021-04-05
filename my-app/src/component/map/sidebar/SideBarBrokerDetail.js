@@ -1,7 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import {Tabs, Tab} from 'react-bootstrap-tabs';
 
 //css
 import styled from "styled-components"
@@ -48,7 +47,7 @@ const ItemListItem =[
   path:"/",
   startDate:"20.00.00",
   endDate: "20.00.00",
-  kind:"아파트파트파트파틒",
+  kind:"아파트파트파트파트",
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
