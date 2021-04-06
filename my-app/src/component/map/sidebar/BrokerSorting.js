@@ -159,6 +159,7 @@ export default function BrokerSortingh() {
                   <Option>월세</Option>
                 </Select>
               </WrapSelect>
+            <PC>
               <Sorting>
                 <Link onClick={showModal}>
                 <Img src={View}/>
@@ -197,6 +198,20 @@ export default function BrokerSortingh() {
 
                   </Link>
               </Sorting>
+          </PC>
+          <Mobile>{/*mobile일때는 select박스로 나올수 있도록 변경...*/}
+            <SortingMb>
+              <SelectMb>
+                <Option selected disabled></Option>
+                <Option>최신등록순</Option>
+                <Option>높은가격순</Option>
+                <Option>낮은가격순</Option>
+                <Option>넓은면적순</Option>
+                <Option>좁은면적순</Option>
+                <Option>가나다순</Option>
+              </SelectMb>
+            </SortingMb>
+          </Mobile>
             </Wrap>
         </Container>
   );
@@ -222,6 +237,14 @@ const Select = styled.select`
   background:url(${ArrowDown}) no-repeat 100px center; background-size:10px;
   appearance:none;
   &:last-child{margin-right:0;}
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(120/428));
+    height:calc(100vw*(27/428));
+    margin-right:calc(100vw*(15/428));
+    padding-left:calc(100vw*(5/428));
+    font-size:calc(100vw*(13/428));
+    background:url(${ArrowDown}) no-repeat 90% center; background-size:calc(100vw*(10/428));
+  }
 `
 const Option = styled.option`
 `
@@ -285,4 +308,12 @@ const Div = styled.li`
 `
 const InDiv = styled.div`
   width:100%;height:100%;
+`
+const SortingMb = styled.div`
+`
+const SelectMb = styled.select`
+  width:calc(100vw*(30/428));
+  height:calc(100vw*(30/428));
+  background:url(${View}) no-repeat center center; background-size:calc(100vw*(16/428));
+  appearance:none;
 `

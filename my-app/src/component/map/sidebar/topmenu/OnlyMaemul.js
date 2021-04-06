@@ -6,8 +6,12 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 import View from "../../../../img/main/icon_view.png";
+import OpenList from "../../../../img/map/toggle_list.png";
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport}) {
+//component
+import { Mobile, PC } from "../../../../MediaQuery";
+
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [select,setSelect] = useState(false);
     const showModal =()=>{
@@ -16,44 +20,63 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
     return (
         <Container>
           <WrapNonTab>
+            <Mobile>{/*모바일 open List Btn*/}
+              <OpenListImg onClick={() => {setUpDown(!updown)}}/>
+            </Mobile>
             <NonTab onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>아파트 <Green>3</Green>건</NonTab>
-            <ViewBtn>
-              <Link onClick={showModal}>
-                <Img src={View}/>
-                {
-                  select ?
-                  <InMenu>
-                    <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>최신등록순</InDiv>
-                    </Div>
-                    <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>높은가격순</InDiv>
-                    </Div>
-                    <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>낮은가격순</InDiv>
-                    </Div>
-                    <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>넓은면적순</InDiv>
-                    </Div>
-                    <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>좁은면적순</InDiv>
-                    </Div>
-                    <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>가나다순</InDiv>
-                    </Div>
-                  </InMenu>
-                  :
-                  null
+{/*select box 부분이 pc와 모바일이 달라서 따로 뺐습니다.~*/}
+            <PC>
+              <ViewBtn>
+                <Link onClick={showModal}>
+                  <Img src={View}/>
+                  {
+                    select ?
+                    <InMenu>
+                      <Div>
+                        <Link className="data_link"></Link>
+                        <InDiv>최신등록순</InDiv>
+                      </Div>
+                      <Div>
+                        <Link className="data_link"></Link>
+                        <InDiv>높은가격순</InDiv>
+                      </Div>
+                      <Div>
+                        <Link className="data_link"></Link>
+                        <InDiv>낮은가격순</InDiv>
+                      </Div>
+                      <Div>
+                        <Link className="data_link"></Link>
+                        <InDiv>넓은면적순</InDiv>
+                      </Div>
+                      <Div>
+                        <Link className="data_link"></Link>
+                        <InDiv>좁은면적순</InDiv>
+                      </Div>
+                      <Div>
+                        <Link className="data_link"></Link>
+                        <InDiv>가나다순</InDiv>
+                      </Div>
+                    </InMenu>
+                    :
+                    null
 
-                }
-              </Link>
-            </ViewBtn>
+                  }
+                </Link>
+              </ViewBtn>
+            </PC>
+            <Mobile>
+              <ViewBtn>
+                <SelectMb>
+                  <Option selected disabled></Option>
+                  <Option>최신등록순</Option>
+                  <Option>높은가격순</Option>
+                  <Option>낮은가격순</Option>
+                  <Option>넓은면적순</Option>
+                  <Option>좁은면적순</Option>
+                  <Option>가나다순</Option>
+                </SelectMb>
+              </ViewBtn>
+            </Mobile>
           </WrapNonTab>
         </Container>
   );
@@ -61,8 +84,20 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
 const Container = styled.div`
 `
 const WrapNonTab = styled.div`
+  position:relative;
   width:100%;padding:0 25px;
-  display:flex;justify-content:space-between;align-items;center;
+  display:flex;justify-content:space-between;align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    padding:0 calc(100vw*(15/428)) 0 calc(100vw*(45/428));
+
+  }
+`
+const OpenListImg = styled.div`
+  position:absolute;
+  cursor:pointer;left:calc(100vw*(10/428));top:50%;transform:translateY(-50%);
+  width:calc(100vw*(30/428));
+  height:calc(100vw*(30/428));
+  background:url(${OpenList}) no-repeat center center;background-size:calc(100vw*(12/428)) calc(100vw*(30/428));
 `
 const NonTab = styled.p`
 font-size:18px;font-weight:800;
@@ -71,6 +106,7 @@ color:#4a4a4a;
 `
 const ViewBtn = styled.div`
   position:relative;
+  margin-top:-9px;
 `
 const Img = styled.img`
   display:inline-block;
@@ -118,4 +154,12 @@ const Green = styled.span`
 `
 const OrangeColor = styled(Green)`
   color:#FF7B01;
+`
+const SelectMb = styled.select`
+  width:calc(100vw*(30/428));
+  height:calc(100vw*(30/428));
+  background:url(${View}) no-repeat center center; background-size:calc(100vw*(16/428));
+  appearance:none;
+`
+const Option = styled.option`
 `

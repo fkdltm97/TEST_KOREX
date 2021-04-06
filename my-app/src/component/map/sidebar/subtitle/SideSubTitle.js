@@ -35,13 +35,13 @@ export default function SubTitle({title,updatePageIndex,historyInfo,value}) {
 const Container = styled.div`
   width:100%;
   height:68px;
-  padding-left:32px;
   background:#f8f7f7;
+
   @media ${(props) => props.theme.container} {
 
     }
-
   @media ${(props) => props.theme.mobile} {
+        width:100%;
         height:calc(100vw*(60/428));
     }
 `
@@ -61,14 +61,14 @@ const InSubTitle = styled.div`
 
 `
 const BackImg = styled.img`
-  position:absolute;left:0;top:50%;
+  position:absolute;left:36px;top:50%;
   transform:translateY(-50%);
   width:10px;
   text-align:center;
   z-index:2;
   @media ${(props) => props.theme.mobile} {
-        width:calc(100vw*(10/428));
-        left:calc(100vw*(36/428));
+      width:calc(100vw*(10/428));
+      left:calc(100vw*(36/428));
     }
 `
 const TitleTxt = styled.h2`
@@ -78,8 +78,8 @@ const TitleTxt = styled.h2`
   font-weight:700;
   transform:skew(-0.1deg);
   @media ${(props) => props.theme.mobile} {
-        font-size:calc(100vw*(16/428));
-        line-height:calc(100vw*(60/428));
+      font-size:calc(100vw*(16/428));
+      line-height:calc(100vw*(60/428));
     }
 `
 const EditImg = styled.img`
@@ -97,6 +97,7 @@ const Arrow = styled.span`
   font-size:12px;
   color:#979797;
   vertical-align:middle;
+
 `
 const SaveImg = styled(EditImg)`
 `

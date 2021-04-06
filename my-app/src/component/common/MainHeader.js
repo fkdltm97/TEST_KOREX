@@ -65,6 +65,7 @@ const Container = styled.header`
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.08);
 
     @media ${(props) => props.theme.mobile} {
+          z-index:3;
           width:100%;
           height:calc(100vw*(64/428));
       }

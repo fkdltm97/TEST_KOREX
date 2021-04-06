@@ -15,15 +15,37 @@ import DanjiSideBar from './DanjiSideBar';
 import SideBarItemDetail from './SideBarItemDetail';
 import SideBarDanjiDetail from './SideBarDanjiDetail';
 
-export default function WrapSideBar({setReport,setMap}) {
+export default function WrapSideBar({setReport,setMap,pageIndex,setPageIndex}) {
   //사이드 내 페이지 이동
-  const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
+  const [updown,setUpDown] = useState(false);
+  console.log(updown)
+  const position=()=>{
+    if(updown == true) {
+      return "absolute"
+    }else{
+      return "relative"
+    }
+  }
+  const overflow=()=>{
+    if(updown == true) {
+      return "scroll"
+    }else{
+      return "hidden"
+    }
+  }
+  const top=()=>{
+    if(updown == true) {
+      return "calc(100vw*(59/428));"
+    }else{
+      return "calc(100vw*(-122/428));"
+    }
+  }
 
   const pageLoader = () =>{
     switch (pageIndex) {
-      case 0: return <DanjiSideBar updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;
-      case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport}/>; //물건 상세페이지
+      case 0: return <DanjiSideBar updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
+      case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} />; //물건 상세페이지
       case 2: return <SideBarDanjiDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;//전문중개사 상세페이지
       default :return <DanjiSideBar updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>;
     }
@@ -39,7 +61,7 @@ export default function WrapSideBar({setReport,setMap}) {
       setPageIndex(index);
   }
     return (
-        <Container>
+        <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top}>
         {
           pageLoader()
         }
@@ -59,4 +81,20 @@ const Container = styled.div`
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {display: none;}
+  @media ${(props) => props.theme.mobile} {
+    position:${({position}) => position};
+    overflow-y:${({overflow}) => overflow};
+    top:${({top}) => top};
+    width:100%;
+    padding-bottom:calc(100vw*(150/428));
+    ${({pageIndex})=>{
+      return pageIndex != 0 ?
+      `
+      top:calc(100vw*(0/428));
+      `
+      :
+      `
+      `
+    }}
+  }
 `

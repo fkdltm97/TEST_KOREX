@@ -35,14 +35,6 @@ export default function ReportModalComplete({report,setReport,updatePageIndex}) 
 const Container = styled.div `
   width:100%;
 `
-const Bg = styled.div `
-  position:fixed;
-  width:100%;
-  height:100%;left:0;top:0;
-  background:rgba(0,0,0,0.2);
-  display:block;
-  z-index:3;
-`
 const WrapModal = styled.div`
   position:fixed;
   width:535px;height:auto;
@@ -52,30 +44,53 @@ const WrapModal = styled.div`
   padding: 49px 0 59px;
   background:#fff;
   z-index:4;
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(395/428));
+    height:calc(100vw*(460/428));
+    padding:calc(100vw*(24/428)) 0 calc(100vw*(50/428));
+  }
 `
 const CloseBtn= styled.div`
   width:100%;
   text-align:right;
   margin-bottom:22px;
   padding-right:60px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(28/428));
+    padding-right:calc(100vw*(24/428));
+  }
 `
 const CloseImg = styled.img`
   display:inline-block;
   width:15px;
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(12/428));
+  }
 `
 const InCont = styled.div`
   padding:0 60px;
+  @media ${(props) => props.theme.modal} {
+    padding:0 calc(100vw*(20/428));
+  }
 `
 const TopTitleTxt = styled.h3`
   font-size:20px;font-weight:600;
   transform:skew(-0.1deg);color:#707070;
   padding-bottom:21px;border-bottom:1px solid #a3a3a3;
+  @media ${(props) => props.theme.modal} {
+    font-size:calc(100vw*(15/428));
+    padding-bottom:calc(100vw*(15/428));
+  }
 `
 const Desc = styled.p`
   font-size: 15px;
   padding:80px 0 60px;
   text-align:center;
   color: #4a4a4a;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.modal} {
+    font-size:calc(100vw*(15/428));
+    padding:calc(100vw*(105/428)) 0 calc(100vw*(86/428));
+  }
 `
 const Button = styled.button`
   width:100%;
@@ -87,4 +102,10 @@ const Button = styled.button`
   transition:all 0.3s;
   background:#01684b;
   border:3px solid #04966d;
+  @media ${(props) => props.theme.modal} {
+    height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));
+    font-size:calc(100vw*(15/428));
+    margin-top:calc(100vw*(20/428));
+  }
 `

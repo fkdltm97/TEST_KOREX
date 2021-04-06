@@ -16,12 +16,12 @@ import FilterTopButton from "./filter/FilterTopButton";
 import ApartFilter from "./filter/ApartFilter";
 
 
-export default function MapFilter() {
+export default function MapFilter({setOpen}) {
 
     return (
         <Container>
           <CloseAndReset>
-            <Arrow src={FilterDown}/>
+            <Arrow src={FilterDown} onClick={()=>{setOpen(false)}}/>
             <WrapReset>
               <Reset src={ChangeGreen}/>
               <ResetTitle>초기화</ResetTitle>
@@ -46,6 +46,7 @@ const Arrow = styled.img`
 `
 const WrapReset = styled.div`
   display:flex;justify-content:flex-end;align-items:center;
+  cursor:pointer;
 `
 const Reset = styled.img`
   width:20px;

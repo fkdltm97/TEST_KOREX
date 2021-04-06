@@ -67,14 +67,23 @@ const TopInfo = styled.div`
   text-align:center;
   padding:21px 0 23px;
   border-bottom:8px solid #e4e4e4;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(20/428)) 0;
+  }
 `
 const FirstLine = styled.div`
   display:flex;justify-content:center;align-items:center;
   margin-bottom:8px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(5/428));
+  }
 `
 const FirstDate = styled.p`
   font-size:15px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Danji = styled(FirstDate)`
 `
@@ -88,19 +97,32 @@ const Address = styled(FirstDate)`
 const ChangeAddress = styled.div`
   margin-left:10px;
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(10/428));
+  }
 `
 const ChangeImg = styled.img`
   display:inline-block;width:13px;
   vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(13/428));
+  }
 `
 const Span = styled.span`
   display:inline-block;
   margin-left:6px;
   font-size:10px;font-weight:800;transform:skew(-0.1deg);
   vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(10/428));
+    margin-left:calc(100vw*(5/428));
+  }
 `
 const DanjiInfo = styled.div`
   padding:28px 22px 0;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(23/428)) 0 0;
+  }
 
 `
 const DanjiTitle = styled.div`
@@ -110,8 +132,15 @@ const Txt = styled.h2`
   padding-left:22px;
   font-size:20px;font-weight:800;
   transform:skew(-0.1deg);color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    padding-left:calc(100vw*(36/428));
+    font-size:calc(100vw*(20/428));
+  }
 `
 const ChangeM2 = styled.div`
   margin-left:15px;
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(10/428));
+  }
 `

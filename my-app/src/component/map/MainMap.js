@@ -15,11 +15,17 @@ import MainWrapSideBar from './sidebar/MainWrapSideBar';
 import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 
 export default function MainHeader({openHouse, rank, setReport,setMap}) {
+    const [pageIndex , setPageIndex] = useState(0);
     return (
         <Container>
-          <WrapMap/>{/*지도 컴포넌트*/}
-          {/*<MainWrapSideBar setReport={setReport}/>{/*메인 사이드바 컴포넌트*/}
-          <DanjiWrapSideBar setMap={setMap} setReport={setReport}/>{/*단지 사이드바 컴포넌트*/}
+          {
+            pageIndex == 0 ?
+            <WrapMap/>
+            :
+            null
+          }
+          <MainWrapSideBar setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>{/*메인 사이드바 컴포넌트*/}
+          {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>{/*단지 사이드바 컴포넌트*/}
         </Container>
   );
 }

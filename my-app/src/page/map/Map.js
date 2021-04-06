@@ -63,4 +63,7 @@ export default function NoticeDetail() {
 const Container = styled.div`
     width: 100%;
     height:calc(100vh - 106px);
+    @media ${(props) => props.theme.mobile} {
+      height:calc(100vh - (100vw*(64/428)));
+    }
 `

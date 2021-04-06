@@ -30,12 +30,12 @@ export default function MapFilter({openHouse, rank}) {
                   <RightRange/>
                   <GreenBar/>{/*실제 영역 바*/}
                   <GrayBar/>{/*바닥에 깔리는 바*/}
-                  <BottomBar>
-                    <BarTxt>최소</BarTxt>
-                    <BarTxt>기준1</BarTxt>
-                    <BarTxt>최대</BarTxt>
-                  </BottomBar>
                 </WrapRange>
+                <BottomBar>
+                  <BarTxt>최소</BarTxt>
+                  <BarTxt>기준1</BarTxt>
+                  <BarTxt>최대</BarTxt>
+                </BottomBar>
               </WrapFilter>
             </Box>
         {/*관리비*/}
@@ -52,13 +52,13 @@ export default function MapFilter({openHouse, rank}) {
                   <RightRange2/>
                   <GreenBar2/>{/*실제 영역 바*/}
                   <GrayBar/>{/*바닥에 깔리는 바*/}
-                  <BottomBar>
-                    <BarTxt>최소</BarTxt>
-                    <BarTxt>20만</BarTxt>
-                    <BarTxt>기준2</BarTxt>
-                    <BarTxt>최대</BarTxt>
-                  </BottomBar>
                 </WrapRange>
+                <BottomBar>
+                  <BarTxt>최소</BarTxt>
+                  <BarTxt>20만</BarTxt>
+                  <BarTxt>기준2</BarTxt>
+                  <BarTxt>최대</BarTxt>
+                </BottomBar>
               </WrapFilter>
             </Box>
           {/*면적(공급면적)*/}
@@ -71,13 +71,13 @@ export default function MapFilter({openHouse, rank}) {
                     <RightRange/>
                     <GreenBar/>{/*실제 영역 바*/}
                     <GrayBar/>{/*바닥에 깔리는 바*/}
-                    <BottomBar>
-                      <BarTxt>최소</BarTxt>
-                      <BarTxt>30평</BarTxt>
-                      <BarTxt>기준2</BarTxt>
-                      <BarTxt>무제한</BarTxt>
-                    </BottomBar>
                   </WrapRange>
+                  <BottomBar>
+                    <BarTxt>최소</BarTxt>
+                    <BarTxt>30평</BarTxt>
+                    <BarTxt>기준2</BarTxt>
+                    <BarTxt>무제한</BarTxt>
+                  </BottomBar>
                 </WrapFilter>
               </Box>
           {/*층수*/}
@@ -211,6 +211,7 @@ export default function MapFilter({openHouse, rank}) {
 }
 
 const Container = styled.div`
+
 `
 const WrapApart = styled.div`
   width:100%;
@@ -219,6 +220,10 @@ const Box = styled.div`
   width:100%;
   padding:22px 17px;
   border-top:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(22/428)) calc(100vw*(33/428));
+  }
+
 `
 const BoxNoneBorder = styled(Box)`
   border-top:none;
@@ -228,6 +233,11 @@ const SubTitle = styled.h5`
   font-size:12px;
   color:#4a4a4a;transform:skew(-0.1deg);
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    margin-bottom:calc(100vw*(13/428));
+    font-weight:600;
+  }
 `
 const WrapFilter = styled.div`
   width:100%;
@@ -237,26 +247,44 @@ const PriceView = styled.div`
   font-size:15px;font-weight:800;transform:skew(-0.1deg);
   color:#01684b;
   margin-bottom:20px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(20/428));
+  }
 `
 const WrapRange = styled.div`
-  width:100%;
+  width:95%;
   position:relative;
+  margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width:98%;
+  }
 `
 const LeftRange = styled.div`
   position:absolute;
-  left:0;top:-20%;
+  left:0;top:-8px;
   width:19px;height:19px;border-radius:100%;
   border: solid 2px #01684b;
   background-color: #ffffff;
   z-index:3;cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(19/428));
+    height:calc(100vw*(19/428));
+    top:calc(100vw*(-8/428));
+  }
 `
 const RightRange = styled.div`
   position:absolute;
-  right:0;top:-20%;
+  right:0;top:-8px;
   width:19px;height:19px;border-radius:100%;
   border: solid 2px #01684b;
   background-color: #ffffff;
   z-index:3;cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(19/428));
+    height:calc(100vw*(19/428));
+    top:calc(100vw*(-8/428));
+  }
 `
 const GreenBar = styled.div`
   position:absolute;z-index:2;
@@ -267,6 +295,9 @@ const GreenBar = styled.div`
   height:3px;
   background:#01684b;
   border-radius:6px;
+  @media ${(props) => props.theme.mobile} {
+    heigiht:calc(100vw*(3/428));
+  }
 `
 const GreenBar2 = styled(GreenBar)`
   width:50%;
@@ -286,13 +317,21 @@ const GrayBar = styled(GreenBar)`
 `
 const BottomBar = styled.div`
   display:flex;justify-content:space-between;align-items:center;
-  padding-top:25px;
+  padding-top:35px;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(3/428));
+    padding-top:calc(100vw*(35/428));
+  }
 `
 const BarTxt = styled.p`
   position:relative;
   font-size:14px;color:#979797;
   font-weight:600;transform:skew(-0.1deg);
   &:before{position:absolute;content:'';display:block;left:50%;top:-6px;transform:translateX(-50%);width:1px;height:5px;background:#c7c7c7;}
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    &:before{top:calc(100vw*(-10/428));height:calc(100vw*(8/428));}
+  }
 `
 const SwitchButton = styled.div`
   display:flex;justify-content:flex-start;align-items:center;

@@ -15,10 +15,14 @@ import FilterClose from "../../../img/map/filter_close.png";
 import Checked from "../../../img/map/checked.png";
 import Check from "../../../img/main/heart.png";
 import View from "../../../img/main/icon_view.png";
+import OpenList from "../../../img/map/toggle_list.png";
+
 // components
 import { Mobile, PC } from "../../../MediaQuery";
 import ItemTabContent from "./tabcontent/ItemTabContent";
 import BrokerTabContent from "./tabcontent/BrokerTabContent";
+import OnlyMaemul from "./topmenu/OnlyMaemul";
+import OnlyBroker from "./topmenu/OnlyBroker";
 
 const ItemListItem =[
 {
@@ -30,7 +34,7 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
@@ -43,7 +47,7 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
@@ -56,7 +60,7 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
@@ -69,7 +73,7 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
@@ -82,7 +86,7 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
@@ -95,7 +99,7 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
@@ -108,25 +112,34 @@ const ItemListItem =[
   detail:"자이 109동",
   price:"전세 12억 5,000",
   floor:"층수",
-  Area:"공급면적",
+  area:"공급면적",
   expenses:"관리비",
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 }
 ]
 
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
     const [activeIndex,setActiveIndex] = useState(0);
-
+    console.log(updown)
     return (
         <Container>
           <WrapTab className="Tabs">
           {/*전문중개사 버튼 눌려있을때 -> 탭으로 아파트 ㅣ 전문중개사*/}
           <WrapTabBtn>
+            <Mobile>{/*모바일 open List Btn*/}
+              <OpenListImg onClick={() => {setUpDown(!updown)}}/>
+            </Mobile>
             <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
             <Part/>
             <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = true; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
           </WrapTabBtn>
+
+          {/*전문중개사 꺼졌을때 ( 전속매물 버튼만 active돼있을때...)*/}
+          {/*<OnlyMaemul updown={updown} setUpDown={setUpDown}/>*/}
+
+          {/*전속매물 꺼졌을때 ( 전문중개사만 active돼있을때...)*/}
+          {/*<OnlyBroker updown={updown} setUpDown={setUpDown}/>*/}
             {
               historyInfo.prevTab ?
                 <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
@@ -159,14 +172,28 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
 */
 const Container = styled.div `
   padding:0 22px;
+  @media ${(props) => props.theme.mobile} {
+    padding:0 calc(100vw*(22/428));
+  }
 `
 const WrapMainSide = styled.section`
 `
 const WrapTab = styled.div`
-
+@media ${(props) => props.theme.mobile} {
+  padding-top:calc(100vw*(22/428));
+}
 `
+
 const WrapTabBtn = styled.div`
+  position:relative;
   display:flex;justify-content:center;align-items:center;
+`
+const OpenListImg = styled.div`
+  position:absolute;
+  cursor:pointer;left:calc(100vw*(10/428));top:50%;transform:translateY(-50%);
+  width:calc(100vw*(30/428));
+  height:calc(100vw*(30/428));
+  background:url(${OpenList}) no-repeat center center;background-size:calc(100vw*(12/428)) calc(100vw*(30/428));
 `
 const Span = styled.span`
   display:inline-block;
@@ -174,6 +201,9 @@ const Span = styled.span`
   transform:skew(-0.1deg);
   color:${({active}) => active ? "#01684b" : "#707070"};
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Span2 = styled.span`
   display:inline-block;
@@ -181,6 +211,9 @@ const Span2 = styled.span`
   transform:skew(-0.1deg);
   color:${({active}) => active ? "#4a4a4a" : "#070707"};
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Orange = styled.span`
   color:${({active}) => active ? "#FF7B01" : "#070707"};
@@ -189,6 +222,7 @@ const Orange = styled.span`
 const WrapNonTab = styled.div`
   width:100%;padding:0 25px;
   display:flex;justify-content:space-between;align-items;center;
+
 `
 const NonTab = styled.p`
 font-size:18px;font-weight:800;
@@ -241,6 +275,9 @@ const Green = styled.span`
  font-size:18px;font-weight:800;
  transform:skew(-0.1deg);
  color:#01684b;
+ @media ${(props) => props.theme.mobile} {
+   font-size:calc(100vw*(15/428));
+ }
 `
 const OrangeColor = styled(Green)`
   color:#FF7B01;
@@ -248,6 +285,9 @@ const OrangeColor = styled(Green)`
 const Part = styled.span`
   display:inline-block;width:1px;height:16px;
   background:#707070;margin:0 14px;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(15/428));
+  }
 `
 const TabContent = styled.div`
   position:relative;
@@ -255,6 +295,9 @@ const TabContent = styled.div`
   padding:25px 27px 0 27px;margin-top:17px;
   margin-bottom:17px;
   border-top:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(15/428));
+  }
 `
 const LeftContent = styled.div`
   margin-right:31px;
@@ -279,6 +322,7 @@ const StartDate = styled.p`
   font-size:11px;
   font-weight:800;transform:skew(-0.1deg);
   color:#707070;
+
 `
 const Line = styled(StartDate)`
 `
@@ -317,7 +361,7 @@ const Floor = styled.p`
   font-weight:600;transform:skew(-0.1deg);
   margin-right:5px;
 `
-const Area = styled(Floor)`
+const area = styled(Floor)`
 `
 const Expenses = styled(Floor)`
   margin-right:0;

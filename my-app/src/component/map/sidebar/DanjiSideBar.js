@@ -15,6 +15,9 @@ import FilterClose from "../../../img/map/filter_close.png";
 import Checked from "../../../img/map/checked.png";
 import Check from "../../../img/main/heart.png";
 import View from "../../../img/main/icon_view.png";
+import OpenList from "../../../img/map/toggle_list.png";
+
+
 // components
 import { Mobile, PC } from "../../../MediaQuery";
 import ItemTabContent from "./tabcontent/ItemTabContent";
@@ -115,7 +118,7 @@ const ItemListItem =[
 ]
 
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,setMap}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,setMap,updown,setUpDown}) {
     const [activeIndex,setActiveIndex] = useState(0);
 
     return (
@@ -123,6 +126,9 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
           <WrapTab className="Tabs">
           {/*전문중개사 버튼 눌려있을때 -> 탭으로 아파트 ㅣ 전문중개사*/}
           <WrapTabBtn>
+            <Mobile>{/*모바일 open List Btn*/}
+              <OpenListImg onClick={() => {setUpDown(!updown)}}/>
+            </Mobile>
             <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
             <Part/>
             <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = true; return JSON.parse(JSON.stringify(e));});}}>아파트단지 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
@@ -159,14 +165,27 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
 */
 const Container = styled.div `
   padding:0 22px;
+  @media ${(props) => props.theme.mobile} {
+    padding:0 calc(100vw*(22/428));
+  }
 `
 const WrapMainSide = styled.section`
 `
 const WrapTab = styled.div`
-
+@media ${(props) => props.theme.mobile} {
+  padding-top:calc(100vw*(22/428));
+}
 `
 const WrapTabBtn = styled.div`
+  position:relative;
   display:flex;justify-content:center;align-items:center;
+`
+const OpenListImg = styled.div`
+  position:absolute;
+  cursor:pointer;left:calc(100vw*(10/428));top:50%;transform:translateY(-50%);
+  width:calc(100vw*(30/428));
+  height:calc(100vw*(30/428));
+  background:url(${OpenList}) no-repeat center center;background-size:calc(100vw*(12/428)) calc(100vw*(30/428));
 `
 const Span = styled.span`
   display:inline-block;
@@ -174,6 +193,9 @@ const Span = styled.span`
   transform:skew(-0.1deg);
   color:${({active}) => active ? "#01684b" : "#707070"};
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Span2 = styled.span`
   display:inline-block;
@@ -181,6 +203,9 @@ const Span2 = styled.span`
   transform:skew(-0.1deg);
   color:${({active}) => active ? "#4a4a4a" : "#070707"};
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Orange = styled.span`
   color:${({active}) => active ? "#FF7B01" : "#070707"};
@@ -189,11 +214,17 @@ const Orange = styled.span`
 const WrapNonTab = styled.div`
   width:100%;padding:0 25px;
   display:flex;justify-content:space-between;align-items;center;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const NonTab = styled.p`
 font-size:18px;font-weight:800;
 transform:skew(-0.1deg);
 color:#4a4a4a;
+@media ${(props) => props.theme.mobile} {
+  font-size:calc(100vw*(15/428));
+}
 `
 const ViewBtn = styled.div`
   position:relative;
@@ -248,90 +279,4 @@ const OrangeColor = styled(Green)`
 const Part = styled.span`
   display:inline-block;width:1px;height:16px;
   background:#707070;margin:0 14px;
-`
-const TabContent = styled.div`
-  position:relative;
-  display:flex;justify-content:flex-start;align-items:center;
-  padding:25px 27px 0 27px;margin-top:17px;
-  margin-bottom:17px;
-  border-top:1px solid #f2f2f2;
-`
-const LeftContent = styled.div`
-  margin-right:31px;
-`
-const TopBox = styled.div`
-  display:flex;justify-content:center;align-items:center;
-  width:163px;height:26px;border:1px solid #2b664d;
-  line-height:24px;
-`
-const ColorGreen = styled.span`
-  font-size:11px;
-  font-weight:800;transform:skew(-0.1deg);
-  color:#01684b;
-  display:inline-block;margin-right:3px;
-`
-const WrapDate = styled.div`
-  display:flex;
-  justify-content:flex-start;
-  align-items:center;
-`
-const StartDate = styled.p`
-  font-size:11px;
-  font-weight:800;transform:skew(-0.1deg);
-  color:#707070;
-`
-const Line = styled(StartDate)`
-`
-const EndDate = styled(StartDate)`
-`
-const ItemInfo = styled.div`
-  margin-top:8px;
-`
-const Name = styled.div`
-  margin-bottom:3px;
-`
-const Kind = styled.p`
-  display:inline-block;
-  font-size:15px;color:#707070;
-  font-weight:600;transform:skew(-0.1deg);
-`
-const ColorOrange = styled.span`
-  display:inline-block;
-  font-size:15px;color:#fe7a01;
-  vertical-align:middle;
-  margin:0 3px;
-  font-weight:600;transform:skew(-0.1deg);
-`
-const Detail = styled(Kind)`
-`
-const Price = styled.h3`
-  font-size:20px;color:#4a4a4a;
-  font-weight:800;transform:skew(-0.1deg);
-`
-const Option = styled.div`
-  margin:6.5px 0;
-  display:flex;justify-content:flex-start;align-items:center;
-`
-const Floor = styled.p`
-  font-size:15px;color:#707070;
-  font-weight:600;transform:skew(-0.1deg);
-  margin-right:5px;
-`
-const Area = styled(Floor)`
-`
-const Expenses = styled(Floor)`
-  margin-right:0;
-`
-const Desc = styled(Expenses)`
-  width:196px;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  overflow:hidden;
-`
-const RightContent = styled.div`
-  position:relative;
-  width:158px;height:158px;
-`
-const ItemImg = styled.img`
-  width:100%;height:100%;
 `

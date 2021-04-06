@@ -72,20 +72,36 @@ const TabContent = styled.div`
   padding:25px 27px 0 27px;margin-top:17px;
   margin-bottom:17px;
   border-top:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(25/428)) calc(100vw*(0/428)) calc(100vw*(15/428));
+  }
+
 `
 const LeftContent = styled.div`
   margin-right:31px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:0;
+  }
 `
 const TopBox = styled.div`
   display:flex;justify-content:center;align-items:center;
   width:163px;height:26px;border:1px solid #2b664d;
   line-height:24px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(163/428));
+    height:calc(100vw*(26/428));
+    line-heigiht:calc(100vw*(24/428));
+  }
 `
 const ColorGreen = styled.span`
   font-size:11px;
   font-weight:600;transform:skew(-0.1deg);
   color:#01684b;
   display:inline-block;margin-right:3px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(11/428));
+    margin-right:calc(100vw*(3/428));
+  }
 `
 const WrapDate = styled.div`
   display:flex;
@@ -96,6 +112,9 @@ const StartDate = styled.p`
   font-size:11px;
   font-weight:600;transform:skew(-0.1deg);
   color:#707070;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(11/428));
+  }
 `
 const Line = styled(StartDate)`
 `
@@ -103,14 +122,23 @@ const EndDate = styled(StartDate)`
 `
 const ItemInfo = styled.div`
   margin-top:8px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(9/428));
+  }
 `
 const Name = styled.div`
   margin-bottom:3px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(3/428));
+  }
 `
 const Kind = styled.p`
   display:inline-block;
   font-size:15px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const ColorOrange = styled.span`
   display:inline-block;
@@ -118,21 +146,35 @@ const ColorOrange = styled.span`
   vertical-align:middle;
   margin:0 3px;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin:0 calc(100vw*(5/428));
+  }
 `
 const Detail = styled(Kind)`
 `
 const Price = styled.h3`
   font-size:20px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(20/428));
+  }
 `
 const Option = styled.div`
   margin:6.5px 0;
   display:flex;justify-content:flex-start;align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    margin:calc(100vw*(6.5/428)) 0;
+  }
 `
 const Floor = styled.p`
   font-size:15px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
   margin-right:5px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-right:calc(100vw*(5/428));
+  }
 `
 const Area = styled(Floor)`
 `
@@ -144,13 +186,21 @@ const Desc = styled(Expenses)`
   white-space:nowrap;
   text-overflow:ellipsis;
   overflow:hidden;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(196/428));
+  }
 `
 const RightContent = styled.div`
   position:relative;
   width:158px;height:158px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(158/428));
+    height:calc(100vw*(158/428));
+  }
 `
 const ItemImg = styled.img`
   width:100%;height:100%;
+  border-radius:3px;
 `
 const LikeBox = styled.div`
   position:absolute;
@@ -162,6 +212,9 @@ const Input = styled.input`
   &:checked + label{
     background:#fff url(${HeartCheck}); background-repeat:no-repeat;
     background-position:center center; background-size:17px 17px;}
+  @media ${(props) => props.theme.mobile} {
+    &:checked + label{background-size:calc(100vw*(15/428)) calc(100vw*(15/428));}
+  }
 `
 const CheckLabel = styled.label`
   position:absolute;
@@ -173,4 +226,9 @@ const CheckLabel = styled.label`
   border-radius:3px;
   background:#fff url(${Check});background-repeat:no-repeat;
   background-position:center center; background-size:17px 17px;
+  @media ${(props) => props.theme.mobile} {
+    top:calc(100vw*(8/428));right:calc(100vw*(8/428));
+    width:calc(100vw*(29/428));height:calc(100vw*(29/428));
+    background-size:calc(100vw*(15/428)) calc(100vw*(15/428));
+  }
 `

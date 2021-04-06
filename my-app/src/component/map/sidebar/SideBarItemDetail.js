@@ -30,6 +30,9 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 SwiperCore.use([Navigation, Pagination]);
 export default function SideItemDetail({openHouse, rank, updatePageIndex,historyInfo,report,setReport }) {
+  const [slideUp, setSlideUp] = useState(false);
+
+
 
     return (
         <Container>
@@ -102,40 +105,48 @@ export default function SideItemDetail({openHouse, rank, updatePageIndex,history
     <WrapAllInfos>
         {/*물건*/}
           <WrapItemInfo>
-            <TitleBox>
+            <TitleBox onClick={()=>{setSlideUp(!slideUp)}}>
               <Title>물건</Title>
               <ArrowImg src={Arrow}/>
             </TitleBox>
-            <ItemInfoList>
-              <Li>
-                <SubTitle>해당층/총층</SubTitle>
-                <SubDesc>4/20층</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>공급/전용면적</SubTitle>
-                <SubDesc>60/52.89m²
-                <Link>
-                  <ChangeMImg src={ChangeM}/>
-                </Link>
-                </SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>방/욕실 수</SubTitle>
-                <SubDesc>2/1개</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>방향</SubTitle>
-                <SubDesc>방향</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>현관구조</SubTitle>
-                <SubDesc>현관구조</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>난방</SubTitle>
-                <SubDesc>난방</SubDesc>
-              </Li>
-            </ItemInfoList>
+            {
+              slideUp ?
+              <ItemInfoList>
+                <Li>
+                  <SubTitle>해당층/총층</SubTitle>
+                  <SubDesc>4/20층</SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>공급/전용면적</SubTitle>
+                  <SubDesc>60/52.89m²
+                  <Link>
+                    <ChangeMImg src={ChangeM}/>
+                  </Link>
+                  </SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>방/욕실 수</SubTitle>
+                  <SubDesc>2/1개</SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>방향</SubTitle>
+                  <SubDesc>방향</SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>현관구조</SubTitle>
+                  <SubDesc>현관구조</SubDesc>
+                </Li>
+                <Li>
+                  <SubTitle>난방</SubTitle>
+                  <SubDesc>난방</SubDesc>
+                </Li>
+              </ItemInfoList>
+              :
+              null
+            }
+
+
+
             <ToggleOpenClose>
               <Text>접기</Text>
             </ToggleOpenClose>
@@ -311,14 +322,22 @@ const SwiperBennerWrap = styled.div`
 const DetailImg = styled.div`
   width:100%;
   height:493px;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(428/428));
+    object-fit:cover;
+  }
 `
 const Img = styled.img`
   width:100%;
+  object-fit:cover;
 `
 const TopButtons = styled.div`
   width:100%;
   margin:18px auto;
   display:flex;justify-content:center;align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    margin:calc(100vw*(16/428)) auto;
+  }
 `
 const Button = styled.div`
   position:relative;
@@ -328,15 +347,26 @@ const Button = styled.div`
   padding:17.5px 12.5px;
   margin-right:5px;
   &:last-child{margin-right:0;}
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(17.5/428)) calc(100vw*(15/428));
+    margin-right:calc(100vw*(5/428));
+  }
 `
 const IconImg = styled.img`
   display:inline-block;
   width:20px;height:20px;
   margin-right:6px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));height: calc(100vw*(20/428));
+    margin-right:calc(100vw*(5/428));
+  }
 `
 const ButtonTitle = styled.p`
   font-size:13px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(13/428));
+  }
 `
 
 const TopMainInfoBox = styled.div`
@@ -345,14 +375,24 @@ const TopMainInfoBox = styled.div`
   margin:0 auto;
   border-top:1px solid #f2f2f2;
   padding:20px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(383/428));
+    padding:calc(100vw*(20/428)) 0 calc(100vw*(20/428)) calc(100vw*(13/428));
+  }
 `
 const LikeBox = styled.div`
   position:absolute;
   right:20px;top:15px;
+  @media ${(props) => props.theme.mobile} {
+    right:0;top:calc(100vw*(15/428));
+  }
 `
 const CheckBox = styled.input`
   display:none;
   &:checked+label{background:url(${Checked}) no-repeat center center;background-size:26px 25px;}
+  @media ${(props) => props.theme.mobile} {
+    &:checked+label{background:url(${Checked}) no-repeat center center;background-size:calc(100vw*(22/428)) calc(100vw*(20/428));}
+  }
 `
 const CheckLabel = styled.label`
   display:inline-block;
@@ -360,10 +400,18 @@ const CheckLabel = styled.label`
   border-radius: 3px;
   border: solid 1px #d0d0d0;
   background:url(${Check}) no-repeat center center;background-size:26px 25px;
+  @media ${(props) => props.theme.mobile} {
+    background-size:calc(100vw*(22/428)) calc(100vw*(20/428));
+    width:calc(100vw*(40/428));height:calc(100vw*(40/428));
+  }
+
 `
 const Number = styled.p`
   font-size:12px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+  }
 `
 const ExclusiveBox = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
@@ -372,14 +420,25 @@ const ExclusiveBox = styled.div`
   padding: 6px 15px;
   border: solid 1px #2b664d;
   margin:8px 0 12px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(163/428));
+    height:calc(100vw*(25/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(10/428));
+  }
 `
 const Green = styled.div`
   font-size:12px;color:#2b664d;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(11/428));
+  }
 `
 const WrapDate = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   margin-left:8px;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(8/428));
+  }
 `
 const StartDate = styled(Green)`
   color:#707070;
@@ -394,6 +453,9 @@ const ItemInfo = styled.div`
 const Name = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   margin-bottom:10px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(7/428));
+  }
 `
 const Kind = styled(StartDate)`
 `
@@ -401,12 +463,19 @@ const Address = styled.div`
   font-size:21px;font-weight:800;
   transform:skew(-0.1deg);
   color:#2b664d;margin-left:8px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(21/428));
+    margin-left:calc(100vw*(8/428));
+  }
 
 `
 const Price = styled.div`
 font-size:26px;font-weight:800;
 transform:skew(-0.1deg);
 color:#4a4a4a;
+@media ${(props) => props.theme.mobile} {
+  font-size:calc(100vw*(26/428));
+}
 `
 const Desc = styled.div`
   border-top:1px solid #f2f2f2;
@@ -414,6 +483,11 @@ const Desc = styled.div`
   padding-top:22px;
   font-size:15px;color:#707070;font-weight:600;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(25/428));
+    padding-top:calc(100vw*(22/428));
+    font-size:calc(100vw*(15/428));
+  }
 `
 const WrapAllInfos = styled.div`
   width:100%;
@@ -430,18 +504,30 @@ const TitleBox = styled.div`
   display:flex;justify-content:space-between;align-items:center;
   border-top:1px solid #f2f2f2;border-bottom:1px solid #f2f2f2;
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(20/428)) calc(100vw*(30/428));
+  }
 `
 const Title = styled.h3`
   font-size:20px;color:#4a4a4a;font-weight:800;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(20/428));
+  }
 `
 const ArrowImg = styled.img`
   width:10px;
   transform:rotate(270deg);
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(10/428));
+  }
 `
 const ItemInfoList = styled.ul`
   width:450px;
   margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(383/428));
+  }
 `
 const Li = styled.li`
   width:100%;display:flex;justify-content:space-between;align-items:center;
@@ -449,15 +535,19 @@ const Li = styled.li`
   padding:15px 20px;
   border-bottom:1px solid #f2f2f2;
   &:last-child{border-bottom:none;}
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(15/428)) calc(100vw*(10/428));
+  }
 `
 const SubTitle = styled.p`
   font-size:15px; color:#898989;
   font-weight:600;transform:skew(-0.1deg);
-  margin-right:10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const SubDesc = styled(SubTitle)`
   color:#4a4a4a;
-  margin-right:0px;
 `
 const ToggleOpenClose = styled.div`
   width:100%;
@@ -467,10 +557,17 @@ const ToggleOpenClose = styled.div`
   cursor:pointer;
   border-top:1px solid #f2f2f2;
   border-bottom:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(16/428)) 0;
+  }
 `
 const Text = styled.p`
   font-size:15px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
+
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 
 const WrapTradeInfo = styled(WrapItemInfo)`
@@ -483,10 +580,16 @@ const TextArea = styled.div`
   font-size:15px;font-weight:600;
   transform:skew(-0.1deg);color:#4a4a4a;
   line-height:1.33;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const MapAddress = styled.div`
   font-size:15px;color:#4a4a4a;font-weight:600;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const ChangeAddress = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
@@ -495,22 +598,39 @@ const ChangeAddress = styled.div`
 const ChangeImg = styled.img`
   display:inline-block;
   width:13px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(13/428));
+  }
 `
 const ChangeMImg = styled.img`
   width:20px;margin-left:10px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));
+    margin-left:calc(100vw*(10/428));
+  }
 `
 const ChangeTxt = styled.p`
   font-size:10px;font-weight:800;transform:skew(-0.1deg);
   color:#979797;margin-left:5px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(10/428));
+    margin-left:calc(100vw*(5/428));
+  }
 `
 const MapArea = styled.div`
   width:100%;height:315px;
   background:#eee;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(312/428));
+  }
 `
-
 const BrokerInfo = styled.div`
   width:100%;padding:0 16px;
   margin-top:43px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(40/428));
+    padding:0 calc(100vw*(16/428));
+  }
 `
 const TopBox = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
@@ -518,6 +638,10 @@ const TopBox = styled.div`
   width:100%;
   margin-bottom:14px;
   padding-left:30px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(14/428));
+    padding-left:calc(100vw*(20/428));
+  }
 `
 const Tag = styled.div`
   border-radius: 15px;
@@ -529,10 +653,18 @@ const Tag = styled.div`
   font-size:15px;color:#01684b;
   font-weight:600;transform:skew(-0.1deg);
   text-align:center;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(30/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(10/428));
+    font-size:calc(100vw*(15/428));margin-right:calc(100vw*(5/428));
+  }
 `
 const MiddleBox = styled.div`
   padding:0 30px;
   display:flex;justify-content:space-between;align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    padding:0 calc(100vw*(20/428));
+  }
 `
 const LeftContent = styled.div`
 `
@@ -542,12 +674,20 @@ const BrokerName = styled.div`
   font-size:25px;font-weight:800;transform:skew(-0.1deg);
   color:#4a4a4a;
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(25/428));
+    margin-bottom:calc(100vw*(13/428));
+  }
 `
 const BrokerAddress = styled.div`
   display:inline-block;
   font-size:15px;color:#4a4a4a;
   font-weight:700;transform:skew(-0.1deg);
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(13/428));
+  }
 `
 
 const ColorOrange = styled.span`
@@ -556,6 +696,10 @@ const ColorOrange = styled.span`
   vertical-align:middle;
   margin-left:3px;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-left:calc(100vw*(3/428));
+  }
 `
 const SellList = styled.div`
   width:100%;display:flex;
@@ -564,17 +708,28 @@ const SellList = styled.div`
 const List = styled(ColorOrange)`
   color:#4a4a4a;
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(7/428));
+  }
 `
 const Part = styled.div`
   display:inline-block;
   width:1px;height:12px;
   background:#4a4a4a;
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(7/428));
+    height:calc(100vw*(10/428));
+  }
 `
 
 const RightContent = styled.div`
   position:relative;
   width:95px;height:95px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(95/428));
+    height:calc(100vw*(95/428));;
+  }
 `
 const ItemImg = styled.img`
   width:100%;height:100%;
@@ -588,6 +743,10 @@ const BottomBox = styled.div`
   border-radius: 20px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
   border: solid 3px #efefef;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(84/428));
+    margin:calc(100vw*(60/428)) 0 calc(100vw*(30/428));
+  }
 `
 const ToCall = styled.div`
   position:relative;
@@ -596,14 +755,26 @@ const ToCall = styled.div`
 const BottomImg = styled.img`
   width:20px;height:20px;
   display:inline-block;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));
+    height:calc(100vw*(20/428));
+  }
 `
 const BottomTxt = styled.p`
   font-size:18px;font-weight:600;
   transform:skew(-0.1deg);margin-left:10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(18/428));
+    margin-left:calc(100vw*(10/428));
+  }
 `
 const ToChat = styled(ToCall)`
 `
 const LongPart = styled.p`
   width:1px;height:30px;background:#979797;
   margin:0 50px;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(30/428));
+    margin:0 calc(100vw*(20/428));
+  }
 `

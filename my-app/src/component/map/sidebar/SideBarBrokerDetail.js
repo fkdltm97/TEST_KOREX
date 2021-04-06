@@ -143,11 +143,19 @@ export default function SideItemDetail({historyInfo,updatePageIndex,setHistoryIn
           <SideSubTitle title={"럭키 공인중개사"} updatePageIndex={updatePageIndex} historyInfo={historyInfo}/>
           <SideBarBrokerDetailCont setHistoryInfo={setHistoryInfo}/>
           <BrokerSorting/>
-          <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={2}/>
+          <WrapItemCont>
+            <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={2}/>
+          </WrapItemCont>
         </Container>
   );
 }
 
 const Container = styled.div `
   width:100%;
+`
+const WrapItemCont = styled.div `
+  width:100%;
+  @media ${(props) => props.theme.mobile} {
+    padding:0 calc(100vw*(20/428));
+  }
 `

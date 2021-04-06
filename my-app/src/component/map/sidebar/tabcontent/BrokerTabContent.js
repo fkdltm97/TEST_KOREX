@@ -105,12 +105,19 @@ const TabContent = styled.div`
   padding:25px 27px 0 27px;margin-top:17px;
   margin-bottom:17px;
   border-top:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(25/428)) calc(100vw*(0/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const TopBox = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   flex-wrap:wrap;
   width:100%;
   margin-bottom:14px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(14/428));
+  }
 `
 const Tag = styled.div`
   border-radius: 15px;
@@ -122,6 +129,12 @@ const Tag = styled.div`
   font-size:15px;color:#01684b;
   font-weight:600;transform:skew(-0.1deg);
   text-align:center;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(30/428));
+    padding: calc(100vw*(6/428)) calc(100vw*(10/428));
+    font-size:calc(100vw*(14/428));
+    margin-right:calc(100vw*(5/428));
+  }
 `
 const BottomBox = styled.div`
   display:flex;justify-content:space-between;align-items:center;
@@ -134,12 +147,20 @@ const Name = styled.div`
   font-size:25px;font-weight:800;transform:skew(-0.1deg);
   color:#4a4a4a;
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(20/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const Address = styled.div`
   display:inline-block;
   font-size:15px;color:#4a4a4a;
   font-weight:700;transform:skew(-0.1deg);
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 
 const ColorOrange = styled.span`
@@ -148,6 +169,10 @@ const ColorOrange = styled.span`
   vertical-align:middle;
   margin-left:3px;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    margin-left:calc(100vw*(3/428));
+  }
 `
 const SellList = styled.div`
   width:100%;display:flex;
@@ -156,17 +181,28 @@ const SellList = styled.div`
 const List = styled(ColorOrange)`
   color:#4a4a4a;
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(6/428));
+  }
 `
 const Part = styled.div`
   display:inline-block;
   width:1px;height:12px;
   background:#4a4a4a;
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(6/428));
+    height:calc(100vw*(12/428));
+  }
 `
 
 const RightContent = styled.div`
   position:relative;
   width:95px;height:95px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(95/428));
+    height:calc(100vw*(95/428));
+  }
 `
 const ItemImg = styled.img`
   width:100%;height:100%;

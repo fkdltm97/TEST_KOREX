@@ -83,6 +83,10 @@ const TabContent = styled.div`
   padding:30px 27px 0 27px;margin-top:17px;
   margin-bottom:30px;
   border-top:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(24/428)) calc(100vw*(12/428)) 0;
+    margin-bottom:calc(100vw*(24/428));
+  }
 `
 const TopBox = styled.div`
   display:block;
@@ -93,11 +97,19 @@ const Title= styled.h2`
   font-size:25px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   margin-bottom:10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(20/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const Address = styled.p`
   font-size:15px;color:#707070;
   margin-bottom:10px;
-  font-weight:600;transform:skew(-0.1deg);
+  font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const DanjiInfo = styled.div`
   display:flex;justify-content:flex-start;align-item:center;
@@ -108,6 +120,9 @@ const Date = styled(Address)`
 `
 const Price = styled(Date)`
   margin:0 8px;
+  @media ${(props) => props.theme.mobile} {
+    margin:0 calc(100vw*(8/428));
+  }
 `
 const Floor = styled(Date)`
 `
@@ -119,4 +134,7 @@ const LeftImg = styled.div`
 const Img = styled.img`
   width:10px;
   display:inline-block;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(10/428));
+  }
 `

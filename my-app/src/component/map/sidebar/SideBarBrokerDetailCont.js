@@ -120,18 +120,30 @@ const TopContent = styled.div`
   padding:25px 0;
   margin-bottom:17px;
   border-bottom:8px solid #e4e4e4;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    padding:calc(100vw*(25/428)) 0;
+  }
 `
 const ProfileDetail = styled.div`
   position:relative;
   width:100%;
   padding:0 40px;
   margin-bottom:24px;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    padding:0 calc(100vw*(30/428));
+    margin-bottom:calc(100vw*(20/428));
+  }
 `
 const TopBox = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   flex-wrap:wrap;
   width:100%;
   margin-bottom:14px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(15/428));
+  }
 `
 const Tag = styled.div`
   border-radius: 15px;
@@ -143,6 +155,12 @@ const Tag = styled.div`
   font-size:15px;color:#01684b;
   font-weight:600;transform:skew(-0.1deg);
   text-align:center;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(30/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(10/428));
+    margin-right:calc(100vw*(5/428));
+    font-size:calc(100vw*(15/428));
+  }
 `
 const BottomBox = styled.div`
   display:flex;justify-content:space-between;align-items:center;
@@ -155,12 +173,20 @@ const Name = styled.div`
   font-size:25px;font-weight:800;transform:skew(-0.1deg);
   color:#4a4a4a;
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(25/428));
+    margin-bottom:calc(100vw*(13/428));
+  }
 `
 const Address = styled.div`
   display:inline-block;
   font-size:15px;color:#4a4a4a;
   font-weight:700;transform:skew(-0.1deg);
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(13/428));
+  }
 `
 
 const ColorOrange = styled.span`
@@ -169,6 +195,10 @@ const ColorOrange = styled.span`
   vertical-align:middle;
   margin-left:3px;
   font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-left:calc(100vw*(3/428));
+  }
 `
 const SellList = styled.div`
   width:100%;display:flex;
@@ -177,18 +207,28 @@ const SellList = styled.div`
 const List = styled(ColorOrange)`
   color:#4a4a4a;
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(7/428));
+  }
 `
 const Part = styled.div`
   display:inline-block;
   width:1px;height:12px;
   background:#4a4a4a;
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(7/428));
+    height:calc(100vw*(10/428));
+  }
 `
 
 const InfoDetail = styled.div`
   width:100%;
   padding:22px 0;
   background:#fbfbfb;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(20/428)) 0;
+  }
 `
 const Icon = styled.img`
   display:inline-block;
@@ -208,6 +248,10 @@ const SubTitle = styled.p`
 const RightContent = styled.div`
   position:relative;
   width:95px;height:95px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(95/428));
+    height:calc(100vw*(95/428));
+  }
 `
 const ItemImg = styled.img`
   width:100%;height:100%;
@@ -261,6 +305,12 @@ const CallBox = styled.div`
   border-radius: 20px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
   border: solid 3px #efefef;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(398/428));
+    height:calc(100vw*(84/428));
+    padding:0;
+    margin:calc(100vw*(14/428)) auto 0;
+  }
 `
 const ToCall = styled.div`
   position:relative;
@@ -269,14 +319,27 @@ const ToCall = styled.div`
 const BottomImg = styled.img`
   width:20px;height:20px;
   display:inline-block;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));
+    height:calc(100vw*(20/428));
+  }
 `
 const BottomTxt = styled.p`
-  font-size:18px;font-weight:600;
+  font-size:18px;font-weight:800;
   transform:skew(-0.1deg);margin-left:10px;
+  color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(18/428));
+    margin-left:calc(100vw*(10/428));
+  }
 `
 const ToChat = styled(ToCall)`
 `
 const LongPart = styled.p`
   width:1px;height:30px;background:#979797;
   margin:0 50px;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(30/428));
+    margin:0 calc(100vw*(40/428));
+  }
 `

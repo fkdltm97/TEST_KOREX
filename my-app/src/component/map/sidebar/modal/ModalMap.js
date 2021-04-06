@@ -79,7 +79,7 @@ const ModalMapBg = styled.div`
   position:fixed;left:0;top:0;
   background:rgba(0,0,0,0.2);
   display:block;content:'';
-  z-index:2;
+  z-index:3;
 `
 const ModalMap = styled.div`
   position:absolute;

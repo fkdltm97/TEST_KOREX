@@ -3,7 +3,7 @@ const size = {
   tablet:"1700px",
   container : "1436px",
   mobile: "1024px",
-  loginRow: "710px",
+  modal: "600px",
 }
 
 export default function theme() {
@@ -12,6 +12,6 @@ export default function theme() {
     tablet: `(max-width: ${size.tablet})`,
     container: `(max-width: ${size.container})`,
     mobile: `(max-width: ${size.mobile})`,
-    loginRow: `(max-width: ${size.loginRow})`,
+    modal: `(max-width: ${size.modal})`,
   }
 }

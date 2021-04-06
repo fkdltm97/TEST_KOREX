@@ -93,6 +93,10 @@ const DanjiWidthList = styled.div`
   margin-top:35px;
   padding:0 22px;
   border-bottom:1px solid #f2f2f2;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(35/428));
+    padding:0 calc(100vw*(20/428));
+  }
 `
 const SwiperBennerWrap = styled.div`
 `
@@ -106,6 +110,10 @@ const Width = styled.p`
   transition:all 0.3s;
   color:${({active}) => active ? "#01684b" : "#707070"};
   font-weight:${({active}) => active ? 800 : 600};
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    padding-bottom:0 calc(100vw*(22/428));
+  }
 `
 const Line = styled.p`
   position:absolute;
@@ -115,4 +123,7 @@ const Line = styled.p`
   display:block;content:'';background:#01684b;
   transition:all 0.2s;
   opacity:${({active}) => active ? 1 : 0};
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(3/428));
+  }
 `

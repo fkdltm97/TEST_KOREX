@@ -19,7 +19,7 @@ import { Mobile, PC } from "../../MediaQuery";
 export default function MainHeader({openHouse, rank}) {
   const options = useMemo(
            () => [
-               { value: "아파트", label: "아파트"},
+              { value: "아파트", label: "아파트"},
               { value: "오피스텔", label: "오피스텔" },
               { value: "상가", label: "상가" },
               { value: "사무실", label: "사무실" },
@@ -42,6 +42,7 @@ export default function MainHeader({openHouse, rank}) {
                     <Option>상가</Option>
                     <Option>사무실</Option>
                   </SearchSelect>
+                  <Line/>
                   <SearchInput type="search" name=""/>
                   <SearchBtn type="submit" name=""/>
                 </HeaderSearch>
@@ -67,21 +68,12 @@ export default function MainHeader({openHouse, rank}) {
                       <Option>상가</Option>
                       <Option>사무실</Option>
                     </SearchSelect>
+                    <Line/>
                     <SearchInput type="search" name=""/>
                     <SearchBtn type="submit" name=""/>
                   </HeaderSearch>
               </HederLogo>
               <HeaderRight>
-                  {
-                    rank ?
-                    <Link to="/MbHouse">
-                      <BunyangColor>분양</BunyangColor>
-                    </Link>
-                    :
-                    <Link to="/MbHouse">
-                      <Bunyang>분양</Bunyang>
-                    </Link>
-                  }
                 <Link to="/Mypage">
                   <MyImg src={Mypage}/>
                 </Link>
@@ -102,6 +94,7 @@ const Container = styled.header`
     @media ${(props) => props.theme.mobile} {
           width:100%;
           height:calc(100vw*(64/428));
+          z-index:3;
       }
 `
 const WrapHeader = styled.div`
@@ -198,25 +191,57 @@ const HeaderSearch = styled.div`
   border-radius:9px;
   padding:0 15px 0 20px;
   background:#f8f7f7;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(263/428));
+      height:calc(100vw*(41/428));
+      margin-left:calc(100vw*(9/428));
+      padding:0 calc(100vw*(12/428));
+    }
 `
 const SearchSelect = styled.select`
   width:110px;height:100%;
-  padding-left:20px;
   appearance:none;color:#ff7b01;font-size:17px;font-weight:800;transform:skew(-0.1deg);
   background:url(${Arrow}) no-repeat 90% center; background-size:16px 10px;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(85/428));
+      font-size:calc(100vw*(13/428));
+      padding-left:calc(100vw*(5/428));
+      background:url(${Arrow}) no-repeat right center;
+      background-size:calc(100vw*(8/428)) calc(100vw*(5/428));
+
+    }
 `
 const Option = styled.option`
   background:#f8f7f7;
 `
 const SearchInput = styled.input`
-  poisition:relative;
+  position:relative;
   background:none;
-  width:70%;padding-left:22px;
+  width:70%;padding-left:10px;
   height:100%;font-size:16px;color:#4a4a4a;font-weight:700;
   transform:skew(-0.1deg);
-  &::before{position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:19px;background:#707070;}
+  @media ${(props) => props.theme.mobile} {
+      padding-left:calc(100vw*(10/428));
+      font-size:calc(100vw*(13/428));
+      font-weight:800;
+    }
 `
+const Line = styled.span`
+  display:block;
+  width:1px;height:19px;background:#707070;
+  margin-left:20px;
+  @media ${(props) => props.theme.mobile} {
+      width:1px;height:calc(100vw*(15/428));
+      margin-left:calc(100vw*(10/428));
+    }
+`
+
 const SearchBtn = styled.button`
   width:30px;height:30px;
   background:url(${Search}) no-repeat center center;background-size:19px 18px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(28/428));
+    height:calc(100vw*(28/428));
+    background-size:calc(100vw*(17/428)) calc(100vw*(16/428));
+    }
 `
