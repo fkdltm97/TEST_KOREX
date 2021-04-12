@@ -16,7 +16,21 @@ import styled from "styled-components"
 
 import { Mobile, PC } from "../MediaQuery"
 
+//added redux actions go
+import { useSelector} from 'react-redux';
+import { MyActions , UserActions, tempRegisterUserdataActions } from '../store/actionCreators';
+
 export default function MainPage() {
+
+  const my = useSelector(data => data.my);
+  const users = useSelector(data => data.user);
+  const tempregisteruserdata = useSelector(data => data.temp_register_userdata);
+  
+  console.log('메인페이지 mainpage page element실행==================');
+  console.log('data.my globe info refer:',my);
+  console.log('data.users globe info refer:',users);
+  console.log('data.temp_register_userdata refer info:',tempregisteruserdata, tempRegisterUserdataActions);
+
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}

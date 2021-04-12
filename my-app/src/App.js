@@ -46,7 +46,18 @@ import MyLike from './page/member/mypage/MyLike';
 /*map*/
 import Map from './page/map/Map';
 
+/*added devlop redux elements 설정등 추가*/
+import { useSelector } from 'react-redux';
+import { MyActions, UserActions} from './store/actionCreators';
+
 export default function App(){
+  
+  console.log('App js 실행================================');
+    const my= useSelector(data => data.my);
+    const users= useSelector(data => data.user);
+
+    console.log('data.my globe info refer:',my);
+    console.log('data.users globe info refer:',users);
 
   return (
         <Router>

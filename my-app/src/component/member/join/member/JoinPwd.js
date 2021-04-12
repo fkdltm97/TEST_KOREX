@@ -2,7 +2,6 @@
 import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -12,11 +11,15 @@ import WrapPwd from "../../../../img/member/pwdwrap.png";
 import WrapPwdMb from "../../../../img/member/mb_pwdwrap.png";
 import Close from "../../../../img/main/modal_close.png";
 
-export default function JoinInput({pwd,pwdShow,setPwdShow,setPwd,setPwdConfirm,setActive}) {
+export default function JoinInput({pwd,pwdShow,setPwdShow,setPwd,setPwdConfirm,pwdConfirm,setActive}) {
 
-    const pwdChange = (e) =>{ setPwd(e.target.value); }
-    const pwdConfirmChange = (e) =>{ setPwdConfirm(e.target.value); }
-
+    const pwdChange = (e) =>{ 
+      setPwd(e.target.value); 
+    }
+    const pwdConfirmChange = (e) =>{
+       setPwdConfirm(e.target.value);
+    }
+    
 
     return (
         <Container>
