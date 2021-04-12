@@ -19,6 +19,7 @@ import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
 
 export default function Join() {
+  console.log('page > member > join 페이지컴포넌트실행===============');
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}

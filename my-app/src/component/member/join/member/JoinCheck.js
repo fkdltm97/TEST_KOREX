@@ -9,9 +9,90 @@ import styled from "styled-components"
 import AllImg from "../../../../img/member/all_check.png";
 import Check from "../../../../img/member/check.png";
 import Checked from "../../../../img/member/checked.png";
-export default function JoinSns({pwd, pwdConfirm, active}) {
+
+//redux데이터 접근, submit시에 보내기(쿠키저장?, 상태값 데이터 유지됀것 받아서 보내기)
+import { useSelector } from 'react-redux';
+import { tempRegisterUserdataActions } from '../../../../store/actionCreators';
+
+export default function JoinSns({agreeStatus, setAgreeStatus, setActive, active, agreePossible, setAgreePossible , member_submit_function}) {
     //전체 선택 체크박스 ! !
-    const [allCheck, setAllCheck] = useState(false);
+    const [allCheck, setAllCheck] = useState(false);//여기 자체의 값(올체크 여부)
+    
+    const tempregisteruserdata = useSelector(data => data.temp_register_userdata);
+
+    console.log('data.temp_register_userdata refer info:',tempregisteruserdata, tempRegisterUserdataActions);
+
+    //전체 체크박스 체크상태변화여부
+    const allcheck_status_change = (e) =>{
+       console.log('전체동의체크박스 체크여부 상태 변화발생:',e,e.target);
+       
+       console.log('체크여부상태:',e.target.checked);//체크를 한경우에(클릭시에 체크가 된 경우)에는 모두 체크한다.
+
+       let agree_status_string='';
+
+       if(e.target.checked){
+         setAllCheck(true);//allCheck true상태.
+         console.log(document.getElementsByClassName('agree_checks'));
+         let agree_checks=document.getElementsByClassName('agree_checks');
+         
+         for(let i=0; i<agree_checks.length; i++){
+           agree_checks[i].checked=true;
+           if(i == agree_checks.length-1){
+            agree_status_string += (agree_checks[i].id);
+           }else{
+             agree_status_string += (agree_checks[i].id+',');
+           }           
+         }
+         //올 체크를 했기에 필수도 다 체크됐기에 통과이다.
+         setAgreePossible(true);
+       }else{
+         setAllCheck(false);
+         let agree_checks=document.getElementsByClassName('agree_checks');
+         for(let i=0; i<agree_checks.length; i++){
+          agree_checks[i].checked=false;
+        }
+        agree_status_string='';
+        //모두 체크해제했기에 필수 해제됐기에 비통과이다.
+        setAgreePossible(false);
+       }
+       setAgreeStatus(agree_status_string); 
+       console.log('agree_status_string:',agree_status_string);     
+    }
+    //동의 체크박스 개개별 체크상태변화여부
+    const agreecheck_status_change = (e) => {
+      console.log('동의체크박스 개개별 체크 여부 상태 변화발생간주(click):',e,e.target);
+
+      let agree_status_string='';//이게 필요한 이유는 필수 다 택한것은 기본조건이고, 마케팅정보수신 agree_optional체크여부 포함여부 확인위함.마케팅정보수신동의했는지알기위함
+      let agree_check_array=[];
+
+      let agree_checks= document.getElementsByClassName('agree_checks');
+
+      for(let i=0; i<agree_checks.length; i++){
+        if(agree_checks[i].checked){
+          agree_check_array.push(agree_checks[i].id);       
+        }        
+      }
+      agree_status_string=agree_check_array.join(',');
+      //체크상태여부 단지 문자열 저장
+      setAgreeStatus(agree_status_string);
+      console.log('agree_status_string:',agree_status_string);
+
+      //체크한 대상들중에서 필수항목들 네개가 모두 체크됀지 여부 판단(통과/비통과 true,false)
+      let essential_check_count=0;
+      for(let j=0; j<agree_check_array.length; j++){
+        if(agree_check_array[j].indexOf('essential')!=-1){
+          //essenttial(id명)필수항목명 string을 포함하는 선택지의 개수만을 카운팅한다.
+          essential_check_count++;
+        }
+      }
+      console.log('필수항목 체크 동의수:',essential_check_count);
+      if(essential_check_count >= 4){
+        setAgreePossible(true);
+      }else{
+        setAgreePossible(false);
+      }
+    }
+  
 
     return (
         <Container>
@@ -19,7 +100,7 @@ export default function JoinSns({pwd, pwdConfirm, active}) {
           <AgreeAll>
             <WrapAllCheck>
               <Checkbox>
-                <AllCheck type="checkbox" name="" id="all_check"></AllCheck>
+                <AllCheck type="checkbox" name="" id="all_check" onClick={allcheck_status_change}></AllCheck>
                 <AllCheckLabel for="all_check" className="check_label">
                 <AllCheckImg className="chk_on_off"></AllCheckImg>
                    전체동의
@@ -33,15 +114,15 @@ export default function JoinSns({pwd, pwdConfirm, active}) {
             <WrapCheck>
               <CheckList>
                 <List>
-                  <ListCheck type="checkbox" name="" id="list_check"></ListCheck>
-                  <ListCheckLabel for="list_check" className="check_label">
+                  <ListCheck type="checkbox" className='agree_checks' name="" id="agree_essential1" onClick={agreecheck_status_change}></ListCheck>
+                  <ListCheckLabel for="agree_essential1" className="check_label">
                     <ListCheckImg className="chk_on_off"></ListCheckImg>
                      (필수) 만14세 이상입니다.
                   </ListCheckLabel>
                 </List>
                 <List>
-                  <ListCheck type="checkbox" name="" id="list_check1"></ListCheck>
-                  <ListCheckLabel for="list_check1" className="check_label">
+                  <ListCheck type="checkbox" className='agree_checks'  name="" id="agree_essential2" onClick={agreecheck_status_change}></ListCheck>
+                  <ListCheckLabel for="agree_essential2" className="check_label">
                     <ListCheckImg className="chk_on_off"></ListCheckImg>
                      (필수) 이용약관 동의
                   </ListCheckLabel>
@@ -50,8 +131,8 @@ export default function JoinSns({pwd, pwdConfirm, active}) {
                   </ViewListTerm>
                 </List>
                 <List>
-                  <ListCheck type="checkbox" name="" id="list_check2"></ListCheck>
-                  <ListCheckLabel for="list_check2" className="check_label">
+                  <ListCheck type="checkbox" className='agree_checks'  name="" id="agree_essential3" onClick={agreecheck_status_change}></ListCheck>
+                  <ListCheckLabel for="agree_essential3" className="check_label">
                     <ListCheckImg className="chk_on_off"></ListCheckImg>
                      (필수) 개인정보 수집 및 이용 동의
                   </ListCheckLabel>
@@ -60,8 +141,8 @@ export default function JoinSns({pwd, pwdConfirm, active}) {
                   </ViewListTerm>
                 </List>
                 <List>
-                  <ListCheck type="checkbox" name="" id="list_check3"></ListCheck>
-                  <ListCheckLabel for="list_check3" className="check_label">
+                  <ListCheck type="checkbox" className='agree_checks'  name="" id="agree_essential4" onClick={agreecheck_status_change}></ListCheck>
+                  <ListCheckLabel for="agree_essential4" className="check_label">
                     <ListCheckImg className="chk_on_off"></ListCheckImg>
                      (필수) 개인정보 제3자 제공 동의
                   </ListCheckLabel>
@@ -70,8 +151,8 @@ export default function JoinSns({pwd, pwdConfirm, active}) {
                   </ViewListTerm>
                 </List>
                 <List>
-                  <ListCheck type="checkbox" name="" id="list_check4"></ListCheck>
-                  <ListCheckLabel for="list_check4" className="check_label">
+                  <ListCheck type="checkbox" className='agree_checks' name="" id="agree_optional" onClick={agreecheck_status_change}></ListCheck>
+                  <ListCheckLabel for="agree_optional" className="check_label">
                     <ListCheckImg className="chk_on_off"></ListCheckImg>
                      (선택) 마케팅 정보 수신 동의
                   </ListCheckLabel>
@@ -80,7 +161,7 @@ export default function JoinSns({pwd, pwdConfirm, active}) {
             </WrapCheck>
           </AgreeAll>
         {/*가입 버튼*/}
-          <JoinBtn type="submit" name="" active={active}>가입</JoinBtn>
+          <JoinBtn type="submit" name="" active={active} onClick={member_submit_function}>가입</JoinBtn>
         </Container>
   );
 }

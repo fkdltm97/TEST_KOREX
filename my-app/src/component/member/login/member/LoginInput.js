@@ -1,28 +1,58 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
 
 export default function JoinInput() {
+
+  console.log('member>login 개인로그인 페이지 랜더링');
+  console.log('ServercONTOLLER:',serverController.connectFetchController);
+
   const [email,setEmail] = useState("");/*기본값*/
   const [pwd,setPwd] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
+  
+  const [authError,setAuthError] = useState(false);//authError가 true이면 보이고, false이면 안보이게처리.
 
-  const emailChange = (e) =>{ setEmail(e.target.value); }
-  const pwdChange = (e) =>{ setPwd(e.target.value); }
+  const emailChange = (e) =>{
+     setEmail(e.target.value); 
+  }
+  const pwdChange = (e) =>{ 
+    setPwd(e.target.value);
+  }
 
   const checkVaildate = () =>{
     return email.length > 10 && pwd.length > 7
-   }
+  }
    useEffect(()=>{
+     console.log('MEMBERLOGIN INPUTS >> USEEFFECT호출 상태변화===============',email,pwd);
      if(checkVaildate())
-             setActive(true);
+        setActive(true);
      else
-         setActive(false);
+        setActive(false);
    },)
+
+   //로그인 버튼(submit)발생시에 요청 실행
+   const member_login_submit = async (e) => {
+      console.log('member_login_submit 개인 로그인 submit onclick발생=================',email,pwd,active);
+
+      //이메일,암호 입력
+      if(active == true){
+        let body_info= {
+          login_email: email,
+          login_password: pwd
+        };
+        console.log('JSON.STIRNGIFY(BODY_INFO):',JSON.stringify(body_info));
+        
+        let res= await serverController.connectFetchController(`auth/member/login`,"POST",JSON.stringify(body_info),function(){},function(test){console.log(test)});
+        console.log('res results:',res);
+       // alert(res);
+        //로그인 성공시 페이지 이동->>>
+      }
+   }
 
     return (
         <Container>
@@ -33,10 +63,10 @@ export default function JoinInput() {
               <InputTitle>비밀번호</InputTitle>
               <Input type="password" name="" placeholder="비밀번호를 입력해주세요." onChange={pwdChange}/>
               {/*아이디 또는 비밀번호가 일치하지 않을때 Msg*/}
-              <ErrorMsg>아이디 또는 비밀번호가 일치하지 않습니다.</ErrorMsg>
+              <ErrorMsg authError={authError}>아이디 또는 비밀번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
-              <Submit type="submit" name="" active={active}>로그인</Submit>
+              <Submit type="submit" name="" active={active} onClick={member_login_submit}>로그인</Submit>
               <BottomBtns>
                 <Div>
                   <Link to="/MemberJoin">

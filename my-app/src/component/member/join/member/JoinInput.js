@@ -1,16 +1,31 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
 
+//added redux actions go
+import { useSelector} from 'react-redux';
+import { MyActions , UserActions, tempRegisterUserdataActions } from '../../../../store/actionCreators';
+
 export default function JoinInput() {
+  console.log('compoent>member>joininput 컴포넌트 싫앵==================');
+
+  const my = useSelector(data => data.my);
+  const users = useSelector(data => data.user);
+  const tempregisteruserdata = useSelector(data => data.temp_register_userdata);
+
+  console.log('data.my globe info refer:',my);
+  console.log('data.users globe info refer:',users);
+  console.log('data.temp_register_userdata refer info:',tempregisteruserdata, tempRegisterUserdataActions);
+
   const [email,setEmail] = useState("");/*기본값*/
   const [name,setName] = useState("");/*기본값*/
   const [phone,setPhone] = useState("");/*기본값*/
   const [cernum,setCernum] = useState("");/*기본값*/
+  const [verify_cernum,setVerify_cernum] = useState("");
 
   const [active,setActive] = useState(false);
   const [active2,setActive2] = useState(false);
@@ -19,25 +34,68 @@ export default function JoinInput() {
   const nameChange = (e) =>{ setName(e.target.value); }
   const phoneChange = (e) =>{ setPhone(e.target.value); }
   const cernumChange = (e) =>{ setCernum(e.target.value); }
+  
+  const coolSmsSend= async (e) => { 
+    console.log('coolsmsSend발송 함수 호출, member joininput 요소 고유 email,name,phone,cernum값등 조회 현재의값',email,name,phone);
+    
+    let body_info={ number: phone };
+    let res = await serverController.connectFetchController(`coolsms/sendprocess`,"POST",JSON.stringify(body_info));
+    console.log('res result:',res);
+    /*
+    return fetch("http://localhost:55550/sendprocess",{
+      credentials:'include',
+      method:'POST',
+      body:body_info?body_info:null
+    }).then(function(res){
+      console.log('res json _>>>:',res);
+      return res.json();
+    }).catch(function(e){
+
+    });*/
+    setVerify_cernum(res.sms_message);
+  }
 
   const checkVaildate = () =>{
+    console.log('useEffect로 내부의 임의 프로퍼티내부값의 하나적 미시적 변화감지하여 함수 호출:',email,name,phone,cernum,verify_cernum);
     return email.length > 10 && name.length > 2 && phone.length > 9
    }
 
-   const checkVaildate2 = () =>{
-     return email.length > 10 && name.length > 2 && phone.length > 9 && cernum.length > 4
+   const cernum_checkValidate = () =>{
+     console.log('현재 변화요소에 따른 프로퍼티 value값들:',email,name,phone,cernum,verify_cernum);
+     return cernum.length >= 4 && cernum == verify_cernum;
+    }
+
+    const nextStep = (e) =>{
+      console.log('nextStep 다음 스탭a링크 클릭:',e,e.target);
+
+      if(cernum_checkValidate()){
+        setActive2(true);
+        console.log('인증번호 인증 통과시엔 통과되게끔');
+
+        //다음단계로 통과시에 데이터 저장하여 넘어가게끔 redux에 저장하기. 여기엔 우선 이메일,이름,휴대폰,인증번호(제대로한것) 전달한다
+        console.log('현재 최종적 확인update값:',name,email,phone);
+
+        tempRegisterUserdataActions.emailchange({emails: email});
+        tempRegisterUserdataActions.namechange({names: name});
+        tempRegisterUserdataActions.phonechange({phones: phone});
+
+      }else{
+        setActive2(false);
+        console.log('인증번호 관련 인증 미통과시엔 이동 기본이벤트 막기');
+        e.preventDefault();
+      }
     }
 
    useEffect(()=>{
      if(checkVaildate())
-             setActive(true);
+        setActive(true);
      else
          setActive(false);
 
-     if(checkVaildate2())
-             setActive2(true);
+     if(cernum_checkValidate())
+        setActive2(true);
      else
-         setActive2(false);
+        setActive2(false);
    },)
 
     return (
@@ -51,15 +109,15 @@ export default function JoinInput() {
               <InputTitle>휴대전화</InputTitle>
               <Input type="text" name="" placeholder="휴대번호를 '-'를 빼고 입력해주세요." onChange={phoneChange}/>
               {/*NextBtn(인증번호발송) 버튼 눌렀을때 show*/}
-              <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요." onChange={cernumChange} style={{display:"none"}}/>
+              <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요." onChange={cernumChange} />
               {/*인증번호가 일치하지 않을때 Msg*/}
               <ErrorMsg style={{display:"none"}}>휴대전화 인증번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
-                <NextBtn type="button" name="" active={active}>인증번호 발송</NextBtn>
+                <NextBtn type="button" name="" active={active} onClick={coolSmsSend}>인증번호 발송</NextBtn>
                 {/*NextBtn(인증번호발송) 눌렀을때 show*/}
-                <Link to="/MemJoinAgree">
-                  <Submit type="submit" name="" active2={active2} style={{display:"none"}}>다음</Submit>
+                <Link to="/MemJoinAgree" onClick={nextStep}>
+                  <Submit type="submit" name="" active2={active2} style={{display:"block"}}>다음</Submit>
                 </Link>
             </SubmitButton>
           </WrapJoinInput>
