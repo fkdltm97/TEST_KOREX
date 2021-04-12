@@ -49,6 +49,13 @@ export default function Request({setFilter,value,type}) {
       return "#979797"
     }
   }
+  const selectbg=()=>{
+    if(radion == true) {
+      return "#e4e4e4"
+    }else{
+      return "#fff"
+    }
+  }
 
   const BrokerListItem =[
   {
@@ -202,7 +209,6 @@ const TopTitle = styled.h2`
 `
 const WrapFlexBox = styled.div`
   width:500px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
-  border-bottom:1px solid #f2f2f2;
 `
 const Radiobox = styled.div`
   margin-right:20px;
@@ -220,9 +226,12 @@ const TopContent = styled.div`
   position:relative;
   width:100%;
   padding:25px 0;
+  border-bottom: 1px solid #f2f2f2;
+
   @media ${(props) => props.theme.mobile} {
     width:100%;
     padding:calc(100vw*(25/428)) 0;
+
   }
 `
 const ProfileDetail = styled.div`

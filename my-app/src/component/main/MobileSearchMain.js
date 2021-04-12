@@ -14,8 +14,10 @@ export default function MobileSearch() {
         <WrapMainSearch>
             <Link to="/MbSearch" className="data_link"></Link>
             <MainSearch>
-              <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색"></SearchInput>
-              <SearchBtn type="submit" name=""></SearchBtn>
+              <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색"/>
+              <Link to="/Map">
+                <SearchBtn type="submit" name=""/>
+              </Link>
             </MainSearch>
         </WrapMainSearch>
     </Container>
