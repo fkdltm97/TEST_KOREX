@@ -15,16 +15,17 @@ import Call from "../../../../img/main/call.png";
 import Live from "../../../../img/main/live.png";
 import Chat from "../../../../img/main/chat.png";
 import Heart from "../../../../img/main/heart.png";
+import HeartCheck from "../../../../img/main/heart_check.png";
 import BackBtn from '../../../../img/notice/back_btn.png';
 
 SwiperCore.use([]);
-export default function HouseDetail({openLive, openDetailImg}){
+export default function HouseDetail({setLive, setDetailImg}){
     return (
       <Container>
         <WrapDetail>
           <LeftDetail>
             <HouseImg>
-              <Link onClick={()=>{openDetailImg(true)}}>
+              <Link onClick={()=>{setDetailImg(true)}}>
                 <Img src={SwipImg}/>
               </Link>
             </HouseImg>
@@ -47,7 +48,7 @@ export default function HouseDetail({openLive, openDetailImg}){
                 <Txt>방문예약</Txt>
               </Button>
               <Button>
-                <Link onClick={()=>{openLive(true)}} className="data_link"></Link>
+                <Link onClick={()=>{setLive(true)}} className="data_link"></Link>
                 <IconImg src={Live}/>
                 <Txt>Live 시청예약</Txt>
               </Button>
@@ -235,6 +236,7 @@ const LikeBtn = styled.div`
 `
 const Like = styled.input`
   display:none;
+  &:checked + .check_label{width:calc(100vw*(29/428));height:calc(100vw*(29/428));background:url(${HeartCheck}) no-repeat center center;background-size:calc(100vw*(17/428)) calc(100vw*(17/428));}\
 `
 const Label = styled.label`
   display:inline-block;

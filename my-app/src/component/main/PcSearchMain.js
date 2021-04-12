@@ -19,7 +19,9 @@ export default function PcSearchMain() {
         <WrapMainSearch>
             <MainSearch>
               <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색" onClick={() =>{setSearchShow(true)}}/>
-              <SearchBtn type="submit" name=""></SearchBtn>
+              <Link to="/Map">
+                <SearchBtn type="submit" name=""/>
+              </Link>
             </MainSearch>
         {/*검색 기록 관련_SearchResult... */}
         {

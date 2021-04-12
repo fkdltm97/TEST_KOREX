@@ -41,6 +41,11 @@ import Reservation from './page/member/mypage/Reservation';
 import Team from './page/member/mypage/Team';
 import CompanyProfile from './page/member/mypage/CompanyProfile';
 import Request from './page/member/mypage/Request';
+import AddRequest from './page/member/mypage/AddRequest';//중개의뢰 추가 페이지
+import AddRequestSecond from './page/member/mypage/AddRequestSecond';// 중개의뢰 > 기본정보입력
+import AddRequestBroker from './page/member/mypage/AddRequestBroker'//중개의뢰 > 중개사 선택
+import AddRequestBrokerSecond from './page/member/mypage/AddRequestBrokerSecond'//중개의뢰 > 중개사 기본정보입력
+
 import MyLike from './page/member/mypage/MyLike';
 
 /*map*/
@@ -90,17 +95,22 @@ export default function App(){
             <Route exact path="/AgencyLogin" component={AgencyLogin}/>
 
             {/*mypage*/}
-            <Route exact path="/Mypage" component={Mypage}/>
-            <Route exact path="/Reservation" component={Reservation}/>
-            <Route exact path="/Team" component={Team}/>
-            <Route exact path="/CompanyProfile" component={CompanyProfile}/>
-            <Route exact path="/Request" component={Request}/>
-            <Route exact path="/MyLike" component={MyLike}/>
-            
+            <Route exact path="/Mypage" component={Mypage}/>{/*마이페이지 기본*/}
+            <Route exact path="/Reservation" component={Reservation}/>{/*내 물건투어예약*/}
+            <Route exact path="/Team" component={Team}/>{/*소속선택*/}
+            <Route exact path="/CompanyProfile" component={CompanyProfile}/>{/*회사 프로필설정*/}
+            <Route exact path="/Request" component={Request}/>{/*내 중개의뢰 */}
+            <Route exact path="/AddRequest" component={AddRequest}/>{/*중개의뢰 추가*/}
+            <Route exact path="/AddRequestSecond" component={AddRequestSecond}/>{/*중개의뢰>기본정보입력*/}
+            <Route exact path="/AddRequestBroker" component={AddRequestBroker}/>{/*중개의뢰 중개사 선택*/}
+            <Route exact path="/AddRequestBrokerSecond" component={AddRequestBrokerSecond}/>{/*중개의뢰 중개사 기본정보입력*/}
+            <Route exact path="/MyLike" component={MyLike}/>{/*내 관심*/}
+
             {/* mobile */}
-            <Route exact path="/MbSearch" component={MbSearch}/>
-            <Route exact path="/MbHouse" component={MbHouse}/>
-            <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>
+            <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
+            <Route exact path="/MbHouse" component={MbHouse}/>{/*모바일 분양리스트*/}
+            <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>{/*모바일 분양상세페이지*/}
+
             {/*map*/}
             <Route exact path="/Map" component={Map}/>
         </Router>

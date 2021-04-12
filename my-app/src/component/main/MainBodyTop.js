@@ -18,7 +18,7 @@ import CloseBtnImg from '../../img/main/close_btn.png';
 import { Mobile, PC } from "../../MediaQuery"
 
 export default function MainBody() {
-    const [activeIndex,setActiveIndex] = useState(-1);
+    const [activeIndex,setActiveIndex] = useState(0);
 
     return (
         <Container>
@@ -46,7 +46,7 @@ export default function MainBody() {
               </Tab>
               <Tab>
                 <Link>
-                  <TabBtn active={activeIndex == 4} onClick={()=>{setActiveIndex(4)}}>전문중개사</TabBtn>
+                  <TabBtnOn>전문중개사</TabBtnOn>
                 </Link>
               </Tab>
             </MainTab>
@@ -122,6 +122,15 @@ const TabBtn = styled.div`
       font-size:calc(100vw*(16/428));
     }
 `
+const TabBtnOn = styled.div`
+  font-size:20px;
+  color:#FE7A01;
+  font-weight:800;
+  transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(16/428));
+    }
+  `
 const Part = styled.span`
   display:inline-block;
   width:1px;

@@ -218,7 +218,7 @@ export default function HouseList({updatePageIndex}){
 
 const Container = styled.div`
   width:100%;
-  
+
 `
 const ModalTop = styled.div`
   width:100%;
@@ -420,9 +420,10 @@ const LiveView = styled.span`
   color:#fff;font-weight:800;transform:skew(-0.1deg);
   @media ${(props) => props.theme.container} {
       font-size:calc(100vw*(10/1436));
-      width:calc(100vw*(82/1436));
+      width:calc(100vw*(100/1436));
       height:calc(100vw*(25/1436));
       line-height:calc(100vw*(25/1436));
+      border-radius:4px;
     }
   @media ${(props) => props.theme.mobile} {
     position:absolute;left:calc(100vw*(90/428));top:calc(100vw*(-8/428));

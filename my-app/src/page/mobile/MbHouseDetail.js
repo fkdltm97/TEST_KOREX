@@ -32,20 +32,17 @@ export default function MainPage() {
 
   //라이브 시청 모달
   const [live, setLive] = useState(false);
-  const openLive = (onOff) =>{ setLive(onOff);}
-
   //분양 상세이미지 모달
-  const [detailImg, setDetailImg] = useState(false);
-  const openDetailImg = (onOff) =>{ setDetailImg(onOff);}
+  const [detailimg, setDetailImg] = useState(false);
 
   return (
     <>
           <MainHeader rank={true}/>
           <Container>
             <SubTitle title={"분양상세"} rank={false}/>
-            <LiveModal live={live} openLive={openLive}/>
-            <ImgDetail detailImg={detailImg} openDetailImg={openDetailImg}/>
-            <MbHouseView openLive={openLive} openDetailImg={openDetailImg}/>
+            <LiveModal live={live} setLive={setLive}/>
+            <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+            <MbHouseView setLive={setLive} setDetailImg={setDetailImg}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

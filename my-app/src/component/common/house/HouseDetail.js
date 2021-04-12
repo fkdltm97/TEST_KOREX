@@ -13,6 +13,7 @@ import SwipImg from "../../../img/main/swip_img.png";
 import Homepage from "../../../img/main/go_home.png";
 import Exit from "../../../img/main/exit.png";
 import Heart from "../../../img/main/heart.png";
+import HeartCheck from "../../../img/main/heart_check.png";
 import Call from "../../../img/main/call.png";
 import Live from "../../../img/main/live.png";
 import Chat from "../../../img/main/chat.png";
@@ -321,6 +322,8 @@ const LikeBtn = styled.div`
 `
 const Like = styled.input`
   display:none;
+  &:checked + .check_label{width:29px;height:29px;background:url(${HeartCheck}) no-repeat center center;background-size:17px 17px;}
+
 `
 const Label = styled.label`
   display:inline-block;
