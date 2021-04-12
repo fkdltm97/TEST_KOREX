@@ -29,6 +29,7 @@ export default function Request({setFilter,value,type}) {
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
   const [viewDate, setViewDate] = useState(false);//입주가능일 선택할 경우 date박스
+  const [job, setJob] = useState(false);//현재업종 선택할 경우 box show/hide
   const [modalBroker,setModalBroker] = useState(false);
 
   const rotate=()=>{
@@ -85,6 +86,26 @@ export default function Request({setFilter,value,type}) {
                   <InputBox>
                     <Label>건물명<Pilsu>*</Pilsu></Label>
                     <InputTxt type="text" placeholder="건물명을 입력하여주세요."/>
+                  </InputBox>
+          {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
+                  <InputBox style={{display:"none"}}>
+                    <Label>현재업종<Pilsu>*</Pilsu></Label>
+                    <SwitchButton>
+                      <Switch type="checkbox" id="switch_job"/>
+                      <SwitchLabel for="switch_job" onClick={()=>{setJob(!job)}}>
+                        <SwitchSpan/>
+                        <SwithTxtOff className="no">없음</SwithTxtOff>
+                        <SwithTxtOn className="yes">있음</SwithTxtOn>
+                      </SwitchLabel>
+                    </SwitchButton>
+                    {
+                      job ?
+                      <Flex>
+                        <InputTxt type="text" placeholder="현재 업종 입력"/>
+                      </Flex>
+                      :
+                      null
+                    }
                   </InputBox>
                   <InputBox>
                     <Label>전용면적<Pilsu>*</Pilsu></Label>
@@ -574,6 +595,11 @@ const CheckSpan = styled.span`
 const Radiobox = styled.div`
   width:100%;
   margin-bottom:20px;
+`
+const RadioboxJob = styled.div`
+  width:65px;
+  margin-bottom:0;
+
 `
 const Radio = styled.input`
   display:none;

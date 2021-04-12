@@ -31,11 +31,6 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                     <ProfileTop>
                       <ProfileImg>
                         <Profile src={Img}/>
-                      {/*Edit버튼 눌렀을때 아래 나와야함*/}
-                        {/*
-                        <File type="file" name="" id="file"/>
-                        <Label for="file"/>
-                        */}
                       </ProfileImg>
                       <ProfileName>
                         <Input type="text" name="" placeholder="이름을 설정해주세요." disabled/>
@@ -201,7 +196,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/MyMember" className="data_link"></Link>
                   <LinkTxt>팀원 관리</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
