@@ -14,7 +14,7 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
-import ApartFilterItem from "./ApartFilterItem";
+import StoreAndOfficeItem from "./StoreAndOfficeItem";
 
 export default function MapFilter({openHouse, rank}) {
     return (
@@ -120,7 +120,7 @@ export default function MapFilter({openHouse, rank}) {
                 </WrapFilter>
               </Box>
 
-              <ApartFilterItem/>
+              <StoreAndOfficeItem/>
 
         {/*사용승인일*/}
             <Box>
@@ -162,49 +162,6 @@ export default function MapFilter({openHouse, rank}) {
                       20년 이상
                     </LabelR>
                   </RadioBox>
-                </WrapRadio>
-              </WrapFilter>
-            </Box>
-        {/*총세대수*/}
-            <Box>
-              <SubTitle>총세대수</SubTitle>
-              <WrapFilter>
-                <WrapRadio>
-                  <RadioBoxWidth50>
-                    <InputR type="radio" name="danji" id="danji1" defaultChecked/>
-                    <LabelR for="danji1">
-                      <SpanR/>
-                      전체
-                    </LabelR>
-                  </RadioBoxWidth50>
-                  <RadioBoxWidth50>
-                    <InputR type="radio" name="danji" id="danji2"/>
-                    <LabelR for="danji2">
-                      <SpanR/>
-                      200세대 이상
-                    </LabelR>
-                  </RadioBoxWidth50>
-                  <RadioBoxWidth50>
-                    <InputR type="radio" name="danji" id="danji3"/>
-                    <LabelR for="danji3">
-                      <SpanR/>
-                      500세대 이상
-                    </LabelR>
-                  </RadioBoxWidth50>
-                  <RadioBoxWidth50>
-                    <InputR type="radio" name="danji" id="danji4"/>
-                    <LabelR for="danji4">
-                      <SpanR/>
-                      1000세대 이상
-                    </LabelR>
-                  </RadioBoxWidth50>
-                  <RadioBoxWidth50>
-                    <InputR type="radio" name="danji" id="danji5"/>
-                    <LabelR for="danji5">
-                      <SpanR/>
-                      2000세대 이상
-                    </LabelR>
-                  </RadioBoxWidth50>
                 </WrapRadio>
               </WrapFilter>
             </Box>
@@ -299,7 +256,7 @@ const GreenBar = styled.div`
   background:#01684b;
   border-radius:6px;
   @media ${(props) => props.theme.mobile} {
-    heigiht:calc(100vw*(3/428));
+    height:calc(100vw*(3/428));
   }
 `
 const GreenBar2 = styled(GreenBar)`
@@ -384,6 +341,7 @@ const Span = styled.span`
     font-size:calc(100vw*(15/428));
     margin-left:calc(100vw*(10/428));
   }
+
 `
 const WrapRadio = styled.div`
   width:100%;display:flex;justify-content:flex-start;align-items:center;
@@ -422,13 +380,9 @@ const SpanR = styled.span`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(20/428));
     height:calc(100vw*(20/428));
-    margin-right:calc(100vW*(10/428));
   }
 `
 const SpanC = styled(SpanR)`
   background:url(${Check}) no-repeat;background-size:100% 100%;
 
-`
-const DetailOption = styled.div`
-  width:100%;
 `

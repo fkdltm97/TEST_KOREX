@@ -7,8 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import MyRequest from '../../../component/member/mypage/request/MyRequest';
-import ModalFilter from '../../../component/member/mypage/request/modal/ModalFilter';
+import NewRequestBroker from '../../../component/member/mypage/request/NewRequestBroker';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -39,10 +38,6 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
 
-  //필터 모달창
-  const [filter,setFilter] = useState(false);
-  //물건예약수정 모달창
-  const [reserve,setReserve] = useState(false);
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -50,12 +45,8 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-            {/*개인로 로그인했을때*/}
-              <SubTitle title={"개인"} rank={false} cursor={"default"}/>
-            {/*기업으로 로그인했을때*/}
-              {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-              <ModalFilter filter={filter} setFilter={setFilter}/>
-              <MyRequest setFilter={setFilter}/>
+              <SubTitle title={"중개의뢰 추가"} rank={false} cursor={"default"}/>
+              <NewRequestBroker/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

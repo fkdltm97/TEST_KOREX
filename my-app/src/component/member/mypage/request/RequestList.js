@@ -7,12 +7,12 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //img
+import Item from '../../../../img/main/item01.png';
 import Filter from '../../../../img/member/filter.png';
 import Bell from '../../../../img/member/bell.png';
 import BellActive from '../../../../img/member/bell_active.png';
 import Location from '../../../../img/member/loca.png';
 import Set from '../../../../img/member/setting.png';
-import Item from '../../../../img/main/item01.png';
 import Noimg from '../../../../img/main/main_icon3.png';
 import Close from '../../../../img/main/modal_close.png';
 import Change from '../../../../img/member/change.png';
@@ -32,14 +32,27 @@ export default function Request({filter, setFilter, value, type}) {
     return (
       <Container>
           <Li opacity={type}>
+            <ItemImg>
+              <Img src={value.img}/>
+            </ItemImg>
             <Infos>
-              <Date>전속기간 : {value.date}</Date>
               <ConditionDiv>
                 상태 : <Condition>{value.condition}</Condition> <ConditionDate>{value.conditionDate}</ConditionDate>
               </ConditionDiv>
-              <Number>등록번호 : {value.number}</Number>
-              <Kinds>{value.kinds}</Kinds>
-              <Address>{value.address}</Address>
+              <Number>{value.number}</Number>
+              <Title>{value.title}</Title>
+              <Kinds>
+                <Left>물건종류</Left>
+                <Right>{value.kinds}</Right>
+              </Kinds>
+              <Address>
+                <Left>모델하우스 주소</Left>
+                <Right>{value.address}</Right>
+              </Address>
+              <Trade>
+                <Left>거래유형</Left>
+                <Right>{value.trade}</Right>
+              </Trade>
             </Infos>
             <RightMenu>
               <Alarm>
@@ -133,12 +146,15 @@ const Li = styled.li`
     padding:calc(100vw*(29/428)) 0;
   }
 `
-const ItemImg = styled.img`
-  width:100%;
-  height:100%;border-radius:3px;
-  border:1px solid #e4e4e4;
+const ItemImg = styled.div`
+  width:106px;height:106px;border: solid 1px #e4e4e4;
+  margin-right:40px;
+`
+const Img = styled.img`
+  width:100%;height:100%;border-radius:3px;
 `
 const Infos = styled.div`
+  width:450px;
 `
 const Date = styled.div`
   display:block;
@@ -153,6 +169,7 @@ const Date = styled.div`
 `
 const ConditionDiv = styled(Date)`
   display:inline-block;
+  color:#979797;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));
     margin-bottom:calc(100vw*(5/428));
@@ -175,21 +192,35 @@ const Number = styled.p`
   font-size:14px;color:#979797;
   transform:skew(-0.1deg);
   margin-bottom:7px;
+  font-weight:600;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(12/428));
     margin-bottom:calc(100vw*(3/428));
   }
 `
+const Title = styled.h3`
+  font-size:18px;color:#4a4a4a;
+  font-weight:800;transform:skew(-0.1deg);
+  margin-bottom:15px;
+`
 const Kinds = styled.h2`
-  font-size:18px;font-weight:800;
-  transform:skew(-0.1deg);
-  margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:6px;
   @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(15/428));
-    margin-bottom:calc(100vw*(4/428));
   }
 `
-const Address = styled(Date)`
+const Left = styled.p`
+  font-size:15px;font-weight:600;
+  transform:skew(-0.1deg);
+`
+const Right = styled(Left)`
+  color:#979797;
+  text-align:right;
+  width:330px;
+`
+const Address = styled(Kinds)`
+`
+const Trade = styled(Kinds)`
   margin-bottom:0;
 `
 const RightMenu = styled.div`

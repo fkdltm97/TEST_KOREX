@@ -9,6 +9,7 @@ import styled from "styled-components"
 //img
 import ItemImg from "../../../../img/main/item01.png";
 import Heart from "../../../../img/main/heart.png";
+import HeartCheck from "../../../../img/main/heart_check.png";
 import IconSearch from "../../../../img/main/icon_search.png";
 import IconRecent from "../../../../img/main/icon_view.png";
 
@@ -47,45 +48,48 @@ export default function HouseList({updatePageIndex}){
 {/*house select*/}
       <ModalSelect>
         <WrapItem>
-          <ItemList>물건종류</ItemList>
-          <ItemSubdepth>
-            <ItemSubList>물건종류1</ItemSubList>
-            <ItemSubList>물건종류2</ItemSubList>
-            <ItemSubList>물건종류3</ItemSubList>
-          </ItemSubdepth>
+          <ItemList>
+            <ItemSubdepth>
+              <ItemSubList>물건종류1</ItemSubList>
+              <ItemSubList>물건종류2</ItemSubList>
+              <ItemSubList>물건종류3</ItemSubList>
+            </ItemSubdepth>
+          </ItemList>
         </WrapItem>
         <WrapTread>
-          <TreadList>거래유형</TreadList>
-          <TreadSubdepth>
-            <TreadSubList>거래유형1</TreadSubList>
-            <TreadSubList>거래유형2</TreadSubList>
-            <TreadSubList>거래유형3</TreadSubList>
-          </TreadSubdepth>
+          <TreadList>
+            <TreadSubdepth>
+              <TreadSubList>거래유형1</TreadSubList>
+              <TreadSubList>거래유형2</TreadSubList>
+              <TreadSubList>거래유형3</TreadSubList>
+            </TreadSubdepth>
+          </TreadList>
         </WrapTread>
         <WrapPrice>
-          <PriceList>가격</PriceList>
-          <PriceSubdepth>
-            <PriceSubList>가격1</PriceSubList>
-            <PriceSubList>가격2</PriceSubList>
-            <PriceSubList>가격3</PriceSubList>
-          </PriceSubdepth>
+          <PriceList>
+            <PriceSubdepth>
+              <PriceSubList>가격1</PriceSubList>
+              <PriceSubList>가격2</PriceSubList>
+              <PriceSubList>가격3</PriceSubList>
+            </PriceSubdepth>
+        </PriceList>
         </WrapPrice>
         <WrapWidth>
-          <WidthList>면적</WidthList>
-          <WidthSubdepth>
-            <WidthSubList>면적1</WidthSubList>
-            <WidthSubList>면적2</WidthSubList>
-            <WidthSubList>면적3</WidthSubList>
-          </WidthSubdepth>
+          <WidthList>
+            <WidthSubdepth>
+              <WidthSubList>면적1</WidthSubList>
+              <WidthSubList>면적2</WidthSubList>
+              <WidthSubList>면적3</WidthSubList>
+            </WidthSubdepth>
+          </WidthList>
         </WrapWidth>
         <SortRecent>
           <RecentList>
-            <RecentImg src={IconRecent}/>
+            <RecentSubdepth>
+              <ReceentSubList>최신순</ReceentSubList>
+              <ReceentSubList>과거순</ReceentSubList>
+            </RecentSubdepth>
           </RecentList>
-          <RecentSubdepth>
-            <ReceentSubList>최신순</ReceentSubList>
-            <ReceentSubList>과거순</ReceentSubList>
-          </RecentSubdepth>
         </SortRecent>
       </ModalSelect>
 {/*Total & Search*/}
@@ -110,6 +114,7 @@ export default function HouseList({updatePageIndex}){
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <Number>{value.number}</Number>
+                        <LiveView>Live 방송 예고</LiveView>
                         <LiTitle>{value.title}</LiTitle>
                         <Option>{value.option}</Option>
                         <Address>{value.address}</Address>
@@ -208,28 +213,25 @@ const SearchBtn = styled.button`
   background:url(${IconSearch}) no-repeat center center; background-size:calc(100vw*(16/428));height:calc(100vw*(15/428));
   vertical-align: -webkit-baseline-middle;
 `
-const WrapItem = styled.ul`
-  width:calc(100vw*(79/428));
-  border-radius:4px;border:1px solid #979797;
-  margin-right:calc(100vw*(5/428));
-  text-align:center;
-  background:#f8f7f7;
+const WrapItem = styled.div`
 `
-const ItemList = styled.li`
+const ItemList = styled.div`
   font-size:calc(100vw*(12/428));color:#707070;
   text-align:center;cursor:pointer;
   font-weight:600;transform:skew(-0.1deg);
+`
+const ItemSubdepth = styled.select`
+  width:calc(100vw*(79/428));
+  height:calc(100vw*(30/428));
+  border-radius:4px;border:1px solid #979797;
+  margin-right:calc(100vw*(5/428));
+  text-align-last:center;
+  appearance:none;
+  background:#f8f7f7;
   padding:calc(100vw*(6/428)) 0;
-`
-const ItemSubdepth = styled.ul`
-  width:100%;height:auto;
-  display:none;
-`
-const ItemSubList = styled.li`
-  font-size:calc(100vw*(12/428));color:#707070;
-  text-align:center;
   font-weight:600;transform:skew(-0.1deg);
-  cursor:pointer;
+`
+const ItemSubList = styled.option`
 `
 const WrapTread = styled(WrapItem)`
 `
@@ -263,10 +265,13 @@ const SortRecent = styled(WrapItem)`
 const RecentList = styled(ItemList)`
   width:calc(100vw*(30/428));height:calc(100vw*(30/428));
 `
-const RecentImg = styled.img`
-  width:calc(100vw*(19/428));height:calc(100vw*(19/428));
-`
 const RecentSubdepth = styled(ItemSubdepth)`
+  width:calc(100vw*(19/428));height:calc(100vw*(19/428));
+  background:url(${IconRecent}) no-repeat;background-size:100% 100%;
+  border:none;
+  appearance:none;
+  text-align-last:inherit;
+  margin-top:calc(100vw*(5/428));
 `
 const ReceentSubList = styled(ItemSubList)`
 `
@@ -308,9 +313,25 @@ const LiTitle = styled.h2`
 `
 const Number = styled.span`
   font-size:calc(100vw*(14/428));color:#979797;
-  display:block;margin-bottom:calc(100vw*(7/428));
+  display:inline-block;margin-bottom:calc(100vw*(7/428));
   transform:skew(-0.1deg);
+  vertical-align:middle;
 `
+const LiveView = styled.span`
+  display:inline-block;
+  background:#fe7a01;
+  text-align:center;
+  color:#fff;font-weight:800;transform:skew(-0.1deg);
+  font-size:calc(100vw*(10/428));
+  width:calc(100vw*(70/428));
+  height:calc(100vw*(22/428));
+  line-height:calc(100vw*(25/428));
+  border-radius:4px;
+  vertical-align:middle;
+  margin-bottom:calc(100vw*(7/428));
+  margin-left:calc(100vw*(10/428));
+`
+
 const Option = styled.div`
   font-size:calc(100vw*(14/428));font-weight:800;
   transform:skew(-0.1deg);
@@ -328,7 +349,7 @@ const LikeBtn = styled.div`
 `
 const Like = styled.input`
   display:none;
-  /*&:checked + .check_label{width:15px;height:15px;background:url() no-repeat;background-size:100% 100%;}*/
+  &:checked + .check_label{width:calc(100vw*(29/428));height:calc(100vw*(29/428));background:url(${HeartCheck}) no-repeat center center;background-size:calc(100vw*(17/428)) calc(100vw*(17/428));}
 `
 const Label = styled.label`
   display:inline-block;

@@ -39,83 +39,32 @@ export default function ApartFilter() {
               {
                 open ?
                         <SubDepth>
-                          <BoxNoneBorder>
-                            <SubTitle>방수</SubTitle>
-                            <WrapFilter>
-                              <WrapRadio>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room1" defaultChecked/>
-                                  <LabelR for="room1">
-                                    <SpanR/>
-                                    전체
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room2"/>
-                                  <LabelR for="room2">
-                                    <SpanR/>
-                                    1개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room3"/>
-                                  <LabelR for="room3">
-                                    <SpanR/>
-                                    2개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room4"/>
-                                  <LabelR for="room4">
-                                    <SpanR/>
-                                    3개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room5"/>
-                                  <LabelR for="room5">
-                                    <SpanR/>
-                                    4개이상
-                                  </LabelR>
-                                </RadioBox>
-                              </WrapRadio>
+                    {/*주차*/}
+                        <BoxNoneBorder>
+                          <SubTitle>주차</SubTitle>
+                          <WrapFilter>
+                            <SwitchButton>
+                              <Switch type="checkbox" id="switch1"/>
+                              <SwitchLabel for="switch1">
+                                <SwitchSpan/>
+                              </SwitchLabel>
+                              <Span>주차가능한곳만 보기</Span>
+                            </SwitchButton>
                             </WrapFilter>
                           </BoxNoneBorder>
+                        {/*화장실*/}
                           <Box>
-                            <SubTitle>욕실수</SubTitle>
+                            <SubTitle>전용화장실만 보기</SubTitle>
                             <WrapFilter>
-                              <WrapRadio>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath1" defaultChecked/>
-                                  <LabelR for="bath1">
-                                    <SpanR/>
-                                    전체
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath2"/>
-                                  <LabelR for="bath2">
-                                    <SpanR/>
-                                    1개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath3"/>
-                                  <LabelR for="bath3">
-                                    <SpanR/>
-                                    2개이상
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath4"/>
-                                  <LabelR for="bath4">
-                                    <SpanR/>
-                                    3개이상
-                                  </LabelR>
-                                </RadioBox>
-                              </WrapRadio>
-                            </WrapFilter>
-                          </Box>
+                              <SwitchButton>
+                                <Switch type="checkbox" id="switch2"/>
+                                <SwitchLabel for="switch2">
+                                  <SwitchSpan/>
+                                </SwitchLabel>
+                                <Span>전용화장실만 보기</Span>
+                              </SwitchButton>
+                              </WrapFilter>
+                            </Box>
                       {/*옵션*/}
                           <Box>
                             <SubTitle>옵션</SubTitle>
@@ -125,12 +74,19 @@ export default function ApartFilter() {
                                   <InputC type="checkbox" name="option" id="option1" defaultChecked/>
                                   <LabelC for="option1">
                                     <SpanC/>
-                                    발코니
+                                    에어컨
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
                                   <InputC type="checkbox" name="option" id="option2"/>
                                   <LabelC for="option2">
+                                    <SpanC/>
+                                    발코니
+                                  </LabelC>
+                                </RadioBox>
+                                <RadioBox>
+                                  <InputC type="checkbox" name="option" id="option3"/>
+                                  <LabelC for="option3">
                                     <SpanC/>
                                     베란다
                                   </LabelC>
@@ -140,6 +96,13 @@ export default function ApartFilter() {
                                   <LabelC for="option3">
                                     <SpanC/>
                                     테라스
+                                  </LabelC>
+                                </RadioBox>
+                                <RadioBox>
+                                  <InputC type="checkbox" name="option" id="option3"/>
+                                  <LabelC for="option3">
+                                    <SpanC/>
+                                    베란다
                                   </LabelC>
                                 </RadioBox>
                               </WrapRadio>
@@ -186,6 +149,54 @@ const SubTitle = styled.h5`
 const WrapFilter = styled.div`
   width:100%;
 `
+const SwitchButton = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
+  width:100%;
+  margin-bottom:20px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(20/428));
+  }
+`
+const Switch = styled.input`
+  display:none;
+  &:checked+label{background:#009053}
+  &:checked+label span{left:22px;}
+  @media ${(props) => props.theme.mobile} {
+    &:checked+label span{left:calc(100vw*(24/428));}
+  }
+`
+const SwitchLabel = styled.label`
+  position:relative;display:inline-block;
+  width:41px;
+  height:15px;background:#e4e4e4;
+  border-radius: 18px;
+  border: solid 1px #d6d6d6;
+  transition:all 0.3s;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(41/428));
+    height:calc(100vw*(15/428));
+  }
+`
+const SwitchSpan = styled.span`
+  position:absolute;left:-1px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;border-radius:100%;
+  border: solid 1px #888888;
+  background-color: #ffffff;
+  transition:all 0.3s;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(18/428));
+    height:calc(100vw*(18/428));
+  }
+`
+const Span = styled.span`
+  display:inline-block;font-size:15px;
+  font-weight:normal;transform:skew(-0.1deg);color:#4a4a4a;
+  margin-left:5px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-left:calc(100vw*(10/428));
+  }
+`
 const WrapRadio = styled.div`
   width:100%;display:flex;justify-content:flex-start;align-items:center;
   flex-wrap:wrap;
@@ -195,6 +206,9 @@ const RadioBox = styled.div`
 `
 const RadioBoxWidth50 = styled.div`
   width:50%;
+`
+const RadioBoxMarginBottom = styled.div`
+  width:100%;margin-bottom:5px;
 `
 const InputR = styled.input`
   display:none;

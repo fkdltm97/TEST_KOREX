@@ -13,7 +13,7 @@ import BellActive from '../../../../img/member/bell_active.png';
 import Location from '../../../../img/member/loca.png';
 import Set from '../../../../img/member/setting.png';
 import Item from '../../../../img/main/item01.png';
-import Noimg from '../../../../img/main/main_icon3.png';
+import Noimg from '../../../../img/member/company_no.png';
 import Close from '../../../../img/main/modal_close.png';
 import Change from '../../../../img/member/change.png';
 import Marker from '../../../../img/member/marker.png';
@@ -23,6 +23,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 //component
 import RequestListPage from "./RequestList";
+import RequestSorting from "./RequestSorting";
 
 export default function Request({setFilter,value,type}) {
 
@@ -35,42 +36,54 @@ export default function Request({setFilter,value,type}) {
   const RequestListItem =[
     {
       Request_id : 0,
+      img:Item,
       date:"21.00.00 - 21.00.00",
       condition:"검토대기",
       conditionDate:"2021.00.00",
-      number:"1234567889",
-      kinds:"아파트매매 1억 5000",
+      number:"2D0000324",
+      title:"충남내포신도시2차대방엘리움더센트럴",
+      kinds:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      trade:"매매",
       type:"waiting"
     },
     {
       Request_id : 1,
+      img:Item,
       date:"21.00.00 - 21.00.00",
       condition:"거래준비",
       conditionDate:"2021.00.00",
-      number:"1234567889",
-      kinds:"아파트매매 1억 5000",
-      address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      number:"2D0000324",
+      title:"충남내포신도시2차대방엘리움더센트럴",
+      kinds:"아파트",
+      address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)  강남구 서초동 서초동 서초동",
+      trade:"매매",
       type:"readyDeal"
     },
     {
       Request_id : 2,
+      img:Noimg,
       date:"21.00.00 - 21.00.00",
       condition:"의뢰 철회",
       conditionDate:"2021.00.00",
-      number:"1234567889",
-      kinds:"아파트매매 1억 5000",
+      number:"2D0000324",
+      title:"충남내포신도시2차대방엘리움더센트럴",
+      kinds:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      trade:"매매",
       type:"requestCancel"
     },
     {
       Request_id : 2,
+      img:Noimg,
       date:"21.00.00 - 21.00.00",
       condition:"위임 취소",
       conditionDate:"2021.00.00",
-      number:"1234567889",
-      kinds:"아파트매매 1억 5000",
+      number:"2D0000324",
+      title:"충남내포신도시2차대방엘리움더센트럴",
+      kinds:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      trade:"매매",
       type:"delegationCancel"
     }
 ]
@@ -79,13 +92,11 @@ export default function Request({setFilter,value,type}) {
         <Container>
           <WrapRequest>
             <TopTitle>내 중개의뢰</TopTitle>
+            <RequestSorting/>{/*컴포넌트입니다*/}
             <TopInfo>
               <All>총 <GreenColor>4</GreenColor> 건</All>
               <FilterAndAdd>
-                <Link onClick={() => {setFilter(true)}}>
-                  <FilterImg src={Filter} alt="filter"/>
-                </Link>
-                <Link>
+                <Link to="/AddRequest">
                   <AddBtn>추가</AddBtn>
                 </Link>
               </FilterAndAdd>
@@ -154,7 +165,7 @@ const TopTitle = styled.h2`
 const TopInfo = styled.div`
   display:flex;justify-content:space-between;align-items:center;
   padding:16px 40px;
-  margin-top:40px;
+  margin-top:30px;
   border-top:1px solid #f2f2f2;
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
@@ -176,13 +187,14 @@ const AddBtn = styled.div`
   width: 81px;
   height: 30px;
   border-radius: 4px;
-  border: solid 2px #2b664d;
-  background-color: #fff;
+  border: solid 2px #f0a764;
+  background-color: #fe7a01;
   line-height:26px;
-  font-size:13px;color:#2b664d;
+  font-size:13px;
   font-weight:800;transform:skew(-0.1deg);
   text-align:center;
   margin-left:15px;
+  color:#fff;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(80/428));
     height:calc(100vw*(30/428));
