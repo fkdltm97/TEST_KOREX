@@ -45,7 +45,7 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-              <SubTitle title={"소속선택"} rank={true} path={"/"} cursor={"default"}/>
+              <SubTitle title={"소속선택"} rank={true} cursor={"default"}/>
               <MyTeam/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

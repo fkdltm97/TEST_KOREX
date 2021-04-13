@@ -1,14 +1,14 @@
-const ip = "http://localhost:8080/";
+//const ip = "http://localhost:8080/";
 
 const api = {
   connectFetchController : async (path,method,body,callBack,errorCallBack) =>{
     console.log('connectFetchController호출:',path,method,body);
-     return fetch(`${ip}${path}`, {
-        credentials:'same-origin',
+     return fetch(`${path}`, {
+        credentials:'include',
         method: method,
         body:body?body:null,
         headers:{
-          "Content-type" :"application/json; charset=utf-8",
+          "Content-type" :"application/json"
         }
       }).then(function(res) {
         console.log('클라이언트 단 얻어낸 데이터:',res);

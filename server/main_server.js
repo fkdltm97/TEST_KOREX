@@ -18,7 +18,10 @@ const app=express();
 
 
 const cors=require('cors');
-app.use(cors());
+app.use(cors({
+    origin : 'http://localhost:3000',
+    credentails:true
+}));
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
@@ -56,7 +59,7 @@ var isLogout=loginCheck.isLogout;*/
 
 
 //디비 관련 연결 필요
-const mysql=require('mysql');
+/*const mysql=require('mysql');
 var connection=mysql.createConnection({
     host:'localhost',
     port:3307,
@@ -64,7 +67,7 @@ var connection=mysql.createConnection({
     password:'sinja',
     database:'korex'
 });
-connection.connect();
+connection.connect();*/
 
 //개인 회원가입
 app.post('/auth/member/register',async(req,res,next)=> {
@@ -162,7 +165,10 @@ router.post('/member/login',async(req,res,next) => {
         });
     })(req,res,next);
 });*/
-app.post('/auth/member/login',async function(req,res,next){
+app.post('/auth/member/logins',function(req,res,next){
+   // res.setHeader('Access-Control-Allow-Credentials', 'true');
+    //res.setHeader('Access-Control-Allow-Origin:','*');
+    res.writeHead(200, {'Access-Control-Allow-Origin':'*'})
     let body=req.body;
     console.log('request_origin:',req);
     console.log('req,body:',body);
@@ -206,7 +212,34 @@ app.post('/auth/member/login',async function(req,res,next){
         }
     });    
 });
+app.post('/auth/member/login',function(req,res,next){
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
 
+    let body=req.body;
+
+    console.log('req,body:',body);
+    var req_email=body.login_email;
+    var req_password=body.login_password;
+
+    console.log('개인 로그인 요청 passport 쓰지 않고 post요청:',req_email,req_password);
+
+    req.session.user_id='tsdgsgsdgsdg';
+    req.session.islogin=true;
+
+    //res.writeHead(301,{Location:'http://localhost:8080/auth/member/loginProcess'});
+    //res.end();
+    req.session.save(function(){
+        res.json('successs!!!!');
+        //res.redirect('/auth/logintest');
+    });
+});
+app.get('/auth/member/loginProcess',function(req,res,next){
+    req.session.user_id='tsdgsgsdgsdg';
+    req.session.islogin=true;
+
+    res.json('success');
+
+});
 //공통 로그아웃
 app.get('/auth/logout',(req,res,next) => {
     req.logout();

@@ -25,9 +25,6 @@ app.use(express.json());
 app.set('views',__dirname+'/views');
 app.set('view engine','ejs');
 
-app.use(bodyparser.urlencoded({extended:false}));
-app.use(bodyparser.json());
-
 app.use(
     session({
         resave:false,
@@ -39,6 +36,9 @@ app.use(
         }
     })
 );
+
+app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json());
 
 //app.use(passport.initialize());
 //app.use(passport.session());
@@ -127,7 +127,7 @@ app.post('/auth/member/register',async(req,res,next)=> {
     }
 });
 //개인 로그인
-app.post('/auth/member/login',async(req,res,next) => {
+app.post('/auth/member/login',(req,res,next) => {
     console.log('개인 로그인 요청 post login=>>>>',req.body);
     passport.authenticate('local',(err,user,info) => {
         //localstragegy 실행후 결과가 콜백함수에서 출력됍니다.
@@ -168,6 +168,15 @@ app.post('/auth/member/login',async(req,res,next) => {
         });*/
     })(req,res,next);
 });
+
+app.get('/auth/session_list',async(req,res)=>{
+    req.session.logined=true;
+    req.session.user_id='sdgsdgasdg';
+
+    console.log('요청 req,res,세션존재리스트:',req.session,req.user);
+    res.json({'req_user':req.user,'req_session':req.session});  
+});
+
 //공통 로그아웃
 app.get('/auth/logout',(req,res,next) => {
     req.logout();

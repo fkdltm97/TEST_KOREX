@@ -47,6 +47,8 @@ import AddRequestBroker from './page/member/mypage/AddRequestBroker'//중개의�
 import AddRequestBrokerSecond from './page/member/mypage/AddRequestBrokerSecond'//중개의뢰 > 중개사 기본정보입력
 
 import MyLike from './page/member/mypage/MyLike';
+import MyMember from './page/member/mypage/MyMember';
+import MyMemberEdit from './page/member/mypage/MyMemberEdit';
 
 /*map*/
 import Map from './page/map/Map';
@@ -105,6 +107,8 @@ export default function App(){
             <Route exact path="/AddRequestBroker" component={AddRequestBroker}/>{/*중개의뢰 중개사 선택*/}
             <Route exact path="/AddRequestBrokerSecond" component={AddRequestBrokerSecond}/>{/*중개의뢰 중개사 기본정보입력*/}
             <Route exact path="/MyLike" component={MyLike}/>{/*내 관심*/}
+            <Route exact path="/MyMember" component={MyMember}/>{/*팀원관리*/}
+            <Route exact path="/MyMemberEdit" component={MyMemberEdit}/>{/*팀원관리 > 팀원수정*/}
 
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
