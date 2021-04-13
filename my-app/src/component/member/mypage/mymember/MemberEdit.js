@@ -20,6 +20,23 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import MemberList from "./MemberList";
 
 export default function Member({}) {
+  const [name,setName] = useState("홍길동");/*기본값*/
+  const [phone,setPhone] = useState("01012345678");/*기본값*/
+  const [active,setActive] = useState(false);
+
+  const nameChange = (e) =>{ setName(e.target.value); }
+  const phoneChange = (e) =>{ setPhone(e.target.value); }
+
+  const checkVaildate = () =>{
+    return name.length > 2 && phone.length > 9
+   }
+
+  useEffect(()=>{
+    if(checkVaildate())
+       setActive(true);
+    else
+        setActive(false);
+  },)
 
     return (
         <Container>
@@ -32,14 +49,18 @@ export default function Member({}) {
                 <Label for="file"/>
               </ProfileImg>
               <WrapInput>
-                <InputTxt type="text" value="홍길동"/>
-                <InputTxt type="text" value="01012345678"/>
+                <InputTxt type="text" value={name} onChange={nameChange}/>
+                <InputTxt type="text" value={phone} onChange={phoneChange}/>
                 <Select>
                   <Option>관리자</Option>
                   <Option>팀원</Option>
                 </Select>
               </WrapInput>
+              <SaveButton>
+                <SaveBtn type="submit" active={active}>저장</SaveBtn>
+              </SaveButton>
             </WrapEdit>
+
           </WrapMember>
   </Container>
   );
@@ -82,7 +103,7 @@ const WrapMember = styled.div`
 const WrapEdit = styled.div`
   width:430px; margin:60px auto 0;
   display:flex;justify-content:flex-start;
-  align-items:flex-start;
+  align-items:flex-start;flex-wrap:wrap;
 `
 const ProfileImg = styled.div`
   position:relative;
@@ -133,4 +154,18 @@ const Select = styled.select`
 `
 const Option = styled.option`
   font-family:'nbg',sans-serif;
+`
+const SaveButton = styled.div`
+  width:100%;padding-left:23px;
+  margin-top:60px;
+`
+const SaveBtn = styled.button`
+  width: 408px;
+  height: 66px;
+  border-radius: 11px;
+  transition:all 0.3s;
+  color:#fff;
+  font-size:20px;font-weight:800;transform:skew(-0.1deg);
+  background:${({active}) => active ? "#01684b" : "#979797"};
+  border:${({active}) => active ? "3px solid #04966d" : "3px solid #e4e4e4"};
 `
