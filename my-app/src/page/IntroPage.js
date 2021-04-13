@@ -1,4 +1,4 @@
-
+import React , {Component} from 'react';
 //component
 import IntroHeader from '../component/common/IntroHeader';
 import IntroBody from '../component/common/IntroBody';

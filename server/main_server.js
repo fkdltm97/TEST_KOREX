@@ -31,7 +31,7 @@ app.use(bodyparser.json());
 
 app.use(session({
     secret: 'keyboard catss',
-   // resave:false,
+    resave:false,
     saveUninitialized:true,
     //store : new FileStore()
 }));
@@ -164,7 +164,7 @@ router.post('/member/login',async(req,res,next) => {
 });*/
 app.post('/auth/member/login',async function(req,res,next){
     let body=req.body;
-
+    console.log('request_origin:',req);
     console.log('req,body:',body);
     var req_email=body.login_email;
     var req_password=body.login_password;
@@ -243,8 +243,8 @@ app.get('/auth/logoutss', async (req,res,next) => {
     console.log('req_sessioin:',req.session);
 });
 app.get('/auth/session_list',async(req,res)=>{
-    //req.session.logined=true;
-    //req.session.user_id='sdgsdgasdg';
+    req.session.logined=true;
+    req.session.user_id='sdgsdgasdg';
 
     console.log('요청 req,res,세션존재리스트:',req.session,req.user);
     res.json({'req_user':req.user,'req_session':req.session});  
