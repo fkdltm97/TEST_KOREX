@@ -181,7 +181,7 @@ const FilterBox = styled.div`
   }
 `
 const FilterLabel = styled.label`
-  display:inline-block;
+display:inline-block;
   font-size:12px;color:#4a4a4a;
   transform:skew(-0.1deg);
   font-family:'nbg', sans-serif;

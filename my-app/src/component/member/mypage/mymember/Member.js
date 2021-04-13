@@ -63,7 +63,7 @@ export default function Member({}) {
             <TopTitle>팀원 관리</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link>
+              <Link to="/MyMemberAdd">
                 <AddMember>추가</AddMember>
               </Link>
             </TopInfo>
@@ -141,4 +141,10 @@ const AddMember = styled.div`
   font-size:13px;color:#2b664d;
   font-weight:600;transform:skew(-0.1deg);
   text-align:center;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));
+    height:calc(100vw*(30/428));
+    line-height:calc(100vw*(28/428));
+    font-size:calc(100vw*(13/428));
+  }
 `

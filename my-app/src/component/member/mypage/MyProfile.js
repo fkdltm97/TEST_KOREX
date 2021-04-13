@@ -155,7 +155,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/MyLive" className="data_link"></Link>
                   <LinkTxt>내 Live 시청 예약</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
@@ -201,7 +201,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/MyAlarm" className="data_link"></Link>
                   <LinkTxt>내 알림</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>

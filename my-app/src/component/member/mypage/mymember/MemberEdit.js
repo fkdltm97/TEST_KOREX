@@ -57,10 +57,9 @@ export default function Member({}) {
                 </Select>
               </WrapInput>
               <SaveButton>
-                <SaveBtn type="submit" active={active}>저장</SaveBtn>
+                <SaveBtn type="submit" active={active} onClick={() => {alert('저장되었습니다.');}}>저장</SaveBtn>
               </SaveButton>
             </WrapEdit>
-
           </WrapMember>
   </Container>
   );
@@ -104,6 +103,10 @@ const WrapEdit = styled.div`
   width:430px; margin:60px auto 0;
   display:flex;justify-content:flex-start;
   align-items:flex-start;flex-wrap:wrap;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    margin:calc(100vw*(40/428)) auto 0;
+    }
 `
 const ProfileImg = styled.div`
   position:relative;
@@ -111,6 +114,12 @@ const ProfileImg = styled.div`
   border:5px solid #979797;
   border-radius:100%;
   margin-right:24px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(73/428));
+    height:calc(100vw*(73/428));
+    margin-right:calc(100vw*(17/428));
+    margin-left:calc(100vw*(40/428));
+  }
 `
 const Img = styled.img`
   display:inline-block;
@@ -135,6 +144,11 @@ const Label = styled.label`
 const WrapInput = styled.div`
   width:295px;
   margin-top:25px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(187/428));
+    margin-top:calc(100vw*(20/428));
+
+    }
 `
 const InputTxt = styled.input`
   width:100%;height:43px;
@@ -142,6 +156,11 @@ const InputTxt = styled.input`
   text-align:center;font-size:15px;font-weight:600;
   transform:skew(-0.1deg);
   margin-bottom:13px;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;height:calc(100vw*(41/428));
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(6/428));
+    }
 `
 const Select = styled.select`
   width:100%;height:43px;
@@ -151,6 +170,11 @@ const Select = styled.select`
   transform:skew(-0.1deg);
   appearance:none;
   background:url(${ArrowDown}) no-repeat 250px center;background-size:10px;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;height:calc(100vw*(41/428));
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(6/428));
+    }
 `
 const Option = styled.option`
   font-family:'nbg',sans-serif;
@@ -158,14 +182,25 @@ const Option = styled.option`
 const SaveButton = styled.div`
   width:100%;padding-left:23px;
   margin-top:60px;
+  @media ${(props) => props.theme.mobile} {
+    padding-left:0;
+    margin-top:calc(100vw*(46/428));
+  }
 `
 const SaveBtn = styled.button`
   width: 408px;
   height: 66px;
+  line-height:60px;
   border-radius: 11px;
   transition:all 0.3s;
   color:#fff;
   font-size:20px;font-weight:800;transform:skew(-0.1deg);
   background:${({active}) => active ? "#01684b" : "#979797"};
   border:${({active}) => active ? "3px solid #04966d" : "3px solid #e4e4e4"};
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));
+    font-size:calc(100vw*(15/428));
+  }
 `

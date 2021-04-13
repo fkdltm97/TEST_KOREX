@@ -10,9 +10,9 @@ import BackBtn from '../../img/notice/back_btn.png';
 import RightArrow from '../../img/notice/right_arrow.png';
 import EditBtn from '../../img/member/edit_btn.png';
 import SaveBtn from '../../img/member/save_btn.png';
+import Set from '../../img/member/set.png';
 
-
-export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,editOffButtonBox}) {
+export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,editOffButtonBox,rank}) {
     //back button
     const history = useHistory();
     const goBack = () =>{
@@ -59,6 +59,15 @@ export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,edi
               </TitleTxt>
               {
                 btnlist()
+              }
+              {
+                rank ?
+                <Link to="/">
+                  <SetImg src={Set}/>
+                </Link>
+                :
+                null
+
               }
             </InSubTitle>
           </WrapSubTitle>
@@ -131,4 +140,7 @@ const Arrow = styled.span`
   vertical-align:middle;
 `
 const SaveImg = styled(EditImg)`
+`
+const SetImg = styled(EditImg)`
+  width:24px;
 `

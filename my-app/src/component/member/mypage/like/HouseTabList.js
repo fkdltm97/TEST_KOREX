@@ -26,93 +26,53 @@ export default function ItemTabList({setFilter,value,type}) {
   {
     item_id : 0,
     path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+    title:"충남내포신도시2차대방엘리움더센트럴",
+    number: "2D0000324",
+    option1:"충청남도",
+    option2:"아파트",
+    option3:"민간분양",
+    address:"충청남도 홍성군 홍북읍 신경리",
+    danji:"831세대",
+    width1:"103㎡",
+    width2:"114㎡",
+    width3:"77㎡",
+    width4:"85㎡",
+    price1:"35,599",
+    price2:"44,049"
   },
   {
     item_id : 1,
     path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+    title:"충남내포신도시2차대방엘리움더센트럴",
+    number: "2D0000324",
+    option1:"충청남도",
+    option2:"아파트",
+    option3:"민간분양",
+    address:"충청남도 홍성군 홍북읍 신경리",
+    danji:"500세대",
+    width1:"103㎡",
+    width2:"114㎡",
+    width3:"77㎡",
+    width4:"85㎡",
+    price1:"35,599",
+    price2:"44,049"
   },
   {
     item_id : 2,
     path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 3,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 4,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 5,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 6,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+    title:"충남내포신도시2차대방엘리움더센트럴",
+    number: "2D0000324",
+    option1:"충청남도",
+    option2:"아파트",
+    option3:"민간분양",
+    address:"충청남도 홍성군 홍북읍 신경리",
+    danji:"300세대",
+    width1:"103㎡",
+    width2:"114㎡",
+    width3:"77㎡",
+    width4:"85㎡",
+    price1:"35,599",
+    price2:"44,049"
   }
   ]
 
@@ -159,78 +119,50 @@ export default function ItemTabList({setFilter,value,type}) {
               </FilterAndAdd>
             </TopInfo>
             <ListUl>
-              <Li>
-                <LiTop className="clearfix">
-                  <Link>
-                    <LiImg src={ItemImg}/>
-                    <LiDesc>
-                      <LiTitle>
-                        충남내포신도시2차대방엘리움더센트럴
-                        <Number>2D0000324</Number>
-                        <LiveView>Live 방송 예고</LiveView>
-                        </LiTitle>
-                      <Option>충청남도 / 아파트 / 민간분양</Option>
-                      <Address>충청남도 홍성군 홍북읍 신경리</Address>
-                    </LiDesc>
-                  </Link>
-                  <LikeBtn>
-                    <Like type="checkbox" name="" id="Like1"></Like>
-                    <Label for="Like1" className="check_label"></Label>
-                  </LikeBtn>
-                </LiTop>
-                <LiBottom>
-                  <Desc>
-                    <DescTitle>분양세대</DescTitle>
-                    <DescInfo>831세대</DescInfo>
-                  </Desc>
-                  <Desc>
-                    <DescTitle>분양면적</DescTitle>
-                    <DescInfo>103㎡ ~ 114㎡</DescInfo>
-                  </Desc>
-                  <Desc>
-                    <DescTitle>전용면적</DescTitle>
-                    <DescInfo>77㎡ ~ 85㎡</DescInfo>
-                  </Desc>
-                  <Desc>
-                    <DescTitle>분양가격</DescTitle>
-                    <DescInfo>35,599 ~ 44,049 만원</DescInfo>
-                  </Desc>
-                </LiBottom>
-              </Li>
-              <Li>
-                <LiTop className="clearfix">
-                  <Link>
-                    <LiImg/>
-                    <LiDesc>
-                      <LiTitle>충남내포신도시2차대방엘리움더센트럴<Number>2D0000324</Number></LiTitle>
-                      <Option>충청남도 / 아파트 / 민간분양</Option>
-                      <Address>충청남도 홍성군 홍북읍 신경리</Address>
-                    </LiDesc>
-                  </Link>
-                  <LikeBtn>
-                    <Like type="checkbox" name="" id="Like1"></Like>
-                    <Label for="Like1" className="check_label"></Label>
-                  </LikeBtn>
-                </LiTop>
-                <LiBottom>
-                  <Desc>
-                    <DescTitle>분양세대</DescTitle>
-                    <DescInfo>831세대</DescInfo>
-                  </Desc>
-                  <Desc>
-                    <DescTitle>분양면적</DescTitle>
-                    <DescInfo>103㎡ ~ 114㎡</DescInfo>
-                  </Desc>
-                  <Desc>
-                    <DescTitle>전용면적</DescTitle>
-                    <DescInfo>77㎡ ~ 85㎡</DescInfo>
-                  </Desc>
-                  <Desc>
-                    <DescTitle>분양가격</DescTitle>
-                    <DescInfo>35,599 ~ 44,049 만원</DescInfo>
-                  </Desc>
-                </LiBottom>
-              </Li>
+          {
+              ItemListItem.map((value) => {
+              return(
+                <Li>
+                  <LiTop className="clearfix">
+                    <Link>
+                      <LiImg src={ItemImg}/>
+                      <LiDesc>
+                        <LiTitle>
+                          {value.title}
+                          <Number>{value.number}</Number>
+                          <LiveView>Live 방송 예고</LiveView>
+                          </LiTitle>
+                        <Option>{value.option1} / {value.option2} / {value.option3}</Option>
+                        <Address>{value.address}</Address>
+                      </LiDesc>
+                    </Link>
+                    <LikeBtn>
+                      <Like type="checkbox" name="" id={"Like"+value.item_id} defaultChecked/>
+                      <Label for={"Like"+value.item_id} className="check_label"/>
+                    </LikeBtn>
+                  </LiTop>
+                  <LiBottom>
+                    <Desc>
+                      <DescTitle>분양세대</DescTitle>
+                      <DescInfo>{value.danji}</DescInfo>
+                    </Desc>
+                    <Desc>
+                      <DescTitle>분양면적</DescTitle>
+                      <DescInfo>{value.width1} ~ {value.width2}</DescInfo>
+                    </Desc>
+                    <Desc>
+                      <DescTitle>전용면적</DescTitle>
+                      <DescInfo>{value.width3} ~ {value.width4}</DescInfo>
+                    </Desc>
+                    <Desc>
+                      <DescTitle>분양가격</DescTitle>
+                      <DescInfo>{value.price1} ~ {value.price2} 만원</DescInfo>
+                    </Desc>
+                  </LiBottom>
+                </Li>
+              )}
+            )
+          }
             </ListUl>
         </Container>
   );
