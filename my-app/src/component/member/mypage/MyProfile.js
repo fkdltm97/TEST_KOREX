@@ -166,7 +166,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                 </Li>
             {/*전문중개사(관리자)*/}
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/PropertyManagement" className="data_link"></Link>
                   <LinkTxt>물건관리</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>

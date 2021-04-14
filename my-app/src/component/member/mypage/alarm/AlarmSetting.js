@@ -20,9 +20,8 @@ import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery";
-import ItemTopInfo from "./ItemTopInfo";
-import ItemTabList from "./ItemTabList";
-import CommonList from "./CommonList";
+import JunsokSetting from "./JunsokSetting";
+import CommonSetting from "./CommonSetting";
 
 export default function Like({setFilter,value,type}) {
 
@@ -31,28 +30,10 @@ export default function Like({setFilter,value,type}) {
   const showModal =()=>{
     setMenu(!menu);
   }
-  const AlarmListItem =[
-  {
-    a_id : 0,
-    condition:"미확인",
-    date:"2020.01.01",
-    title:"알림케이스 명",
-    id:"자이 109동",
-    content:"내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다."
-  },
-  {
-    a_id : 1,
-    condition:"미확인",
-    date:"2020.01.01",
-    title:"알림케이스 명",
-    id:"자이 109동",
-    content:"내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다."
-  }
-  ]
     return (
         <Container>
           <WrapRequest>
-            <TopTitle>내 알림</TopTitle>
+            <TopTitle>내 알림 설정</TopTitle>
             <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab">
             {/*
               ** 분기처리 **
@@ -64,44 +45,10 @@ export default function Like({setFilter,value,type}) {
 
               */}
               <Tab label="전속매물 공급">
-              <ItemTopInfo/>
-              {
-                  AlarmListItem.map((value) => {
-                    return(
-                      <ItemTabList value={value}/>
-                    )
-                  }
-                )
-              }
+                <JunsokSetting/>
               </Tab>
-{/*
-              <Tab label="분양수요">
-              <ItemTopInfo/>
-              {
-                  AlarmListItem.map((value) => {
-                    return(
-                      <ItemTabList value={value}/>
-                    )
-                  }
-                )
-              }
-              </Tab>
-*/}
-{/*
-              <Tab label="분양공급">
-              <ItemTopInfo/>
-              {
-                  AlarmListItem.map((value) => {
-                    return(
-                      <ItemTabList value={value}/>
-                    )
-                  }
-                )
-              }
-              </Tab>
-*/}
               <Tab label="공통">
-                <CommonList/>
+                <CommonSetting/>
               </Tab>
           </Tabs>
 

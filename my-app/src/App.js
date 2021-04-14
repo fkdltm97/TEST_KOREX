@@ -52,6 +52,8 @@ import MyMemberEdit from './page/member/mypage/MyMemberEdit';
 import MyMemberAdd from './page/member/mypage/MyMemberAdd';
 import MyLive from './page/member/mypage/MyLive';
 import MyAlarm from './page/member/mypage/MyAlarm';
+import MyAlarmSetting from './page/member/mypage/MyAlarmSetting';
+import PropertyManagement from './page/member/mypage/PropertyManagement';
 
 /*map*/
 import Map from './page/map/Map';
@@ -115,6 +117,9 @@ export default function App(){
             <Route exact path="/MyMemberEdit" component={MyMemberEdit}/>{/*팀원관리 > 팀원수정*/}
             <Route exact path="/MyLive" component={MyLive}/>{/*내 라이브 시청예약*/}
             <Route exact path="/MyAlarm" component={MyAlarm}/>{/*내 알림*/}
+            <Route exact path="/MyAlarmSetting" component={MyAlarmSetting}/>{/*내 알림 설정*/}
+            <Route exact path="/PropertyManagement" component={PropertyManagement}/>{/*물건관리*/}
+
 
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}

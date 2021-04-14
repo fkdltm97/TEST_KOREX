@@ -24,47 +24,7 @@ export default function ItemTabList({value}) {
     return (
         <Container>
             <TabContent>
-              <WrapAlarmInfo>
-                <Condition>상태:<Orange>{value.condition}</Orange></Condition>
-                <FlexBox>
-                  <Left>알림일시</Left>
-                  <Right>{value.date}</Right>
-                </FlexBox>
-                <FlexBox>
-                  <Left>알림케이스 명</Left>
-                  <Right>{value.title}</Right>
-                </FlexBox>
-                <FlexBox>
-                  <Left>사건 ID</Left>
-                  <Right>{value.id}</Right>
-                </FlexBox>
-                <FlexBox>
-                  <Left>내용</Left>
-                  <RightWd100>{value.content}</RightWd100>
-                </FlexBox>
-              </WrapAlarmInfo>
-              <RightMenu>
-                <MenuIn>
-                  <Link onClick={showModal2}>
-                    <MenuIcon/>
-                      {
-                        menu2 ?
-                        <InMenu2>
-                          <Div>
-                            <Link className="data_link"></Link>
-                            <InDiv>숨기기</InDiv>
-                          </Div>
-                          <Div>
-                            <Link className="data_link"></Link>
-                            <InDiv>사건ID의 모든 알림 끄기</InDiv>
-                          </Div>
-                        </InMenu2>
-                        :
-                        null
-                      }
-                  </Link>
-                </MenuIn>
-              </RightMenu>
+              공통
             </TabContent>
         </Container>
   );

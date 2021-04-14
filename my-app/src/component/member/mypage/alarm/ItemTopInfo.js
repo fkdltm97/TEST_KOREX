@@ -14,58 +14,38 @@ import Set from '../../../../img/member/setting.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function ItemTabList({value}) {
+export default function ItemTabList({}) {
 
-  const [menu2,setMenu2] = useState(false);
-  const showModal2 =()=>{
-    setMenu2(!menu2);
+  //... 눌렀을때(메뉴)
+  const [menu,setMenu] = useState(false);
+  const showModal =()=>{
+    setMenu(!menu);
   }
-
     return (
         <Container>
-            <TabContent>
-              <WrapAlarmInfo>
-                <Condition>상태:<Orange>{value.condition}</Orange></Condition>
-                <FlexBox>
-                  <Left>알림일시</Left>
-                  <Right>{value.date}</Right>
-                </FlexBox>
-                <FlexBox>
-                  <Left>알림케이스 명</Left>
-                  <Right>{value.title}</Right>
-                </FlexBox>
-                <FlexBox>
-                  <Left>사건 ID</Left>
-                  <Right>{value.id}</Right>
-                </FlexBox>
-                <FlexBox>
-                  <Left>내용</Left>
-                  <RightWd100>{value.content}</RightWd100>
-                </FlexBox>
-              </WrapAlarmInfo>
-              <RightMenu>
-                <MenuIn>
-                  <Link onClick={showModal2}>
-                    <MenuIcon/>
-                      {
-                        menu2 ?
-                        <InMenu2>
-                          <Div>
-                            <Link className="data_link"></Link>
-                            <InDiv>숨기기</InDiv>
-                          </Div>
-                          <Div>
-                            <Link className="data_link"></Link>
-                            <InDiv>사건ID의 모든 알림 끄기</InDiv>
-                          </Div>
-                        </InMenu2>
-                        :
-                        null
-                      }
-                  </Link>
-                </MenuIn>
-              </RightMenu>
-            </TabContent>
+          <TopInfo>
+            <All>총 <GreenColor>4</GreenColor> 건</All>
+            <FilterAndAdd>
+              <Link onClick={showModal}>
+                <FilterImg src={View} alt="filter"/>
+                {
+                  menu ?
+                  <InMenu>
+                    <Div>
+                      <Link className="data_link"></Link>
+                      <InDiv>최신알림순</InDiv>
+                    </Div>
+                    <Div>
+                      <Link className="data_link"></Link>
+                      <InDiv>과거알림순</InDiv>
+                    </Div>
+                  </InMenu>
+                  :
+                  null
+                }
+              </Link>
+            </FilterAndAdd>
+          </TopInfo>
         </Container>
   );
 }
@@ -89,6 +69,59 @@ const Container = styled.div`
       width:100%;
       }
 `
+const WrapRequest = styled.div`
+  width:100%;
+`
+const TopTitle = styled.h2`
+  font-size:20px;color:#707070;
+  text-align:left;padding-left:30px;
+  font-weight:800;transform:skew(-0.1deg);
+  margin-bottom:40px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    padding-left:calc(100vw*(16/428));
+    }
+`
+const TopInfo = styled.div`
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 40px;
+  border-bottom:1px solid #f2f2f2;
+margin-top:calc(100vw*(18/428))
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(40/428));
+    padding:0 calc(100vw*(34/428)) calc(100vw*(22/428));
+    }
+`
+const All = styled.span`
+  font-size:17px;color:#4a4a4a;
+  font-weight:800;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    }
+`
+const GreenColor = styled(All)`
+  color:#01684b;
+`
+const FilterImg = styled.img`
+  display:inline-block;
+  width:18px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(18/428));
+  }
+`
+
+const FilterAndAdd = styled.div`
+  position:relative;
+  display:flex;justify-content:flex-start; align-items:center;
+`
+const ListUl = styled.div`
+  width:100%;
+  height:563px;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    height:calc(100vw*(536/428));
+    }
+`
 const TabContent = styled.div`
   position:relative;
   width:100%;
@@ -97,49 +130,33 @@ const TabContent = styled.div`
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
     width:100%;
-    padding:0 calc(100vw*(27/428)) calc(100vw*(23/428));
-    margin:calc(100vw*(23/428)) auto;
+    padding:0 calc(100vw*(16/428)) calc(100vw*(18/428)) calc(100vw*(26/428));
+    margin-bottom:calc(100vw*(18/428));
+    margin-top:calc(100vw*(18/428));
     }
 `
 const Condition = styled.div`
   font-size:15px;color:#707070;
   font-weight:800;transform:skew(-0.1deg);
   margin-bottom:15px;
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(13/428));
-    margin-bottom:calc(100vw*(20/428));
-    }
 `
 const Orange = styled. span`
   font-size:15px;color:#fe7a01;
   font-weight:800;transform:skew(-0.1deg);
   vertical-align:middle;
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(13/428));
-    }
 `
 const WrapAlarmInfo = styled.div`
   width:550px;
   padding-left:50px;
-  @media ${(props) => props.theme.mobile} {
-    width:100%;
-    padding-left:0;
-    }
 
 `
 const FlexBox = styled.div`
   display:flex;justify-content:space-between;align-items:center;
   flex-wrap:wrap;margin-bottom:6px;
-  @media ${(props) => props.theme.mobile} {
-    margin-bottom:calc(100vw*(6/428));
-    }
 `
 const Left = styled.p`
   font-size:15px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(13/428));
-    }
 `
 const Right = styled(Left)`
   color:#979797;
@@ -147,15 +164,21 @@ const Right = styled(Left)`
 const RightWd100 = styled(Right)`
   width:100%;
   margin-top:6px;
-  @media ${(props) => props.theme.mobile} {
-    margin-top:calc(100vw*(6/428));
-    }
 `
 const RightMenu = styled.div`
   position:absolute;right:30px;top:30px;
+`
+const InMenu = styled.ul`
+  position:absolute;
+  width:112px;
+  top:0;left:44px;
+  border:1px solid #707070;
+  border-radius:8px;
+  background:#fff;
+  z-index:3;
   @media ${(props) => props.theme.mobile} {
-    right:calc(100vw*(23/428));
-    top:calc(100vw*(-10/428));
+    top:calc(100vw*(20/428));
+    left:calc(100vw*(-50/428));
   }
 `
 
@@ -168,9 +191,8 @@ const InMenu2 = styled.ul`
   background:#fff;
   z-index:3;
   @media ${(props) => props.theme.mobile} {
-    width: calc(100vw*(145/428));
-    left: calc(100vw*(-114/428));
-    top: calc(100vw*(35/428));
+    top:calc(100vw*(20/428));
+    left:calc(100vw*(-50/428));
   }
 `
 const Div = styled.li`
@@ -184,7 +206,7 @@ const Div = styled.li`
   &:first-child{padding-top:8px;}
   &:last-child{padding-bottom:8px;}
   @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(12/428));
+    font-size:calc(100vw*(13/428));
     padding:calc(100vw*(4/428)) 0 calc(100vw*(4/428)) calc(100vw*(12/428));
     &:first-child{padding-top:calc(100vw*(8/428));}
     &:last-child{padding-bottom:calc(100vw*(8/428));}

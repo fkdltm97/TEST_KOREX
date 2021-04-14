@@ -7,7 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import MyAlarm from '../../../component/member/mypage/alarm/MyAlarm';
+import PropertyManage from '../../../component/member/mypage/property/PropertyManage';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -48,12 +48,9 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-            {/*개인로 로그인했을때*/}
-              <SubTitle title={"개인"} rank={true} cursor={"default"}/>
-            {/*기업,중개사,분양대항사으로 로그인했을때*/}
-            {/* <SubTitle title={"소속명"} arrow={"　▼"} rank={true} path={"/Team"} cursor={"pointer"}/> */}
 
-              <MyAlarm/>
+            <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
+            <PropertyManage/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

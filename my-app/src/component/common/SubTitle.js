@@ -62,7 +62,7 @@ export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,edi
               }
               {
                 rank ?
-                <Link to="/">
+                <Link to="/MyAlarmSetting">
                   <SetImg src={Set}/>
                 </Link>
                 :
