@@ -9,6 +9,7 @@ import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
 import MbHouseView from '../../component/common/house/mobilecomp/MbHouseView';
 import LiveModal from '../../component/common/house/LiveModal';
+import ModalCalendar from "../../component/common/house/ModalCalendar";
 import ImgDetail from '../../component/common/house/ImgDetail';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
@@ -34,15 +35,16 @@ export default function MainPage() {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
-
+  const [cal, setCal] = useState(false);
   return (
     <>
           <MainHeader rank={true}/>
           <Container>
             <SubTitle title={"분양상세"} rank={false}/>
             <LiveModal live={live} setLive={setLive}/>
+            <ModalCalendar cal={cal} setCal={setCal}/>
             <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-            <MbHouseView setLive={setLive} setDetailImg={setDetailImg}/>
+            <MbHouseView setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

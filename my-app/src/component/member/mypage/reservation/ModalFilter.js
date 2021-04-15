@@ -211,6 +211,8 @@ const FilterSelectSortList = styled.select`
   background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(14/428));
+    height:calc(100vw*(43/428));
+    background:url(${ArrowDown}) no-repeat 90% center;background-size:calc(100vw*(11/428));
   }
 `
 const Option = styled.option`

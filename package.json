@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies": {
+    "react-calendar": "^3.3.1"
+  }
+}

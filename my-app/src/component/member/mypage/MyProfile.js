@@ -160,7 +160,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/BrokerReservation" className="data_link"></Link>
                   <LinkTxt>내 방문예약</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>

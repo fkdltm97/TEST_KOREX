@@ -19,7 +19,7 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 import BackBtn from '../../../../img/notice/back_btn.png';
 
 SwiperCore.use([]);
-export default function HouseDetail({setLive, setDetailImg}){
+export default function HouseDetail({setLive, setDetailImg,setCal}){
     return (
       <Container>
         <WrapDetail>
@@ -43,7 +43,7 @@ export default function HouseDetail({setLive, setDetailImg}){
                 <Txt>홈페이지</Txt>
               </Button>
               <Button>
-                <Link className="data_link"></Link>
+                <Link onClick={()=>{setCal(true)}} className="data_link"></Link>
                 <IconImg src={Exit}/>
                 <Txt>방문예약</Txt>
               </Button>

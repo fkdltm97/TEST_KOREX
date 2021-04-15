@@ -54,6 +54,8 @@ import MyLive from './page/member/mypage/MyLive';
 import MyAlarm from './page/member/mypage/MyAlarm';
 import MyAlarmSetting from './page/member/mypage/MyAlarmSetting';
 import PropertyManagement from './page/member/mypage/PropertyManagement';
+import BrokerReservation from './page/member/mypage/BrokerReservation';
+
 
 /*map*/
 import Map from './page/map/Map';
@@ -119,7 +121,7 @@ export default function App(){
             <Route exact path="/MyAlarm" component={MyAlarm}/>{/*내 알림*/}
             <Route exact path="/MyAlarmSetting" component={MyAlarmSetting}/>{/*내 알림 설정*/}
             <Route exact path="/PropertyManagement" component={PropertyManagement}/>{/*물건관리*/}
-
+            <Route exact path="/BrokerReservation" component={BrokerReservation}/>{/*내 방문예약 */}
 
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}

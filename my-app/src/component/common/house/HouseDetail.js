@@ -24,7 +24,7 @@ import Checked from "../../../img/member/checked.png";
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function HouseList({updatePageIndex,setLive,setDetailImg}){
+export default function HouseList({updatePageIndex,setLive,setDetailImg,setCal}){
 
   const [active,setActive] = useState(false);
 
@@ -76,7 +76,7 @@ export default function HouseList({updatePageIndex,setLive,setDetailImg}){
                 <Txt>홈페이지</Txt>
               </Button>
               <Button>
-                <Link className="data_link"></Link>
+                <Link onClick={() => {setCal(true)}} className="data_link"></Link>
                 <IconImg src={Exit}/>
                 <Txt>방문예약</Txt>
               </Button>
