@@ -18,7 +18,9 @@ export default function PersonalAndCompany() {
             <FlexBox>
               <Left>
                 <Title>프로젝트 ID</Title>
-                <Visit>방문예약 12</Visit>
+                <Visit>
+                  <Link>방문예약 12</Link>
+                </Visit>
               </Left>
               <Right>
                 <PreviewBtn type="button" name="">미리보기</PreviewBtn>
@@ -26,8 +28,8 @@ export default function PersonalAndCompany() {
               </FlexBox>
               <FlexBox>
               <Left>
-                <Date>방문예약 12</Date>
-                <Title>Live 시청예약</Title>
+                <Date>2021.02.12 화요일 16:30</Date>
+                <Title><Link to="/MyLiveManage">Live 시청예약</Link></Title>
               </Left>
               <Right>
                 <IconImg src={LiveUser}/>
@@ -59,7 +61,7 @@ const Left = styled.div`
 const Title = styled.h2`
   display:inline-block;
   font-size:15px;font-weight:800;transform:skew(-0.1deg);
-  color:#4a4a4a;
+  color:#4a4a4a;cursor:pointer;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(15/428));
     }
@@ -67,7 +69,7 @@ const Title = styled.h2`
 const Visit = styled.p`
   font-size:13px;color:#979797;
   font-weight:600;transform:skew(-0.1deg);
-  margin-top:6px;
+  margin-top:6px;cursor:pointer;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));
     margin-top:calc(100vw*(6/428));

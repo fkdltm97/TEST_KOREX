@@ -1,8 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-
-
 //css
 import styled from "styled-components"
 
@@ -19,6 +17,7 @@ import ProfessionalBroker from './mypageTop/ProfessionalBroker';
 import Agency from './mypageTop/Agency';
 
 export default function JoinInput({profileedit,profileeditCheck}) {
+  const [open, setOpen] = useState(false);
   const valueChk = () =>{
     return profileeditCheck;
   }
@@ -85,13 +84,13 @@ export default function JoinInput({profileedit,profileeditCheck}) {
             }
             <ProfileMiddle> {/*컴포넌트로 분리했습니다! (mypageTop 폴더)*/}
               {/*개인&기업일때 상단*/}
-                <PersonalAndCompany/>
+                {/*<PersonalAndCompany/>*/}
               {/*중개사(일반)일때 없음*/}
 
               {/*전문중개사일때*/}
                 {/*<ProfessionalBroker/>*/}
               {/*분양대행사일때*/}
-                {/*<Agency/>*/}
+                <Agency/>
             </ProfileMiddle>
 
             <ProfileBottom>
@@ -186,10 +185,20 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
-                  <LinkTxt>분양프로젝트 관리</LinkTxt>
-                  <Arrow src={RightArrow}/>
+                  <LiPJ>
+                    <Link className="data_link" onClick={() =>{setOpen(!open)}}/>
+                    <LinkTxt>분양프로젝트 관리</LinkTxt>
+                    <ArrowRotate src={RightArrow}/>
+                  </LiPJ>
+                  { open ?
+                    <SubDepth>
+                      <SubLi><Link to="/MyLiveSetting" className="data_link"/>- Live 시청예약세팅</SubLi>
+                      <SubLi><Link to="/MyVisitSetting" className="data_link"/>- 방문예약세팅</SubLi>
+                    </SubDepth>
+                    :
+                    null}
                 </Li>
+
                 <Li>
                   <Link to="/CompanyProfile" className="data_link"></Link>
                   <LinkTxt>회사 프로필 설정</LinkTxt>
@@ -385,12 +394,31 @@ const Ul = styled.ul`
 const Li = styled.li`
   position:relative;
   width:100%;
-  display:felx;justify-content:space-between;align-items:center;
+  display:felx;justify-content:space-between;align-items:center;flex-wrap:wrap;
   padding:36px 40px;
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(30/428)) calc(100vw*(20/428)) calc(100vw*(30/428)) calc(100vw*(30/428));
     }
+`
+const LiPJ = styled.div`
+width:100%;
+position:relative;
+display:flex;justify-content:space-between;align-items:center;
+`
+const SubDepth = styled.ul`
+  width:100%;
+  padding:25px 0 0 15px;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(15/428)) 0 0 calc(100vw*(15/428));
+    }
+`
+const SubLi = styled.li`
+  position:Relative;
+  font-size:15px;color:#4a4a4a;
+  font-weight:800;transform:skew(-0.1deg);
+  margin-bottom:10px;
+  &:last-child{margin-bottom:0;}
 `
 const LinkTxt = styled.p`
   font-size:15px;color:#4a4a4a;
@@ -404,6 +432,9 @@ const Arrow = styled.img`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(8/428));
     }
+`
+const ArrowRotate= styled(Arrow)`
+  transform:rotate(90deg);
 `
 const BrokerTag = styled.div`
   padding-left:28px;

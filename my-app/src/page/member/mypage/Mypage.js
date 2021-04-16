@@ -67,8 +67,11 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-              <SubTitle title={"마이페이지"} path={"/"} cursor={"default"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>
-              <MyProfile profileedit={valueChk}/>
+            {/*개인로 로그인했을때*/}
+              {/*<SubTitle title={"개인"} cursor={"default"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>*/}
+            {/*기업,중개사,분양대항사으로 로그인했을때*/}
+             <SubTitle title={"소속명"} arrow={"　▼"}path={"/Team"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>
+             <MyProfile profileedit={valueChk}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

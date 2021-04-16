@@ -87,7 +87,7 @@ const ModalBg = styled.div`
 `
 const Wraplive = styled.div`
   position:fixed;z-index:1002;
-  width:535px;height:740px;
+  width:535px;height:auto;
   background:#fff;
   border-radius:24px;
   border:1px solid #f2f2f2;
@@ -98,13 +98,7 @@ const Wraplive = styled.div`
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     display: none;}
-
-  @media ${(props) => props.theme.container} {
-        width:calc(100vw*(535/1436));
-        height:calc(100vw*(520/1436));
-    }
-
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       width:calc(100vw*(395/428));
       height:auto;
       padding:calc(100vw*(24/428)) calc(100vw*(20/428)) calc(100vw*(50/428));
@@ -114,23 +108,15 @@ const ModalClose = styled.div`
   width:100%;
   text-align:right;
   margin-bottom:22px;
-  @media ${(props) => props.theme.container} {
-        margin-bottom:calc(100vw*(22/1436));
-    }
-
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       margin-bottom:calc(100vw*(25/428));
     }
 `
 const CloseImg = styled.img`
   display:inline-block;
   width:15px;height:16px;
-  @media ${(props) => props.theme.container} {
-        width:calc(100vw*(15/1436));
-        height:calc(100vw*(16/1436));
-    }
 
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       width:calc(100vw*(12/428));
       height:calc(100vw*(13/428));
     }
@@ -138,11 +124,8 @@ const CloseImg = styled.img`
 const ModalTop = styled.div`
   width:100%;padding-bottom:20px;
   border-bottom:1px solid #a3a3a3;
-  @media ${(props) => props.theme.container} {
-      padding-bottom:calc(100vw*(20/1436));
-    }
 
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       padding-bottom:calc(100vw*(15/428));
     }
 `
@@ -150,22 +133,15 @@ const Title = styled.div`
   font-size:20px;
   font-weight:800;
   color:#707070;
-  @media ${(props) => props.theme.container} {
-      font-size:calc(100vw*(20/1436));
-    }
 
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       font-size:calc(100vw*(15/428));
     }
 `
 const ModalBody = styled.div`
   width:100%;
   padding-top:11px;
-  @media ${(props) => props.theme.container} {
-      padding-top:calc(100vw*(11/1436));
-    }
-
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       padding-top:calc(100vw*(14/428));
     }
 `
@@ -173,24 +149,28 @@ const Label = styled.label`
   margin:10px 0;
   font-size:12px;display:inline-block;font-weight:600;
   transform:skew(-0.1deg);
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       font-size:calc(100vw*(12/428));
-      margin:calc(100vw*(10/428));
+      margin:calc(100vw*(10/428)) 0;
     }
 `
 const Desc = styled.div`
   font-size:15px;transform:skew(-0.1deg);
   line-height:1.33;color:#4a4a4a;
   margin:15px 0;
+  @media ${(props) => props.theme.modal} {
+      font-size:calc(100vw*(13/428));
+      margin:calc(100vw*(15/428)) 0;
+    }
 `
 const WrapAdd = styled.div`
   width:410px; margin:30px auto 0;
   display:flex;justify-content:flex-start;
   align-items:flex-start;flex-wrap:wrap;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:100%;
-    margin:calc(100vw*(40/428)) auto 0;
-    }
+    margin:calc(100vw*(25/428)) auto 0;
+  }
 `
 const InputTitle = styled.label`
   display:inline-block;
@@ -200,7 +180,7 @@ const InputTitle = styled.label`
   margin-bottom:10px;
   font-weight:600;
   transform:skew(-0.1deg);
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
       font-size:calc(100vw*(12/428));
       padding-left:calc(100vw*(7/428));
       margin-bottom:calc(100vw*(9/428));
@@ -211,14 +191,18 @@ const InputInvite = styled.div`
   margin-bottom:10px;
   border-bottom:1px solid #e4e4e4;
   padding-bottom:15px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(8/428));
+    padding-bottom:calc(100vw*(15/428));
     &:last-child{margin-bottom:0;}
     }
 `
 const WrapPhone = styled.div`
   width:100%;position:relative;
   margin-top:15px;
+  @media ${(props) => props.theme.modal} {
+    margin-top:calc(100vw*(8/428));
+    }
 `
 const Input = styled.input`
   width:370px;height:43px;
@@ -226,8 +210,8 @@ const Input = styled.input`
   border:1px solid #e4e4e4;
   font-size:15px;color:#707070;font-weight:600;transform:skew(-0.1deg);
   &::placeholder{color:#979797;}
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(350/428));
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(315/428));
     height:calc(100vw*(43/428));
     font-size:calc(100vw*(15/428));
     }
@@ -241,8 +225,9 @@ const Delete = styled.img`
   top:69%;transform:translateY(-50%);
   cursor:pointer;
   width:15px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(15/428));
+    right:calc(100vw*(8/428));
     }
 `
 const AddBtn = styled.div`
@@ -251,9 +236,9 @@ const AddBtn = styled.div`
   border-radius:4px;border:1px solid #707070;
   background:#f8f7f7 url(${Add}) no-repeat center center;background-size:19px 19px;
   margin:20px auto 60px;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(43/428));
-    height:calc(100vw*(43/428));
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(35/428));
+    height:calc(100vw*(35/428));
     margin:calc(100vw*(20/428)) auto calc(100vw*(40/428));
     background:#f8f7f7 url(${Add}) no-repeat center center;background-size:calc(100vw*(19/428)) calc(100vw*(19/428));
     }
@@ -271,7 +256,7 @@ const Invite = styled.button`
   font-size:20px;font-weight:800;transform:skew(-0.1deg);
   background:${({active}) => active ? "#01684b" : "#979797"};
   border:${({active}) => active ? "3px solid #04966d" : "3px solid #e4e4e4"};
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:100%;
     height:calc(100vw*(60/428));
     line-height:calc(100vw*(54/428));

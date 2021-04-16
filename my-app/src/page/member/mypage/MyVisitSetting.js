@@ -7,7 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import MyTeam from '../../../component/member/mypage/MyTeam';
+import VisitSetting from '../../../component/member/mypage/projectSetting/VisitSetting';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -16,7 +16,6 @@ import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
 import ModalCalendar from "../../../component/common/house/ModalCalendar";
-
 
 export default function Join() {
   //이용약관
@@ -39,6 +38,7 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -47,8 +47,8 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-              <SubTitle title={"소속선택"} rank={false} cursor={"default"}/>
-              <MyTeam/>
+              <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
+              <VisitSetting/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
@@ -62,6 +62,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 309px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(334/428)));
+        min-height:calc(100vh - calc(100vw*(420/428)));
       }
 `
