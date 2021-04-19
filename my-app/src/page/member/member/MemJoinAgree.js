@@ -17,13 +17,14 @@ import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
+import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 import { useSelector } from 'react-redux';
 import { tempRegisterUserdataActions} from '../../../store/actionCreators';
 
 export default function JoinAgree() {
   console.log('page > member > memjoinagree 실행=============================');
-  
+
   const tempregisteruserdata = useSelector(data => data.temp_register_userdata);
 
   console.log('data.temp_register_userdata refer info:',tempregisteruserdata, tempRegisterUserdataActions);
@@ -47,6 +48,7 @@ export default function JoinAgree() {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
+  const [cal, setCal] = useState(false);
 
   /*비밀번호 규정 show, hide*/
   const [pwdShow,setPwdShow] = useState(false);
@@ -57,10 +59,10 @@ export default function JoinAgree() {
   //동의상태 문자열 조정
   const [agreeStatus,setAgreeStatus] = useState("");//agree_essential1,2,3,4, agree_optional 선택상태 여부. 필수1~4 모두 포함하고있어야통과
   const [agreePossible,setAgreePossible] = useState(false);//기본값 false ->true여부
-  
+
     console.log(pwd);
     // console.log(pwdConfirm);
-    
+
     //암호는 잘 썼고, 일치하는지, 그리고 동의항목(필수) 모두 체크했는지 여부에 따른 true,false검사
     const checkVaildate = () =>{
       return pwd.length > 7
@@ -81,16 +83,16 @@ export default function JoinAgree() {
       tempRegisterUserdataActions.passwordchange({passwords: pwd});
       tempRegisterUserdataActions.agreestatuschange({agreeStatuss: agreeStatus});
     },)
-    
+
     //member_submit_funciton(최종가입) 회원가입 요청 post요청을 가한다.
     const member_submit_function = async (e) => {
       console.log('member_submit_function 개인 memberjoinAgree페이지에서 만들어진것을 하위로 보냄,개인 회원가입submit발생');
 
       console.log('submit버튼 누른 시점 당시의 모든 프로퍼티값들 pwd,pwdconfirm,active,agreestatus,agreepossible, user_name, phone, 등의 값조회');
       console.log('data.temp_register_userdata refer info:',tempregisteruserdata, tempRegisterUserdataActions);
-      
+
       if(active == true){
-          let body_info={ 
+          let body_info={
           email: tempregisteruserdata.email,
           agree_status : tempregisteruserdata.agree_status,
           name: tempregisteruserdata.name,
@@ -102,15 +104,16 @@ export default function JoinAgree() {
         let res = await serverController.connectFetchController(`/api/auth/member/register`,"POST",JSON.stringify(body_info));
         console.log('res result:',res);
         alert(res);
-  
+
         //this.props.history.push({}); 로그인 페이지로 이동.
-      }  
+      }
     }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
+          <ModalCalendar cal={cal} setCal={setCal}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
               <SubTitle title={"회원가입"}/>

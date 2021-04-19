@@ -51,40 +51,24 @@ export default function Reserve({filter,setFilter}) {
                 <FilterBox>
                   <FilterLabel>정렬기준</FilterLabel>
                   <FilterSelectSort>
-                    <Link onClick={showFilterSelect}>
-                      <Option>최신등록순</Option>{/*여기에 FilterSelectList 값이 담기면 될 것 같습니다..될까요?ㅠㅠ*/}
-                        {
-                          filterSelect ?
-                          <FilterSelectSortList>
-                            <InOption>최신등록순</InOption>
-                            <InOption>과거등록순</InOption>
-                            <InOption>가나다순</InOption>
-                          </FilterSelectSortList>
-                          :
-                          null
-                        }
-                    </Link>
+                    <FilterSelectSortList>
+                      <InOption>최신등록순</InOption>
+                      <InOption>과거등록순</InOption>
+                      <InOption>가나다순</InOption>
+                    </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>
               {/*상태 select*/}
                 <FilterBox>
                   <FilterLabel>상태</FilterLabel>
                   <FilterSelectCondition>
-                    <Link onClick={showFilterSelect2}>
-                      <Option>전체</Option>{/*여기에 FilterSelectList 값이 담기면 될 것 같습니다..될까요?ㅠㅠ*/}
-                        {
-                          filterSelect2 ?
-                          <FilterSelectConditionList>
-                            <InOption>전체</InOption>
-                            <InOption>오늘</InOption>
-                            <InOption>내일</InOption>
-                            <InOption>예약취소</InOption>
-                            <InOption>만료</InOption>
-                          </FilterSelectConditionList>
-                          :
-                          null
-                        }
-                    </Link>
+                    <FilterSelectConditionList>
+                      <InOption>전체</InOption>
+                      <InOption>오늘</InOption>
+                      <InOption>내일</InOption>
+                      <InOption>예약취소</InOption>
+                      <InOption>만료</InOption>
+                    </FilterSelectConditionList>
                   </FilterSelectCondition>
                 </FilterBox>
               </WrapFilterSelect>
@@ -121,7 +105,7 @@ const ModalMapBg = styled.div`
   position:fixed;left:0;top:0;
   background:rgba(0,0,0,0.2);
   display:block;content:'';
-  z-index:2;
+  z-index:3;
 `
 const ModalMap = styled.div`
   position:absolute;
@@ -169,9 +153,9 @@ const WrapFilterModal = styled(WrapModalMap)`
 const ModalFilterBg = styled(ModalMapBg)`
 `
 const ModalFilter = styled(ModalMap)`
-  height:520px;
+  height:490px;
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(458/428));
+    height:calc(100vw*(400/428));
   }
 `
 const FilterCloseBtn = styled(MapCloseBtn)`
@@ -190,53 +174,49 @@ const WrapFilterSelect = styled.div`
 const FilterBox = styled.div`
   position:relative;
   width:100%;
-  margin-bottom:70px;
+  margin-bottom:20px;
   &:last-child{margin-bottom:0;}
   @media ${(props) => props.theme.mobile} {
-    margin-bottom:calc(100vw*(67/428));
+    margin-bottom:calc(100vw*(20/428));
   }
 `
 const FilterLabel = styled.label`
+  display:inline-block;
   font-size:12px;color:#4a4a4a;
   transform:skew(-0.1deg);
   font-family:'nbg', sans-serif;
   margin-bottom:9px;
+  padding-left:3px;
   @media ${(props) => props.theme.mobile} {
     margin-bottom:calc(100vw*(9/428));
     font-size:calc(100vw*(12/428));
+    padding-left:calc(100vw*(3/428));
   }
 `
 const FilterSelectSort = styled.div`
-  position:Absolute;
-  top:22px;
   width:100%;
-  text-align:center;
-  font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
-  border-radius:4px;border:1px solid #a3a3a3;
-  background:#fff;
-  z-index:9999;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(22/428));
-    font-size:calc(100vw*(14/428));
-  }
+
 `
 const FilterSelectCondition = styled(FilterSelectSort)`
   z-index:99;
 `
-const FilterSelectSortList = styled.div`
+const FilterSelectSortList = styled.select`
   width:100%;
-`
-const Option = styled.div`
-  padding:12px 0;
-  text-align:center;
-  cursor:pointer;
-  transition:all 0.3s;
-  background:url(${ArrowDown}) no-repeat 400px 16px;
-  background-size:13px 8px;
+  height:43px;
+  text-align-last:center;
+  font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
+  border-radius:4px;border:1px solid #a3a3a3;
+  background:#fff;
+  appearance:none;
+  background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
   @media ${(props) => props.theme.mobile} {
-    padding:calc(100vw*(12/428)) 0;
-    background:url(${ArrowDown}) no-repeat calc(100vw*(320/428)) calc(100vw*(16/428)); background-size:calc(100vw*(13/428)) calc(100vw*(8/428));
+    font-size:calc(100vw*(14/428));
+    height:calc(100vw*(43/428));
+    background:url(${ArrowDown}) no-repeat 90% center;background-size:calc(100vw*(11/428));
   }
+`
+const Option = styled.option`
+  font-family:'nbg',sans-serif;
 
 `
 const InOption = styled(Option)`
@@ -248,21 +228,14 @@ const InOption = styled(Option)`
   }
 `
 const FilterSelectConditionList = styled(FilterSelectSortList)`
-  top:200px;
-  height:100px;
-  overflow-y:scroll;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(200/428));
-    height:calc(100vw*(100/428));
-  }
 `
 const WrapFilterButtons = styled.div`
   position:Absolute;
-  left:50%;bottom:78px;transform:translateX(-50%);
+  left:50%;bottom:60px;transform:translateX(-50%);
   width:100%;
   display:flex;justify-content:center;align-items:center;
   @media ${(props) => props.theme.mobile} {
-    bottom:calc(100vw*(72/428));
+    bottom:calc(100vw*(40/428));
   }
 `
 const ResetBtn = styled.button`

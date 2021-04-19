@@ -17,7 +17,7 @@ import IconRecent from "../../../img/main/icon_view.png";
 import ItemImg from "../../../img/main/item01.png";
 
 import { Mobile, PC } from "../../../MediaQuery"
-export default function House({house, openHouse ,live, setLive, detailimg, setDetailImg}) {
+export default function House({house, openHouse ,live, setLive, detailimg, setDetailImg,cal, setCal}) {
 
   //모달창 내 페이지 이동
   const [pageIndex , setPageIndex] = useState(0);
@@ -25,7 +25,7 @@ export default function House({house, openHouse ,live, setLive, detailimg, setDe
   const pageLoader = () =>{
     switch (pageIndex) {
       case 0: return <HouseList updatePageIndex={updatePageIndex}/>;
-      case 1: return <HouseDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg}/>;
+      case 1: return <HouseDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>;
       default :return <HouseList updatePageIndex={updatePageIndex}/>;
     }
   }

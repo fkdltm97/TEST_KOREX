@@ -14,6 +14,9 @@ import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
+import ImgDetail from "../../../component/common/house/ImgDetail";
+import LiveModal from "../../../component/common/house/LiveModal";
+import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 export default function Join() {
   //이용약관
@@ -31,10 +34,18 @@ export default function Join() {
   //분양 모달
   const [house, setHouse] = useState(false);
   const openHouse = (onOff) =>{ setHouse(onOff);}
+  //라이브 시청 모달
+  const [live, setLive] = useState(false);
+  //분양 상세이미지 모달
+  const [detailimg, setDetailImg] = useState(false);
+  const [cal, setCal] = useState(false);
 
     return (
         <>
-          <House house={house} openHouse={openHouse}/>
+          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          <LiveModal live={live} setLive={setLive}/>
+          <ModalCalendar cal={cal} setCal={setCal}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
               <SubTitle title={"회원가입"} rank={false}/>

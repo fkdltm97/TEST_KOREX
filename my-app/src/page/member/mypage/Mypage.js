@@ -15,6 +15,7 @@ import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
+import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 
 
@@ -38,6 +39,7 @@ export default function Join() {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
+  const [cal, setCal] = useState(false);
 
   //수정버튼 클릭시 저장버튼 변경
   const [editCheck,setEditChk] = useState(1);//기본값 1(EDIT버튼)
@@ -61,11 +63,15 @@ export default function Join() {
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
+          <ModalCalendar cal={cal} setCal={setCal}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-              <SubTitle title={"마이페이지"} path={"/"} cursor={"default"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>
-              <MyProfile profileedit={valueChk}/>
+            {/*개인로 로그인했을때*/}
+              {/*<SubTitle title={"개인"} cursor={"default"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>*/}
+            {/*기업,중개사,분양대항사으로 로그인했을때*/}
+             <SubTitle title={"소속명"} arrow={"　▼"}path={"/Team"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>
+             <MyProfile profileedit={valueChk}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

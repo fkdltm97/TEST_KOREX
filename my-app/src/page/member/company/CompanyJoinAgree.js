@@ -18,11 +18,13 @@ import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
+
 import { agreestatuschange } from '../../../store/modules/temp_register_userdata';
 import { tempRegisterUserdataActions } from '../../../store/actionCreators';
 
 import { useSelector } from 'react-redux';
 import { tempRegisterdataActions } from '../../../store/actionCreators';
+import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 export default function JoinAgree() {
    console.log('page>member>comapnyJoinagreejs 실행======================');
@@ -50,6 +52,7 @@ export default function JoinAgree() {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
+  const [cal, setCal] = useState(false);
 
   /*비밀번호 규정 show, hide*/
   const [pwdShow,setPwdShow] = useState(false);
@@ -110,7 +113,8 @@ export default function JoinAgree() {
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
+          <ModalCalendar cal={cal} setCal={setCal}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
               <SubTitle title={"회원가입"}/>

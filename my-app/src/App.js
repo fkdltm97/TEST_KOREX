@@ -49,6 +49,15 @@ import AddRequestBrokerSecond from './page/member/mypage/AddRequestBrokerSecond'
 import MyLike from './page/member/mypage/MyLike';
 import MyMember from './page/member/mypage/MyMember';
 import MyMemberEdit from './page/member/mypage/MyMemberEdit';
+import MyMemberAdd from './page/member/mypage/MyMemberAdd';
+import MyLive from './page/member/mypage/MyLive';
+import MyAlarm from './page/member/mypage/MyAlarm';
+import MyAlarmSetting from './page/member/mypage/MyAlarmSetting';
+import PropertyManagement from './page/member/mypage/PropertyManagement';
+import BrokerReservation from './page/member/mypage/BrokerReservation';
+import MyLiveSetting from './page/member/mypage/MyLiveSetting';
+import MyVisitSetting from './page/member/mypage/MyVisitSetting';
+import MyLiveManage from './page/member/mypage/MyLiveManage';
 
 /*map*/
 import Map from './page/map/Map';
@@ -58,7 +67,7 @@ import { useSelector } from 'react-redux';
 import { MyActions, UserActions} from './store/actionCreators';
 
 export default function App(){
-  
+
   console.log('App js 실행================================');
     const my= useSelector(data => data.my);
     const users= useSelector(data => data.user);
@@ -108,7 +117,16 @@ export default function App(){
             <Route exact path="/AddRequestBrokerSecond" component={AddRequestBrokerSecond}/>{/*중개의뢰 중개사 기본정보입력*/}
             <Route exact path="/MyLike" component={MyLike}/>{/*내 관심*/}
             <Route exact path="/MyMember" component={MyMember}/>{/*팀원관리*/}
+            <Route exact path="/MyMemberAdd" component={MyMemberAdd}/>{/*팀원관리 > 팀원추가*/}
             <Route exact path="/MyMemberEdit" component={MyMemberEdit}/>{/*팀원관리 > 팀원수정*/}
+            <Route exact path="/MyLive" component={MyLive}/>{/*내 라이브 시청예약*/}
+            <Route exact path="/MyAlarm" component={MyAlarm}/>{/*내 알림*/}
+            <Route exact path="/MyAlarmSetting" component={MyAlarmSetting}/>{/*내 알림 설정*/}
+            <Route exact path="/PropertyManagement" component={PropertyManagement}/>{/*물건관리*/}
+            <Route exact path="/BrokerReservation" component={BrokerReservation}/>{/*내 방문예약 */}
+            <Route exact path="/MyLiveSetting" component={MyLiveSetting}/>{/*Live 시청 예약 세팅*/}
+            <Route exact path="/MyLiveManage" component={MyLiveManage}/>{/*Live 시청예약접수관리*/}
+            <Route exact path="/MyVisitSetting" component={MyVisitSetting}/>{/*방문 예약 세팅*/}
 
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}

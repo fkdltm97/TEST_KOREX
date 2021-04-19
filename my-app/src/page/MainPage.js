@@ -11,6 +11,8 @@ import TermLocation from '../component/common/TermsOfLocation';
 import House from '../component/common/house/House';
 import ImgDetail from "../component/common/house/ImgDetail";
 import LiveModal from "../component/common/house/LiveModal";
+import ModalCalendar from "../component/common/house/ModalCalendar";
+
 //css
 import styled from "styled-components"
 
@@ -25,7 +27,7 @@ export default function MainPage() {
   const my = useSelector(data => data.my);
   const users = useSelector(data => data.user);
   const tempregisteruserdata = useSelector(data => data.temp_register_userdata);
-  
+
   console.log('메인페이지 mainpage page element실행==================');
   console.log('data.my globe info refer:',my);
   console.log('data.users globe info refer:',users);
@@ -50,14 +52,15 @@ export default function MainPage() {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
-
+  const [cal, setCal] = useState(false);
 
   return (
     <>
       <PC>
         <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
         <LiveModal live={live} setLive={setLive}/>
-        <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
+        <ModalCalendar cal={cal} setCal={setCal}/>
+        <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
         <MainHeader openHouse={openHouse}/>
         <MainBody/>
         <TermService termservice={termservice} openTermService={openTermService}/>

@@ -17,6 +17,7 @@ import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
+import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 export default function Join() {
   console.log('page > member > join 페이지컴포넌트실행===============');
@@ -39,12 +40,14 @@ export default function Join() {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
+  const [cal, setCal] = useState(false);
 
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg}/>
+          <ModalCalendar cal={cal} setCal={setCal}/>
+          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
               <SubTitle title={"회원가입"} rank={false}/>
