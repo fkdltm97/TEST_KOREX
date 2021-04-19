@@ -1,7 +1,7 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -20,7 +20,11 @@ export default function JoinTab() {
   const [image, setImage] = useState("");
   const [image2, setImage2] = useState("");
   const [phone,setPhone] = useState("");/*기본값*/
-  const [cernum,setCernum] = useState("");/*기본값*/
+  const [repname,setRepname] = useState("");
+  const [reginum1,setReginum1] = useState("");
+  const [reginum2,setReginum2] = useState("");
+  const [reginum3,setReginum3] = useState("");
+
   /*사업자 등록 정상/오류 모달*/
   const [errorNum, setErrorNum] = useState("");
   const [errorNum2, setErrorNum2] = useState("");
@@ -29,15 +33,15 @@ export default function JoinTab() {
   const [active2,setActive2] = useState(false);
 
   const phoneChange = (e) =>{ setPhone(e.target.value); }
-  const cernumChange = (e) =>{ setCernum(e.target.value); }
+  const repnameChange = (e) => { setRepname(e.target.value); }
+  const reginum1Change = (e) => { setReginum1(e.target.value); }
+  const reginum2Change = (e) => { setReginum2(e.target.value); }
+  const reginum3Change = (e) => { setReginum3(e.target.value); }
 
   const checkVaildate = () =>{
     return phone.length > 9
    }
 
-   const checkVaildate2 = () =>{
-     return phone.length > 9 && cernum.length > 4
-    }
 
     const onFileChange = (e) => {
         const {
@@ -64,6 +68,8 @@ export default function JoinTab() {
         }
     }
 
+   
+
 
    useEffect(()=>{
      if(checkVaildate())
@@ -71,11 +77,30 @@ export default function JoinTab() {
      else
          setActive(false);
 
-     if(checkVaildate2())
-             setActive2(true);
-     else
-         setActive2(false);
    },)
+
+   const brokerIdentify_submit = async (e) => {
+     console.log('brokerIdnetnify 중개사 인증submit 코렉스측 요청========================',image,image2,phone,active);
+     
+     var business_number= reginum1 +'-'+reginum2 + '-'+reginum3;
+     if(active){
+       let body_info={
+          repname : repname,
+          phone: phone,
+          businessnumber: business_number
+       };
+       console.log('JSON.STRINGIFY(BODY_INFO):',JSON.stringify(body_info));
+       
+       let res = await serverController.connectFetchController("/api/auth/broker/brokerVerifyRequest","POST",JSON.stringify(body_info),function(){},function(test){console.log(test)});
+       console.log('res results:',res);
+      
+       if(res.success){
+         setErrorNum(true);
+       }else{
+         alert(res.message);
+       }
+     }
+   }
 
     return (
         <Container>
@@ -87,15 +112,15 @@ export default function JoinTab() {
           <WrapJoinInput>
             <InputTop>
               <InputTitle>대표자명</InputTitle>
-              <Input type="text" name="" placeholder="대표자명을 입력해주세요."/>
+              <Input type="text" name="repname" placeholder="대표자명을 입력해주세요." onChange={repnameChange}/>
               <InputTitle>휴대전화</InputTitle>
-              <Input type="text" name="" placeholder="휴대번호를 '-'를 빼고 입력해주세요."/>
+              <Input type="text" name="repphone" placeholder="휴대번호를 '-'를 빼고 입력해주세요." onChange={phoneChange}/>
               <InputTitle>사업자 등록번호</InputTitle>
-              <RegistInput type="text" name=""/>
+              <RegistInput type="text" name="reginum1" onChange={reginum1Change}/>
               <Dash>-</Dash>
-              <RegistInput type="text" name=""/>
+              <RegistInput type="text" name="reginum2" onChange={reginum2Change}/>
               <Dash>-</Dash>
-              <RegistInput type="text" name=""/>
+              <RegistInput type="text" name="reginum3" onChange={reginum3Change}/>
             </InputTop>
             {/*사진첨부*/}
             <AddFile>
@@ -150,7 +175,7 @@ export default function JoinTab() {
 
             <SubmitButton>
               {/*정상 접수 됐을때(접수 완료 모달)*/}
-              <Link onClick={()=>{setErrorNum(true)}}>
+              <Link onClick={brokerIdentify_submit}>
                 <Submit type="button" name="" active={active}>제출</Submit>
               </Link>
               {/*접수 오류 됐을때(접수 오류 모달)*/}

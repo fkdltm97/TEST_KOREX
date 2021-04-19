@@ -1,6 +1,7 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
+import serverController from '../../../server/serverController';
 
 import styled from "styled-components"
 
@@ -18,7 +19,17 @@ import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
 
+//redux addons assets
+import {useSelector} from 'react-redux';
+import {tempRegisterdataActions, tempRegisterUserdataActions } from '../../../store/actionCreators';
+
 export default function JoinAgree() {
+  console.log('page>agecny>companyJoinagreejs 실행===========================');
+
+  const tempregisteruserdata = useSelector(data => data.temp_register_userdata);
+
+  console.log('dat.temp_register_userdata refer info:',tempregisteruserdata,tempRegisterUserdataActions);
+
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}
@@ -47,22 +58,57 @@ export default function JoinAgree() {
   const [pwdConfirm,setPwdConfirm] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
 
-    console.log(pwd);
+  //동의 상태 문자열 조정
+  const [agreestatus, setAgreeStatus]= useState('');
+  const [agreePossible,setAgreePossible] = useState(false);
+
+    //console.log(pwd);
     // console.log(pwdConfirm);
 
     const checkVaildate = () =>{
       return pwd.length > 7
       && pwdConfirm.length > 7
-      && pwd == pwdConfirm
+      && pwd == pwdConfirm && (agreePossible == true)
      }
 
     useEffect(()=>{
+      console.log('agencyJoinagree>useEffect>> ====== 관련 컴포넌들 프로퍼티값state값 상태변화감지:',pwd,pwdConfirm,agreestatus,agreePossible,active);
       if(checkVaildate())
          setActive(true);
       else
           setActive(false);
+
+      //내부 암호 암호확인,동의상태등 상태값 변화 리덕스 저장
+      tempRegisterUserdataActions.usertypechange({usertypes:'분양대행사'});
+      tempRegisterUserdataActions.passwordchange({passwords: pwd});
+      tempRegisterUserdataActions.agreestatuschange({agreeStatuss:agreestatus});
     },)
 
+    const agency_submit_function = async(e) => {
+      console.log('agency submit function 분양사 가입 회원가입 submit발생');
+
+      console.log('submit버튼 누른시점 당시의 모든 프로퍼티값들 pwd,pwdconfir,.....',tempregisteruserdata,tempRegisterUserdataActions);
+
+      if(active == true){
+        let body_info = {
+          email : '',
+          agree_status : tempregisteruserdata.agree_status,
+          name:tempregisteruserdata.name,
+          password:tempregisteruserdata.password,
+          phone:tempregisteruserdata.phone,
+          usertype:tempregisteruserdata.usertype,
+          businessnumber:tempregisteruserdata.businessnumber,
+          businessname:tempregisteruserdata.businessname
+        };
+
+        console.log('JSON>STRINGFIY(BODY_INFO):',JSON.stringify(body_info));
+        let res=await serverController.connectFetchController('/api/auth/agency/register','post',JSON.stringify(body_info));
+        console.log('res_result:',res);
+        alert(res);
+
+        //가입완료후 페이지 이동 등 액션
+      }
+    }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -77,15 +123,17 @@ export default function JoinAgree() {
                 pwdShow={pwdShow}
                 setPwdShow={setPwdShow}
                 setPwd={setPwd}
+                pwdConfirm={pwdConfirm}
                 setPwdConfirm={setPwdConfirm}
               />
               <JoinCheck
-                pwd={pwd}
-                setPwd={setPwd}
                 active={active}
                 setActive={setActive}
-                pwdConfirm={pwdConfirm}
-                setPwdConfirm={setPwdConfirm}
+                agreestatus={agreestatus}
+                setAgreeStatus={setAgreeStatus}
+                agreePossible={agreePossible}
+                setAgreePossible={setAgreePossible}
+                agency_submit_function={agency_submit_function}
               />
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

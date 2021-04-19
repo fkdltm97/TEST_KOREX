@@ -47,9 +47,15 @@ export default function JoinInput() {
         };
         console.log('JSON.STIRNGIFY(BODY_INFO):',JSON.stringify(body_info));
         
-        let res= await serverController.connectFetchController(`auth/member/login`,"POST",JSON.stringify(body_info),function(){},function(test){console.log(test)});
+        let res= await serverController.connectFetchController(`/api/auth/member/login`,"POST",JSON.stringify(body_info),function(){},function(test){console.log(test)});
         console.log('res results:',res);
-       // alert(res);
+        //alert(res);
+        if(!res.success){
+          document.getElementById('loginfail').style.display='block';
+        }else{
+          document.getElementById('loginfail').style.display='none';
+          alert(res.message);
+        }
         //로그인 성공시 페이지 이동->>>
       }
    }
@@ -63,7 +69,7 @@ export default function JoinInput() {
               <InputTitle>비밀번호</InputTitle>
               <Input type="password" name="" placeholder="비밀번호를 입력해주세요." onChange={pwdChange}/>
               {/*아이디 또는 비밀번호가 일치하지 않을때 Msg*/}
-              <ErrorMsg authError={authError}>아이디 또는 비밀번호가 일치하지 않습니다.</ErrorMsg>
+              <ErrorMsg authError={authError} style={{display:"none"}} id='loginfail'>아이디 또는 비밀번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
               <Submit type="submit" name="" active={active} onClick={member_login_submit}>로그인</Submit>

@@ -38,9 +38,12 @@ export default function JoinInput() {
   const coolSmsSend= async (e) => { 
     console.log('coolsmsSend발송 함수 호출, member joininput 요소 고유 email,name,phone,cernum값등 조회 현재의값',email,name,phone);
     
+    document.getElementById('inputcernum').style.display='block';
+
     let body_info={ number: phone };
-    let res = await serverController.connectFetchController(`coolsms/sendprocess`,"POST",JSON.stringify(body_info));
+    let res = await serverController.connectFetchController(`/api/coolsms/sendprocess`,"POST",JSON.stringify(body_info));
     console.log('res result:',res);
+
     /*
     return fetch("http://localhost:55550/sendprocess",{
       credentials:'include',
@@ -52,6 +55,9 @@ export default function JoinInput() {
     }).catch(function(e){
 
     });*/
+
+    document.getElementById('memjoinagree_move').style.display='block';
+
     setVerify_cernum(res.sms_message);
   }
 
@@ -109,15 +115,15 @@ export default function JoinInput() {
               <InputTitle>휴대전화</InputTitle>
               <Input type="text" name="" placeholder="휴대번호를 '-'를 빼고 입력해주세요." onChange={phoneChange}/>
               {/*NextBtn(인증번호발송) 버튼 눌렀을때 show*/}
-              <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요." onChange={cernumChange} />
+              <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요." id='inputcernum' style={{display:'none'}} onChange={cernumChange} />
               {/*인증번호가 일치하지 않을때 Msg*/}
               <ErrorMsg style={{display:"none"}}>휴대전화 인증번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
                 <NextBtn type="button" name="" active={active} onClick={coolSmsSend}>인증번호 발송</NextBtn>
                 {/*NextBtn(인증번호발송) 눌렀을때 show*/}
-                <Link to="/MemJoinAgree" onClick={nextStep}>
-                  <Submit type="submit" name="" active2={active2} style={{display:"block"}}>다음</Submit>
+                <Link to="/MemJoinAgree" onClick={nextStep} id='memjoinagree_move' style={{display:'none'}}>
+                  <Submit type="submit" name="" active2={active2}>다음</Submit>
                 </Link>
             </SubmitButton>
           </WrapJoinInput>

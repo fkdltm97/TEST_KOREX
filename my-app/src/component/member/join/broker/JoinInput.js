@@ -1,7 +1,7 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -12,10 +12,21 @@ import JoinTopTxt from "./JoinTopTxt";
 import Check from "../../../../img/member/check.png";
 import Checked from "../../../../img/member/checked.png";
 
+//added redux actionsgo gogog
+import {useSelector} from 'react-redux';
+import {tempRegisterUserdataActions } from '../../../../store/actionCreators';
+
 export default function JoinTab() {
+  console.log('compoent>member/broker>joininput 컴포넌트 실행');
+
+  const tempregisteruserdata =useSelector(data => data.temp_register_userdata);
+
+  console.log('data.temp_register_userdata refer infio:',tempregisteruserdata,tempRegisterUserdataActions);
+
 
   const [phone,setPhone] = useState("");/*기본값*/
   const [cernum,setCernum] = useState("");/*기본값*/
+  const [verify_cernum,setVerify_cernum] = useState("");
 
   const [active,setActive] = useState(false);
   const [active2,setActive2] = useState(false);
@@ -28,7 +39,7 @@ export default function JoinTab() {
    }
 
    const checkVaildate2 = () =>{
-     return phone.length > 9 && cernum.length > 4
+     return phone.length > 9 && (cernum.length >= 4 && cernum == verify_cernum)
     }
 
    useEffect(()=>{
@@ -43,6 +54,40 @@ export default function JoinTab() {
          setActive2(false);
    },)
 
+   const coolSmsSend= async(e) => {
+     console.log('coolsmsSend발송 함수 호출 member broker josininput요소 고유 현재의값 phone,cernum',phone,cernum);
+
+     let body_info= {number: phone};
+     let res=await serverController.connectFetchController('/api/coolsms/sendprocess','post',JSON.stringify(body_info));
+     console.log('res results coolsms:',res);
+
+     document.getElementById('inputcernum').style.display='block';
+
+     setVerify_cernum(res.sms_message);
+
+     document.getElementById('broker_joinsearchResult_move').style.display='block';
+   }
+
+   const nextStep = (e) => {
+     console.log('중개사 휴대폰인증 중개사통과후에 다음버튼 누르면나오는 페이지, joinsearchREulst검색중개사결과페이지:',e,e.target);
+
+     if(checkVaildate2()){
+       setActive2(true);
+
+       console.log('현재 최종적 확인update값:',phone,cernum,verify_cernum);
+       document.getElementById('cernum_invalid').style.display='none';
+
+       //redux사용 코드 넣기정보 redux저장 기억 일단 중개사폰번호(입력) 저장
+       tempRegisterUserdataActions.phonechange({phones:phone});
+     }else{
+       setActive2(false);
+       console.log('인증번호 관련 인증 미 통과시엔 이동 기본이벤트 막기');
+       document.getElementById('cernum_invalid').style.display='block';
+       e.preventDefault();
+     }
+
+   }
+
     return (
         <Container>
           {/*체크박스가 선택되면 아래 내용이 활성화 됩니다.( WrapChooseBox는 display:none처리되어야 함)*/}
@@ -51,15 +96,15 @@ export default function JoinTab() {
               <InputTitle>휴대전화</InputTitle>
               <Input type="text" name="" placeholder="휴대번호를 '-'를 빼고 입력해주세요." onChange={phoneChange}/>
               {/*NextBtn(인증번호발송) 버튼 눌렀을때 show*/}
-              <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요." onChange={cernumChange} style={{display:"none"}}/>
+              <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요."  id='inputcernum' onChange={cernumChange} style={{display:"none"}}/>
               {/*인증번호가 일치하지 않을때 Msg*/}
-              <ErrorMsg style={{display:"none"}}>휴대전화 인증번호가 일치하지 않습니다.</ErrorMsg>
+              <ErrorMsg style={{display:"none"}} id='cernum_invalid'>휴대전화 인증번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
-                <NextBtn type="button" name="" active={active}>인증번호 발송</NextBtn>
+                <NextBtn type="button" name="" active={active} onClick={coolSmsSend}>인증번호 발송</NextBtn>
                 {/*NextBtn(인증번호발송) 눌렀을때 show*/}
                 <Link to="/JoinSearchResult">
-                  <Submit type="submit" name="" active2={active2} style={{display:"none"}}>다음</Submit>
+                  <Submit type="submit" name="" active2={active2} id='broker_joinsearchResult_move' style={{display:"none"}} onClick={nextStep}>다음</Submit>
                 </Link>
             </SubmitButton>
           </WrapJoinInput>

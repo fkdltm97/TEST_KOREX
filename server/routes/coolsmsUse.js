@@ -12,7 +12,7 @@ const cors=require('cors');
 
 const router=express.Router(); 
 
-router.post('/sendProcess',function(request,response){
+router.post('/sendprocess',function(request,response){
     console.log('=============>>>request.body:',request.body);
 
     var req_body=request.body;
@@ -28,7 +28,7 @@ router.post('/sendProcess',function(request,response){
     console.log(sms_result);
     response.json(sms_result);
 });
-router.get('/sendProcess',function(request,response){
+router.get('/sendprocess',function(request,response){
     response.json('sendProcess get request 테스트:');
 });
 

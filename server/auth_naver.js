@@ -5,7 +5,7 @@ var connection=mysql.createConnection({
     port:3307,
     user:'sinja',
     password:'sinja',
-    database:'passport_test'
+    database:'korex'
 });
 connection.connect();
 
@@ -18,7 +18,7 @@ const bcrypt=require('bcrypt');
 const naverKey= {
     clientID:'Y1kP2_so_kvzRpl24FYe',
     clientSecret:'VpP4iEKbZK',
-    callbackURL:'http://localhost:8999/auth/naver/callback'
+    callbackURL:'http://localhost:8080/auth/social/naver/callback'
 };
 
 console.log('passport_naver.js모듈의 auth_naver()!! js실행에 의해서 실행, 파라미터전달 모듈로써 전달됄듯 define형태 앱 초기구동시 실행');
@@ -43,7 +43,7 @@ module.exports= passport => {
             const newuserid='naver:'+profile.id;
             const newuserpassword=sha256.x2(newuserid);
 
-            const sql='select * from users where user_id=?';
+            const sql='select * from user where user_username=?';
             const post=[newuserid];
 
             connection.query(sql,post,(err,results,fields) => {
@@ -54,7 +54,7 @@ module.exports= passport => {
 
                 //naver 자동가입처리됀 유저젖ㅇ보없다면 새론 아디만들고 로그인시켜줌
                 if(results.length == 0){
-                    const sql='insert into users(user_id,password) values(?,?)';
+                    const sql='insert into user(user_username,password) values(?,?)';
                     const post=[newuserid,newuserpassword];
                     connection.query(sql,post,(err,results,fields) => {
                         if(err){
@@ -62,7 +62,7 @@ module.exports= passport => {
                             done(err);
                         }
                         //가입이 돼었다면 해당유저로 바로 로그인시켜줌
-                        const sql='select * from users where user_id=?';
+                        const sql='select * from user where user_username=?';
                         const post=[newuserid];
                         connection.query(sql,post,(err,results,fields) => {
                             if(err){

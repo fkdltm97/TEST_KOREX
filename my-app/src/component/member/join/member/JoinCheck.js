@@ -50,6 +50,7 @@ export default function JoinSns({agreeStatus, setAgreeStatus, setActive, active,
          let agree_checks=document.getElementsByClassName('agree_checks');
          for(let i=0; i<agree_checks.length; i++){
           agree_checks[i].checked=false;
+          
         }
         agree_status_string='';
         //모두 체크해제했기에 필수 해제됐기에 비통과이다.
