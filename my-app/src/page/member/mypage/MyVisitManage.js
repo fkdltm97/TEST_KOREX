@@ -7,8 +7,10 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import ModalFilter from '../../../component/member/mypage/projectSetting/modal/ModalFilter';
-import LiveManage from '../../../component/member/mypage/projectSetting/LiveManage';
+import ModalVisitFilter from '../../../component/member/mypage/projectSetting/modal/ModalVisitFilter';
+import ModalVisitor from '../../../component/member/mypage/projectSetting/modal/ModalVisitor';
+import ModalVisitCancle from '../../../component/member/mypage/projectSetting/modal/ModalVisitCancle';
+import VisitManage from '../../../component/member/mypage/projectSetting/VisitManage';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -17,7 +19,6 @@ import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
 import ModalCalendar from "../../../component/common/house/ModalCalendar";
-
 
 export default function Join() {
   //이용약관
@@ -41,9 +42,13 @@ export default function Join() {
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
 
-  const [rank,setRank] = useState(false);
-  //필터모달
+  //필터 모달창
   const [filter,setFilter] = useState(false);
+  //동반고객 모달창
+  const [visit,setVisit] = useState(false);
+  //방문예약 취소모달창
+  const [cancle,setCancle] = useState(false);
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -52,9 +57,11 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-            <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <ModalFilter filter={filter} setFilter={setFilter}/>
-            <LiveManage setFilter={setFilter}/>
+              <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
+              <ModalVisitFilter filter={filter} setFilter={setFilter}/>
+              <ModalVisitor visit={visit} setVisit={setVisit}/>
+              <ModalVisitCancle cancle={cancle} setCancle={setCancle}/>
+              <VisitManage setVisit={setVisit} setFilter={setFilter} setCancle={setCancle}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

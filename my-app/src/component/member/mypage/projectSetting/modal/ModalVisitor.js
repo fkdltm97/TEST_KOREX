@@ -7,17 +7,8 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //img
-import Filter from '../../../../img/member/filter.png';
-import Bell from '../../../../img/member/bell.png';
-import BellActive from '../../../../img/member/bell_active.png';
-import Location from '../../../../img/member/loca.png';
-import Set from '../../../../img/member/setting.png';
-import Item from '../../../../img/main/item01.png';
-import Noimg from '../../../../img/main/main_icon3.png';
-import Close from '../../../../img/main/modal_close.png';
-import Change from '../../../../img/member/change.png';
-import Marker from '../../../../img/member/marker.png';
-import ArrowDown from '../../../../img/member/arrow_down.png';
+
+import Close from '../../../../../img/main/modal_close.png';
 
 //지도 모달
 export default function ModalVisitorReserve({ visit, setVisit }) {

@@ -274,7 +274,7 @@ const Right = styled(Left)`
   width:330px;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));
-    width:calc(100vw*(260/428));
+    width:calc(100vw*(300/428));
   }
 `
 const Trade = styled(Kinds)`

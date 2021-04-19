@@ -13,7 +13,7 @@ import BellActive from '../../../../img/member/bell_active.png';
 import Location from '../../../../img/member/loca.png';
 import Set from '../../../../img/member/setting.png';
 import Item from '../../../../img/main/item01.png';
-import Noimg from '../../../../img/member/company_no.png';
+import Noimg from '../../../../img/main/main_icon3.png';
 import Close from '../../../../img/main/modal_close.png';
 import Change from '../../../../img/member/change.png';
 import Marker from '../../../../img/member/marker.png';
@@ -22,11 +22,9 @@ import IconSearch from '../../../../img/main/icon_search.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-//component
-import LiveManageTop from "./LiveManageTop";
-import LiveManageList from "./LiveManageList";
+import VisitManageList from "./VisitManageList";
 
-export default function Live({setFilter,value,type}) {
+export default function Reserve({setFilter,setVisit,setCancle,value, type, type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -34,56 +32,55 @@ export default function Live({setFilter,value,type}) {
     setMenu(!menu);
   }
   /*data map*/
-  const BroadcastList =[
+  const VisitListItem =[
     {
-      broad_id : 0,
-      date:"21/03/09",
-      time:"오후 3:00",
-      days:"오늘",
+      v_id : 0,
+      src:Item,
+      path:"/",
+      condition:"오늘",
+      number:"1234567889",
+      project:"프로젝트명",
+      address:"충남내포신도시2차대방엘리움더센트럴",
+      locaImg:Location,
+      date:"2020.01.01 (월)",
+      time:"오전1T (09:00-12:00)",
+      visitor:2,
       type:"today"
+    },
+    {
+      v_id : 1,
+      src:Item,
+      path:"/",
+      condition:"2일후",
+      number:"1234567889",
+      project:"프로젝트명",
+      address:"충남내포신도시2차대방엘리움더센트럴",
+      locaImg:Location,
+      date:"2020.01.01 (월)",
+      time:"오전1T (09:00-12:00)",
+      visitor:2,
+      type:"days"
+    },
+    {
+      v_id : 2,
+      src:Item,
+      path:"/",
+      condition:"예약취소",
+      number:"1234567889",
+      project:"프로젝트명",
+      address:"충남내포신도시2차대방엘리움더센트럴",
+      locaImg:Location,
+      date:"2020.01.01 (월)",
+      time:"오전1T (09:00-12:00)",
+      visitor:2,
+      type:"cancel"
     }
 ]
 
-/*data map*/
-const LiveManageListItem =[
-  {
-    m_id : 0,
-    number:"2D0000324",
-    username:"홍길동",
-    mail:"Hong@gmail.com"
-  },
-  {
-    m_id : 1,
-    number:"2D0000324",
-    username:"홍길순",
-    mail:"Hong@gmail.com"
-  },
-]
     return (
         <Container>
-          <WrapLive>
-            <TopTitle>Live 시청예약접수 관리</TopTitle>
-            {
-            BroadcastList.map((value) => {
-
-              const type=()=>{
-                if(value.type == "today") { //오늘
-                  return "#fe7a01"
-                }else if(value.type == "days") {//~일후
-                  return "#01684b"
-                }else if(value.type == "end") {//만료
-                  return "#979797"
-                }
-              }
-
-              return(
-                <Broadcast>
-                  방송 {value.date} {value.time} <Color color={type}>{value.days}</Color>
-                </Broadcast>
-              )
-            })
-          }
-
+          <WrapReserve>
+            <TopTitle>방문예약접수 관리</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
               <FilterAndAdd>
@@ -94,20 +91,36 @@ const LiveManageListItem =[
                 <FilterImg src={Filter} onClick={()=>{setFilter(true)}} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
-            <WrapPropertyList>
+            <ReserveList>
+            {
+            VisitListItem.map((value) => {
 
-              <LiveManageTop/>{/*방송 만료상태일때 LiveManageTop 사라져야함*/}
-              {
-              LiveManageListItem.map((value) => {
+              const type=()=>{
+                if(value.type == "today") {
+                  return "#fe7a01"
+                }else if(value.type == "cancel") {
+                  return "#707070"
+                } else if(value.type == "days") {
+                  return "#01684b"
+                }
+              }
+              const type2=()=>{
+                if(value.type == "today") {
+                  return 1
+                }else if(value.type == "cancel") {
+                  return 0.5
+                } else if(value.type == "days") {
+                  return 1
+                }
+              }
 
-                return(
-                  <LiveManageList setFilter={setFilter} value={value}/>
-                )
-              })
-            }
-
-        </WrapPropertyList>
-      </WrapLive>
+              return(
+                <VisitManageList setFilter={setFilter} setVisit={setVisit} setCancle={setCancle} value={value} type={type} type2={type2}/>
+              )
+            })
+          }
+        </ReserveList>
+      </WrapReserve>
   </Container>
   );
 }
@@ -133,7 +146,7 @@ const Container = styled.div`
       padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
       }
 `
-const WrapLive = styled.div`
+const WrapReserve = styled.div`
   width:100%;
 `
 const TopTitle = styled.h2`
@@ -145,28 +158,9 @@ const TopTitle = styled.h2`
     padding-left:calc(100vw*(16/428));
     }
 `
-const Broadcast = styled.div`
-  width:100%;
-  margin:60px 0 20px;
-  padding-left:70px;
-  font-size: 15px;
-  font-weight: 600;transform:skew(-0.1deg);
-  text-align: left;
-  color: #4a4a4a;
-  @media ${(props) => props.theme.mobile} {
-    padding-left:calc(100vw*(16/428));
-    margin:calc(100vw*(27/428)) 0 calc(100vw*(14/428));
-    font-size:calc(100vw*(15/428));
-  }
-`
-const Color = styled.span`
-  display:inline-block;vertical-align:middle;
-  color:${({color}) => color};
-  font-weight:800;
-`
-
 const TopInfo = styled.div`
   display:flex;justify-content:space-between;align-items:center;
+  margin-top:42px;
   padding:16px 70px;
   border-top:1px solid #f2f2f2;
   border-bottom:1px solid #f2f2f2;
@@ -235,6 +229,6 @@ const FilterImg = styled.img`
     width:calc(100vw*(18/428));
   }
 `
-const WrapPropertyList = styled.ul`
+const ReserveList = styled.ul`
   width:100%;
 `

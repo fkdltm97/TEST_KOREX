@@ -58,6 +58,11 @@ import BrokerReservation from './page/member/mypage/BrokerReservation';
 import MyLiveSetting from './page/member/mypage/MyLiveSetting';
 import MyVisitSetting from './page/member/mypage/MyVisitSetting';
 import MyLiveManage from './page/member/mypage/MyLiveManage';
+import MyLiveManageInvite from './page/member/mypage/MyLiveManageInvite';
+import MyVisitManage from './page/member/mypage/MyVisitManage';
+import AddProperty from './page/member/mypage/AddProperty';
+import AddPropertyBasicInfo from './page/member/mypage/AddPropertyBasicInfo';
+import AddPropertySecond from './page/member/mypage/AddPropertySecond';
 
 /*map*/
 import Map from './page/map/Map';
@@ -127,8 +132,13 @@ export default function App(){
             <Route exact path="/MyLiveSetting" component={MyLiveSetting}/>{/*Live 시청 예약 세팅*/}
             <Route exact path="/MyLiveManage" component={MyLiveManage}/>{/*Live 시청예약접수관리*/}
             <Route exact path="/MyVisitSetting" component={MyVisitSetting}/>{/*방문 예약 세팅*/}
+            <Route exact path="/MyLiveManageInvite" component={MyLiveManageInvite}/>{/*live 시청예약관리 > 초대 */}
+            <Route exact path="/MyVisitManage" component={MyVisitManage}/>{/*방문예약관리 */}
+            <Route exact path="/AddProperty" component={AddProperty}/>{/*내 물건관리 > 물건(외부수임)등록*/}
+            <Route exact path="/AddPropertyBasicInfo" component={AddPropertyBasicInfo}/>{/*내 물건관리>물건(외부수임)등록> 의뢰인정보입력*/}
+            <Route exact path="/AddPropertySecond" component={AddPropertySecond}/>{/*내 물건관리 > 물건(외부수임)등록 > 기본정보입력*/}
 
-            {/* mobile */}
+          {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
             <Route exact path="/MbHouse" component={MbHouse}/>{/*모바일 분양리스트*/}
             <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>{/*모바일 분양상세페이지*/}

@@ -56,46 +56,24 @@ export default function Reserve({filter,setFilter}) {
                   <FilterLabel>정렬기준</FilterLabel>
                   <FilterSelectSort>
                     <FilterSelectSortList>
-                      <InOption>상태변경 최신순</InOption>
                       <InOption>최신등록순</InOption>
                       <InOption>과거등록순</InOption>
+                      <InOption>가나다순</InOption>
                     </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>
               {/*상태 select*/}
                 <FilterBox>
-                  <FilterLabel>상태</FilterLabel>
+                  <FilterLabel>방송</FilterLabel>
                   <FilterSelectCondition>
                     <FilterSelectConditionList>
-                      <InOption>전체</InOption>
-                      <InOption>검토대기</InOption>
-                      <InOption>검토중</InOption>
-                      <InOption>거래준비</InOption>
-                      <InOption>거래개시 요청</InOption>
-                      <InOption>거래개시</InOption>
-                      <InOption>거래완료승인 요청</InOption>
-                      <InOption>거래 완료</InOption>
-                      <InOption>기한 만료</InOption>
-                      <InOption>의뢰 철회</InOption>
-                      <InOption>위임 취소</InOption>
-                      <InOption>의뢰 거절</InOption>
-                      <InOption>수임 취소</InOption>
+                      <InOption>21/3/9 오후 3:00 (2일후)</InOption>
+                      <InOption>21/2/10 오전 10:00 (만료)</InOption>
+                      <InOption>21/1/5 오전 10:00 (방송취소)</InOption>
                     </FilterSelectConditionList>
                   </FilterSelectCondition>
                 </FilterBox>
-                {/*물건종류 select*/}
-                  <FilterBox>
-                    <FilterLabel>물건종류</FilterLabel>
-                    <FilterSelectKind>
-                      <FilterSelectKindList>
-                        <InOption>전체</InOption>
-                        <InOption>아파트</InOption>
-                        <InOption>오피스텔</InOption>
-                        <InOption>상가</InOption>
-                        <InOption>사무실</InOption>
-                      </FilterSelectKindList>
-                    </FilterSelectKind>
-                  </FilterBox>
+
               </WrapFilterSelect>
               {/*버튼*/}
               <WrapFilterButtons>
@@ -178,9 +156,9 @@ const WrapFilterModal = styled(WrapModalMap)`
 const ModalFilterBg = styled(ModalMapBg)`
 `
 const ModalFilter = styled(ModalMap)`
-  height:544px;
+  height:480px;
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(489/428));
+    height:calc(100vw*(400/428));
   }
 `
 const FilterCloseBtn = styled(MapCloseBtn)`
@@ -216,41 +194,47 @@ const FilterLabel = styled.label`
   }
 `
 const FilterSelectSort = styled.div`
+  position:Absolute;
+  top:22px;
   width:100%;
+  text-align:center;
+  font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
+  border-radius:4px;
+  background:#fff;
+  z-index:9999;
+  @media ${(props) => props.theme.mobile} {
+    top:calc(100vw*(22/428));
+    font-size:calc(100vw*(14/428));
+  }
 `
 const FilterSelectCondition = styled(FilterSelectSort)`
   z-index:99;
 `
 const FilterSelectSortList = styled.select`
-    width:100%;
-    height:43px;
-    text-align-last:center;
-    font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
-    border-radius:4px;border:1px solid #a3a3a3;
-    background:#fff;
-    appearance:none;
-    background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
-    @media ${(props) => props.theme.mobile} {
-      font-size:calc(100vw*(14/428));
-    }
+  width:100%;
+  height:43px;
+  text-align-last:center;
+  font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
+  border-radius:4px;border:1px solid #a3a3a3;
+  background:#fff;
+  appearance:none;
+  background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+  }
 `
 const Option = styled.option`
   font-family:'nbg',sans-serif;
 `
 const InOption = styled(Option)`
-  padding:8px 0;
-  background:#fff;
-  &:hover{background:#f8f7f7;}
-  @media ${(props) => props.theme.mobile} {
-    padding:calc(100vw*(8/428)) 0;
-  }
+padding:8px 0;
+background:#fff;
+&:hover{background:#f8f7f7;}
+@media ${(props) => props.theme.mobile} {
+  padding:calc(100vw*(8/428)) 0;
+}
 `
 const FilterSelectConditionList = styled(FilterSelectSortList)`
-`
-const FilterSelectKind = styled(FilterSelectCondition)`
-  z-index:90;
-`
-const FilterSelectKindList = styled(FilterSelectConditionList)`
 `
 const WrapFilterButtons = styled.div`
   position:Absolute;

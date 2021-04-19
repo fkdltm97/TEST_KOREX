@@ -19,7 +19,7 @@ export default function PersonalAndCompany() {
               <Left>
                 <Title>프로젝트 ID</Title>
                 <Visit>
-                  <Link>방문예약 12</Link>
+                  <Link Link to="/MyVisitManage">방문예약 12</Link>
                 </Visit>
               </Left>
               <Right>

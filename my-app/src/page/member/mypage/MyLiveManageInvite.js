@@ -7,8 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import ModalFilter from '../../../component/member/mypage/projectSetting/modal/ModalFilter';
-import LiveManage from '../../../component/member/mypage/projectSetting/LiveManage';
+import LiveManageInvite from '../../../component/member/mypage/projectSetting/LiveManageInvite';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -52,9 +51,8 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-            <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <ModalFilter filter={filter} setFilter={setFilter}/>
-            <LiveManage setFilter={setFilter}/>
+            <SubTitle title={"초대"} rank={false} cursor={"default"}/>
+            <LiveManageInvite/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

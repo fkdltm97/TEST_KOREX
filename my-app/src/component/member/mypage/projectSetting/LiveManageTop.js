@@ -23,13 +23,15 @@ return (
         <WrapLive>
           <TopInfo>
             <CheckBox>
-              <InputCheck type="check" id="all"/>
-              <CheckLabel>
+              <InputCheck type="checkbox" id="all" defaultChecked/>
+              <CheckLabel for="all">
                 <Span/>
                 전체선택
               </CheckLabel>
             </CheckBox>
-            <Invite>초대</Invite>
+            <Link to="/MyLiveManageInvite">
+              <Invite>초대</Invite>
+            </Link>
           </TopInfo>
       </WrapLive>
   </Container>
@@ -56,11 +58,11 @@ const WrapLive = styled.div`
 `
 const TopInfo = styled.div`
   display:flex;justify-content:space-between;align-items:center;
-  padding:16px 40px;
+  padding:16px 70px;
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(22/428)) calc(100vw*(10/428));
-    }
+  }
 `
 const CheckBox = styled.div`
   display:flex;justify-content:space-between;align-items:center;
@@ -93,10 +95,16 @@ const Span = styled.span`
 const Invite = styled.div`
   width: 80px;
   height: 32px;
-  line-height:30px;
+  line-height:28px;
   font-size:13px;text-align:center;
-  font-weight:600;color:#01684b;transform:skew(-0.1deg);
+  font-weight:800;color:#01684b;transform:skew(-0.1deg);
   border-radius: 4px;
   border: solid 2px #01684b;
   background-color: #ffffff;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));
+    height:calc(100vw*(32/428));
+    line-height:calc(100vw*(30/428));
+    font-size:calc(100vw*(13/428));
+  }
 `

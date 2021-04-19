@@ -7,6 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
+import ModalFilter from '../../../component/member/mypage/property/modal/ModalFilter';
 import PropertyManage from '../../../component/member/mypage/property/PropertyManage';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
@@ -42,6 +43,9 @@ export default function Join() {
 
   const [rank,setRank] = useState(false);
 
+  //필터 모달
+  const [filter, setFilter] = useState(false);
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -50,9 +54,9 @@ export default function Join() {
           <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openHouse={openHouse}/>
           <Container>
-
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <PropertyManage/>
+            <ModalFilter filter={filter} setFilter={setFilter}/>
+            <PropertyManage setFilter={setFilter}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
