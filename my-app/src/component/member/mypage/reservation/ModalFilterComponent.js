@@ -37,16 +37,7 @@ export default function Reserve({filter,setFilter}) {
   //Filter 모달창
     return (
         <Container>
-          <WrapFilterModal>
-            <ModalFilterBg onClick={() => {setFilter(false)}}/>
-            <ModalFilter>
-              <FilterCloseBtn>
-                <Link onClick={() => {setFilter(false)}}>
-                  <FilterCloseImg src={Close}/>
-                </Link>
-              </FilterCloseBtn>
-              <ModalFilterTitle>필터</ModalFilterTitle>
-              <WrapFilterSelect>
+              <>
               {/*정렬기준 select*/}
                 <FilterBox>
                   <FilterLabel>정렬기준</FilterLabel>
@@ -71,14 +62,7 @@ export default function Reserve({filter,setFilter}) {
                     </FilterSelectConditionList>
                   </FilterSelectCondition>
                 </FilterBox>
-              </WrapFilterSelect>
-              {/*버튼*/}
-              <WrapFilterButtons>
-                <ResetBtn type="button" name="">초기화</ResetBtn>
-                <SaveBtn type="submit" name="">적용</SaveBtn>
-              </WrapFilterButtons>
-            </ModalFilter>
-          </WrapFilterModal>
+              </>
         </Container>
   );
 }
@@ -97,76 +81,19 @@ const Mb = styled.b`
 `
 const Container = styled.div`
 `
-const WrapModalMap = styled.div`
-  width:100%;
-`
-const ModalMapBg = styled.div`
-  width:100%;height:100%;
-  position:fixed;left:0;top:0;
-  background:rgba(0,0,0,0.2);
-  display:block;content:'';
-  z-index:3;
-`
-const ModalMap = styled.div`
-  position:absolute;
-  left:50%;top:50%;transform:translate(-50%,-50%);
-  width:535px;border-radius:24px;
-  border:1px solid #f2f2f2;
-  background:#fff;
-  padding:49px 50px 60px 50px;
-  z-index:3;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(395/428));
-    padding:calc(100vw*(33/428)) calc(100vw*(15/428));
-  }
-`
-const MapCloseBtn = styled.div`
-  width:100%;text-align:right;
-  margin-bottom:22px;
-  @media ${(props) => props.theme.mobile} {
-    margin-bottom:calc(100vw*(22/428));
-  }
-`
-const MapCloseImg = styled.img`
-  display:inline-block;width:15px;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(12/428));
-  }
-`
 const ModalMapTitle = styled.h3`
   font-size:20px;font-weight:800;color:#707070;
   transform:skew(-0.1deg);
   padding-bottom:20px;
   border-bottom:1px solid #707070;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(15/428));
     padding-bottom:calc(100vw*(15/428));
   }
 `
-
 const InMapBox = styled.div`
   width:100%;height:100%;
   background:#eee;
-`
-const WrapFilterModal = styled(WrapModalMap)`
-`
-const ModalFilterBg = styled(ModalMapBg)`
-`
-const ModalFilter = styled(ModalMap)`
-  height:490px;
-  @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(400/428));
-  }
-`
-const FilterCloseBtn = styled(MapCloseBtn)`
-`
-const FilterCloseImg = styled(MapCloseImg)`
-`
-const ModalFilterTitle = styled(ModalMapTitle)`
-  margin-bottom:12px;
-  @media ${(props) => props.theme.mobile} {
-    margin-bottom:calc(100vw*(12/428));
-  }
 `
 const WrapFilterSelect = styled.div`
   width:100%;
@@ -176,7 +103,7 @@ const FilterBox = styled.div`
   width:100%;
   margin-bottom:20px;
   &:last-child{margin-bottom:0;}
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(20/428));
   }
 `
@@ -187,7 +114,7 @@ const FilterLabel = styled.label`
   font-family:'nbg', sans-serif;
   margin-bottom:9px;
   padding-left:3px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(9/428));
     font-size:calc(100vw*(12/428));
     padding-left:calc(100vw*(3/428));
@@ -209,7 +136,7 @@ const FilterSelectSortList = styled.select`
   background:#fff;
   appearance:none;
   background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(14/428));
     height:calc(100vw*(43/428));
     background:url(${ArrowDown}) no-repeat 90% center;background-size:calc(100vw*(11/428));
@@ -223,7 +150,7 @@ const InOption = styled(Option)`
   padding:8px 0;
   background:#fff;
   &:hover{background:#f8f7f7;}
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     padding:calc(100vw*(8/428)) 0;
   }
 `
@@ -234,7 +161,7 @@ const WrapFilterButtons = styled.div`
   left:50%;bottom:60px;transform:translateX(-50%);
   width:100%;
   display:flex;justify-content:center;align-items:center;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     bottom:calc(100vw*(40/428));
   }
 `
@@ -247,7 +174,7 @@ const ResetBtn = styled.button`
   line-height:60px;color:#fff;
   font-size:20px;font-weight:800;transform:skew(-0.1deg);
   text-align:center;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(180/428));
     height:calc(100vw*(60/428));
     line-height:calc(100vw*(54/428));
@@ -258,7 +185,7 @@ const SaveBtn = styled(ResetBtn)`
   background:#01684b;
   border:3px solid #04966d;
   margin-left:8px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-left:calc(100vw*(10/428));
 
   }

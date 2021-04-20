@@ -150,13 +150,11 @@ const Tab = styled.div`
       }
     }
 `
-
 const TabBtn = styled.div`
   font-size:20px;
   color:${({active}) => active ? "#FE7A01" : "#979797"};
   font-weight:${({active}) => active ? "800" : "normal"};
   transform:skew(-0.1deg);
-
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(16/428));
     }
