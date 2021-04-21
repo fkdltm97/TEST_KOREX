@@ -18,15 +18,6 @@ export default function EditModal({ edit, setEdit }) {
     return null;
     return (
         <Container>
-          <WrapModalAdd>
-            <ModalAddBg onClick={()=>{setEdit(false)}}/>
-            <ModalAdd>
-              <AddCloseBtn>
-                <Link onClick={()=>{setEdit(false)}}>
-                  <AddCloseImg src={Close}/>
-                </Link>
-              </AddCloseBtn>
-              <ModalAddTitle>수정 및 안내</ModalAddTitle>
               <WrapInputBox>
                 <Label>방송일</Label>
                 <Input type="date" placeholder="날짜 선택"/>
@@ -46,11 +37,6 @@ export default function EditModal({ edit, setEdit }) {
                 <Label>방송변경안내</Label>
                 <TextArea type="textarea"/>
               </WrapInputBox>
-              <Confirm>
-                <ConfirmBtn type="submit" active={active} onClick={() => {alert('완료되었습니다.');setEdit(false);}}>확인 및 이메일 발송</ConfirmBtn>
-              </Confirm>
-            </ModalAdd>
-          </WrapModalAdd>
         </Container>
   );
 }
@@ -73,6 +59,10 @@ const Container = styled.div`
 
 const WrapModalAdd = styled.div`
   width:100%;
+  margin-bottom:40px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(40/428));
+  }
 `
 const ModalAddBg = styled.div`
   width:100%;height:100%;
@@ -82,7 +72,7 @@ const ModalAddBg = styled.div`
   z-index:3;
 `
 const ModalAdd = styled.div`
-  position:absolute;
+  position:fixed;
   left:50%;top:50%;transform:translate(-50%,-50%);
   width:535px;border-radius:24px;
   border:1px solid #f2f2f2;

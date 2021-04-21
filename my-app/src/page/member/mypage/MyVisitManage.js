@@ -18,6 +18,7 @@ import TermLocation from '../../../component/common/TermsOfLocation';
 import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
+import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 export default function Join() {
@@ -48,6 +49,57 @@ export default function Join() {
   const [visit,setVisit] = useState(false);
   //방문예약 취소모달창
   const [cancle,setCancle] = useState(false);
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+//여기 두개가 핵심이에여 넵!
+  //모달 끄는 식
+    const offModal = ()=>{
+      let option = JSON.parse(JSON.stringify(modalOption));
+      option.show = false;
+      setModalOption(option);
+    }
+
+
+    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+      const updateModal = () =>{
+        //여기가 모달 키는 거에엽
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"필터",
+            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalVisitFilter/>},
+            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
+
+    //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
+      const visitorModal = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"동반고객 보기",
+            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalVisitor/>},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"" , event : ()=>{offModal(); }}
+        });
+      }
+
+      const cancleModal = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"투어예약 수정",
+            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalVisitCancle/>},
+            submit:{show:true , title:"확인" , event : ()=>{offModal(); alert("취소되었습니다.");}},
+            cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}
+
+        });
+      }
 
     return (
         <>
@@ -58,10 +110,8 @@ export default function Join() {
           <MainHeader openHouse={openHouse}/>
           <Container>
               <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
-              <ModalVisitFilter filter={filter} setFilter={setFilter}/>
-              <ModalVisitor visit={visit} setVisit={setVisit}/>
-              <ModalVisitCancle cancle={cancle} setCancle={setCancle}/>
-              <VisitManage setVisit={setVisit} setFilter={setFilter} setCancle={setCancle}/>
+              <VisitManage updateModal={updateModal} visitorModal={visitorModal} cancleModal={cancleModal} setVisit={setVisit} setFilter={setFilter} setCancle={setCancle}/>
+              <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

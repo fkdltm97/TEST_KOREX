@@ -26,7 +26,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import LiveManageTop from "./LiveManageTop";
 import LiveManageList from "./LiveManageList";
 
-export default function Live({setFilter,value,type}) {
+export default function Live({setFilter,value,type,updateModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -91,7 +91,7 @@ const LiveManageListItem =[
                   <InputSearch type="search" placeholder="예약자 검색"/>
                   <SearchButton type="button"/>
                 </SearchBox>
-                <FilterImg src={Filter} onClick={()=>{setFilter(true)}} alt="filter"/>
+                <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
             <WrapPropertyList>

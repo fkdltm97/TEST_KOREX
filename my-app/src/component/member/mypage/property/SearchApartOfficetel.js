@@ -141,6 +141,9 @@ const SearchBox = styled.div`
   border-radius: 4px;
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
+  @media ${(props) => props.theme.mobile} {
+        width:calc(100vw*(380/428));
+    }
 `
 const Search = styled.input`
   display:inline-block;
@@ -174,7 +177,8 @@ const SearchResult = styled.div`
   border:1px solid #e4e4e4;z-index:2;border-top:0;border-radius:3px;
   display:${({active}) => active ? "block" : "none"};
   @media ${(props) => props.theme.mobile} {
-    width:100%;
+    width:calc(100vw*(380/428));
+    top:calc(100vw*(38/428));
   }
 `
 const ResultBox = styled.div`
@@ -185,17 +189,27 @@ const ResultBox = styled.div`
   border-radius:3px;
   transition:all 0.3s;
   &:hover{background:#f8f7f7;}
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(13/428)) calc(100vw*(28/428));
+  }
 `
 const Title = styled.h5`
     font-size:15px;font-weight:600;
     transform:skew(-0.1deg);
     margin-bottom:10px;
     color:#4a4a4a;
+    @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(15/428));
+      margin-bottom:calc(100vw*(10/428));
+    }
 `
 const ResultAddress = styled.p`
   font-size:15px;font-weight:500;
   transform:skew(-0.1deg);
   color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const NoResult =styled.p`
   font-size: 15px;transform:skew(-0.1deg);
@@ -203,6 +217,11 @@ const NoResult =styled.p`
   text-align: center;
   color: #979797;
   padding:35px 0;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    padding:calc(100vw*(35/428)) 0;
+    line-height:1.5;
+  }
 `
 const WhiteCloseImg = styled.div`
   position:absolute;
@@ -211,6 +230,10 @@ const WhiteCloseImg = styled.div`
   width:43px;height:43px;
   cursor:pointer;
   display:${({active}) => active ? "flex" : "none"};
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(43/428));height:calc(100vw*(43/428));
+    right:calc(100vw*(43/428));
+  }
 `
 const ResetSearch = styled.div`
   display:inline-block;
@@ -218,4 +241,8 @@ const ResetSearch = styled.div`
   width:20px;height:20px;
   background:#cecece url(${WhiteClose}) no-repeat center center;
   background-size:8px 8px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));height:calc(100vw*(20/428));
+    background-size:calc(100vw*(8/428)) calc(100vw*(8/428));;
+  }
 `

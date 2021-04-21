@@ -21,14 +21,6 @@ export default function ModalCal({vCal, setVCal,updatePageIndex}){
     return (
       <Container>
         <Wraplive>
-          <ModalClose>
-              <Link onClick={()=>{setVCal(false);updatePageIndex(0)}}>
-              <CloseImg src={CloseIcon}/>
-            </Link>
-          </ModalClose>
-          <ModalTop>
-            <Title>방문 예약</Title>
-          </ModalTop>
           <Label>방문일시</Label>
             <Calendar
               onChange={onChange}

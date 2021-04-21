@@ -79,11 +79,11 @@ export default function Request({filter, setFilter, value, type}) {
                       <InMenu>
                       {/*검토대기 상태일때*/}
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/RequestReview" className="data_link"></Link>
                           <InDiv>검토</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
 
@@ -98,7 +98,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>
@@ -129,7 +129,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>

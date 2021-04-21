@@ -14,11 +14,16 @@ import ArrowDown from '../../../img/member/arrow_down.png';
 // content = {type:"text", component : </> , text:"test"}
 // title = "title"
 //필터 모달
-export default function Reserve({show,setShow,title,submit,cancle,confirm,content}) {
 
-  const closeModal = () =>{ setShow(false); }
 
-  if(show == false)
+
+//기존에 show,setShow,title,submit,cancle,confirm,content 이렇게 데이터를 전부 전달 받았는데 이걸 하나로 합쳐서 사용할게요
+// modalOption = {show,setShow,title,submit,cancle,confirm,content} 이렇게요.
+export default function ModalCommon({modalOption}) {
+
+  const closeModal = () =>{ modalOption.setShow(false); }
+
+  if(modalOption.show == false)
     return null;
   //Filter 모달창
     return (
@@ -32,18 +37,18 @@ export default function Reserve({show,setShow,title,submit,cancle,confirm,conten
                 </Link>
               </FilterCloseBtn>
               {
-                title ?
-                <ModalFilterTitle>{title}</ModalFilterTitle>
+                modalOption.title ?
+                <ModalFilterTitle>{modalOption.title}</ModalFilterTitle>
                 :
                 null
               }
               <WrapFilterSelect>
                 {
-                  content ?
-                  content.type == "text" ?
-                    <p>{content.text}</p>
+                  modalOption.content ?
+                  modalOption.content.type == "text" ?
+                    <Text>{modalOption.content.text}</Text>
                     :
-                    content.component
+                    modalOption.content.component
                   :
                   null
 
@@ -52,23 +57,33 @@ export default function Reserve({show,setShow,title,submit,cancle,confirm,conten
               {/*버튼*/}
               <WrapFilterButtons>
               {
-                cancle && cancle.show ?
-                <ResetBtn type="button" name="" onClick={cancle.event}>{cancle.title}</ResetBtn>
+                modalOption.cancle && modalOption.cancle.show ?
+                <ResetBtn type="button" name="" onClick={modalOption.cancle.event}>{modalOption.cancle.title}</ResetBtn>
                 :
                 null
               }
               {
-                submit && submit.show ?
-                <SaveBtn type="button" name="" onClick={submit.event}>{submit.title}</SaveBtn>
+                modalOption.submit && modalOption.submit.show ?
+                <SaveBtn type="button" name="" onClick={modalOption.submit.event}>{modalOption.submit.title}</SaveBtn>
                 :
                 null
               }
               {
-                confirm && confirm.show ?
-                <ConfirmBtn type="button" name="" onClick={confirm.event}>{confirm.title}</ConfirmBtn>
+                modalOption.confirm && modalOption.confirm.show ?
+                <ConfirmBtn type="button" name="" onClick={modalOption.confirm.event}>{modalOption.confirm.title}</ConfirmBtn>
                 :
                 null
               }
+              {
+                modalOption.confirmgreen && modalOption.confirmgreen.show ?
+                <Wrap>
+                  <Link to={modalOption.confirmgreen.link} className="data_link"/>
+                  <ConfirmBtnGreen type="button" name="" onClick={modalOption.confirmgreen.event}>{modalOption.confirmgreen.title}</ConfirmBtnGreen>
+                </Wrap>
+              :
+                null
+              }
+
               </WrapFilterButtons>
             </ModalFilter>
           </WrapFilterModal>
@@ -101,7 +116,7 @@ const ModalMapBg = styled.div`
   z-index:3;
 `
 const ModalMap = styled.div`
-  position:absolute;
+  position:fixed;
   left:50%;top:50%;transform:translate(-50%,-50%);
   width:535px;border-radius:24px;
   border:1px solid #f2f2f2;
@@ -155,6 +170,16 @@ const ModalFilterTitle = styled(ModalMapTitle)`
   margin-bottom:12px;
   @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(12/428));
+  }
+`
+const Text = styled.p`
+  line-height:1.5;
+  font-size:15px;
+  color:#4a4a4a;transform:skew(-0.1deg);
+  padding:40px 0;text-align:center;white-space: pre-wrap;
+  @media ${(props) => props.theme.modal} {
+    font-size:calc(100vw*(14/428));
+    padding:calc(100vw*(40/428)) 0;
   }
 `
 const WrapFilterSelect = styled.div`
@@ -220,7 +245,10 @@ const FilterSelectConditionList = styled(FilterSelectSortList)`
 `
 const WrapFilterButtons = styled.div`
   width:100%;
-  display:flex;justify-content:center;align-items:center;
+  display:flex;justify-content:space-between;align-items:center;
+`
+const Wrap = styled.div`
+  width:100%;position:relative;
 `
 const ResetBtn = styled.button`
   width: 200px;
@@ -249,5 +277,7 @@ const SaveBtn = styled(ResetBtn)`
 `
 const ConfirmBtn = styled(ResetBtn)`
   width:100%;
-
+`
+const ConfirmBtnGreen = styled(SaveBtn)`
+  width:100%;margin-left:0;
 `

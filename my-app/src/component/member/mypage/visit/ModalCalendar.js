@@ -16,7 +16,7 @@ import ModalCalendarFirst from "./ModalCalendarFirst";
 import ModalCalendarSecond from "./ModalCalendarSecond";
 import ModalCalendarThird from "./ModalCalendarThird";
 
-export default function ModalCal({vCal, setVCal}){
+export default function ModalCal({vCal, setVCal,calModal}){
   const [value, onChange] = useState(new Date());
   const [pageIndex , setPageIndex] = useState(0);
 
@@ -41,7 +41,6 @@ export default function ModalCal({vCal, setVCal}){
     return null;
     return (
       <Container>
-        <ModalBg onClick={()=>{setVCal(false)}}/>
         {
           pageLoader()
         }

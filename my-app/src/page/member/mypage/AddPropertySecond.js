@@ -40,8 +40,7 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
-  //사진 모달창
-  const [picture,setPicture] = useState(false);
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -52,16 +51,7 @@ export default function Join() {
           <Container>
             {/*개인로 로그인했을때*/}
               <SubTitle title={"물건(외부수임) 등록"} rank={false} cursor={"default"}/>
-              <NewPropertySecond setPicture={setPicture}/>
-              <ModalCommon
-                show={picture}
-                setShow={setPicture}
-                title={"사진업로드"}
-                content={{type:"components",component:<ModalPicture/>}}
-                submit={{show:false , title:"적용" , event : ()=>{setPicture(false); }}}
-                cancle={{show:false , title:"확인" , event : ()=>{setPicture(false); }}}
-                confirm={{show:true , title:"확인" , event : ()=>{setPicture(false); }}}
-              />
+              <NewPropertySecond/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

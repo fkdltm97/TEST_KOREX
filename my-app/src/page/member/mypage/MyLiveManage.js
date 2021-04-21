@@ -17,6 +17,7 @@ import House from '../../../component/common/house/House';
 import ImgDetail from "../../../component/common/house/ImgDetail";
 import LiveModal from "../../../component/common/house/LiveModal";
 import ModalCalendar from "../../../component/common/house/ModalCalendar";
+import ModalCommon from '../../../component/common/modal/ModalCommon';
 
 
 export default function Join() {
@@ -44,6 +45,31 @@ export default function Join() {
   const [rank,setRank] = useState(false);
   //필터모달
   const [filter,setFilter] = useState(false);
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+//여기 두개가 핵심이에여 넵!
+  //모달 끄는 식
+    const offModal = ()=>{
+      let option = JSON.parse(JSON.stringify(modalOption));
+      option.show = false;
+      setModalOption(option);
+    }
+
+
+    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+      const updateModal = () =>{
+        //여기가 모달 키는 거에엽
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"필터",
+            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -53,8 +79,8 @@ export default function Join() {
           <MainHeader openHouse={openHouse}/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <ModalFilter filter={filter} setFilter={setFilter}/>
-            <LiveManage setFilter={setFilter}/>
+            <ModalCommon modalOption={modalOption}/>
+            <LiveManage setFilter={setFilter} updateModal={updateModal}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

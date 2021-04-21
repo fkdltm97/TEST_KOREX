@@ -16,15 +16,6 @@ export default function ModalVisitorReserve({ visit, setVisit }) {
     return null;
     return (
         <Container>
-          <WrapModalVisitor>
-            <ModalVisitorBg onClick={()=>{setVisit(false)}}/>
-            <ModalVisitor>
-              <VisitorCloseBtn>
-                <Link onClick={()=>{setVisit(false)}}>
-                  <VisitorCloseImg src={Close}/>
-                </Link>
-              </VisitorCloseBtn>
-              <ModalVisitorTitle>동반고객 보기</ModalVisitorTitle>
               <VisitorList>
                 <List>
                   <Name>김동반</Name>
@@ -35,8 +26,6 @@ export default function ModalVisitorReserve({ visit, setVisit }) {
                   <Phone>010 0000 0000</Phone>
                 </List>
               </VisitorList>
-            </ModalVisitor>
-          </WrapModalVisitor>
         </Container>
   );
 }

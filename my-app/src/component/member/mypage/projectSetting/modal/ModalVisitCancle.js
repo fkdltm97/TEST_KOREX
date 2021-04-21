@@ -35,25 +35,10 @@ export default function CancleModal({ cancle, setCancle }) {
     return null;
     return (
         <Container>
-          <WrapModalAdd>
-            <ModalAddBg onClick={()=>{setCancle(false)}}/>
-            <ModalAdd>
-              <AddCloseBtn>
-                <Link onClick={()=>{setCancle(false)}}>
-                  <AddCloseImg src={Close}/>
-                </Link>
-              </AddCloseBtn>
-              <ModalAddTitle>예약 해제</ModalAddTitle>
               <WrapDesc>
                 예약을 해제하시겠습니까? <br/>
                 해제 시, 예약자에게 알림이 전송됩니다.
               </WrapDesc>
-              <WrapFilterButtons>
-                <ResetBtn type="button" name="">취소</ResetBtn>
-                <SaveBtn type="submit" name="" onClick={() => {alert('완료되었습니다.'); setCancle(false);}}>확인</SaveBtn>
-              </WrapFilterButtons>
-            </ModalAdd>
-          </WrapModalAdd>
         </Container>
   );
 }
