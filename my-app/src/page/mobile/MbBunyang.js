@@ -7,7 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
-import MbHouseList from '../../component/common/house/mobilecomp/MbHouseList';
+import MbBunyangList from '../../component/common/bunyang/mobilecomp/MbBunyangList';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';
@@ -34,7 +34,7 @@ export default function MainPage() {
           <MainHeader rank={true}/>
           <Container>
             <SubTitle title={"분양"} rank={false}/>
-            <MbHouseList/>
+            <MbBunyangList/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

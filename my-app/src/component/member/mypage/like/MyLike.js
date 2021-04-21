@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery";
 import ItemTabList from "./ItemTabList";
-import HouseTabList from "./HouseTabList";
+import BunyangTabList from "./BunyangTabList";
 export default function Like({setFilter,value,type}) {
 
   //... 눌렀을때(메뉴)
@@ -38,7 +38,7 @@ export default function Like({setFilter,value,type}) {
                   <ItemTabList/>
               </Tab>
               <Tab label="분양">
-                  <HouseTabList/>
+                  <BunyangTabList/>
               </Tab>
           </Tabs>
 

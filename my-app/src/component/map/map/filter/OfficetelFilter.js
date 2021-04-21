@@ -16,7 +16,7 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 import OfficetelFilterItem from "./OfficetelFilterItem";
 
-export default function MapFilter({openHouse, rank}) {
+export default function MapFilter({openBunyang, rank}) {
     return (
         <Container>
           <WrapApart>

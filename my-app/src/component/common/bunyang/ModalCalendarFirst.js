@@ -16,6 +16,7 @@ import Checked from "../../../img/member/checked.png";
 export default function ModalCal({cal, setCal,updatePageIndex}){
   const [value, onChange] = useState(new Date());
 
+
   if(cal == false)
     return null;
     return (
@@ -36,6 +37,7 @@ export default function ModalCal({cal, setCal,updatePageIndex}){
               minDate={new Date()}
               numOfVisibleMonths={1}
               onClickDay={() => {updatePageIndex(1)}}
+              maxDate={new Date("2021-04-28")}
             />
         </Wraplive>
       </Container>

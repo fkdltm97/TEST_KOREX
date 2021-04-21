@@ -13,7 +13,7 @@ import HeartCheck from "../../../img/main/heart_check.png";
 import IconSearch from "../../../img/main/icon_search.png";
 import IconRecent from "../../../img/main/icon_view.png";
 
-export default function HouseList({updatePageIndex}){
+export default function BunyangList({updatePageIndex}){
   /*물건종류*/
   const [item,setItem] = useState(false);
   const [trade,setTrade] = useState(false);
@@ -39,11 +39,11 @@ export default function HouseList({updatePageIndex}){
 
     return (
       <Container>
-{/*housetop*/}
+{/*bunyangtop*/}
       <ModalTop>
         <Title>분양</Title>
       </ModalTop>
-{/*house select*/}
+{/*bunyang select*/}
       <ModalSelect>
         <SearchIcon>
           <SearchImage src={IconSearch} alt="search"/>
@@ -134,7 +134,7 @@ export default function HouseList({updatePageIndex}){
           </RecentList>
         </SortRecent>
       </ModalSelect>
-{/*house List*/}
+{/*bunyang List*/}
         <ListTop>총 <Green>2</Green>건</ListTop>
         <WrapList>
           <ListUl>

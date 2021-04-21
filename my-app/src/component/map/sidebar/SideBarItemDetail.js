@@ -29,7 +29,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideItemDetail({openHouse, rank, updatePageIndex,historyInfo,report,setReport }) {
+export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport }) {
   const [slideUp, setSlideUp] = useState(false);
 
 

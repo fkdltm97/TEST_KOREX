@@ -19,16 +19,16 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 import BackBtn from '../../../../img/notice/back_btn.png';
 
 SwiperCore.use([]);
-export default function HouseDetail({setLive, setDetailImg,setCal}){
+export default function BunyangDetail({setLive, setDetailImg,setCal}){
     return (
       <Container>
         <WrapDetail>
           <LeftDetail>
-            <HouseImg>
+            <BunyangImg>
               <Link onClick={()=>{setDetailImg(true)}}>
                 <Img src={SwipImg}/>
               </Link>
-            </HouseImg>
+            </BunyangImg>
             {/*hastags*/}
             <HashTag>
               <Tag>#hashtag</Tag>
@@ -149,7 +149,7 @@ const WrapDetail = styled.div`
 const LeftDetail = styled.div`
   width:100%;
 `
-const HouseImg = styled.div`
+const BunyangImg = styled.div`
   width:100%;
 `
 const Img = styled.img`

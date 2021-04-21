@@ -13,11 +13,11 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 import IconSearch from "../../../../img/main/icon_search.png";
 import IconRecent from "../../../../img/main/icon_view.png";
 
-const HouseListItem =[
+const BunyangListItem =[
   {
-    house_id : 0,
+    bunyang_id : 0,
     src:ItemImg,
-    path:"/MbHouseDetail",
+    path:"/MbBunyangDetail",
     number:"2D0000324",
     title:"충남내포신도시2차대방엘리움더센트럴",
     option:"충청남도 / 아파트 / 민간분양",
@@ -28,9 +28,9 @@ const HouseListItem =[
     desc4:"35,599 ~ 44,049 만원"
   },
   {
-    house_id : 1,
+    bunyang_id : 1,
     src:ItemImg,
-    path:"/MbHouseDetail",
+    path:"/MbBunyangDetail",
     number:"2D0000325",
     title:"충남내포신도시2차",
     option:"충청남도 / 테스트 / 테스트",
@@ -42,10 +42,10 @@ const HouseListItem =[
   }
 ]
 
-export default function HouseList({updatePageIndex}){
+export default function BunyangList({updatePageIndex}){
     return (
       <Container>
-{/*house select*/}
+{/*bunyang select*/}
       <ModalSelect>
         <WrapItem>
           <ItemList>
@@ -95,18 +95,18 @@ export default function HouseList({updatePageIndex}){
 {/*Total & Search*/}
         <WrapTotal>
             <ListTop>총 <Green>2</Green>건</ListTop>
-            <HouseSearch>
+            <BunyangSearch>
               <SearchIcon>
                 <SearchInput type="text" name="" placeholder="검색어를 입력하세요."></SearchInput>
                 <SearchBtn type="button" name=""></SearchBtn>
               </SearchIcon>
-            </HouseSearch>
+            </BunyangSearch>
         </WrapTotal>
-{/*house List*/}
+{/*bunyang List*/}
         <WrapList>
           <ListUl>
           {
-            HouseListItem.map((value) => {
+            BunyangListItem.map((value) => {
               return(
                 <Li>
                   <LiTop className="clearfix">
@@ -188,7 +188,7 @@ const Green = styled.span`
   font-size:calc(100vw*(14/428));color:#01684b;margin:0 calc(100vw*(5/428));
   font-weight:800;transform:skew(-0.1deg);
 `
-const HouseSearch = styled.div`
+const BunyangSearch = styled.div`
   width:calc(100vw*(297/428));height:calc(100vw*(44/428));
   background:#f8f7f7;
   margin-left:calc(100vw*(12/428));

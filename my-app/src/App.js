@@ -7,8 +7,8 @@ import { Mobile, PC } from "./MediaQuery"
 import Intro from './page/IntroPage';
 import Main from './page/MainPage';
 import MbSearch from './page/mobile/MbSearchPage';
-import MbHouse from './page/mobile/MbHouse';
-import MbHouseDetail from './page/mobile/MbHouseDetail';
+import MbBunyang from './page/mobile/MbBunyang';
+import MbBunyangDetail from './page/mobile/MbBunyangDetail';
 import Notice from './page/notice/NoticeList';
 import NoticeDetail from './page/notice/NoticeDetail';
 import Faq from './page/faq/FaqList';
@@ -140,8 +140,8 @@ export default function App(){
 
           {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
-            <Route exact path="/MbHouse" component={MbHouse}/>{/*모바일 분양리스트*/}
-            <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>{/*모바일 분양상세페이지*/}
+            <Route exact path="/MbBunyang" component={MbBunyang}/>{/*모바일 분양리스트*/}
+            <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
             <Route exact path="/Map" component={Map}/>

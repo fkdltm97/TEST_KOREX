@@ -14,7 +14,7 @@ import { Mobile, PC } from "../../../MediaQuery";
 import MapRightMenu from "./MapRightMenu";
 import WrapMapFilter from "./WrapMapFilter";
 
-export default function MainHeader({openHouse, rank, open, setOpen}) {
+export default function MainHeader({openBunyang, rank, open, setOpen}) {
     return (
         <Container>
           <MapRightMenu/>

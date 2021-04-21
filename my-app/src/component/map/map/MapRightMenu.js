@@ -11,7 +11,7 @@ import Mypage from '../../../img/main/mypage_icon.png';
 
 // components
 import { Mobile, PC } from "../../../MediaQuery";
-export default function MainHeader({openHouse, rank}) {
+export default function MainHeader({openBunyang, rank}) {
     return (
         <Container>
           <WrapMap>
@@ -39,7 +39,7 @@ export default function MainHeader({openHouse, rank}) {
               </WrapMenuBottom>
             {/*모바일에서 생기는 분양 탭 ... */}
               <Mobile>
-                <Link to="/MbHouse">
+                <Link to="/MbBunyang">
                   <Bunyang><BunyangLabel for="Exclusive">분양</BunyangLabel></Bunyang>
                 </Link>
               </Mobile>
