@@ -13,142 +13,63 @@ import Mypage from '../../../img/main/mypage_icon.png';
 import { Mobile, PC } from "../../../MediaQuery";
 import MapRightMenu from "./MapRightMenu";
 import WrapMapFilter from "./WrapMapFilter";
+import KakaoMap from './KakaoMap';
+
 
 const { kakao } = window;
 
-export default function MainHeader({openHouse, rank, open, setOpen}) {
+export default function WrapMap({openHouse, rank, open, setOpen}) {
 
-  const [latitudeInit, setLatitudeInit] = useState(37.494650); // 위도
-  const [longitudeInit, setLongitudeInit] = useState(127.027859); // 경도
-  const [mapGlobal, setMapGlobal] = useState();
-  const [clustererGlobal, setClustererGlobal] = useState();
+  const [visible, setVisible] = useState(true);
+  const [markerPositions, setMarkerPositions] = useState([]);
+  const [mapSize, setMapSize] = useState([400, 400]);
+
+  const markerPositions1 = [
+    [33.452278, 126.567803],
+    [33.452671, 126.574792],
+    [33.451744, 126.572441]
+  ];
+  const markerPositions2 = [
+    [37.499590490909185, 127.0263723554437],
+    [37.499427948430814, 127.02794423197847],
+    [37.498553760499505, 127.02882598822454],
+    [37.497625593121384, 127.02935713582038],
+    [37.49629291770947, 127.02587362608637],
+    [37.49754540521486, 127.02546694890695],
+    [37.49646391248451, 127.02675574250912]
+  ];
+
+
+
+
   
-
-
-  useEffect(() => {
-    // 지도 생성
-    let _latitude = latitudeInit;
-    let _longitude = longitudeInit;
-    const mapEl =  document.getElementById('map'); 
-    var options = {
-      center: new kakao.maps.LatLng(_latitude, _longitude),
-      level: 5,
-      minLevel: 5,
-    };
-    let map = new kakao.maps.Map(mapEl, options);      
-
-    // 클러스터러 생성
-    var clusterer = new kakao.maps.MarkerClusterer({
-      map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-      minLevel: 3, // 클러스터 할 최소 지도 레벨 
-      disableClickZoom: true
-    });
-
-    // 마커 생성 positions -> 서버에서 받아온 좌표값 데이터 
-    var positions = [
-      {
-        latlng: new kakao.maps.LatLng(37.494650, 127.027859)
-      },
-      {
-        title: '강남', 
-        latlng: new kakao.maps.LatLng(37.494611, 127.027166)
-      },
-      {
-        title: '신논현', 
-        latlng: new kakao.maps.LatLng(37.500296, 127.022793)
-      },
-      {
-        title: '신논현', 
-        latlng: new kakao.maps.LatLng(37.501123, 127.025252)
-      },
-    ];
-    let markers = []
-    positions.map(item => {
-      let marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: item.latlng, // 마커를 표시할 위치
-        title : item.title,
-      });
-      markers.push(marker);
-    })
-    clusterer.addMarkers(markers);
-
-    setMapGlobal(map);
-    setClustererGlobal(clusterer);
-    // 클러스터러 클릭 이벤트 생성
-    kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-      // 중심 좌표
-      // console.log(cluster._center.toLatLng().toString());
-      console.log(123123);
-      var level = map.getLevel()-1; 
-      map.setLevel(level, {anchor: cluster.getCenter()});
-    });
-
-  }, [])
-  
-
-  // const onClickTest = () => {
-  //   console.log("click");   const mapEl =  document.getElementById('map'); 
-  //   console.log(mapEl);
-
-
-  //    // 클러스터러 생성
-  //    var clusterer = new kakao.maps.MarkerClusterer({
-  //     map: mapGlobal, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-  //     averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-  //     minLevel: 4, // 클러스터 할 최소 지도 레벨 
-  //     disableClickZoom: true
-  //   });
-
-  //   // 마커 생성 positions -> 서버에서 받아온 좌표값 데이터 
-  //   var positions = [
-  //     {
-  //       latlng: new kakao.maps.LatLng(32.494650, 127.027859)
-  //     },
-  //     {
-  //       title: '강남', 
-  //       latlng: new kakao.maps.LatLng(32.494611, 127.027166)
-  //     },
-  //     {
-  //       title: '신논현', 
-  //       latlng: new kakao.maps.LatLng(32.500296, 127.022793)
-  //     },
-  //     {
-  //       title: '신논현', 
-  //       latlng: new kakao.maps.LatLng(32.501123, 127.025252)
-  //     },
-  //   ];
-  //   let markers = []
-  //   positions.map(item => {
-  //     let marker = new kakao.maps.Marker({
-  //       map: mapGlobal, // 마커를 표시할 지도
-  //       position: item.latlng, // 마커를 표시할 위치
-  //       title : item.title,
-  //     });
-  //     markers.push(marker);
-  //   })
-  //   clusterer.addMarkers(markers);
-  //   // 클러스터러 클릭 이벤트 생성
-
-  //   console.log(kakao.maps);
-
-  //   kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-  //     // 중심 좌표
-  //     // console.log(cluster._center.toLatLng().toString());
-  //     var level = mapGlobal.getLevel()-1; 
-  //     mapGlobal.setLevel(level, {anchor: cluster.getCenter()});
-  //   });
-
-
-  // }
 
   return (
-      <Container>
+      <Container> 
+         <section>
+        <button onClick={() => setVisible(!visible)}>
+          Toggle(Mount/Unmount)
+        </button>
+      </section>
+      <section>
+        <button onClick={() => setMapSize([0, 0])}>Hide</button>
+        <button onClick={() => setMapSize([200, 200])}>Resize (200x200)</button>
+        <button onClick={() => setMapSize([400, 400])}>Resize (400x400)</button>
+      </section>
+      <section>
+        <button onClick={() => setMarkerPositions(markerPositions1)}>
+          Marker Set 1
+        </button>
+        <button onClick={() => setMarkerPositions(markerPositions2)}>
+          Marker Set 2
+        </button>
+        <button onClick={() => setMarkerPositions([])}>
+          Marker Set 3 (empty)
+        </button>
+      </section>
         {/* <div onClick={() => {onClickTest() }}>test</div> */}
-        <KakaoMap id="map" />
         <MapRightMenu/>
-        <WrapMapFilter setOpen={setOpen}/>
+        <KakaoMap markerPositions={markerPositions} size={mapSize} />
       </Container>
   );
 
@@ -160,9 +81,3 @@ const Container = styled.div`
   height:100vh;
 `
 
-const KakaoMap = styled.div`
-  position:absolute;
-  width:100%;
-  height:100vh;
-  z-index:0;
-`
