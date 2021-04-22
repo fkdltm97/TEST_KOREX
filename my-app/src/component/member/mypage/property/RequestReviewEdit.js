@@ -34,10 +34,10 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
     return (
         <Container>
           <WrapCondition>
-            <TopTitle>의뢰접수 검토</TopTitle>
+            <TopTitle>물건 (사용자의뢰) 수정</TopTitle>
             <WrapReview>
               <ReviewTop>
-                <Condition>상태:<Gray>검토 대기</Gray></Condition>
+                <Condition>상태:<Gray>거래 준비</Gray></Condition>
                 <TeamName>소속명</TeamName>
                 <WrapFlexBox>
                   <FlexBox>
@@ -57,6 +57,7 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
                   <Label>전속기간<Pilsu> *</Pilsu></Label>
                   <Input type="text" value="00개월"/>
                 </JunsokDate>
+                <Preview>미리보기</Preview>
               </ReviewTop>
             {/*기본정보*/}
               <ReviewMiddle>
@@ -71,14 +72,8 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
                     null
                 }
                 <RequestAccept>
-                  <Desc>
-                  위 의뢰를 수락하여<br/>
-                  거래를 준비하시겠습니까?
-                  </Desc>
-                  <Buttons>
-                    <CancleBtn type="button" onClick={()=>{setCancle(true);cancleModal();}}>거절</CancleBtn>
-                    <AcceptBtn type="button" onClick={()=>{setAccept(true);acceptModal();}}>수락</AcceptBtn>
-                  </Buttons>
+                    <Link className="data_link" to="RequestReviewEditSecond"/>
+                   <NextBtn type="button">다음</NextBtn>
                 </RequestAccept>
               </ReviewMiddle>
             </WrapReview>
@@ -206,6 +201,21 @@ const JunsokDate = styled.div`
     margin:calc(100vw*(43/428)) auto 0;
     }
 `
+const Preview = styled.div`
+  position:absolute;
+  right:0;top:0;cursor:pointer;
+  width:80px;height:28px;
+  line-height:26px;
+  background:#fe7a01;border:2px solid #f0a764;
+  font-size:13px;text-align:center;transform:skew(-0.1deg);
+  color:#fff;border-radius:4px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));
+    height:calc(100vw*(28/428));
+    font-size:calc(100vw*(13/428));
+    line-height:calc(100vw*(26/428));
+    }
+`
 
 const Input = styled.input`
   width:100%;height:43px;
@@ -220,7 +230,12 @@ const Input = styled.input`
     }
 `
 const ReviewMiddle = styled.div`
-  width:100%;
+  width:490px;
+  margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    }
+
 `
 const BasicInfo = styled.div`
   width:100%;display:flex;justify-content:space-between;align-items:center;
@@ -269,49 +284,25 @@ const Pilsu = styled.span`
     }
 `
 const RequestAccept = styled.div`
-  width:100%;border-top:1px solid #f2f2f2;
-  padding-top:67px;margin-top:50px;
-  @media ${(props) => props.theme.mobile} {
-    padding-top:calc(100vw*(60/428));
-    margin-top:calc(100vw*(50/428));
-    }
-`
-const Desc = styled.p`
-  font-size: 15px;
-  font-weight: 800;
-  transform:skew(-0.1deg);
-  line-height: 1.13;
-  letter-spacing: normal;
-  text-align: center;
-  color: #4a4a4a;
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(15/428));
-    }
-`
-const Buttons = styled.div`
+position:relative;
   width:408px;
-  margin: 43px auto 0;
-  display:flex;justify-content:space-between;align-items:center;
+  margin:80px auto 0;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(380/428));
-    margin:calc(100vw*(43/428)) auto 0;
+    margin:calc(100vw*(70/428)) 0 auto;
+    width:100%;
     }
 `
-const CancleBtn = styled.button`
-  width: 200px;
+const NextBtn = styled.button`
+  width: 100%;
   height: 66px;
   line-height:60px;
   text-align:center;
-  font-size:20px;color:#fff;font-weight:800;trabsform:skeW(-0.1deg);
+  font-size:20px;color:#fff;font-weight:800;transform:skeW(-0.1deg);
   border-radius: 11px;
-  border: solid 3px #e4e4e4;
-  background-color: #979797;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(180/428));height:calc(100vw*(60/428));
-    line-height:calc(100vw*(54/428));font-size:calc(100vw*(15/428));
-    }
-`
-const AcceptBtn = styled(CancleBtn)`
   border: solid 3px #04966d;
   background-color: #01684b;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));font-size:calc(100vw*(15/428));
+    }
 `

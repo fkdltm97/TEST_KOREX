@@ -17,14 +17,7 @@ import RadioImg from '../../../../img/map/radi.png';
 import RadioChkImg from '../../../../img/map/radi_chk.png';
 import Picture from '../../../../img/member/picture.png';
 
-import { Mobile, PC } from "../../../../MediaQuery"
-
-//component
-import SearchApartOfficetel from "./SearchApartOfficetel";
-import SearchStoreOffice from "./SearchStoreOffice";
-import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
-
-export default function Request({setPicture}) {
+export default function Request({setPicture,confirmModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [park,setPark] = useState(false);
@@ -69,7 +62,6 @@ const OptionProtect =[
     return (
         <Container>
           <WrapRequest>
-            <TopTitle>추가정보 입력/수정</TopTitle>
             <WrapBox>
               <Box>
                 <SubTitle>
@@ -362,7 +354,7 @@ const OptionProtect =[
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
               <Link>
-                <Next type="button">확인</Next>
+                <Next type="button" onClick={()=>{confirmModal();}}>확인</Next>
               </Link>
             </NextButton>
            </WrapRequest>
@@ -370,26 +362,14 @@ const OptionProtect =[
   );
 }
 
-const Pb = styled.b`
-  display:block;
-  @media ${(props) => props.theme.mobile} {
-        display:inline;
-    }
-`
-const Mb = styled.b`
-  display:inline;
-  @media ${(props) => props.theme.mobile} {
-        display:block;
-    }
-`
 const Container = styled.div`
-    width:680px;
-    margin:0 auto;
-    padding:24px 0 250px;
-    @media ${(props) => props.theme.mobile} {
-      width:calc(100vw*(370/428));
-      padding:calc(100vw*(30/428)) 0 calc(100vw*(100/428));
-      }
+   width:408px;
+  margin:43px auto 0;
+  @media ${(props) => props.theme.mobile} {
+    margin:calc(100vw*(43/428)) auto 0;
+    width:calc(100vw*(380/428));
+    }
+
 `
 const WrapRequest = styled.div`
   width:100%;
@@ -613,7 +593,6 @@ const InputFileLabel = styled.label`
     height:calc(100vw*(43/428));
     font-size:calc(100vw*(15/428));
     background-size:calc(100vw*(21/428));
-    line-height:calc(100vw*(43/428));
     }
 `
 

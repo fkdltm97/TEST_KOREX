@@ -18,7 +18,7 @@ import KakaoMap from './KakaoMap';
 
 const { kakao } = window;
 
-export default function WrapMap({openHouse, rank, open, setOpen}) {
+export default function WrapMap({openBunyang, rank, open, setOpen}) {
 
 
   return (

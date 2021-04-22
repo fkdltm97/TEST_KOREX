@@ -181,11 +181,11 @@ address{font-style:normal;}
 .main_swiper .swiper-pagination-bullet{width:70px;height:6px;border-radius: 0%;background:#f2f2f2;opacity:1;}
 .main_swiper .swiper-pagination-bullet-active{background:#01684b;}
 
-.house_swiper .swiper-button-prev:after, .house_swiper .swiper-button-next:after{font-size:0;width:16px;height:25px;}
-.house_swiper .swiper-button-prev:after{background:url(img/main/prev.png) no-repeat;background-size:100% 100%;}
-.house_swiper .swiper-button-next:after{background:url(img/main/next.png) no-repeat;background-size:100% 100%;}
-.house_swiper .swiper-button-prev{left:30px;}
-.house_swiper .swiper-button-next{right:30px;}
+.bunyang_swiper .swiper-button-prev:after, .bunyang_swiper .swiper-button-next:after{font-size:0;width:16px;height:25px;}
+.bunyang_swiper .swiper-button-prev:after{background:url(img/main/prev.png) no-repeat;background-size:100% 100%;}
+.bunyang_swiper .swiper-button-next:after{background:url(img/main/next.png) no-repeat;background-size:100% 100%;}
+.bunyang_swiper .swiper-button-prev{left:30px;}
+.bunyang_swiper .swiper-button-next{right:30px;}
 
 .img_swiper .swiper-container{width:90%;margin:25px auto 0;}
 .img_swiper .swiper-button-prev:after, .img_swiper .swiper-button-next:after{font-weight:bold;}
@@ -252,11 +252,11 @@ background-size:18px 18px;appearance:none;}
 	.main_swiper .swiper-button-next{right:0;}
 	.main_swiper .swiper-container-horizontal > .swiper-pagination-bullets{bottom:calc(100vw*(-10/428));}
 
-	.house_swiper .swiper-button-prev:after, .house_swiper .swiper-button-next:after{font-size:0;width:16px;height:25px;}
-	.house_swiper .swiper-button-prev:after{background:url(img/main/prev.png) no-repeat;background-size:100% 100%;}
-	.house_swiper .swiper-button-next:after{background:url(img/main/next.png) no-repeat;background-size:100% 100%;}
-	.house_swiper .swiper-button-prev{left:30px;}
-	.house_swiper .swiper-button-next{right:30px;}
+	.bunyang_swiper .swiper-button-prev:after, .bunyang_swiper .swiper-button-next:after{font-size:0;width:16px;height:25px;}
+	.bunyang_swiper .swiper-button-prev:after{background:url(img/main/prev.png) no-repeat;background-size:100% 100%;}
+	.bunyang_swiper .swiper-button-next:after{background:url(img/main/next.png) no-repeat;background-size:100% 100%;}
+	.bunyang_swiper .swiper-button-prev{left:30px;}
+	.bunyang_swiper .swiper-button-next{right:30px;}
 
 	.img_swiper .swiper-container{width:100%;}
 	.img_swiper .swiper-button-prev:after, .img_swiper .swiper-button-next:after{width:calc(100vw*(16/428));height:calc(100vw*(25/428));font-size:0;font-weight:bold;}

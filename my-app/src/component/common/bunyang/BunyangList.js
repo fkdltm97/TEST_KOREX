@@ -13,128 +13,57 @@ import HeartCheck from "../../../img/main/heart_check.png";
 import IconSearch from "../../../img/main/icon_search.png";
 import IconRecent from "../../../img/main/icon_view.png";
 
-export default function HouseList({updatePageIndex}){
-  /*물건종류*/
-  const [item,setItem] = useState(false);
-  const [trade,setTrade] = useState(false);
-  const [price,setPrice] = useState(false);
-  const [width,setWidth] = useState(false);
-  const [menu,setMenu] = useState(false);
+//component
+import ModalCommon from "../modal/ModalCommon";
+import ModalFilter from "../modal/ModalFilter";
 
-  const showItem =()=>{
-    setItem(!item);
+export default function BunyangList({updatePageIndex}){
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+  //여기 두개가 핵심이에여
+  //모달 끄는 식
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
   }
-  const showTrade =()=>{
-    setTrade(!trade);
-  }
-  const showPrice =()=>{
-    setPrice(!price);
-  }
-  const showWidth =()=>{
-    setWidth(!width);
-  }
-  const showMenu =()=>{
-    setMenu(!menu);
-  }
+
+
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+    const updateModal = () =>{
+      //여기가 모달 키는 거에엽
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"필터",
+          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+          submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+          cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+      });
+    }
 
     return (
       <Container>
-{/*housetop*/}
+{/*bunyangtop*/}
       <ModalTop>
         <Title>분양</Title>
       </ModalTop>
-{/*house select*/}
+{/*bunyang select*/}
       <ModalSelect>
-        <SearchIcon>
-          <SearchImage src={IconSearch} alt="search"/>
-        </SearchIcon>
-        <WrapItem>
-          <ItemList>
-            <Link onClick={showItem}>
-              <Span>물건종류</Span>
-            {
-              item ?
-              <ItemSubdepth>
-                <ItemSubList>물건종류1</ItemSubList>
-                <ItemSubList>물건종류2</ItemSubList>
-                <ItemSubList>물건종류3</ItemSubList>
-              </ItemSubdepth>
-              :
-              null
-            }
-            </Link>
-          </ItemList>
-        </WrapItem>
-        <WrapTread>
-          <TreadList>
-            <Link onClick={showTrade}>
-              <Span>거래유형</Span>
-              {
-                trade ?
-                <TreadSubdepth>
-                  <TreadSubList>거래유형1</TreadSubList>
-                  <TreadSubList>거래유형2</TreadSubList>
-                  <TreadSubList>거래유형3</TreadSubList>
-                </TreadSubdepth>
-                :
-                null
-              }
-            </Link>
-          </TreadList>
-        </WrapTread>
-        <WrapPrice>
-          <PriceList>
-            <Link onClick={showPrice}>
-              <Span>가격</Span>
-              {
-                price ?
-                <PriceSubdepth>
-                  <PriceSubList>가격1</PriceSubList>
-                  <PriceSubList>가격2</PriceSubList>
-                  <PriceSubList>가격3</PriceSubList>
-                </PriceSubdepth>
-                :
-                null
-              }
-            </Link>
-          </PriceList>
-        </WrapPrice>
-        <WrapWidth>
-          <WidthList>
-            <Link onClick={showWidth}>
-              <Span>면적</Span>
-            {
-              width ?
-              <WidthSubdepth>
-                <WidthSubList>면적1</WidthSubList>
-                <WidthSubList>면적2</WidthSubList>
-                <WidthSubList>면적3</WidthSubList>
-              </WidthSubdepth>
-              :
-              null
-            }
-            </Link>
-          </WidthList>
-        </WrapWidth>
+        <Search>
+          <SearchInput type="text" placeholder="검색어를 입력하여주세요."/>
+          <SearchIcon type="button"/>
+        </Search>
         <SortRecent>
           <RecentList>
-            <Link onClick={showMenu}>
+            <Link onClick={() => {updateModal()}}>
               <Span><RecentImg src={IconRecent}/></Span>
-            {
-              menu ?
-              <RecentSubdepth>
-                <ReceentSubList>최신순</ReceentSubList>
-                <ReceentSubList>과거순</ReceentSubList>
-              </RecentSubdepth>
-              :
-              null
-            }
-
             </Link>
           </RecentList>
         </SortRecent>
       </ModalSelect>
-{/*house List*/}
+{/*bunyang List*/}
         <ListTop>총 <Green>2</Green>건</ListTop>
         <WrapList>
           <ListUl>
@@ -212,6 +141,7 @@ export default function HouseList({updatePageIndex}){
             </Li>
           </ListUl>
         </WrapList>
+        <ModalCommon modalOption={modalOption}/>
       </Container>
     );
 }
@@ -227,6 +157,9 @@ const ModalTop = styled.div`
       margin-bottom:calc(100vw*(22/1436));
     }
 `
+const ModalFilterBg = styled.div`
+  background:rgba(0,0,0,0);
+`
 const Title = styled.h1`
   font-size:20px;
   color:#707070;
@@ -240,19 +173,29 @@ const Title = styled.h1`
 const ModalSelect = styled.div`
   width:100%;
   height:68px;
-  padding-top:20px;
-  display:flex;justify-content:center;align-items:flex-start;
+  display:flex;justify-content:center;align-items:center;
   background:#f8f7f7;border-top:1px solid #b9b9b9;
 
 `
-const SearchIcon = styled.div`
-  width:30px;height:30px;text-align:center;
-  margin-right:32px;cursor:pointer;
+const Search = styled.div`
+  position:relative;
+  display:flex;justify-content:space-between;align-items:center;
+  width:300px;background:#fff;
+  height:43px;margin-right:30px;
+  border:1px solid #e4e4e4;border-radius:4px;
 `
-const SearchImage = styled.img`
-  width:19px;height:18px;
-  vertical-align: -webkit-baseline-middle;
+const SearchInput = styled.input`
+  display:inline-block;
+  width:100%;height:100%;background:transparent;
+  padding-left:20px;
+  font-size:15px; transform:skew(-0.1deg);color:#4a4a4a;
+  &::placeholder{color:#979797;}
 `
+const SearchIcon = styled.button`
+  width:30px;height:30px;text-align:center;margin-right:10px;
+  cursor:pointer;background:url(${IconSearch}) no-repeat center center;background-size:19px;
+`
+
 const WrapItem = styled.ul`
   width:81px;
   border-radius:4px;border:1px solid #979797;
@@ -291,31 +234,6 @@ const ItemSubList = styled.li`
   padding:4px 0;
   &:hover{background:#f8f7f7;}
 `
-const WrapTread = styled(WrapItem)`
-`
-const TreadList = styled(ItemList)`
-`
-const TreadSubdepth = styled(ItemSubdepth)`
-`
-const TreadSubList = styled(ItemSubList)`
-`
-const WrapPrice = styled(WrapItem)`
-`
-const PriceList = styled(ItemList)`
-`
-const PriceSubdepth = styled(ItemSubdepth)`
-`
-const PriceSubList = styled(ItemSubList)`
-`
-const WrapWidth = styled(WrapItem)`
-  margin-right:30px;
-`
-const WidthList = styled(ItemList)`
-`
-const WidthSubdepth = styled(ItemSubdepth)`
-`
-const WidthSubList = styled(ItemSubList)`
-`
 const SortRecent = styled(WrapItem)`
   border:none;
   padding:0;background:none;
@@ -327,15 +245,6 @@ const RecentList = styled(ItemList)`
 const RecentImg = styled.img`
   width:19px;height:19px;vertical-align: -webkit-baseline-middle;
 
-`
-const RecentSubdepth = styled(ItemSubdepth)`
-  position:Absolute;left:35px;top:0;background:#fff;
-  border-radius:8px;border:1px solid #707070;
-  width:70px;
-`
-const ReceentSubList = styled(ItemSubList)`
-  font-size:13px;
-  padding:8px 15px;border-radius:8px;
 `
 const ListTop = styled.div`
   width:100%;text-align:left;

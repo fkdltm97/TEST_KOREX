@@ -6,8 +6,8 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //component
-import HouseList from "./HouseList";
-import HouseDetail from "./HouseDetail";
+import BunyangList from "./BunyangList";
+import BunyangDetail from "./BunyangDetail";
 
 //img
 import CalIcon from "../../../img/main/icon_cal.png";
@@ -17,16 +17,16 @@ import IconRecent from "../../../img/main/icon_view.png";
 import ItemImg from "../../../img/main/item01.png";
 
 import { Mobile, PC } from "../../../MediaQuery"
-export default function House({house, openHouse ,live, setLive, detailimg, setDetailImg,cal, setCal}) {
+export default function Bunyang({bunyang, openBunyang ,live, setLive, detailimg, setDetailImg,cal, setCal}) {
 
   //모달창 내 페이지 이동
   const [pageIndex , setPageIndex] = useState(0);
 
   const pageLoader = () =>{
     switch (pageIndex) {
-      case 0: return <HouseList updatePageIndex={updatePageIndex}/>;
-      case 1: return <HouseDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>;
-      default :return <HouseList updatePageIndex={updatePageIndex}/>;
+      case 0: return <BunyangList updatePageIndex={updatePageIndex}/>;
+      case 1: return <BunyangDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>;
+      default :return <BunyangList updatePageIndex={updatePageIndex}/>;
     }
   }
 
@@ -40,15 +40,15 @@ export default function House({house, openHouse ,live, setLive, detailimg, setDe
   }
 
 //모달창
-  if(house == false)
+  if(bunyang == false)
     return null;
     return (
       <Container>
         <PC>
-          <ModalBg onClick={()=>{setPageIndex(0);openHouse(false)}}></ModalBg>
+          <ModalBg onClick={()=>{setPageIndex(0);openBunyang(false)}}></ModalBg>
           <ModalContent>
             <ModalClose>
-              <Link onClick={()=>{setPageIndex(0);openHouse(false)}}>
+              <Link onClick={()=>{setPageIndex(0);openBunyang(false)}}>
                 <CloseImg src={CloseIcon}/>
               </Link>
             </ModalClose>
@@ -59,10 +59,10 @@ export default function House({house, openHouse ,live, setLive, detailimg, setDe
 
         </PC>
         <Mobile>
-          <ModalBg onClick={()=>{openHouse(false)}}></ModalBg>
+          <ModalBg onClick={()=>{openBunyang(false)}}></ModalBg>
           <ModalContent>
             <ModalClose>
-              <Link onClick={()=>{setPageIndex(0);openHouse(false)}}>
+              <Link onClick={()=>{setPageIndex(0);openBunyang(false)}}>
                 <CloseImg src={CloseIcon}/>
               </Link>
             </ModalClose>
@@ -93,7 +93,7 @@ const ModalContent = styled.div`
   position:fixed;
   width:1146px;
   height:752px;
-  background:#fff;
+  background:#fff;box-shadow: 0 0 10px 1px rgb(0 0 0 / 10%);
   left:50%;top:50%;transform:translate(-50%,-50%);
   border-radius:24px;
   padding: 47px 46.7px 65.8px 95.8px;

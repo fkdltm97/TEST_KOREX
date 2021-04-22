@@ -7,8 +7,8 @@ import { Mobile, PC } from "./MediaQuery"
 import Intro from './page/IntroPage';
 import Main from './page/MainPage';
 import MbSearch from './page/mobile/MbSearchPage';
-import MbHouse from './page/mobile/MbHouse';
-import MbHouseDetail from './page/mobile/MbHouseDetail';
+import MbBunyang from './page/mobile/MbBunyang';
+import MbBunyangDetail from './page/mobile/MbBunyangDetail';
 import Notice from './page/notice/NoticeList';
 import NoticeDetail from './page/notice/NoticeDetail';
 import Faq from './page/faq/FaqList';
@@ -66,6 +66,9 @@ import AddPropertySecond from './page/member/mypage/AddPropertySecond';
 import AddPropertyThird from './page/member/mypage/AddPropertyThird';
 import ConditionChange from './page/member/mypage/ConditionChange';
 import RequestReview from './page/member/mypage/RequestReview';
+import RequestReviewEdit from './page/member/mypage/RequestReviewEdit';
+import RequestReviewEditSecond from './page/member/mypage/RequestReviewEditSecond';
+import PropertyTourSetting from './page/member/mypage/PropertyTourSetting';
 
 /*map*/
 import Map from './page/map/Map';
@@ -143,11 +146,14 @@ export default function App(){
             <Route exact path="/AddPropertyThird" component={AddPropertyThird}/>{/*내 물건관리 > 물건(외부수임)등록 > 추가정보입력*/}
             <Route exact path="/ConditionChange" component={ConditionChange}/>{/*내 물건관리 > 상태변경내역*/}
             <Route exact path="/RequestReview" component={RequestReview}/>{/*내 물건관리 > 의뢰접수검토*/}
+            <Route exact path="/RequestReviewEdit" component={RequestReviewEdit}/>{/*내 물건관리 > 물건 수정(기본정보)*/}
+            <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
+            <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
 
           {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
-            <Route exact path="/MbHouse" component={MbHouse}/>{/*모바일 분양리스트*/}
-            <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>{/*모바일 분양상세페이지*/}
+            <Route exact path="/MbBunyang" component={MbBunyang}/>{/*모바일 분양리스트*/}
+            <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
             <Route exact path="/Map" component={Map}/>

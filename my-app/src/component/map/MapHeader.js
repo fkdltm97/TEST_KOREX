@@ -16,7 +16,7 @@ import Search from '../../img/map/search.png';
 import { Mobile, PC } from "../../MediaQuery";
 
 
-export default function MainHeader({openHouse, rank}) {
+export default function MainHeader({openBunyang, rank}) {
   const options = useMemo(
            () => [
               { value: "아파트", label: "아파트"},
@@ -48,7 +48,7 @@ export default function MainHeader({openHouse, rank}) {
                 </HeaderSearch>
             </HederLogo>
             <HeaderRight>
-              <Link onClick={()=>{openHouse(true)}}>
+              <Link onClick={()=>{openBunyang(true)}}>
                 <Bunyang>분양</Bunyang>
               </Link>
               <Link to="/Mypage">

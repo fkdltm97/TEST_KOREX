@@ -19,8 +19,10 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import ConditionChangeList from "./ConditionChangeList";
 
 
-export default function RequsetReview() {
+export default function RequsetReview({disabled}) {
   const [openMore, setOpenMore] = useState(false);
+  const [viewInput, setViewInput] = useState(true);//관리비 있음일때 input박스 노출
+  const [viewDate, setViewDate] = useState(true);//입주가능일 선택할 경우 date박스
 
   const rotate=()=>{
     if(openMore == true) {
@@ -41,22 +43,22 @@ export default function RequsetReview() {
                   <WrapInputBox>
                     <InputBox>
                       <Label>물건종류</Label>
-                      <InputDisabled type="text" value="물건종류(ex:아파트)" disabled/>
+                      <InputDisabled type="text" value="물건종류(ex:아파트)" disabled={disabled ? true: false}/>
                     </InputBox>
                     <InputBox>
                       <Label>주소</Label>
-                      <InputDisabled type="text" value="주소" disabled/>
+                      <InputDisabled type="text" value="주소" disabled={disabled ? true: false}/>
                     </InputBox>
                     <InputBox>
                       <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                      <InputDisabled type="text" value="OO층 OO호" disabled/>
+                      <InputDisabled type="text" value="OO층 OO호" disabled={disabled ? true: false}/>
                     </InputBox>
                   </WrapInputBox>
                   <WrapItemInfo>
                     <LongLine/>
                     <InputBox>
                       <Label>건물명<Pilsu>*</Pilsu></Label>
-                      <InputTxt type="text" placeholder="건물명을 입력하여주세요." disabled/>
+                      <InputTxt type="text" placeholder="건물명을 입력하여주세요." disabled={disabled ? true: false}/>
                     </InputBox>
             {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
                     <InputBox style={{display:"none"}}>
@@ -70,19 +72,19 @@ export default function RequsetReview() {
                         </SwitchLabel>
                       </SwitchButton>
                         <Flex style={{display:"none"}}>
-                          <InputTxt type="text" placeholder="현재 업종 입력" disabled/>
+                          <InputTxt type="text" placeholder="현재 업종 입력" disabled={disabled ? true: false}/>
                         </Flex>
                     </InputBox>
                     <InputBox>
                       <Label>전용면적<Pilsu>*</Pilsu></Label>
                       <Widthbox>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
                           <Span>m²</Span>
                         </Inbox>
                         <Same>=</Same>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
                           <Span>평</Span>
                         </Inbox>
                       </Widthbox>
@@ -91,12 +93,12 @@ export default function RequsetReview() {
                       <Label>공급면적<Pilsu>*</Pilsu></Label>
                       <Widthbox>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
                           <Span>m²</Span>
                         </Inbox>
                         <Same>=</Same>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
                           <Span>평</Span>
                         </Inbox>
                       </Widthbox>
@@ -111,7 +113,7 @@ export default function RequsetReview() {
                   </SubTitle>
                   <SelectBox>
                     <Label>거래유형<Pilsu>*</Pilsu></Label>
-                    <SelectMb disabled>
+                    <SelectMb disabled={disabled ? true: false}>
                       <Option>거래유형을 선택하여주세요.</Option>
                       <Option selected>매매</Option>
                       <Option>전세</Option>
@@ -122,7 +124,7 @@ export default function RequsetReview() {
                     <Label>가격<Pilsu>*</Pilsu></Label>
                     <Example>(e.g 1억 5,000)</Example>
                     <Flex>
-                      <InputMidi type="text" placeholder="가격 입력" disabled/>
+                      <InputMidi type="text" placeholder="가격 입력" disabled={disabled ? true: false}/>
                       <Dan>만원</Dan>
                     </Flex>
                   </InputBox>
@@ -141,52 +143,57 @@ export default function RequsetReview() {
                     <MoreBox>
                       <Label>관리비<Pilsu>*</Pilsu></Label>
                       <SwitchButton>
-                        <Switch type="checkbox" id="switch" disabled defaultChecked/>
-                        <SwitchLabel for="switch">
+                        <Switch type="checkbox" id="switch" defaultChecked disabled={disabled ? true: false}/>
+                        <SwitchLabel for="switch" onClick={()=>{setViewInput(!viewInput)}}>
                           <SwitchSpan/>
                           <SwithTxtOff className="no">없음</SwithTxtOff>
                           <SwithTxtOn className="yes">있음</SwithTxtOn>
                         </SwitchLabel>
                       </SwitchButton>
-                      <Flex>
-                        <InputMidi type="text" placeholder="가격 입력" disabled/>
-                        <Dan>만원</Dan>
-                      </Flex>
+                      {
+                          viewInput ?
+                          <Flex>
+                            <InputMidi type="text" placeholder="가격 입력"/>
+                            <Dan>만원</Dan>
+                          </Flex>
+                          :
+                          null
+                      }
                     </MoreBox>
                   {/*관리비 포함*/}
                     <MoreBox>
                       <Label>관리비 포함<Pilsu>*</Pilsu></Label>
                       <WrapCheck>
                         <Checkbox>
-                          <Check type="checkbox" id="check1" disabled defaultChecked/>
+                          <Check type="checkbox" id="check1" defaultChecked disabled={disabled ? true: false}/>
                           <CheckLabel for="check1">
                             <CheckSpan/>
                             전기
                           </CheckLabel>
                         </Checkbox>
                         <Checkbox>
-                          <Check type="checkbox" id="check2" disabled/>
+                          <Check type="checkbox" id="check2" disabled={disabled ? true: false}/>
                           <CheckLabel for="check2">
                             <CheckSpan/>
                             수도
                           </CheckLabel>
                         </Checkbox>
                         <Checkbox>
-                          <Check type="checkbox" id="check3" disabled/>
+                          <Check type="checkbox" id="check3" disabled={disabled ? true: false}/>
                           <CheckLabel for="check3">
                             <CheckSpan/>
                             가스
                           </CheckLabel>
                         </Checkbox>
                         <Checkbox>
-                          <Check type="checkbox" id="check4" disabled/>
+                          <Check type="checkbox" id="check4" disabled={disabled ? true: false}/>
                           <CheckLabel for="check4">
                             <CheckSpan/>
                             인터넷
                           </CheckLabel>
                         </Checkbox>
                         <Checkbox>
-                          <Check type="checkbox" id="check5" disabled/>
+                          <Check type="checkbox" id="check5" disabled={disabled ? true: false}/>
                           <CheckLabel for="check5">
                             <CheckSpan/>
                             티비
@@ -199,19 +206,24 @@ export default function RequsetReview() {
                       <Label>입주가능일<Pilsu>*</Pilsu></Label>
                       <WrapCheck>
                         <Radiobox>
-                          <Radio type="radio" name="possible" id="radi1" disabled/>
-                          <RadioLabel for="radi1">
+                          <Radio type="radio" name="possible" id="radi1" disabled={disabled ? true: false}/>
+                          <RadioLabel for="radi1"  onClick={()=>{setViewDate(false)}}>
                             <RadioSpan/>
                             즉시
                           </RadioLabel>
                         </Radiobox>
                         <Radiobox>
-                          <Radio type="radio" name="possible" id="radi2" disabled defaultChecked/>
-                          <RadioLabel for="radi2">
+                          <Radio type="radio" name="possible" id="radi2" defaultChecked disabled={disabled ? true: false}/>
+                          <RadioLabel for="radi2"  onClick={()=>{setViewDate(true)}}>
                             <RadioSpan/>
                             날짜 선택
                           </RadioLabel>
-                          <InputDate type="date" disabled/>
+                          {
+                              viewDate ?
+                              <InputDate type="date"/>
+                              :
+                              null
+                            }
                         </Radiobox>
                       </WrapCheck>
                     </MoreBox>
@@ -240,7 +252,8 @@ const Mb = styled.b`
     }
 `
 const Container = styled.div`
-  margin-top:43px;
+  width:408px;
+  margin:43px auto 0;
   @media ${(props) => props.theme.mobile} {
     margin:calc(100vw*(43/428)) auto 0;
     width:calc(100vw*(380/428));
@@ -489,14 +502,14 @@ const Inbox = styled.div`
   height: 43px;
   border-radius: 4px;
   border: solid 1px #e4e4e4;
-  background-color: #fbfbfb;
+  background-color: #fff;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(167/428));
     height:calc(100vw*(43/428));
     }
 `
 const InputShort = styled.input`
-  width:70%;
+  width:100%;
   height:100%;
   text-align:center;
   background:transparent;font-weight:600;
@@ -512,10 +525,10 @@ const Span = styled.span`
   vertical-align:middle;
   font-size:15px;font-weight:600;
   color:#4a4a4a;transform:skew(-0.1deg);
-  margin-left:10px;
+  margin-right:10px;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(15/428));
-    margin-left:calc(100vw*(8/428));
+    margin-right:calc(100vw*(8/428));
     }
 `
 const Same = styled.span`

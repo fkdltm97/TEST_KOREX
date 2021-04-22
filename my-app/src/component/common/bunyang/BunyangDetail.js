@@ -24,14 +24,14 @@ import Checked from "../../../img/member/checked.png";
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function HouseList({updatePageIndex,setLive,setDetailImg,setCal}){
+export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal}){
 
   const [active,setActive] = useState(false);
 
 
     return (
       <Container>
-      {/*housetop*/}
+      {/*bunyangtop*/}
         <ModalTop>
           <Back onClick={() => {updatePageIndex(0)}}>
             <ImgBack src={BackBtn}/>
@@ -40,7 +40,7 @@ export default function HouseList({updatePageIndex,setLive,setDetailImg,setCal})
         </ModalTop>
         <WrapDetail>
           <LeftDetail>
-            <SwiperBennerWrap className="house_swiper">
+            <SwiperBennerWrap className="bunyang_swiper">
               <Swiper
                 spaceBetween={5}
                 slidesPerView={1}
