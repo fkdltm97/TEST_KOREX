@@ -11,7 +11,7 @@ import Mypage from '../../img/main/mypage_icon.png';
 
 // components
 import { Mobile, PC } from "../../MediaQuery";
-export default function MainHeader({openHouse, rank}) {
+export default function MainHeader({openBunyang, rank}) {
     return (
         <Container>
           <WrapHeader>
@@ -22,7 +22,7 @@ export default function MainHeader({openHouse, rank}) {
                 </Link>
             </HederLogo>
             <HeaderRight>
-              <Link onClick={()=>{openHouse(true)}}>
+              <Link onClick={()=>{openBunyang(true)}}>
                 <Bunyang>분양</Bunyang>
               </Link>
               <Link to="/Mypage">
@@ -39,11 +39,11 @@ export default function MainHeader({openHouse, rank}) {
               <HeaderRight>
                   {
                     rank ?
-                    <Link to="/MbHouse">
+                    <Link to="/MbBunyang">
                       <BunyangColor>분양</BunyangColor>
                     </Link>
                     :
-                    <Link to="/MbHouse">
+                    <Link to="/MbBunyang">
                       <Bunyang>분양</Bunyang>
                     </Link>
                   }

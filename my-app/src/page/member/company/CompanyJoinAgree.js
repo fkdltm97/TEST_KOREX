@@ -26,6 +26,11 @@ import { useSelector } from 'react-redux';
 import { tempRegisterdataActions } from '../../../store/actionCreators';
 import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
+import Bunyang from '../../../component/common/bunyang/Bunyang';
+import ImgDetail from "../../../component/common/bunyang/ImgDetail";
+import LiveModal from "../../../component/common/bunyang/LiveModal";
+import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+
 export default function JoinAgree() {
    console.log('page>member>comapnyJoinagreejs 실행======================');
 
@@ -46,8 +51,8 @@ export default function JoinAgree() {
   const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //분양 모달
-  const [house, setHouse] = useState(false);
-  const openHouse = (onOff) =>{ setHouse(onOff);}
+  const [bunyang, setBunyang] = useState(false);
+  const openBunyang = (onOff) =>{ setBunyang(onOff);}
   //라이브 시청 모달
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
@@ -114,8 +119,8 @@ export default function JoinAgree() {
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openHouse={openHouse}/>
+          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+          <MainHeader openBunyang={openBunyang}/>
           <Container>
               <SubTitle title={"회원가입"}/>
               <JoinTab/>

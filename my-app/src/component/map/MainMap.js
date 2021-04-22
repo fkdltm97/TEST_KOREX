@@ -15,7 +15,7 @@ import WrapMap from './map/WrapMap';
 import MainWrapSideBar from './sidebar/MainWrapSideBar';
 import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 
-export default function MainHeader({openHouse, rank, setReport,setMap}) {
+export default function MainHeader({openBunyang, rank, setReport,setMap}) {
     const [pageIndex , setPageIndex] = useState(0);
     return (
         <Container>

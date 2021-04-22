@@ -26,7 +26,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import LiveManageTop from "./LiveManageTop";
 import LiveManageList from "./LiveManageList";
 
-export default function Live({setFilter,value,type}) {
+export default function Live({setFilter,value,type,updateModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -34,43 +34,56 @@ export default function Live({setFilter,value,type}) {
     setMenu(!menu);
   }
   /*data map*/
-  const LiveManageListItem =[
+  const BroadcastList =[
     {
-      p_id : 0,
-      img:Item,
-      date:"21.00.00 - 21.00.00",
-      conditiontype:"사용자 의뢰",
-      condition:"검토대기",
-      startdate:"2021.00.00",
-      enddate:"2021.00.00",
-      number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
-      itemname:"충남내포신도시2차대방엘리움더센트럴",
-      trade:"매매",
-      username:"홍길동"
-    },
-    {
-      p_id : 1,
-      img:Item,
-      date:"21.00.00 - 21.00.00",
-      conditiontype:"외부 수임",
-      condition:"검토대기",
-      startdate:"2021.00.00",
-      enddate:"2021.00.00",
-      number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
-      itemname:"충남내포신도시2차대방엘리움더센트럴",
-      trade:"매매",
-      username:"홍길동"
+      broad_id : 0,
+      date:"21/03/09",
+      time:"오후 3:00",
+      days:"오늘",
+      type:"today"
     }
 ]
 
+/*data map*/
+const LiveManageListItem =[
+  {
+    m_id : 0,
+    number:"2D0000324",
+    username:"홍길동",
+    mail:"Hong@gmail.com"
+  },
+  {
+    m_id : 1,
+    number:"2D0000324",
+    username:"홍길순",
+    mail:"Hong@gmail.com"
+  },
+]
     return (
         <Container>
           <WrapLive>
             <TopTitle>Live 시청예약접수 관리</TopTitle>
+            {
+            BroadcastList.map((value) => {
+
+              const type=()=>{
+                if(value.type == "today") { //오늘
+                  return "#fe7a01"
+                }else if(value.type == "days") {//~일후
+                  return "#01684b"
+                }else if(value.type == "end") {//만료
+                  return "#979797"
+                }
+              }
+
+              return(
+                <Broadcast>
+                  방송 {value.date} {value.time} <Color color={type}>{value.days}</Color>
+                </Broadcast>
+              )
+            })
+          }
+
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
               <FilterAndAdd>
@@ -78,28 +91,20 @@ export default function Live({setFilter,value,type}) {
                   <InputSearch type="search" placeholder="예약자 검색"/>
                   <SearchButton type="button"/>
                 </SearchBox>
-                <FilterImg src={Filter} alt="filter"/>
+                <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
             <WrapPropertyList>
 
-            <LiveManageTop/>
-            {
-            LiveManageListItem.map((value) => {
+              <LiveManageTop/>{/*방송 만료상태일때 LiveManageTop 사라져야함*/}
+              {
+              LiveManageListItem.map((value) => {
 
-              const type=()=>{
-                if(value.conditiontype == "사용자 의뢰") { //검토대기
-                  return "#fe7a01"
-                }else if(value.conditiontype == "외부 수임") {//거래준비
-                  return "#01684b"
-                }
-              }
-
-              return(
-                <LiveManageList setFilter={setFilter} type={type} value={value}/>
-              )
-            })
-          }
+                return(
+                  <LiveManageList setFilter={setFilter} value={value}/>
+                )
+              })
+            }
 
         </WrapPropertyList>
       </WrapLive>
@@ -140,14 +145,33 @@ const TopTitle = styled.h2`
     padding-left:calc(100vw*(16/428));
     }
 `
+const Broadcast = styled.div`
+  width:100%;
+  margin:60px 0 20px;
+  padding-left:70px;
+  font-size: 15px;
+  font-weight: 600;transform:skew(-0.1deg);
+  text-align: left;
+  color: #4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    padding-left:calc(100vw*(16/428));
+    margin:calc(100vw*(27/428)) 0 calc(100vw*(14/428));
+    font-size:calc(100vw*(15/428));
+  }
+`
+const Color = styled.span`
+  display:inline-block;vertical-align:middle;
+  color:${({color}) => color};
+  font-weight:800;
+`
+
 const TopInfo = styled.div`
   display:flex;justify-content:space-between;align-items:center;
-  padding:16px 40px;
-  margin-top:30px;
+  padding:16px 70px;
   border-top:1px solid #f2f2f2;
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
-    margin-top:calc(100vw*(30/428));
+    justify-content:flex-start;
     padding:calc(100vw*(22/428)) calc(100vw*(10/428));
     }
 `
@@ -161,6 +185,9 @@ const All = styled.span`
 const FilterAndAdd = styled.div`
   width:70%;
   display:flex;justify-content:flex-start; align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    width:87%;
+    }
 `
 const SearchBox = styled.div`
   display:flex;justify-content:flex-end;align-items:center;
@@ -170,9 +197,10 @@ const SearchBox = styled.div`
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(158/428));
+    width:calc(100vw*(245/428));
     height:calc(100vw*(43/428));
     margin-right:calc(100vw*(13/428));
+    margin-left:calc(100vw*(30/428));
   }
 `
 const InputSearch = styled.input`
@@ -185,7 +213,7 @@ const InputSearch = styled.input`
   color: #707070;
   &::placeholder{color:#979797;font-weight:normal;}
   @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(15/428));
+    font-size:calc(100vw*(14/428));
   }
 `
 const SearchButton = styled.button`
@@ -202,7 +230,7 @@ const GreenColor = styled(All)`
 `
 const FilterImg = styled.img`
   display:inline-block;
-  width:18px;
+  width:18px;cursor:pointer;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(18/428));
   }

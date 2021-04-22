@@ -22,7 +22,7 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Mobile, PC } from "../../../../MediaQuery";
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideItemDetail({openHouse, rank, updatePageIndex,historyInfo,setMap}) {
+export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
   const TableList =[
   {
     t_id : 0,

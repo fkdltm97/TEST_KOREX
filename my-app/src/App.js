@@ -7,8 +7,8 @@ import { Mobile, PC } from "./MediaQuery"
 import Intro from './page/IntroPage';
 import Main from './page/MainPage';
 import MbSearch from './page/mobile/MbSearchPage';
-import MbHouse from './page/mobile/MbHouse';
-import MbHouseDetail from './page/mobile/MbHouseDetail';
+import MbBunyang from './page/mobile/MbBunyang';
+import MbBunyangDetail from './page/mobile/MbBunyangDetail';
 import Notice from './page/notice/NoticeList';
 import NoticeDetail from './page/notice/NoticeDetail';
 import Faq from './page/faq/FaqList';
@@ -58,6 +58,17 @@ import BrokerReservation from './page/member/mypage/BrokerReservation';
 import MyLiveSetting from './page/member/mypage/MyLiveSetting';
 import MyVisitSetting from './page/member/mypage/MyVisitSetting';
 import MyLiveManage from './page/member/mypage/MyLiveManage';
+import MyLiveManageInvite from './page/member/mypage/MyLiveManageInvite';
+import MyVisitManage from './page/member/mypage/MyVisitManage';
+import AddProperty from './page/member/mypage/AddProperty';
+import AddPropertyBasicInfo from './page/member/mypage/AddPropertyBasicInfo';
+import AddPropertySecond from './page/member/mypage/AddPropertySecond';
+import AddPropertyThird from './page/member/mypage/AddPropertyThird';
+import ConditionChange from './page/member/mypage/ConditionChange';
+import RequestReview from './page/member/mypage/RequestReview';
+import RequestReviewEdit from './page/member/mypage/RequestReviewEdit';
+import RequestReviewEditSecond from './page/member/mypage/RequestReviewEditSecond';
+import PropertyTourSetting from './page/member/mypage/PropertyTourSetting';
 
 /*map*/
 import Map from './page/map/Map';
@@ -166,11 +177,22 @@ export default function App(){
             <Route exact path="/MyLiveSetting" component={MyLiveSetting}/>{/*Live 시청 예약 세팅*/}
             <Route exact path="/MyLiveManage" component={MyLiveManage}/>{/*Live 시청예약접수관리*/}
             <Route exact path="/MyVisitSetting" component={MyVisitSetting}/>{/*방문 예약 세팅*/}
+            <Route exact path="/MyLiveManageInvite" component={MyLiveManageInvite}/>{/*live 시청예약관리 > 초대 */}
+            <Route exact path="/MyVisitManage" component={MyVisitManage}/>{/*방문예약관리 */}
+            <Route exact path="/AddProperty" component={AddProperty}/>{/*내 물건관리 > 물건(외부수임)등록*/}
+            <Route exact path="/AddPropertyBasicInfo" component={AddPropertyBasicInfo}/>{/*내 물건관리>물건(외부수임)등록> 의뢰인정보입력*/}
+            <Route exact path="/AddPropertySecond" component={AddPropertySecond}/>{/*내 물건관리 > 물건(외부수임)등록 > 기본정보입력*/}
+            <Route exact path="/AddPropertyThird" component={AddPropertyThird}/>{/*내 물건관리 > 물건(외부수임)등록 > 추가정보입력*/}
+            <Route exact path="/ConditionChange" component={ConditionChange}/>{/*내 물건관리 > 상태변경내역*/}
+            <Route exact path="/RequestReview" component={RequestReview}/>{/*내 물건관리 > 의뢰접수검토*/}
+            <Route exact path="/RequestReviewEdit" component={RequestReviewEdit}/>{/*내 물건관리 > 물건 수정(기본정보)*/}
+            <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
+            <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
 
-            {/* mobile */}
+          {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
-            <Route exact path="/MbHouse" component={MbHouse}/>{/*모바일 분양리스트*/}
-            <Route exact path="/MbHouseDetail" component={MbHouseDetail}/>{/*모바일 분양상세페이지*/}
+            <Route exact path="/MbBunyang" component={MbBunyang}/>{/*모바일 분양리스트*/}
+            <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
             <Route exact path="/Map" component={Map}/>

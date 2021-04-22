@@ -55,69 +55,45 @@ export default function Reserve({filter,setFilter}) {
                 <FilterBox>
                   <FilterLabel>정렬기준</FilterLabel>
                   <FilterSelectSort>
-                    <Link onClick={showFilterSelect}>
-                      <Option>최신등록순</Option>{/*여기에 FilterSelectList 값이 담기면 될 것 같습니다..될까요?ㅠㅠ*/}
-                        {
-                          filterSelect ?
-                          <FilterSelectSortList>
-                            <InOption>상태변경 최신순</InOption>
-                            <InOption>최신등록순</InOption>
-                            <InOption>과거등록순</InOption>
-                          </FilterSelectSortList>
-                          :
-                          null
-                        }
-                    </Link>
+                    <FilterSelectSortList>
+                      <InOption>상태변경 최신순</InOption>
+                      <InOption>최신등록순</InOption>
+                      <InOption>과거등록순</InOption>
+                    </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>
               {/*상태 select*/}
                 <FilterBox>
                   <FilterLabel>상태</FilterLabel>
                   <FilterSelectCondition>
-                    <Link onClick={showFilterSelect2}>
-                      <Option>전체</Option>{/*여기에 FilterSelectList 값이 담기면 될 것 같습니다..될까요?ㅠㅠ*/}
-                        {
-                          filterSelect2 ?
-                          <FilterSelectConditionList>
-                            <InOption>전체</InOption>
-                            <InOption>검토대기</InOption>
-                            <InOption>검토중</InOption>
-                            <InOption>거래준비</InOption>
-                            <InOption>거래개시 요청</InOption>
-                            <InOption>거래개시</InOption>
-                            <InOption>거래완료승인 요청</InOption>
-                            <InOption>거래 완료</InOption>
-                            <InOption>기한 만료</InOption>
-                            <InOption>의뢰 철회</InOption>
-                            <InOption>위임 취소</InOption>
-                            <InOption>의뢰 거절</InOption>
-                            <InOption>수임 취소</InOption>
-                          </FilterSelectConditionList>
-                          :
-                          null
-                        }
-                    </Link>
+                    <FilterSelectConditionList>
+                      <InOption>전체</InOption>
+                      <InOption>검토대기</InOption>
+                      <InOption>검토중</InOption>
+                      <InOption>거래준비</InOption>
+                      <InOption>거래개시 요청</InOption>
+                      <InOption>거래개시</InOption>
+                      <InOption>거래완료승인 요청</InOption>
+                      <InOption>거래 완료</InOption>
+                      <InOption>기한 만료</InOption>
+                      <InOption>의뢰 철회</InOption>
+                      <InOption>위임 취소</InOption>
+                      <InOption>의뢰 거절</InOption>
+                      <InOption>수임 취소</InOption>
+                    </FilterSelectConditionList>
                   </FilterSelectCondition>
                 </FilterBox>
                 {/*물건종류 select*/}
                   <FilterBox>
                     <FilterLabel>물건종류</FilterLabel>
                     <FilterSelectKind>
-                      <Link onClick={showFilterSelect3}>
-                        <Option>전체</Option>{/*여기에 FilterSelectList 값이 담기면 될 것 같습니다..될까요?ㅠㅠ*/}
-                          {
-                            filterSelect3 ?
-                            <FilterSelectKindList>
-                              <InOption>전체</InOption>
-                              <InOption>아파트</InOption>
-                              <InOption>오피스텔</InOption>
-                              <InOption>상가</InOption>
-                              <InOption>사무실</InOption>
-                            </FilterSelectKindList>
-                            :
-                            null
-                          }
-                      </Link>
+                      <FilterSelectKindList>
+                        <InOption>전체</InOption>
+                        <InOption>아파트</InOption>
+                        <InOption>오피스텔</InOption>
+                        <InOption>상가</InOption>
+                        <InOption>사무실</InOption>
+                      </FilterSelectKindList>
                     </FilterSelectKind>
                   </FilterBox>
               </WrapFilterSelect>
@@ -154,7 +130,7 @@ const ModalMapBg = styled.div`
   position:fixed;left:0;top:0;
   background:rgba(0,0,0,0.2);
   display:block;content:'';
-  z-index:2;
+  z-index:3;
 `
 const ModalMap = styled.div`
   position:absolute;
@@ -240,37 +216,26 @@ const FilterLabel = styled.label`
   }
 `
 const FilterSelectSort = styled.div`
-  position:Absolute;
-  top:22px;
   width:100%;
-  text-align:center;
-  font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
-  border-radius:4px;border:1px solid #a3a3a3;
-  background:#fff;
-  z-index:9999;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(22/428));
-    font-size:calc(100vw*(14/428));
-  }
 `
 const FilterSelectCondition = styled(FilterSelectSort)`
   z-index:99;
 `
-const FilterSelectSortList = styled.div`
-  width:100%;
+const FilterSelectSortList = styled.select`
+    width:100%;
+    height:43px;
+    text-align-last:center;
+    font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
+    border-radius:4px;border:1px solid #a3a3a3;
+    background:#fff;
+    appearance:none;
+    background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
+    @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(14/428));
+    }
 `
-const Option = styled.div`
-  padding:12px 0;
-  text-align:center;
-  cursor:pointer;
-  transition:all 0.3s;
-  background:url(${ArrowDown}) no-repeat 400px 16px;background-size:13px 8px;
-  @media ${(props) => props.theme.mobile} {
-    padding:calc(100vw*(12/428)) 0;
-    background:url(${ArrowDown}) no-repeat calc(100vw*(320/428)) calc(100vw*(16/428));
-    background-size: calc(100vw*(13/428)) calc(100vw*(8/428));
-  }
-
+const Option = styled.option`
+  font-family:'nbg',sans-serif;
 `
 const InOption = styled(Option)`
   padding:8px 0;
@@ -281,13 +246,6 @@ const InOption = styled(Option)`
   }
 `
 const FilterSelectConditionList = styled(FilterSelectSortList)`
-  top:200px;
-  height:100px;
-  overflow-y:scroll;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(200/428));
-    height:calc(100vw*(100/428));
-  }
 `
 const FilterSelectKind = styled(FilterSelectCondition)`
   z-index:90;

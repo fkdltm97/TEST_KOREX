@@ -35,15 +35,6 @@ export default function CancleModal({ cancle, setCancle }) {
     return null;
     return (
         <Container>
-          <WrapModalAdd>
-            <ModalAddBg onClick={()=>{setCancle(false)}}/>
-            <ModalAdd>
-              <AddCloseBtn>
-                <Link onClick={()=>{setCancle(false)}}>
-                  <AddCloseImg src={Close}/>
-                </Link>
-              </AddCloseBtn>
-              <ModalAddTitle>취소 및 안내</ModalAddTitle>
               <WrapInputBox>
                 <FlexBox>
                   <Label>방송 취소 안내</Label>
@@ -54,11 +45,6 @@ export default function CancleModal({ cancle, setCancle }) {
                 </FlexBox>
                 <TextArea type="textarea" onChange={textChange}/>
               </WrapInputBox>
-              <Confirm>
-                <ConfirmBtn type="submit" active={active} onClick={() => {alert('완료되었습니다.');setCancle(false);}}>확인 및 이메일 발송</ConfirmBtn>
-              </Confirm>
-            </ModalAdd>
-          </WrapModalAdd>
         </Container>
   );
 }
@@ -77,6 +63,9 @@ const Mb = styled.b`
 `
 const Container = styled.div`
     width:100%;
+    @media ${(props) => props.theme.modal} {
+      margin-bottom:calc(100vw*(40/428));
+    }
 `
 
 const WrapModalAdd = styled.div`
@@ -90,7 +79,7 @@ const ModalAddBg = styled.div`
   z-index:3;
 `
 const ModalAdd = styled.div`
-  position:absolute;
+  position:fixed;
   left:50%;top:50%;transform:translate(-50%,-50%);
   width:535px;border-radius:24px;
   border:1px solid #f2f2f2;

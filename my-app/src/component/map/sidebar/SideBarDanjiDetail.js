@@ -25,7 +25,7 @@ import DanjiDetailTabContent from "./tabcontent/DanjiDetailTabContent";
 import DanjiDetailView from "./tabcontent/DanjiDetailView";
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideItemDetail({openHouse, rank, updatePageIndex,historyInfo, map,setMap}) {
+export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo, map,setMap}) {
 
     return (
         <Container>

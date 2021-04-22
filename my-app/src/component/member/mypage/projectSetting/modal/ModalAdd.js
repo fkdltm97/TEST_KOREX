@@ -26,15 +26,6 @@ export default function AddModal({ add, setAdd }) {
     return null;
     return (
         <Container>
-          <WrapModalAdd>
-            <ModalAddBg onClick={()=>{setAdd(false)}}/>
-            <ModalAdd>
-              <AddCloseBtn>
-                <Link onClick={()=>{setAdd(false)}}>
-                  <AddCloseImg src={Close}/>
-                </Link>
-              </AddCloseBtn>
-              <ModalAddTitle>등록</ModalAddTitle>
               <WrapInputBox>
                 <Label>방송일</Label>
                 <Input type="date" placeholder="날짜 선택"/>
@@ -52,11 +43,6 @@ export default function AddModal({ add, setAdd }) {
                   </Select>
                 </WrapSelect>
               </WrapInputBox>
-              <Confirm>
-                <ConfirmBtn type="submit" active={active} onClick={() => {alert('Live 시청예약 등록이 완료되었습니다.');setAdd(false);}}>확인</ConfirmBtn>
-              </Confirm>
-            </ModalAdd>
-          </WrapModalAdd>
         </Container>
   );
 }
@@ -79,6 +65,9 @@ const Container = styled.div`
 
 const WrapModalAdd = styled.div`
   width:100%;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(40/428));
+  }
 `
 const ModalAddBg = styled.div`
   width:100%;height:100%;
@@ -88,7 +77,7 @@ const ModalAddBg = styled.div`
   z-index:3;
 `
 const ModalAdd = styled.div`
-  position:absolute;
+  position:fixed;
   left:50%;top:50%;transform:translate(-50%,-50%);
   width:535px;border-radius:24px;
   border:1px solid #f2f2f2;

@@ -8,16 +8,16 @@ import styled from "styled-components"
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
 import MyLive from '../../../component/member/mypage/mylive/MyLive';
-import ModalFilter from '../../../component/member/mypage/mylive/ModalFilter';
-import ModalReserve from '../../../component/member/mypage/reservation/ModalReserve';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
-import House from '../../../component/common/house/House';
-import ImgDetail from "../../../component/common/house/ImgDetail";
-import LiveModal from "../../../component/common/house/LiveModal";
-import ModalCalendar from "../../../component/common/house/ModalCalendar";
+import Bunyang from '../../../component/common/bunyang/Bunyang';
+import ImgDetail from "../../../component/common/bunyang/ImgDetail";
+import LiveModal from "../../../component/common/bunyang/LiveModal";
+import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+import ModalFilterComponent from '../../../component/member/mypage/mylive/ModalFilterComponent';
 
 export default function Join() {
   //이용약관
@@ -33,8 +33,8 @@ export default function Join() {
   const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //분양 모달
-  const [house, setHouse] = useState(false);
-  const openHouse = (onOff) =>{ setHouse(onOff);}
+  const [bunyang, setBunyang] = useState(false);
+  const openBunyang = (onOff) =>{ setBunyang(onOff);}
   //라이브 시청 모달
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
@@ -47,18 +47,43 @@ export default function Join() {
   const [filter,setFilter] = useState(false);
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+//여기 두개가 핵심이에여 넵!
+  //모달 끄는 식
+    const offModal = ()=>{
+      let option = JSON.parse(JSON.stringify(modalOption));
+      option.show = false;
+      setModalOption(option);
+    }
+
+
+    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+      const updateModal = () =>{
+        //여기가 모달 키는 거에엽
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"필터입니다.",
+            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
+            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
 
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openHouse={openHouse}/>
+          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+          <MainHeader openBunyang={openBunyang}/>
           <Container>
               <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
-              <ModalFilter filter={filter} setFilter={setFilter}/>
-              <MyLive setFilter={setFilter}/>
+              <ModalCommon modalOption={modalOption}/>
+              <MyLive setFilter={setFilter} updateModal={updateModal}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

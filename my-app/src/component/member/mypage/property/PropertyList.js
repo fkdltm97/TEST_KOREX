@@ -79,16 +79,15 @@ export default function Request({filter, setFilter, value, type}) {
                       <InMenu>
                       {/*검토대기 상태일때*/}
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/RequestReview" className="data_link"></Link>
                           <InDiv>검토</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
 
                       {/*거래 준비 상태일때*/}
-  {/*
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래개시승인 요청</InDiv>
@@ -98,7 +97,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>
@@ -106,14 +105,13 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/PropertyTourSetting" className="data_link"></Link>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-*/}
                       {/*거래 개시 상태일때*/}
   {/*
                         <Div>
@@ -129,7 +127,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>
@@ -137,7 +135,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/PropertyTourSetting" className="data_link"></Link>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
@@ -274,7 +272,7 @@ const Right = styled(Left)`
   width:330px;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));
-    width:calc(100vw*(260/428));
+    width:calc(100vw*(300/428));
   }
 `
 const Trade = styled(Kinds)`

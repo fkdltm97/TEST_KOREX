@@ -77,8 +77,8 @@ export default function Request({setFilter,value,type}) {
                   <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
                   <SearchButton type="button"/>
                 </SearchBox>
-                <FilterImg src={Filter} alt="filter"/>
-                <Link>
+                <FilterImg onClick={()=>{setFilter(true)}} src={Filter} alt="filter"/>
+                <Link to="/AddProperty">
                   <AddBtn>추가</AddBtn>
                 </Link>
               </FilterAndAdd>
@@ -221,7 +221,7 @@ const GreenColor = styled(All)`
 `
 const FilterImg = styled.img`
   display:inline-block;
-  width:18px;
+  width:18px;cursor:pointer;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(18/428));
   }

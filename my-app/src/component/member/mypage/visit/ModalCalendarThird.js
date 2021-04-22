@@ -37,14 +37,6 @@ export default function ModalCal({vCal, setVCal,updatePageIndex}){
     return (
       <Container>
         <Wraplive>
-          <ModalClose>
-              <Link onClick={()=>{setVCal(false);updatePageIndex(0)}}>
-              <CloseImg src={CloseIcon}/>
-            </Link>
-          </ModalClose>
-          <ModalTop>
-            <Title>방문 예약</Title>
-          </ModalTop>
           <Label>동반고객 정보</Label>
           <Desc>
           분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br/>

@@ -23,14 +23,6 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import ReserveListPage from "./ReserveList";
 
-export default function Reserve({setMap,setFilter,setReserve, value, type, type2}) {
-
-  //... 눌렀을때(메뉴)
-  const [menu,setMenu] = useState(false);
-  const showModal =()=>{
-    setMenu(!menu);
-  }
-
   /*data map*/
   const ReserveListItem =[
     {
@@ -71,13 +63,22 @@ export default function Reserve({setMap,setFilter,setReserve, value, type, type2
     }
 ]
 
+export default function Reserve({setMap,setFilter,setReserve, value, type, type2, updateModal,updateMapModal,updateReserveModal}) {
+
+  //... 눌렀을때(메뉴)
+  const [menu,setMenu] = useState(false);
+  const showModal =()=>{
+    setMenu(!menu);
+  }
+
+
     return (
         <Container>
           <WrapReserve>
             <TopTitle>내 물건 투어 예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link onClick={() => setFilter(true)}>
+              <Link onClick={() => { setFilter(true); updateModal(); }}>
                 <FilterImg src={Filter} alt="filter"/>
               </Link>
             </TopInfo>
@@ -105,7 +106,7 @@ export default function Reserve({setMap,setFilter,setReserve, value, type, type2
               }
 
               return(
-                <ReserveListPage setMap={setMap} setFilter={setFilter} setReserve={setReserve} value={value} type={type} type2={type2}/>
+                <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
               )
             })
           }

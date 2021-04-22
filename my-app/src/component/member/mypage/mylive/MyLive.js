@@ -23,7 +23,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import LiveList from "./LiveList";
 
-export default function Live({setFilter}) {
+export default function Live({setFilter,updateModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -77,7 +77,7 @@ export default function Live({setFilter}) {
             <TopTitle>내 Live시청예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link onClick={() => setFilter(true)}>
+              <Link onClick={() => {setFilter(true); updateModal();}}>
                 <FilterImg src={Filter} alt="filter"/>
               </Link>
             </TopInfo>

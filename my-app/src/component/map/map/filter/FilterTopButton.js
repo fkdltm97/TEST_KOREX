@@ -16,7 +16,7 @@ import FilterDown from '../../../../img/map/filter_down_arrow.png';
 
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
-export default function MapFilter({openHouse, rank}) {
+export default function MapFilter({openBunyang, rank}) {
     return (
         <Container>
           <WrapFilterButton>

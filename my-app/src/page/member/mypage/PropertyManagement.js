@@ -7,15 +7,16 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
+import ModalFilter from '../../../component/member/mypage/property/modal/ModalFilter';
 import PropertyManage from '../../../component/member/mypage/property/PropertyManage';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
-import House from '../../../component/common/house/House';
-import ImgDetail from "../../../component/common/house/ImgDetail";
-import LiveModal from "../../../component/common/house/LiveModal";
-import ModalCalendar from "../../../component/common/house/ModalCalendar";
+import Bunyang from '../../../component/common/bunyang/Bunyang';
+import ImgDetail from "../../../component/common/bunyang/ImgDetail";
+import LiveModal from "../../../component/common/bunyang/LiveModal";
+import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 
 
 export default function Join() {
@@ -32,8 +33,8 @@ export default function Join() {
   const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //분양 모달
-  const [house, setHouse] = useState(false);
-  const openHouse = (onOff) =>{ setHouse(onOff);}
+  const [bunyang, setBunyang] = useState(false);
+  const openBunyang = (onOff) =>{ setBunyang(onOff);}
   //라이브 시청 모달
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
@@ -42,17 +43,20 @@ export default function Join() {
 
   const [rank,setRank] = useState(false);
 
+  //필터 모달
+  const [filter, setFilter] = useState(false);
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
-          <House house={house} openHouse={openHouse} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openHouse={openHouse}/>
+          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+          <MainHeader openBunyang={openBunyang}/>
           <Container>
-
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <PropertyManage/>
+            <ModalFilter filter={filter} setFilter={setFilter}/>
+            <PropertyManage setFilter={setFilter}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
