@@ -24,13 +24,37 @@ import SearchStoreOffice from "./SearchStoreOffice";
 import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
 import ModalBrokerRequest from './modal/ModalBrokerRequest';
 
+//redux addons 전페이지 정보 갖고오기 위함(view형태로 정보 유지 및 view용도) edit하려면 state에 저장해주는게 좋음.
+import {useSelector} from 'react-redux';
+import {tempBrokerRequestActions} from '../../../../store/actionCreators';
+
 export default function Request({setFilter,value,type}) {
+
+  console.log('nerequetseconds.js>>>',tempBrokerRequestActions);
+
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
   const [viewDate, setViewDate] = useState(false);//입주가능일 선택할 경우 date박스
   const [job, setJob] = useState(false);//현재업종 선택할 경우 box show/hide
   const [modalBroker,setModalBroker] = useState(false);
+  
+  const tempBrokerRequests = useSelector(data => data.tempBrokerRequest);
+  
+  //물건관련 정보 state
+  const [maemulname,setMaemulname] = useState('');
+  const [jeonyongdimension,setJeonyongdimension] = useState('');
+  const [jeonyongpyeong,setJeonyongpyeong] = useState('');
+  const [supplydimension,setSupplydimension] = useState('');
+  const [supplypyeong,setSupplypyeong] = useState('');
+  const [selltype,setSelltype] =useState('');
+  const [sellprice,setSellprice] = useState('');
+  const [Managecost,setChangemanagecost] = useState('');
+  const [ibju_isinstant, setIbju_isinstant] = useState(false);
+  const [ibju_specifydate,setIbju_specifydate] = useState('');
+  const [exculsive_periods,setExculsive_periods] = useState('');
+
+  console.log('-=-========addrequetsSecond페이지 얻어온 전 redux정보:',tempBrokerRequests);
 
   const rotate=()=>{
     if(openMore == true) {
@@ -39,6 +63,42 @@ export default function Request({setFilter,value,type}) {
       return "rotate(0deg)"
     }
   }
+  //물건관련 정보 셋팅.
+  const change_maemulname = (e) => {
+    setMaemulname(e.target.value);
+  }
+  const change_jeonyong_dimension = (e) => {
+    setJeonyongdimension(e.target.value);
+  }
+  const change_jeonyong_pyeong = (e) => {
+    setJeonyongpyeong(e.target.value);
+  }
+  const change_supply_dimension = (e) => {
+    setSupplydimension(e.target.value);
+  }
+  const change_supply_pyeong = (e) => {
+    setSupplypyeong(e.target.value);
+  }
+  const change_selltype = (e) => {
+    setSelltype(e.target.value);
+  }
+  const change_sellprice = (e) => {
+    setSellprice(e.target.value);
+  }
+  const change_Managecost = (e) => {
+    setChangemanagecost(e.target.value);
+  }
+  const radio_ibju_isinstant = (e) => {
+    setIbju_isinstant(e.target.value);//1즉시,0특정날
+  }
+  const change_ibju_specifydate = (e) => {
+    setIbju_specifydate(e.target.value);
+  }
+
+  const change_exculsive_periods = (e) => {
+    setExculsive_periods(e.target.value);
+  }
+
     return (
         <Container>
           <WrapRequest>
@@ -55,9 +115,15 @@ export default function Request({setFilter,value,type}) {
                 </TopDesc>
                 <SelectBox>
                   <Label>전속기간<Pilsu>*</Pilsu></Label>
-                  <Select>
+                  <Select name='realtor_month' onChange={change_exculsive_periods}>
                     <Option>기간 선택</Option>
-                    <Option>00 개월</Option>
+                    <Option value='3'>3 개월</Option>
+                    <Option value='6'>6 개월</Option>
+                    <Option value='9'>9 개월</Option>
+                    <Option value='12'>12 개월</Option>
+                    <Option value='15'>15 개월</Option>
+                    <Option value='18'>18 개월</Option>
+                    <Option value='24'>24 개월</Option>
                   </Select>
                 </SelectBox>
               </Box>
@@ -70,22 +136,22 @@ export default function Request({setFilter,value,type}) {
                 <WrapInputBox>
                   <InputBox>
                     <Label>물건종류</Label>
-                    <InputDisabled type="text" value="물건종류(ex:아파트)" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.maemultype} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>주소</Label>
-                    <InputDisabled type="text" value="주소" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dangiaddress} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                    <InputDisabled type="text" value="OO층 OO호" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dong+'동 '+tempBrokerRequests.floor+'층 ' +tempBrokerRequests.hosil+'호'} disabled/>
                   </InputBox>
                 </WrapInputBox>
                 <WrapItemInfo>
                   <LongLine/>
                   <InputBox>
                     <Label>건물명<Pilsu>*</Pilsu></Label>
-                    <InputTxt type="text" placeholder="건물명을 입력하여주세요."/>
+                    <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname}/>
                   </InputBox>
           {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
                   <InputBox style={{display:"none"}}>
@@ -111,12 +177,12 @@ export default function Request({setFilter,value,type}) {
                     <Label>전용면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChnage={change_jeonyong_dimension}/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_pyeong}/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -125,12 +191,12 @@ export default function Request({setFilter,value,type}) {
                     <Label>공급면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_dimension}/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_pyeong}/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -145,18 +211,18 @@ export default function Request({setFilter,value,type}) {
                 </SubTitle>
                 <SelectBox>
                   <Label>거래유형<Pilsu>*</Pilsu></Label>
-                  <SelectMb>
+                  <SelectMb onChange={change_selltype}>
                     <Option>거래유형을 선택하여주세요.</Option>
-                    <Option>매매</Option>
-                    <Option>전세</Option>
-                    <Option>월세</Option>
+                    <Option value='매매'>매매</Option>
+                    <Option value='전세'>전세</Option>
+                    <Option value='월세'>월세</Option>
                   </SelectMb>
                 </SelectBox>
                 <InputBox>
                   <Label>가격<Pilsu>*</Pilsu></Label>
                   <Example>(e.g 1억 5,000)</Example>
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력"/>
+                    <InputMidi type="text" placeholder="가격 입력" onChange={change_sellprice}/>
                     <Dan>만원</Dan>
                   </Flex>
                 </InputBox>
@@ -185,7 +251,7 @@ export default function Request({setFilter,value,type}) {
                   {
                     viewInput ?
                     <Flex>
-                      <InputMidi type="text" placeholder="가격 입력"/>
+                      <InputMidi type="text" placeholder="가격 입력" onChange={change_Managecost}/>
                       <Dan>만원</Dan>
                     </Flex>
                     :
@@ -199,35 +265,35 @@ export default function Request({setFilter,value,type}) {
                     <Label>관리비 포함<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Checkbox>
-                        <Check type="checkbox" id="check1" defaultChecked/>
+                        <Check type="checkbox" id="check1" defaultChecked />
                         <CheckLabel for="check1">
                           <CheckSpan/>
                           전기
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check2"/>
+                        <Check type="checkbox" id="check2" />
                         <CheckLabel for="check2">
                           <CheckSpan/>
                           수도
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check3"/>
+                        <Check type="checkbox" id="check3" />
                         <CheckLabel for="check3">
                           <CheckSpan/>
                           가스
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check4"/>
+                        <Check type="checkbox" id="check4" />
                         <CheckLabel for="check4">
                           <CheckSpan/>
                           인터넷
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check5"/>
+                        <Check type="checkbox" id="check5" />
                         <CheckLabel for="check5">
                           <CheckSpan/>
                           티비
@@ -240,21 +306,21 @@ export default function Request({setFilter,value,type}) {
                     <Label>입주가능일<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi1" defaultChecked/>
+                        <Radio type="radio" name="possible" value='1'id="radi1" defaultChecked onClick={radio_ibju_isinstant}/>
                         <RadioLabel for="radi1" onClick={()=>{setViewDate(false)}}>
                           <RadioSpan/>
                           즉시
                         </RadioLabel>
                       </Radiobox>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi2"/>
+                        <Radio type="radio" name="possible" value='0' id="radi2" onClick={radio_ibju_isinstant}/>
                         <RadioLabel for="radi2" onClick={()=>{setViewDate(true)}}>
                           <RadioSpan/>
                           날짜 선택
                         </RadioLabel>
                       {
                         viewDate ?
-                        <InputDate type="date"/>
+                        <InputDate type="date" onChange={change_ibju_specifydate}/>
                         :
                         null
                       }
@@ -272,7 +338,23 @@ export default function Request({setFilter,value,type}) {
             </WrapBox>
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link onClick={()=>{setModalBroker(true)}}>
+              <Link onClick={()=>{
+                setModalBroker(true);
+                 
+                console.log('다음버튼 클릭 입력정보들 물건정보들:',maemulname,jeonyongdimension,jeonyongpyeong,supplydimension,supplypyeong,selltype,sellprice,Managecost,ibju_isinstant,ibju_specifydate);
+                //지금껏 작성 change정보 redux저장..
+                 tempBrokerRequestActions.maemulnamechange({maemulnames: maemulname});
+                 tempBrokerRequestActions.jeonyongdimensionchange({jeonyongdimensions: jeonyongdimension});
+                 tempBrokerRequestActions.jeonyongpyeongchange({jeonyongpyeongs: jeonyongpyeong});
+                 tempBrokerRequestActions.supplydimensionchange({supplydimensions: supplydimension});
+                 tempBrokerRequestActions.supplypyeongchange({supplypyeongs: supplypyeong});
+                 tempBrokerRequestActions.selltypechange({selltypes: selltype});
+                 tempBrokerRequestActions.sellpricechange({sellprices: sellprice});
+                 tempBrokerRequestActions.managecostchange({managecosts: Managecost});
+                 tempBrokerRequestActions.ibjuisinstantchange({ibju_isinstants: ibju_isinstant});
+                 tempBrokerRequestActions.ibjuspecifydatechange({ibju_specifydates: ibju_specifydate});
+                 tempBrokerRequestActions.exculsiveperiodschange({exculsive_periodss: exculsive_periods});
+                }}>
                 <Next type="button">다음</Next>
               </Link>
             </NextButton>

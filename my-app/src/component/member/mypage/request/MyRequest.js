@@ -21,70 +21,95 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
+import serverController from '../../../../server/serverController';
+
 //component
 import RequestListPage from "./RequestList";
 import RequestSorting from "./RequestSorting";
 
-export default function Request({setFilter,value,type}) {
+//redux addons assets;
+import {useSelector } from 'react-redux';
 
+export default function Request({setFilter,value,type}) {
+   
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
+  const [brokerproductlist,setBrokerproductlist]= useState([]);
+
+  const login_user_redux = useSelector(data => data.login_user);//로그인 정보 저장 리덕스.로그인 mem_id조회.
+  console.log('myRequest 내 중개의뢰 리스트 페이지 도달,내가 중개의뢰한(상품들 products조회):중개의뢰타입인것들만 조회한다.',login_user_redux);
+  
+  useEffect( async () => {
+     //어떤 요청의뢰자가 등록/의뢰 로 인해서 생성된 매물들인지 구한다. 현재 테이블 구조상 prd_id수정히스토리도 다루고있기에 request_memid에 대한 내역 여러개 있을수있고(같은 매물에 대해서) prd_idneity_id distinct필요해보임(그룹핑) 보낼것은 마이페이지 로그인mem_id일것임.
+     /*let login_res=await serverController.connectFetchController('/api/auth/islogin','get');
+    console.log('islogin request result myrequest>>>',login_res,login_res.login_session);
+    */
+    let body_info ={
+    };
+    console.log('>>>>post parameter list:',body_info);
+    try{
+      let res=await serverController.connectFetchController('/api/broker/user_brokerRequestlistview','post',JSON.stringify(body_info));
+      console.log('res_result:',res);
+      //alert(res);
+      setBrokerproductlist(res.result_data);
+    }catch(e){
+
+    }
+  },[]);//상태변화시마다 실행은 아니고 로드시점 최초한번.
+  console.log('-===>>>page load broerk_proudctlist value:',brokerproductlist);
+
   /*data map*/
   const RequestListItem =[
     {
-      Request_id : 0,
-      img:Item,
+      prd_identity_id : 0,
+      prd_img:Item,
       date:"21.00.00 - 21.00.00",
-      condition:"검토대기",
-      conditionDate:"2021.00.00",
-      number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
+      prd_status:"검토대기",
+      modify_date:"2021.00.00",
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_type:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
-      trade:"매매",
-      type:"waiting"
+      address_detail: "자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      prd_sel_type:"매매",
     },
     {
-      Request_id : 1,
-      img:Item,
+      prd_identity_id : 1,
+      prd_img:Item,
       date:"21.00.00 - 21.00.00",
-      condition:"거래준비",
-      conditionDate:"2021.00.00",
-      number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
+      prd_status:"거래준비",
+      modify_date:"2021.00.00",
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_type:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)  강남구 서초동 서초동 서초동",
-      trade:"매매",
-      type:"readyDeal"
+      address_detail:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)  강남구 서초동 서초동 서초동",
+      prd_sel_type:"매매"
     },
     {
-      Request_id : 2,
-      img:Noimg,
+      prd_identity_id : 2,
+      prd_img:Noimg,
       date:"21.00.00 - 21.00.00",
-      condition:"의뢰 철회",
-      conditionDate:"2021.00.00",
-      number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
+      prd_status:"의뢰 철회",
+      modify_date:"2021.00.00",
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_type:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
-      trade:"매매",
-      type:"requestCancel"
+      address_detail:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      prd_sel_type:"매매",
     },
     {
-      Request_id : 2,
-      img:Noimg,
+      prd_identity_id : 3,
+      prd_img:Noimg,
       date:"21.00.00 - 21.00.00",
-      condition:"위임 취소",
-      conditionDate:"2021.00.00",
-      number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
+      prd_status:"위임 취소",
+      modify_date:"2021.00.00",
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_type:"아파트",
       address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
-      trade:"매매",
-      type:"delegationCancel"
+      address_detail:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
+      prd_sel_type:"매매",
     }
 ]
 
@@ -94,7 +119,7 @@ export default function Request({setFilter,value,type}) {
             <TopTitle>내 중개의뢰</TopTitle>
             <RequestSorting/>{/*컴포넌트입니다*/}
             <TopInfo>
-              <All>총 <GreenColor>4</GreenColor> 건</All>
+              <All>총 <GreenColor>{brokerproductlist.length}</GreenColor> 건</All>
               <FilterAndAdd>
                 <Link to="/AddRequest">
                   <AddBtn>추가</AddBtn>
@@ -103,7 +128,7 @@ export default function Request({setFilter,value,type}) {
             </TopInfo>
             <RequestList>
             {
-            RequestListItem.map((value) => {
+            /*RequestListItem.map((value) => {
 
               const type=()=>{
                 if(value.type == "waiting") { //검토대기
@@ -120,7 +145,31 @@ export default function Request({setFilter,value,type}) {
               return(
                 <RequestListPage setFilter={setFilter} type={type} value={value}/>
               )
+            })*/
+          }
+          
+          {
+            brokerproductlist.length > 0 ? 
+            brokerproductlist.map((value) => {
+
+              const type=()=>{
+                if(value[0].prd_status == '대기' || value[0].prd_status=='검토대기'){
+                  return 1
+                }else if(value[0].prd_status == '거래준비'){
+                  return 1
+                }else if(value[0].prd_status == '의뢰철회'){
+                  return 0.5
+                }else if(value[0].prd_status == '위임취소'){
+                  return 0.5
+                }
+              }
+
+              return(
+                <RequestListPage setFilter={setFilter} type={type} value={value[0]}/>
+              )
+              
             })
+            :null
           }
 
         </RequestList>

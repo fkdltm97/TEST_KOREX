@@ -19,24 +19,35 @@ import ModalDanjiSelect from './modal/ModalDanjiSelect';
 export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
   const [activeIndex,setActiveIndex] = useState(-1);
 
-  const [searchword, setSearchWord] = useState("");
-  const searchWord = (e) =>{setSearchWord(e.target.value);}
+  //const [searchword, setSearchWord] = useState("");
+  const searchWord = (e) =>{
+    //setSearchWord(e.target.value);
+    console.log('아파트오피 검색필드 검색단어 string길이:',e.target.value,e.target.value.length);
+    if(e.target.value.length >= 1){
+      setActive(true);
+    }else{
+      setActive(false);
+    }
+  }
   const [active,setActive] = useState(false);
-
+  //const [searchresult_close,setSearchresult_close]= useState(false);
   /*모달 & show,hide */
   const [modalDanji,setModalDanji] = useState(false);
 
-
-  const checkVaildate = () =>{
-    return searchword.length > 0
-   }
-
-  useEffect(()=>{
-    if(checkVaildate())
+  /*useEffect(()=>{
+    if(checkVaildate()){
+        //setSearchresult_close(false);
         setActive(true);
-    else
+    }
+    else{
         setActive(false);
-  },)
+        //setSearchresult_close(true);
+    }
+  },)*/
+
+  /*const search_windowclose =() =>{
+    setSearchresult_close(true)
+  }*/
 
     return (
         <Container>
@@ -46,17 +57,17 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
               <SearchBox>
                 <Search type="search" placeholder="중개의뢰 가능한 단지 검색 예: 반포자이" onChange={searchWord}/>
                 <SearchBtn type="button"/>
-                <WhiteCloseImg active={active}>
+                <WhiteCloseImg active={active} onClick={() => {setActive(false);}}>
                   <ResetSearch/>
                 </WhiteCloseImg>
             {/*검색했을때 나오는 부분 */}
                 <SearchResult active={active}>
-                  <ResultBox>
+                  <ResultBox >
                     <Link onClick={() => {setModalDanji(true)}} className="data_link"/>
                     <Title>반포자이</Title>
                     <ResultAddress>서울 특별시 서초구 반포동</ResultAddress>
                   </ResultBox>
-                  <ResultBox>
+                  <ResultBox >
                     <Link onClick={() => {setModalDanji(true)}} className="data_link"/>
                     <Title>반포 센트럴자이</Title>
                     <ResultAddress>서울 특별시 서초구 잠원동</ResultAddress>

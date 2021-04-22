@@ -21,7 +21,9 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, value, type}) {
+export default function Request({filter, setFilter, value,type}) {
+  
+  console.log('중개의뢰 매물 요청 list반복:',value);
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -33,39 +35,40 @@ export default function Request({filter, setFilter, value, type}) {
       <Container>
           <Li opacity={type}>
             <ItemImg>
-              <Img src={value.img}/>
+              <Img src={value.prd_img}/>
             </ItemImg>
             <Infos>
               <ConditionDiv>
-                상태 : <Condition>{value.condition}</Condition> <ConditionDate>{value.conditionDate}</ConditionDate>
+                상태 : <Condition>{value.prd_status}</Condition> <ConditionDate>{value.modify_date}</ConditionDate>
               </ConditionDiv>
-              <Number>{value.number}</Number>
-              <Title>{value.title}</Title>
+              <Number>prd_identity_id: {value.prd_identity_id}</Number>
+              <Title>{value.prd_name}</Title>
               <Kinds>
                 <Left>물건종류</Left>
-                <Right>{value.kinds}</Right>
+                <Right>{value.prd_type}</Right>
               </Kinds>
               <Address>
                 <Left>모델하우스 주소</Left>
-                <Right>{value.address}</Right>
+                <Right>{value.address + ' '+value.address_detail}</Right>
               </Address>
               <Trade>
                 <Left>거래유형</Left>
-                <Right>{value.trade}</Right>
+                <Right>{value.prd_sel_type}</Right>
               </Trade>
             </Infos>
             <RightMenu>
               <Alarm>
-                <AlarmCheck type="checkbox" id={"check"+value.Request_id} name=""/>
-                <Label for={"check"+value.Request_id}/>
+                <AlarmCheck type="checkbox" id={"check"+value.prd_identity_id} name=""/>
+                <Label for={"check"+value.prd_identity_id}/>
               </Alarm>
               <Menu>
                 <Link onClick={showModal}>
                   <MenuIcon/>
                     {
                       menu ?
+                      
+                      (value.prd_status =='대기' || value.prd_status=='검토대기') ?
                       <InMenu>
-                      {/*검토대기 상태일때*/}
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>의뢰 철회</InDiv>
@@ -78,8 +81,11 @@ export default function Request({filter, setFilter, value, type}) {
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-                      {/*거래 준비 상태일때*/}
-{/*
+                      </InMenu>
+                      :null
+                      
+                      (value.prd_status == '거래준비') ?
+                      <InMenu>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래 개시</InDiv>
@@ -104,11 +110,12 @@ export default function Request({filter, setFilter, value, type}) {
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-*/}
                       </InMenu>
-                      :
-                      null
-                    }
+                      : null
+                 
+                    :
+                    null
+                  }
                 </Link>
               </Menu>
             </RightMenu>

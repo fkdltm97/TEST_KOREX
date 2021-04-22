@@ -12,8 +12,9 @@ import Checking from '../../../../img/member/checking.png';
 
 
 export default function PersonalAndCompany() {
-
+  console.log('p...personsal and company함수 실행...')
     return (
+      
         <Container>
             <FlexBox>
               <Left>

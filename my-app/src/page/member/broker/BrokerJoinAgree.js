@@ -23,7 +23,7 @@ import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 //redux addons
 import { useSelector } from 'react-redux';
-import {tempRegisterUserdataActions, tempREgisterUserdataActions } from '../../../store/actionCreators';
+import {tempRegisterUserdataActions } from '../../../store/actionCreators';
 
 export default function JoinAgree() {
   console.log('page>member?>brokerJoinagree.js실행 ===========================>>');

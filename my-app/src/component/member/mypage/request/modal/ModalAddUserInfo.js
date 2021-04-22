@@ -19,9 +19,15 @@ import Change from '../../../../../img/member/change.png';
 import Marker from '../../../../../img/member/marker.png';
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
+import serverController from '../../../../../server/serverController';
+
+//redux addons assetss
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions} from '../../../../../store/actionCreators';
+
 //필터 모달
 export default function ModalDanjiSelect({userInfo,setUserInfo}) {
-
+  
   const [changename, setChangeName] = useState("");
   const changeName = (e) =>{setChangeName(e.target.value);}
 
@@ -30,8 +36,10 @@ export default function ModalDanjiSelect({userInfo,setUserInfo}) {
 
   /*인증번호 validate*/
   const [changecernum, setChangeCernum] = useState("");
-  const changeCernum = (e) =>{setChangeCernum(e.target.value);}
+  const [verify_cernum, setVerify_cernum] = useState("");
 
+  const changeCernum = (e) =>{setChangeCernum(e.target.value);}
+  
   const [active,setActive] = useState(false);
   const [active2,setActive2] = useState(false);
 
@@ -39,7 +47,7 @@ export default function ModalDanjiSelect({userInfo,setUserInfo}) {
     return changename.length > 0 && changephone.length > 10
    }
    const checkVaildate2 = () =>{
-     return changename.length > 0 && changephone.length > 10 && changecernum.length > 4
+     return changename.length > 0 && changephone.length > 10 && changecernum.length >= 4 && changecernum == verify_cernum
     }
 
   useEffect(()=>{
@@ -53,7 +61,32 @@ export default function ModalDanjiSelect({userInfo,setUserInfo}) {
     else
         setActive2(false);
   },)
+  
+  //coolsms문자 전송 api사용
+  const coolSmsSend = async(e) => {
+    console.log('coolsmssmSEND발송 함수 호출');
+    
+    if(active){
+      let body_info={number:changephone};
+      let res= await serverController.connectFetchController('/api/coolsms/sendprocess','post',JSON.stringify(body_info));
+      console.log('res result:',res);
 
+      setVerify_cernum(res.sms_message);
+    }
+  };
+  //다음단계버튼
+  const nextStep = async(e) => {
+    console.log('nextStemp다음단계 호출');
+
+    if(active2){
+
+      tempBrokerRequestActions.phonechange({phones: changephone});
+      tempBrokerRequestActions.namechange({names: changename});
+      
+    }else{
+      e.preventDefault();
+    }
+  };
     return (
         <Container>
           <WrapModal>
@@ -81,8 +114,8 @@ export default function ModalDanjiSelect({userInfo,setUserInfo}) {
               </Body>
               <Buttons>
               {/*인증번호 발송 버튼 누른 후 OkBtn(확인버튼)과 TxtBoxMt(인증번호 입력칸)이 나와야함!!*/}
-                <ConfirmBtn type="button" active={active}>인증번호 발송</ConfirmBtn>
-                <Link to="/AddRequestSecond" onClick={() => {setUserInfo(false)}}>
+                <ConfirmBtn type="button" active={active} onClick={coolSmsSend}>인증번호 발송</ConfirmBtn>
+                <Link to="/AddRequestSecond" onClick={() => {setUserInfo(false)}} onClick={nextStep}>
                   <OkBtn type="button" active2={active2}>확인</OkBtn>
                 </Link>
               </Buttons>

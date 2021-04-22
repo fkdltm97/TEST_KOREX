@@ -5,7 +5,7 @@
 import React ,{useState, useEffect} from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
-export default function SearchStoreOfficeApi() {
+export default function SearchStoreOfficeApi({setSearch_address,setAddressApi}) {
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -22,6 +22,8 @@ export default function SearchStoreOfficeApi() {
     }
 
     console.log(fullAddress);  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setSearch_address(fullAddress);
+    setAddressApi(false);
   }
 
     return (

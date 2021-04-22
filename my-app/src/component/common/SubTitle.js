@@ -13,6 +13,7 @@ import SaveBtn from '../../img/member/save_btn.png';
 import Set from '../../img/member/set.png';
 
 export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,editOffButtonBox,rank}) {
+    console.log('comppnent common sub_title공통 요소 실행:',title,arrow,path,cursor,edit,editButtonBox,editOffButtonBox,rank);
     //back button
     const history = useHistory();
     const goBack = () =>{
@@ -31,13 +32,13 @@ export default function SubTitle({title,arrow,path,cursor,edit,editButtonBox,edi
     //수정버튼
     const btnlist = () => {
         switch(edit){
-            case 1 : //수정
+            case 1 : //상태가 조회인상태일때.(연필수정하기노출)
                     return (
                       <Link onClick={editCheck()}>
                         <EditImg src={EditBtn}/>
                       </Link>
                     );
-            case 2 : //저장
+            case 2 : //상태가 수정버튼눌러서 저장중상태일때. (저장버튼노출)
                     return (
                       <Link onClick={editOffCheck()}>
                         <SaveImg src={SaveBtn}/>

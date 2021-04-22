@@ -1,12 +1,15 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import serverController from '../../../../server/serverController';
 
 //css
-import styled from "styled-components"
+import styled from "styled-components";
+
 
 export default function JoinInput() {
+
+  const history=useHistory();
 
   console.log('member>login 개인로그인 페이지 랜더링');
   console.log('ServercONTOLLER:',serverController.connectFetchController);
@@ -55,8 +58,11 @@ export default function JoinInput() {
         }else{
           document.getElementById('loginfail').style.display='none';
           alert(res.message);
+
+          //로그인 성공시 페이지 이동->>>
+          history.push('/');
         }
-        //로그인 성공시 페이지 이동->>>
+        
       }
    }
 

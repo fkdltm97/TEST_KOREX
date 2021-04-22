@@ -44,10 +44,12 @@ export default function Join() {
   //수정버튼 클릭시 저장버튼 변경
   const [editCheck,setEditChk] = useState(1);//기본값 1(EDIT버튼)
   const editButtonBox = () =>{
+      console.log('subtitle 연필 수정버튼 클릭시에 실행발발, 임의 페이지 수정요소 형태로 발생, 1->2 저장중상태로 처리');
       setEditChk(2);
       return setValueChk(2);
   }
   const editOffButtonBox = () =>{
+      console.log('subtitle 저장버튼 클릭시에 실행발발,임의 페이지 저장요소 형태,저장버튼을 눌렀을때!!!,다시 2->1 조회상태로 처리.');
       setEditChk(1);
       return setValueChk(1);
   }
@@ -55,7 +57,7 @@ export default function Join() {
   //저장버튼 클릭시 변경
   const [valueChk,setValueChk] = useState(1);
   const profileeditCheck = () =>{
-      setEditChk(1);
+      setEditChk(1); //1 : 조회상태, 2:저장중
       return setValueChk(1);
   }
 

@@ -4,7 +4,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 import { Mobile, PC } from "../../../../MediaQuery"
@@ -17,15 +16,29 @@ import SelectArrow from '../../../../img/member/arrow_down.png';
 //component
 import ModalAddUserInfo from './modal/ModalAddUserInfo';
 
-export default function SearchApartOfficetel() {
-  const [activeIndex,setActiveIndex] = useState(-1);
+//redux addon sassetss.
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions } from '../../../../store/actionCreators';
+
+export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
+
+  console.log('searchApartofficeselectinfo요소 실행 요소 display:',tempBrokerRequestActions,activeIndex);
 
   const [active,setActive] = useState(false);
+  
+  const [dong,setDong] = useState('');
+  const [floor,setFloor] = useState('');
+  const [hosil,setHosil] = useState('');
 
   /*모달*/
   const [modalDanji,setModalDanji] = useState(false);
   const [userInfo,setUserInfo] = useState(false);
+  
+  const dongchange =  (e) => { setDong(e.target.value);} 
+  const floorchange = (e) => { setFloor(e.target.value);}
+  const hosilchange = (e) => { setHosil(e.target.value);}
 
+  
     return (
         <Container>
           <WrapSearch>
@@ -39,29 +52,54 @@ export default function SearchApartOfficetel() {
               </SearchBox>
             </Box>
             <WrapSelectBox>
-              <Select>
+              <Select name='dong' onChange={dongchange}>
                 <Option selected style={{color:"#979797"}}>동 선택</Option>
-                <Option>101동</Option>
-                <Option>102동</Option>
-                <Option>103동</Option>
+                <Option value='101'>101동</Option>
+                <Option value='102'>102동</Option>
+                <Option value='103'>103동</Option>
               </Select>
-              <Select>
+              <Select name='floor' onChange={floorchange}>
                 <Option selected style={{color:"#979797"}}>층 선택</Option>
-                <Option>1층</Option>
-                <Option>2층</Option>
-                <Option>3층</Option>
+                <Option value='1'>1층</Option>
+                <Option value='2'>2층</Option>
+                <Option value='3'>3층</Option>
               </Select>
-              <Select>
+              <Select name='hosil' onChange={hosilchange}>
                 <Option selected style={{color:"#979797"}}>호 선택</Option>
-                <Option>101호</Option>
-                <Option>102호</Option>
-                <Option>103호</Option>
+                <Option value='101'>101호</Option>
+                <Option value='102'>102호</Option>
+                <Option value='103'>103호</Option>
               </Select>
             </WrapSelectBox>
             <Next>
       {/*휴대전화번호 정보가 있을경우 다음페이지로 넘아갑니다. ((일단 주석처리....))*/}
               {/*<Link className="data_link" to="/AddRequestSecond"/>*/}
-              <NextBtn type="button" onClick={()=>{setUserInfo(true)}}>다음</NextBtn>
+              <NextBtn type="button" onClick={()=>{
+                
+                setUserInfo(true);
+
+                //리덕스 정보 저장. state정보 -> 리덕스 저장(동,층,호실, 단지명,단지주소등 저장.)
+                tempBrokerRequestActions.dongchange({dongs: dong});
+                tempBrokerRequestActions.floorchange({floors: floor});
+                tempBrokerRequestActions.hosilchange({hosils: hosil});
+                tempBrokerRequestActions.dangichange({dangis : '반포동 반포자이'});
+                tempBrokerRequestActions.dangiaddresschange({dangiaddresss : '서울 특별시 서초구 반포동'});
+
+                switch(activeIndex){
+                  case 0:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '아파트'});
+                  break;
+                  case 1:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '오피스텔'});
+                  break;
+                  case 2:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '상가'});
+                  break;
+                  case 3:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
+                  break;
+                }
+              }}>다음</NextBtn>
             </Next>
           </WrapSearch>
       {/*휴대전화번호 정보가 없을경우 '본인정보추가 모달이 나와야함!!'*/}

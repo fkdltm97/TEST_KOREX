@@ -16,8 +16,6 @@ import PersonalAndCompany from './mypageTop/PersonalAndCompany';
 import ProfessionalBroker from './mypageTop/ProfessionalBroker';
 import Agency from './mypageTop/Agency';
 
-import ProfileBottomElement from './mypageBottom/profileBottom';
-
 //redux addons assetss
 import {useSelector} from 'react-redux';
 
@@ -29,7 +27,38 @@ export default function JoinInput({profileedit,profileeditCheck}) {
 
   console.log('data.login_userinfo refer infoi:',login_userinfodata);
 
-  const [open, setOpen] = useState(false);//profileBOTTOM사용 STATE값들..
+  const [open, setOpen] = useState(false);
+
+  //state에 저장 redux->state옮기기.
+  
+  /* 
+  const [memid,setMemid] = useState('');
+  const [company_id,setCompany_id] = useState('');
+  const [user_username, setUser_username] = useState('');
+  const [phone,setPhone] = useState('');
+  const [email,setEmail] = useState('');
+  const [username,setUsername] = useState('');
+  const [memimg,setMemimg] = useState('');
+  const [usertype,setUsertype] = useState('');
+  const [registertype,setRegistertype] = useState('');
+  const [memadmin,setMemadmin] = useState('');
+  const [islogin,setIslogin]= useState('');
+  
+  useEffect(() => {
+    //상태 변화 감지에 따라 상태변화가 감지될때에만 정보 지정한다.
+    console.log('=->>>>myprofile useEffect실행>>>>');
+    setMemid(login_userinfodata.memid);
+    setCompany_id(login_userinfodata.company_id);
+    setUser_username(login_userinfodata.user_username);
+    setPhone(login_userinfodata.phone);
+    setEmail(login_userinfodata.email);
+    setUsername(login_userinfodata.user_name);
+    setMemimg(login_userinfodata.mem_img);
+    setUsertype(login_userinfodata.user_type);
+    setRegistertype(login_userinfodata.register_type);
+    setMemadmin(login_userinfodata.mem_admin);
+    setIslogin(login_userinfodata.is_login);
+  },[]);*/
 
   const valueChk = () =>{
     return profileeditCheck;
@@ -66,42 +95,36 @@ export default function JoinInput({profileedit,profileeditCheck}) {
     switch(login_userinfodata.user_type){
       case '개인':
          return(
-          <ProfileMiddle> 
-            <PersonalAndCompany/>
-          </ProfileMiddle>
+          <PersonalAndCompany/>
          );
       break;
 
       case '기업':
         return(
-          <ProfileMiddle>
-            <PersonalAndCompany/>
-          </ProfileMiddle>
+          <PersonalAndCompany/>
          );
       break;
 
       case '전문중개사':
-          return(
-          <ProfileMiddle>
-            <ProfessionalBroker/>
-          </ProfileMiddle>
-          );
+
       break;
 
       case '분양대행사':
-          return(
-          <ProfileMiddle>
-            <Agency/>
-          </ProfileMiddle>
-          );
+
       break;
     }
-   
+     {/*개인&기업일때 상단*/}
+     {
+                
+      
+    }
+  {/*중개사(일반)일때 없음*/}
+
+  {/*전문중개사일때*/}
+    {<ProfessionalBroker/>}
+  {/*분양대행사일때*/}
+    <Agency/>
   }
-  const usernameChange = (e) =>{
-     console.log('상태값username 변화:',e.target.value);
-  }//사업자번호1,2,3 부분별 입력. 3-2-5자리.
- 
   //수정버튼
   const profilelist = () => {
       switch(profileedit){
@@ -113,7 +136,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                       </ProfileImg>
 
                       <ProfileName>
-                        <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value='' onChange={usernameChange}/>
+                        <Input type="text" name="" placeholder="이름을 설정해주세요." value={login_userinfodata.user_name} disabled/>
                         {
                           profilehead()
                         }
@@ -129,7 +152,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                         <Label for="file"/>
                       </ProfileImg>
                       <ProfileName>
-                        <InputBorder type="email" name="user_name" placeholder="이름을 설정해주세요." value='' onChange={usernameChange}/>
+                        <InputBorder type="text" name="" placeholder="이름을 설정해주세요." value=''/>
                         {
                           profilehead()
                         }
@@ -148,13 +171,150 @@ export default function JoinInput({profileedit,profileeditCheck}) {
               profilelist()
             }
 
-            {
-              profilemiddle_display()
-            }
+            <ProfileMiddle> {/*컴포넌트로 분리했습니다! (mypageTop 폴더)*/}
+              {/*개인&기업일때 상단*/}
+                {
+                
+                  <PersonalAndCompany/>
+                }
+              {/*중개사(일반)일때 없음*/}
 
-          <ProfileBottom>
-            <ProfileBottomElement open={open} setOpen={setOpen}/>
-          </ProfileBottom>
+              {/*전문중개사일때*/}
+                {<ProfessionalBroker/>}
+              {/*분양대행사일때*/}
+                <Agency/>
+            </ProfileMiddle>
+
+
+            <ProfileBottom>
+              <Ul>
+              {/*
+
+                -개인회원
+                (+거래정보 상단)
+                1) 내관심 2) 내 물건투어예약 3) 내 중개의뢰 4) 내 알림
+
+                -기업회원(관리자)
+                (+거래정보 상단)
+                1) 내관심 2) 내 물건투어예약 3) 내 중개의뢰
+                4) 회사 프로필 설정 5) 팀원관리 6) 내 알림
+
+                - 기업회원(팀원) ( 개인과 동일 )
+                (+거래정보 상단)
+                1) 내관심 2) 내 물건투어예약 3) 내 중개의뢰 4) 내 알림
+
+                **) 중개업소는 일반중개업소/전문중개업소로 나뉩니다.
+                **) 중개업소는 거래정보 상단 부분 없음.
+
+                - 중개업소 (관리자)
+                1) 내관심 2) 내 물건투어예약 3) 내 Live 시청예약
+                4) 내 방문예약 5)전문중개사무소 신청 6) 회사프로필 설정
+                7) 팀원 관리 8) 내 알림
+
+                - 중개업소(팀원)
+                  1) 내관심 2) 내 물건투어예약 3) 내 Live 시청예약
+                  4) 내 방문예약 5) 내 알림
+
+                - 전문 중개업소(관리자)
+
+                  1) 내관심 2) 내 물건투어예약 3) 내 Live 시청예약
+                  4) 내 방문예약 5) 물건 관리 6) 물건투어예약접수 관리
+                  7) 회사 프로필 설정 8)팀원관리 9) 내알림
+
+                -전문 중개업소(팀원)
+                  1) 내관심 2) 내 물건투어예약 3) 내 Live 시청예약
+                  4) 내 방문예약 5) 물건 관리 6) 물건투어예약접수 관리
+                  7) 내 알림
+
+                - 분양대행사(관리자)
+                (+분양대행 상단)
+                1) 분양프로젝트 관리 2) 회사프로필 설정 3) 팀원관리
+                4) 내 알림
+
+                - 분양대행사(팀원)
+                (+분양대행 상단)
+                1) 내 알림
+
+                */}
+                <Li>
+                  {login_userinfodata.memid}
+                  회원타입: {login_userinfodata.user_type}<br/>
+                  가입타임: {login_userinfodata.register_type}<br/>
+                  관리자여부: {login_userinfodata.mem_admin}
+                </Li>
+                <Li>
+                  <Link to="/MyLike" className="data_link"></Link>
+                  <LinkTxt>내 관심</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link to="/Reservation" className="data_link"></Link>
+                  <LinkTxt>내 물건 투어 예약</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link to="/MyLive" className="data_link"></Link>
+                  <LinkTxt>내 Live 시청 예약</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link to="/BrokerReservation" className="data_link"></Link>
+                  <LinkTxt>내 방문예약</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+            {/*전문중개사(관리자)*/}
+                <Li>
+                  <Link to="/PropertyManagement" className="data_link"></Link>
+                  <LinkTxt>물건관리</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link className="data_link"></Link>
+                  <LinkTxt>물건투어예약접수 관리</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link className="data_link"></Link>
+                  <LinkTxt>전문중개사무소 신청</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link to="/Request" className="data_link"></Link>
+                  <LinkTxt>내 중개 의뢰</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <LiPJ>
+                    <Link className="data_link" onClick={() =>{setOpen(!open)}}/>
+                    <LinkTxt>분양프로젝트 관리</LinkTxt>
+                    <ArrowRotate src={RightArrow}/>
+                  </LiPJ>
+                  { open ?
+                    <SubDepth>
+                      <SubLi><Link to="/MyLiveSetting" className="data_link"/>- Live 시청예약세팅</SubLi>
+                      <SubLi><Link to="/MyVisitSetting" className="data_link"/>- 방문예약세팅</SubLi>
+                    </SubDepth>
+                    :
+                    null}
+                </Li>
+
+                <Li>
+                  <Link to="/CompanyProfile" className="data_link"></Link>
+                  <LinkTxt>회사 프로필 설정</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link to="/MyMember" className="data_link"></Link>
+                  <LinkTxt>팀원 관리</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+                <Li>
+                  <Link to="/MyAlarm" className="data_link"></Link>
+                  <LinkTxt>내 알림</LinkTxt>
+                  <Arrow src={RightArrow}/>
+                </Li>
+              </Ul>
+            </ProfileBottom>
           </WrapProfile>
         </Container>
   );
@@ -245,12 +405,12 @@ const ProfileName = styled.div`
 `
 const Input = styled.input`
   width:100%;height:43px;
-  color:#454545;
+  color:#4a4a4a;
   padding-left:28px;
   font-size:15px;
-  
+  background:transparent;
   font-weight:800;transform:skew(-0.1deg);
-  &::placeholder{color:#4a4a4a;font-weight:600;}
+  &::placeholder{color:#4a4a4a;font-weight:600;transform:skew(-0.1deg);}
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(14/428));
     height:calc(100vw*(43/428));
