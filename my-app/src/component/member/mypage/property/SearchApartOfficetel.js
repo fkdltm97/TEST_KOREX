@@ -14,6 +14,7 @@ import SearchImg from '../../../../img/map/search.png';
 import WhiteClose from '../../../../img/member/white_close.png';
 
 //component
+import ModalCommon from '../../../common/modal/ModalCommon';
 import ModalDanjiSelect from './modal/ModalDanjiSelect';
 
 export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
@@ -73,7 +74,16 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
             </Box>
             {
               modalDanji ?
-              <ModalDanjiSelect setModalDanji={setModalDanji} setSelectInfo={setSelectInfo}/>
+
+              <ModalCommon
+                show={modalDanji}
+                setShow={setModalDanji}
+                title={"물건등록 가능한 단지 선택"}
+                content={{type:"components",component:<ModalDanjiSelect/>}}
+                submit={{show:true , title:"확인" , event : ()=>{setModalDanji(false);setSelectInfo(true);setModalDanji(false);}}}
+                cancle={{show:true , title:"취소" , event : ()=>{setModalDanji(false);}}}
+                confirm={{show:false , title:"확인" , event : ()=>{setModalDanji(false); }}}
+              />
               :
               null
 
@@ -98,10 +108,16 @@ const Mb = styled.b`
 const Container = styled.div`
   width:408px;
   margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(380/428));
+  }
 `
 const WrapSearch = styled.div`
   width:100%;
   margin-top:35px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(40/428));
+  }
 `
 const Box = styled.div`
   width:100%;
@@ -111,6 +127,10 @@ const Label = styled.label`
   font-size:12px;transform:skew(-0.1deg);
   font-weight:600;
   margin-bottom:10px;color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const SearchBox = styled.div`
   position:relative;
@@ -131,12 +151,21 @@ const Search = styled.input`
   font-weight:600;
   color:#4a4a4a;background:transparent;
   &::placeholder{color:#979797;}
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+  }
 `
 const SearchBtn = styled.button`
   position:absolute;right:0;top:0;
   width:43px;height:43px;
   background:#fff url(${SearchImg}) no-repeat center center;
   background-size:19px 18px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(43/428));
+    height:calc(100vw*(43/428));
+    background-size:calc(100vw*(19/428)) calc(100vw*(18/428));
+  }
 `
 const SearchResult = styled.div`
   width:408px;
@@ -144,6 +173,9 @@ const SearchResult = styled.div`
   left:-1px;top:35px;background:#fff;
   border:1px solid #e4e4e4;z-index:2;border-top:0;border-radius:3px;
   display:${({active}) => active ? "block" : "none"};
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+  }
 `
 const ResultBox = styled.div`
   position:relative;

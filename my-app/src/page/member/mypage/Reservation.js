@@ -9,7 +9,6 @@ import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
 import Reservation from '../../../component/member/mypage/reservation/MyReservation';
 import ModalMap from '../../../component/member/mypage/reservation/ModalMap';
-import ModalFilter from '../../../component/member/mypage/reservation/ModalFilter';
 import ModalReserve from '../../../component/member/mypage/reservation/ModalReserve';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
@@ -19,7 +18,8 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
-
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+import ModalFilterComponent from '../../../component/member/mypage/reservation/ModalFilterComponent';
 
 export default function Join() {
   //이용약관
@@ -65,9 +65,17 @@ export default function Join() {
             {/*중개사로 로그인했을때*/}
               {/*<SubTitle title={"럭키공인중개사　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
               <ModalMap map={map} setMap={setMap}/>
-              <ModalFilter filter={filter} setFilter={setFilter}/>
               <ModalReserve reserve={reserve} setReserve={setReserve}/>
               <Reservation map={map} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
+              <ModalCommon
+                show={filter}
+                setShow={setFilter}
+                title={"필터"}
+                content={{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>}}
+                submit={{show:true , title:"적용" , event : ()=>{setFilter(false); }}}
+                cancle={{show:true , title:"초기화" , event : ()=>{setFilter(false); }}}
+                confirm={{show:false , title:"확인" , event : ()=>{setFilter(false); }}}
+              />
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

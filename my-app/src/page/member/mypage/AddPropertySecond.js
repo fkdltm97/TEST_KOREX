@@ -8,6 +8,7 @@ import styled from "styled-components"
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
 import NewPropertySecond from '../../../component/member/mypage/property/NewPropertySecond';
+import ModalPicture from '../../../component/member/mypage/property/modal/ModalPicture';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -16,6 +17,7 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+import ModalCommon from "../../../component/common/modal/ModalCommon";
 
 export default function Join() {
   //이용약관
@@ -38,7 +40,8 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
-
+  //사진 모달창
+  const [picture,setPicture] = useState(false);
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -48,8 +51,17 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
             {/*개인로 로그인했을때*/}
-              <SubTitle title={"중개의뢰 추가"} rank={false} cursor={"default"}/>
-              <NewPropertySecond/>
+              <SubTitle title={"물건(외부수임) 등록"} rank={false} cursor={"default"}/>
+              <NewPropertySecond setPicture={setPicture}/>
+              <ModalCommon
+                show={picture}
+                setShow={setPicture}
+                title={"사진업로드"}
+                content={{type:"components",component:<ModalPicture/>}}
+                submit={{show:false , title:"적용" , event : ()=>{setPicture(false); }}}
+                cancle={{show:false , title:"확인" , event : ()=>{setPicture(false); }}}
+                confirm={{show:true , title:"확인" , event : ()=>{setPicture(false); }}}
+              />
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
