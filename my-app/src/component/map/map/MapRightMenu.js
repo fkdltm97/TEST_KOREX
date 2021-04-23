@@ -18,28 +18,150 @@ import { Mobile, PC } from "../../../MediaQuery";
 import { MapRight } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function MainHeader({openBunyang, rank, onClickBuildType, onClikZoomIn, onClikZoomOut}) {
+export default function MainHeader({openBunyang, rank }) {
 
-  const mapRightRedux = useSelector(state=>{ return state.mapRight});
-
-  console.log(mapRightRedux);
+    const [isMapStyle, setIsMapStyle] = useState(false);
+    const mapRightRedux = useSelector(state=>{ return state.mapRight});
+    
 
     // Exclusive Click
     const onClickExclusive = () => {
       const buildType = document.querySelectorAll(".buildType");
       const exclusiveCk = document.querySelector("#Exclusive");
-      let _true = true;
-      let _false = false;
       if(!exclusiveCk.checked){
-        console.log(123);
         buildType[1].classList.remove("select");
-        MapRight.updateExclusive({  isExclusive: true });
+        MapRight.updateBlock({  isBlock: {is:false} });
+        MapRight.updateExclusive({  isExclusive: {is:true} });
       }else{
-        console.log(456);
-        MapRight.updateExclusive({  isExclusive: 2 });
+        MapRight.updateExclusive({  isExclusive: {is:false} });
       }
     };
 
+    // Build Click
+    const onClickBuildType = (e) => {
+      const exclusiveCk = document.querySelector("#Exclusive");
+      const aroundAlert = document.querySelector(".aroundAlert");
+      if(e.target.classList.contains("select")){
+        e.target.classList.remove("select");
+        initSelectBuild();
+        return;
+      }
+      initSelectBuild();
+      
+      e.target.classList.add("select");
+      
+      if(e.target.id == "probrokerBuild"){
+        MapRight.updateProbroker({  isProbroker: {is:true} });
+      }
+
+      if(e.target.id == "blockBuild"){
+        MapRight.updateExclusive({  isExclusive: {is:false} });
+        MapRight.updateBlock({  isBlock: {is:true} });
+        exclusiveCk.checked = false;
+      }
+
+      if(e.target.id == "aroundBuild"){
+        aroundAlert.classList.remove("hidden");
+      }
+
+    }
+
+    // Build Init
+    const initSelectBuild = () => {
+      const  buildType = document.querySelectorAll(".buildType");
+      const aroundAlert = document.querySelector(".aroundAlert");
+      const mapAlert = document.querySelector(".mapAlert");
+      aroundAlert.classList.add("hidden");
+      mapAlert.classList.add("hidden");
+      setIsMapStyle(false);
+      for(let i = 0 ; i < buildType.length ; i++){
+        buildType[i].classList.remove("select");
+      }
+      MapRight.updateProbroker({  isProbroker: {is:false} });
+      MapRight.updateBlock({  isBlock: {is:false} });
+    }
+
+
+    // Around  Item Click
+    const onClickAroundEls = (e) => {
+      const aroundAlert = document.querySelector(".aroundAlert");
+      switch (e.target.innerText){
+        case "지하철":
+          MapRight.updateAround({  around: "subway" });
+          break;
+        case "유치원":
+          MapRight.updateAround({  around: "child" });
+          break;
+        case "학교":
+          MapRight.updateAround({  around: "school" });
+          break;
+        case "은행":
+          MapRight.updateAround({  around: "bank" });
+          break;
+        case "관공서":
+          MapRight.updateAround({  around: "office" });
+          break;
+        default:
+          MapRight.updateAround({  around: "" });
+          break;
+      }
+
+      
+      // aroundAlert.classList.add("hidden");
+    }
+
+    //  Map Styles Click
+    const onClickMap = () => {
+      let isBool = !isMapStyle;
+      setIsMapStyle(isBool);
+      const mapAlert = document.querySelector(".mapAlert");
+      const aroundAlert = document.querySelector(".aroundAlert");
+      aroundAlert.classList.add("hidden");
+      if(isBool){
+        mapAlert.classList.remove("hidden");
+      }else{
+        mapAlert.classList.add("hidden");
+      }
+    }
+
+    // Map Styles Item Click
+    const onClickMapEls = (e) => {
+      const mapAlert = document.querySelector(".mapAlert");
+      switch (e.target.innerText){
+        case "일반":
+          MapRight.updateMapStyle({  mapStyle: "roadmap" });
+          break;
+        case "지적":
+          MapRight.updateMapStyle({  mapStyle: "district" });
+          break;
+        case "위성":
+          MapRight.updateMapStyle({  mapStyle: "hybrid" });
+          break;
+        case "거리뷰":
+          MapRight.updateMapStyle({  mapStyle: "roadView" });
+          break;
+        default:
+          MapRight.updateMapStyle({  mapStyle: "roadmap" });
+          break;
+      }
+      mapAlert.classList.add("hidden");
+      setIsMapStyle(false);
+    }
+
+    // Zoom In
+    const onClikZoomIn = () => {
+      let newCount = mapRightRedux.isZoomIn;
+      newCount++;
+      MapRight.updateZoomIn({  isZoomIn: newCount });
+    }
+
+    // Zoom Out
+    const onClikZoomOut = () => {
+      console.log(mapRightRedux);
+      let newCount = mapRightRedux.isZoomOut;
+      newCount++;
+      MapRight.updateZoomOut({  isZoomOut: newCount });
+    }
 
 
     return (
@@ -63,15 +185,56 @@ export default function MainHeader({openBunyang, rank, onClickBuildType, onClikZ
                 <RadioBox>
                   <RadioSpan id="aroundBuild" className="buildType" onClick={(e)=>{onClickBuildType(e)}}>주변</RadioSpan>
                 </RadioBox>
+
+                <RadioAlert className={["aroundAlert", "hidden"]} >
+                  <RadioBox>
+                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>지하철</RadioSpan>
+                  </RadioBox>
+                  <Part/>
+                  <RadioBox>
+                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>유치원</RadioSpan>
+                  </RadioBox>
+                  <Part/>
+                  <RadioBox>
+                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>학교</RadioSpan>
+                  </RadioBox>
+                  <Part/>
+                  <RadioBox>
+                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>은행</RadioSpan>
+                  </RadioBox>
+                  <Part/>
+                  <RadioBox>
+                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>관공서</RadioSpan>
+                  </RadioBox>
+                </RadioAlert>
+
               </WrapMenuBottom>
 
               <WrapMenuBottom>
                 <RadioBox>
-                  <RadioSpan>지도 유형</RadioSpan>
+                  <RadioSpan onClick={() => {onClickMap()}} >지도 유형</RadioSpan>
                 </RadioBox>
+                <RadioAlertMap className={["mapAlert", "hidden"]}>
+                  <RadioBox>
+                    <RadioSpan className="noRv" onClick={(e) => {onClickMapEls(e)}}>일반</RadioSpan>
+                  </RadioBox>
+                  <Part/>{/*분기 라인*/}
+                  <RadioBox>
+                    <RadioSpan className="noRv" onClick={(e) => {onClickMapEls(e)}}>지적</RadioSpan>
+                  </RadioBox>
+                  <Part/>{/*분기 라인*/}
+                  <RadioBox>
+                    <RadioSpan className="noRv" onClick={(e) => {onClickMapEls(e)}}>위성</RadioSpan>
+                  </RadioBox>
+                  <Part/>{/*분기 라인*/}
+                  <RadioBox>
+                    <RadioSpan onClick={(e) => {onClickMapEls(e)}}>거리뷰</RadioSpan>
+                  </RadioBox>
+                </RadioAlertMap>
+
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan>거리 재기</RadioSpan>
+                  <RadioSpan>거리 재기</RadioSpan> 
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
@@ -112,6 +275,7 @@ const RightMenu = styled.div`
   position:absolute;
   top:26px;right:510px;
   width:50px;
+
   @media ${(props) => props.theme.mobile} {
     top:calc(100vw*(80/428));
     right:calc(100vw*(14/428));
@@ -147,11 +311,18 @@ const ExclusiveLabel = styled.label`
   }
 `
 const WrapMenuBottom = styled.div`
+  position:relative;
   width:100%;height:192px;
   background:#fff;border-radius:10px;
   padding:22px 5px 10px 6px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   margin-bottom:20px;
+  
+  & > .hidden {
+    opacity:0;
+    pointer-events: none;
+  }
+
   @media ${(props) => props.theme.mobile} {
     height:calc(100vw*(185/428));
     padding:calc(100vw*(22/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
@@ -190,6 +361,7 @@ const RadioBox = styled.div`
     border-radius:50%;
   }
 `
+
 const Radio = styled.input`
   display:none;
   &:checked+label{color:#fe7a01;}
@@ -199,6 +371,31 @@ const Radio = styled.input`
   }
 `
 
+const RadioAlert = styled.div`
+  position:absolute;
+  width: 50px;
+  height: 260px;
+  background:#fff;
+  border-radius:10px;
+  right:65px;
+  bottom:-195px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  padding:22px 5px 10px 6px;
+  transition:200ms;
+`
+
+const RadioAlertMap = styled.div`
+  position:absolute;
+  width: 50px;
+  height: 210px;
+  background:#fff;
+  border-radius:10px;
+  right:65px;
+  top:0;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  padding:22px 5px 10px 6px;
+  transition:200ms;
+`
 
 const RadioSpan = styled.span`
   position:relative;

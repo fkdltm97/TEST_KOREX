@@ -43,6 +43,9 @@ export default function MapFilter() {
     }
   }
 
+
+  // redux에서 변수를 뽑아와서 필터적용 시키기
+
     return (
         <Container>
         <WrapFilter padding={padding}>
