@@ -34,7 +34,6 @@ export default function MapFilter() {
   };
 
   const [open,setOpen] = useState(false);
-  console.log(open)
 
   const padding=()=>{
     if(open == true) {

@@ -20,7 +20,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
   const [updown,setUpDown] = useState(false);
-  console.log(updown)
+  
   const position=()=>{
     if(updown == true) {
       return "absolute"
