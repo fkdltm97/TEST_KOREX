@@ -90,7 +90,7 @@ const List = styled.li`
   width:100%;
   padding:25px 40px;
   border-bottom:1px solid #f2f2f2;
-  display:flex;justfy-content:space-between;align-items:center;
+  display:flex;justify-content:space-between;align-items:center;
   @media ${(props) => props.theme.mobile} {
         width:100%;
         padding:calc(100vw*(21/428)) calc(100vw*(27/428));

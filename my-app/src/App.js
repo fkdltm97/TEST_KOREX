@@ -37,6 +37,10 @@ import AgencyLogin from './page/member/agency/Login';
 
 /*mypage*/
 import Mypage from './page/member/mypage/Mypage';
+import MyProfileSetting from './page/member/mypage/MyProfileSetting';
+import EmailChange from './page/member/mypage/EmailChange';
+import PhoneChange from './page/member/mypage/PhoneChange';
+import PasswordChange from './page/member/mypage/PasswordChange';
 import Reservation from './page/member/mypage/Reservation';
 import Team from './page/member/mypage/Team';
 import CompanyProfile from './page/member/mypage/CompanyProfile';
@@ -118,6 +122,10 @@ export default function App(){
 
             {/*mypage*/}
             <Route exact path="/Mypage" component={Mypage}/>{/*마이페이지 기본*/}
+            <Route exact path="/MyProfileSetting" component={MyProfileSetting}/>{/*내 계정설정*/}
+            <Route exact path="/EmailChange" component={EmailChange}/>{/*계정설정 > 이메일변경*/}
+            <Route exact path="/PhoneChange" component={PhoneChange}/>{/*계정설정 > 휴대전화변경*/}
+            <Route exact path="/PasswordChange" component={PasswordChange}/>{/*계정설정 > 비밀번호변경*/}
             <Route exact path="/Reservation" component={Reservation}/>{/*내 물건투어예약*/}
             <Route exact path="/Team" component={Team}/>{/*소속선택*/}
             <Route exact path="/CompanyProfile" component={CompanyProfile}/>{/*회사 프로필설정*/}

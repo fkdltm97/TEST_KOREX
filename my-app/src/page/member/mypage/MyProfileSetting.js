@@ -7,7 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import NewRequestBrokerSecond from '../../../component/member/mypage/request/NewRequestBrokerSecond';
+import MyProfileSetting from '../../../component/member/mypage/myprofileSetting/MyProfileSetting';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -16,7 +16,8 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
-import ModalCommon from "../../../component/common/modal/ModalCommon";
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+
 
 export default function Join() {
   //이용약관
@@ -42,45 +43,43 @@ export default function Join() {
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
-//여기 두개가 핵심이에여
-  //모달 끄는 식
-    const offModal = ()=>{
-      let option = JSON.parse(JSON.stringify(modalOption));
-      option.show = false;
-      setModalOption(option);
-    }
-
-
-    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-      const successModal = () =>{
-        //여기가 모달 키는 거에엽
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"중개의뢰",
-            content:{type:"text",text:`중개의뢰신청이 접수되었습니다.\n전문중개사가 의뢰검토 후 결과 알려드립니다.`,component:""},
-            submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
-            confirmgreen:{show:true , title:"확인" , link:"/PropertyManagement", event : ()=>{offModal(); }}
-
-        });
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
       }
+  
+  
+      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+        const logoutModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"로그아웃",
+              content:{type:"text",text:`로그아웃 하시겠습니까?`,component:""},
+              submit:{show:true , title:"로그아웃" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
+  
+      //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
+        const secessionModal = () =>{
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"회원탈퇴",
+              content:{type:"text",text:`회원탈퇴 하시겠습니까?`,component:""},
+              submit:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"회원탈퇴" , event : ()=>{offModal(); }},
+              confirm:{show:false , title:"" , event : ()=>{offModal(); }}
+          });
+        }
 
-      const failModal = () =>{
-        //여기가 모달 키는 거에엽
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"중개의뢰",
-            content:{type:"text",text:`해당물건은 전속매물이 아닙니다.\n이미 다른 중개사에게 의뢰되었거나\n거래중인 물건은 시스템에 등록할 수 없습니다.\n상기 사유에 해당하지 않는 경우,\n고객센터로 문의해주세요.`,component:""},
-            submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
-            confirmgreen:{show:true , title:"확인" , event : ()=>{offModal(); }}
 
-        });
-      }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -89,8 +88,8 @@ export default function Join() {
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openBunyang={openBunyang}/>
           <Container>
-              <SubTitle title={"중개의뢰 추가"} rank={false} cursor={"default"}/>
-              <NewRequestBrokerSecond successModal={successModal} failModal={failModal}/>
+              <SubTitle title={"계정 설정"} rank={false} cursor={"default"}/>
+              <MyProfileSetting secessionModal={secessionModal} logoutModal={logoutModal}/>
               <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
@@ -105,6 +104,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 309px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

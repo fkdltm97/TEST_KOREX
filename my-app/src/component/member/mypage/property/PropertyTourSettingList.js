@@ -4,20 +4,15 @@ import {Link} from "react-router-dom";
 
 
 //css
-import styled from "styled-components"
+import styled from "styled-components";
 
 //img
 
-import Profile from '../../../../img/member/no_profile.png';
-import Close from '../../../../img/main/modal_close.png';
-import Change from '../../../../img/member/change.png';
-import Marker from '../../../../img/member/marker.png';
-import ArrowDown from '../../../../img/member/arrow_down.png';
 import Set from '../../../../img/member/setting.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Member({value}) {
+export default function Tour({value}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -27,23 +22,30 @@ export default function Member({value}) {
 
     return (
         <Container>
-            <MemberList>
-              <ProfileImg>
-                <Img src={value.src} alt="프로필이미지"/>
-              </ProfileImg>
-              <MemberInfo>
-                <Name>{value.name}</Name>
-                <Grade>{value.grade}</Grade>
-                <Phone>{value.phone}</Phone>
-                <RegiDate>{value.regidate}</RegiDate>
-              </MemberInfo>
-              <MemberSetting onClick={()=> {setMenu(!menu)}}>
+            <TourList>
+              <TourInfo>
+                <Title>일반</Title>
+                <WrapDateTime>
+                  <Date>
+                    <DateEa>월</DateEa>
+                    <DateEa>화</DateEa>
+                    <DateEa>수</DateEa>
+                    <DateEa>목</DateEa>
+                  </Date>
+                  <Part/>
+                  <Time>
+                    <TimeEa>오전 1T</TimeEa>
+                    <TimeEa>오후 1T</TimeEa>
+                  </Time>
+                </WrapDateTime>
+              </TourInfo>
+              <TourSetting onClick={()=> {setMenu(!menu)}}>
                   <Setting src={Set} alt="setting"/>
                   {
                     menu ?
                     <InMenu>
                       <Div>
-                        <Link to="/MyMemberEdit" className="data_link"></Link>
+                        <Link className="data_link"></Link>
                         <InDiv>수정</InDiv>
                       </Div>
                       <Div>
@@ -54,14 +56,14 @@ export default function Member({value}) {
                     :
                     null
                   }
-              </MemberSetting>
-            </MemberList>
+              </TourSetting>
+            </TourList>
   </Container>
   );
 }
 const Container = styled.div`
 `
-const MemberList = styled.div`
+const TourList = styled.div`
   width:100%;position:relative;
   display:flex;justify-content:flex-start;align-items:center;
   padding:38px 57px;
@@ -83,17 +85,33 @@ const Img = styled.img`
   width:100%;height:100%;
   border-radius:100%;
 `
-const MemberInfo = styled.div`
+const TourInfo = styled.div`
 `
-const Name = styled.h4`
-  font-size:15px;color:#4a4a4a;
+const Title = styled.h2`
+  font-size:18px;
   font-weight:800;transform:skew(-0.1deg);
-  margin-bottom:10px;
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(15/428));
-    margin-bottom:calc(100vw*(7/428));
-  }
+  width:100%;margin-bottom:20px;
 `
+const WrapDateTime = styled.div`
+  width:100%;
+  display:flex;justify-content:flex-start;align-items:center;
+`
+const Date = styled.div`
+    display:flex;justify-content:flex-start;align-items:center;
+`
+const DateEa = styled.p`
+  font-size:15px;font-weight:600;transform:skew(-0.1deg);
+  margin-right:10px;
+  &:last-child{margin-right:0;}
+`
+const Part = styled.div`
+  width:1px;height:20px;margin:0 25px;
+`
+const Time = styled(Date)`
+`
+const TimeEa = styled(DateEa)`
+`
+
 const Grade = styled.p`
   font-size:15px; color:#979797;
   font-weight:600;transform:skew(-0.1deg);
@@ -109,7 +127,7 @@ const Phone = styled(Grade)`
 const RegiDate = styled(Grade)`
   margin-bottom:0;
 `
-const MemberSetting = styled.div`
+const TourSetting = styled.div`
   position:absolute;
   display:flex;align-items:center;justify-content:center;
   width:36px;height:36px;right:57px;

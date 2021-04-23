@@ -1,11 +1,11 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import Calendar from 'react-calendar';
+import DatePicker from "react-datepicker";
 
 //style
 import styled from "styled-components";
-import '../../../../Calendar.css';
+import "../../../../react-datepicker.css";
 
 //img
 import CloseIcon from "../../../../img/main/modal_close.png";
@@ -13,22 +13,39 @@ import Check from "../../../../img/member/check.png";
 import Checked from "../../../../img/member/checked.png";
 
 
-export default function ModalCal({vCal, setVCal,updatePageIndex}){
-  const [value, onChange] = useState(new Date());
+export default function ModalCal({cal, setCal,updatePageIndex}){
+  const [startDate, setStartDate] = useState(new Date());
+  const MyContainer = ({ className, children }) => {
+    return (
+      <div>
+        <CalendarContainer className={className}>
+          <div style={{ position: "relative" }}>{children}</div>
+        </CalendarContainer>
+      </div>
+    );
+  };
 
-  if(vCal == false)
+  if(cal == false)
     return null;
     return (
       <Container>
         <Wraplive>
+          <ModalClose>
+              <Link onClick={()=>{setCal(false);updatePageIndex(0)}}>
+              <CloseImg src={CloseIcon}/>
+            </Link>
+          </ModalClose>
+          <ModalTop>
+            <Title>방문 예약</Title>
+          </ModalTop>
           <Label>방문일시</Label>
-            <Calendar
-              onChange={onChange}
-              value={value}
-              minDate={new Date()}
-              numOfVisibleMonths={1}
-              onClickDay={() => {updatePageIndex(1)}}
-            />
+          <DatePicker
+            locale="ko"
+            selected={startDate}
+            onChange={(date) => {setStartDate(date); updatePageIndex(1);}}
+            calendarContainer={MyContainer}
+            inline
+          />
         </Wraplive>
       </Container>
     );
@@ -38,11 +55,7 @@ const Container = styled.div`
   width:100%;
 
 `
-const ModalBg = styled.div`
-  position:fixed;
-  width:100%;height:100%;left:0;top:0;
-  display:block;content:'';background:rgba(0,0,0,0.05);
-  z-index:1001;
+const CalendarContainer  = styled.div`
 `
 const Wraplive = styled.div`
   position:fixed;z-index:1002;

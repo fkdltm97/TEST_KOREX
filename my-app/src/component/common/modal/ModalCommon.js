@@ -17,7 +17,6 @@ import ArrowDown from '../../../img/member/arrow_down.png';
 //필터 모달
 
 
-
 //기존에 show,setShow,title,submit,cancle,confirm,content 이렇게 데이터를 전부 전달 받았는데 이걸 하나로 합쳐서 사용할게요
 // modalOption = {show,setShow,title,submit,cancle,confirm,content} 이렇게요.
 export default function ModalCommon({modalOption}) {
@@ -91,6 +90,12 @@ export default function ModalCommon({modalOption}) {
                   <Link to={modalOption.confirmgreen.link} className="data_link"/>
                   <ConfirmBtnGreen type="button" name="" onClick={modalOption.confirmgreen.event}>{modalOption.confirmgreen.title}</ConfirmBtnGreen>
                 </Wrap>
+              :
+                null
+              }
+              {
+                modalOption.confirmgreennone && modalOption.confirmgreennone.show ?
+                  <ConfirmBtnGreenNoneLink type="button" name="" onClick={modalOption.confirmgreennone.event}>{modalOption.confirmgreennone.title}</ConfirmBtnGreenNoneLink>
               :
                 null
               }
@@ -291,4 +296,6 @@ const ConfirmBtn = styled(ResetBtn)`
 `
 const ConfirmBtnGreen = styled(SaveBtn)`
   width:100%;margin-left:0;
+`
+const ConfirmBtnGreenNoneLink = styled(ConfirmBtnGreen)`
 `
