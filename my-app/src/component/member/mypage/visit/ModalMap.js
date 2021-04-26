@@ -26,14 +26,6 @@ export default function ModalMapReserve({ map, setMap }) {
     return (
         <Container>
           <WrapModalMap>
-            <ModalMapBg onClick={()=>{setMap(false)}}/>
-            <ModalMap>
-              <MapCloseBtn>
-                <Link onClick={()=>{setMap(false)}}>
-                  <MapCloseImg src={Close}/>
-                </Link>
-              </MapCloseBtn>
-              <ModalMapTitle>중개업소 위치</ModalMapTitle>
               <ModalMapAddress>
                 <AddressTxt>서울시 구로구 신도림동 131-13 103동</AddressTxt>
                 <ChangeAddress>
@@ -49,7 +41,6 @@ export default function ModalMapReserve({ map, setMap }) {
                   <MapMarkerImg src={Marker}/>
                 </MapMarker>
               </ShowMap>
-            </ModalMap>
           </WrapModalMap>
         </Container>
   );

@@ -272,18 +272,10 @@ export default function Request({setFilter,value,type}) {
             </WrapBox>
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link onClick={()=>{setModalBroker(true)}}>
+              <Link to="/AddPropertyThird">
                 <Next type="button">다음</Next>
               </Link>
             </NextButton>
-
-            {
-              modalBroker ?
-              <ModalBrokerRequest modalBroker={modalBroker} setModalBroker={setModalBroker}/>
-              :
-              null
-
-            }
            </WrapRequest>
         </Container>
   );
@@ -306,7 +298,7 @@ const Container = styled.div`
     margin:0 auto;
     padding:24px 0 250px;
     @media ${(props) => props.theme.mobile} {
-      width:calc(100vw*(380/428));
+      width:calc(100vw*(370/428));
       padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
       }
 `
@@ -325,29 +317,49 @@ const TopTitle = styled.h2`
 `
 const WrapBox = styled.div`
   width:408px;margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    }
 `
 const Box = styled.div`
   width:100%;
   margin-bottom:55px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(50/428));
+    }
 `
 const SubTitle = styled.div`
   display:flex;justify-content:space-between;align-items:center;
   margin-bottom:40px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(40/428));
+    }
 `
 const Title = styled.h2`
   font-size:15px;color:#4e4e4e;
   font-weight:800;transform:skew(-0.1deg);
   margin-right:7px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-right:calc(100vw*(7/428));
+    }
 `
 const Line = styled.div`
   width:340px;height:1px;
   background:#cecece;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(300/428));
+    }
 `
 const TopDesc = styled.div`
     padding:0 0 35px;
     font-size:15px;color:#4a4a4a;
     font-weight:600;transform:skew(-0.1deg);
     line-height:1.33;text-align:center;
+    @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(13/428));
+      padding:0 0 calc(100vw*(40/428));
+      }
 `
 const SelectBox = styled.div`
   width:100%;
@@ -357,6 +369,10 @@ const Label = styled.label`
   font-size:12px;font-weight:600;
   transform:skew(-0.1deg);color:#4a4a4a;
   margin-bottom:10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    margin-bottom:calc(100vw*(10/428));
+    }
 `
 const Pilsu = styled.span`
   display:inline-block;
@@ -364,20 +380,31 @@ const Pilsu = styled.span`
   transform:skew(-0.1deg);color:#fe7a01;
   vertical-align:middle;
   margin-left:5px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    margin-left:calc(100vw*(5/428));
+    }
 `
 const Select = styled.select`
   width:100%;height:43px;
   font-weight:600;transform:skew(-0.1deg);
-  margin-right:7px;
   text-align-last:center;
   border: solid 1px #e4e4e4;
   border-radius:4px;
   appearance:none;color:#707070;
   font-size:15px;transform:Skew(-0.1deg);
-  background:url(${ArrowDown}) no-repeat 380px center;background-size:11px;
+  background:url(${ArrowDown}) no-repeat 92% center;background-size:11px;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    font-size:calc(100vW*(15/428));
+    background-size:calc(100vw*(11/428));
+    }
 `
 const SelectMb = styled(Select)`
   margin-bottom:30px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(30/428));
+    }
 `
 const Option = styled.option`
 `
@@ -388,6 +415,9 @@ const InputBox = styled.div`
   position:relative;
   margin-bottom:14px;
   &:last-child{margin-bottom:0;}
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(15/428));
+    }
 `
 const InputDisabled = styled.input`
   width:100%;height:43px;
@@ -398,6 +428,10 @@ const InputDisabled = styled.input`
   font-size:15px;font-weight:500;
   text-align:center;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+    }
 `
 const InputTxt= styled.input`
   width:100%;
@@ -410,6 +444,10 @@ const InputTxt= styled.input`
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
   &::placeholder{color:#979797;}
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+    }
 `
 const WrapItemInfo = styled.div`
 `
@@ -426,6 +464,10 @@ const Inbox = styled.div`
   border-radius: 4px;
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(167/428));
+    height:calc(100vw*(43/428));
+    }
 `
 const InputShort = styled.input`
   width:70%;
@@ -435,28 +477,44 @@ const InputShort = styled.input`
   font-size:15px;color:#4a4a4a;
   transform:skew(-0.1deg);
   &::placeholder{color:#979797}
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    }
 `
 const Span = styled.span`
   vertical-align:middle;
   font-size:15px;font-weight:600;
   color:#4a4a4a;transform:skew(-0.1deg);
   margin-left:10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-left:calc(100vw*(8/428));
+    }
 `
 const Same = styled.span`
   font-size:15px;font-weight:600;
   color:#4a4a4a;transform:skew(-0.1deg);
   vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    }
 `
 const LongLine = styled.div`
   width:100%;height:1px;
   background:#cecece;
   margin:26px 0 40px;
+  @media ${(props) => props.theme.mobile} {
+    margin:calc(100vw*(26/428)) 0 calc(100vw*(40/428));
+    }
 `
 const Example = styled.p`
   position:absolute;right:0;
   top:0;
   font-size:12px;transform:skew(-0.1deg);
   color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    }
 `
 const Flex = styled.div`
   display:flex;justify-content:space-between;align-items:center;
@@ -471,23 +529,42 @@ const InputMidi = styled.input`
   font-weight:600;
   transform:skew(-0.1deg);text-align:center;
   &::placeholder{color:#979797}
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(315/428));
+    height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+    }
 `
 const Dan = styled.p`
   font-size:15px;color:#4a4a4a;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    }
 `
 const WrapMoreView = styled.div`
   width:100%;
   margin-top:50px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(50/428));
+    }
 `
 const EnterImg = styled.img`
   display:inline-block;
   width:19px;
   margin-right:27px;
   margin-top:-13px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(-13/428));
+    margin-right:calc(100vw*(20/428));
+    width:calc(100vw*(19/428));
+    }
 `
 const ShortLine = styled(Line)`
   width:250px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(220/428));
+    }
 `
 const ArrowTopImg = styled.img`
   display:inline-block;
@@ -495,12 +572,18 @@ const ArrowTopImg = styled.img`
   cursor:pointer;
   transition:all 0.3s;
   transform:${({rotate}) => rotate};
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(26/428));
+    }
 `
 const MoreView = styled.div`
   transition:all 0.3s;
 `
 const MoreBox = styled.div`
   margin-top:30px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(30/428));
+    }
 `
 const SwitchButton = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
@@ -509,6 +592,7 @@ const SwitchButton = styled.div`
   margin-bottom:20px;
   @media ${(props) => props.theme.mobile} {
     margin-bottom:calc(100vw*(20/428));
+    margin-top:calc(100vw*(20/428));
   }
 `
 const Switch = styled.input`
@@ -546,6 +630,9 @@ const SwithTxtOff = styled.p`
   opacity:1;
   transition:all 0.3s;
   @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    left:calc(100vw*(50/428));
+    top:calc(100vw*(-3/428));
   }
 `
 const SwithTxtOn = styled(SwithTxtOff)`
@@ -574,10 +661,16 @@ const Sub = styled.span`
 const WrapCheck = styled.div`
   display:flex;justify-content:felx-start;align-items:center;
   flex-wrap:wrap;margin-top:20px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(20/428));
+  }
 `
 const Checkbox = styled.div`
   width:33%;
   margin-bottom:20px;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(20/428));
+  }
 `
 const Check = styled.input`
   display:none;
@@ -586,20 +679,25 @@ const Check = styled.input`
 const CheckLabel = styled.label`
   font-size:15px;
   transform:skew(-0.1deg);color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const CheckSpan = styled.span`
   display:inline-block;width:20px;height:20px;
   background:url(${CheckImg}) no-repeat; background-size:100% 100%;
-  margin-right:8px;
+  margin-right:8px;vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));height:calc(100vw*(20/428));
+    margin-right:calc(100vw*(8/428));
+  }
 `
 const Radiobox = styled.div`
   width:100%;
   margin-bottom:20px;
-`
-const RadioboxJob = styled.div`
-  width:65px;
-  margin-bottom:0;
-
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(20/428));
+  }
 `
 const Radio = styled.input`
   display:none;
@@ -608,18 +706,31 @@ const Radio = styled.input`
 const RadioLabel = styled.label`
   font-size:15px;
   transform:skew(-0.1deg);color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const RadioSpan = styled.span`
   display:inline-block;width:20px;height:20px;
   background:url(${RadioImg}) no-repeat; background-size:100% 100%;
-  margin-right:8px;
+  margin-right:8px;vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));
+    height:calc(100vw*(20/428));margin-right:calc(100vw*(8/428));
+  }
 `
 const InputDate = styled(InputTxt)`
   margin-top:20px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(20/428));
+  }
 `
 const NextButton = styled.div`
   width:100%;text-align:center;
   margin-top:70px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(70/428));
+  }
 `
 const Next = styled.button`
   display:inline-block;
@@ -635,4 +746,10 @@ const Next = styled.button`
 
   border: solid 3px #04966d;
   background-color: #01684b; */
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));
+    font-size:calc(100vw*(15/428));
+  }
 `

@@ -13,14 +13,22 @@ import Mypage from '../../../img/main/mypage_icon.png';
 import { Mobile, PC } from "../../../MediaQuery";
 import MapRightMenu from "./MapRightMenu";
 import WrapMapFilter from "./WrapMapFilter";
+import KakaoMap from './KakaoMap';
 
-export default function MainHeader({openBunyang, rank, open, setOpen}) {
-    return (
-        <Container>
-          <MapRightMenu/>
-          <WrapMapFilter setOpen={setOpen}/>
-        </Container>
+
+const { kakao } = window;
+
+export default function WrapMap({openBunyang, rank, open, setOpen}) {
+
+
+  return (
+      <Container> 
+        {/* <div onClick={() => {onClickTest() }}>test</div> */}
+        <MapRightMenu/>
+        <KakaoMap />
+      </Container>
   );
+
 }
 
 const Container = styled.div`
@@ -28,3 +36,4 @@ const Container = styled.div`
   width:100%;
   height:100vh;
 `
+

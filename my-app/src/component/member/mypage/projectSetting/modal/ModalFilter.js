@@ -42,14 +42,6 @@ export default function Reserve({filter,setFilter}) {
     return (
         <Container>
           <WrapFilterModal>
-            <ModalFilterBg onClick={() => {setFilter(false)}}/>
-            <ModalFilter>
-              <FilterCloseBtn>
-                <Link onClick={() => {setFilter(false)}}>
-                  <FilterCloseImg src={Close}/>
-                </Link>
-              </FilterCloseBtn>
-              <ModalFilterTitle>필터</ModalFilterTitle>
               <WrapFilterSelect>
               {/*정렬기준 select*/}
                 <FilterBox>
@@ -73,14 +65,7 @@ export default function Reserve({filter,setFilter}) {
                     </FilterSelectConditionList>
                   </FilterSelectCondition>
                 </FilterBox>
-
               </WrapFilterSelect>
-              {/*버튼*/}
-              <WrapFilterButtons>
-                <ResetBtn type="button" name="">초기화</ResetBtn>
-                <SaveBtn type="submit" name="">적용</SaveBtn>
-              </WrapFilterButtons>
-            </ModalFilter>
           </WrapFilterModal>
         </Container>
   );
@@ -88,13 +73,13 @@ export default function Reserve({filter,setFilter}) {
 
 const Pb = styled.b`
   display:block;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
         display:inline;
     }
 `
 const Mb = styled.b`
   display:inline;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
         display:block;
     }
 `
@@ -102,6 +87,11 @@ const Container = styled.div`
 `
 const WrapModalMap = styled.div`
   width:100%;
+  margin-bottom:40px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(40/428));
+  }
+
 `
 const ModalMapBg = styled.div`
   width:100%;height:100%;
@@ -111,14 +101,14 @@ const ModalMapBg = styled.div`
   z-index:3;
 `
 const ModalMap = styled.div`
-  position:absolute;
+  position:fixed;
   left:50%;top:50%;transform:translate(-50%,-50%);
   width:535px;border-radius:24px;
   border:1px solid #f2f2f2;
   background:#fff;
   padding:49px 50px 60px 50px;
   z-index:3;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(395/428));
     padding:calc(100vw*(33/428)) calc(100vw*(15/428));
   }
@@ -126,13 +116,13 @@ const ModalMap = styled.div`
 const MapCloseBtn = styled.div`
   width:100%;text-align:right;
   margin-bottom:22px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(22/428));
   }
 `
 const MapCloseImg = styled.img`
   display:inline-block;width:15px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(12/428));
   }
 `
@@ -141,7 +131,7 @@ const ModalMapTitle = styled.h3`
   transform:skew(-0.1deg);
   padding-bottom:20px;
   border-bottom:1px solid #707070;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(15/428));
     padding-bottom:calc(100vw*(15/428));
   }
@@ -157,7 +147,7 @@ const ModalFilterBg = styled(ModalMapBg)`
 `
 const ModalFilter = styled(ModalMap)`
   height:480px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     height:calc(100vw*(400/428));
   }
 `
@@ -167,7 +157,7 @@ const FilterCloseImg = styled(MapCloseImg)`
 `
 const ModalFilterTitle = styled(ModalMapTitle)`
   margin-bottom:12px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(12/428));
   }
 `
@@ -177,33 +167,31 @@ const WrapFilterSelect = styled.div`
 const FilterBox = styled.div`
   position:relative;
   width:100%;
-  margin-bottom:70px;
+  margin-bottom:20px;
   &:last-child{margin-bottom:0;}
-  @media ${(props) => props.theme.mobile} {
-    margin-bottom:calc(100vw*(67/428));
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(20/428));
   }
 `
 const FilterLabel = styled.label`
-  font-size:12px;color:#4a4a4a;
+  font-size:12px;color:#4a4a4a;display:inline-block;
   transform:skew(-0.1deg);
   font-family:'nbg', sans-serif;
-  margin-bottom:9px;
-  @media ${(props) => props.theme.mobile} {
+  margin-bottom:9px;padding-left:7px;
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(9/428));
+    padding-left:calc(100vw*(7/428));
     font-size:calc(100vw*(12/428));
   }
 `
 const FilterSelectSort = styled.div`
-  position:Absolute;
-  top:22px;
   width:100%;
   text-align:center;
   font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
   border-radius:4px;
   background:#fff;
   z-index:9999;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(22/428));
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(14/428));
   }
 `
@@ -218,9 +206,10 @@ const FilterSelectSortList = styled.select`
   border-radius:4px;border:1px solid #a3a3a3;
   background:#fff;
   appearance:none;
-  background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
-  @media ${(props) => props.theme.mobile} {
+  background:url(${ArrowDown}) no-repeat 92% center;background-size:11px;
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(14/428));
+    height:calc(100vw*(43/428));
   }
 `
 const Option = styled.option`
@@ -230,7 +219,7 @@ const InOption = styled(Option)`
 padding:8px 0;
 background:#fff;
 &:hover{background:#f8f7f7;}
-@media ${(props) => props.theme.mobile} {
+@media ${(props) => props.theme.modal} {
   padding:calc(100vw*(8/428)) 0;
 }
 `
@@ -241,7 +230,7 @@ const WrapFilterButtons = styled.div`
   left:50%;bottom:55px;transform:translateX(-50%);
   width:100%;
   display:flex;justify-content:center;align-items:center;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     bottom:calc(100vw*(35/428));
   }
 `
@@ -254,7 +243,7 @@ const ResetBtn = styled.button`
   line-height:60px;color:#fff;
   font-size:20px;font-weight:800;transform:skew(-0.1deg);
   text-align:center;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(180/428));
     height:calc(100vw*(60/428));
     line-height:calc(100vw*(54/428));
@@ -265,7 +254,7 @@ const SaveBtn = styled(ResetBtn)`
   background:#01684b;
   border:3px solid #04966d;
   margin-left:8px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-left:calc(100vw*(10/428));
 
   }

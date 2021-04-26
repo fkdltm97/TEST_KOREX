@@ -45,14 +45,6 @@ export default function ModalMapReserve({ reserve, setReserve }) {
     return (
         <Container>
           <WrapModalMap>
-            <ModalMapBg onClick={()=>{setReserve(false)}}/>
-            <ModalMap>
-              <MapCloseBtn>
-                <Link onClick={()=>{setReserve(false)}}>
-                  <MapCloseImg src={Close}/>
-                </Link>
-              </MapCloseBtn>
-              <ModalMapTitle>물건투어예약</ModalMapTitle>
               <WrapTourDate>
                 <TourTitle>투어일시</TourTitle>
                   <Slider {...settings} className="about">
@@ -118,29 +110,16 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                     </SlickSlide>
                   </Slider>
                 </WrapTourDate>
-              <WrapTourTimeSelect>
-                <TourTimeSelect>
-                  <Link onClick={showSelect}>
-                    <Option>시간을 선택해주세요.</Option>{/*이부분에 선택한 항목이 나와야 할 것 같습니다..*/}
-                    {
-                      timeSelect ?
-                      <TourSelectList>
-                        <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                        <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                        <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                      </TourSelectList>
-                      :
-                      null
-                    }
-
-                  </Link>
-                </TourTimeSelect>
-              </WrapTourTimeSelect>
-            {/*수정버튼*/}
-              <ReserveButton>
-                <EditButton type="submit" name="">수정</EditButton>
-              </ReserveButton>
-            </ModalMap>
+                <FilterBox>
+                  <FilterSelectSort>
+                    <FilterSelectSortList>
+                      <InOption disabled>시간을 선택해주세요.</InOption>
+                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
+                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
+                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
+                    </FilterSelectSortList>
+                  </FilterSelectSort>
+                </FilterBox>
           </WrapModalMap>
         </Container>
   );
@@ -175,27 +154,26 @@ const ModalMapBg = styled.div`
 const ModalMap = styled.div`
   position:absolute;
   left:50%;top:50%;transform:translate(-50%,-50%);
-  width:535px;height:520px;border-radius:24px;
+  width:535px;border-radius:24px;
   border:1px solid #f2f2f2;
   background:#fff;
   padding:49px 50px 60px 50px;
   z-index:3;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(395/428));
-    height:calc(100vw*(458/428));
     padding:calc(100vw*(33/428)) calc(100vw*(15/428));
   }
 `
 const MapCloseBtn = styled.div`
   width:100%;text-align:right;
   margin-bottom:22px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(22/428));
   }
 `
 const MapCloseImg = styled.img`
   display:inline-block;width:15px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(12/428));
   }
 `
@@ -204,7 +182,7 @@ const ModalMapTitle = styled.h3`
   transform:skew(-0.1deg);
   padding-bottom:20px;
   border-bottom:1px solid #707070;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(15/428));
     padding-bottom:calc(100vw*(15/428));
   }
@@ -216,7 +194,7 @@ const TourTitle = styled.div`
   margin:12px 0 8px;
   font-size:12px;color:#4a4a4a;
   font-family:'nbg',sans-serif;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin:calc(100vw*(14/428)) calc(100vw*(9/428));
     font-size:calc(100vw*(12/428));
   }
@@ -236,7 +214,7 @@ const DateItem = styled.div`
   text-align:center;
   padding:10px 0;
   border:${({active}) => active ? "1px solid #707070" : "1px solid #e4e4e4"};
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(53/428));
     height:calc(100vw*(53/428));
     padding:calc(100vw*(10/428)) 0;
@@ -249,7 +227,7 @@ const Day = styled.h4`
   font-weight:800;transform:skew(-0.1deg);
   color:#979797;
   margin-bottom:5px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(9/428));
     margin-bottom:calc(100vw*(5/428));
   }
@@ -257,72 +235,62 @@ const Day = styled.h4`
 const Date = styled(Day)`
   color:#4a4a4a;
   margin-bottom:0;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(14/428));
   }
 `
-const WrapTourTimeSelect = styled.div`
-  position:Relative;
+const FilterBox = styled.div`
+  position:relative;
   width:100%;
+  margin:40px 0;
+  @media ${(props) => props.theme.modal} {
+    margin:calc(100vw*(40/428)) 0;
+  }
 `
-const TourSelectList = styled.div`
+const FilterLabel = styled.label`
+  display:inline-block;
+  font-size:12px;color:#4a4a4a;
+  transform:skew(-0.1deg);
+  font-family:'nbg', sans-serif;
+  margin-bottom:9px;
+  padding-left:3px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(9/428));
+    font-size:calc(100vw*(12/428));
+    padding-left:calc(100vw*(3/428));
+  }
+`
+const FilterSelectSort = styled.div`
   width:100%;
-  height:80px;
-  overflow-y:scroll;
+
+`
+const FilterSelectCondition = styled(FilterSelectSort)`
   z-index:99;
-  @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(80/428));
+`
+const FilterSelectSortList = styled.select`
+  width:100%;
+  height:43px;
+  text-align-last:center;
+  font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
+  border-radius:4px;border:1px solid #a3a3a3;
+  background:#fff;
+  appearance:none;
+  background:url(${ArrowDown}) no-repeat 400px center;background-size:11px;
+  @media ${(props) => props.theme.modal} {
+    font-size:calc(100vw*(14/428));
+    height:calc(100vw*(43/428));
+    background:url(${ArrowDown}) no-repeat 90% center;background-size:calc(100vw*(11/428));
   }
 `
-const TourTimeSelect= styled.div`
-position:Absolute;
-top:50px;
-width:100%;
-text-align:center;
-font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
-border-radius:4px;border:1px solid #a3a3a3;
-background:#fff url(${ArrowDown}) no-repeat 400px 16px; background-size:100% 100% 13px 8px;
-z-index:9999;
-@media ${(props) => props.theme.mobile} {
-  top:calc(100vw*(50/428));
-  font-size:calc(100vw*(14/428));
-  background:#fff url(${ArrowDown}) no-repeat calc(100vw*(320/428)) calc(100vw*(16/428)); background-size:100% 100% calc(100vw*(13/428)) calc(100vw*(8/428));
-}
-`
-const Option = styled.div`
-  padding:12px 0;
-  text-align:center;
-  cursor:pointer;
-  transition:all 0.3s;
-  @media ${(props) => props.theme.mobile} {
-    padding:calc(100vw*(12/428)) 0;
-  }
+const Option = styled.option`
+  font-family:'nbg',sans-serif;
 
 `
 const InOption = styled(Option)`
   padding:8px 0;
   background:#fff;
   &:hover{background:#f8f7f7;}
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     padding:calc(100vw*(8/428)) 0;
-  }
-`
-const ReserveButton = styled.div`
-  position:relative;
-  width:100%;
-`
-const EditButton = styled.button`
-  position:absolute;
-  top:160px;left:50%;transform:translateX(-50%) skew(-0.1deg);
-  width:100%;height:66x;line-height:60px;
-  border-radius: 11px;
-  border:solid 3px #e4e4e4;
-  background: #979797;
-  color:#fff;font-size:20px;font-weight:800;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(160/428));
-    height:calc(100vw*(60/428));
-    line-height:calc(100vw*(54/428));
-    font-size:calc(100vw*(15/428));
   }
 `

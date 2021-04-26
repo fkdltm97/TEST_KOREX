@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({map,setMap,filter,setFilter,reserve,setReserve,value,type,type2}) {
+export default function Request({map,setMap,filter,setFilter,reserve,setReserve,value,type,type2,updateMapModal,updateReserveModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -41,7 +41,7 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
               <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
               <Number>등록번호 {value.number}</Number>
               <Address>
-                <Link onClick={() => {setMap(true)}}>
+                <Link onClick={() => {setMap(true);updateMapModal();}}>
                   <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
                 </Link>
               </Address>
@@ -66,7 +66,7 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
                           <InDiv>예약취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link" onClick={()=>{setReserve(true)}}></Link>
+                          <Link className="data_link" onClick={()=>{setReserve(true);updateReserveModal();}}></Link>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>

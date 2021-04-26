@@ -50,6 +50,58 @@ export default function Join() {
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
 
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+//여기 두개가 핵심이에여 넵!
+  //모달 끄는 식
+    const offModal = ()=>{
+      let option = JSON.parse(JSON.stringify(modalOption));
+      option.show = false;
+      setModalOption(option);
+    }
+
+
+    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+      const updateModal = () =>{
+        //여기가 모달 키는 거에엽
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"필터",
+            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
+            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
+
+    //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
+      const updateMapModal = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"건물위치",
+            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalMap/>},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"" , event : ()=>{offModal(); }}
+        });
+      }
+
+      const updateReserveModal = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"투어예약 수정",
+            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalReserve/>},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirm:{show:true , title:"수정" , event : ()=>{offModal(); }}
+
+        });
+      }
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -64,18 +116,8 @@ export default function Join() {
               {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
             {/*중개사로 로그인했을때*/}
               {/*<SubTitle title={"럭키공인중개사　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-              <ModalMap map={map} setMap={setMap}/>
-              <ModalReserve reserve={reserve} setReserve={setReserve}/>
-              <Reservation map={map} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
-              <ModalCommon
-                show={filter}
-                setShow={setFilter}
-                title={"필터"}
-                content={{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>}}
-                submit={{show:true , title:"적용" , event : ()=>{setFilter(false); }}}
-                cancle={{show:true , title:"초기화" , event : ()=>{setFilter(false); }}}
-                confirm={{show:false , title:"확인" , event : ()=>{setFilter(false); }}}
-              />
+              <Reservation updateModal={updateModal} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
+              <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

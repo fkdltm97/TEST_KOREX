@@ -53,10 +53,10 @@ const Container = styled.div`
 `
 const WrapMap = styled.div`
   position:relative;
-  width:100%;
-  height:100vh;
-  background:darkseagreen;
-
+  // width:100%;
+  // height:100vh;
+  // background:darkseagreen;
+  // background:transparent;
 `
 const RightMenu = styled.div`
   position:absolute;

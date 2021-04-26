@@ -24,7 +24,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import VisitManageList from "./VisitManageList";
 
-export default function Reserve({setFilter,setVisit,setCancle,value, type, type2}) {
+export default function Reserve({updateModal,visitorModal,cancleModal,setFilter,setVisit,setCancle,value, type, type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -88,7 +88,7 @@ export default function Reserve({setFilter,setVisit,setCancle,value, type, type2
                   <InputSearch type="search" placeholder="예약자 검색"/>
                   <SearchButton type="button"/>
                 </SearchBox>
-                <FilterImg src={Filter} onClick={()=>{setFilter(true)}} alt="filter"/>
+                <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
             <ReserveList>
@@ -115,7 +115,7 @@ export default function Reserve({setFilter,setVisit,setCancle,value, type, type2
               }
 
               return(
-                <VisitManageList setFilter={setFilter} setVisit={setVisit} setCancle={setCancle} value={value} type={type} type2={type2}/>
+                <VisitManageList visitorModal={visitorModal} cancleModal={cancleModal} setFilter={setFilter} setVisit={setVisit} setCancle={setCancle} value={value} type={type} type2={type2}/>
               )
             })
           }

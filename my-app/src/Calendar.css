@@ -46,7 +46,7 @@ button.react-calendar__tile.react-calendar__month-view__days__day:before{
   cursor: pointer;
 }
 .react-calendar__navigation {
-  height: 44px;
+  height: 55px;
   display: inline-flex !important;
   justify-content: center;
   align-items: center;
@@ -104,6 +104,7 @@ text-decoration:none;
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
 }
+.react-calendar__month-view__days__day--neighboringMonth abbr{color:#ddd;}
 .react-calendar__year-view .react-calendar__tile,
 .react-calendar__decade-view .react-calendar__tile,
 .react-calendar__century-view .react-calendar__tile {

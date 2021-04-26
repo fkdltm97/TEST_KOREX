@@ -50,15 +50,22 @@ const Mb = styled.b`
     }
 `
 const Container = styled.div`
+
 `
 const WrapModal = styled.div`
   width:100%;
   margin-bottom:40px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(40/428));
+  }
 `
 const Body = styled.div`
   padding:44px 0;
   text-align:center;
   background:#fbfbfb;
+  @media ${(props) => props.theme.modal} {
+    padding:calc(100vw*(30/428)) 0;
+  }
 `
 const SearchTitle = styled.p`
   font-size: 15px;
@@ -66,10 +73,17 @@ const SearchTitle = styled.p`
   font-weight:500;
   font-family:'nbg',sans-serif;
   color: #4a4a4a;transform:skeW(-0.1deg);
+  @media ${(props) => props.theme.modal} {
+    font-size:calc(100vw*(14/428));
+    line-height:1.33;
+  }
 `
 const SearchResultAddress = styled(SearchTitle)`
 `
 const Question = styled(SearchTitle)`
   margin-top:30px;
   text-align:center;
+  @media ${(props) => props.theme.modal} {
+    margin-top:calc(100vw*(20/428));
+  }
 `

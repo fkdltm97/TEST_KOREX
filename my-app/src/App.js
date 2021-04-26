@@ -63,6 +63,9 @@ import MyVisitManage from './page/member/mypage/MyVisitManage';
 import AddProperty from './page/member/mypage/AddProperty';
 import AddPropertyBasicInfo from './page/member/mypage/AddPropertyBasicInfo';
 import AddPropertySecond from './page/member/mypage/AddPropertySecond';
+import AddPropertyThird from './page/member/mypage/AddPropertyThird';
+import ConditionChange from './page/member/mypage/ConditionChange';
+import RequestReview from './page/member/mypage/RequestReview';
 
 /*map*/
 import Map from './page/map/Map';
@@ -137,6 +140,9 @@ export default function App(){
             <Route exact path="/AddProperty" component={AddProperty}/>{/*내 물건관리 > 물건(외부수임)등록*/}
             <Route exact path="/AddPropertyBasicInfo" component={AddPropertyBasicInfo}/>{/*내 물건관리>물건(외부수임)등록> 의뢰인정보입력*/}
             <Route exact path="/AddPropertySecond" component={AddPropertySecond}/>{/*내 물건관리 > 물건(외부수임)등록 > 기본정보입력*/}
+            <Route exact path="/AddPropertyThird" component={AddPropertyThird}/>{/*내 물건관리 > 물건(외부수임)등록 > 추가정보입력*/}
+            <Route exact path="/ConditionChange" component={ConditionChange}/>{/*내 물건관리 > 상태변경내역*/}
+            <Route exact path="/RequestReview" component={RequestReview}/>{/*내 물건관리 > 의뢰접수검토*/}
 
           {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}

@@ -80,6 +80,10 @@ const Mb = styled.b`
     }
 `
 const Container = styled.div`
+  margin-bottom:40px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(40/428));
+  }
 `
 const ModalMapTitle = styled.h3`
   font-size:20px;font-weight:800;color:#707070;

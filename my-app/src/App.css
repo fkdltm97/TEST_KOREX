@@ -267,13 +267,6 @@ background-size:18px 18px;appearance:none;}
 
 	.term1{width:calc(100vw*(179/428));height:calc(100vw*(27/428));line-height: calc(100vw*(24/428));padding-left: calc(100vw*(10/428));font-size: calc(100vw*(11/428));background:url(img/main/icon_cal.png) no-repeat calc(100vw*(155/428)) center;background-size: calc(100vw*(13/428))  calc(100vw*(13/428));appearance:none;}
 
-  /*slick slider*/
-  .about.slick-slider{width:80%;margin:0 0 0 calc(100vw*(36/428));}
-  .about .slick-prev{display:inline-block;width:calc(100vw*(35/428));height:calc(100vw*(35/428));left:calc(100vw*(-40/428));background:url(img/member/slick_prev.png) no-repeat;background-size:100% 100%;}
-  .about .slick-next{display:inline-block;width:calc(100vw*(35/428));height:calc(100vw*(35/428));right:calc(100vw*(-38/428));background:url(img/member/slick_next.png) no-repeat;background-size:100% 100%;}
-  .about .slick-prev:hover, .about .slick-prev:focus{background:url(img/member/slick_prev.png) no-repeat;background-size:100% 100%;}
-  .about .slick-next:hover, .about .slick-next:focus{background:url(img/member/slick_next.png) no-repeat;background-size:100% 100%;}
-  .about .slick-prev:before,.about .slick-next:before{display:none;}
 
   /*map in tab*/
   .nav-tabs{display:flex;justify-content: center;align-items: center;}
@@ -299,6 +292,16 @@ background-size:18px 18px;appearance:none;}
 }
 
 @media screen and (max-width:600px){
+
+  /*slick slider*/
+  .about.slick-slider{width:80%;margin:0 0 0 calc(100vw*(36/428));}
+  .about .slick-prev{display:inline-block;width:calc(100vw*(35/428));height:calc(100vw*(35/428));left:calc(100vw*(-40/428));background:url(img/member/slick_prev.png) no-repeat;background-size:100% 100%;}
+  .about .slick-next{display:inline-block;width:calc(100vw*(35/428));height:calc(100vw*(35/428));right:calc(100vw*(-38/428));background:url(img/member/slick_next.png) no-repeat;background-size:100% 100%;}
+  .about .slick-prev:hover, .about .slick-prev:focus{background:url(img/member/slick_prev.png) no-repeat;background-size:100% 100%;}
+  .about .slick-next:hover, .about .slick-next:focus{background:url(img/member/slick_next.png) no-repeat;background-size:100% 100%;}
+  .about .slick-prev:before,.about .slick-next:before{display:none;}
+
+
   .react-calendar {
     width: 100%;
     max-width: 100%;

@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({map,setMap,filter,setFilter,setVisit,vCal,setVCal,value,type,type2}) {
+export default function Request({updateMapModal,visitorModal,calModal,map,setMap,filter,setFilter,setVisit,vCal,setVCal,value,type,type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -37,7 +37,7 @@ export default function Request({map,setMap,filter,setFilter,setVisit,vCal,setVC
               <Number>등록번호 {value.number}</Number>
               <Title>{value.project}</Title>
               <Address>
-                <Link onClick={() => {setMap(true)}}>
+                <Link onClick={() => {setMap(true);updateMapModal();}}>
                   <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
                 </Link>
               </Address>
@@ -59,11 +59,11 @@ export default function Request({map,setMap,filter,setFilter,setVisit,vCal,setVC
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link onClick={() => {setVisit(true)}} className="data_link"></Link>
+                          <Link onClick={() => {setVisit(true);visitorModal();}} className="data_link"></Link>
                           <InDiv>동반고객 보기</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={() => {setVCal(true)}} className="data_link"></Link>
+                          <Link onClick={() => {setVCal(true);calModal();}} className="data_link"></Link>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>

@@ -23,7 +23,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import LiveList from "./LiveList";
 
-export default function Live({setAdd,setEdit,setCancle}) {
+export default function Live({addModal,editModal,cancleModal,setAdd,setEdit,setCancle}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -72,7 +72,7 @@ export default function Live({setAdd,setEdit,setCancle}) {
           <WrapReserve>
             <TopTitle>Live 시청예약세팅</TopTitle>
             <TopInfo>
-              <Link onClick={()=>{setAdd(true)}}>
+              <Link onClick={()=>{setAdd(true);addModal();}}>
                 <AddBtn>추가</AddBtn>
               </Link>
             </TopInfo>
@@ -102,7 +102,7 @@ export default function Live({setAdd,setEdit,setCancle}) {
               }
 
               return(
-                <LiveList setCancle={setCancle} setEdit={setEdit} value={value} type={type} type2={type2}/>
+                <LiveList editModal={editModal} cancleModal={cancleModal} setCancle={setCancle} setEdit={setEdit} value={value} type={type} type2={type2}/>
               )
             })
           }

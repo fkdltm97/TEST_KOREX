@@ -23,7 +23,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import VisitList from "./VisitList";
 
-export default function Reserve({setMap,setFilter,setVisit,setVCal,value, type, type2}) {
+export default function Reserve({setMap,setFilter,setVisit,setVCal,calModal,visitorModal,updateModal,updateMapModal,value, type, type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -82,7 +82,7 @@ export default function Reserve({setMap,setFilter,setVisit,setVCal,value, type, 
             <TopTitle>내 방문예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link onClick={() => setFilter(true)}>
+              <Link onClick={() => {setFilter(true);updateModal();}}>
                 <FilterImg src={Filter} alt="filter"/>
               </Link>
             </TopInfo>
@@ -110,7 +110,7 @@ export default function Reserve({setMap,setFilter,setVisit,setVCal,value, type, 
               }
 
               return(
-                <VisitList setMap={setMap} setFilter={setFilter} setVisit={setVisit} setVCal={setVCal} value={value} type={type} type2={type2}/>
+                <VisitList visitorModal={visitorModal} calModal={calModal} updateMapModal={updateMapModal} setMap={setMap} setFilter={setFilter} setVisit={setVisit} setVCal={setVCal} value={value} type={type} type2={type2}/>
               )
             })
           }

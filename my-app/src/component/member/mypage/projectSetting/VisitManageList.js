@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter,setFilter,setVisit,cancle,setCancle,value,type,type2}) {
+export default function Request({visitorModal,cancleModal,filter,setFilter,setVisit,cancle,setCancle,value,type,type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -61,11 +61,11 @@ export default function Request({filter,setFilter,setVisit,cancle,setCancle,valu
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link onClick={() => {setVisit(true)}} className="data_link"></Link>
+                          <Link onClick={() => {setVisit(true);visitorModal();}} className="data_link"></Link>
                           <InDiv>동반고객 보기</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=> {setCancle(true)}} className="data_link"></Link>
+                          <Link onClick={()=> {setCancle(true);cancleModal();}} className="data_link"></Link>
                           <InDiv>예약취소</InDiv>
                         </Div>
                       </InMenu>

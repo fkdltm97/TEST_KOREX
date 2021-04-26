@@ -20,7 +20,7 @@ import LiveUser from '../../../../img/member/live_user.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({setCancle,setEdit,value,type,type2}) {
+export default function Request({editModal, cancleModal,setCancle,setEdit,value,type,type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -57,11 +57,11 @@ export default function Request({setCancle,setEdit,value,type,type2}) {
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link onClick={()=>{setCancle(true)}} className="data_link"></Link>
+                          <Link onClick={()=>{setCancle(true);cancleModal();}} className="data_link"></Link>
                           <InDiv>취소 및 안내</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=>{setEdit(true)}} className="data_link"></Link>
+                          <Link onClick={()=>{setEdit(true);editModal();}} className="data_link"></Link>
                           <InDiv>수정 및 안내</InDiv>
                         </Div>
                       </InMenu>

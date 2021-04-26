@@ -88,7 +88,7 @@ const Container = styled.div`
     padding:24px 0 250px;
     @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(380/428));
-      padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
+      padding:calc(100vw*(30/428)) 0 calc(100vw*(100/428));
       }
 `
 const WrapRequest = styled.div`
@@ -106,11 +106,18 @@ const TopTitle = styled.h2`
 const WrapBox = styled.div`
   width:408px;
   margin:50px auto 0;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(370/428));
+    margin:calc(100vw*(50/428)) auto 0;
+    }
 `
 const Box = styled.div`
   width:100%;
   margin-bottom:14px;
   &:last-child{margin-bottom:0;}
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(14/428));
+    }
 `
 const Label = styled.label`
   display:block;
@@ -118,6 +125,11 @@ const Label = styled.label`
   font-size:12px;font-weight:600;
   transform:skew(-0.1deg);
   margin-bottom:10px;
+  @media ${(props) => props.theme.mobile} {
+    padding-left:calc(100vw*(7/428));
+    font-size:calc(100vw*(12/428));
+    margin-bottom:calc(100vw*(10/428));
+    }
 `
 const Input = styled.input`
   display:inline-block;
@@ -127,10 +139,17 @@ const Input = styled.input`
   text-align:center;transform:skew(-0.1deg);
   font-size:15px;color:#979797;font-weight:600;
   &::placeholder{color:#979797;font-weight:500;}
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+    }
 `
 const SubmitButton = styled.div`
   width:100%;
   margin-top:60px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(50/428));
+    }
 `
 const Submit = styled.button`
   width:100%;
