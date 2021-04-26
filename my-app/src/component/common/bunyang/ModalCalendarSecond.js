@@ -116,7 +116,7 @@ const Label = styled.label`
     }
 `
 const SeletedDate = styled.div`
-  display:flex;justfy-content:flex-start;align-items:center;
+  display:flex;justify-content:flex-start;align-items:center;
   cursor:pointer;margin:20px 0 50px;
   @media ${(props) => props.theme.modal} {
       margin:calc(100vw*(20/428)) 0 calc(100vw*(50/428));
@@ -146,7 +146,7 @@ const SelectBox = styled.select`
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
   text-align-last:center;
-  trnasform:skew(-0.1deg);
+  transform:skew(-0.1deg);
   text-align:center;
   appearance:none;
   background:url(${Arrow}) no-repeat 90% center; background-size:11px;

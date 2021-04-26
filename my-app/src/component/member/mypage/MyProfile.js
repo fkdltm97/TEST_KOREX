@@ -206,7 +206,7 @@ export default function JoinInput({profileedit,profileeditCheck,proBrokerModal})
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/PropertyTourManage" className="data_link"></Link>
                   <LinkTxt>물건투어예약접수 관리</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
@@ -536,7 +536,7 @@ const MarkerImg = styled.span`
   border: solid 1px #2b664d;
   background-color: #fbfbfb;
   line-height:20px;
-  color:#2b664d;font-size:10px;font-fmaily:'nbg',sans-serif;
+  color:#2b664d;font-size:10px;font-family:'nbg',sans-serif;
   font-weight:600;
   padding-left:17px;
   background:url(${Marker}) no-repeat 4.5px center; background-size:9px 9px;

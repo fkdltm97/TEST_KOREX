@@ -83,24 +83,6 @@ export default function BunyangList({updatePageIndex,updateModal}){
                       <Label for="Like1" className="check_label"></Label>
                     </LikeBtn>
                   </LiTop>
-                  <LiBottom>
-                    <Desc>
-                      <DescTitle>분양세대</DescTitle>
-                      <DescInfo>{value.desc1}</DescInfo>
-                    </Desc>
-                    <Desc>
-                      <DescTitle>분양면적</DescTitle>
-                      <DescInfo>{value.desc2}</DescInfo>
-                    </Desc>
-                    <Desc>
-                      <DescTitle>전용면적</DescTitle>
-                      <DescInfo>{value.desc3}</DescInfo>
-                    </Desc>
-                    <Desc>
-                      <DescTitle>분양가격</DescTitle>
-                      <DescInfo>{value.desc4}</DescInfo>
-                    </Desc>
-                  </LiBottom>
                 </Li>
               )
             })
@@ -214,7 +196,7 @@ const ListUl = styled.ul`
 `
 const Li = styled.li`
   width:100%;
-  padding-bottom:calc(100vw*(10/428));
+  padding-bottom:calc(100vw*(20/428));
   border-bottom:1px solid #b9b9b9;
   margin-bottom:calc(100vw*(20/428));
   &:last-child{border-bottom:none;margin-bottom:0;}
@@ -253,9 +235,9 @@ const LiveView = styled.span`
   text-align:center;
   color:#fff;font-weight:800;transform:skew(-0.1deg);
   font-size:calc(100vw*(10/428));
-  width:calc(100vw*(70/428));
+  width:calc(100vw*(80/428));
   height:calc(100vw*(22/428));
-  line-height:calc(100vw*(25/428));
+  line-height:calc(100vw*(23/428));
   border-radius:4px;
   vertical-align:middle;
   margin-bottom:calc(100vw*(7/428));
