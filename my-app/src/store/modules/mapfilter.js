@@ -9,7 +9,17 @@ export const updateExclusive = createAction(UPDATE_EXCLUSIVE);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
-    isExclusive : {is:true},
+    filter : {
+      type:"",
+      expenses:false,
+      expensesRange:"", 
+      supply_space:"", // 
+      floor:"", // 
+      is_parking:false, // 
+      is_toilet:false, // 
+      life_facilites:[], // 
+      use:""
+    },
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
