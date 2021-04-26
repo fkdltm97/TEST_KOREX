@@ -5,6 +5,7 @@ import temp_register_userdata from './temp_register_userdata';
 import login_user from './login_user';
 import tempBrokerRequest from './tempBrokerRequest';
 import brokerRequest_product from './brokerRequest_product';
+import mapRight from './mapRight';
 
 export default combineReducers({
   my,
@@ -12,5 +13,6 @@ export default combineReducers({
   temp_register_userdata,
   login_user,
   tempBrokerRequest,
-  brokerRequest_product
+  brokerRequest_product,
+  mapRight,
 });

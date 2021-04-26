@@ -16,7 +16,9 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
-
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+import ModalAddBasic from '../../../component/member/mypage/property/modal/ModalAddBasic';
+import ModalAddSpecial from '../../../component/member/mypage/property/modal/ModalAddSpecial';
 
 export default function Join() {
   //이용약관
@@ -39,6 +41,46 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
+
+    const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+//여기 두개가 핵심이에여
+  //모달 끄는 식
+    const offModal = ()=>{
+      let option = JSON.parse(JSON.stringify(modalOption));
+      option.show = false;
+      setModalOption(option);
+    }
+
+
+    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+      const addBasic = () =>{
+        //여기가 모달 키는 거에엽
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"일반추가",
+            content:{type:"components",text:``,component:<ModalAddBasic/>},
+            submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+            confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
+
+    //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
+      const addSpecial = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"특별추가",
+            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalAddSpecial/>},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -48,7 +90,8 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
               <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-              <PropertyTourSetting/>
+              <PropertyTourSetting addBasic={addBasic} addSpecial={addSpecial}/>
+              <ModalCommon modalOption={modalOption}/> 
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

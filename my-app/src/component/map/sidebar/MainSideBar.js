@@ -121,7 +121,6 @@ const ItemListItem =[
 
 export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
     const [activeIndex,setActiveIndex] = useState(0);
-    console.log(updown)
     return (
         <Container>
           <WrapTab className="Tabs">

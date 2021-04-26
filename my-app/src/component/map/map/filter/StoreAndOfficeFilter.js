@@ -17,6 +17,23 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import StoreAndOfficeItem from "./StoreAndOfficeItem";
 
 export default function MapFilter({openBunyang, rank}) {
+
+    // ** redux에 담기
+    // 층수
+    const onChangeFloor = (e) => {
+      console.log(e.target.id);
+    } 
+
+    // 사용승인일
+    const onChangeUse = (e) => {
+      console.log(e.target.id);
+    }
+
+    // 관리비
+    const onClickAdmin = (e) => {
+      console.log(e.target.checked)
+    }
+
     return (
         <Container>
           <WrapApart>
@@ -43,7 +60,7 @@ export default function MapFilter({openBunyang, rank}) {
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch type="checkbox" id="switch"/>
+                  <Switch type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>
@@ -89,28 +106,28 @@ export default function MapFilter({openBunyang, rank}) {
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBox>
-                      <InputR type="radio" name="floor" id="floor1" defaultChecked/>
-                      <LabelR for="floor1">
+                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor1" defaultChecked/>
+                      <LabelR for="floor1" >
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" name="floor" id="floor2"/>
+                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
                       <LabelR for="floor2">
                         <SpanR/>
                         1층
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" name="floor" id="floor3"/>
+                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
                       <LabelR for="floor3">
                         <SpanR/>
                         5층이상
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" name="floor" id="floor4"/>
+                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
                       <LabelR for="floor4">
                         <SpanR/>
                         5층이하
@@ -128,35 +145,35 @@ export default function MapFilter({openBunyang, rank}) {
               <WrapFilter>
                 <WrapRadio>
                   <RadioBox>
-                    <InputR type="radio" name="use" id="use1" defaultChecked/>
+                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use1" defaultChecked/>
                     <LabelR for="use1">
                       <SpanR/>
                       전체
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" name="use" id="use2"/>
+                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
                     <LabelR for="use2">
                       <SpanR/>
                       5년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" name="use" id="use3"/>
+                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
                     <LabelR for="use3">
                       <SpanR/>
                       10년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" name="use" id="use4"/>
+                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
                     <LabelR for="use4">
                       <SpanR/>
                       20년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" name="use" id="use5"/>
+                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
                     <LabelR for="use5">
                       <SpanR/>
                       20년 이상

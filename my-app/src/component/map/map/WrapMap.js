@@ -15,17 +15,19 @@ import MapRightMenu from "./MapRightMenu";
 import WrapMapFilter from "./WrapMapFilter";
 import KakaoMap from './KakaoMap';
 
+// redux
+import { MapRight } from '../../../store/actionCreators';
+import { useSelector } from 'react-redux';
 
 const { kakao } = window;
 
 export default function WrapMap({openBunyang, rank, open, setOpen}) {
 
-
   return (
-      <Container> 
-        {/* <div onClick={() => {onClickTest() }}>test</div> */}
-        <MapRightMenu/>
+      <Container>
         <KakaoMap />
+        <MapRightMenu />
+        <WrapMapFilter setOpen={setOpen}/>
       </Container>
   );
 

@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, value, type}) {
+export default function Request({value, type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);

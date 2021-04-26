@@ -18,14 +18,32 @@ import SelectArrow from '../../../../img/member/arrow_down.png';
 import ModalCommon from '../../../common/modal/ModalCommon';
 
 export default function SearchApartOfficetel() {
-  const [activeIndex,setActiveIndex] = useState(-1);
 
-  const [active,setActive] = useState(false);
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
-  /*모달*/
-  const [modalDanji,setModalDanji] = useState(false);
-  const [fail,setFail] = useState(false);
+  //여기 두개가 핵심이에여
+  //모달 끄는 식
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
 
+
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+    const updateModal = () =>{
+      //여기가 모달 키는 거에엽
+      setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"물건(외부수임) 등록",
+        content:{type:"text",text:`해당물건은 전속매물이 아닙니다.\n이미 다른 중개사에게 의뢰되었거나\n거래중인 물건은 시스템에 등록할 수 없습니다.\n상기 사유에 해당하지 않는 경우,\n고객센터로 문의해주세요.`,component:""},
+        submit:{show:false , title:"확인" , event : ()=>{offModal();}},
+        cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
+        confirmgreen:{show:true , title:"확인" , link:"/AddPropertyBasicInfo", event : ()=>{offModal(); }}
+      });
+    }
     return (
         <Container>
           <WrapSearch>
@@ -61,26 +79,11 @@ export default function SearchApartOfficetel() {
             <Next>
       {/*조회 성공했을때(물건이 전속매물일 경우)*/}
               {/*<Link className="data_link" to="/AddPropertyBasicInfo"/>*/}
-              <NextBtn type="button" onClick={()=>{setFail(true)}}>조회</NextBtn>
+              <NextBtn type="button" onClick={()=>{updateModal()}}>조회</NextBtn>
             </Next>
           </WrapSearch>
       {/*조회 실패했을때 모달창*/}
-          {
-            fail ?
-            <ModalCommon
-              show={fail}
-              setShow={setFail}
-              title={"물건(외부수임) 등록"}
-              content={{type:"text",
-              text:`해당물건은 전속매물이 아닙니다.\n이미 다른 중개사에게 의뢰되었거나\n거래중인 물건은 시스템에 등록할 수 없습니다.\n상기 사유에 해당하지 않는 경우,\n고객센터로 문의해주세요.`}}
-              submit={{show:false , title:"적용" , event : ()=>{setFail(false); }}}
-              cancle={{show:false , title:"초기화" , event : ()=>{setFail(false); }}}
-              confirm={{show:false , title:"확인" , event : ()=>{setFail(false); }}}
-              confirmgreen={{show:true , title:"확인" , link:"/AddPropertyBasicInfo", event : ()=>{setFail(false);}}}
-            />
-            :
-            null
-          }
+          <ModalCommon modalOption={modalOption}/>
         </Container>
   );
 }

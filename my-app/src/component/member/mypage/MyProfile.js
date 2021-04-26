@@ -31,6 +31,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
 
   const [open, setOpen] = useState(false);//profileBOTTOM사용 STATE값들..
 
+
   const valueChk = () =>{
     return profileeditCheck;
   }
@@ -118,6 +119,24 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                           profilehead()
                         }
                       </ProfileName>
+                      <ProfileBtns>
+                        <MySetting>
+                          <Link to="/MyProfileSetting">계정설정</Link>
+                        </MySetting>
+{/*
+                        {/*개인, 기업일때 중개의뢰하기
+                        <LinkBtn>
+                          <Link to="/AddRequest">중개의뢰하기</Link>
+                        </LinkBtn>
+                        {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
+                        <LinkBtn>
+                          <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
+                        </LinkBtn>
+                        <LinkBtn>
+                          <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
+                        </LinkBtn>
+
+*/}                      </ProfileBtns>
                     </ProfileTop>
                   );
           case 2 :
@@ -134,6 +153,24 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                           profilehead()
                         }
                       </ProfileName>
+                      <ProfileBtns>
+                        <MySetting>
+                          <Link to="/MyProfileSetting">계정설정</Link>{/*분양대행사는 계정설정버튼만 노출됨*/}
+                        </MySetting>
+{/*
+                        {/*개인, 기업일때 중개의뢰하기
+                        <LinkBtn>
+                          <Link to="/AddRequest">중개의뢰하기</Link>
+                        </LinkBtn>
+                        {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
+                        <LinkBtn>
+                          <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
+                        </LinkBtn>
+                        <LinkBtn>
+                          <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
+                        </LinkBtn>          
+*/}    
+                      </ProfileBtns>
                     </ProfileTop>
                   );
           default : return null;
@@ -147,14 +184,20 @@ export default function JoinInput({profileedit,profileeditCheck}) {
             {
               profilelist()
             }
-
+           <ProfileMiddle>
             {
               profilemiddle_display()
             }
+              {/*전문중개사일때*/}
+                {/*<ProfessionalBroker/>*/}
+              {/*분양대행사일때*/}
+                <Agency/>
+            </ProfileMiddle>
 
           <ProfileBottom>
             <ProfileBottomElement open={open} setOpen={setOpen}/>
           </ProfileBottom>
+
           </WrapProfile>
         </Container>
   );
@@ -195,7 +238,7 @@ const MypageTxt = styled.h2`
     }
 `
 const ProfileTop = styled.div`
-  width:100%;
+  width:100%;position:relative;
   display:flex;justify-content:flex-start;align-items:center;
   padding-left:100px;
   @media ${(props) => props.theme.mobile} {
@@ -215,6 +258,46 @@ const ProfileImg = styled.div`
     height:calc(100vw*(72/428));
     margin-right:calc(100vw*(24/428));
     }
+`
+const ProfileBtns = styled.div`
+  position:absolute;right:40px;top:50%;
+  width:90px;height:auto;
+  transform:translateY(-50%);
+  @media ${(props) => props.theme.mobile} {
+    display:flex;justify-content:flex-start;align-itmes:center;
+    width:auto;
+    top: calc(100vw*(-37/428));
+    right: calc(100vw*(11/428));
+  }
+`
+const MySetting = styled.button`
+width:100%;padding:0 5px;box-sizing:border-box;
+height: 30px;line-height:30px;color:#4a4a4a;
+font-size:13px;font-weight:600;transform:skew(-0.1deg);
+border-radius: 3px;
+border: solid 1px #4a4a4a;
+background-color: #ffffff;
+margin-bottom:6px;
+transition:all 0.3s;
+&:hover{background:#4a4a4a;color:#fff}
+@media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(75/428));
+    height:calc(100vw*(30/428));
+    font-size:calc(100vw*(13/428));
+    line-height:calc(100vw*(30/428));
+    margin-bottom:0;
+    margin-right:calc(100vw*(5/428));
+  }
+`
+const LinkBtn = styled(MySetting)`
+  background:#01684b;
+  width:100%;color:#fff;border:1px solid transparent;
+  transition:all 0.3s;
+  &:hover{background:#fff;border:1px solid #01684b;color:#01684b;}
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(100/428));
+
+  }
 `
 const File = styled.input`
   display: none;
@@ -401,7 +484,7 @@ const MarkerImg = styled.span`
   border: solid 1px #2b664d;
   background-color: #fbfbfb;
   line-height:20px;
-  color:#2b664d;font-size:10px;font-fmaily:'nbg',sans-serif;
+  color:#2b664d;font-size:10px;font-family:'nbg',sans-serif;
   font-weight:600;
   padding-left:17px;
   background:url(${Marker}) no-repeat 4.5px center; background-size:9px 9px;

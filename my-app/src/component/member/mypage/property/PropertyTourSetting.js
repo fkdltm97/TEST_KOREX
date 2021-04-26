@@ -15,7 +15,7 @@ import Checked from '../../../../img/map/radio_chk.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 import PropertyTourSettingList from "./PropertyTourSettingList";
 
-export default function Member({}) {
+export default function TourSetting({addBasic,addSpecial}) {
   const [onOff,setOnOff] = useState(true);
 
   //... 눌렀을때(메뉴)
@@ -60,10 +60,20 @@ export default function Member({}) {
           <WrapMember>
             <TopTitle>물건투어 예약셋팅</TopTitle>
             <TopInfo>
-              <All>
-                <AddBtn>+ 일반</AddBtn>
-                <AddBtnSpecial>+ 특별</AddBtnSpecial>
-              </All>
+              {
+
+                onOff ?
+                <All>
+                  <AddBtn onClick={()=>{addBasic();}}>+ 일반</AddBtn>
+                  <AddBtnSpecial onClick={()=>{addSpecial();}}>+ 특별</AddBtnSpecial>
+                </All>
+                :
+                <All>
+                  <AddBtnGray>+ 일반</AddBtnGray>
+                  <AddBtnSpecialGray>+ 특별</AddBtnSpecialGray>
+                </All>
+              }
+              
               <CheckBox>
                 <InputCheck type="checkbox" id="off"/>
                 <CheckLabel for="off" onClick={()=>{setOnOff(!onOff)}}>
@@ -75,7 +85,7 @@ export default function Member({}) {
             {
             MemberListItem.map((value) => {
               return(
-                <PropertyTourSettingList value={value}/>
+                <PropertyTourSettingList onOff={onOff} setOnOff={setOnOff} value={value}/>
                   )
                 }
               )
@@ -140,11 +150,22 @@ const AddBtn = styled.div`
   color:#fff;border-radius:4px;
   font-size:13px;font-weight:800;transform:skew(-0.1deg);
   text-align:center;margin-right:10px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));height:calc(100vw*(32/428));
+    line-height:calc(100vw*(28/428));
+    font-size:calc(100vw*(13/428));margin-right:calc(100vw*(10/428));
+    }
+`
+const AddBtnGray = styled(AddBtn)`
+  border: 2px solid #f2f2f2;
+  background:#e4e4e4;
 `
 const AddBtnSpecial = styled(AddBtn)`
   border:2px solid #429370;
   background:#01684b;
   margin-right:0;
+`
+const AddBtnSpecialGray = styled(AddBtnGray)`
 `
 const CheckBox = styled.div`
   display:flex;justify-content:flex-start;align-items:center;

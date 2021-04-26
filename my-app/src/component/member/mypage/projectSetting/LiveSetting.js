@@ -23,7 +23,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import LiveList from "./LiveList";
 
-export default function Live({addModal,editModal,cancleModal,setAdd,setEdit,setCancle}) {
+export default function Live({addModal,editModal,cancleModal,comfirmModal,setAdd,setEdit,setCancle}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -102,7 +102,7 @@ export default function Live({addModal,editModal,cancleModal,setAdd,setEdit,setC
               }
 
               return(
-                <LiveList editModal={editModal} cancleModal={cancleModal} setCancle={setCancle} setEdit={setEdit} value={value} type={type} type2={type2}/>
+                <LiveList comfirmModal={comfirmModal} editModal={editModal} cancleModal={cancleModal} setCancle={setCancle} setEdit={setEdit} value={value} type={type} type2={type2}/>
               )
             })
           }

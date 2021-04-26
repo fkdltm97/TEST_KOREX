@@ -17,9 +17,13 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+<<<<<<< HEAD
 
 //server process
 import serverController from '../../../../src/server/serverController';
+=======
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+>>>>>>> f572a87799559cf02294518c6417490f5b4ae576
 
 export default function Join() {
   //이용약관
@@ -49,6 +53,32 @@ export default function Join() {
   const [filter, setFilter] = useState(false);
   
   const history = useHistory();
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
+      }
+  
+  
+      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+        const updateModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"필터",
+              content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+              submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+              confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
+  
 
   useEffect( async () => {
     let body_info={};
@@ -72,8 +102,8 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <ModalFilter filter={filter} setFilter={setFilter}/>
-            <PropertyManage setFilter={setFilter}/>
+            <PropertyManage setFilter={setFilter} updateModal={updateModal}/>
+            <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

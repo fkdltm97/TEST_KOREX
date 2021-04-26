@@ -27,7 +27,7 @@ import serverController from '../../../../server/serverController';
 //component
 import PropertyList from "./PropertyList";
 
-export default function Request({setFilter,value,type}) {
+export default function Request({setFilter,updateModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -93,7 +93,7 @@ export default function Request({setFilter,value,type}) {
                   <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
                   <SearchButton type="button"/>
                 </SearchBox>
-                <FilterImg onClick={()=>{setFilter(true)}} src={Filter} alt="filter"/>
+                <FilterImg onClick={()=>{setFilter(true);updateModal();}} src={Filter} alt="filter"/>
                 <Link to="/AddProperty">
                   <AddBtn>추가</AddBtn>
                 </Link>

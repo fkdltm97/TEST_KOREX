@@ -16,8 +16,7 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
-
-
+import ModalCommon from '../../../component/common/modal/ModalCommon';
 
 export default function Join() {
   //이용약관
@@ -61,6 +60,34 @@ export default function Join() {
       return setValueChk(1);
   }
 
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
+      }
+  
+  
+      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+        const proBrokerModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"물건 등록하기",
+              content:{type:"text",text:`전문중개사로 승인된 중개업소만\n물건 등록이 가능합니다.\n전문중개사 신청은\n관리자 권한만 할 수 있습니다.`,component:""},
+              submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+              cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+              confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
+              confirmgreen:{show:true , title:"확인" , link:"", event : ()=>{offModal(); }}
+
+          });
+        }
+
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -73,7 +100,8 @@ export default function Join() {
               {/*<SubTitle title={"개인"} cursor={"default"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>*/}
             {/*기업,중개사,분양대항사으로 로그인했을때*/}
              <SubTitle title={"소속명"} arrow={"　▼"}path={"/Team"} edit={editCheck} editButtonBox={editButtonBox} editOffButtonBox={editOffButtonBox} profileeditCheck={profileeditCheck}/>
-             <MyProfile profileedit={valueChk}/>
+             <MyProfile profileedit={valueChk} proBrokerModal={proBrokerModal}/>
+             <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
