@@ -53,7 +53,7 @@ export default function Join() {
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
-//여기 두개가 핵심이에여 넵!
+//여기 두개가 핵심이에여
   //모달 끄는 식
     const offModal = ()=>{
       let option = JSON.parse(JSON.stringify(modalOption));

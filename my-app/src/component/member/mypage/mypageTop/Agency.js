@@ -15,21 +15,20 @@ export default function PersonalAndCompany() {
 
     return (
         <Container>
-            <FlexBox>
-              <Left>
-                <Title>프로젝트 ID</Title>
-                <Visit>
-                  <Link Link to="/MyVisitManage">방문예약 12</Link>
-                </Visit>
-              </Left>
-              <Right>
-                <PreviewBtn type="button" name="">미리보기</PreviewBtn>
-              </Right>
+              <FlexBox>
+                <Left>
+                  <Link to="/MyVisitManage" className="data_link"/>
+                  <Title>프로젝트 ID</Title>
+                  <Visit>
+                    방문예약 12 
+                  </Visit>
+                </Left>
               </FlexBox>
               <FlexBox>
               <Left>
+                <Link to="/MyLiveManage" className="data_link"/>
                 <Date>2021.02.12 화요일 16:30</Date>
-                <Title><Link to="/MyLiveManage">Live 시청예약</Link></Title>
+                <Title>Live 시청예약</Title>
               </Left>
               <Right>
                 <IconImg src={LiveUser}/>
@@ -56,6 +55,7 @@ const FlexBox = styled.div`
     }
 `
 const Left = styled.div`
+  width:100%;position:relative;
   display:block;
 `
 const Title = styled.h2`
@@ -78,20 +78,6 @@ const Visit = styled.p`
 const Right = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   @media ${(props) => props.theme.mobile} {
-    }
-`
-const PreviewBtn = styled.button`
-  width: 75px;
-  height: 30px;line-height:30px;color:#4a4a4a;
-  font-size:13px;font-weight:600;transform:skew(-0.1deg);
-  border-radius: 3px;
-  border: solid 1px #4a4a4a;
-  background-color: #ffffff;
-  @media ${(props) => props.theme.mobile} {
-      width:calc(100vw*(75/428));
-      height:calc(100vw*(30/428));
-      font-size:calc(100vw*(13/428));
-      line-height:calc(100vw*(30/428));
     }
 `
 const Date = styled(Visit)`

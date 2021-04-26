@@ -12,32 +12,11 @@ import ArrowDown from '../../../../../img/member/arrow_down.png';
 
 //필터 모달
 export default function Reserve({filter,setFilter}) {
-  //Filter내 셀렉트 박스
-  const [filterSelect,setFilterSelect] = useState(false);
-  const [filterSelect2,setFilterSelect2] = useState(false);
 
-  const showFilterSelect = ()=>{
-    setFilterSelect(!filterSelect);
-  }
-  const showFilterSelect2 = ()=>{
-    setFilterSelect2(!filterSelect2);
-  }
-
-  if(filter == false)
-    return null;
   //Filter 모달창
     return (
         <Container>
-          <WrapFilterModal>
-            <ModalFilterBg onClick={() => {setFilter(false)}}/>
-            <ModalFilter>
-              <FilterCloseBtn>
-                <Link onClick={() => {setFilter(false)}}>
-                  <FilterCloseImg src={Close}/>
-                </Link>
-              </FilterCloseBtn>
-              <ModalFilterTitle>필터</ModalFilterTitle>
-              <WrapFilterSelect>
+            <WrapFilterSelect>
               {/*정렬기준 select*/}
                 <FilterBox>
                   <FilterLabel>정렬기준</FilterLabel>
@@ -94,29 +73,11 @@ export default function Reserve({filter,setFilter}) {
                   </FilterSelectCondition>
                 </FilterBox>
               </WrapFilterSelect>
-              {/*버튼*/}
-              <WrapFilterButtons>
-                <ResetBtn type="button" name="">초기화</ResetBtn>
-                <SaveBtn type="submit" name="">적용</SaveBtn>
-              </WrapFilterButtons>
-            </ModalFilter>
-          </WrapFilterModal>
+
         </Container>
   );
 }
 
-const Pb = styled.b`
-  display:block;
-  @media ${(props) => props.theme.mobile} {
-        display:inline;
-    }
-`
-const Mb = styled.b`
-  display:inline;
-  @media ${(props) => props.theme.mobile} {
-        display:block;
-    }
-`
 const Container = styled.div`
 `
 const WrapModalMap = styled.div`
@@ -166,28 +127,13 @@ const ModalMapTitle = styled.h3`
   }
 `
 
-const InMapBox = styled.div`
-  width:100%;height:100%;
-  background:#eee;
-`
-const WrapFilterModal = styled(WrapModalMap)`
-`
-const ModalFilterBg = styled(ModalMapBg)`
-`
-const ModalFilter = styled(ModalMap)`
-`
-const FilterCloseBtn = styled(MapCloseBtn)`
-`
-const FilterCloseImg = styled(MapCloseImg)`
-`
-const ModalFilterTitle = styled(ModalMapTitle)`
-  margin-bottom:12px;
-  @media ${(props) => props.theme.modal} {
-    margin-bottom:calc(100vw*(12/428));
-  }
-`
 const WrapFilterSelect = styled.div`
   width:100%;
+  margin-bottom:40px;
+  @media ${(props) => props.theme.modal} {
+    margin-bottom:calc(100vw*(40/428));
+  }
+
 `
 const FilterBox = styled.div`
   position:relative;
@@ -244,13 +190,6 @@ const InOption = styled(Option)`
   }
 `
 const FilterSelectConditionList = styled(FilterSelectSortList)`
-`
-const WrapFilterButtons = styled.div`
-  width:100%;
-  display:flex;justify-content:center;align-items:center;
-  margin-top:60px;
-  @media ${(props) => props.theme.modal} {
-  }
 `
 const ResetBtn = styled.button`
   width: 200px;

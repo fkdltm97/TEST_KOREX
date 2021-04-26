@@ -1,4 +1,5 @@
 //react
+import { findAllByTestId } from '@testing-library/dom';
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
@@ -16,12 +17,19 @@ import ArrowDown from '../../../img/member/arrow_down.png';
 //필터 모달
 
 
-
 //기존에 show,setShow,title,submit,cancle,confirm,content 이렇게 데이터를 전부 전달 받았는데 이걸 하나로 합쳐서 사용할게요
 // modalOption = {show,setShow,title,submit,cancle,confirm,content} 이렇게요.
 export default function ModalCommon({modalOption}) {
-
   const closeModal = () =>{ modalOption.setShow(false); }
+
+
+  const bgnone=()=>{
+    if(bgnone == false) {
+      return "background:rgba(0,0,0,0)"
+    }else{
+      return "background:rgba(0,0,0,0.2)"
+    }
+  }
 
   if(modalOption.show == false)
     return null;
@@ -29,7 +37,7 @@ export default function ModalCommon({modalOption}) {
     return (
         <Container>
           <WrapFilterModal>
-            <ModalFilterBg onClick={closeModal}/>
+            <ModalFilterBg onClick={closeModal} bgnone={bgnone}/>
             <ModalFilter>
               <FilterCloseBtn>
                 <Link onClick={closeModal}>
@@ -64,7 +72,9 @@ export default function ModalCommon({modalOption}) {
               }
               {
                 modalOption.submit && modalOption.submit.show ?
-                <SaveBtn type="button" name="" onClick={modalOption.submit.event}>{modalOption.submit.title}</SaveBtn>
+                <Link to={modalOption.submit.link}>
+                  <SaveBtn type="button" name="" onClick={modalOption.submit.event}>{modalOption.submit.title}</SaveBtn>
+                </Link>
                 :
                 null
               }
@@ -80,6 +90,12 @@ export default function ModalCommon({modalOption}) {
                   <Link to={modalOption.confirmgreen.link} className="data_link"/>
                   <ConfirmBtnGreen type="button" name="" onClick={modalOption.confirmgreen.event}>{modalOption.confirmgreen.title}</ConfirmBtnGreen>
                 </Wrap>
+              :
+                null
+              }
+              {
+                modalOption.confirmgreennone && modalOption.confirmgreennone.show ?
+                  <ConfirmBtnGreenNoneLink type="button" name="" onClick={modalOption.confirmgreennone.event}>{modalOption.confirmgreennone.title}</ConfirmBtnGreenNoneLink>
               :
                 null
               }
@@ -111,9 +127,9 @@ const WrapModalMap = styled.div`
 const ModalMapBg = styled.div`
   width:100%;height:100%;
   position:fixed;left:0;top:0;
-  background:rgba(0,0,0,0.2);
+  background:rgba(0,0,0,0.05);
   display:block;content:'';
-  z-index:3;
+  z-index:1002;
 `
 const ModalMap = styled.div`
   position:fixed;
@@ -122,7 +138,7 @@ const ModalMap = styled.div`
   border:1px solid #f2f2f2;
   background:#fff;
   padding:49px 50px 60px 50px;
-  z-index:3;
+  z-index:1003;box-shadow: 0 0 10px 1px rgb(0 0 0 / 10%);
   @media ${(props) => props.theme.modal} {
     width:calc(100vw*(395/428));
     padding:calc(100vw*(33/428)) calc(100vw*(15/428));
@@ -280,4 +296,6 @@ const ConfirmBtn = styled(ResetBtn)`
 `
 const ConfirmBtnGreen = styled(SaveBtn)`
   width:100%;margin-left:0;
+`
+const ConfirmBtnGreenNoneLink = styled(ConfirmBtnGreen)`
 `

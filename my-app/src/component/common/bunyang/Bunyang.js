@@ -93,7 +93,7 @@ const ModalContent = styled.div`
   position:fixed;
   width:1146px;
   height:752px;
-  background:#fff;
+  background:#fff;box-shadow: 0 0 10px 1px rgb(0 0 0 / 10%);
   left:50%;top:50%;transform:translate(-50%,-50%);
   border-radius:24px;
   padding: 47px 46.7px 65.8px 95.8px;

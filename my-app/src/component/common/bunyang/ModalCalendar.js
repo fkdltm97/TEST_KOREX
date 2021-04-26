@@ -5,7 +5,7 @@ import Calendar from 'react-calendar';
 
 //style
 import styled from "styled-components";
-import '../../../Calendar.css';
+
 
 //img
 import CloseIcon from "../../../img/main/modal_close.png";

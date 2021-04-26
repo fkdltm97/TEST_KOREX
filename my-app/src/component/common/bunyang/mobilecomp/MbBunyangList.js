@@ -42,56 +42,9 @@ const BunyangListItem =[
   }
 ]
 
-export default function BunyangList({updatePageIndex}){
+export default function BunyangList({updatePageIndex,updateModal}){
     return (
       <Container>
-{/*bunyang select*/}
-      <ModalSelect>
-        <WrapItem>
-          <ItemList>
-            <ItemSubdepth>
-              <ItemSubList>물건종류1</ItemSubList>
-              <ItemSubList>물건종류2</ItemSubList>
-              <ItemSubList>물건종류3</ItemSubList>
-            </ItemSubdepth>
-          </ItemList>
-        </WrapItem>
-        <WrapTread>
-          <TreadList>
-            <TreadSubdepth>
-              <TreadSubList>거래유형1</TreadSubList>
-              <TreadSubList>거래유형2</TreadSubList>
-              <TreadSubList>거래유형3</TreadSubList>
-            </TreadSubdepth>
-          </TreadList>
-        </WrapTread>
-        <WrapPrice>
-          <PriceList>
-            <PriceSubdepth>
-              <PriceSubList>가격1</PriceSubList>
-              <PriceSubList>가격2</PriceSubList>
-              <PriceSubList>가격3</PriceSubList>
-            </PriceSubdepth>
-        </PriceList>
-        </WrapPrice>
-        <WrapWidth>
-          <WidthList>
-            <WidthSubdepth>
-              <WidthSubList>면적1</WidthSubList>
-              <WidthSubList>면적2</WidthSubList>
-              <WidthSubList>면적3</WidthSubList>
-            </WidthSubdepth>
-          </WidthList>
-        </WrapWidth>
-        <SortRecent>
-          <RecentList>
-            <RecentSubdepth>
-              <ReceentSubList>최신순</ReceentSubList>
-              <ReceentSubList>과거순</ReceentSubList>
-            </RecentSubdepth>
-          </RecentList>
-        </SortRecent>
-      </ModalSelect>
 {/*Total & Search*/}
         <WrapTotal>
             <ListTop>총 <Green>2</Green>건</ListTop>
@@ -101,6 +54,11 @@ export default function BunyangList({updatePageIndex}){
                 <SearchBtn type="button" name=""></SearchBtn>
               </SearchIcon>
             </BunyangSearch>
+            <SortRecent>
+            <RecentList>
+              <RecentSubdepth onClick={() => {updateModal();}}/>
+            </RecentList>
+          </SortRecent>
         </WrapTotal>
 {/*bunyang List*/}
         <WrapList>
@@ -174,8 +132,8 @@ const ModalSelect = styled.div`
 `
 const WrapTotal = styled.div`
   width:100%;
-  height:calc(100vw*(44/428));
-  padding-bottom:calc(100vw*(25/428));
+  height:auto;
+  padding:calc(100vw*(15/428)) 0;
   display:flex;justify-content:center;align-items:center;
   border-bottom:1px solid #f2f2f2;
 `
@@ -220,42 +178,14 @@ const ItemList = styled.div`
   text-align:center;cursor:pointer;
   font-weight:600;transform:skew(-0.1deg);
 `
-const ItemSubdepth = styled.select`
-  width:calc(100vw*(79/428));
+const ItemSubdepth = styled.div`
+  width:calc(100vw*(30/428));
   height:calc(100vw*(30/428));
   border-radius:4px;border:1px solid #979797;
-  margin-right:calc(100vw*(5/428));
   text-align-last:center;
   appearance:none;
   background:#f8f7f7;
-  padding:calc(100vw*(6/428)) 0;
   font-weight:600;transform:skew(-0.1deg);
-`
-const ItemSubList = styled.option`
-`
-const WrapTread = styled(WrapItem)`
-`
-const TreadList = styled(ItemList)`
-`
-const TreadSubdepth = styled(ItemSubdepth)`
-`
-const TreadSubList = styled(ItemSubList)`
-`
-const WrapPrice = styled(WrapItem)`
-`
-const PriceList = styled(ItemList)`
-`
-const PriceSubdepth = styled(ItemSubdepth)`
-`
-const PriceSubList = styled(ItemSubList)`
-`
-const WrapWidth = styled(WrapItem)`
-`
-const WidthList = styled(ItemList)`
-`
-const WidthSubdepth = styled(ItemSubdepth)`
-`
-const WidthSubList = styled(ItemSubList)`
 `
 const SortRecent = styled(WrapItem)`
   border:none;
@@ -267,14 +197,14 @@ const RecentList = styled(ItemList)`
 `
 const RecentSubdepth = styled(ItemSubdepth)`
   width:calc(100vw*(19/428));height:calc(100vw*(19/428));
-  background:url(${IconRecent}) no-repeat;background-size:100% 100%;
+  background:url(${IconRecent}) no-repeat center center;background-size:100% 100%;
   border:none;
   appearance:none;
   text-align-last:inherit;
   margin-top:calc(100vw*(5/428));
+  margin-left:calc(100vw*(10/428));
 `
-const ReceentSubList = styled(ItemSubList)`
-`
+
 const WrapList = styled.div`
   padding:calc(100vw*(26/428)) calc(100vw*(20/428));
 

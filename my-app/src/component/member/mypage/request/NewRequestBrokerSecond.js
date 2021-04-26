@@ -19,16 +19,11 @@ import RadioChkImg from '../../../../img/map/radi_chk.png';
 import { Mobile, PC } from "../../../../MediaQuery"
 
 //component
-import SearchApartOfficetel from "./SearchApartOfficetel";
-import SearchStoreOffice from "./SearchStoreOffice";
-import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
-import ModalBrokerRequest from './modal/ModalBrokerRequest';
+
 import BrokerInfo from './component/BrokerInfo';
 import ModalMap from './modal/ModalMap';
-import ModalRequestSuccess from './modal/ModalRequestSuccess';
-import ModalRequestFail from './modal/ModalRequestFail';
 
-export default function Request({setFilter,value,type}) {
+export default function Request({successModal,failModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
@@ -275,26 +270,15 @@ export default function Request({setFilter,value,type}) {
             </WrapBox>
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link className="data_link" onClick={()=>{setSuccess(true)}}/>
+              <Link className="data_link" onClick={()=>{successModal();}}/>
               <Next type="button">다음</Next>
             </NextButton>
-            {
-              success ?
-              //중개의뢰 성공 모달
-              <ModalRequestSuccess setSuccess={setSuccess}/>
-              :
-              null
-            }
-          {/*
-            {
-              fail ?
-              //중개의뢰 실패 모달
-              <ModalRequestSuccess fail={fail} setFail={setFail}/>
-              :
-              null
-            }
-            */}
-
+            {/* 중개의뢰 실패했을때 버튼 ( 모달이 다름 )
+            <NextButton>
+              <Link className="data_link" onClick={()=>{failModal();}}/>
+              <Next type="button">다음</Next>
+            </NextButton>
+              */}
            </WrapRequest>
         </Container>
   );

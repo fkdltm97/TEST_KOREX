@@ -34,7 +34,6 @@ export default function MapFilter() {
   };
 
   const [open,setOpen] = useState(false);
-  console.log(open)
 
   const padding=()=>{
     if(open == true) {
@@ -43,6 +42,9 @@ export default function MapFilter() {
       return "calc(100vw*(6/428)) calc(100vw*(10/428)) 0"
     }
   }
+
+
+  // redux에서 변수를 뽑아와서 필터적용 시키기
 
     return (
         <Container>

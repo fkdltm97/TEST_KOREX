@@ -41,7 +41,9 @@ export default function Request({visitorModal,cancleModal,filter,setFilter,setVi
               </FlexBox>
               <FlexBox>
                 <Title>휴대폰번호</Title>
-                <Phone>01012345678</Phone>
+                <CallTag href="tel:010-1234-5678">
+                  <Phone>01012345678</Phone>
+                </CallTag>
               </FlexBox>
               <DateTime>
                 <Date>{value.date}</Date>
@@ -115,11 +117,6 @@ const Img = styled.div`
     margin-right:calc(100vw*(18/428));
   }
 `
-const ItemImg = styled.img`
-  width:100%;
-  height:100%;border-radius:3px;
-  border:1px solid #e4e4e4;
-`
 const Infos = styled.div`
 `
 const Condition = styled.h4`
@@ -140,13 +137,7 @@ const Orange = styled(Condition)`
     margin-left:calc(100vw*(5/428));
   }
 `
-const Green = styled(Orange)`
-  color:#01684b;
-`
-const Gray = styled(Orange)`
-  color:#707070;
-  opacity:0.5;
-`
+
 const Number = styled.p`
   font-size:14px;color:#979797;
   transform:skew(-0.1deg);
@@ -183,26 +174,8 @@ const Phone = styled(Name)`
   color:#fe7a01;
   text-decoration:underline;
 `
-
-const Address = styled.div`
-  width:100%;
-`
-const AddressTitle = styled.div`
+const CallTag = styled.a`
   display:inline-block;
-  font-size:18px;margin-bottom:8px;
-  font-weight:800;color:#4a4a4a;
-  transform:skew(-0.1deg);
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(15/428));
-    margin-bottom:calc(100vw*(6/428));
-  }
-`
-const LocaImg = styled.img`
-  display:inline-block;width:20px;margin-left:5px;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(20/428));
-    margin-left:calc(100vw*(3/428));
-  }
 `
 const DateTime = styled.div`
   width:100%;

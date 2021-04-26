@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, value, type}) {
+export default function Request({value, type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -88,7 +88,6 @@ export default function Request({filter, setFilter, value, type}) {
                         </Div>
 
                       {/*거래 준비 상태일때*/}
-  {/*
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래개시승인 요청</InDiv>
@@ -106,14 +105,13 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/PropertyTourSetting" className="data_link"></Link>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-*/}
                       {/*거래 개시 상태일때*/}
   {/*
                         <Div>
@@ -137,7 +135,7 @@ export default function Request({filter, setFilter, value, type}) {
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link to="/PropertyTourSetting" className="data_link"></Link>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>

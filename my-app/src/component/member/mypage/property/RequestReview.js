@@ -20,7 +20,7 @@ import ConditionChangeList from "./ConditionChangeList";
 import RequestReviewBasicInfo from "./RequestReviewBasicInfo";
 
 
-export default function RequsetReview({acceptModal,cancleModal,setAccept,setCancle}) {
+export default function RequsetReview({acceptModal,cancleModal,setAccept,setCancle,disabled}) {
   const [basic, setBasic] = useState(false);
 
 
@@ -66,7 +66,7 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
                 </BasicInfo>
             {/*기본정보 내용*/}
                 {basic ?
-                    <RequestReviewBasicInfo/>
+                    <RequestReviewBasicInfo disabled={disabled}/>
                     :
                     null
                 }
@@ -112,7 +112,7 @@ const WrapCondition = styled.div`
   width:100%;
 `
 const WrapReview = styled.div`
-  width:480px;
+  width:490px;
   margin:0 auto;
   padding-top:43px;
   @media ${(props) => props.theme.mobile} {
@@ -122,7 +122,9 @@ const WrapReview = styled.div`
 `
 
 const ReviewTop = styled.div`
-margin-bottom:35px;
+width:408px;
+margin:0 auto 35px;
+position:relative;
 @media ${(props) => props.theme.mobile} {
   width:calc(100vw*(380/428));
   margin:0 auto calc(100vw*(30/428));

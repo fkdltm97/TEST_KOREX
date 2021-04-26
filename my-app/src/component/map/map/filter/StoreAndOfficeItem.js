@@ -15,6 +15,9 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 export default function ApartFilter() {
+
+    const [optionArr, setOptionArr] = useState(['option1']);
+
     const [open, setOpen] = useState(false);
     const showOpen =()=>{
       setOpen(!open);
@@ -26,6 +29,30 @@ export default function ApartFilter() {
         return "rotate(0deg)"
       }
     }
+
+    // ** redux에 담기
+    // 주차
+    const onChangeCar = (e) => {
+      console.log(e.target.checked)
+    }
+
+    // 전용화장실
+    const onChangeToilet = (e) => {
+      console.log(e.target.checked)
+    }
+
+    // 옵션
+    const onClickOption = (e) => {
+      let newArr = optionArr;
+      if(e.target.checked){
+        newArr.push(e.target.id)
+      }else{
+        newArr = newArr.filter(item => item !== e.target.id)
+      }
+      console.log(newArr);
+      setOptionArr(newArr);
+    } 
+
     return (
         <Container>
         {/*물건상세*/}
@@ -44,7 +71,7 @@ export default function ApartFilter() {
                           <SubTitle>주차</SubTitle>
                           <WrapFilter>
                             <SwitchButton>
-                              <Switch type="checkbox" id="switch1"/>
+                              <Switch type="checkbox" onChange={(e) =>{ onChangeCar(e) }} id="switch1"/>
                               <SwitchLabel for="switch1">
                                 <SwitchSpan/>
                               </SwitchLabel>
@@ -57,7 +84,7 @@ export default function ApartFilter() {
                             <SubTitle>전용화장실만 보기</SubTitle>
                             <WrapFilter>
                               <SwitchButton>
-                                <Switch type="checkbox" id="switch2"/>
+                                <Switch type="checkbox" onChange={(e) =>{ onChangeToilet(e) }} id="switch2"/>
                                 <SwitchLabel for="switch2">
                                   <SwitchSpan/>
                                 </SwitchLabel>
@@ -71,36 +98,36 @@ export default function ApartFilter() {
                             <WrapFilter>
                               <WrapRadio>
                                 <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option1" defaultChecked/>
+                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option1" defaultChecked/>
                                   <LabelC for="option1">
                                     <SpanC/>
                                     에어컨
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option2"/>
+                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option2"/>
                                   <LabelC for="option2">
                                     <SpanC/>
                                     발코니
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option3"/>
+                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option3"/>
                                   <LabelC for="option3">
                                     <SpanC/>
                                     베란다
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option3"/>
-                                  <LabelC for="option3">
+                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option4"/>
+                                  <LabelC for="option4">
                                     <SpanC/>
                                     테라스
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option3"/>
-                                  <LabelC for="option3">
+                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option5"/>
+                                  <LabelC for="option5">
                                     <SpanC/>
                                     베란다
                                   </LabelC>

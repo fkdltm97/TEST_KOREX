@@ -12,7 +12,8 @@ import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';
 import TermLocation from '../../component/common/TermsOfLocation';
-
+import ModalCommon from '../../component/common/modal/ModalCommon';
+import ModalFilter from '../../component/common/modal/ModalFilter';
 import { Mobile, PC } from "../../MediaQuery"
 
 export default function MainPage() {
@@ -28,13 +29,40 @@ export default function MainPage() {
   const [termlocation, setTermLocation] = useState(false);
   const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
+      }
+  
+  
+      const updateModal = () =>{
+        //여기가 모달 키는 거에엽
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"필터",
+            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+        });
+      }
+  
+
 
   return (
     <>
           <MainHeader rank={true}/>
           <Container>
             <SubTitle title={"분양"} rank={false}/>
-            <MbBunyangList/>
+            <MbBunyangList updateModal={updateModal}/>
+            <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

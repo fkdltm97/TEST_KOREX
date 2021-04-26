@@ -1,7 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import Calendar from 'react-calendar';
 
 //style
 import styled from "styled-components";

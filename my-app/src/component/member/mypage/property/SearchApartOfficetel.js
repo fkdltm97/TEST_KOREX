@@ -39,6 +39,31 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
         setActive(false);
   },)
 
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+  //여기 두개가 핵심이에여
+  //모달 끄는 식
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
+
+
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+    const updateModal = () =>{
+      //여기가 모달 키는 거에엽
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"중개의뢰 가능한 단지 선택",
+          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalDanjiSelect/>},
+          submit:{show:true , title:"확인" , event : ()=>{offModal(); setSelectInfo(true);}},
+          cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+      });
+    }
+
     return (
         <Container>
           <WrapSearch>
@@ -53,12 +78,12 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
             {/*검색했을때 나오는 부분 */}
                 <SearchResult active={active}>
                   <ResultBox>
-                    <Link onClick={() => {setModalDanji(true)}} className="data_link"/>
+                    <Link onClick={() => {updateModal();}} className="data_link"/>
                     <Title>반포자이</Title>
                     <ResultAddress>서울 특별시 서초구 반포동</ResultAddress>
                   </ResultBox>
                   <ResultBox>
-                    <Link onClick={() => {setModalDanji(true)}} className="data_link"/>
+                    <Link onClick={() => {updateModal();}} className="data_link"/>
                     <Title>반포 센트럴자이</Title>
                     <ResultAddress>서울 특별시 서초구 잠원동</ResultAddress>
                   </ResultBox>
@@ -72,22 +97,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                 </SearchResult>
               </SearchBox>
             </Box>
-            {
-              modalDanji ?
-
-              <ModalCommon
-                show={modalDanji}
-                setShow={setModalDanji}
-                title={"물건등록 가능한 단지 선택"}
-                content={{type:"components",component:<ModalDanjiSelect/>}}
-                submit={{show:true , title:"확인" , event : ()=>{setModalDanji(false);setSelectInfo(true);setModalDanji(false);}}}
-                cancle={{show:true , title:"취소" , event : ()=>{setModalDanji(false);}}}
-                confirm={{show:false , title:"확인" , event : ()=>{setModalDanji(false); }}}
-              />
-              :
-              null
-
-            }
+            <ModalCommon modalOption={modalOption}/>
           </WrapSearch>
         </Container>
   );

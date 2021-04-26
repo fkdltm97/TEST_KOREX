@@ -21,6 +21,7 @@ import ModalCancle from '../../../component/member/mypage/property/modal/ModalCa
 
 
 export default function Join() {
+  const [disabled, setDisabled] = useState(true);
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}
@@ -41,15 +42,13 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
-
-  const [rank,setRank] = useState(false);
   //거절 , 수락 모달
   const [cancle, setCancle] = useState(false);
   const [accept, setAccept] = useState(false);
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
-//여기 두개가 핵심이에여 넵!
+//여기 두개가 핵심이에여
   //모달 끄는 식
     const offModal = ()=>{
       let option = JSON.parse(JSON.stringify(modalOption));
@@ -67,9 +66,9 @@ export default function Join() {
             title:"의뢰접수 수락",
             content:{type:"text",
             text:`의뢰인과 사전에 통화하여\n접수내용을 충분히 확인하시고\n의뢰 수락을 하시는 것이 좋습니다.\n의뢰를 수락하시겠습니까?`,component:""},
-            submit:{show:true , title:"확인" , event : ()=>{offModal(); }},
+            submit:{show:true , title:"확인" , link:"/RequestReviewEdit", event : ()=>{offModal(); }},
             cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+            confirm:{show:false , title:"확인" , event : ()=>{offModal();}}
         });
       }
 
@@ -83,7 +82,7 @@ export default function Join() {
             submit:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirmgreen:{show: true, title:"확인" , event : ()=>{offModal(); }}
+            confirmgreen:{show: true, title:"확인" , link:"/PropertyManagement", event : ()=>{offModal();}}
         });
       }
 
@@ -96,7 +95,7 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <RequestReview cancleModal={cancleModal} acceptModal={acceptModal} setAccept={setAccept} setCancle={setCancle}/>
+            <RequestReview cancleModal={cancleModal} acceptModal={acceptModal} setAccept={setAccept} setCancle={setCancle} disabled={disabled}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

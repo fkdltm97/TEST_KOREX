@@ -65,7 +65,7 @@ const Container = styled.div`
     padding:24px 0 250px;
     @media ${(props) => props.theme.mobile} {
       width:100%;
-      padding:calc(100vw*(18/428)) 0 calc(100vw*(50/428));
+      padding:calc(100vw*(30/428)) 0 calc(100vw*(100/428));
       }
 `
 const WrapRequest = styled.div`

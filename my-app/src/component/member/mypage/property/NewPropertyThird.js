@@ -613,6 +613,7 @@ const InputFileLabel = styled.label`
     height:calc(100vw*(43/428));
     font-size:calc(100vw*(15/428));
     background-size:calc(100vw*(21/428));
+    line-height:calc(100vw*(43/428));
     }
 `
 
