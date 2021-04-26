@@ -163,11 +163,16 @@ const Label = styled.label`
   }
 `;
 const SeletedDate = styled.div`
+<<<<<<< HEAD
   display: flex;
   justfy-content: flex-start;
   align-items: center;
   cursor: pointer;
   margin: 20px 0 50px;
+=======
+  display:flex;justify-content:flex-start;align-items:center;
+  cursor:pointer;margin:20px 0 50px;
+>>>>>>> 60ad88df2681e9eda33e18736056f5527e73af52
   @media ${(props) => props.theme.modal} {
     margin: calc(100vw * (20 / 428)) 0 calc(100vw * (50 / 428));
   }
@@ -197,6 +202,7 @@ const SelectBox = styled.select`
   border-radius: 4px;
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
+<<<<<<< HEAD
   text-align-last: center;
   trnasform: skew(-0.1deg);
   text-align: center;
@@ -207,6 +213,14 @@ const SelectBox = styled.select`
   color: #707070;
   font-weight: 600;
   transform: skew(-0.1deg);
+=======
+  text-align-last:center;
+  transform:skew(-0.1deg);
+  text-align:center;
+  appearance:none;
+  background:url(${Arrow}) no-repeat 90% center; background-size:11px;
+  font-size:15px;color:#707070;font-weight:600;transform:skew(-0.1deg);
+>>>>>>> 60ad88df2681e9eda33e18736056f5527e73af52
   @media ${(props) => props.theme.modal} {
     height: calc(100vw * (43 / 428));
     font-size: calc(100vw * (15 / 428));

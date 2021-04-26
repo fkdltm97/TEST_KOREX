@@ -73,6 +73,7 @@ import RequestReview from './page/member/mypage/RequestReview';
 import RequestReviewEdit from './page/member/mypage/RequestReviewEdit';
 import RequestReviewEditSecond from './page/member/mypage/RequestReviewEditSecond';
 import PropertyTourSetting from './page/member/mypage/PropertyTourSetting';
+import PropertyTourManage from './page/member/mypage/PropertyTourManage';
 
 /*map*/
 import Map from './page/map/Map';
@@ -157,6 +158,7 @@ export default function App(){
             <Route exact path="/RequestReviewEdit" component={RequestReviewEdit}/>{/*내 물건관리 > 물건 수정(기본정보)*/}
             <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
             <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
+            <Route exact path="/PropertyTourManage" component={PropertyTourManage}/>{/*물건투어예약접수관리*/}
 
           {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}

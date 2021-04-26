@@ -7,20 +7,13 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //img
-import Filter from '../../../../img/member/filter.png';
-import Location from '../../../../img/member/loca.png';
+
 import Set from '../../../../img/member/setting.png';
-import Item from '../../../../img/main/item01.png';
-import Noimg from '../../../../img/main/main_icon3.png';
-import Close from '../../../../img/main/modal_close.png';
-import Change from '../../../../img/member/change.png';
-import Marker from '../../../../img/member/marker.png';
-import ArrowDown from '../../../../img/member/arrow_down.png';
 import LiveUser from '../../../../img/member/live_user.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({editModal, cancleModal,setCancle,setEdit,value,type,type2}) {
+export default function Request({editModal, comfirmModal, cancleModal,setCancle,setEdit,value,type,type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);

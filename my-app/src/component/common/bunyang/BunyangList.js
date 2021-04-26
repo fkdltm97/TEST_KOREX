@@ -86,24 +86,6 @@ export default function BunyangList({updatePageIndex}){
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </LiTop>
-              <LiBottom>
-                <Desc>
-                  <DescTitle>분양세대</DescTitle>
-                  <DescInfo>831세대</DescInfo>
-                </Desc>
-                <Desc>
-                  <DescTitle>분양면적</DescTitle>
-                  <DescInfo>103㎡ ~ 114㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DescTitle>전용면적</DescTitle>
-                  <DescInfo>77㎡ ~ 85㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DescTitle>분양가격</DescTitle>
-                  <DescInfo>35,599 ~ 44,049 만원</DescInfo>
-                </Desc>
-              </LiBottom>
             </Li>
             <Li>
               <LiTop className="clearfix">
@@ -120,24 +102,6 @@ export default function BunyangList({updatePageIndex}){
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </LiTop>
-              <LiBottom>
-                <Desc>
-                  <DescTitle>분양세대</DescTitle>
-                  <DescInfo>831세대</DescInfo>
-                </Desc>
-                <Desc>
-                  <DescTitle>분양면적</DescTitle>
-                  <DescInfo>103㎡ ~ 114㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DescTitle>전용면적</DescTitle>
-                  <DescInfo>77㎡ ~ 85㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DescTitle>분양가격</DescTitle>
-                  <DescInfo>35,599 ~ 44,049 만원</DescInfo>
-                </Desc>
-              </LiBottom>
             </Li>
           </ListUl>
         </WrapList>
@@ -279,7 +243,7 @@ const ListUl = styled.ul`
 `
 const Li = styled.li`
   width:100%;
-  padding-bottom:11px;
+  padding-bottom:20px;
   border-bottom:1px solid #b9b9b9;
   margin-bottom:11px;
   &:last-child{border-bottom:none;margin-bottom:0;}

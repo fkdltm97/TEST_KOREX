@@ -50,10 +50,10 @@ export default function Join() {
   const [edit,setEdit] = useState(false);
   //취소 모달창
   const [cancle,setCancle] = useState(false);
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
 
-//여기 두개가 핵심이에여 넵!
+//여기 두개가 핵심이에여
   //모달 끄는 식
     const offModal = ()=>{
       let option = JSON.parse(JSON.stringify(modalOption));
@@ -72,7 +72,7 @@ export default function Join() {
             content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalAdd/>},
             submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:true , title:"확인" , event : ()=>{offModal(); alert('등록되었습니다.');}}
+            confirm:{show:true , title:"확인" , event : ()=>{offModal(); comfirmModal();}}
         });
       }
 
@@ -101,6 +101,19 @@ export default function Join() {
 
         });
       }
+      //등록되었습니다 모달
+      const comfirmModal= () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"등록",
+            content:{type:"text",text:`등록되었습니다.`,component:""},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
+            confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();}}
+        });
+      }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -110,7 +123,7 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
               <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
-              <LiveSetting addModal={addModal} editModal={editModal} cancleModal={cancleModal} setAdd={setAdd} setEdit={setEdit} setCancle={setCancle}/>
+              <LiveSetting addModal={addModal} editModal={editModal} cancleModal={cancleModal} setAdd={setAdd} setEdit={setEdit} setCancle={setCancle} comfirmModal={comfirmModal}/>
               <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
