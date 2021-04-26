@@ -1,6 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 import styled from "styled-components"
 
@@ -18,6 +18,8 @@ import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 
+//server process
+import serverController from '../../../../src/server/serverController';
 
 export default function Join() {
   //이용약관
@@ -45,7 +47,22 @@ export default function Join() {
 
   //필터 모달
   const [filter, setFilter] = useState(false);
+  
+  const history = useHistory();
 
+  useEffect( async () => {
+    let body_info={};
+    console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);
+    let user_info= await serverController.connectFetchController('/api/auth/islogin','GET');
+    console.log('user is login query>>:',user_info);
+    
+    if(user_info.login_session){
+
+    }else{
+      console.log('==========로그인안되어있음 :',history);
+      history.push('/');
+    }
+  },[]);
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>

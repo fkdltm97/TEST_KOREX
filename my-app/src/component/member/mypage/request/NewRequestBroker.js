@@ -81,13 +81,13 @@ export default function Request({setFilter,value,type}) {
     sell3:"9"
   },
   {
-    b_id : 1,
+    b_id : 9,
     src:Profile,
     path:"/",
     tag1:"아파트·현대아이리스",
     tag2:"상가",
     tag3:"사무실",
-    com_name:"럭키공인중개사",
+    com_name:"중개사물산테스티",
     name:"홍길동",
     address:"강남구 논현동 104-5",
     sell1:"2",

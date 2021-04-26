@@ -120,6 +120,7 @@ export default function App(){
           
           Login_userActions.isloginchange({islogins: 1 });
 
+          Login_userActions.isexculsivechange({isexculsives : user_info.user_data.isexculsive});
           //window.sessionStorage.setItem('memid',user_info.user_data.mem_id);
         }
       }
@@ -184,7 +185,7 @@ export default function App(){
             <Route exact path="/AddPropertySecond" component={AddPropertySecond}/>{/*내 물건관리 > 물건(외부수임)등록 > 기본정보입력*/}
             <Route exact path="/AddPropertyThird" component={AddPropertyThird}/>{/*내 물건관리 > 물건(외부수임)등록 > 추가정보입력*/}
             <Route exact path="/ConditionChange" component={ConditionChange}/>{/*내 물건관리 > 상태변경내역*/}
-            <Route exact path="/RequestReview" component={RequestReview}/>{/*내 물건관리 > 의뢰접수검토*/}
+            <Route exact path="/RequestReview/:id" component={RequestReview}/>{/*내 물건관리 > 의뢰접수검토*/}
             <Route exact path="/RequestReviewEdit" component={RequestReviewEdit}/>{/*내 물건관리 > 물건 수정(기본정보)*/}
             <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
             <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}

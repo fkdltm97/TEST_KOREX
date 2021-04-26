@@ -4,6 +4,7 @@ import * as userActions from './modules/user';
 import * as tempRegisterdataActions from './modules/temp_register_userdata';
 import * as login_userActions from './modules/login_user';
 import * as tempBrokerRequestactions from './modules/tempBrokerRequest';
+import * as brokerRequest_productEditactions from './modules/brokerRequest_product';
 
 import store from './index';
 
@@ -14,3 +15,4 @@ export const UserActions = bindActionCreators(userActions, dispatch);
 export const tempRegisterUserdataActions = bindActionCreators(tempRegisterdataActions, dispatch);
 export const Login_userActions= bindActionCreators(login_userActions, dispatch);
 export const tempBrokerRequestActions = bindActionCreators(tempBrokerRequestactions,dispatch);
+export const brokerRequest_productEditActions = bindActionCreators(brokerRequest_productEditactions,dispatch);

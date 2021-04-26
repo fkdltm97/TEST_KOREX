@@ -136,7 +136,7 @@ export default function ProfileBottomElement({open,setOpen}) {
            );
         }
       }
-      if(login_userinfodata.user_type == '중개사'){
+      if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive != '1'){
         if(login_userinfodata.mem_admin=='root'){
           return(
             <div>
@@ -214,7 +214,7 @@ export default function ProfileBottomElement({open,setOpen}) {
          );
         }
       }
-      if(login_userinfodata.user_type == '전문중개사'){
+      if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive == '1'){
         if(login_userinfodata.mem_admin=='root'){
           return(
             <div>

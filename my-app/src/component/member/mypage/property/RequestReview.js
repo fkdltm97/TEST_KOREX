@@ -20,9 +20,10 @@ import ConditionChangeList from "./ConditionChangeList";
 import RequestReviewBasicInfo from "./RequestReviewBasicInfo";
 
 
-export default function RequsetReview({acceptModal,cancleModal,setAccept,setCancle,disabled}) {
+export default function RequsetReview({brokerRequest_product,acceptModal,cancleModal,setAccept,setCancle,disabled}) {
   const [basic, setBasic] = useState(false);
 
+  console.log('====>>>>requestReview components transfer receive state product value:',brokerRequest_product);
 
   const rotatebasic=()=>{
     if(basic == true) {
@@ -37,16 +38,16 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
             <TopTitle>의뢰접수 검토</TopTitle>
             <WrapReview>
               <ReviewTop>
-                <Condition>상태:<Gray>검토 대기</Gray></Condition>
+                <Condition>상태:<Gray>{brokerRequest_product.prd_status}</Gray></Condition>
                 <TeamName>소속명</TeamName>
                 <WrapFlexBox>
                   <FlexBox>
                     <Left>의뢰인명</Left>
-                    <Right>홍길동</Right>
+                    <Right>{brokerRequest_product.request_man_name}</Right>
                   </FlexBox>
                   <FlexBox>
                     <Left>휴대폰번호</Left>
-                    <Rightph>01000000000</Rightph>
+                    <Rightph>{brokerRequest_product.request_mem_phone}</Rightph>
                   </FlexBox>
                   <FlexBox>
                     <Left>요청사항</Left>
@@ -55,7 +56,7 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
                 </WrapFlexBox>
                 <JunsokDate>
                   <Label>전속기간<Pilsu> *</Pilsu></Label>
-                  <Input type="text" value="00개월"/>
+                  <Input type="text" value='15개월'/>
                 </JunsokDate>
               </ReviewTop>
             {/*기본정보*/}
@@ -66,7 +67,7 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
                 </BasicInfo>
             {/*기본정보 내용*/}
                 {basic ?
-                    <RequestReviewBasicInfo disabled={disabled}/>
+                    <RequestReviewBasicInfo brokerRequest_product={brokerRequest_product} disabled={disabled}/>
                     :
                     null
                 }

@@ -11,6 +11,8 @@ const bodyparser=require('body-parser');
 const smsRouter=require('./routes/coolsmsUse');//coolsms라이브러리 사용 사용자에게 휴대폰 sms 메시지보낸다.
 const brokerRouter=require('./routes/brokerRouter');
 const social_router=require('./routes/social_router');//social router;
+const mypageRouter=require('./routes/mypageProcess');//mypage관련 전반적 범용처리 라우터
+
 const facebook_passportconfig=require('./passport_facebook');
 const kakao_passportconfig=require('./passport_kakao');
 const naver_passportconfig=require('./passport_naver');
@@ -53,6 +55,7 @@ app.use(passport.session());
 app.use('/api/coolsms',smsRouter);//coolsms형태의 주소 요청
 app.use('/auth/social',social_router);//socail 로그인,가입 관련 기능 router
 app.use('/api/broker',brokerRouter);//broker라우터 (중개사,개인/기업관련 모든것 매물 요청 관련 모든처리)
+app.use('/api/mypage',mypageRouter);//mypage라우터 api/mypage/companyprofileEdit 관련 분기 처리.
 //로그인 회원가입처리.
 
 //const router=express.Router();
@@ -812,7 +815,8 @@ app.post('/api/auth/userinfo_request',async(req,res)=>{
             user_type : rows[0].user_type,
             register_type : rows[0].register_type,
             mem_admin : rows[0].mem_admin,
-            mem_notification: rows[0].mem_notification
+            mem_notification: rows[0].mem_notification,
+            isexculsive : ''
         };
         console.log('make_getinfo userdsata:',get_userdata);
 
@@ -820,11 +824,24 @@ app.post('/api/auth/userinfo_request',async(req,res)=>{
             connection.release();
             return res.json({success:false, data:null, message:'존재하지 않는 로그인정보입니다.', user_data : null});
         }else{
+            var select_company_id=rows[0].company_id;
+
+            if(select_company_id != null){
+                console.log('select_copmpany_id:',select_company_id);
+                var [company_rows] = await connection.query('select isexculsive from company where company_id=?',[select_company_id]);
+                connection.release();
+                get_userdata['isexculsive'] = company_rows[0].isexculsive;
+            }else{
+                //값이 null이면.
+                console.log('select_company_id:',select_company_id);
+                connection.release();
+            }
             connection.release();
             return res.json({success:true, data:null, message:'존재하는 로그인정보입니다.', user_data : get_userdata});
         }
+       
     }catch(err){
-        console.log('server or query error');
+        console.log('server or query error',err);
         connection.release();
         return res.json({success:false, data:null, message:'server or query error', user_data : null});
     }
@@ -834,9 +851,9 @@ app.get('/api/auth/islogin',async(req,res)=>{
     console.log('로그인 여부 검사, 원초적 방법으로 클라이언트 요청req 에 따른 서버에 저장한 세션유지여부:',req.session,req.user);
 
     if(req.session.user_id){
-        res.json({'login_session':req.session});
+        return res.json({'login_session':req.session});
     }else{
-        res.json({'login_session':null});
+        return res.json({'login_session':null});
     }
 });
 //공통 로그아웃

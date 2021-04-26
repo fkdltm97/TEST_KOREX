@@ -15,21 +15,17 @@ import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
 import TermLocation from '../../../component/common/TermsOfLocation';
-import House from '../../../component/common/house/House';
-import ImgDetail from "../../../component/common/house/ImgDetail";
-import LiveModal from "../../../component/common/house/LiveModal";
+//import ImgDetail from "../../../component/common/house/ImgDetail";
+//import LiveModal from "../../../component/common/house/LiveModal";
 
 import { agreestatuschange } from '../../../store/modules/temp_register_userdata';
 import { tempRegisterUserdataActions } from '../../../store/actionCreators';
 
 import { useSelector } from 'react-redux';
 import { tempRegisterdataActions } from '../../../store/actionCreators';
-import ModalCalendar from "../../../component/common/house/ModalCalendar";
+//import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
 import Bunyang from '../../../component/common/bunyang/Bunyang';
-import ImgDetail from "../../../component/common/bunyang/ImgDetail";
-import LiveModal from "../../../component/common/bunyang/LiveModal";
-import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 
 export default function JoinAgree() {
    console.log('page>member>comapnyJoinagreejs 실행======================');
@@ -116,9 +112,7 @@ export default function JoinAgree() {
     }
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-          <LiveModal live={live} setLive={setLive}/>
-          <ModalCalendar cal={cal} setCal={setCal}/>
+          
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openBunyang={openBunyang}/>
           <Container>

@@ -54,7 +54,7 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
-            <RequestReviewEdit disabled={disabled}/>
+            <RequestReviewEdit disabled={false}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

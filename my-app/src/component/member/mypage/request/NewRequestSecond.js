@@ -144,7 +144,7 @@ export default function Request({setFilter,value,type}) {
                   </InputBox>
                   <InputBox>
                     <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                    <InputDisabled type="text" value={tempBrokerRequest.dong+'동 '+tempBrokerRequests.floor+'층 ' +tempBrokerRequests.hosil+'호'} disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dong+'동 '+tempBrokerRequests.floor+'층 ' +tempBrokerRequests.hosil+'호'} disabled/>
                   </InputBox>
                 </WrapInputBox>
                 <WrapItemInfo>

@@ -19,10 +19,11 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import ConditionChangeList from "./ConditionChangeList";
 import RequestReviewBasicInfo from "./RequestReviewBasicInfo";
 
+//added redux actions go
+import {useSelector } from 'react-redux';
 
 export default function RequsetReview({acceptModal,cancleModal,setAccept,setCancle,disabled}) {
   const [basic, setBasic] = useState(false);
-
 
   const rotatebasic=()=>{
     if(basic == true) {
@@ -31,22 +32,26 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
       return "rotate(0deg)"
     }
   }
+
+  const brokerRequest_product_data=useSelector(data => data.brokerRequest_product);
+  console.log('brokerRequest_rpdoucdt data: (disabled_+value):',brokerRequest_product_data,disabled);
+
     return (
         <Container>
           <WrapCondition>
             <TopTitle>물건 (사용자의뢰) 수정</TopTitle>
             <WrapReview>
               <ReviewTop>
-                <Condition>상태:<Gray>거래 준비</Gray></Condition>
+                <Condition>상태:<Gray>{brokerRequest_product_data.prd_status}</Gray></Condition>
                 <TeamName>소속명</TeamName>
                 <WrapFlexBox>
                   <FlexBox>
                     <Left>의뢰인명</Left>
-                    <Right>홍길동</Right>
+                    <Right>{brokerRequest_product_data.requestmanname}</Right>
                   </FlexBox>
                   <FlexBox>
                     <Left>휴대폰번호</Left>
-                    <Rightph>01000000000</Rightph>
+                    <Rightph>{brokerRequest_product_data.requestmemphone}</Rightph>
                   </FlexBox>
                   <FlexBox>
                     <Left>요청사항</Left>
@@ -73,7 +78,9 @@ export default function RequsetReview({acceptModal,cancleModal,setAccept,setCanc
                 }
                 <RequestAccept>
                     <Link className="data_link" to="RequestReviewEditSecond"/>
-                   <NextBtn type="button">다음</NextBtn>
+                   <NextBtn type="button" onClick={()=> {
+                     console.log('다음버튼 클릭 입력저보들 물건정보들:',brokerRequest_product_data);
+                   }}>다음</NextBtn>
                 </RequestAccept>
               </ReviewMiddle>
             </WrapReview>
