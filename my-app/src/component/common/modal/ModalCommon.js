@@ -192,10 +192,10 @@ const Text = styled.p`
   line-height:1.5;
   font-size:15px;
   color:#4a4a4a;transform:skew(-0.1deg);
-  padding:40px 0;text-align:center;white-space: pre-wrap;
+  padding:80px 0;text-align:center;white-space: pre-wrap;
   @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(14/428));
-    padding:calc(100vw*(40/428)) 0;
+    padding:calc(100vw*(70/428)) 0;
   }
 `
 const WrapFilterSelect = styled.div`
