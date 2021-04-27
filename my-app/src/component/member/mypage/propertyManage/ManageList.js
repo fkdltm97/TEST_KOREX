@@ -7,21 +7,15 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //img
-import Item from '../../../../img/main/item01.png';
-import Filter from '../../../../img/member/filter.png';
+
 import Bell from '../../../../img/member/bell.png';
 import BellActive from '../../../../img/member/bell_active.png';
-import Location from '../../../../img/member/loca.png';
 import Set from '../../../../img/member/setting.png';
-import Noimg from '../../../../img/main/main_icon3.png';
-import Close from '../../../../img/main/modal_close.png';
-import Change from '../../../../img/member/change.png';
-import Marker from '../../../../img/member/marker.png';
-import ArrowDown from '../../../../img/member/arrow_down.png';
+
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, value, type}) {
+export default function Request({cancleModal,confirmModal,mapModal,value, type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -37,22 +31,31 @@ export default function Request({filter, setFilter, value, type}) {
             </ItemImg>
             <Infos>
               <ConditionDiv>
-                상태 : <Condition>{value.condition}</Condition> <ConditionDate>{value.conditionDate}</ConditionDate>
+                상태 : <Condition>{value.condition}</Condition>
               </ConditionDiv>
               <Number>{value.number}</Number>
-              <Title>{value.title}</Title>
-              <Kinds>
-                <Left>물건종류</Left>
-                <Right>{value.kinds}</Right>
-              </Kinds>
-              <Address>
-                <Left>모델하우스 주소</Left>
-                <Right>{value.address}</Right>
-              </Address>
-              <Trade>
+              <Line>
+                <Left>예약자명</Left>
+                <Right>{value.name}</Right>
+              </Line>
+              <Line>
+                <Left>휴대폰번호</Left>
+                <RightOg>
+                  <Call href={"tel:"+value.phone}>{value.phone}</Call>
+                 </RightOg>
+              </Line>
+              <Line>
+                <Left>건물명</Left>
+                <RightCursor onClick={()=>{mapModal();}}>{value.address}</RightCursor>
+              </Line>
+              <Line>
                 <Left>거래유형</Left>
                 <Right>{value.trade}</Right>
-              </Trade>
+              </Line>
+              <Line>
+                <Left>거래금액</Left>
+                <Right>{value.price}</Right>
+              </Line>
             </Infos>
             <RightMenu>
               <Alarm>
@@ -67,44 +70,13 @@ export default function Request({filter, setFilter, value, type}) {
                       <InMenu>
                       {/*검토대기 상태일때*/}
                         <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>의뢰 철회</InDiv>
+                          <Link onClick={()=>{cancleModal();}} className="data_link"></Link>
+                          <InDiv>예약 해제</InDiv>
                         </Div>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>수정</InDiv>
                         </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>삭제</InDiv>
-                        </Div>
-                      {/*거래 준비 상태일때*/}
-{/*
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>거래 개시</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>거래 완료</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>위임 취소</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>중개매너 평가</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>상세</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>삭제</InDiv>
-                        </Div>
-*/}
                       </InMenu>
                       :
                       null
@@ -144,17 +116,25 @@ const Li = styled.li`
   opacity:${({opacity}) => opacity};
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(29/428)) 0;
+    align-items:flex-start;
   }
 `
 const ItemImg = styled.div`
   width:106px;height:106px;border: solid 1px #e4e4e4;
   margin-right:40px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));height:calc(100vw*(80/428));
+    margin-right:calc(100vw*(18/428));
+  }
 `
 const Img = styled.img`
   width:100%;height:100%;border-radius:3px;
 `
 const Infos = styled.div`
   width:450px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(280/428));
+  }
 `
 const Date = styled.div`
   display:block;
@@ -182,12 +162,6 @@ const Condition = styled(ConditionDiv)`
     margin-bottom:0;
   }
 `
-const ConditionDate = styled(Condition)`
-@media ${(props) => props.theme.mobile} {
-  font-size:calc(100vw*(13/428));
-  margin-bottom:0;
-}
-`
 const Number = styled.p`
   font-size:14px;color:#979797;
   transform:skew(-0.1deg);
@@ -198,12 +172,7 @@ const Number = styled.p`
     margin-bottom:calc(100vw*(3/428));
   }
 `
-const Title = styled.h3`
-  font-size:18px;color:#4a4a4a;
-  font-weight:800;transform:skew(-0.1deg);
-  margin-bottom:15px;
-`
-const Kinds = styled.h2`
+const Line = styled.h2`
   display:flex;justify-content:space-between;align-items:flex-start;
   margin-bottom:6px;
   @media ${(props) => props.theme.mobile} {
@@ -211,17 +180,28 @@ const Kinds = styled.h2`
 `
 const Left = styled.p`
   font-size:15px;font-weight:600;
-  transform:skew(-0.1deg);
+  transform:skew(-0.1deg);color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(15/428));
+    }
 `
+
 const Right = styled(Left)`
   color:#979797;
   text-align:right;
   width:330px;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(200/428));
+    }
 `
-const Address = styled(Kinds)`
+const RightOg = styled(Right)`
+  color:#fe7a01;
+  text-decoration:underline;
 `
-const Trade = styled(Kinds)`
-  margin-bottom:0;
+const RightCursor = styled(Right)`
+  cursor:pointer;
+`
+const Call = styled.a`
 `
 const RightMenu = styled.div`
     position:absolute;
