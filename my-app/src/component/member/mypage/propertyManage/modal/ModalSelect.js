@@ -10,11 +10,9 @@ import styled from "styled-components"
 import Item from '../../../../../img/main/item01.png';
 import Check from '../../../../../img/map/radio.png';
 import Checked from '../../../../../img/map/radio_chk.png';
-import Radio from '../../../../../img/map/radi.png';
-import RadioChk from '../../../../../img/map/radi_chk.png';
 
 //지도 모달
-export default function ModalSelectReserve() {
+export default function ModalSelect({select,setSelect}) {
   const PropertyListItem =[
     {
       p_id : 0,
@@ -56,8 +54,8 @@ export default function ModalSelectReserve() {
         <Container>
           <WrapModalSelect>
             <WrapTop>
-              <InputCheck type="checkbox" id="all" defaultChecked/>
-              <CheckLabel for="all">
+              <InputCheck type="radio" name="tour" id="allcheck" onClick={()=>{setSelect(false);}} defaultChecked/>
+              <CheckLabel for="allcheck">
                 <Span/>
                 전체
               </CheckLabel>
@@ -78,8 +76,8 @@ export default function ModalSelectReserve() {
                 <Li>
                 <WrapRight>
                   <CheckBox>
-                    <InputCheck type="radio" id="ea"/>
-                    <CheckLabelEa for="ea" />
+                    <InputCheckEa type="radio" name="tour" id={"ea"+value.p_id} onClick={()=>{setSelect(true);}}/>
+                    <CheckLabelEa for={"ea"+value.p_id}/>
                   </CheckBox>
                 </WrapRight>
                 <WrapLeft>
@@ -167,6 +165,9 @@ const InputCheck = styled.input`
   display:none;
   &:checked+label span{background:url(${Checked}) no-repeat;background-size:100% 100%}
 `
+const InputCheckEa = styled(InputCheck)`
+  &:checked+label{background:url(${Checked}) no-repeat;background-size:100% 100%}
+`
 const CheckLabel = styled.label`
   display:inline-block;
   font-size:15px;color:#707070;transform:skew(-0.1deg);
@@ -190,9 +191,9 @@ const Span = styled.span`
 const WrapList = styled.ul`
   margin-top:10px;
   width:100%;
-  height:300px;overflow-y:scroll;
+  height:250px;overflow-y:scroll;
   @media ${(props) => props.theme.modal} {
-      height:calc(100vw*(300/428));
+      height:calc(100vw*(250/428));
       margin-top:calc(100vw*(10/428));
     }
 `

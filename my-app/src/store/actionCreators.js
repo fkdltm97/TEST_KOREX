@@ -3,7 +3,7 @@ import * as myActions from './modules/my';
 import * as userActions from './modules/user';
 import * as tempRegisterdataActions from './modules/temp_register_userdata';
 import * as mapRight from './modules/mapRight';
-import * as mapFilter from './modules/mapFilter';
+import * as mapFilter from './modules/mapfilter';
 
 import store from './index';
 

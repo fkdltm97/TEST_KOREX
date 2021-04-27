@@ -110,7 +110,7 @@ export default function Join() {
             show:true,
             setShow:offModal,
             title:"방문예약",
-            content:{type:"component",text:``,component:<ModalCalendar/>},
+            content:{type:"component",text:``,component:<ModalCal/>},
             submit:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}

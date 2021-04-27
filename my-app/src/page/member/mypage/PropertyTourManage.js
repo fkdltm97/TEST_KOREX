@@ -19,7 +19,7 @@ import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalMap from '../../../component/member/mypage/propertyManage/modal/ModalMap';
 import ModalSelect from '../../../component/member/mypage/propertyManage/modal/ModalSelect';
-
+import ModalEdit from '../../../component/member/mypage/propertyManage/modal/ModalEdit';
 
 export default function Join() {
   //이용약관
@@ -48,6 +48,9 @@ export default function Join() {
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
+
+  // (전체 버튼 누르면 나오는) 리스트 셀렉트
+  const [select, setSelect] = useState(false);
 
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -102,10 +105,21 @@ export default function Join() {
           show:true,
           setShow:offModal,
           title:"물건투어예약접수 관리",
-          content:{type:"component",text:``,component:<ModalSelect/>},
+          content:{type:"component",text:``,component:<ModalSelect select={select} setSelect={setSelect}/>},
           submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
           confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
+      });
+    }
+    const editModal = () =>{
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"물건투어예약접수 수정",
+          content:{type:"component",text:``,component:<ModalEdit/>},
+          submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
+          cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
+          confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
       });
     }
     return (
@@ -118,7 +132,7 @@ export default function Join() {
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/> 
             <PropertyManage cancleModal={cancleModal} confirmModal={confirmModal}
-            mapModal={mapModal} selectModal={selectModal}/>
+            mapModal={mapModal} selectModal={selectModal} editModal={editModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

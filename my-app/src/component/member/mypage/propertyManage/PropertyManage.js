@@ -13,23 +13,26 @@ import Item from '../../../../img/main/item01.png';
 import Noimg from '../../../../img/member/company_no.png';
 import IconSearch from '../../../../img/main/icon_search.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
+import Check from '../../../../img/map/radio.png';
+import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
 //component
 import ManageList from "./ManageList";
 
-export default function Manage({cancleModal,mapModal,confirmModal,selectModal,value,type}) {
+export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
+
   /*data map*/
   const ManageListItem =[
     {
-      Request_id : 0,
+      Manage_id : 0,
       img:Item,
       condition:"오늘",
       number:"2D0000324",
@@ -42,7 +45,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,va
       type:"today"
     },
     {
-      Request_id : 1,
+      Manage_id : 1,
       img:Item,
       condition:"2일 후",
       number:"2D0000324",
@@ -55,8 +58,8 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,va
       type:"today"
     },
     {
-      Request_id : 2,
-      img:Item,
+      Manage_id : 2,
+      img:Noimg,
       condition:"예약 해제",
       number:"2D0000324",
       name:"홍길동",
@@ -68,8 +71,8 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,va
       type:"today"
     },
     {
-      Request_id : 3,
-      img:Item,
+      Manage_id : 3,
+      img:Noimg,
       condition:"만료",
       number:"2D0000324",
       name:"홍길동",
@@ -84,7 +87,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,va
 
     return (
         <Container>
-          <WrapRequest>
+          <WrapManage>
             <TopTitle>물건투어예약접수관리</TopTitle>
             <TopSortingBtn>
               <AddBtn onClick={()=> {selectModal();}}>전체</AddBtn>
@@ -99,7 +102,24 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,va
                 <FilterImg src={Filter} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
-            <RequestList>
+            {/* 이 부분은 AddBtn의 select모달에서 하위요소가 선택됐을때 노출됩니다. */}
+              {
+                select ?
+                <AfterSelectView>
+                  <CheckBox>
+                    <InputCheck type="checkbox" id="all" defaultChecked/>
+                    <CheckLabel for="all">
+                      <Span/>
+                      전체선택
+                    </CheckLabel>
+                  </CheckBox>
+                  <EditBtn type="button">일괄 수정</EditBtn>
+                </AfterSelectView>
+                :
+                null
+              }
+           
+            <WrapManageList>
             {
             ManageListItem.map((value) => {
 
@@ -116,30 +136,18 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,va
               }
 
               return(
-                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} 
-                mapModal={mapModal} type={type} value={value}/>
+                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal}
+                mapModal={mapModal} type={type} value={value} select={select} setSelect={setSelect}/>
               )
             })
           }
 
-        </RequestList>
-      </WrapRequest>
+        </WrapManageList>
+      </WrapManage>
   </Container>
   );
 }
 
-const Pb = styled.b`
-  display:block;
-  @media ${(props) => props.theme.mobile} {
-        display:inline;
-    }
-`
-const Mb = styled.b`
-  display:inline;
-  @media ${(props) => props.theme.mobile} {
-        display:block;
-    }
-`
 const Container = styled.div`
     width:680px;
     margin:0 auto;
@@ -149,7 +157,7 @@ const Container = styled.div`
       padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
       }
 `
-const WrapRequest = styled.div`
+const WrapManage = styled.div`
   width:100%;
 `
 const TopTitle = styled.h2`
@@ -260,6 +268,57 @@ const FilterImg = styled.img`
     margin-left:calc(100vw*(15/428));
   }
 `
-const RequestList = styled.ul`
-  width:100%;
+const WrapManageList = styled.ul`
+
+`
+const AfterSelectView = styled.div`
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 40px;border-bottom:1px solid #f2f2f2;
+
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(10/428)) calc(100vw*(10/428));
+    }
+`
+const CheckBox = styled.div`
+`
+const InputCheck = styled.input`
+  display:none;
+  &:checked+label span{background:url(${Checked}) no-repeat;background-size:100% 100%}
+`
+const CheckLabel = styled.label`
+  display:inline-block;
+  font-size:15px;color:#707070;transform:skew(-0.1deg);
+  vertical-align:middle; font-weight:600;
+  @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(15/428));
+    }
+`
+const Span = styled.span`
+   display:inline-block;
+   width:20px;height:20px;
+   margin-right:15px;
+   background:url(${Check}) no-repeat; background-size:100% 100%;
+   vertical-align:middle; 
+   @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(20/428));
+      height:calc(100vw*(20/428));
+      margin-right:calc(100vw*(15/428));
+    }
+`
+const EditBtn = styled.button`
+  display:inline-block;
+  width:80px;height:32px;
+  line-height:30px;
+  border-radius: 4px;
+  border: solid 2px #429370;
+  background-color: #01684b;
+  font-size:13px;color:#fff;transform:skew(-0.1deg);
+  font-weight:600;text-align:center;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(80/428));
+      height:calc(100vw*(32/428));
+      line-height:calc(100vw*(30/428));
+      font-size:calc(100vw*(13/428));
+    }
+
 `

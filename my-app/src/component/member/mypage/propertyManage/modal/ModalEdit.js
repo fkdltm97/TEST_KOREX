@@ -6,48 +6,27 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 //img
-import CloseIcon from "../../../img/main/modal_close.png";
-import Prev from "../../../img/member/slick_prev.png";
-import Arrow from "../../../img/member/arrow_down.png";
+import CloseIcon from "../../../../../img/main/modal_close.png";
+import Prev from "../../../../../img/member/slick_prev.png";
+import Arrow from "../../../../../img/member/arrow_down.png";
 
 //datepicker
 import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
-import "../../../react-datepicker.css";
+import "../../../../../react-datepicker.css";
 import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
-export default function ModalCal({ cal, setCal, updatePageIndex }) {
+export default function ModalEdit() {
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
 
-  if (cal == false) return null;
   return (
     <Container>
-      <Wraplive>
-        <ModalClose>
-          <Link
-            onClick={() => {
-              setCal(false);
-              updatePageIndex(0);
-            }}
-          >
-            <CloseImg src={CloseIcon} />
-          </Link>
-        </ModalClose>
-        <ModalTop>
-          <Title>방문 예약</Title>
-        </ModalTop>
         <Label>방문일시</Label>
         <SeletedDate>
-          <Preved
-            onClick={() => {
-              updatePageIndex(0);
-            }}
-            src={Prev}
-          />
           <DateDay>2020년 2월 16일 토요일</DateDay>
         </SeletedDate>
         <Label>시간</Label>
@@ -65,17 +44,6 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
             maxTime={setHours(setMinutes(new Date(), 30), 22)} // 종료 시간 세팅
           />
         </WrapDatePicker>
-        <NextButton>
-          <Next
-            type="button"
-            onClick={() => {
-              updatePageIndex(2);
-            }}
-          >
-            다음
-          </Next>
-        </NextButton>
-      </Wraplive>
     </Container>
   );
 }
