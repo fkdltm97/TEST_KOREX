@@ -52,13 +52,7 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
           <DateDay>2020년 2월 16일 토요일</DateDay>
         </SeletedDate>
         <Label>시간</Label>
-        {/* <SelectBox>
-            <Option selected disabled>시간 선택</Option>
-            <Option>09:00 ~ 09:30</Option>
-            <Option>10:00 ~ 10:30</Option>
-            <Option>11:00 ~ 11:30</Option>
-          </SelectBox> */}
-
+            <br/>
         <DatePicker
           selected={startDate}
           onChange={(date) => setStartDate(date)}
@@ -67,7 +61,7 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
           timeIntervals={30} //간격 설정
           timeCaption="Time"
           dateFormat="h:mm aa" // 시간 타입(보여주는)
-          minTime={setHours(setMinutes(new Date(), 2), 1)} //시작 시간 세팅
+          minTime={setHours(setMinutes(new Date(), 0), 1)} //시작 시간 세팅
           maxTime={setHours(setMinutes(new Date(), 30), 22)} // 종료 시간 세팅
         />
 
