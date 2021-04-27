@@ -13,18 +13,54 @@ import FilterDown from '../../../img/map/filter_down_arrow.png';
 // components
 import { Mobile, PC } from "../../../MediaQuery";
 
+// redux
+import { MapFilterRedux } from '../../../store/actionCreators';
+import { useSelector } from 'react-redux';
+
 export default function MapFilter({setOpen}) {
 
-    return (
-        <Container>
-          <CloseAndReset>
-            <Arrow src={FilterDown} onClick={()=>{setOpen(false)}}/>
-            <WrapReset>
-              <Reset src={ChangeGreen}/>
-              <ResetTitle>초기화</ResetTitle>
-            </WrapReset>
-          </CloseAndReset>
-        </Container>
+  const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+
+  const onClickReset = () => {
+    const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    const use = document.querySelectorAll(`input[name='use']`);
+    const floor = document.querySelectorAll(`input[name='floor']`);
+    const option = document.querySelectorAll(`input[name='option']`);
+
+    // UI
+    for(let i = 0 ; i < option.length ; i++){
+      option[i].checked = false;
+    }
+    if(document.querySelector(`input[data-text='주차가능']`).checked){
+      document.querySelector(`input[data-text='주차가능']`).checked = false;
+    }
+    if(document.querySelector(`input[data-text='전용화장실']`).checked){
+      document.querySelector(`input[data-text='전용화장실']`).checked = false;
+    }
+    use[0].checked = true;
+    floor[0].checked = true;
+
+    // Redux -- 
+    data.switchArr = [];
+    data.life_facilites = [];
+    data.floor = "전체";
+    data.use = "전체";
+    MapFilterRedux.updateFilterArr({  filterArr: data });
+
+  }
+
+
+
+  return (
+    <Container>
+      <CloseAndReset>
+        <Arrow src={FilterDown} onClick={()=>{setOpen(false)}}/>
+        <WrapReset onClick={() => {onClickReset()}}>
+          <Reset src={ChangeGreen}/>
+          <ResetTitle>초기화</ResetTitle>
+        </WrapReset>
+      </CloseAndReset>
+    </Container>
   );
 }
 

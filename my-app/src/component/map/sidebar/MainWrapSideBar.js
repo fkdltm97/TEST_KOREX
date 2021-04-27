@@ -15,11 +15,16 @@ import MainSideBar from './MainSideBar';
 import SideBarItemDetail from './SideBarItemDetail';
 import SideBarBrokerDetail from './SideBarBrokerDetail';
 
+// redux
+import { useSelector } from 'react-redux';
+
 export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
   const [updown,setUpDown] = useState(false);
+  
+  const mapRightRedux = useSelector(state=>{ return state.mapRight});
   
   const position=()=>{
     if(updown == true) {
@@ -37,7 +42,11 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
   }
   const top=()=>{
     if(updown == true) {
-      return "calc(100vw*(59/428));"
+      if(mapRightRedux.isExclusive.is){
+        return "calc(100vw*(59/428));"
+      }else{
+        return "calc(100vw*(0/428));"
+      }
     }else{
       return "calc(100vw*(-122/428));"
     }

@@ -16,17 +16,27 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 import StoreAndOfficeItem from "./StoreAndOfficeItem";
 
+// redux
+import { MapFilterRedux } from '../../../../store/actionCreators';
+import { useSelector } from 'react-redux';
+
+
 export default function MapFilter({openBunyang, rank}) {
 
-    // ** redux에 담기
+    const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+
     // 층수
     const onChangeFloor = (e) => {
-      console.log(e.target.id);
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.floor = e.target.dataset.text;
+      MapFilterRedux.updateFilterArr({  filterArr: data});
     } 
 
     // 사용승인일
     const onChangeUse = (e) => {
-      console.log(e.target.id);
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.use = e.target.dataset.text;
+      MapFilterRedux.updateFilterArr({  filterArr: data});
     }
 
     // 관리비
@@ -37,7 +47,7 @@ export default function MapFilter({openBunyang, rank}) {
     return (
         <Container>
           <WrapApart>
-        {/*가격*/}
+            {/*가격*/}
             <Box>
               <SubTitle>가격</SubTitle>
               <WrapFilter>
@@ -55,7 +65,8 @@ export default function MapFilter({openBunyang, rank}) {
                 </BottomBar>
               </WrapFilter>
             </Box>
-        {/*관리비*/}
+            
+            {/*관리비*/}
             <Box>
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
@@ -81,8 +92,9 @@ export default function MapFilter({openBunyang, rank}) {
                 </BottomBar>
               </WrapFilter>
             </Box>
-          {/*면적(공급면적)*/}
-              <Box>
+            
+            {/*면적(공급면적)*/}
+            <Box>
                 <SubTitle>면적(공급면적)</SubTitle>
                 <WrapFilter>
                   <PriceView>기준2</PriceView>
@@ -100,34 +112,35 @@ export default function MapFilter({openBunyang, rank}) {
                   </BottomBar>
                 </WrapFilter>
               </Box>
-          {/*층수*/}
-              <Box>
+            
+            {/*층수*/}
+            <Box>
                 <SubTitle>층수</SubTitle>
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor1" defaultChecked/>
+                      <InputR type="radio" data-text="전체" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor1" defaultChecked/>
                       <LabelR for="floor1" >
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
+                      <InputR type="radio" data-text="1층" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
                       <LabelR for="floor2">
                         <SpanR/>
                         1층
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
+                      <InputR type="radio" data-text="5층이상" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
                       <LabelR for="floor3">
                         <SpanR/>
                         5층이상
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
+                      <InputR type="radio" data-text="5층이하" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
                       <LabelR for="floor4">
                         <SpanR/>
                         5층이하
@@ -137,43 +150,43 @@ export default function MapFilter({openBunyang, rank}) {
                 </WrapFilter>
               </Box>
 
-              <StoreAndOfficeItem/>
+            <StoreAndOfficeItem/>
 
-        {/*사용승인일*/}
+            {/*사용승인일*/}
             <Box>
               <SubTitle>사용승인일</SubTitle>
               <WrapFilter>
                 <WrapRadio>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use1" defaultChecked/>
+                    <InputR type="radio" data-text="전체" onChange={(e) => {onChangeUse(e)}} name="use" id="use1" defaultChecked/>
                     <LabelR for="use1">
                       <SpanR/>
                       전체
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
+                    <InputR type="radio" data-text="5년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
                     <LabelR for="use2">
                       <SpanR/>
                       5년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
+                    <InputR type="radio" data-text="10년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
                     <LabelR for="use3">
                       <SpanR/>
                       10년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
+                    <InputR type="radio" data-text="20년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
                     <LabelR for="use4">
                       <SpanR/>
                       20년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
+                    <InputR type="radio" data-text="20년 이상" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
                     <LabelR for="use5">
                       <SpanR/>
                       20년 이상
@@ -182,6 +195,7 @@ export default function MapFilter({openBunyang, rank}) {
                 </WrapRadio>
               </WrapFilter>
             </Box>
+          
           </WrapApart>
         </Container>
   );

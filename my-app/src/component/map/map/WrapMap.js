@@ -23,11 +23,18 @@ const { kakao } = window;
 
 export default function WrapMap({openBunyang, rank, open, setOpen}) {
 
+  const mapRightRedux = useSelector(state=>{ return state.mapRight});
+
   return (
       <Container>
         <KakaoMap />
         <MapRightMenu />
-        <WrapMapFilter setOpen={setOpen}/>
+        {
+          mapRightRedux.isExclusive.is?
+          <WrapMapFilter setOpen={setOpen}/>
+          :
+          <></>
+        }
       </Container>
   );
 

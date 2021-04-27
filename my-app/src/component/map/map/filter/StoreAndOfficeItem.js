@@ -14,14 +14,24 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
+
+//redux
+import { MapFilterRedux } from '../../../../store/actionCreators';
+import { useSelector } from 'react-redux';
+
+
 export default function ApartFilter() {
 
     const [optionArr, setOptionArr] = useState(['option1']);
 
     const [open, setOpen] = useState(false);
+
+    const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+
     const showOpen =()=>{
       setOpen(!open);
     }
+    
     const rotate=()=>{
       if(open == true) {
         return "rotate(180deg)"
@@ -30,28 +40,30 @@ export default function ApartFilter() {
       }
     }
 
-    // ** redux에 담기
-    // 주차
-    const onChangeCar = (e) => {
-      console.log(e.target.checked)
-    }
-
-    // 전용화장실
-    const onChangeToilet = (e) => {
-      console.log(e.target.checked)
+    // 주차, 전용화장실
+    const onClickSwitch = (e) => {
+      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      if(e.target.checked){
+        newArr.switchArr.push(e.target.dataset.text)
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      }else{
+        newArr.switchArr = newArr.switchArr.filter(item => item != e.target.dataset.text);
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      }
     }
 
     // 옵션
     const onClickOption = (e) => {
-      let newArr = optionArr;
+      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
       if(e.target.checked){
-        newArr.push(e.target.id)
+        newArr.life_facilites.push(e.target.dataset.text)
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
       }else{
-        newArr = newArr.filter(item => item !== e.target.id)
+        newArr.life_facilites = newArr.life_facilites.filter(item => item != e.target.dataset.text);
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
       }
-      console.log(newArr);
-      setOptionArr(newArr);
     } 
+
 
     return (
         <Container>
@@ -71,7 +83,7 @@ export default function ApartFilter() {
                           <SubTitle>주차</SubTitle>
                           <WrapFilter>
                             <SwitchButton>
-                              <Switch type="checkbox" onChange={(e) =>{ onChangeCar(e) }} id="switch1"/>
+                              <Switch type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
                               <SwitchLabel for="switch1">
                                 <SwitchSpan/>
                               </SwitchLabel>
@@ -84,7 +96,7 @@ export default function ApartFilter() {
                             <SubTitle>전용화장실만 보기</SubTitle>
                             <WrapFilter>
                               <SwitchButton>
-                                <Switch type="checkbox" onChange={(e) =>{ onChangeToilet(e) }} id="switch2"/>
+                                <Switch type="checkbox" data-text="전용화장실" onChange={(e) =>{ onClickSwitch(e) }} id="switch2"/>
                                 <SwitchLabel for="switch2">
                                   <SwitchSpan/>
                                 </SwitchLabel>
@@ -98,35 +110,35 @@ export default function ApartFilter() {
                             <WrapFilter>
                               <WrapRadio>
                                 <RadioBox>
-                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option1" defaultChecked/>
+                                  <InputC type="checkbox"  data-text="에어컨"   onClick={(e) => {onClickOption(e)}} name="option" id="option1"/>
                                   <LabelC for="option1">
                                     <SpanC/>
                                     에어컨
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option2"/>
+                                  <InputC type="checkbox"  data-text="발코니"  onClick={(e) => {onClickOption(e)}} name="option" id="option2"/>
                                   <LabelC for="option2">
                                     <SpanC/>
                                     발코니
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option3"/>
+                                  <InputC type="checkbox"  data-text="베란다"  onClick={(e) => {onClickOption(e)}} name="option" id="option3"/>
                                   <LabelC for="option3">
                                     <SpanC/>
                                     베란다
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option4"/>
+                                  <InputC type="checkbox"  data-text="테라스"  onClick={(e) => {onClickOption(e)}} name="option" id="option4"/>
                                   <LabelC for="option4">
                                     <SpanC/>
                                     테라스
                                   </LabelC>
                                 </RadioBox>
                                 <RadioBox>
-                                  <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} name="option" id="option5"/>
+                                  <InputC type="checkbox"  data-text="베란다"  onClick={(e) => {onClickOption(e)}} name="option" id="option5"/>
                                   <LabelC for="option5">
                                     <SpanC/>
                                     베란다
