@@ -23,30 +23,63 @@ export default function MapFilter({setOpen}) {
 
   const onClickReset = () => {
     const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    const trade = document.querySelectorAll(".trade");
     const use = document.querySelectorAll(`input[name='use']`);
     const floor = document.querySelectorAll(`input[name='floor']`);
     const option = document.querySelectorAll(`input[name='option']`);
-
+    const purpose = document.querySelectorAll(`input[name='purpose']`);
+    const room = document.querySelectorAll(`input[name='room']`);
+    const double = document.querySelectorAll(`input[name='double']`);
+    const pet = document.querySelectorAll(`input[name='pet']`);
+    const roomApart = document.querySelectorAll(`input[name='roomApart']`);
+    const bath = document.querySelectorAll(`input[name='bath']`);
+    const danji = document.querySelectorAll(`input[name='danji']`);
+    
     // UI
-    for(let i = 0 ; i < option.length ; i++){
-      option[i].checked = false;
+    for(let i = 0 ; i < trade.length ; i++){
+      trade[i].checked = false;
     }
-    if(document.querySelector(`input[data-text='주차가능']`).checked){
+    trade[0].checked = true;
+    if(option.length !== 0){
+      for(let i = 0 ; i < option.length ; i++){
+        option[i].checked = false;
+      }
+    }
+    if(document.querySelector(`input[data-text='주차가능']`)){
       document.querySelector(`input[data-text='주차가능']`).checked = false;
     }
-    if(document.querySelector(`input[data-text='전용화장실']`).checked){
+    if(document.querySelector(`input[data-text='전용화장실']`)){
       document.querySelector(`input[data-text='전용화장실']`).checked = false;
     }
-    use[0].checked = true;
-    floor[0].checked = true;
+    if(use.length !== 0){use[0].checked = true;}
+    if(floor.length !== 0){floor[0].checked = true;}
+    if(purpose.length !== 0){purpose[0].checked = true;}
+    if(room.length !== 0){
+      for(let i = 0 ; i < room.length ; i++){
+        room[i].checked = false;
+      }
+      room[0].checked = true;
+    }
+    if(double.length !== 0){double[0].checked = true;}
+    if(pet.length !== 0){pet[0].checked = true;}
+    if(roomApart.length !== 0){roomApart[0].checked = true;}
+    if(bath.length !== 0){bath[0].checked = true;}
+    if(danji.length !== 0){danji[0].checked = true;}
 
     // Redux -- 
+    data.prd_sel_type=["매매"];
     data.switchArr = [];
     data.life_facilites = [];
     data.floor = "전체";
     data.use = "전체";
+    data.purpose = "전체";
+    data.room = ["전체"];
+    data.double = "전체";
+    data.pet = "전체";
+    data.roomApart = "전체";
+    data.bath = "전체";
+    data.danji = "전체";
     MapFilterRedux.updateFilterArr({  filterArr: data });
-
   }
 
 

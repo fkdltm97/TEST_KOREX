@@ -28,7 +28,7 @@ import FilterCloseAndReset from "./FilterCloseAndReset";
 import { MapFilterRedux } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function MapFilter() {
+export default function MapFilter({status}) {
   var settings = {
     dots: false,
     infinite: false,
@@ -40,6 +40,24 @@ export default function MapFilter() {
   const [open,setOpen] = useState(false);
 
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+
+  // 필터 redux 초기화
+  useEffect(() => {
+    const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    data.prd_sel_type=["매매"];
+    data.switchArr = [];
+    data.life_facilites = [];
+    data.floor = "전체";
+    data.use = "전체";
+    data.purpose = "전체";
+    data.room = ["전체"];
+    data.double = "전체";
+    data.pet = "전체";
+    data.roomApart = "전체";
+    data.bath = "전체";
+    data.danji = "전체";
+    MapFilterRedux.updateFilterArr({  filterArr: data });
+  }, [])
 
   const padding=()=>{
     if(open == true) {
@@ -60,7 +78,6 @@ export default function MapFilter() {
       downArrow.classList.remove("hidden");
     }
   }, [open])
-
 
   // 거래유형 텍스트 
   const typeText = () => {
@@ -132,6 +149,145 @@ export default function MapFilter() {
     )
   }
   
+  // 용도
+  const purposeText = () => {
+    const data = mapFilterRedux.filterArr.purpose;
+    if(data=="전체"){
+      return;
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="purpose" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+  
+  // 방구조
+  const roomText = () => {
+    const data = mapFilterRedux.filterArr.room;
+    if(data[0]=="전체"){
+      return;
+    }
+
+    let text = "";
+    text = data[0];
+    for(let i = 1 ; i < data.length ; i++){
+      text = text + ", " + data[i]
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {text}
+            <CloseFilter data-type="room" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
+  // 복층 여부
+  const doubleText = () => {
+    const data = mapFilterRedux.filterArr.double;
+    if(data=="전체"){
+      return;
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="double" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
+  // 반려동물
+  const petText = () => {
+    const data = mapFilterRedux.filterArr.pet;
+    if(data=="전체"){
+      return;
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="pet" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
+  // 방수
+  const roomApartText = () => {
+    const data = mapFilterRedux.filterArr.roomApart;
+    if(data=="전체"){
+      return;
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="roomApart" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
+  // 욕실
+  const bathText = () => {
+    const data = mapFilterRedux.filterArr.bath;
+    if(data=="전체"){
+      return;
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="bath" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
+  // 아파트 총세대수
+  const danjiText = () => {
+    const data = mapFilterRedux.filterArr.danji;
+    if(data=="전체"){
+      return;
+    }
+
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="danji" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
   // 필터 삭제
   const onClickClose = (e) => {
     const data = mapFilterRedux.filterArr;
@@ -162,7 +318,54 @@ export default function MapFilter() {
       const floor = document.querySelectorAll(`input[name='floor']`);
       floor[0].checked = true;
     }
+    else if(type == "purpose"){
+      data.purpose = "전체";
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const purpose = document.querySelectorAll(`input[name='purpose']`);
+      purpose[0].checked = true;
+    }
+    else if(type == "room"){
+      data.room = ["전체"];
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const room = document.querySelectorAll(`input[name='room']`);
+      for(let i = 0 ; i < room.length ; i++){
+        room[i].checked = false;
+      }
+      room[0].checked = true;
+    }
+    else if(type == "double"){
+      data.double = "전체";
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const double = document.querySelectorAll(`input[name='double']`);
+      double[0].checked = true;
+    }
+    else if(type == "pet"){
+      data.pet = "전체";
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const pet = document.querySelectorAll(`input[name='pet']`);
+      pet[0].checked = true;
+    }
+    else if(type == "roomApart"){
+      data.roomApart = "전체";
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const roomApart = document.querySelectorAll(`input[name='roomApart']`);
+      roomApart[0].checked = true;
+    }
+    else if(type == "bath"){
+      data.bath = "전체";
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const bath = document.querySelectorAll(`input[name='bath']`);
+      bath[0].checked = true;
+    }
+    else if(type == "danji"){
+      data.danji = "전체";
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+      const danji = document.querySelectorAll(`input[name='danji']`);
+      danji[0].checked = true;
+    }
   }
+
+
 
     return (
         <Container>
@@ -196,19 +399,25 @@ export default function MapFilter() {
               })
             }
 
+            {purposeText()}
+            {roomText()}
+            {doubleText()}
             {floorText()}
             {optionText()}
             {useText()}
+            {petText()}
+            {roomApartText()}
+            {bathText()}
+            {danjiText()}
           </Slider>
 
           </SliderWrap>
            
-            {/* 필터 리스트에요! 원래 open으로 분기 처리되었는데 바꿨어요 */}
             <FilterList className={["filterList", "hidden"]}>
               <FilterTopButton/>
               {/*<ApartFilter/>*/}
-              {/*<OfficetelFilter/>*/}
-              <StoreAndOfficeFilter/>
+              {/* <OfficetelFilter/> */}
+              <StoreAndOfficeFilter status={status}/>
               <FilterCloseAndReset setOpen={setOpen}/>
             </FilterList>
         

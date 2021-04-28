@@ -30,6 +30,8 @@ export default function ApartFilter() {
 
     const showOpen =()=>{
       setOpen(!open);
+      const optionList = document.querySelector(".optionList");
+      optionList.classList.toggle("hidden");
     }
     
     const rotate=()=>{
@@ -67,7 +69,7 @@ export default function ApartFilter() {
 
     return (
         <Container>
-        {/*물건상세*/}
+            {/*물건상세*/}
             <DetailOption>
               <DetailTopBox onClick={showOpen}>
                 <DetailTitle>물건상세</DetailTitle>
@@ -75,83 +77,77 @@ export default function ApartFilter() {
                 <ArrowImg src={ArrowTop} rotate={rotate}/>
               </DetailTopBox>
 
-              {
-                open ?
-                        <SubDepth>
-                    {/*주차*/}
-                        <BoxNoneBorder>
-                          <SubTitle>주차</SubTitle>
-                          <WrapFilter>
-                            <SwitchButton>
-                              <Switch type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
-                              <SwitchLabel for="switch1">
-                                <SwitchSpan/>
-                              </SwitchLabel>
-                              <Span>주차가능한곳만 보기</Span>
-                            </SwitchButton>
-                            </WrapFilter>
-                          </BoxNoneBorder>
-                        {/*화장실*/}
-                          <Box>
-                            <SubTitle>전용화장실만 보기</SubTitle>
-                            <WrapFilter>
-                              <SwitchButton>
-                                <Switch type="checkbox" data-text="전용화장실" onChange={(e) =>{ onClickSwitch(e) }} id="switch2"/>
-                                <SwitchLabel for="switch2">
-                                  <SwitchSpan/>
-                                </SwitchLabel>
-                                <Span>전용화장실만 보기</Span>
-                              </SwitchButton>
-                              </WrapFilter>
-                            </Box>
-                      {/*옵션*/}
-                          <Box>
-                            <SubTitle>옵션</SubTitle>
-                            <WrapFilter>
-                              <WrapRadio>
-                                <RadioBox>
-                                  <InputC type="checkbox"  data-text="에어컨"   onClick={(e) => {onClickOption(e)}} name="option" id="option1"/>
-                                  <LabelC for="option1">
-                                    <SpanC/>
-                                    에어컨
-                                  </LabelC>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputC type="checkbox"  data-text="발코니"  onClick={(e) => {onClickOption(e)}} name="option" id="option2"/>
-                                  <LabelC for="option2">
-                                    <SpanC/>
-                                    발코니
-                                  </LabelC>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputC type="checkbox"  data-text="베란다"  onClick={(e) => {onClickOption(e)}} name="option" id="option3"/>
-                                  <LabelC for="option3">
-                                    <SpanC/>
-                                    베란다
-                                  </LabelC>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputC type="checkbox"  data-text="테라스"  onClick={(e) => {onClickOption(e)}} name="option" id="option4"/>
-                                  <LabelC for="option4">
-                                    <SpanC/>
-                                    테라스
-                                  </LabelC>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputC type="checkbox"  data-text="베란다"  onClick={(e) => {onClickOption(e)}} name="option" id="option5"/>
-                                  <LabelC for="option5">
-                                    <SpanC/>
-                                    베란다
-                                  </LabelC>
-                                </RadioBox>
-                              </WrapRadio>
-                            </WrapFilter>
-                          </Box>
-                        </SubDepth>
-                :
-                null
-
-              }
+              <SubDepth className={["optionList", "hidden"]}>
+                {/*주차*/}
+                <BoxNoneBorder>
+                  <SubTitle>주차</SubTitle>
+                  <WrapFilter>
+                    <SwitchButton>
+                      <Switch type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
+                      <SwitchLabel for="switch1">
+                        <SwitchSpan/>
+                      </SwitchLabel>
+                      <Span>주차가능한곳만 보기</Span>
+                    </SwitchButton>
+                    </WrapFilter>
+                </BoxNoneBorder>
+                {/*화장실*/}
+                <Box>
+                  <SubTitle>전용화장실만 보기</SubTitle>
+                  <WrapFilter>
+                    <SwitchButton>
+                      <Switch type="checkbox" data-text="전용화장실" onChange={(e) =>{ onClickSwitch(e) }} id="switch2"/>
+                      <SwitchLabel for="switch2">
+                        <SwitchSpan/>
+                      </SwitchLabel>
+                      <Span>전용화장실만 보기</Span>
+                    </SwitchButton>
+                  </WrapFilter>
+                </Box>
+                {/*옵션*/}
+                <Box>
+                  <SubTitle>옵션</SubTitle>
+                  <WrapFilter>
+                    <WrapRadio>
+                      <RadioBox>
+                        <InputC type="checkbox"  data-text="에어컨"   onClick={(e) => {onClickOption(e)}} name="option" id="option1"/>
+                        <LabelC for="option1">
+                          <SpanC/>
+                          에어컨
+                        </LabelC>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputC type="checkbox"  data-text="발코니"  onClick={(e) => {onClickOption(e)}} name="option" id="option2"/>
+                        <LabelC for="option2">
+                          <SpanC/>
+                          발코니
+                        </LabelC>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputC type="checkbox"  data-text="베란다"  onClick={(e) => {onClickOption(e)}} name="option" id="option3"/>
+                        <LabelC for="option3">
+                          <SpanC/>
+                          베란다
+                        </LabelC>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputC type="checkbox"  data-text="테라스"  onClick={(e) => {onClickOption(e)}} name="option" id="option4"/>
+                        <LabelC for="option4">
+                          <SpanC/>
+                          테라스
+                        </LabelC>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputC type="checkbox"  data-text="베란다"  onClick={(e) => {onClickOption(e)}} name="option" id="option5"/>
+                        <LabelC for="option5">
+                          <SpanC/>
+                          베란다
+                        </LabelC>
+                      </RadioBox>
+                    </WrapRadio>
+                  </WrapFilter>
+                </Box>
+              </SubDepth>
 
             </DetailOption>{/*물건상세 끝*/}
         </Container>
@@ -284,6 +280,11 @@ const SpanC = styled(SpanR)`
 
 `
 const DetailOption = styled.div`
+
+  & > .hidden {
+    display:none;
+  }
+
   width:100%;
 `
 const DetailTopBox = styled.div`

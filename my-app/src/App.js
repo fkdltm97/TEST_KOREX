@@ -1,4 +1,4 @@
-import React ,{useEffect} from 'react';
+import React ,{useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Switch ,Link} from "react-router-dom";
 import "./App.css"
 import { Mobile, PC } from "./MediaQuery"
@@ -88,13 +88,15 @@ export default function App(){
     const my= useSelector(data => data.my);
     const users= useSelector(data => data.user);
 
-    console.log('data.my globe info refer:',my);
-    console.log('data.users globe info refer:',users);
+    // console.log('data.my globe info refer:',my);
+    // console.log('data.users globe info refer:',users);
+
+  
 
   return (
         <Router>
             {/* main */}
-             <Route exact path="/" component={Main}/>
+             <Route exact path="/" component={() => <Main />}/>
              <Route exact path="/Notice" component={Notice}/>
              <Route exact path="/NoticeDetail" component={NoticeDetail}/>
              <Route exact path="/Faq" component={Faq}/>
@@ -160,14 +162,13 @@ export default function App(){
             <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
             <Route exact path="/PropertyTourManage" component={PropertyTourManage}/>{/*물건투어예약접수관리*/}
 
-          {/* mobile */}
+            {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
             <Route exact path="/MbBunyang" component={MbBunyang}/>{/*모바일 분양리스트*/}
             <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
-            <Route exact path="/Map" component={Map}/>
+            <Route exact path="/Map/:text" component={(route) => <Map status={route.match.params.text}/>}/>
         </Router>
-
     );
 }

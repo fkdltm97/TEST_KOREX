@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux';
 
 const { kakao } = window;
 
-export default function WrapMap({openBunyang, rank, open, setOpen}) {
+export default function WrapMap({openBunyang, rank, open, setOpen, status}) {
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
 
@@ -31,7 +31,7 @@ export default function WrapMap({openBunyang, rank, open, setOpen}) {
         <MapRightMenu />
         {
           mapRightRedux.isExclusive.is?
-          <WrapMapFilter setOpen={setOpen}/>
+          <WrapMapFilter setOpen={setOpen} status={status} />
           :
           <></>
         }
