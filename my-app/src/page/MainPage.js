@@ -22,7 +22,7 @@ import { Mobile, PC } from "../MediaQuery"
 import { useSelector} from 'react-redux';
 import { MyActions , UserActions, tempRegisterUserdataActions } from '../store/actionCreators';
 
-export default function MainPage() {
+export default function MainPage({}) {
 
   const my = useSelector(data => data.my);
   const users = useSelector(data => data.user);

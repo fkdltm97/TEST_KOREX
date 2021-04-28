@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, value,type}) {
+export default function Request({filter, setFilter, mannerModal, value,type}) {
   
   console.log('중개의뢰 매물 요청 list반복:',value);
 
@@ -70,52 +70,49 @@ export default function Request({filter, setFilter, value,type}) {
                       (value.prd_status =='대기' || value.prd_status=='검토대기') ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
                       :null
-                      
+                    :
                       (value.prd_status == '거래준비') ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>거래 개시</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>거래 완료</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>위임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link onClick={()=>{mannerModal();}} className="data_link"/>
                           <InDiv>중개매너 평가</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>상세</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
                       : null
-                 
-                    :
-                    null
-                  }
+                    }
                 </Link>
               </Menu>
             </RightMenu>

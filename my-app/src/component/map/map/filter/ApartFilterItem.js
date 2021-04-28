@@ -14,10 +14,19 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
+
+//redux
+import { MapFilterRedux } from '../../../../store/actionCreators';
+import { useSelector } from 'react-redux';
+
 export default function ApartFilter() {
     const [open, setOpen] = useState(false);
+    const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+
     const showOpen =()=>{
       setOpen(!open);
+      const optionList = document.querySelector(".optionList");
+      optionList.classList.toggle("hidden");
     }
     const rotate=()=>{
       if(open == true) {
@@ -26,6 +35,34 @@ export default function ApartFilter() {
         return "rotate(0deg)"
       }
     }
+
+    // 방수
+    const onClickRoomApart = (e) => {
+      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      newArr.roomApart=e.target.dataset.text
+      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+    }
+
+    // 욕실
+    const onClickBath = (e) => {
+      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      newArr.bath=e.target.dataset.text
+      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+    }
+
+    // 옵션 
+    const onClickOption = (e) => {
+      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      if(e.target.checked){
+        newArr.life_facilites.push(e.target.dataset.text)
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      }else{
+        newArr.life_facilites = newArr.life_facilites.filter(item => item != e.target.dataset.text);
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      }
+    } 
+
+
     return (
         <Container>
         {/*물건상세*/}
@@ -36,121 +73,118 @@ export default function ApartFilter() {
                 <ArrowImg src={ArrowTop} rotate={rotate}/>
               </DetailTopBox>
 
-              {
-                open ?
-                        <SubDepth>
-                          <BoxNoneBorder>
-                            <SubTitle>방수</SubTitle>
-                            <WrapFilter>
-                              <WrapRadio>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room1" defaultChecked/>
-                                  <LabelR for="room1">
-                                    <SpanR/>
-                                    전체
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room2"/>
-                                  <LabelR for="room2">
-                                    <SpanR/>
-                                    1개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room3"/>
-                                  <LabelR for="room3">
-                                    <SpanR/>
-                                    2개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room4"/>
-                                  <LabelR for="room4">
-                                    <SpanR/>
-                                    3개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="room" id="room5"/>
-                                  <LabelR for="room5">
-                                    <SpanR/>
-                                    4개이상
-                                  </LabelR>
-                                </RadioBox>
-                              </WrapRadio>
-                            </WrapFilter>
-                          </BoxNoneBorder>
-                          <Box>
-                            <SubTitle>욕실수</SubTitle>
-                            <WrapFilter>
-                              <WrapRadio>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath1" defaultChecked/>
-                                  <LabelR for="bath1">
-                                    <SpanR/>
-                                    전체
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath2"/>
-                                  <LabelR for="bath2">
-                                    <SpanR/>
-                                    1개
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath3"/>
-                                  <LabelR for="bath3">
-                                    <SpanR/>
-                                    2개이상
-                                  </LabelR>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputR type="radio" name="bath" id="bath4"/>
-                                  <LabelR for="bath4">
-                                    <SpanR/>
-                                    3개이상
-                                  </LabelR>
-                                </RadioBox>
-                              </WrapRadio>
-                            </WrapFilter>
-                          </Box>
-                      {/*옵션*/}
-                          <Box>
-                            <SubTitle>옵션</SubTitle>
-                            <WrapFilter>
-                              <WrapRadio>
-                                <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option1" defaultChecked/>
-                                  <LabelC for="option1">
-                                    <SpanC/>
-                                    발코니
-                                  </LabelC>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option2"/>
-                                  <LabelC for="option2">
-                                    <SpanC/>
-                                    베란다
-                                  </LabelC>
-                                </RadioBox>
-                                <RadioBox>
-                                  <InputC type="checkbox" name="option" id="option3"/>
-                                  <LabelC for="option3">
-                                    <SpanC/>
-                                    테라스
-                                  </LabelC>
-                                </RadioBox>
-                              </WrapRadio>
-                            </WrapFilter>
-                          </Box>
-                        </SubDepth>
-                :
-                null
-
-              }
-
+                <SubDepth className={["optionList", "hidden"]}>
+                  {/* 방수 */}
+                  <BoxNoneBorder>
+                    <SubTitle>방수</SubTitle>
+                    <WrapFilter>
+                      <WrapRadio>
+                        <RadioBox>
+                          <InputR type="radio" data-text="전체" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room1" defaultChecked/>
+                          <LabelR for="room1">
+                            <SpanR/>
+                            전체
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" data-text="1개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room2"/>
+                          <LabelR for="room2">
+                            <SpanR/>
+                            1개
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" data-text="2개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room3"/>
+                          <LabelR for="room3">
+                            <SpanR/>
+                            2개
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" data-text="3개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room4"/>
+                          <LabelR for="room4">
+                            <SpanR/>
+                            3개
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" data-text="4개이상" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room5"/>
+                          <LabelR for="room5">
+                            <SpanR/>
+                            4개이상
+                          </LabelR>
+                        </RadioBox>
+                      </WrapRadio>
+                    </WrapFilter>
+                  </BoxNoneBorder>
+                  
+                  {/* 욕실수 */}
+                  <Box>
+                    <SubTitle>욕실수</SubTitle>
+                    <WrapFilter>
+                      <WrapRadio>
+                        <RadioBox>
+                          <InputR type="radio" onClick={(e) => onClickBath(e)} data-text="전체" name="bath" id="bath1" defaultChecked/>
+                          <LabelR for="bath1">
+                            <SpanR/>
+                            전체
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" onClick={(e) => onClickBath(e)} data-text="1개" name="bath" id="bath2"/>
+                          <LabelR for="bath2">
+                            <SpanR/>
+                            1개
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" onClick={(e) => onClickBath(e)} data-text="2개이상" name="bath" id="bath3"/>
+                          <LabelR for="bath3">
+                            <SpanR/>
+                            2개이상
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR type="radio" onClick={(e) => onClickBath(e)} data-text="3개이상" name="bath" id="bath4"/>
+                          <LabelR for="bath4">
+                            <SpanR/>
+                            3개이상
+                          </LabelR>
+                        </RadioBox>
+                      </WrapRadio>
+                    </WrapFilter>
+                  </Box>
+                  
+                  {/*옵션*/}
+                  <Box>
+                    <SubTitle>옵션</SubTitle>
+                    <WrapFilter>
+                      <WrapRadio>
+                        <RadioBox>
+                          <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} data-text="발코니" name="option" id="option1"/>
+                          <LabelC for="option1">
+                            <SpanC/>
+                            발코니
+                          </LabelC>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} data-text="베란다" name="option" id="option2"/>
+                          <LabelC for="option2">
+                            <SpanC/>
+                            베란다
+                          </LabelC>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputC type="checkbox" onClick={(e) => {onClickOption(e)}} data-text="테라스" name="option" id="option3"/>
+                          <LabelC for="option3">
+                            <SpanC/>
+                            테라스
+                          </LabelC>
+                        </RadioBox>
+                      </WrapRadio>
+                    </WrapFilter>
+                  </Box>
+                </SubDepth>
             </DetailOption>{/*물건상세 끝*/}
         </Container>
   );
@@ -231,6 +265,9 @@ const SpanC = styled(SpanR)`
 
 `
 const DetailOption = styled.div`
+  & > .hidden {
+    display:none;
+  }
   width:100%;
 `
 const DetailTopBox = styled.div`

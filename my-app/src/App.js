@@ -1,4 +1,4 @@
-import React ,{useEffect} from 'react';
+import React ,{useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Switch ,Link} from "react-router-dom";
 import "./App.css"
 import { Mobile, PC } from "./MediaQuery"
@@ -74,6 +74,9 @@ import RequestReviewEdit from './page/member/mypage/RequestReviewEdit';
 import RequestReviewEditSecond from './page/member/mypage/RequestReviewEditSecond';
 import PropertyTourSetting from './page/member/mypage/PropertyTourSetting';
 import PropertyTourManage from './page/member/mypage/PropertyTourManage';
+import RegistProBroker from './page/member/mypage/RegistProBroker';
+import RegistProBrokerSecond from './page/member/mypage/RegistProBrokerSecond';
+import RegistProBrokerThird from './page/member/mypage/RegistProBrokerThird';
 
 /*map*/
 import Map from './page/map/Map';
@@ -134,7 +137,7 @@ export default function App(){
   return (
         <Router>
             {/* main */}
-             <Route exact path="/" component={Main}/>
+             <Route exact path="/" component={() => <Main />}/>
              <Route exact path="/Notice" component={Notice}/>
              <Route exact path="/NoticeDetail" component={NoticeDetail}/>
              <Route exact path="/Faq" component={Faq}/>
@@ -199,15 +202,17 @@ export default function App(){
             <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
             <Route exact path="/PropertyTourSetting/:id" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
             <Route exact path="/PropertyTourManage" component={PropertyTourManage}/>{/*물건투어예약접수관리*/}
+            <Route exact path="/RegistProBroker" component={RegistProBroker}/>{/*전문중개업소신청*/}
+            <Route exact path="/RegistProBrokerSecond" component={RegistProBrokerSecond}/>{/*전문중개업소신청>사업자등록증 등 사진첨부페이지*/}
+            <Route exact path="/RegistProBrokerThird" component={RegistProBrokerThird}/>{/*전문중개업소신청>신청서 확인 페이지*/}
 
-          {/* mobile */}
+            {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
             <Route exact path="/MbBunyang" component={MbBunyang}/>{/*모바일 분양리스트*/}
             <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
-            <Route exact path="/Map" component={Map}/>
+            <Route exact path="/Map/:text" component={(route) => <Map status={route.match.params.text}/>}/>
         </Router>
-
     );
 }

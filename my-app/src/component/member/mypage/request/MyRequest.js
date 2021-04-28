@@ -30,7 +30,8 @@ import RequestSorting from "./RequestSorting";
 //redux addons assets;
 import {useSelector } from 'react-redux';
 
-export default function Request({setFilter,value,type}) {
+export default function Request({mannerModal,setFilter,value,type}) {
+
    
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -143,7 +144,7 @@ export default function Request({setFilter,value,type}) {
               }
 
               return(
-                <RequestListPage setFilter={setFilter} type={type} value={value}/>
+                <RequestListPage mannerModal={mannerModal} type={type} value={value}/>
               )
             })*/
           }

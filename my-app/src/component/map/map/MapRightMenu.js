@@ -161,7 +161,6 @@ export default function MainHeader({openBunyang, rank }) {
 
     // Zoom Out
     const onClikZoomOut = () => {
-      console.log(mapRightRedux);
       let newCount = mapRightRedux.isZoomOut;
       newCount++;
       MapRight.updateZoomOut({  isZoomOut: newCount });

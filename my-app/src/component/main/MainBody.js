@@ -8,11 +8,11 @@ import MainTop from './MainTop';
 import MainBodyTop from './MainBodyTop';
 import MainBodyBottom from './MainBodyBottom';
 
-export default function MainBody() {
+export default function MainBody({}) {
     return (
         <Container>
           <MainTop/>
-          <MainBodyTop/>
+          <MainBodyTop />
           <MainBodyBottom/>
         </Container>
   );

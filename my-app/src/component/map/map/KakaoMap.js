@@ -23,6 +23,8 @@ import blockClusterer from "../../../img/map/blockClusterer.png";
 import { MapRight } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
+import json from '../../../json/geoMap.json'
+
 import style from './kakaoMap.css';
 
 export default function KakaoMap({}) {
@@ -34,7 +36,7 @@ export default function KakaoMap({}) {
   const [, setRoadClusterer] = useState();
   const [, setCurrnetClusterer] = useState();
   const container = useRef();
-  const pivot = {lat:37.499590490909185, lng:127.0263723554437}
+  const pivot = {lat:37.496463, lng:127.029358}
   const [centerClusterer, setCenterClusterer] = useState({lat:"", lng:""})
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
@@ -50,6 +52,7 @@ export default function KakaoMap({}) {
   var moveLine;
   var distanceOverlay;
   var dots = [];
+
 
   // Array Init
   useEffect(() => {

@@ -46,7 +46,7 @@ button.react-calendar__tile.react-calendar__month-view__days__day:before{
   cursor: pointer;
 }
 .react-calendar__navigation {
-  height: 44px;
+  height: 55px;
   display: inline-flex !important;
   justify-content: center;
   align-items: center;

@@ -1,3 +1,5 @@
+//회원가입시 중개사등록page
+
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";

@@ -14,7 +14,9 @@ import Arrow from "../../../../img/member/arrow_down.png";
 import Add from '../../../../img/member/add_Btn.png';
 import Close from '../../../../img/main/modal_close.png';
 
-export default function ModalCal({vCal, setVCal,updatePageIndex}){
+import ModalCommon from '../../../common/modal/ModalCommon';
+
+export default function ModalCal({cal, setCal, updatePageIndex}){
   const [name,setName] = useState("");
   const [phone,setPhone] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
@@ -32,11 +34,43 @@ export default function ModalCal({vCal, setVCal,updatePageIndex}){
         setActive(false);
   },)
 
-  if(vCal == false)
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
+
+  //여기 두개가 핵심이에여
+  //모달 끄는 식
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
+
+  //등록되었습니다 모달
+  const comfirmModal= () =>{
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"등록",
+        content:{type:"text",text:`등록되었습니다.`,component:""},
+        submit:{show:false , title:"" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
+        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);}}
+    });
+  }
+
+  if(cal == false)
     return null;
     return (
       <Container>
         <Wraplive>
+          <ModalClose>
+              <Link onClick={()=>{setCal(false);updatePageIndex(0)}}>
+              <CloseImg src={CloseIcon}/>
+            </Link>
+          </ModalClose>
+          <ModalTop>
+            <Title>방문 예약</Title>
+          </ModalTop>
           <Label>동반고객 정보</Label>
           <Desc>
           분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br/>
@@ -45,24 +79,26 @@ export default function ModalCal({vCal, setVCal,updatePageIndex}){
           동반고객 휴대폰 중간번호 4자리는 보안 처리되어 분양대행사에<br/>
           제공됩니다.
           </Desc>
-
           <WrapAdd>
             <InputInvite>
               <InputTitle>이름</InputTitle>
               <InputTxt type="text" name="" placeholder="이름을 입력하여주세요." onChange={nameChange}/>
               <WrapPhone>
                 <InputTitle>휴대폰번호</InputTitle>
-                <Input type="email" name="" placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요." onChange={phoneChange}/>
-                <Delete src={Close} alt="delete"/>
+                <WrapInput>
+                  <Input type="email" name="" placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요." onChange={phoneChange}/>
+                  <Delete src={Close} alt="delete"/>
+                </WrapInput>
               </WrapPhone>
             </InputInvite>
 
             <AddBtn/>
             <InviteButton>
-              <Invite type="submit" active={active} onClick={() => {alert('방문예약 수정이 완료되었습니다.');setVCal(false);updatePageIndex(0)}}>확인</Invite>
+              <Invite type="submit" active={active} onClick={() => {comfirmModal();}}>확인</Invite>
             </InviteButton>
           </WrapAdd>
         </Wraplive>
+        <ModalCommon modalOption={modalOption}/>
       </Container>
     );
 }
@@ -196,30 +232,44 @@ const WrapPhone = styled.div`
     margin-top:calc(100vw*(8/428));
     }
 `
-const Input = styled.input`
-  width:370px;height:43px;
+const WrapInput = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
+  width:100%;height:43px;
   border-radius:4px;text-align:center;
   border:1px solid #e4e4e4;
+  @media ${(props) => props.theme.modal} {
+    width:100%;
+    height:calc(100vw*(43/428));
+    }
+`
+const Input = styled.input`
+  width:100%;height:100%;
+  border-radius:4px;text-align:center;
   font-size:15px;color:#707070;font-weight:600;transform:skew(-0.1deg);
   &::placeholder{color:#979797;}
   @media ${(props) => props.theme.modal} {
-    width:calc(100vw*(315/428));
-    height:calc(100vw*(43/428));
+    width:100%;
+    height:100%;
     font-size:calc(100vw*(15/428));
     }
 `
 const InputTxt = styled(Input)`
-  width:100%;
+  width:100%;border:1px solid #e4e4e4;
+  height:43px;
+  @media ${(props) => props.theme.modal} {
+    width:100%;
+    height:calc(100vw*(43/428));
+    }
 `
 
 const Delete = styled.img`
-  display:inline-block;position:absolute;right:0;
-  top:69%;transform:translateY(-50%);
+  display:inline-block;
   cursor:pointer;
-  width:15px;
+  width:15px;margin:0 10px;
   @media ${(props) => props.theme.modal} {
     width:calc(100vw*(15/428));
-    right:calc(100vw*(8/428));
+    margin:0 calc(100vw*(10/428));
+    
     }
 `
 const AddBtn = styled.div`

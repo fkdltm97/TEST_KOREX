@@ -19,7 +19,7 @@ import ImgDetail from "../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../component/common/bunyang/ModalCalendar";
 
-export default function NoticeDetail() {
+export default function NoticeDetail({status}) {
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}
@@ -58,7 +58,7 @@ export default function NoticeDetail() {
           <Container>
               <ModalMap map={map} setMap={setMap}/>
               <ReportModal report={report} setReport={setReport}/>
-              <MainMap setReport={setReport} setMap={setMap}/>
+              <MainMap setReport={setReport} setMap={setMap} status={status} />
           </Container>
         </>
   );

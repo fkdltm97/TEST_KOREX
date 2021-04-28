@@ -25,6 +25,7 @@ export default function ModalCal({cal, setCal,updatePageIndex}){
     );
   };
 
+
   if(cal == false)
     return null;
     return (

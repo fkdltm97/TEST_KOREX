@@ -15,18 +15,137 @@ import ArrowTop from '../../../../img/map/arrow_top.png';
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 import StoreAndOfficeItem from "./StoreAndOfficeItem";
+import OfficetelFilterItem from "./OfficetelFilterItem";
+import ApartFilterItem from "./ApartFilterItem";
 
-export default function MapFilter({openBunyang, rank}) {
+// redux
+import { MapFilterRedux } from '../../../../store/actionCreators';
+import { useSelector } from 'react-redux';
 
-    // ** redux에 담기
+// Range
+import Rheostat from "rheostat";
+import 'rheostat/initialize';
+import './slider.css';
+
+export default function MapFilter({openBunyang, rank, status}) {
+
+    const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+
+    // 가격
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(100); 
+    const [dropdownValue, setDropdownValue] = useState([0, 100])
+    const [snapArr, setSnapArr] = useState([]);
+    const [priceText, setPriceText] = useState("");
+
+    // 관리비 
+    const [minPriceMana, setMinPriceMana] = useState(0);
+    const [maxPriceMana, setMaxPriceMana] = useState(75); 
+    const [dropdownValueMana, setDropdownValueMana] = useState([0, 75])
+    const [snapManaArr, setSnapManaArr] = useState([]);
+    const [manaText, setManaText] = useState("");
+    
+    // 면적 
+    const [minArea, setMinArea] = useState(0);
+    const [maxArea, setMaxArea] = useState(100); 
+    const [dropdownValueArea, setDropdownValueArea] = useState([0, 100])
+    const [snapAreaArr, setSnapAreaArr] = useState([]);
+    const [areaText, setAreaText] = useState("");
+
+    const makeRangeSnaps = (maxValue, setSnap, unit) => {
+      let i = 0;
+      let max = maxValue;
+      let snapArr = [];
+      while (true) {
+        if (max == 0) {
+          break;
+        } else {
+          snapArr.push(i * unit);
+          i++;
+          max -= unit;
+        }
+      }
+      snapArr.push(i * unit);
+      setSnap(snapArr);
+    };
+  
+    useEffect(() => {
+      makeRangeSnaps(maxPrice, setSnapArr, 1);
+      makeRangeSnaps(maxPriceMana, setSnapManaArr, 1);
+      makeRangeSnaps(maxArea, setSnapAreaArr, 1);
+    }, [])
+
+    useEffect(() => {
+      if(dropdownValue[0] == minPrice && dropdownValue[1] == maxPrice){
+        setPriceText("전체");
+        return;
+      }
+      let min = dropdownValue[0];
+      let max = dropdownValue[1];
+      rangeText(min, max, minPrice, maxPrice, priceToKor(min), priceToKor(max), setPriceText, "");
+    }, [dropdownValue])
+
+    useEffect(() => {
+      if(dropdownValueMana[0] == minPriceMana && dropdownValueMana[1] == maxPriceMana){
+        setManaText("전체");
+        return;
+      }
+      let min = dropdownValueMana[0];
+      let max = dropdownValueMana[1];
+      rangeText(min, max, minPriceMana, maxPriceMana, min, max, setManaText, "만");
+    }, [dropdownValueMana])
+
+    useEffect(() => {
+      if(dropdownValueArea[0] == minArea && dropdownValueArea[1] == maxArea){
+        setAreaText("전체");
+        return;
+      }
+      let min = dropdownValueArea[0];
+      let max = dropdownValueArea[1];
+      rangeText(min, max, minArea, maxArea, min, max, setAreaText, "평");
+    }, [dropdownValueArea])
+
+    // 매매 억/천 단위
+    const priceToKor = (num) => {
+      let newNum = String(num).split('');
+      if(newNum.length == 1){
+        newNum.splice(1, 0, '천');
+        newNum = newNum.join('');
+        return newNum;
+      }
+      newNum.splice(1, 0, '억');
+      if(newNum[2] == "0"){
+        newNum.pop();
+      }else{
+        newNum.splice(3, 0, '천');
+      }
+      newNum = newNum.join('');
+      return newNum;
+    }
+
+    // 범위 텍스트
+    const rangeText = (min, max, minPrice, maxPrice, minText, maxText, setText, unit) => {
+      if(min == minPrice){
+        setText(maxText + unit);
+      }else if(max == maxPrice){
+        setText(`${minText}${unit}~전체`);
+      }else{
+        setText(`${minText}${unit}~${maxText}${unit}`)
+      }
+    }
+
     // 층수
     const onChangeFloor = (e) => {
-      console.log(e.target.id);
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.floor = e.target.dataset.text;
+      MapFilterRedux.updateFilterArr({  filterArr: data});
     } 
 
     // 사용승인일
     const onChangeUse = (e) => {
-      console.log(e.target.id);
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.use = e.target.dataset.text;
+      MapFilterRedux.updateFilterArr({  filterArr: data});
     }
 
     // 관리비
@@ -34,28 +153,64 @@ export default function MapFilter({openBunyang, rank}) {
       console.log(e.target.checked)
     }
 
+
+    const filterType = () => {
+      if(status == "apart"){
+        return <ApartFilterItem/>
+      }
+      else if(status == "officetel"){
+        return <OfficetelFilterItem/>
+      }
+      else if(status == "storeOffice"){
+        return <StoreAndOfficeItem/>
+      }
+    }
+
+    // 아파트 총세대수
+    const onChangeDanji = (e) => {
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.danji = e.target.dataset.text;
+      MapFilterRedux.updateFilterArr({  filterArr: data});
+    }
+
     return (
         <Container>
           <WrapApart>
-        {/*가격*/}
+            {/* ---------------------- */}
+
+            {/*가격*/}
             <Box>
-              <SubTitle>가격</SubTitle>
+              <SubTitle>매매</SubTitle>
               <WrapFilter>
-                <PriceView>최대</PriceView>
+                <PriceView>{priceText}</PriceView>
                 <WrapRange>
-                  <LeftRange/>
-                  <RightRange/>
-                  <GreenBar/>{/*실제 영역 바*/}
-                  <GrayBar/>{/*바닥에 깔리는 바*/}
+                  {/* <LeftRange/> */}
+                  {/* <RightRange/> */}
+                  {/*실제 영역 바*/}
+                  {/* <GreenBar/> */}
+                  {/*바닥에 깔리는 바*/}
+                  {/* <GrayBar/> */}
+                  <Rheostat
+                    min={minPrice}
+                    max={maxPrice}
+                    values={dropdownValue}
+                    onChange={(e) => {
+                      setDropdownValue(e.values);
+                    }}
+                    snap
+                    snapPoints={snapArr}
+                  />
                 </WrapRange>
                 <BottomBar>
                   <BarTxt>최소</BarTxt>
-                  <BarTxt>기준1</BarTxt>
+                  <BarTxt>3억</BarTxt>
+                  <BarTxt>7억</BarTxt>
                   <BarTxt>최대</BarTxt>
                 </BottomBar>
               </WrapFilter>
             </Box>
-        {/*관리비*/}
+            
+            {/*관리비*/}
             <Box>
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
@@ -66,68 +221,97 @@ export default function MapFilter({openBunyang, rank}) {
                   </SwitchLabel>
                   <Span>관리비 없는것만 보기</Span>
                 </SwitchButton>
-                <PriceView>10만 ~ 기준2</PriceView>
+                <PriceView>{manaText}</PriceView>
                 <WrapRange>
-                  <LeftRange2/>
-                  <RightRange2/>
-                  <GreenBar2/>{/*실제 영역 바*/}
-                  <GrayBar/>{/*바닥에 깔리는 바*/}
+                  {/* <LeftRange2/> */}
+                  {/* <RightRange2/> */}
+                  {/*실제 영역 바*/}
+                  {/* <GreenBar2/> */}
+                  {/*바닥에 깔리는 바*/}
+                  {/* <GrayBar/> */}
+
+                  <Rheostat
+                    min={minPriceMana}
+                    max={maxPriceMana}
+                    values={dropdownValueMana}
+                    onChange={(e) => {
+                      setDropdownValueMana(e.values);
+                    }}
+                    snap
+                    snapPoints={snapManaArr}
+                  />
                 </WrapRange>
                 <BottomBar>
                   <BarTxt>최소</BarTxt>
-                  <BarTxt>20만</BarTxt>
-                  <BarTxt>기준2</BarTxt>
+                  <BarTxt>25만</BarTxt>
+                  <BarTxt>50만</BarTxt>
                   <BarTxt>최대</BarTxt>
                 </BottomBar>
               </WrapFilter>
             </Box>
-          {/*면적(공급면적)*/}
-              <Box>
+            
+            {/*면적(공급면적)*/}
+            <Box>
                 <SubTitle>면적(공급면적)</SubTitle>
                 <WrapFilter>
-                  <PriceView>기준2</PriceView>
+                  <PriceView>{areaText}</PriceView>
                   <WrapRange>
-                    <LeftRange/>
-                    <RightRange/>
-                    <GreenBar/>{/*실제 영역 바*/}
-                    <GrayBar/>{/*바닥에 깔리는 바*/}
+                    {/* <LeftRange/> */}
+                    {/* <RightRange/> */}
+                    {/*실제 영역 바*/}
+                    {/* <GreenBar/> */}
+                    {/*바닥에 깔리는 바*/}
+                    {/* <GrayBar/> */}
+                    <Rheostat
+                      min={minArea}
+                      max={maxArea}
+                      values={dropdownValueArea}
+                      onChange={(e) => {
+                        setDropdownValueArea(e.values);
+                      }}
+                      snap
+                      snapPoints={snapAreaArr}
+                    />
                   </WrapRange>
                   <BottomBar>
                     <BarTxt>최소</BarTxt>
                     <BarTxt>30평</BarTxt>
-                    <BarTxt>기준2</BarTxt>
-                    <BarTxt>무제한</BarTxt>
+                    <BarTxt>70평</BarTxt>
+                    <BarTxt>최대</BarTxt>
                   </BottomBar>
                 </WrapFilter>
               </Box>
-          {/*층수*/}
-              <Box>
+            
+
+            {/* ---------------------- */}
+            {/*층수*/}
+            <Box>
                 <SubTitle>층수</SubTitle>
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor1" defaultChecked/>
+                      <InputR type="radio" data-text="전체" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor1" defaultChecked/>
                       <LabelR for="floor1" >
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
+                      <InputR type="radio" data-text="1층" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
                       <LabelR for="floor2">
                         <SpanR/>
                         1층
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
+                      <InputR type="radio" data-text="5층이상" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
                       <LabelR for="floor3">
                         <SpanR/>
                         5층이상
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
+                      <InputR type="radio" data-text="5층이하" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
                       <LabelR for="floor4">
                         <SpanR/>
                         5층이하
@@ -137,43 +321,44 @@ export default function MapFilter({openBunyang, rank}) {
                 </WrapFilter>
               </Box>
 
-              <StoreAndOfficeItem/>
+            {/* 필터 */}
+            {filterType()}
 
-        {/*사용승인일*/}
+            {/*사용승인일*/}
             <Box>
               <SubTitle>사용승인일</SubTitle>
               <WrapFilter>
                 <WrapRadio>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use1" defaultChecked/>
+                    <InputR type="radio" data-text="전체" onChange={(e) => {onChangeUse(e)}} name="use" id="use1" defaultChecked/>
                     <LabelR for="use1">
                       <SpanR/>
                       전체
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
+                    <InputR type="radio" data-text="5년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
                     <LabelR for="use2">
                       <SpanR/>
                       5년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
+                    <InputR type="radio" data-text="10년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
                     <LabelR for="use3">
                       <SpanR/>
                       10년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
+                    <InputR type="radio" data-text="20년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
                     <LabelR for="use4">
                       <SpanR/>
                       20년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
+                    <InputR type="radio" data-text="20년 이상" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
                     <LabelR for="use5">
                       <SpanR/>
                       20년 이상
@@ -182,6 +367,56 @@ export default function MapFilter({openBunyang, rank}) {
                 </WrapRadio>
               </WrapFilter>
             </Box>
+          
+            {/* ->아파트<- 총세대수 */}
+            {
+              status == "apart"?
+              <Box>
+                <SubTitle>총세대수</SubTitle>
+                <WrapFilter>
+                  <WrapRadio>
+                    <RadioBoxWidth50>
+                      <InputR type="radio" onClick={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
+                      <LabelR for="danji1">
+                        <SpanR/>
+                        전체
+                      </LabelR>
+                    </RadioBoxWidth50>
+                    <RadioBoxWidth50>
+                      <InputR type="radio" onClick={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
+                      <LabelR for="danji2">
+                        <SpanR/>
+                        200세대 이상
+                      </LabelR>
+                    </RadioBoxWidth50>
+                    <RadioBoxWidth50>
+                      <InputR type="radio" onClick={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
+                      <LabelR for="danji3">
+                        <SpanR/>
+                        500세대 이상
+                      </LabelR>
+                    </RadioBoxWidth50>
+                    <RadioBoxWidth50>
+                      <InputR type="radio" onClick={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
+                      <LabelR for="danji4">
+                        <SpanR/>
+                        1000세대 이상
+                      </LabelR>
+                    </RadioBoxWidth50>
+                    <RadioBoxWidth50>
+                      <InputR type="radio" onClick={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
+                      <LabelR for="danji5">
+                        <SpanR/>
+                        2000세대 이상
+                      </LabelR>
+                    </RadioBoxWidth50>
+                  </WrapRadio>
+                </WrapFilter>
+              </Box>
+              :
+              <></>
+            }
+          
           </WrapApart>
         </Container>
   );

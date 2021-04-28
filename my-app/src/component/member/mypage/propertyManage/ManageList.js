@@ -11,11 +11,12 @@ import styled from "styled-components"
 import Bell from '../../../../img/member/bell.png';
 import BellActive from '../../../../img/member/bell_active.png';
 import Set from '../../../../img/member/setting.png';
-
+import Check from '../../../../img/map/radio.png';
+import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({cancleModal,confirmModal,mapModal,value, type}) {
+export default function Request({cancleModal,confirmModal,mapModal,value, type,select,setSelect,editModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -26,41 +27,55 @@ export default function Request({cancleModal,confirmModal,mapModal,value, type})
     return (
       <Container>
           <Li opacity={type}>
-            <ItemImg>
-              <Img src={value.img}/>
-            </ItemImg>
+            {
+              select ?
+              <WrapRight>
+                <CheckBox>
+                  <InputCheckEa type="checkbox" name="tour" id={"ea"+value.Manage_id}/>
+                  <CheckLabelEa for={"ea"+value.Manage_id}/>
+                </CheckBox>
+              </WrapRight>
+              :
+              null
+            }
+            
             <Infos>
-              <ConditionDiv>
-                상태 : <Condition>{value.condition}</Condition>
-              </ConditionDiv>
-              <Number>{value.number}</Number>
-              <Line>
-                <Left>예약자명</Left>
-                <Right>{value.name}</Right>
-              </Line>
-              <Line>
-                <Left>휴대폰번호</Left>
-                <RightOg>
-                  <Call href={"tel:"+value.phone}>{value.phone}</Call>
-                 </RightOg>
-              </Line>
-              <Line>
-                <Left>건물명</Left>
-                <RightCursor onClick={()=>{mapModal();}}>{value.address}</RightCursor>
-              </Line>
-              <Line>
-                <Left>거래유형</Left>
-                <Right>{value.trade}</Right>
-              </Line>
-              <Line>
-                <Left>거래금액</Left>
-                <Right>{value.price}</Right>
-              </Line>
+              <ItemImg>
+                <Img src={value.img}/>
+              </ItemImg>
+              <InBox>
+                <ConditionDiv>
+                  상태 : <Condition>{value.condition}</Condition>
+                </ConditionDiv>
+                <Number>{value.number}</Number>
+                <Line>
+                  <Left>예약자명</Left>
+                  <Right>{value.name}</Right>
+                </Line>
+                <Line>
+                  <Left>휴대폰번호</Left>
+                  <RightOg>
+                    <Call href={"tel:"+value.phone}>{value.phone}</Call>
+                  </RightOg>
+                </Line>
+                <Line>
+                  <Left>건물명</Left>
+                  <RightCursor onClick={()=>{mapModal();}}>{value.address}</RightCursor>
+                </Line>
+                <Line>
+                  <Left>거래유형</Left>
+                  <Right>{value.trade}</Right>
+                </Line>
+                <Line>
+                  <Left>거래금액</Left>
+                  <Right>{value.price}</Right>
+                </Line>
+              </InBox>
             </Infos>
             <RightMenu>
               <Alarm>
-                <AlarmCheck type="checkbox" id={"check"+value.Request_id} name=""/>
-                <Label for={"check"+value.Request_id}/>
+                <AlarmCheck type="checkbox" id={"check"+value.Manage_id} name=""/>
+                <Label for={"check"+value.Manage_id}/>
               </Alarm>
               <Menu>
                 <Link onClick={showModal}>
@@ -74,7 +89,7 @@ export default function Request({cancleModal,confirmModal,mapModal,value, type})
                           <InDiv>예약 해제</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link onClick={()=>{editModal();}} className="data_link"></Link>
                           <InDiv>수정</InDiv>
                         </Div>
                       </InMenu>
@@ -131,9 +146,10 @@ const Img = styled.img`
   width:100%;height:100%;border-radius:3px;
 `
 const Infos = styled.div`
-  width:450px;
+  display:flex;justify-content:flex-start;align-items:center;
+  width:556px;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(280/428));
+    width:calc(100vw*(400/428));
   }
 `
 const Date = styled.div`
@@ -203,10 +219,31 @@ const RightCursor = styled(Right)`
 `
 const Call = styled.a`
 `
+const WrapRight = styled.div`
+  margin-right:20px;
+  @media ${(props) => props.theme.modal} {
+      margin-right:calc(100vw*(15/428));
+    }
+`
+const CheckBox = styled.div`
+`
+const InputCheckEa = styled.input`
+  display:none;
+  &:checked+label{background:url(${Checked}) no-repeat;background-size:100% 100%}
+`
+const CheckLabelEa = styled.label`
+  display:inline-block;
+  width:20px;height:20px;
+  background:url(${Check}) no-repeat;background-size:100% 100%;
+  @media ${(props) => props.theme.modal} {
+      width:calc(100vw*(20/428));
+      height:calc(100vw*(20/428));
+    }
+`
 const RightMenu = styled.div`
     position:absolute;
     right:0;
-    top:50%;transform:translateY(-50%);
+    top:20px;
     @media ${(props) => props.theme.mobile} {
       top:calc(100vw*(20/428));
       transform:none;
@@ -294,4 +331,7 @@ const Div = styled.li`
 `
 const InDiv = styled.div`
   width:100%;height:100%;
+`
+const InBox = styled.div`
+
 `
