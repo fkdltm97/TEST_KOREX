@@ -31,7 +31,7 @@ export default function MainHeader({openBunyang, rank, setReport,setMap}) {
             }
           </Mobile>
           <MainWrapSideBar setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>{/*메인 사이드바 컴포넌트*/}
-          {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>{/*단지 사이드바 컴포넌트*/}
+          {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>*/}{/*단지 사이드바 컴포넌트*/}
         </Container>
   );
 }

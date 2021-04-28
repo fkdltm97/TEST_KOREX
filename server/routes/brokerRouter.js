@@ -102,6 +102,117 @@ router.post('/user_brokerRequest',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//외부수임 직접 등록(중개사)
+router.post('/user_brokerOuterRequest',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+
+    const connection=await pool.getConnection(async conn=> conn);
+
+    //단수 알고리즘 해야함. 기존 쿼리에서 해당 매물이 다른 전문중개사에 등록된건지 여부를 검사. 일단은 insert먼저 하고 단수알고리즘은 나중에
+    try{
+        /*dong,hosil,floor,dangi,dangiaddress,name,phone,maemultype,maeulname,jeongyongdimension,jeonyongpyeong,supplydimension,supplypyeong, 
+        selltype,sellprice,mangecost,ibju_isinstant,ibju_speciftydate, exculsive_peridos,companyid,requestmemdi
+        아파트,오피의 경우 단지명,단지주소,동 층 호실의 조합으로 구분한다.사실상 이 조합이 유일하게 임의 등록하려는 전속매물끼릴를 구분할수있는 것이기에. 기존 products,transaction등에서 이러한 조합으로
+        구분하여 존재하고있는것이면 등록안되게끔 하는게 단수알고리즘.
+        */
+        //prd_id로 등록한다.
+        var address = req_body.address;
+        var apartspaceoption = req_body.apartspaceoption_val;
+        var bathroomcount = req_body.bathroomcount_val;
+        var companyid = req_body.companyid;
+        var dangi = req_body.dangi;
+        var direction = req_body.direction_val;
+        var dong = req_body.dong;
+        var entrance = req_body.entrance_val;
+        var exculsive_periods= req_body.exculsive_periods;
+        var exculsivedimension=req_body.exculsivedimension;
+        var exculsivepyeong = req_body.exculsivepyeong;
+        var floor= req_body.floor;
+        var guaranteeprice = req_body.guaranteeprice_val;
+        var heatfuel = req_body.heatfuel_val;
+        var heatmethod = req_body.heatmethod_val;
+        var hosil = req_body.hosil;
+        var ibju_isinstant = req_body.ibju_isinstant;
+        var ibju_specifydate = req_body.ibju_specifydate;
+        ibju_isinstant= (ibju_isinstant != '' || ibju_isinstant != null ) ? ibju_isinstant : 0;
+        ibju_specifydate = (ibju_specifydate != '' || ibju_specifydate != null ) ? ibju_specifydate : '0000-00-00';
+        var iscontractrenewal = req_body.iscontractrenewal_val;
+        var isduplexfloor = req_body.isduplexfloor_val;
+        var iselevator= req_body.iselevator_val;
+        var isparking = req_body.isparking_val;
+        var iswithpet = req_body.iswithpet_val;
+        isduplexfloor= (isduplexfloor != '' || isduplexfloor != null) ? isduplexfloor : 0;
+        isparking = (isparking !='' || isparking != null) ? isparking : 0;
+        iselevator = (iselevator !='' || iselevator != null) ? iselevator : 0;
+        iswithpet = (iswithpet !='' || iswithpet != null)? iswithpet : 0;
+        var loanprice = req_body.loanprice_val;
+        var maemul_description = req_body.mameul_description_val;
+        var maemul_descriptiondetail_val = req_body.maemul_descriptiondetail_val;
+        var maemulname = req_body.maemulname;
+        var maemultype = req_body.maemultype;//maemultype
+        var managecost = req_body.managecost;
+        var managecostincludes = req_body.managecostincludes;
+        var parkingoptions = req_body.parkingoptions_val;
+        var requestmanname = req_body.requestmanname;
+        var requestmemphone = req_body.requestmemphone;
+        var roomcount = req_body.roomcount_val;
+        var securityoption = req_body.securityoption_val;
+        var sellprice = req_body.sellprice;
+        var selltype= req_body.selltype;
+        var spaceaddonoption = req_body.spaceaddonoption_val;
+        var spaceoption = req_body.spaceoption_val;
+        var supplydimension = req_body.supplydimension;
+        var supplypyeong = req_body.supplypyeong;
+        var address_detail = dong + '동 '+floor+' 층'+hosil+'호';
+
+        //product에 가장 먼저 넣고, 추출해야할것은 prd_id(insertId이고) 이 insertid를 prd_identity_id대입한다.
+        await connection.beginTransaction();
+        var [products_insert_rows]=await connection.query('insert into product(address,apartspaceoption,bathroom_count,company_id,direction,entrance,address_detail,exculsive_periods,exculsive_space,exculsive_pyeong,prd_status,floor,month_base_guaranteeprice,heat_fuel_type,heat_method_type,ibju_isinstant, ibju_specifydate, iscontractrenewal, isduplexfloor,is_elevator,is_parking,iswithpet,loanprice,maemul_description,maemul_descriptiondetail,prd_name,prd_type,managecost,managecostincludes,parkingoptions,request_man_name,request_mem_phone,room_count,securityoption,prd_price,prd_sel_type,spaceaddonoption,spaceoption,supply_space,supply_pyeong,product_create_origin) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[address,apartspaceoption,bathroomcount,companyid,direction,entrance,address_detail,exculsive_periods,exculsivedimension,exculsivepyeong,'검토대기',floor,guaranteeprice,heatfuel,heatmethod,ibju_isinstant,ibju_specifydate,iscontractrenewal,isduplexfloor,iselevator,isparking,iswithpet,loanprice,maemul_description,maemul_descriptiondetail_val,maemulname,maemultype,managecost,managecostincludes,parkingoptions,requestmanname,requestmemphone,roomcount,securityoption,sellprice,selltype,spaceaddonoption,spaceoption,supplydimension,supplypyeong,'외부수임']);
+        await connection.commit();
+        console.log('produts insert query rtowss:',products_insert_rows);
+        //connection.release();
+
+        var prd_identity_id=products_insert_rows.insertId;
+
+        //방금막 추가한 isnertid에 해당하는 prd_id의 idnenity_id지정.update지정 update prd_idneity_id ->product
+        await connection.beginTransaction();
+        var [products_update_rows] = await connection.query('update product set prd_identity_id=? where prd_id=?',[prd_identity_id,prd_identity_id]);
+        await connection.commit();
+        console.log('products update query rows:',products_update_rows);
+
+        //trasnaction에 지정한다->> prd_identtiy_id로 지정
+        await connection.beginTransaction();
+        var [transaction_insert_rows] = await connection.query('insert into transaction(company_id,txn_type,txn_status,txn_order_type,create_date,modify_date,prd_identity_id) values(?,?,?,?,?,?,?)',[companyid,1,'검토대기',selltype,new Date(),new Date(),prd_identity_id]);
+        await connection.commit();
+        console.log('products transaction insert query rows:',transaction_insert_rows);
+
+        var extract_txn_id=transaction_insert_rows.insertId;
+
+        //transaction_history에 지정한다 -> prd_identity_id로 지정
+        await connection.beginTransaction();
+        var [transaction_history_insert_rows] = await connection.query('insert into transaction_history(txn_id,company_id,prd_identity_id,th_status,th_type,create_date,modify_date) values(?,?,?,?,?,?,?)',[extract_txn_id,companyid,prd_identity_id,'검토대기',selltype,new Date(),new Date()]);
+        await connection.commit();
+        console.log('transaction_history insert query rows:',transaction_history_insert_rows);
+
+        if(products_update_rows && products_insert_rows && transaction_insert_rows && transaction_history_insert_rows){
+            connection.release();
+            return response.json({success:true, message:'product,transaction등 server query success!!'});
+        }else{
+            connection.rollback();
+            connection.release();
+            return response.json({success:false, message: 'server query parts probilem error!!'});
+        }
+        
+    }catch(err){
+        console.log('server query error',err);
+        connection.rollback();
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
 router.post('/user_brokerRequestlistview',async function(request,response){
     console.log('=============>>>request.body:',request.body);
 
@@ -268,6 +379,93 @@ router.post('/brokerRequest_productconfirmupdate',async function(request,respons
     }catch(err){
         console.log('server query error',err);
         connection.rollback();
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
+//중개사가 등록한 매물에 대해서 투어예약셋팅설정 tour,tourdetail등 테이블처리.
+router.post('/productToursettingRegister',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+
+    const connection=await pool.getConnection(async conn=> conn);
+    
+    //try catch문 mysql 구문 실행구조. tour,tourDetail테이블 정보 insert
+    try{
+       
+       var tour_type = req_body.tour_type;
+       var company_id=req_body.company_id;
+       var mem_id=req_body.mem_id;
+       var prd_identity_ids=req_body.prd_identity_ids;
+
+       var normal_isholidayexcept=req_body.normal_isholidayexcept !='' ? req_body.normal_isholidayexcept : '';
+       var normal_select_daycount=req_body.normal_select_daycount !=''? req_body.normal_select_daycount : 0;
+       var normal_select_days=req_body.normal_select_days != ''? req_body.normal_select_days : '';
+       var normal_select_times=req_body.normal_select_times !=''? req_body.normal_select_times : '';
+       
+       var special_specifydate = req_body.special_specifydate !='' ? req_body.special_specifydate : '0000-00-00';
+       var special_specifydatetimes= req_body.special_specifydatetimes !='' ? req_body.special_specifydatetimes : '';
+       var special_isexceptspecifydate= req_body.special_isexceptspecifydate != '' ? req_body.special_isexceptspecifydate : 0;
+         
+        await connection.beginTransaction();
+
+        var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
+        connection.commit();
+        console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
+        //connection.release();
+        var extract_insertTourid=tour_insert_rows.insertId;
+
+        await connection.beginTransaction();
+
+        var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
+        connection.commit();
+        console.log('tour detail insert rows:',tourdetail_insert_rows);
+
+        connection.release();
+
+        return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows});      
+        
+    }catch(err){
+        console.log('server query error',err);
+        connection.rollback();
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
+//중개사가 등록한 매물별 물건투어예약셋팅 설정 리스트(일반,특별추가리스트) tour,tourDetail등..
+router.post('/productToursettinglist',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+    console.log('req_body :',req_body);
+    const connection=await pool.getConnection(async conn=> conn);
+    
+    console.log('/productToursettinglist request session store:::>>>>',request.session);
+
+    //try catch문 mysql 구문 실행구조.
+    try{
+        var mem_id=request.session.user_id;//아이디는 node에 서버측 세션아이디로 해도된다.
+        var company_id=req_body.company_id;
+        var prd_identity_id=req_body.prd_identity_ids;
+
+        //해당 로그인되어있는 mem_id회원에 대해서 어떤 회사(업체)company_id회원인지 여부를 구한다.(리덕스 비동기 관련 데이터 불러오는 문제 존재하여 추가)
+        var [company_row] = await connection.query("select * from company where mem_id=?",[mem_id]);
+        var get_company_id= company_row[0].company_id;
+        console.log('get_company_id  :',get_company_id,company_row);
+
+        //마이페이지 propertyToursetting/17 특정 매물에 대한 예약 물건투어셋팅리스트
+        var [productToursettinglist_row] = await connection.query("select * from tour where mem_id=? and company_id=? and prd_identity_id=?",[mem_id,get_company_id,prd_identity_id]);
+        console.log('productTourserttinglist row:',productToursettinglist_row);
+        
+        connection.release();
+
+        return response.json({success:true, message:'proudctTOursettinglist server query success!!', result_data: productToursettinglist_row});
+        
+    }catch(err){
+        console.log('server query error',err);
         connection.release();
 
         return response.status(403).json({success:false, message:'server query full problem error!'});

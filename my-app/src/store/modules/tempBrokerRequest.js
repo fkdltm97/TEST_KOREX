@@ -24,6 +24,7 @@ const IBJUSPECIFYDATECHANGE= 'temp_brokerRequest/ibjuspecifydatechange';
 const EXCULSIVEPERIODSCHANGE= 'temp_brokerRequest/exculsiveperiodschange';
 const COMPANYIDCHANGE= 'temp_brokerRequest/companyidchange';
 const REQUESTMEMIDCHANGE= 'temp_brokerRequest/requestmemidchange';
+const MANAGECOSTINCLUDESCHANGE= 'temp_brokerRequest/managecostincludeschange';
 
 // 액션 생성 함수를 만듭니다.
 export const dongchange = createAction(DONGCHANGE);
@@ -48,6 +49,7 @@ export const ibjuspecifydatechange = createAction(IBJUSPECIFYDATECHANGE);
 export const exculsiveperiodschange= createAction(EXCULSIVEPERIODSCHANGE);
 export const companyidchange = createAction(COMPANYIDCHANGE);
 export const requestmemidchange = createAction(REQUESTMEMIDCHANGE);
+export const managecostincludeschange= createAction(MANAGECOSTINCLUDESCHANGE);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
@@ -73,6 +75,7 @@ const initialState = {
    exculsive_periods:'',
    companyid : '',
    requestmemid: '',
+   managecostincludes : ''
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
@@ -104,7 +107,7 @@ export default handleActions({
    });
  },
  [DANGIADDRESSCHANGE]: (state, action) => {
-    console.log('dangiaddresschange 함수 호출 :',state,action);
+    console.log('dangiaddress & address change 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.dangiaddress = action.payload.dangiaddresss;
    });
@@ -129,82 +132,87 @@ export default handleActions({
  },
 
  [MAEMULNAMECHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('maemulnamechange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.maemulname = action.payload.maemulnames;
    });
  },
  [JEONYONGDIMENSIONCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('jeonyongdimensioncahnge 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.jeonyongdimension = action.payload.jeonyongdimensions;
    });
  },
  [JEONYONGPYEONGCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('jeonyongpyeongchange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.jeonyongpyeong = action.payload.jeonyongpyeongs;
    });
  },
  [SUPPLYDIMENSIONCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('supplydimesnionchange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.supplydimension = action.payload.supplydimensions;
    });
  },
  [SUPPLYPYEONGCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('suppylpyeongchange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.supplypyeong = action.payload.supplypyeongs;
    });
  },
  [SELLTYPECHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('selltypechange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.selltype = action.payload.selltypes;
    });
  },
  [SELLPRICECHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('sellrpciehcnage 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.sellprice = action.payload.sellprices;
    });
  },
  [MANAGECOSTCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('managecostchange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.managecost = action.payload.managecosts;
    });
  },
  [IBJUISINSTANTCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('ibjuisinstatnchange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.ibju_isinstant = action.payload.ibju_isinstants;
    });
  },
  [IBJUSPECIFYDATECHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('ibjuspecifydatechange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.ibju_specifydate = action.payload.ibju_specifydates;
    });
  },
  [EXCULSIVEPERIODSCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('exculsiveperidoschange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.exculsive_periods = action.payload.exculsive_periodss;
    });
  },
  [COMPANYIDCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('companyidchange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.companyid = action.payload.companyids;
    });
  },
  [REQUESTMEMIDCHANGE]: (state, action) => {
-    console.log('maemultypechange 함수 호출 :',state,action);
+    console.log('requestmemdichange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.requestmemid = action.payload.requestmemids;
    });
  },
- 
+ [MANAGECOSTINCLUDESCHANGE]: (state, action) => {
+  console.log('managecostincluedschange 함수 호출 :',state,action);
+ return produce(state, draft => {
+   draft.managecostincludes = action.payload.managecostincludess;
+ });
+},
 }, initialState);

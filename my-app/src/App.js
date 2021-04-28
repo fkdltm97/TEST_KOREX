@@ -197,7 +197,7 @@ export default function App(){
             <Route exact path="/RequestReview/:id" component={RequestReview}/>{/*내 물건관리 > 의뢰접수검토*/}
             <Route exact path="/RequestReviewEdit" component={RequestReviewEdit}/>{/*내 물건관리 > 물건 수정(기본정보)*/}
             <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
-            <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
+            <Route exact path="/PropertyTourSetting/:id" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
             <Route exact path="/PropertyTourManage" component={PropertyTourManage}/>{/*물건투어예약접수관리*/}
 
           {/* mobile */}

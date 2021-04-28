@@ -13,11 +13,49 @@ import Checked from '../../../../../img/map/radio_chk.png';
 import Radi from '../../../../../img/map/radi.png';
 import RadiChk from '../../../../../img/map/radi_chk.png';
 
+//리덕스 데이터 저장한다.
+import {temp_tourReservsettingActions } from '../../../../../store/actionCreators';
 
 //필터 모달
 export default function AddSpecial({addSpecial}) {
   const [swit,setSwitch] = useState(false);
+  
+  console.log('=>?>>>>>modalAddsepcial요소 실행>>>>>>>>>>>>>>');
 
+  const [specifydate,setSpecifydate] = useState('');
+  const [specifydatetimes,setSpecifydatetimes] = useState('');
+  const [isexceptspecifydate,setIsexceptspecifydate] = useState('');
+
+  const change_specifydate = (e) => {setSpecifydate(e.target.value);}
+
+  const change_specifydate_times = (e) => {
+    let specifydate_times= document.getElementsByClassName('specifydate_times');
+
+    let checked_items=[];
+    for(let i=0,c=0; i<specifydate_times.length; i++){
+      if(specifydate_times[i].checked){
+        checked_items[c]=specifydate_times[i].value;
+        c++;
+      }
+    }
+    console.log('특정선택일 선택시간대들 변화change:',checked_items);
+    setSpecifydatetimes(checked_items.join(','));
+  }
+  const change_is_except_specifydate = (e) => {
+    if(e.target.checked){
+      setIsexceptspecifydate(1);
+    }else{
+      setIsexceptspecifydate(0);
+    }
+  }
+
+  useEffect( async () => {
+    console.log('=>>>>>>modal addpsecial요소 state내부값들 변화발생시마다:',specifydate,specifydatetimes,isexceptspecifydate);
+
+    temp_tourReservsettingActions.special_specifydatechange({specifydates: specifydate});
+    temp_tourReservsettingActions.special_specifydatetimeschange({specifydatetimess: specifydatetimes});
+    temp_tourReservsettingActions.special_isexceptspecifydatechange({isexceptspecifydates : isexceptspecifydate});
+  });
   //Add 모달창
     return (
         <Container>
@@ -25,7 +63,7 @@ export default function AddSpecial({addSpecial}) {
           {/*일자선택*/}
               <AddBox>
                 <Label>일자 선택</Label>
-                <IputDate type="date" placeholder="일자 선택"/>
+                <IputDate type="date" placeholder="일자 선택" onChange={change_specifydate}/>
               </AddBox>
               <AddBox>
                 <Label>시간</Label>
@@ -40,21 +78,21 @@ export default function AddSpecial({addSpecial}) {
                   swit ?
                 <WrapSwit>
                   <LineBox>
-                      <InputCheck type="checkbox" name="" id="time1"/>
+                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times'name="" id="time1" value='오전 1T'/>
                       <CheckLabelInBox for="time1">
                         <Span3/>
                         오전 1T
                       </CheckLabelInBox>
                     </LineBox>
                     <LineBox>
-                      <InputCheck type="checkbox" name="" id="time2"/>
+                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times' name="" id="time2" value='오후 1T'/>
                       <CheckLabelInBox for="time2">
                         <Span3/>
                         오후 1T
                       </CheckLabelInBox>
                     </LineBox>
                     <LineBox>
-                      <InputCheck type="checkbox" name="" id="time3"/>
+                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times' name="" id="time3" value='오후 2T'/>
                       <CheckLabelInBox for="time3">
                         <Span3/>
                         오후 2T
@@ -69,7 +107,7 @@ export default function AddSpecial({addSpecial}) {
               <AddBox>
                 <Label>제외</Label>
                 <LineBox>
-                  <Radio type="radio" name="" id="radi"/>
+                  <Radio type="checkbox" name="" value='1' id="radi" onClick={change_is_except_specifydate}/>
                   <RadioLabel for="radi">
                     <Span/>
                     제외
@@ -77,7 +115,7 @@ export default function AddSpecial({addSpecial}) {
                 </LineBox>
               </AddBox>
             
-              </WrapAddSelect>
+           </WrapAddSelect>
 
         </Container>
   );

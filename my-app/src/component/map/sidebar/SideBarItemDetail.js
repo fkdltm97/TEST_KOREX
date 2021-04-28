@@ -28,12 +28,13 @@ import SideSubTitle from "./subtitle/SideSubTitle";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
+
 SwiperCore.use([Navigation, Pagination]);
+
+
 export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport }) {
   const [slideUp, setSlideUp] = useState(false);
-
-
-
+  
     return (
         <Container>
           <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}

@@ -21,10 +21,17 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
+//server controller
+import serverController from '../../../../server/serverController';
+
 //component
 import SearchApartOfficetel from "./SearchApartOfficetel";
 import SearchStoreOffice from "./SearchStoreOffice";
 import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
+
+//redux addon sasetss;
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions } from '../../../../store/actionCreators';
 
 export default function NewBasicInfo() {
   const [name,setName] = useState("");/*기본값*/
@@ -46,6 +53,17 @@ export default function NewBasicInfo() {
         setActive(false);
    },)
 
+   const nextStep = async (e) => {
+     console.log('nextStep다음단계 호출');
+    
+    if(active){
+      tempBrokerRequestActions.phonechange({phones: phone});
+      tempBrokerRequestActions.namechange({names: name});
+    }else{
+      e.preventDefault();
+    }
+   };
+
     return (
         <Container>
           <WrapRequest>
@@ -59,7 +77,7 @@ export default function NewBasicInfo() {
                 <Label>휴대전화</Label>
                 <Input type="text" placeholder="휴대번호를 ’-‘를 빼고 입력해주세요." onChange={phoneChange}/>
               </Box>
-              <SubmitButton>
+              <SubmitButton onClick={nextStep}>
                 <Link to="/AddPropertySecond">
                   <Submit type="submit" name="" active={active}>다음</Submit>
                 </Link>

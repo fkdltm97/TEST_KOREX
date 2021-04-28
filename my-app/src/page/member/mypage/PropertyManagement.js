@@ -17,13 +17,10 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
-<<<<<<< HEAD
 
 //server process
 import serverController from '../../../../src/server/serverController';
-=======
 import ModalCommon from '../../../component/common/modal/ModalCommon';
->>>>>>> f572a87799559cf02294518c6417490f5b4ae576
 
 export default function Join() {
   //이용약관

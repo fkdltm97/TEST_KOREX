@@ -19,6 +19,8 @@ export default function Property({setFilter,value,type}) {
   const [openStore, setOpenStore] = useState(false);
   const [selectInfo,setSelectInfo] = useState(false);
 
+  console.log('newProperty물건외부수임추가 요소 실행,상태변화:',activeIndex,openApart,openStore,selectInfo);
+
     return (
         <Container>
           <WrapRequest>
@@ -56,14 +58,14 @@ export default function Property({setFilter,value,type}) {
               }
               {
                 openStore ?
-                <SearchStoreOffice/>
+                <SearchStoreOffice activeIndex={activeIndex} setActiveIndex={setActiveIndex}/>
                 :
                 null
               }
               {/*동, 호수 선택 컴포넌트*/}
               {
-                selectInfo ?
-                <SearchApartOfficetelSelectInfo/>
+                (openApart ==true && selectInfo==true) ?
+                <SearchApartOfficetelSelectInfo activeIndex={activeIndex} setActiveIndex={setActiveIndex}/>
                 :
                 null
               }

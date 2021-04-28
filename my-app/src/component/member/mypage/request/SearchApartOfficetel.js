@@ -30,7 +30,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
     }
   }
   const [active,setActive] = useState(false);
-  //const [searchresult_close,setSearchresult_close]= useState(false);
+  const [searchresult_close,setSearchresult_close]= useState(false);
   /*모달 & show,hide */
   const [modalDanji,setModalDanji] = useState(false);
 
@@ -45,9 +45,9 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
     }
   },)*/
 
-  /*const search_windowclose =() =>{
+  const search_windowclose =() =>{
     setSearchresult_close(true)
-  }*/
+  }
 
     return (
         <Container>
@@ -57,7 +57,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
               <SearchBox>
                 <Search type="search" placeholder="중개의뢰 가능한 단지 검색 예: 반포자이" onChange={searchWord}/>
                 <SearchBtn type="button"/>
-                <WhiteCloseImg active={active} onClick={() => {setActive(false);}}>
+                <WhiteCloseImg active={active} onClick={search_windowclose}>
                   <ResetSearch/>
                 </WhiteCloseImg>
             {/*검색했을때 나오는 부분 */}

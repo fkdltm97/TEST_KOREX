@@ -35,7 +35,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
 
   var settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
@@ -115,8 +115,8 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                     <FilterSelectSortList>
                       <InOption disabled>시간을 선택해주세요.</InOption>
                       <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
+                      <InOption>오후 1T(12:00 ~ 15:00)</InOption>
+                      <InOption>오후 2T(15:00 ~ 18:00)</InOption>
                     </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>

@@ -390,6 +390,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton onClick={nextStep}>
               <Link className="data_link" onClick={()=>{setSuccess(true)}}/>
+              <Next type="button">다음</Next>
             </NextButton>
             {/* 중개의뢰 실패했을때 버튼 ( 모달이 다름 )
             <NextButton>

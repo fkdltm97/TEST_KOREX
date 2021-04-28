@@ -60,7 +60,7 @@ export default function Join() {
               setShow:offModal,
               title:"중개의뢰",
               content:{type:"text",text:`의뢰내용 확실하게 작성하셨나요?\n전문중개사가 의뢰 를 수락하게 되면,\n내용 수정은 전문중개사에게 요청해야 가능합니다.\n중개의뢰를 신청하시겠습니까?`,component:""},
-              submit:{show:true , title:"확인" , link:"/AddRequestBroker", event : ()=>{offModal(); }},
+              submit:{show:true , title:"확인" , link:"/AddPropertyThird", event : ()=>{offModal(); }},
               cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
               confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
           });

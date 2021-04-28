@@ -15,7 +15,12 @@ import Checked from '../../../../img/map/radio_chk.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 import PropertyTourSettingList from "./PropertyTourSettingList";
 
-export default function TourSetting({addBasic,addSpecial}) {
+//Sserver process
+import serverController from '../../../../server/serverController';
+
+import {useSelector } from 'react-redux';
+
+export default function TourSetting({addBasic,addSpecial,id,propertyToursettinglist}) {
   const [onOff,setOnOff] = useState(true);
 
   //... 눌렀을때(메뉴)
@@ -24,6 +29,8 @@ export default function TourSetting({addBasic,addSpecial}) {
     setMenu(!menu);
   }
 
+  const login_userinfo=useSelector(data => data.login_user);
+  console.log('==>>>propertyToursetting 콤퍼넌트 요소 실행::>>>',propertyToursettinglist);
   /*data map*/
   const MemberListItem =[
     {
@@ -53,8 +60,8 @@ export default function TourSetting({addBasic,addSpecial}) {
       phone:"01012345689",
       regidate:"2020.01.01"
     }
-]
-
+  ]
+  
     return (
         <Container>
           <WrapMember>
@@ -83,7 +90,7 @@ export default function TourSetting({addBasic,addSpecial}) {
               </CheckBox>
             </TopInfo>
             {
-            MemberListItem.map((value) => {
+            propertyToursettinglist.map((value) => {
               return(
                 <PropertyTourSettingList onOff={onOff} setOnOff={setOnOff} value={value}/>
                   )

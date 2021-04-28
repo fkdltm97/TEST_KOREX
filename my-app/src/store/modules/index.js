@@ -6,6 +6,7 @@ import login_user from './login_user';
 import tempBrokerRequest from './tempBrokerRequest';
 import brokerRequest_product from './brokerRequest_product';
 import mapRight from './mapRight';
+import temp_tourReservsetting from './temp_tourReservsetting';
 
 export default combineReducers({
   my,
@@ -15,4 +16,5 @@ export default combineReducers({
   tempBrokerRequest,
   brokerRequest_product,
   mapRight,
+  temp_tourReservsetting
 });

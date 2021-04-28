@@ -184,15 +184,10 @@ export default function JoinInput({profileedit,profileeditCheck}) {
             {
               profilelist()
             }
-           <ProfileMiddle>
             {
               profilemiddle_display()
             }
-              {/*전문중개사일때*/}
-                {/*<ProfessionalBroker/>*/}
-              {/*분양대행사일때*/}
-                <Agency/>
-            </ProfileMiddle>
+            
 
           <ProfileBottom>
             <ProfileBottomElement open={open} setOpen={setOpen}/>

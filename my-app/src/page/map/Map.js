@@ -45,7 +45,8 @@ export default function NoticeDetail() {
   const [report,setReport] = useState(false);
   //단지위치 모달
   const [map,setMap] = useState(false);
-
+  
+  //물건예약 수정 모달
 
     return (
         <>

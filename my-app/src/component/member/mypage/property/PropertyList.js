@@ -76,8 +76,10 @@ export default function Request({value, type}) {
                   <MenuIcon/>
                     {
                       menu ?
-                      <InMenu>
+                      <div>
                       {/*검토대기 상태일때*/}
+                        {value.prd_status == '검토대기' ?
+                        <InMenu>
                         <Div>
                           <Link to={`/RequestReview/${value.prd_identity_id}`} className="data_link"></Link>
                           <InDiv>검토</InDiv>
@@ -86,8 +88,13 @@ export default function Request({value, type}) {
                           <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
-
+                        </InMenu>
+                        :
+                        null
+                      }
                       {/*거래 준비 상태일때*/}
+                      {value.prd_status == '거래준비' ?
+                        <InMenu>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래개시승인 요청</InDiv>
@@ -105,15 +112,20 @@ export default function Request({value, type}) {
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link to="/PropertyTourSetting" className="data_link"></Link>
+                          <Link to={`/PropertyTourSetting/${value.prd_identity_id}`} className="data_link"></Link>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
+                        </InMenu>:
+                        null
+                      }
                       {/*거래 개시 상태일때*/}
-  {/*
+                      {
+                        value.prd_status == '거래개시' ?
+                        <InMenu>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래개시승인 요청</InDiv>
@@ -142,8 +154,11 @@ export default function Request({value, type}) {
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-*/}
-                      </InMenu>
+                        </InMenu>
+                        :
+                        null
+                      }
+                      </div>
                       :
                       null
                     }

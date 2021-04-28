@@ -106,9 +106,9 @@ export default function Request({setFilter,updateModal,value,type}) {
               let result_item=value[0];
               console.log('result_item:',result_item);
               const type=()=>{
-                if(result_item.product_create_origin == 1) { 
+                if(result_item.product_create_origin == '중개의뢰' || result_item.product_create_origin == 1) { 
                   return "#fe7a01"
-                }else if(result_item.product_create_origin == 2) {
+                }else if(result_item.product_create_origin == '외부수임') {
                   return "#01684b"
                 }
               }

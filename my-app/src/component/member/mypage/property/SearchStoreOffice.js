@@ -19,12 +19,23 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import SearchStoreOfficeApi from './SearchStoreOfficeApi';
 import ModalCommon from '../../../common/modal/ModalCommon';
 
-export default function SearchApartOfficetel() {
-  const [activeIndex,setActiveIndex] = useState(-1);
+//redux addons assettss
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions } from '../../../../store/actionCreators';
+import tempBrokerRequest from '../../../../store/modules/tempBrokerRequest';
+
+export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
+
   const [hosu,setHosu] = useState(false);
   const [addressApi,setAddressApi] = useState(false);
+
   const [fail,setFail] = useState(false);
 
+  const [search_address,setSearch_address] = useState('');
+  const [floor,setFloor] = useState('');
+  const [hosil,setHosil] = useState('');
+
+  console.log('searchsoterfoffice물건외부관리 실행요소 display:',tempBrokerRequestActions,activeIndex)
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
   //여기 두개가 핵심이에여
@@ -50,6 +61,33 @@ export default function SearchApartOfficetel() {
         confirmgreen:{show:true , title:"확인" , link:"/AddPropertyBasicInfo", event : ()=>{offModal(); }}
       });
     }
+
+    const floorchange= (e) => {setFloor(e.target.value); console.log('floor change층수변경:',e.target.value);}
+    const hosilchange = (e) => {setHosil(e.target.value);}
+
+    const nextStep = (e) => {
+      console.log('다음단계 클릭 >>>>',floor,hosil,search_address);
+
+      //리덕스 저장한다.
+      tempBrokerRequestActions.floorchange({floors:floor});
+      tempBrokerRequestActions.hosilchange({hosils: hosil});
+      tempBrokerRequestActions.dangiaddresschange({dangiaddresss : search_address});
+
+      switch(activeIndex){
+        case 0:
+          tempBrokerRequestActions.maemultypechange({maemultypes: '아파트'});
+        break;
+        case 1:
+          tempBrokerRequestActions.maemultypechange({maemultypes: '오피스텔'});
+        break;
+        case 2:
+          tempBrokerRequestActions.maemultypechange({maemultypes: '상가'});
+        break;
+        case 3:
+          tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
+        break;
+      }
+    }
     return (
         <Container>
           <WrapSearch>
@@ -63,7 +101,7 @@ export default function SearchApartOfficetel() {
                 addressApi ?
                 <AddressApi>
                   <CloseImg src={Close} onClick={() => setAddressApi(false)}/>
-                  <SearchStoreOfficeApi/>
+                  <SearchStoreOfficeApi setSearch_address={setSearch_address} setAddressApi={setAddressApi}/>
                 </AddressApi>
                 :
                 null
@@ -71,14 +109,14 @@ export default function SearchApartOfficetel() {
           {/*주소 검색 후에 나오는 부분*/}
               <WrapBottomBox>
                 <SearchBox>
-                  <Search type="search" value="검색한 주소가 입력돼야함"/>
+                  <Search type="search" value={search_address}/>
                   <SearchBtn type="button"/>
                 </SearchBox>
-                <SelectFloor>
-                  <Option selected>층 선택</Option>
-                  <Option>1층</Option>
-                  <Option>2층</Option>
-                  <Option>3층</Option>
+                <SelectFloor onChange={floorchange}>
+                  <Option>층 선택</Option>
+                  <Option value='1'>1층</Option>
+                  <Option value='2'>2층</Option>
+                  <Option value='3'>3층</Option>
                 </SelectFloor>
                 <Hosu>
                   <Label>호수</Label>
@@ -93,7 +131,7 @@ export default function SearchApartOfficetel() {
                  {
                     hosu ?
                     <Flex>
-                      <InputMidi type="text" placeholder="호 입력"/>
+                      <InputMidi type="text" placeholder="호 입력" onChange={hosilchange}/>
                       <Dan>호</Dan>
                     </Flex>
                     :
@@ -104,7 +142,7 @@ export default function SearchApartOfficetel() {
               </WrapBottomBox>
             </Box>
             {/*버튼 액티브 됐을때 색상 변경돼야함 // 하단 css */}
-            <NextButton>
+            <NextButton onClick={nextStep}>
             {/*<Link to="/AddPropertyBasicInfo" className="data_link"/>*/}
                 <Next type="button" onClick={()=>{updateModal();}}>다음</Next>
             </NextButton>

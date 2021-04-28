@@ -17,7 +17,13 @@ import SelectArrow from '../../../../img/member/arrow_down.png';
 //component
 import ModalCommon from '../../../common/modal/ModalCommon';
 
-export default function SearchApartOfficetel() {
+//redux addon assestess
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions } from '../../../../store/actionCreators';
+
+export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
+  
+  console.log('searchApratofficetleselectinfo요소(외부수임물건관리) 실행요소:',tempBrokerRequestActions);
 
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
@@ -28,7 +34,6 @@ export default function SearchApartOfficetel() {
     option.show = false;
     setModalOption(option);
   }
-
 
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
     const updateModal = () =>{
@@ -44,6 +49,18 @@ export default function SearchApartOfficetel() {
         confirmgreen:{show:true , title:"확인" , link:"/AddPropertyBasicInfo", event : ()=>{offModal(); }}
       });
     }
+
+    const [active,setActive] = useState(false);
+
+    const [dong,setDong] = useState('');
+    const [floor,setFloor] = useState('');
+    const [hosil,setHosil] = useState('');
+    const [userinfo,setUserinfo] = useState(false);
+
+    const dongchange =(e) => {setDong(e.target.value);}
+    const floorchange = (e) => {setFloor(e.target.value);}
+    const hosilchange = (e) => {setHosil(e.target.value);}
+
     return (
         <Container>
           <WrapSearch>
@@ -57,29 +74,53 @@ export default function SearchApartOfficetel() {
               </SearchBox>
             </Box>
             <WrapSelectBox>
-              <Select>
+              <Select name='dong' onChange={dongchange}>
                 <Option selected style={{color:"#979797"}}>동 선택</Option>
-                <Option>101동</Option>
-                <Option>102동</Option>
-                <Option>103동</Option>
+                <Option value='101'>101동</Option>
+                <Option value='102'>102동</Option>
+                <Option value='103'>103동</Option>
               </Select>
-              <Select>
+              <Select name='floor' onChange={floorchange}>
                 <Option selected style={{color:"#979797"}}>층 선택</Option>
-                <Option>1층</Option>
-                <Option>2층</Option>
-                <Option>3층</Option>
+                <Option value='1'>1층</Option>
+                <Option value='2'>2층</Option>
+                <Option value='3'>3층</Option>
               </Select>
-              <Select>
+              <Select name='hosil' onChange={hosilchange}>
                 <Option selected style={{color:"#979797"}}>호 선택</Option>
-                <Option>101호</Option>
-                <Option>102호</Option>
-                <Option>103호</Option>
+                <Option value='101'>101호</Option>
+                <Option value='102'>102호</Option>
+                <Option value='103'>103호</Option>
               </Select>
             </WrapSelectBox>
             <Next>
       {/*조회 성공했을때(물건이 전속매물일 경우)*/}
               {/*<Link className="data_link" to="/AddPropertyBasicInfo"/>*/}
-              <NextBtn type="button" onClick={()=>{updateModal()}}>조회</NextBtn>
+              <NextBtn type="button" onClick={()=>{
+                updateModal();
+                
+                //리덕스 정보 저장 state정보 ->리덕스 저장(동,층,호실 단지명,단지주소등 저장)
+                tempBrokerRequestActions.dongchange({dongs: dong});
+                tempBrokerRequestActions.floorchange({floors:floor});
+                tempBrokerRequestActions.hosilchange({hosils:hosil});
+                tempBrokerRequestActions.dangichange({dangis: '반포동 반포자이'});
+                tempBrokerRequestActions.dangiaddresschange({dangiaddresss:'서울특별시 서초구 반포동'});
+
+                switch(activeIndex){
+                  case 0:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '아파트'});
+                  break;
+                  case 1:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '오피스텔'});
+                  break;
+                  case 2:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '상가'});
+                  break;
+                  case 3:
+                    tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
+                  break;
+                }
+              }}>조회</NextBtn>
             </Next>
           </WrapSearch>
       {/*조회 실패했을때 모달창*/}
