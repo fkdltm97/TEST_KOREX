@@ -74,6 +74,9 @@ import RequestReviewEdit from './page/member/mypage/RequestReviewEdit';
 import RequestReviewEditSecond from './page/member/mypage/RequestReviewEditSecond';
 import PropertyTourSetting from './page/member/mypage/PropertyTourSetting';
 import PropertyTourManage from './page/member/mypage/PropertyTourManage';
+import RegistProBroker from './page/member/mypage/RegistProBroker';
+import RegistProBrokerSecond from './page/member/mypage/RegistProBrokerSecond';
+import RegistProBrokerThird from './page/member/mypage/RegistProBrokerThird';
 
 /*map*/
 import Map from './page/map/Map';
@@ -159,6 +162,9 @@ export default function App(){
             <Route exact path="/RequestReviewEditSecond" component={RequestReviewEditSecond}/>{/*내 물건관리 > 물건 수정(추가정보)*/}
             <Route exact path="/PropertyTourSetting" component={PropertyTourSetting}/>{/*내 물건관리 > 물건투어예약셋팅*/}
             <Route exact path="/PropertyTourManage" component={PropertyTourManage}/>{/*물건투어예약접수관리*/}
+            <Route exact path="/RegistProBroker" component={RegistProBroker}/>{/*전문중개업소신청*/}
+            <Route exact path="/RegistProBrokerSecond" component={RegistProBrokerSecond}/>{/*전문중개업소신청>사업자등록증 등 사진첨부페이지*/}
+            <Route exact path="/RegistProBrokerThird" component={RegistProBrokerThird}/>{/*전문중개업소신청>신청서 확인 페이지*/}
 
           {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}

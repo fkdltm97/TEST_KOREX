@@ -25,7 +25,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import RequestListPage from "./RequestList";
 import RequestSorting from "./RequestSorting";
 
-export default function Request({setFilter,value,type}) {
+export default function Request({mannerModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -118,7 +118,7 @@ export default function Request({setFilter,value,type}) {
               }
 
               return(
-                <RequestListPage setFilter={setFilter} type={type} value={value}/>
+                <RequestListPage mannerModal={mannerModal} type={type} value={value}/>
               )
             })
           }

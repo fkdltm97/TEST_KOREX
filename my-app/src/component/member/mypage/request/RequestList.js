@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, value, type}) {
+export default function Request({mannerModal, value, type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -67,44 +67,44 @@ export default function Request({filter, setFilter, value, type}) {
                       <InMenu>
                       {/*검토대기 상태일때*/}
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       {/*거래 준비 상태일때*/}
-{/*
+
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>거래 개시</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>거래 완료</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>위임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link onClick={()=>{mannerModal();}} className="data_link"/>
                           <InDiv>중개매너 평가</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>상세</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <Link className="data_link"/>
                           <InDiv>삭제</InDiv>
                         </Div>
-*/}
+
                       </InMenu>
                       :
                       null

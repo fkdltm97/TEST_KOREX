@@ -211,7 +211,7 @@ export default function JoinInput({profileedit,profileeditCheck,proBrokerModal})
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
-                  <Link className="data_link"></Link>
+                  <Link to="/RegistProBroker" className="data_link"></Link>
                   <LinkTxt>전문중개사무소 신청</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>

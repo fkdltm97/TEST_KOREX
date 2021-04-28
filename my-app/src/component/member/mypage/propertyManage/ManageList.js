@@ -74,8 +74,8 @@ export default function Request({cancleModal,confirmModal,mapModal,value, type,s
             </Infos>
             <RightMenu>
               <Alarm>
-                <AlarmCheck type="checkbox" id={"check"+value.Request_id} name=""/>
-                <Label for={"check"+value.Request_id}/>
+                <AlarmCheck type="checkbox" id={"check"+value.Manage_id} name=""/>
+                <Label for={"check"+value.Manage_id}/>
               </Alarm>
               <Menu>
                 <Link onClick={showModal}>

@@ -54,8 +54,8 @@ export default function ModalSelect({select,setSelect}) {
         <Container>
           <WrapModalSelect>
             <WrapTop>
-              <InputCheck type="radio" name="tour" id="allcheck" onClick={()=>{setSelect(false);}} defaultChecked/>
-              <CheckLabel for="allcheck">
+              <InputCheck type="radio" name="tour" id="allcheck" defaultChecked/>
+              <CheckLabel for="allcheck" onClick={()=>{setSelect(false);}}>
                 <Span/>
                 전체
               </CheckLabel>
@@ -76,8 +76,8 @@ export default function ModalSelect({select,setSelect}) {
                 <Li>
                 <WrapRight>
                   <CheckBox>
-                    <InputCheckEa type="radio" name="tour" id={"ea"+value.p_id} onClick={()=>{setSelect(true);}}/>
-                    <CheckLabelEa for={"ea"+value.p_id}/>
+                    <InputCheckEa type="radio" name="tour" id={"easelect"+value.p_id} />
+                    <CheckLabelEa for={"easelect"+value.p_id} onClick={()=>{setSelect(true);}}/>
                   </CheckBox>
                 </WrapRight>
                 <WrapLeft>

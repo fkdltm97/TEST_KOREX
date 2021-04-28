@@ -21,7 +21,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 //component
 import ManageList from "./ManageList";
 
-export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,value,type}) {
+export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -113,7 +113,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
                       전체선택
                     </CheckLabel>
                   </CheckBox>
-                  <EditBtn type="button">일괄 수정</EditBtn>
+                  <EditBtn type="button" onClick={()=>{editAllModal();}}>일괄 수정</EditBtn>
                 </AfterSelectView>
                 :
                 null
