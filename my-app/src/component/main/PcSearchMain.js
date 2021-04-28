@@ -6,20 +6,20 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 import IconSearch from '../../img/main/icon_search.png';
 
-
-export default function PcSearchMain() {
+export default function PcSearchMain({activeText}) {
   const [searchShow,setSearchShow] = useState(false);
 
   const showModal =()=>{
     setSearchShow(!searchShow);
   }
 
+
   return (
     <Container>
         <WrapMainSearch>
             <MainSearch>
               <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색" onClick={() =>{setSearchShow(true)}}/>
-              <Link to="/Map">
+              <Link to={`/Map/${activeText}`} >
                 <SearchBtn type="submit" name=""/>
               </Link>
             </MainSearch>

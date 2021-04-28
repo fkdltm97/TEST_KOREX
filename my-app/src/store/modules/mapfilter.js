@@ -29,7 +29,13 @@ const initialState = {
       switchArr:[],
       life_facilites:[],
       use:"전체",
-      floor:"전체",
+      purpose:"전체",
+      room:["전체"],
+      double:"전체",
+      pet:"전체",
+      roomApart:"전체",
+      bath:"전체",
+      danji:"전체"
     },
 };
 

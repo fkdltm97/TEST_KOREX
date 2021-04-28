@@ -15,12 +15,12 @@ import WrapMap from './map/WrapMap';
 import MainWrapSideBar from './sidebar/MainWrapSideBar';
 import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 
-export default function MainHeader({openBunyang, rank, setReport,setMap}) {
+export default function MainHeader({openBunyang, rank, setReport,setMap, status}) {
     const [pageIndex , setPageIndex] = useState(0);
     return (
         <Container>
           <PC>
-            <WrapMap/>
+            <WrapMap status={status}/>
           </PC>
           <Mobile>
             {
