@@ -90,6 +90,92 @@ export default function MapFilter({status}) {
     return <>{text}</>
   }
 
+  useEffect(() => {
+
+  }, [mapFilterRedux.filterArr.priceRange])
+
+
+  const priceRangeText = () => {
+    const data = mapFilterRedux.filterArr.priceRange;
+    if(data=="전체"){
+      return;
+    }
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="priceRange" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+  const manaRangeText = () => {
+    const data = mapFilterRedux.filterArr.manaRange;
+    if(data=="전체"){
+      return;
+    }
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="manaRange" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+  const areaRangeText = () => {
+    const data = mapFilterRedux.filterArr.areaRange;
+    if(data=="전체"){
+      return;
+    }
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="areaRange" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+  const jeonseRangeText = () => {
+    const data = mapFilterRedux.filterArr.jeonseRange;
+    if(data=="전체"){
+      return;
+    }
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="jeonseRange" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+  const monthlyRangeText = () => {
+    const data = mapFilterRedux.filterArr.monthlyRange;
+    if(data=="전체"){
+      return;
+    }
+    return(
+      <SlickSlide className="slide__one">
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type="monthlyRange" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
   // 옵션
   const optionText = () => {
     const data = mapFilterRedux.filterArr.life_facilites;
@@ -383,7 +469,14 @@ export default function MapFilter({status}) {
               </Link>
             </SlickSlide>
 
-            {/*  주차, 화장실 */}
+
+            {priceRangeText()}
+            {jeonseRangeText()}
+            {monthlyRangeText()}
+            {manaRangeText()}
+            {areaRangeText()}
+
+            {/*  주차, 화장실, 관리비 */}
             {
               mapFilterRedux.filterArr.switchArr.length !== 0 &&
               mapFilterRedux.filterArr.switchArr.map((item, index) => {
