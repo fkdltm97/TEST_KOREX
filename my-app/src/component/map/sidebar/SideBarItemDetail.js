@@ -32,11 +32,7 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 SwiperCore.use([Navigation, Pagination]);
 
 
-<<<<<<< HEAD
 export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport ,reser,updateReserveModal,click_prdidentityid}) {
-=======
-export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport,reserveModal }) {
->>>>>>> bcdad4a3404823a192ee934b0d39ed4e721f6548
   const [slideUp, setSlideUp] = useState(false);
     
   console.log('sdieBarItemDetail요소 실행  클릭한 특정상품 prd_identity_id >>>:',updateReserveModal,click_prdidentityid);
@@ -68,13 +64,8 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           </TopDetailImg>
         {/*물건투어예약 , 실거래, 허위매물 신고 버튼*/}
           <TopButtons>
-<<<<<<< HEAD
             <Button onClick={updateReserveModal}>
               <Link className="data_link"/>
-=======
-            <Button>
-              <Link onClick={()=>{reserveModal();}} className="data_link"/>
->>>>>>> bcdad4a3404823a192ee934b0d39ed4e721f6548
               <IconImg src={Exit}/>
               <ButtonTitle>물건투어예약</ButtonTitle>
             </Button>
