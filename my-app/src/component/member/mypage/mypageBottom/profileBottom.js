@@ -19,343 +19,421 @@ export default function ProfileBottomElement({open,setOpen}) {
 
      console.log('-------,<<>login_userinfodata',login_userinfodata);
 
-     const profilebottom_contents_control = () => {
-       if(login_userinfodata.user_type == '개인'){
+    const profilebottom_contents_control = () => {
+
+      if(login_userinfodata.is_login == 1){
+        if(login_userinfodata.user_type == '개인'){
+          if(login_userinfodata.mem_admin=='root'){
+            return(
+             <div>
+               <Li>
+                 <Link to="/MyLike" className="data_link"></Link>
+                 <LinkTxt>내 관심</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li>
+               <Li>
+                 <Link to="/Reservation" className="data_link"></Link>
+                 <LinkTxt>내 물건 투어 예약</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li>
+               <Li>
+                 <Link to="/Request" className="data_link"></Link>
+                 <LinkTxt>내 중개 의뢰</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li> 
+               <Li>
+                 <Link to="/MyAlarm" className="data_link"></Link>
+                 <LinkTxt>내 알림</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li>
+           </div>
+            );
+          }else if(login_userinfodata.mem_admin=='team'){
+             return(
+               <div>
+                 <Li>
+                   <Link to="/MyLike" className="data_link"></Link>
+                   <LinkTxt>내 관심</LinkTxt>
+                   <Arrow src={RightArrow}/>
+                 </Li>
+                 <Li>
+                   <Link to="/Reservation" className="data_link"></Link>
+                   <LinkTxt>내 물건 투어 예약</LinkTxt>
+                   <Arrow src={RightArrow}/>
+                 </Li>
+                 <Li>
+                   <Link to="/Request" className="data_link"></Link>
+                   <LinkTxt>내 중개 의뢰</LinkTxt>
+                   <Arrow src={RightArrow}/>
+                 </Li> 
+                 <Li>
+                   <Link to="/MyAlarm" className="data_link"></Link>
+                   <LinkTxt>내 알림</LinkTxt>
+                   <Arrow src={RightArrow}/>
+                 </Li>
+             </div>
+             );
+          }
+        }
+        if(login_userinfodata.user_type == '기업'){
          if(login_userinfodata.mem_admin=='root'){
            return(
-            <div>
-              <Li>
-                <Link to="/MyLike" className="data_link"></Link>
-                <LinkTxt>내 관심</LinkTxt>
-                <Arrow src={RightArrow}/>
-              </Li>
-              <Li>
-                <Link to="/Reservation" className="data_link"></Link>
-                <LinkTxt>내 물건 투어 예약</LinkTxt>
-                <Arrow src={RightArrow}/>
-              </Li>
-              <Li>
-                <Link to="/Request" className="data_link"></Link>
-                <LinkTxt>내 중개 의뢰</LinkTxt>
-                <Arrow src={RightArrow}/>
-              </Li> 
-              <Li>
-                <Link to="/MyAlarm" className="data_link"></Link>
-                <LinkTxt>내 알림</LinkTxt>
-                <Arrow src={RightArrow}/>
-              </Li>
-          </div>
-           );
+             <div>
+             <Li>
+               <Link to="/MyLike" className="data_link"></Link>
+               <LinkTxt>내 관심</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/Reservation" className="data_link"></Link>
+               <LinkTxt>내 물건 투어 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/Request" className="data_link"></Link>
+               <LinkTxt>내 중개 의뢰</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/CompanyProfile" className="data_link"></Link>
+               <LinkTxt>회사 프로필 설정</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyMember" className="data_link"></Link>
+               <LinkTxt>팀원 관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li> 
+             <Li>
+               <Link to="/MyAlarm" className="data_link"></Link>
+               <LinkTxt>내 알림</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+         </div>
+           )
          }else if(login_userinfodata.mem_admin=='team'){
             return(
-              <div>
-                <Li>
-                  <Link to="/MyLike" className="data_link"></Link>
-                  <LinkTxt>내 관심</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li>
-                <Li>
-                  <Link to="/Reservation" className="data_link"></Link>
-                  <LinkTxt>내 물건 투어 예약</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li>
-                <Li>
-                  <Link to="/Request" className="data_link"></Link>
-                  <LinkTxt>내 중개 의뢰</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li> 
-                <Li>
-                  <Link to="/MyAlarm" className="data_link"></Link>
-                  <LinkTxt>내 알림</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li>
-            </div>
+               <div>
+               <Li>
+                 <Link to="/MyLike" className="data_link"></Link>
+                 <LinkTxt>내 관심</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li>
+               <Li>
+                 <Link to="/Reservation" className="data_link"></Link>
+                 <LinkTxt>내 물건 투어 예약</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li>
+               <Li>
+                 <Link to="/Request" className="data_link"></Link>
+                 <LinkTxt>내 중개 의뢰</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li> 
+               <Li>
+                 <Link to="/MyAlarm" className="data_link"></Link>
+                 <LinkTxt>내 알림</LinkTxt>
+                 <Arrow src={RightArrow}/>
+               </Li>
+           </div>
             );
          }
        }
-       if(login_userinfodata.user_type == '기업'){
-        if(login_userinfodata.mem_admin=='root'){
-          return(
-            <div>
-            <Li>
-              <Link to="/MyLike" className="data_link"></Link>
-              <LinkTxt>내 관심</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/Reservation" className="data_link"></Link>
-              <LinkTxt>내 물건 투어 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/Request" className="data_link"></Link>
-              <LinkTxt>내 중개 의뢰</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/CompanyProfile" className="data_link"></Link>
-              <LinkTxt>회사 프로필 설정</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyMember" className="data_link"></Link>
-              <LinkTxt>팀원 관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li> 
-            <Li>
-              <Link to="/MyAlarm" className="data_link"></Link>
-              <LinkTxt>내 알림</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-        </div>
-          )
-        }else if(login_userinfodata.mem_admin=='team'){
+       if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive != '1'){
+         if(login_userinfodata.mem_admin=='root'){
            return(
+             <div>
+             <Li>
+               <Link to="/MyLike" className="data_link"></Link>
+               <LinkTxt>내 관심</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/Reservation" className="data_link"></Link>
+               <LinkTxt>내 물건 투어 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyLive" className="data_link"></Link>
+               <LinkTxt>내 Live 시청 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/BrokerReservation" className="data_link"></Link>
+               <LinkTxt>내 방문예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link className="data_link"></Link>
+               <LinkTxt>전문중개사무소 신청</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/CompanyProfile" className="data_link"></Link>
+               <LinkTxt>회사 프로필 설정</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyMember" className="data_link"></Link>
+               <LinkTxt>팀원 관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li> 
+             <Li>
+               <Link to="/MyAlarm" className="data_link"></Link>
+               <LinkTxt>내 알림</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+         </div>
+          );
+         }else if(login_userinfodata.mem_admin=='team'){
+           return(
+             <div>
+             <Li>
+               <Link to="/MyLike" className="data_link"></Link>
+               <LinkTxt>내 관심</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/Reservation" className="data_link"></Link>
+               <LinkTxt>내 물건 투어 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyLive" className="data_link"></Link>
+               <LinkTxt>내 Live 시청 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/BrokerReservation" className="data_link"></Link>
+               <LinkTxt>내 방문예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyAlarm" className="data_link"></Link>
+               <LinkTxt>내 알림</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+         </div>
+          );
+         }
+       }
+       if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive == '1'){
+         if(login_userinfodata.mem_admin=='root'){
+           return(
+             <div>
+             <Li>
+               <Link to="/MyLike" className="data_link"></Link>
+               <LinkTxt>내 관심</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/Reservation" className="data_link"></Link>
+               <LinkTxt>내 물건 투어 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyLive" className="data_link"></Link>
+               <LinkTxt>내 Live 시청 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/BrokerReservation" className="data_link"></Link>
+               <LinkTxt>내 방문예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/PropertyManagement" className="data_link"></Link>
+               <LinkTxt>물건관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link className="data_link"></Link>
+               <LinkTxt>물건투어예약접수 관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/CompanyProfile" className="data_link"></Link>
+               <LinkTxt>회사 프로필 설정</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyMember" className="data_link"></Link>
+               <LinkTxt>팀원 관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li> 
+             <Li>
+               <Link to="/MyAlarm" className="data_link"></Link>
+               <LinkTxt>내 알림</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+         </div>
+          );
+         }else if(login_userinfodata.mem_admin=='team'){
+           return(
+             <div>
+             <Li>
+               <Link to="/MyLike" className="data_link"></Link>
+               <LinkTxt>내 관심</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/Reservation" className="data_link"></Link>
+               <LinkTxt>내 물건 투어 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/MyLive" className="data_link"></Link>
+               <LinkTxt>내 Live 시청 예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/BrokerReservation" className="data_link"></Link>
+               <LinkTxt>내 방문예약</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link to="/PropertyManagement" className="data_link"></Link>
+               <LinkTxt>물건관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+             <Li>
+               <Link className="data_link"></Link>
+               <LinkTxt>물건투어예약접수 관리</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li> 
+             <Li>
+               <Link to="/MyAlarm" className="data_link"></Link>
+               <LinkTxt>내 알림</LinkTxt>
+               <Arrow src={RightArrow}/>
+             </Li>
+         </div>
+          );
+         }
+       }
+       if(login_userinfodata.user_type == '분양대행사'){
+          if(login_userinfodata.mem_admin=='root'){
+            return(
               <div>
               <Li>
-                <Link to="/MyLike" className="data_link"></Link>
-                <LinkTxt>내 관심</LinkTxt>
+                <LiPJ>
+                  <Link className="data_link" onClick={() =>{setOpen(!open)}}/>
+                  <LinkTxt>분양프로젝트 관리</LinkTxt>
+                  <ArrowRotate src={RightArrow}/>
+                </LiPJ>
+                { open ?
+                  <SubDepth>
+                    <SubLi><Link to="/MyLiveSetting" className="data_link"/>- Live 시청예약세팅</SubLi>
+                    <SubLi><Link to="/MyVisitSetting" className="data_link"/>- 방문예약세팅</SubLi>
+                  </SubDepth>
+                  :
+                  null}
+              </Li>
+
+              <Li>
+                <Link to="/CompanyProfile" className="data_link"></Link>
+                <LinkTxt>회사 프로필 설정</LinkTxt>
                 <Arrow src={RightArrow}/>
               </Li>
               <Li>
-                <Link to="/Reservation" className="data_link"></Link>
-                <LinkTxt>내 물건 투어 예약</LinkTxt>
+                <Link to="/MyMember" className="data_link"></Link>
+                <LinkTxt>팀원 관리</LinkTxt>
                 <Arrow src={RightArrow}/>
               </Li>
-              <Li>
-                <Link to="/Request" className="data_link"></Link>
-                <LinkTxt>내 중개 의뢰</LinkTxt>
-                <Arrow src={RightArrow}/>
-              </Li> 
               <Li>
                 <Link to="/MyAlarm" className="data_link"></Link>
                 <LinkTxt>내 알림</LinkTxt>
                 <Arrow src={RightArrow}/>
               </Li>
           </div>
-           );
+          );
+          }else if(login_userinfodata.mem_admin=='team'){
+            return(
+            <div>
+              <Li>
+              <Link to="/MyAlarm" className="data_link"></Link>
+              <LinkTxt>내 알림</LinkTxt>
+              <Arrow src={RightArrow}/>
+            </Li>
+          </div>
+            );
+          }
         }
-      }
-      if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive != '1'){
-        if(login_userinfodata.mem_admin=='root'){
-          return(
-            <div>
-            <Li>
-              <Link to="/MyLike" className="data_link"></Link>
-              <LinkTxt>내 관심</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/Reservation" className="data_link"></Link>
-              <LinkTxt>내 물건 투어 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyLive" className="data_link"></Link>
-              <LinkTxt>내 Live 시청 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/BrokerReservation" className="data_link"></Link>
-              <LinkTxt>내 방문예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link className="data_link"></Link>
-              <LinkTxt>전문중개사무소 신청</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/CompanyProfile" className="data_link"></Link>
-              <LinkTxt>회사 프로필 설정</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyMember" className="data_link"></Link>
-              <LinkTxt>팀원 관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li> 
-            <Li>
-              <Link to="/MyAlarm" className="data_link"></Link>
-              <LinkTxt>내 알림</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-        </div>
-         );
-        }else if(login_userinfodata.mem_admin=='team'){
-          return(
-            <div>
-            <Li>
-              <Link to="/MyLike" className="data_link"></Link>
-              <LinkTxt>내 관심</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/Reservation" className="data_link"></Link>
-              <LinkTxt>내 물건 투어 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyLive" className="data_link"></Link>
-              <LinkTxt>내 Live 시청 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/BrokerReservation" className="data_link"></Link>
-              <LinkTxt>내 방문예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyAlarm" className="data_link"></Link>
-              <LinkTxt>내 알림</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-        </div>
-         );
-        }
-      }
-      if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive == '1'){
-        if(login_userinfodata.mem_admin=='root'){
-          return(
-            <div>
-            <Li>
-              <Link to="/MyLike" className="data_link"></Link>
-              <LinkTxt>내 관심</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/Reservation" className="data_link"></Link>
-              <LinkTxt>내 물건 투어 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyLive" className="data_link"></Link>
-              <LinkTxt>내 Live 시청 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/BrokerReservation" className="data_link"></Link>
-              <LinkTxt>내 방문예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/PropertyManagement" className="data_link"></Link>
-              <LinkTxt>물건관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link className="data_link"></Link>
-              <LinkTxt>물건투어예약접수 관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/CompanyProfile" className="data_link"></Link>
-              <LinkTxt>회사 프로필 설정</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyMember" className="data_link"></Link>
-              <LinkTxt>팀원 관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li> 
-            <Li>
-              <Link to="/MyAlarm" className="data_link"></Link>
-              <LinkTxt>내 알림</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-        </div>
-         );
-        }else if(login_userinfodata.mem_admin=='team'){
-          return(
-            <div>
-            <Li>
-              <Link to="/MyLike" className="data_link"></Link>
-              <LinkTxt>내 관심</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/Reservation" className="data_link"></Link>
-              <LinkTxt>내 물건 투어 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyLive" className="data_link"></Link>
-              <LinkTxt>내 Live 시청 예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/BrokerReservation" className="data_link"></Link>
-              <LinkTxt>내 방문예약</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/PropertyManagement" className="data_link"></Link>
-              <LinkTxt>물건관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link className="data_link"></Link>
-              <LinkTxt>물건투어예약접수 관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li> 
-            <Li>
-              <Link to="/MyAlarm" className="data_link"></Link>
-              <LinkTxt>내 알림</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-        </div>
-         );
-        }
-      }
-      if(login_userinfodata.user_type == '분양대행사'){
-        if(login_userinfodata.mem_admin=='root'){
-          return(
-            <div>
-            <Li>
-              <LiPJ>
-                <Link className="data_link" onClick={() =>{setOpen(!open)}}/>
-                <LinkTxt>분양프로젝트 관리</LinkTxt>
-                <ArrowRotate src={RightArrow}/>
-              </LiPJ>
-              { open ?
-                <SubDepth>
-                  <SubLi><Link to="/MyLiveSetting" className="data_link"/>- Live 시청예약세팅</SubLi>
-                  <SubLi><Link to="/MyVisitSetting" className="data_link"/>- 방문예약세팅</SubLi>
-                </SubDepth>
-                :
-                null}
-            </Li>
-
-            <Li>
-              <Link to="/CompanyProfile" className="data_link"></Link>
-              <LinkTxt>회사 프로필 설정</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyMember" className="data_link"></Link>
-              <LinkTxt>팀원 관리</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-            <Li>
-              <Link to="/MyAlarm" className="data_link"></Link>
-              <LinkTxt>내 알림</LinkTxt>
-              <Arrow src={RightArrow}/>
-            </Li>
-        </div>
-         );
-        }else if(login_userinfodata.mem_admin=='team'){
-          return(
-          <div>
-            <Li>
-            <Link to="/MyAlarm" className="data_link"></Link>
-            <LinkTxt>내 알림</LinkTxt>
+      } else{
+      //비로그인 or 오류로 인한 상태일경우 테스트환경 조성
+      return(
+        <div>
+          <Li>
+            <Link to="/MyLike" className="data_link"></Link>
+            <LinkTxt>내 관심</LinkTxt>
             <Arrow src={RightArrow}/>
           </Li>
-        </div>
-          );
-        }
-      }
+          <Li>
+            <Link to="/Reservation" className="data_link"></Link>
+            <LinkTxt>내 물건 투어 예약</LinkTxt>
+            <Arrow src={RightArrow}/>
+          </Li>
+          <Li>
+            <Link to="/Request" className="data_link"></Link>
+            <LinkTxt>내 중개 의뢰</LinkTxt>
+            <Arrow src={RightArrow}/>
+          </Li> 
+          <Li>
+          <Link to="/MyLive" className="data_link"></Link>
+          <LinkTxt>내 Live 시청 예약</LinkTxt>
+          <Arrow src={RightArrow}/>
+         </Li>
+        <Li>
+          <Link to="/BrokerReservation" className="data_link"></Link>
+          <LinkTxt>내 방문예약</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li>
+        <Li>
+          <Link className="data_link"></Link>
+          <LinkTxt>전문중개사무소 신청</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li>
+        <Li>
+          <Link to="/PropertyManagement" className="data_link"></Link>
+          <LinkTxt>물건관리</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li>
+        <Li>
+          <Link className="data_link"></Link>
+          <LinkTxt>물건투어예약접수 관리</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li>
+        <Li>
+         <LiPJ>
+           <Link className="data_link" onClick={() =>{setOpen(!open)}}/>
+           <LinkTxt>분양프로젝트 관리</LinkTxt>
+           <ArrowRotate src={RightArrow}/>
+         </LiPJ>
+         { open ?
+           <SubDepth>
+             <SubLi><Link to="/MyLiveSetting" className="data_link"/>- Live 시청예약세팅</SubLi>
+             <SubLi><Link to="/MyVisitSetting" className="data_link"/>- 방문예약세팅</SubLi>
+           </SubDepth>
+           :
+           null}
+        </Li>
+        <Li>
+          <Link to="/CompanyProfile" className="data_link"></Link>
+          <LinkTxt>회사 프로필 설정</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li>
+        <Li>
+          <Link to="/MyMember" className="data_link"></Link>
+          <LinkTxt>팀원 관리</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li> 
+        <Li>
+          <Link to="/MyAlarm" className="data_link"></Link>
+          <LinkTxt>내 알림</LinkTxt>
+          <Arrow src={RightArrow}/>
+        </Li>
+      </div>
+      );
      }
+   }
     return (
       <Container>
           <Ul>
@@ -443,8 +521,7 @@ export default function ProfileBottomElement({open,setOpen}) {
               
         </Container>
     )
-  
-}
+  }
 
 const Pb = styled.b`
   display:block;

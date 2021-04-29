@@ -32,9 +32,10 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 SwiperCore.use([Navigation, Pagination]);
 
 
-export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport }) {
+export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport ,reser,updateReserveModal,click_prdidentityid}) {
   const [slideUp, setSlideUp] = useState(false);
-  
+    
+  console.log('sdieBarItemDetail요소 실행  클릭한 특정상품 prd_identity_id >>>:',updateReserveModal,click_prdidentityid);
     return (
         <Container>
           <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
@@ -63,7 +64,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           </TopDetailImg>
         {/*물건투어예약 , 실거래, 허위매물 신고 버튼*/}
           <TopButtons>
-            <Button>
+            <Button onClick={updateReserveModal}>
               <Link className="data_link"/>
               <IconImg src={Exit}/>
               <ButtonTitle>물건투어예약</ButtonTitle>

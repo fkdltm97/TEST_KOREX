@@ -18,12 +18,16 @@ import SideBarBrokerDetail from './SideBarBrokerDetail';
 // redux
 import { useSelector } from 'react-redux';
 
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+import ModalReserve from '../../../component/member/mypage/reservation/ModalReserve';
+
 export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
   const [updown,setUpDown] = useState(false);
-  
+  const [click_prdidentityid,setClick_prdidentityid] = useState('');
+
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   
   const position=()=>{
@@ -52,29 +56,57 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
     }
   }
 
-  const pageLoader = () =>{
+  const pageLoader = (updateReserveModals) =>{
     switch (pageIndex) {
       case 0: return <MainSideBar updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
-      case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport}/>; //물건 상세페이지
+      case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={updateReserveModals} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
       default :return <MainSideBar updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>;
     }
   }
-  const updatePageIndex = (index) =>{
+  const updatePageIndex = (index,click_prd_identity_id) =>{
     if(index < 0)
       setPageIndex(0);
-    else if(index == 1)
+    else if(index == 1){
       setPageIndex(1);
+      setClick_prdidentityid(click_prd_identity_id);//클릭한 prd_idnentity매물아디값 mainWrapsidebar state상태값으로 관리.
+    }
       else if(index == 2)
         setPageIndex(2);
     else
       setPageIndex(index);
   }
+
+  //물건 투어예약 모달창 
+  const [reserve,setReserve] = useState(false);
+  
+  const [modalOption,setModalOption] = useState({show: false,setShow: null, link:'',title:'',submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+
+  const offModal = () => {
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show =false;
+    setModalOption(option);
+  }
+  const updateReserveModal = () =>{
+    console.log('updateReservemodal 예약모달창띄우기');
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"투어예약 진행",
+        content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalReserve/>},
+        submit:{show:false , title:"" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+        confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+
+    });
+  }
+
     return (
         <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top}>
         {
-          pageLoader()
+          pageLoader(updateReserveModal)
         }
+          <ModalCommon modalOption={modalOption}/>
         </Container>
   );
 }

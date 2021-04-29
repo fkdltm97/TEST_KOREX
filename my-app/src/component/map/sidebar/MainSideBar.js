@@ -104,10 +104,10 @@ const ItemListItem =[
   desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
 },
 {
-  item_id : 6,
+  item_id : 17,
   path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
+  startDate:"21.00.00",
+  endDate: "21.00.00",
   kind:"아파트",
   detail:"자이 109동",
   price:"전세 12억 5,000",

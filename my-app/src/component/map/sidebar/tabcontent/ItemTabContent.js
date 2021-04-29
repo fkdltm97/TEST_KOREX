@@ -25,7 +25,7 @@ export default function ItemTabContent({updatePageIndex,itemList,setHistoryInfo,
             itemList.map((value) => {
               return(
                 <TabContent>
-                  <Link onClick={() => {updatePageIndex(1); setHistoryInfo(e => {e.prevIndex.push(index); return JSON.parse(JSON.stringify(e));}); }} className="data_link"></Link>
+                  <Link onClick={() => {updatePageIndex(1,value.item_id); setHistoryInfo(e => {e.prevIndex.push(index); return JSON.parse(JSON.stringify(e));}); }} className="data_link"></Link>
                   <LeftContent>
                     {/*전속매물에 속한 아파트 일때 TopBox가 나와야함*/}
                     <TopBox>

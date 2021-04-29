@@ -38,67 +38,82 @@ export default function JoinInput({profileedit,profileeditCheck}) {
 
   const profilehead = () => {
     console.log('profilehead함수 호출==========>>>',login_userinfodata.user_type);
-     switch(login_userinfodata.user_type){
 
-      case '전문중개사':
-         {/*전문중개사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
-         return (
-          <BrokerTag>
-            <BrokerKinds>관리자</BrokerKinds>
-            <MarkerImg>전문</MarkerImg>
-          </BrokerTag> 
-        );
-      break;
-    
-      case '분양대행사':
-        {/*분양대행사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
-        return(
+    if(login_userinfodata.is_login == 1){
+      switch(login_userinfodata.user_type){
+
+        case '전문중개사':
+           {/*전문중개사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
+           return (
             <BrokerTag>
               <BrokerKinds>관리자</BrokerKinds>
-            </BrokerTag>
+              <MarkerImg>전문</MarkerImg>
+            </BrokerTag> 
           );
         break;
-     }
+      
+        case '분양대행사':
+          {/*분양대행사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
+          return(
+              <BrokerTag>
+                <BrokerKinds>관리자</BrokerKinds>
+              </BrokerTag>
+            );
+          break;
+       }
+    }else{
+      //로그인 오류 or 로그인 안된 상태일경우에도 일단 띄운다. 테스트용도로 비로그인상태라면 딱히 중개사or분양대행사 상태는 아니기에 두 관련 상태는 x
+
+    }
+     
   }
 
   const profilemiddle_display = () => {
     console.log('profilemiddle함수 호출 =================>>',login_userinfodata.user_type);
-     
-    switch(login_userinfodata.user_type){
-      case '개인':
-         return(
-          <ProfileMiddle> 
-            <PersonalAndCompany/>
-          </ProfileMiddle>
-         );
-      break;
-
-      case '기업':
-        return(
-          <ProfileMiddle>
-            <PersonalAndCompany/>
-          </ProfileMiddle>
-         );
-      break;
-
-      case '전문중개사':
+    
+    if(login_userinfodata.is_login == 1){
+      switch(login_userinfodata.user_type){
+        case '개인':
+           return(
+            <ProfileMiddle> 
+              <PersonalAndCompany/>
+            </ProfileMiddle>
+           );
+        break;
+  
+        case '기업':
           return(
-          <ProfileMiddle>
-            <ProfessionalBroker/>
-          </ProfileMiddle>
-          );
-      break;
-
-      case '분양대행사':
-          return(
-          <ProfileMiddle>
-            <Agency/>
-          </ProfileMiddle>
-          );
-      break;
-    }
-   
+            <ProfileMiddle>
+              <PersonalAndCompany/>
+            </ProfileMiddle>
+           );
+        break;
+  
+        case '전문중개사':
+            return(
+            <ProfileMiddle>
+              <ProfessionalBroker/>
+            </ProfileMiddle>
+            );
+        break;
+  
+        case '분양대행사':
+            return(
+            <ProfileMiddle>
+              <Agency/>
+            </ProfileMiddle>
+            );
+        break;
+      }
+    }else{
+      return(
+        <ProfileMiddle> 
+          <PersonalAndCompany/>
+        </ProfileMiddle>
+      );
+    }  
   }
+  
   const usernameChange = (e) =>{
      console.log('상태값username 변화:',e.target.value);
   }//사업자번호1,2,3 부분별 입력. 3-2-5자리.
