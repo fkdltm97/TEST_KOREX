@@ -298,7 +298,7 @@ const RightStar = styled.div`
 `
 const CallBox = styled.div`
   display:flex;justify-content:center;align-items:center;
-  width:465px;
+  width:90%;
   height: 84px;
   padding:0 16px;
   margin:16px auto 0;

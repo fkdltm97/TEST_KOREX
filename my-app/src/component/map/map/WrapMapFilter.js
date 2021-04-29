@@ -457,6 +457,7 @@ const WrapFilter = styled.div`
   background-color: #ffffff;
   left:22px;top:26px;
   overflow-y:scroll;
+  overflow-x:hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {display: none;}
@@ -481,6 +482,7 @@ width:100%;
 margin-bottom:16px;
 @media ${(props) => props.theme.mobile} {
   margin-bottom:calc(100vw*(8/428));
+  padding:0 calc(100vw*(20/428));
 }
 `
 const FliterEa = styled.p`
@@ -505,6 +507,7 @@ const FliterEa = styled.p`
   @media ${(props) => props.theme.mobile} {
     height:calc(100vw*(30/428));
     font-size:calc(100vw*(14/428));
+    width:auto;
   }
 `
 const CloseFilter = styled.div`
