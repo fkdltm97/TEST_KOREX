@@ -170,7 +170,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
 
 */
 const Container = styled.div `
-  padding:0 22px;
+  padding:0 10px;
   @media ${(props) => props.theme.mobile} {
     padding:0 calc(100vw*(22/428));
   }
@@ -220,7 +220,7 @@ const Orange = styled.span`
 
 const WrapNonTab = styled.div`
   width:100%;padding:0 25px;
-  display:flex;justify-content:space-between;align-items;center;
+  display:flex;justify-content:space-between;align-items:center;
 
 `
 const NonTab = styled.p`

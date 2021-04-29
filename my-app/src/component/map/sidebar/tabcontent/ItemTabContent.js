@@ -192,7 +192,7 @@ const Desc = styled(Expenses)`
 `
 const RightContent = styled.div`
   position:relative;
-  width:158px;height:158px;
+  width:100px;height:100px;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(158/428));
     height:calc(100vw*(158/428));

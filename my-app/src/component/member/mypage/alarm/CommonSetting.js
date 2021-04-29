@@ -33,7 +33,13 @@ export default function ItemTabList({value}) {
                   (2020.00.00)
                   </Desc>
                 </Checkbox>
+                <DescInfo>
+
+                - KOREX가 제공하는 이벤트 및 혜택정보 등의 알림의 정보를 관계법령(「개인정보보호법」, 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 등)의 규정을 준수하여 모바일 앱푸시, 이메일, 문자를 통해 발송합니다.
+  단, 광고성 정보 이외의 의무적으로 안내되어야 하는 정보는 수신동의 여부와 무관하게 제공됩니다.
+                </DescInfo>
               </WrapCheckBox>
+              
             </TabContent>
         </Container>
   );
@@ -81,10 +87,10 @@ const WrapCheckBox = styled.div`
 `
 const Checkbox = styled.div`
   width:100%;
-  margin-bottom:40px;
+  margin-bottom:20px;
   @media ${(props) => props.theme.mobile} {
     width:100%;
-    margin-bottom:calc(100vw*(50/428));
+    margin-bottom:calc(100vw*(20/428));
     }
 `
 const Input = styled.input`
@@ -123,5 +129,13 @@ const Desc = styled.div`
     padding-left:calc(100vw*(30/428));
     font-size:calc(100vW*(13/428));
     margin-top:calc(100vw*(15/428));
+    }
+`
+const DescInfo = styled.div`
+  width:100%;
+  font-size:14px;font-weight:500;transform:skew(-0.1deg);
+  color:#707070;line-height:1.5;word-break:keep-all;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vW*(14/428));
     }
 `

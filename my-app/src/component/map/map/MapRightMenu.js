@@ -321,7 +321,7 @@ const WrapMap = styled.div`
 `
 const RightMenu = styled.div`
   position:absolute;
-  top:26px;right:510px;
+  top:26px;right:420px;
   width:50px;
 
   @media ${(props) => props.theme.mobile} {
@@ -431,7 +431,7 @@ const CurrentEnd = styled.div`
 const Radio = styled.input`
   display:none;
   &:checked+label{color:#fe7a01;}
-  &:checked+label:before{position:absolute;right:0;top:-7px;width:6px;height:6px;background:#fe7a01;border-radius:100%;dislay:block;content:'';}
+  &:checked+label:before{position:absolute;right:0;top:-7px;width:6px;height:6px;background:#fe7a01;border-radius:100%;display:block;content:'';}
   @media ${(props) => props.theme.mobile} {
     &:checked+label:before{position:absolute;right:0;top:calc(100vw*(-7/428));width:calc(100vw*(6/428));height:calc(100vw*(6/428));}
   }
