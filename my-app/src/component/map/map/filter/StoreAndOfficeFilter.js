@@ -203,8 +203,8 @@ export default function MapFilter({openBunyang, rank, status}) {
                 </WrapRange>
                 <BottomBar>
                   <BarTxt>최소</BarTxt>
-                  <BarTxt>3억</BarTxt>
-                  <BarTxt>7억</BarTxt>
+                  <BarTxtMl>3억</BarTxtMl>
+                  <BarTxtMR>7억</BarTxtMR>
                   <BarTxt>최대</BarTxt>
                 </BottomBar>
               </WrapFilter>
@@ -243,7 +243,7 @@ export default function MapFilter({openBunyang, rank, status}) {
                 </WrapRange>
                 <BottomBar>
                   <BarTxt>최소</BarTxt>
-                  <BarTxt>25만</BarTxt>
+                  <BarTxtMl2>25만</BarTxtMl2>
                   <BarTxt>50만</BarTxt>
                   <BarTxt>최대</BarTxt>
                 </BottomBar>
@@ -275,8 +275,8 @@ export default function MapFilter({openBunyang, rank, status}) {
                   </WrapRange>
                   <BottomBar>
                     <BarTxt>최소</BarTxt>
-                    <BarTxt>30평</BarTxt>
-                    <BarTxt>70평</BarTxt>
+                    <BarTxtMl>30평</BarTxtMl>
+                    <BarTxtMR2>70평</BarTxtMR2>
                     <BarTxt>최대</BarTxt>
                   </BottomBar>
                 </WrapFilter>
@@ -544,6 +544,30 @@ const BarTxt = styled.p`
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(14/428));
     &:before{top:calc(100vw*(-10/428));height:calc(100vw*(8/428));}
+  }
+`
+const BarTxtMl = styled(BarTxt)`
+  margin-left:-40px;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(-55/428));
+  }
+`
+const BarTxtMR = styled(BarTxt)`
+  margin-right:-30px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(-40/428));
+  }
+`
+const BarTxtMR2 = styled(BarTxt)`
+margin-right:-26px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(-36/428));
+  }
+`
+const BarTxtMl2 = styled(BarTxt)`
+  margin-left:-10px;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(-16/428));
   }
 `
 const SwitchButton = styled.div`
