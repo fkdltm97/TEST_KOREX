@@ -33,8 +33,9 @@ export default function MapFilter({status}) {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 2.5,
     slidesToScroll: 1,
+    centeredSlides:false,
   };
 
   const [open,setOpen] = useState(false);
@@ -494,8 +495,11 @@ const FliterEa = styled.p`
   text-align: center;
   color: #01684b;
   // margin-right:8px;
-  
-  margin-right:10px;
+  text-overflow: ellipsis;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 120px;
   // display:inline-block;
   
   @media ${(props) => props.theme.mobile} {
@@ -505,6 +509,7 @@ const FliterEa = styled.p`
 `
 const CloseFilter = styled.div`
   display:inline-block;
+  position:absolute;right:5px;top:50%;transform:translateY(-50%);
   width:8px;height:8px;
   background:url(${FilterClose}) no-repeat;background-size:100% 100%;
   vertical-align:middle;

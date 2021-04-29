@@ -64,5 +64,5 @@ export default function Join() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
 `

@@ -152,7 +152,7 @@ const Tag = styled.div`
   height:30px;
   padding:7px 16px;
   margin-right:5px;
-  font-size:15px;color:#01684b;
+  font-size:13px;color:#01684b;
   font-weight:600;transform:skew(-0.1deg);
   text-align:center;
   @media ${(props) => props.theme.mobile} {
@@ -170,7 +170,7 @@ const LeftContent = styled.div`
 const ItemInfo = styled.div`
 `
 const Name = styled.div`
-  font-size:25px;font-weight:800;transform:skew(-0.1deg);
+  font-size:22px;font-weight:800;transform:skew(-0.1deg);
   color:#4a4a4a;
   margin-bottom:13px;
   @media ${(props) => props.theme.mobile} {
@@ -247,7 +247,7 @@ const SubTitle = styled.p`
 `
 const RightContent = styled.div`
   position:relative;
-  width:95px;height:95px;
+  width:80px;height:80px;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(95/428));
     height:calc(100vw*(95/428));

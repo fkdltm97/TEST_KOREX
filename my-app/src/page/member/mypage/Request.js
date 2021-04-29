@@ -94,7 +94,7 @@ export default function Join() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
         min-height:calc(100vh - calc(100vw*(420/428)));
       }

@@ -21,5 +21,4 @@ export const tempBrokerRequestActions = bindActionCreators(tempBrokerRequestacti
 export const brokerRequest_productEditActions = bindActionCreators(brokerRequest_productEditactions,dispatch);
 export const MapRight = bindActionCreators(mapRight, dispatch);
 export const temp_tourReservsettingActions = bindActionCreators(temp_tourReservsettingAction,dispatch);
-export const MapRight = bindActionCreators(mapRight, dispatch);
 export const MapFilterRedux = bindActionCreators(mapFilter, dispatch);

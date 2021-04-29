@@ -32,7 +32,7 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 SwiperCore.use([Navigation, Pagination]);
 
 
-export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport }) {
+export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport,reserveModal }) {
   const [slideUp, setSlideUp] = useState(false);
   
     return (
@@ -64,7 +64,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
         {/*물건투어예약 , 실거래, 허위매물 신고 버튼*/}
           <TopButtons>
             <Button>
-              <Link className="data_link"/>
+              <Link onClick={()=>{reserveModal();}} className="data_link"/>
               <IconImg src={Exit}/>
               <ButtonTitle>물건투어예약</ButtonTitle>
             </Button>
@@ -322,7 +322,6 @@ const SwiperBennerWrap = styled.div`
 `
 const DetailImg = styled.div`
   width:100%;
-  height:493px;
   @media ${(props) => props.theme.mobile} {
     height:calc(100vw*(428/428));
     object-fit:cover;
@@ -372,7 +371,7 @@ const ButtonTitle = styled.p`
 
 const TopMainInfoBox = styled.div`
   position:relative;
-  width:450px;
+  width:100%;
   margin:0 auto;
   border-top:1px solid #f2f2f2;
   padding:20px;
@@ -501,7 +500,7 @@ const WrapItemInfo = styled.div`
 `
 const TitleBox = styled.div`
   width:100%;
-  padding:20px 45px;
+  padding:20px 30px;
   display:flex;justify-content:space-between;align-items:center;
   border-top:1px solid #f2f2f2;border-bottom:1px solid #f2f2f2;
   cursor:pointer;
@@ -524,7 +523,7 @@ const ArrowImg = styled.img`
   }
 `
 const ItemInfoList = styled.ul`
-  width:450px;
+  width:100%;
   margin:0 auto;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(383/428));

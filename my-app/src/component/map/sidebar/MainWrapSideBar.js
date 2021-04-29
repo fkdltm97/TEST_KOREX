@@ -18,7 +18,7 @@ import SideBarBrokerDetail from './SideBarBrokerDetail';
 // redux
 import { useSelector } from 'react-redux';
 
-export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
+export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
@@ -55,7 +55,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
   const pageLoader = () =>{
     switch (pageIndex) {
       case 0: return <MainSideBar updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
-      case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport}/>; //물건 상세페이지
+      case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} reserveModal={reserveModal}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
       default :return <MainSideBar updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>;
     }
@@ -82,8 +82,8 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex}) {
 const Container = styled.div`
   position:fixed;
   right:0;
-  top:106px;
-  width:495px;height:100vh;
+  top:80px;
+  width:400px;height:100vh;
   padding-bottom:120px;
   overflow-y:scroll;
   content:'';
