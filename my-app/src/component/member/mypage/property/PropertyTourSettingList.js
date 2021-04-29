@@ -19,27 +19,120 @@ export default function Tour({value,onOff,setOnOff}) {
   const showModal =()=>{
     setMenu(!menu);
   }
+  
+  console.log('========tour리스트 물건투어예약세팅요소:======',value);
 
+  var tour_set_days= value.tour_set_days !='' && value.tour_set_days != null ? value.tour_set_days : '';
+  var tour_set_times=value.tour_set_times != '' && value.tour_set_times != null? value.tour_set_times : '';
+  var tour_type=value.tour_type;//일반인지 특별인지 여부
+
+  var tour_set_specifydate=value.tour_set_specifydate !='' && value.tour_set_specifydate != null ? value.tour_set_specifydate : '';
+  var tour_set_specifydate_times=value.tour_set_specifydate_times !='' && value.tour_set_specifydate_times != null ? value.tour_set_specifydate_times : '';//특정날짜 선택한 / 특정날짜 선택한것에 대한 시간들.
+  var tour_specifyday_except = value.tour_specifyday_except != '' && value.tour_specifyday_except != null ? value.tour_specifyday_except : 0;
     return (
         <Container>
           {
             onOff ?
             <TourList>
               <TourInfo>
-                <Title>일반</Title>
-                <WrapDateTime>
-                  <Date>
-                    <DateEa>월</DateEa>
-                    <DateEa>화</DateEa>
-                    <DateEa>수</DateEa>
-                    <DateEa>목</DateEa>
-                  </Date>
+                <Title>{value.tour_type == 1 ? '일반' : '특별'}</Title>
+                
+                { value.tour_type == 1 ?
+                <WrapDateTime>                
+                    {
+                     tour_set_days != null && tour_set_days !='' && tour_type==1 ?
+                      <Date> 
+                      {
+                    tour_set_days.split(',').map((n,index) => {
+                      console.log('tour set days index:',n);
+                      switch(n){
+                        case 'sun':
+                          n='일';
+                        break;
+
+                        case 'mon':
+                          n='월';
+                        break;
+
+                        case 'tue':
+                          n='화';
+                        break;
+
+                        case 'wed':
+                          n='수';
+                        break;
+                        case 'thr':
+                          n='목';
+                          break;
+                        case 'fri':
+                          n='금';
+                          break;
+                        case 'sat':
+                          n='토';
+                          break;
+                      }
+                      return (<DateEa>{n}</DateEa>)
+                      })
+                    }
+                    </Date>
+                    :
+                      null
+                    }                
                   <Part/>
+                  {  tour_set_times != null && tour_set_times !='' && tour_type ==1?
                   <Time>
-                    <TimeEa>오전 1T</TimeEa>
-                    <TimeEa>오후 1T</TimeEa>
+                    {
+                      tour_set_times.split(',').map((n,index) => {
+                        console.log('tour set times index:',n);
+
+                        return (<TimeEa>{n}</TimeEa>)
+                      })
+                    }
                   </Time>
-                </WrapDateTime>
+                  :
+                  null
+                  }
+                  </WrapDateTime>
+                  :
+                  null
+                }
+                
+              {value.tour_type == 2 ?
+                <WrapDateTime>
+                  {
+                    tour_set_specifydate != null && tour_set_specifydate !='' && tour_type ==2 ?
+                    <Date>
+                      <DateEa>{tour_set_specifydate}</DateEa>  
+                    </Date>
+                    :
+                    null
+                  }
+                  <Part/>
+                  {tour_set_specifydate_times != null && tour_set_specifydate_times !='' && tour_type ==2 && tour_specifyday_except==0 ?
+                  <Time>
+                    {
+                      tour_set_specifydate_times.split(',').map((n,index) => {
+                        console.log('tour set times index:',n);
+
+                        return (<TimeEa>{n}</TimeEa>)
+                      })
+                    }
+                  </Time>
+                  :
+                  null
+                  }
+                  {
+                    tour_set_specifydate_times != null && tour_set_specifydate_times !='' && tour_type ==2 && tour_specifyday_except==1 ?
+                  <Time>                
+                        <TimeEa>제외</TimeEa>          
+                  </Time>
+                  :
+                  null
+                  }
+                </WrapDateTime>  
+                :
+                null
+                }
               </TourInfo>
               <TourSetting onClick={()=> {setMenu(!menu)}}>
                   <Setting src={Set} alt="setting"/>
@@ -61,22 +154,106 @@ export default function Tour({value,onOff,setOnOff}) {
               </TourSetting>
             </TourList>
             :
-            <TourList style={{opacity:"0.5"}}>
+            <TourList style={{opacity:0.5}}>
               <TourInfo>
-                <Title>일반</Title>
-                <WrapDateTime>
-                  <Date>
-                    <DateEa>월</DateEa>
-                    <DateEa>화</DateEa>
-                    <DateEa>수</DateEa>
-                    <DateEa>목</DateEa>
-                  </Date>
+                <Title>{value.tour_type == 1 ? '일반' : '특별'}</Title>
+                
+                { value.tour_type == 1 ?
+                <WrapDateTime>                
+                    {
+                     tour_set_days != null && tour_set_days !='' && tour_type==1 ?
+                      <Date> 
+                      {
+                    tour_set_days.split(',').map((n,index) => {
+                      console.log('tour set days index:',n);
+                      switch(n){
+                        case 'sun':
+                          n='일';
+                        break;
+
+                        case 'mon':
+                          n='월';
+                        break;
+
+                        case 'tue':
+                          n='화';
+                        break;
+
+                        case 'wed':
+                          n='수';
+                        break;
+                        case 'thr':
+                          n='목';
+                          break;
+                        case 'fri':
+                          n='금';
+                          break;
+                        case 'sat':
+                          n='토';
+                          break;
+                      }
+                      return (<DateEa>{n}</DateEa>)
+                      })
+                    }
+                    </Date>
+                    :
+                      null
+                    }                
                   <Part/>
+                  {  tour_set_times != null && tour_set_times !='' && tour_type ==1?
                   <Time>
-                    <TimeEa>오전 1T</TimeEa>
-                    <TimeEa>오후 1T</TimeEa>
+                    {
+                      tour_set_times.split(',').map((n,index) => {
+                        console.log('tour set times index:',n);
+
+                        return (<TimeEa>{n}</TimeEa>)
+                      })
+                    }
                   </Time>
-                </WrapDateTime>
+                  :
+                  null
+                  }
+                  </WrapDateTime>
+                  :
+                  null
+                }
+                
+              {value.tour_type == 2 ?
+                <WrapDateTime>
+                  {
+                    tour_set_specifydate != null && tour_set_specifydate !='' && tour_type ==2 ?
+                    <Date>
+                      <DateEa>{tour_set_specifydate}</DateEa>  
+                    </Date>
+                    :
+                    null
+                  }
+                  <Part/>
+                  {tour_set_specifydate_times != null && tour_set_specifydate_times !='' && tour_type ==2 && tour_specifyday_except==0 ?
+                  <Time>
+                    {
+                      tour_set_specifydate_times.split(',').map((n,index) => {
+                        console.log('tour set times index:',n);
+
+                        return (<TimeEa>{n}</TimeEa>)
+                      })
+                    }
+                  </Time>
+                  :
+                  null
+                  }
+                  {
+                    tour_set_specifydate_times != null && tour_set_specifydate_times !='' && tour_type ==2 && tour_specifyday_except==1 ?
+                  <Time>                
+                        <TimeEa>제외</TimeEa>          
+                  </Time>
+                  :
+                  null
+                  }
+                </WrapDateTime>  
+                :
+                null
+                }
               </TourInfo>
               <TourSetting onClick={()=> {setMenu(!menu)}}>
                   <Setting src={Set} alt="setting"/>
@@ -97,8 +274,6 @@ export default function Tour({value,onOff,setOnOff}) {
                   }
               </TourSetting>
             </TourList>
-
-
           }
             
   </Container>

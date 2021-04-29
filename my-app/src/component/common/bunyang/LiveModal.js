@@ -11,7 +11,52 @@ import CloseIcon from "../../../img/main/modal_close.png";
 import Check from "../../../img/member/check.png";
 import Checked from "../../../img/member/checked.png";
 
-export default function LiveModal({live, setLive}){
+
+import ModalCommon from '../modal/ModalCommon';
+
+export default function LiveModal({cal, setCal,live, setLive}){
+
+
+  const [modalOption,setModalOption] = useState({
+    show : false,
+    setShow:null,
+    link:"",
+    title:"",
+    submit:{},
+    cancle:{},
+    confirm:{},
+    confirmgreennone:{},
+    content:{}
+  });
+
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
+
+const confirmtext = 'Live시청 예약이 정상적으로 접수되었습니다.\n담당자가 Live방송 시작전에 \n 초대장을 이메일로 보내드립니다.'
+
+
+//등록되었습니다 모달
+const comfirmModal= () =>{
+  console.log("작동");
+  console.log(modalOption);
+  setModalOption({
+      show:true,
+      setShow:offModal,
+      title:"등록",
+      content:{type:"text",text:`${confirmtext}.`,component:""},
+      submit:{show:false , title:"" , event : ()=>{offModal(); }},
+      cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+      confirm:{show:true , title:"확인" , event : ()=>{offModal();setLive(false)}},
+      confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal();setCal(false)}}
+  });
+}
+
+
+
+
   if(live == false)
     return null;
     return (
@@ -49,9 +94,10 @@ export default function LiveModal({live, setLive}){
               </Checkbox>
             </ModalBody>
             <ModalBtn>
-              <Confirm type="submit" name="">확인</Confirm>
+              <Confirm type="submit" name=""onClick={()=>{comfirmModal();}}>확인</Confirm>
             </ModalBtn>
         </Wraplive>
+        <ModalCommon modalOption={modalOption}/>
       </Container>
     );
 }

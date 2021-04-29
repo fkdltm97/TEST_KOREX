@@ -71,43 +71,44 @@ export default function MainHeader({openBunyang, rank }) {
       const  buildType = document.querySelectorAll(".buildType");
       const aroundAlert = document.querySelector(".aroundAlert");
       const mapAlert = document.querySelector(".mapAlert");
+      const distanceEnd = document.querySelector(".distanceEnd");
       aroundAlert.classList.add("hidden");
       mapAlert.classList.add("hidden");
       setIsMapStyle(false);
       for(let i = 0 ; i < buildType.length ; i++){
         buildType[i].classList.remove("select");
       }
+      distanceEnd.classList.add("hidden");
       MapRight.updateProbroker({  isProbroker: {is:false} });
       MapRight.updateBlock({  isBlock: {is:false} });
+      MapRight.updateAround({  around: { is:"" } });
+      MapRight.updateDistance({  isDistance: {is:false} });
     }
-
 
     // Around  Item Click
     const onClickAroundEls = (e) => {
       const aroundAlert = document.querySelector(".aroundAlert");
       switch (e.target.innerText){
         case "지하철":
-          MapRight.updateAround({  around: "subway" });
+          MapRight.updateAround({  around: {is:"SW8"} });
           break;
         case "유치원":
-          MapRight.updateAround({  around: "child" });
+          MapRight.updateAround({  around: {is:"PS3"} });
           break;
         case "학교":
-          MapRight.updateAround({  around: "school" });
+          MapRight.updateAround({  around: {is:"SC4"} });
           break;
         case "은행":
-          MapRight.updateAround({  around: "bank" });
+          MapRight.updateAround({  around: {is:"BK9"} });
           break;
         case "관공서":
-          MapRight.updateAround({  around: "office" });
+          MapRight.updateAround({  around: {is:"PO3"} });
           break;
         default:
-          MapRight.updateAround({  around: "" });
+          MapRight.updateAround({  around: {is:""} });
           break;
       }
-
-      
-      // aroundAlert.classList.add("hidden");
+      aroundAlert.classList.add("hidden");
     }
 
     //  Map Styles Click
@@ -116,6 +117,9 @@ export default function MainHeader({openBunyang, rank }) {
       setIsMapStyle(isBool);
       const mapAlert = document.querySelector(".mapAlert");
       const aroundAlert = document.querySelector(".aroundAlert");
+      const distanceEnd = document.querySelector(".distanceEnd");
+      distanceEnd.classList.add("hidden");
+      MapRight.updateDistance({  isDistance: {is:false} });
       aroundAlert.classList.add("hidden");
       if(isBool){
         mapAlert.classList.remove("hidden");
@@ -157,12 +161,48 @@ export default function MainHeader({openBunyang, rank }) {
 
     // Zoom Out
     const onClikZoomOut = () => {
-      console.log(mapRightRedux);
       let newCount = mapRightRedux.isZoomOut;
       newCount++;
       MapRight.updateZoomOut({  isZoomOut: newCount });
     }
 
+    // Current Location Click
+    const onclickCurrent = () => {
+      const currentBtn = document.querySelector(".currentBtn");
+      if(mapRightRedux.isCurrnet.is){
+        MapRight.updateCurrent({  isCurrnet: {is: !mapRightRedux.isCurrnet.is } });
+        currentBtn.classList.remove("select");
+        return;
+      }
+
+      if( window.confirm("내 위치 조회 허용?") ){
+        currentBtn.classList.add("select");
+        MapRight.updateCurrent({  isCurrnet: {is: !mapRightRedux.isCurrnet.is } });
+      }else{
+        return;
+      }
+    }
+
+    const onClickDistance = () => {
+      const mapAlert = document.querySelector(".mapAlert");
+      const distance = document.querySelector(".distance");
+      const distanceEnd = document.querySelector(".distanceEnd");
+      const aroundAlert = document.querySelector(".aroundAlert");
+      let isBool = false;
+      setIsMapStyle(isBool);
+      distanceEnd.classList.toggle("hidden");
+
+      if(!distanceEnd.classList.contains("hidden")){
+        distance.classList.add("select");
+      }else{
+        distance.classList.remove("select");
+      }
+
+      mapAlert.classList.add("hidden");
+      aroundAlert.classList.add("hidden");
+      MapRight.updateAround({  around: { is:"" } });
+      MapRight.updateDistance({  isDistance: {is:!mapRightRedux.isDistance.is} });
+    }
 
     return (
         <Container>
@@ -188,23 +228,23 @@ export default function MainHeader({openBunyang, rank }) {
 
                 <RadioAlert className={["aroundAlert", "hidden"]} >
                   <RadioBox>
-                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>지하철</RadioSpan>
+                    <RadioSpan className="aroundEl" onClick={(e) => {onClickAroundEls(e)}}>지하철</RadioSpan>
                   </RadioBox>
                   <Part/>
                   <RadioBox>
-                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>유치원</RadioSpan>
+                    <RadioSpan className="aroundEl" onClick={(e) => {onClickAroundEls(e)}}>유치원</RadioSpan>
                   </RadioBox>
                   <Part/>
                   <RadioBox>
-                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>학교</RadioSpan>
+                    <RadioSpan className="aroundEl" onClick={(e) => {onClickAroundEls(e)}}>학교</RadioSpan>
                   </RadioBox>
                   <Part/>
                   <RadioBox>
-                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>은행</RadioSpan>
+                    <RadioSpan className="aroundEl" onClick={(e) => {onClickAroundEls(e)}}>은행</RadioSpan>
                   </RadioBox>
                   <Part/>
                   <RadioBox>
-                    <RadioSpan onClick={(e) => {onClickAroundEls(e)}}>관공서</RadioSpan>
+                    <RadioSpan className="aroundEl" onClick={(e) => {onClickAroundEls(e)}}>관공서</RadioSpan>
                   </RadioBox>
                 </RadioAlert>
 
@@ -234,12 +274,20 @@ export default function MainHeader({openBunyang, rank }) {
 
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan>거리 재기</RadioSpan> 
+                  <RadioSpan className="distance" onClick={() => {onClickDistance()} }>거리 재기</RadioSpan> 
                 </RadioBox>
+                <CurrentEnd className={["distanceEnd", "hidden"]} >
+                  거리<br />
+                  측정
+                </CurrentEnd>
+                
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan>내위치</RadioSpan>
+                  <RadioSpan className="currentBtn" onClick={() => onclickCurrent() }>내위치</RadioSpan>
                 </RadioBox>
+
+
+
               </WrapMenuBottom>
 
               <MapControl>
@@ -258,7 +306,7 @@ export default function MainHeader({openBunyang, rank }) {
             </RightMenu>
           </WrapMap>
         </Container>
-  );
+    );
 }
 
 
@@ -273,7 +321,7 @@ const WrapMap = styled.div`
 `
 const RightMenu = styled.div`
   position:absolute;
-  top:26px;right:510px;
+  top:26px;right:420px;
   width:50px;
 
   @media ${(props) => props.theme.mobile} {
@@ -362,10 +410,28 @@ const RadioBox = styled.div`
   }
 `
 
+const CurrentEnd = styled.div`
+  position:absolute;
+  top:70px;
+  right:65px;
+  width: 50px;
+  height: 80px;
+  background:#fff;
+  border-radius:10px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  font-size:13px;line-height: 1.31;
+  font-weight:600;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  cursor:pointer;
+  transition:500ms;
+`
+
 const Radio = styled.input`
   display:none;
   &:checked+label{color:#fe7a01;}
-  &:checked+label:before{position:absolute;right:0;top:-7px;width:6px;height:6px;background:#fe7a01;border-radius:100%;dislay:block;content:'';}
+  &:checked+label:before{position:absolute;right:0;top:-7px;width:6px;height:6px;background:#fe7a01;border-radius:100%;display:block;content:'';}
   @media ${(props) => props.theme.mobile} {
     &:checked+label:before{position:absolute;right:0;top:calc(100vw*(-7/428));width:calc(100vw*(6/428));height:calc(100vw*(6/428));}
   }
@@ -412,7 +478,6 @@ const RadioSpan = styled.span`
   }
 `
 
-
 const Part = styled.div`
   width:32px;margin:15px auto 15px;
   height:1px;background:#707070;
@@ -435,3 +500,4 @@ const PlusBtn = styled.img`
 const MinusBtn = styled.img`
   padding:10px;
 `
+

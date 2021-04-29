@@ -8,6 +8,9 @@ const PHONECHANGE = 'temp_regi_userdata/phonechange';
 const USERTYPECHANGE = 'temp_regi_userdata/usertypechange';
 const AGREESTATUSCHANGE = 'temp_regi_userdata/agreestatuschange';
 const PASSWORDCHANGE  = 'temp_regi_userdata/passwordchange';
+const BUSINESSNUMBERCHANGE= 'temp_regi_userdata/businessnumberchange';
+const BUSINESSNAMECHANGE = 'temp_regi_userdata/businessnamechange';
+const CLCMNGNOCHANGE= 'temp_regi_userdata/clcmngnochange';
 
 // 액션 생성 함수를 만듭니다.
 export const emailchange = createAction(EMAILCHANGE);
@@ -16,6 +19,9 @@ export const phonechange = createAction(PHONECHANGE);
 export const usertypechange= createAction(USERTYPECHANGE);
 export const agreestatuschange= createAction(AGREESTATUSCHANGE);
 export const passwordchange = createAction(PASSWORDCHANGE);
+export const businessnumberchange= createAction(BUSINESSNUMBERCHANGE);
+export const businessnamechange= createAction(BUSINESSNAMECHANGE);
+export const clcmngnochange= createAction(CLCMNGNOCHANGE);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
@@ -25,6 +31,9 @@ const initialState = {
    agree_status : '',
    password : '',
    usertype: '',
+   businessnumber : '',//기업,중개사,분양사 사업자번호
+   businessname: '', //기업,중개사,분양사 상호명
+   clcmngno : ''//중개사 회원가입 한정, 가입하려는 대상자가 사전clc에 등록되어있다면 그 clc mng넘버정보(clc등록 중개사정보)를 참조,저장
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
@@ -71,4 +80,25 @@ export default handleActions({
     draft.usertype = action.payload.usertypes;
   });
   },
+  [BUSINESSNUMBERCHANGE] : (state,action) => {
+    console.log('businessnumber change함수 호출 사업자번호값 변경:',state,action);
+    return produce(state,draft => {
+      console.log('produce에서의 state,draft,action은??:',state,draft,action);
+      draft.businessnumber = action.payload.bussinessnumbers;
+    });
+  },
+  [BUSINESSNAMECHANGE] : (state,action) => {
+    console.log('businessname change함수 호출 사업체명값 변경:',state,action);
+    return produce(state,draft => {
+      console.log('produce에서의 state,draft,action은??:',state,draft,action);
+      draft.businessname = action.payload.bussinessnames;
+    });
+  },
+  [CLCMNGNOCHANGE] : (state,action) => {
+    console.log('clcmngno change함수 호출 clc사전등록 중개업소 mngno 값 변경:',state,action);
+    return produce(state,draft => {
+      console.log('produce에서의 state,draft,action은??:',state,draft,action);
+      draft.clcmngno = action.payload.clcmngnos;
+    });
+  }
 }, initialState);

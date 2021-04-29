@@ -18,11 +18,48 @@ import { Mobile, PC } from "../../../../MediaQuery"
 //component
 import SearchStoreOfficeApi from './SearchStoreOfficeApi';
 
-export default function SearchApartOfficetel() {
-  const [activeIndex,setActiveIndex] = useState(-1);
+//redux addons asseets
+import {useSelector} from 'react-redux';
+import {tempBrokerRequestActions } from '../../../../store/actionCreators';
+
+export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
+  
   const [hosu,setHosu] = useState(false);
   const [addressApi,setAddressApi] = useState(false);
+  
+  //사용자 입력데이터.
+  const [search_address,setSearch_address]= useState('');//검색api에 의한 액션에 의해서만 처리되는것(사용자 직접 능동입력형태x)
+  const [floor,setFloor] = useState('');
+  const [hosil,setHosil] = useState('');
 
+  console.log('searchStoreoffice요소 실행요소 dispay:',tempBrokerRequestActions,activeIndex);
+  
+  const floorchange = (e) => {setFloor(e.target.value);}
+  const hosilchange = (e) => {setHosil(e.target.value);}
+  
+  const nextStep = (e) => {
+     console.log('다음단계 클릭>>>>',floor,hosil,search_address);//소재지 주소값,층수,호실값 확인
+
+     //리덕스 저장한다.
+     tempBrokerRequestActions.floorchange({floors : floor});
+     tempBrokerRequestActions.hosilchange({hosils: hosil});
+     tempBrokerRequestActions.dangiaddresschange({dangiaddresss: search_address});//단지주소(아파트,오피스텔,상가,사무실 모두 포함한다.)
+
+     switch(activeIndex){
+      case 0:
+        tempBrokerRequestActions.maemultypechange({maemultypes: '아파트'});
+      break;
+      case 1:
+        tempBrokerRequestActions.maemultypechange({maemultypes: '오피스텔'});
+      break;
+      case 2:
+        tempBrokerRequestActions.maemultypechange({maemultypes: '상가'});
+      break;
+      case 3:
+        tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
+      break;
+    }
+  };
     return (
         <Container>
           <WrapSearch>
@@ -36,7 +73,7 @@ export default function SearchApartOfficetel() {
                 addressApi ?
                 <AddressApi>
                   <CloseImg src={Close} onClick={() => setAddressApi(false)}/>
-                  <SearchStoreOfficeApi/>
+                  <SearchStoreOfficeApi setSearch_address={setSearch_address} setAddressApi={setAddressApi}/>
                 </AddressApi>
                 :
                 null
@@ -44,14 +81,14 @@ export default function SearchApartOfficetel() {
           {/*주소 검색 후에 나오는 부분*/}
               <WrapBottomBox>
                 <SearchBox>
-                  <Search type="search" value="검색한 주소가 입력돼야함"/>
+                  <Search type="search" value={search_address}/>
                   <SearchBtn type="button"/>
                 </SearchBox>
-                <SelectFloor>
+                <SelectFloor onChange={floorchange}>
                   <Option selected>층 선택</Option>
-                  <Option>1층</Option>
-                  <Option>2층</Option>
-                  <Option>3층</Option>
+                  <Option value='1'>1층</Option>
+                  <Option value='2'>2층</Option>
+                  <Option value='3'>3층</Option>
                 </SelectFloor>
                 <Hosu>
                   <Label>호수</Label>
@@ -66,7 +103,7 @@ export default function SearchApartOfficetel() {
                  {
                     hosu ?
                     <Flex>
-                      <InputMidi type="text" placeholder="호 입력"/>
+                      <InputMidi type="text" placeholder="호 입력" onChange={hosilchange}/>
                       <Dan>호</Dan>
                     </Flex>
                     :
@@ -74,11 +111,12 @@ export default function SearchApartOfficetel() {
 
                   }
                 </Hosu>
+                
               </WrapBottomBox>
             </Box>
             {/*버튼 액티브 됐을때 색상 변경돼야함 // 하단 css */}
             <NextButton>
-              <Link to="/AddRequestSecond">
+              <Link to="/AddRequestSecond" onClick={nextStep}>
                 <Next type="button">다음</Next>
               </Link>
             </NextButton>

@@ -110,7 +110,7 @@ export default function Join() {
             show:true,
             setShow:offModal,
             title:"방문예약",
-            content:{type:"component",text:``,component:<ModalCalendar/>},
+            content:{type:"component",text:``,component:<ModalCal/>},
             submit:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}
@@ -141,7 +141,7 @@ export default function Join() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
         min-height:calc(100vh - calc(100vw*(420/428)));
       }

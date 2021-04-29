@@ -101,7 +101,7 @@ export default function JoinAgree() {
           usertype: tempregisteruserdata.usertype
         };
         console.log('JSON.STRINGFY(BODY_INFO):',JSON.stringify(body_info));
-        let res = await serverController.connectFetchController(`auth/member/register`,"POST",JSON.stringify(body_info));
+        let res = await serverController.connectFetchController(`/api/auth/member/register`,"POST",JSON.stringify(body_info));
         console.log('res result:',res);
         alert(res);
 
@@ -146,5 +146,5 @@ export default function JoinAgree() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
 `

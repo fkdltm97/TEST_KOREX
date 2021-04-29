@@ -2,6 +2,7 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -23,11 +24,20 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import BrokerInfo from './component/BrokerInfo';
 import ModalMap from './modal/ModalMap';
 
-export default function Request({successModal,failModal}) {
+//redux addons saseests.
+import {useSelector} from 'react-redux';
+import {tempBrokerRequestActions} from '../../../../store/actionCreators';
+
+export default function Request({setFilter,value,type,successModal,failModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
   const [viewDate, setViewDate] = useState(false);//입주가능일 선택할 경우 date박스
+
+  //redux 데이터 사전 조회.
+  const tempBrokerRequest= useSelector(data => data.tempBrokerRequest);
+
+  console.log(tempBrokerRequestActions,tempBrokerRequest);
 
   /*모달*/
   const [map, setMap] = useState(false);//주소 눌렀을때 지도 모달
@@ -40,6 +50,109 @@ export default function Request({successModal,failModal}) {
     }else{
       return "rotate(0deg)"
     }
+  }
+
+  //물건관련 정보 state
+  const [maemulname,setMaemulname] = useState('');
+  const [jeonyongdimension,setJeonyongdimension] = useState('');
+  const [jeonyongpyeong,setJeonyongpyeong] = useState('');
+  const [supplydimension,setSupplydimension] = useState('');
+  const [supplypyeong,setSupplypyeong] = useState('');
+  const [selltype,setSelltype] =useState('');
+  const [sellprice,setSellprice] = useState('');
+  const [Managecost,setChangemanagecost] = useState('');
+  const [ibju_isinstant, setIbju_isinstant] = useState(false);
+  const [ibju_specifydate,setIbju_specifydate] = useState('');
+  const [exculsive_periods,setExculsive_periods]= useState('');
+  const [requestMessage, setRequestMessage] = useState('');
+
+  //물건관련 정보 셋팅.
+  const change_maemulname = (e) => {
+    setMaemulname(e.target.value);
+  }
+  const change_jeonyong_dimension = (e) => {
+    setJeonyongdimension(e.target.value);
+  }
+  const change_jeonyong_pyeong = (e) => {
+    setJeonyongpyeong(e.target.value);
+  }
+  const change_supply_dimension = (e) => {
+    setSupplydimension(e.target.value);
+  }
+  const change_supply_pyeong = (e) => {
+    setSupplypyeong(e.target.value);
+  }
+  const change_selltype = (e) => {
+    setSelltype(e.target.value);
+  }
+  const change_sellprice = (e) => {
+    setSellprice(e.target.value);
+  }
+  const change_Managecost = (e) => {
+    setChangemanagecost(e.target.value);
+  }
+  const radio_ibju_isinstant = (e) => {
+    setIbju_isinstant(e.target.value);//1즉시,0특정날
+  }
+  const change_ibju_specifydate = (e) => {
+    setIbju_specifydate(e.target.value);
+  }
+  const change_exculsive_periods = (e) => {
+    setExculsive_periods(e.target.value);
+  }
+  const change_requestMessage = (e) => {
+    setRequestMessage(e.target.value);
+  }
+  
+  useEffect(() => {
+    console.log('addREequtsBrokserSecond 마지막페이지 입력정보 변경 상태변경 조회/리덕스 저장');
+    //지금껏 작성 change정보 redux저장..
+    tempBrokerRequestActions.maemulnamechange({maemulnames: maemulname});
+    tempBrokerRequestActions.jeonyongdimensionchange({jeonyongdimensions: jeonyongdimension});
+    tempBrokerRequestActions.jeonyongpyeongchange({jeonyongpyeongs: jeonyongpyeong});
+    tempBrokerRequestActions.supplydimensionchange({supplydimensions: supplydimension});
+    tempBrokerRequestActions.supplypyeongchange({supplypyeongs: supplypyeong});
+    tempBrokerRequestActions.selltypechange({selltypes: selltype});
+    tempBrokerRequestActions.sellpricechange({sellprices: sellprice});
+    tempBrokerRequestActions.managecostchange({managecosts: Managecost});
+    tempBrokerRequestActions.ibjuisinstantchange({ibju_isinstants: ibju_isinstant});
+    tempBrokerRequestActions.ibjuspecifydatechange({ibju_specifydates: ibju_specifydate});
+    tempBrokerRequestActions.exculsiveperiodschange({exculsive_periodss: exculsive_periods});
+  });
+
+  const nextStep = async (e) => {
+    //리덕스에 재 저장.
+    console.log('supplypyeong:',supplypyeong);
+
+    //정보 insert요청 진행하기 products에 넣기 진행->>>>>
+    let body_info = {
+      dong: tempBrokerRequest.dong,
+      hosil: tempBrokerRequest.hosil,
+      floor: tempBrokerRequest.floor,
+      dangi: tempBrokerRequest.dangi,
+      dangiaddress: tempBrokerRequest.dangiaddress,
+      name : tempBrokerRequest.name,
+      phone: tempBrokerRequest.phone,
+      maemultype: tempBrokerRequest.maemultype,
+      maemulname : tempBrokerRequest.maemulname,
+      jeonyongdimension: tempBrokerRequest.jeonyongdimension,
+      jeonyongpyeong: tempBrokerRequest.jeonyongpyeong,
+      supplydimension: tempBrokerRequest.supplydimension,
+      supplypyeong: tempBrokerRequest.supplypyeong,
+      selltype: tempBrokerRequest.selltype,
+      sellprice: tempBrokerRequest.sellprice,
+      managecost: tempBrokerRequest.managecost,
+      ibju_isinstant : tempBrokerRequest.ibju_isinstant,
+      ibju_specifydate : tempBrokerRequest.ibju_specifydate,
+      exculsive_periods: tempBrokerRequest.exculsive_periods,
+      companyid : tempBrokerRequest.companyid,
+      requestmemid: tempBrokerRequest.requestmemid
+    };
+    
+    console.log('JSON>STRINGIBDY(BODY_INFO):',JSON.stringify(body_info));
+    let res=await serverController.connectFetchController('/api/broker/user_brokerRequest','post',JSON.stringify(body_info));
+    //console.log('res_result:',res);
+    //alert(res);
   }
     return (
         <Container>
@@ -69,9 +182,15 @@ export default function Request({successModal,failModal}) {
                 </TopDesc>
                 <SelectBox>
                   <Label>전속기간<Pilsu>*</Pilsu></Label>
-                  <Select>
+                  <Select onChange={change_exculsive_periods}>
                     <Option>기간 선택</Option>
-                    <Option>00 개월</Option>
+                    <Option value='3'>3 개월</Option>
+                    <Option value='6'>6 개월</Option>
+                    <Option value='9'>9 개월</Option>
+                    <Option value='12'>12 개월</Option>
+                    <Option value='15'>15 개월</Option>
+                    <Option value='18'>18 개월</Option>
+                    <Option value='24'>24 개월</Option>
                   </Select>
                 </SelectBox>
               </Box>
@@ -84,33 +203,33 @@ export default function Request({successModal,failModal}) {
                 <WrapInputBox>
                   <InputBox>
                     <Label>물건종류</Label>
-                    <InputDisabled type="text" value="물건종류(ex:아파트)" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequest.maemultype} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>주소</Label>
-                    <InputDisabled type="text" value="주소" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequest.dangiaddress} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                    <InputDisabled type="text" value="OO층 OO호" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequest.dong+'동 '+tempBrokerRequest.floor +'층 '+tempBrokerRequest.hosil+'호'} disabled/>
                   </InputBox>
                 </WrapInputBox>
                 <WrapItemInfo>
                   <LongLine/>
                   <InputBox>
                     <Label>건물명<Pilsu>*</Pilsu></Label>
-                    <InputTxt type="text" placeholder="건물명을 입력하여주세요."/>
+                    <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname}/>
                   </InputBox>
                   <InputBox>
                     <Label>전용면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_dimension}/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_pyeong}/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -119,12 +238,12 @@ export default function Request({successModal,failModal}) {
                     <Label>공급면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_dimension}/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_pyeong}/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -139,7 +258,7 @@ export default function Request({successModal,failModal}) {
                 </SubTitle>
                 <SelectBox>
                   <Label>거래유형<Pilsu>*</Pilsu></Label>
-                  <SelectMb>
+                  <SelectMb onChange={change_selltype}>
                     <Option>거래유형을 선택하여주세요.</Option>
                     <Option>매매</Option>
                     <Option>전세</Option>
@@ -150,7 +269,7 @@ export default function Request({successModal,failModal}) {
                   <Label>가격<Pilsu>*</Pilsu></Label>
                   <Example>(e.g 1억 5,000)</Example>
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력"/>
+                    <InputMidi type="text" placeholder="가격 입력" onChange={change_sellprice}/>
                     <Dan>만원</Dan>
                   </Flex>
                 </InputBox>
@@ -179,7 +298,7 @@ export default function Request({successModal,failModal}) {
                   {
                     viewInput ?
                     <Flex>
-                      <InputMidi type="text" placeholder="가격 입력"/>
+                      <InputMidi type="text" placeholder="가격 입력" onChange={change_Managecost}/>
                       <Dan>만원</Dan>
                     </Flex>
                     :
@@ -234,21 +353,21 @@ export default function Request({successModal,failModal}) {
                     <Label>입주가능일<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi1" defaultChecked/>
-                        <RadioLabel for="radi1" onClick={()=>{setViewDate(false)}}>
+                        <Radio type="radio" name="possible" id="radi1" value='1'defaultChecked onClick={radio_ibju_isinstant}/>
+                        <RadioLabel for="radi1" onClick={()=>{setViewDate(false);}}>
                           <RadioSpan/>
                           즉시
                         </RadioLabel>
                       </Radiobox>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi2"/>
+                        <Radio type="radio" name="possible" id="radi2" value='0' onClick={radio_ibju_isinstant}/>
                         <RadioLabel for="radi2" onClick={()=>{setViewDate(true)}}>
                           <RadioSpan/>
                           날짜 선택
                         </RadioLabel>
                       {
                         viewDate ?
-                        <InputDate type="date"/>
+                        <InputDate type="date" onChange={change_ibju_specifydate}/>
                         :
                         null
                       }
@@ -258,7 +377,7 @@ export default function Request({successModal,failModal}) {
               {/*요청사항 입력*/}
                   <MoreBox>
                     <Label>요청사항 입력</Label>
-                    <Textarea type="textarea" placeholder="요청사항을 입력하여주세요."/>
+                    <Textarea type="textarea" placeholder="요청사항을 입력하여주세요." onChange={change_requestMessage}/>
                   </MoreBox>
                 </MoreView>
                 :
@@ -269,8 +388,8 @@ export default function Request({successModal,failModal}) {
               </WrapMoreView>
             </WrapBox>
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
-            <NextButton>
-              <Link className="data_link" onClick={()=>{successModal();}}/>
+            <NextButton onClick={nextStep}>
+              <Link className="data_link" onClick={()=>{setSuccess(true)}}/>
               <Next type="button">다음</Next>
             </NextButton>
             {/* 중개의뢰 실패했을때 버튼 ( 모달이 다름 )

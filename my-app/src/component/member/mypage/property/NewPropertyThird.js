@@ -1,7 +1,9 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
+//server process
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -24,10 +26,14 @@ import SearchApartOfficetel from "./SearchApartOfficetel";
 import SearchStoreOffice from "./SearchStoreOffice";
 import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
 
+import {useSelector} from 'react-redux';
+
 export default function Request({setPicture}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [park,setPark] = useState(false);
+  
+  const history = useHistory();
 
   const rotate=()=>{
     if(openMore == true) {
@@ -66,6 +72,208 @@ const OptionProtect =[
   {op_id : 9,label:"무인택배함",default:false}
 ]
 
+  const temp_brokerRequest=useSelector(data => data.tempBrokerRequest);
+  const login_user=useSelector(data => data.login_user);//리덕스 로그인회원정보 데이터 접근(memid,companyid,유저이다이,폰,이메일,유저이름,usertype,registertype,memadmin,islogin,isexculsive전문중개사여부)
+
+  console.log('>>>>유지된 정보들 기본입력정보들(inserted임시 입력정보들):',temp_brokerRequest);
+  console.log('>>>>마이페이지 로그인 중개사회원 companyid(어떤중개사의회원):',login_user);
+
+  //추가정보 입력페이지 입력정보들 state형태로 저장한다.
+  const [roomcount,setRoomcount] = useState('');
+  const [bathroomcount,setBathroomcount] = useState('');
+  const [isduplexfloor,setIsduplexfloor] = useState('');
+  const [isparking,setIsparking] = useState('');
+  const [parkingoptions,setParkingoptions] = useState('');
+  const [iselevator,setIselevator] = useState('');
+  const [iswithpet,setIswithpet] = useState('');
+  const [direction,setDirection] = useState('');
+  const [entrance,setEntrance] = useState('');
+  const [heatmethod,setHeatmethod] = useState('');
+  const [heatfuel,setHeatfuel] = useState('');
+  const [apartspaceoption,setApartspaceoption] = useState('');
+  const [spaceoption,setSpaceoption] = useState('');
+  const [securityoption,setSecurityoption] = useState('');
+  const [spaceaddonoption,setSpaceaddonoption] = useState('');
+  const [iscontractrenewal,setIscontractrenewal] = useState('');
+  const [loanprice,setLoanprice] = useState('');
+  const [guaranteeprice,setGuaranteeprice] = useState('');
+  const [maemul_description,setMaemul_description] = useState('');
+  const [maemul_descriptiondetail,setMaemul_descriptiondetail] = useState('');
+
+
+  const change_roomcount = (e) => {
+    setRoomcount(e.target.value);
+  }
+  const change_bathroomcount = (e) => {
+    setBathroomcount(e.target.value);
+  }
+  const change_isduplexfloor = (e) => {
+    setIsduplexfloor(e.target.value);
+  }
+  const change_isparking = (e) => {
+    setIsparking(e.target.value);
+  }
+  const change_parkingoptions = (e) => {
+    setParkingoptions(e.target.value);
+  }
+  const change_iselevator = (e) => {
+    setIselevator(e.target.value);
+  }
+  const change_iswithpet = (e) => {
+    setIswithpet(e.target.value);
+  }
+  const change_direction = (e) => {
+    setDirection(e.target.value);
+  } 
+  const change_entrance = (e) => {
+    setEntrance(e.target.value);
+  }
+  const change_heatmethod = (e) => {
+    setHeatmethod(e.target.value);
+  }
+  const change_heatfuel = (e) => {
+    setHeatfuel(e.target.value);
+  }
+  const change_apartspaceoption = (e) => {
+    var apart_spaceoptions=document.getElementsByClassName('apartspaceoptions');
+    
+    var checked_apartspaceoptions=[];
+    for(let i=0,c=0; i<apart_spaceoptions.length; i++){
+      if(apart_spaceoptions[i].checked){
+        console.log('채크된 항목:',apart_spaceoptions[i]);
+        checked_apartspaceoptions[c]= apart_spaceoptions[i].value;
+        c++;
+      }
+    }
+    console.log('현재 체크된 변화상황 체크 아파트공간옵션요소:',checked_apartspaceoptions,checked_apartspaceoptions.join(','));
+    setApartspaceoption(checked_apartspaceoptions.join(','));
+  }
+  const change_spaceoption = (e) => {
+    var spaceoptions=document.getElementsByClassName('spaceoptions');
+    
+    var checked_spaceoptions=[];
+    for(let i=0,c=0; i<spaceoptions.length; i++){
+      console.log('공간옵션 상태체크여부:',spaceoptions[i].checked);
+      if(spaceoptions[i].checked){
+        console.log('체크된 항목:',spaceoptions[i]);
+        checked_spaceoptions[c]= spaceoptions[i].value;
+        c++;
+      }
+    }
+    console.log('현재 체크된 변화상황 체크 공간옵션요소:',checked_spaceoptions,checked_spaceoptions.join(','));
+
+    setSpaceoption(checked_spaceoptions.join(','));
+  } 
+  const change_securityoption = (e) => {
+    var securityoptions=document.getElementsByClassName('securityoptions');
+    
+    var checked_securityoptions=[];
+    for(let i=0,c=0; i<securityoptions.length; i++){
+      if(securityoptions[i].checked){
+        checked_securityoptions[c]= securityoptions[i].value;
+        c++;
+      }
+    }
+    console.log('현재 체크된 변화상황 체크 보안옵션요소:',checked_securityoptions,checked_securityoptions.join(','));
+
+    setSecurityoption(checked_securityoptions.join(','));
+  }
+  const change_spaceaddonoption = (e) => {
+    var spaceaddonoptions=document.getElementsByClassName('spaceaddonoptions');
+    
+    var checked_spaceaddonoptions=[];
+    for(let i=0,c=0; i<spaceaddonoptions.length; i++){
+      if(spaceaddonoptions[i].checked){
+        checked_spaceaddonoptions[c]= spaceaddonoptions[i].value;
+        c++;
+      }
+    }
+    console.log('현재 체크된 변화상황 체크 공간addon옵션요소:',checked_spaceaddonoptions,checked_spaceaddonoptions.join(','));
+
+    setSpaceaddonoption(checked_spaceaddonoptions.join(','));
+  }
+  const change_iscontractrenewal = (e) => {
+    setIscontractrenewal(e.target.value);
+  }
+  const change_loanprice = (e) => {
+    setLoanprice(e.target.value);
+  }
+  const change_guaranteeprice = (e) => {
+    setGuaranteeprice(e.target.value);
+  }
+  const change_maemul_description = (e) => {
+    setMaemul_description(e.target.value);
+  }
+  const change_maemul_descriptiondetail = (e) => {
+    setMaemul_descriptiondetail(e.target.value);
+  }
+
+  
+  //다음버튼 누릀때 서버로 지금껏 정보 모두 보낸다.(외부수임물건전달방식 전닭. 다른 처리로 외부수임처리이기에.)
+  const nextStep = async () => {
+    //지금껏까지의 모든 저장정보 mereeged하여 서버에 요청제출필요ㅕ하다.
+    console.log('>>>유지된 정보들 기본입력정보들:',temp_brokerRequest);
+    console.log('>>>추가입력정보들 state정보값들:',roomcount,bathroomcount,isduplexfloor,isparking,parkingoptions,iswithpet,direction,entrance,heatmethod,heatfuel,apartspaceoption,spaceoption,securityoption,spaceaddonoption,iscontractrenewal,loanprice,guaranteeprice,maemul_description,maemul_description,maemul_descriptiondetail);
+
+    let body_info={
+      address: temp_brokerRequest.dangiaddress,
+      companyid: login_user.company_id,//어떤 로그인 중개사회원 중개사아이디인지.
+      exculsivedimension: temp_brokerRequest.jeonyongdimension,
+      exculsivepyeong: temp_brokerRequest.jeonyongpyeong,
+      ibju_isinstant: temp_brokerRequest.ibju_isinstant,
+      ibju_specifydate : temp_brokerRequest.ibju_specifydate,
+      maemulname: temp_brokerRequest.maemulname,
+      maemultype: temp_brokerRequest.maemultype,
+      managecost : temp_brokerRequest.managecost,
+      requestmanname: temp_brokerRequest.name,//여기선 외부수임요청자 정보(이름,휴대폰)
+      requestmemphone: temp_brokerRequest.phone,
+      sellprice: temp_brokerRequest.sellprice, 
+      selltype : temp_brokerRequest.selltype, 
+      supplydimension : temp_brokerRequest.supplydimension,
+      supplypyeong: temp_brokerRequest.supplypyeong,
+
+      dong: temp_brokerRequest.dong,
+      hosil : temp_brokerRequest.hosil,
+      floor : temp_brokerRequest.floor,
+      dangi: temp_brokerRequest.dangi,
+      exculsive_periods: temp_brokerRequest.exculsive_periods,
+      managecostincludes: temp_brokerRequest.managecostincludes,
+
+      roomcount_val :roomcount,
+      bathroomcount_val : bathroomcount,
+      isduplexfloor_val : isduplexfloor,
+      isparking_val : isparking,
+      parkingoptions_val : parkingoptions,
+      iselevator_val : iselevator,
+      iswithpet_val : iswithpet,
+      direction_val : direction,
+      entrance_val : entrance,
+      heatmethod_val : heatmethod,
+      heatfuel_val : heatfuel,
+      apartspaceoption_val : apartspaceoption,
+      spaceoption_val :spaceoption,
+      securityoption_val : securityoption,
+      spaceaddonoption_val : spaceaddonoption,
+      iscontractrenewal_val : iscontractrenewal,
+      loanprice_val : loanprice,
+      guaranteeprice_val : guaranteeprice,
+      maemul_description_val : maemul_description,
+      maemul_descriptiondetail_val : maemul_descriptiondetail
+    }
+
+    console.log('>>>JSON SUBMIT DATA:',body_info,JSON.stringify(body_info));
+
+    let res = await serverController.connectFetchController('/api/broker/user_brokerOuterRequest','POST',JSON.stringify(body_info));
+    console.log('->>>>>res resultsss:',res);
+    
+    if(res.success){
+      alert('외부수임 매물 등록 완료!');
+
+      //history('/');
+    }else{
+      alert('처리에 문제가 있습니다.');
+    }
+  };
     return (
         <Container>
           <WrapRequest>
@@ -80,11 +288,11 @@ const OptionProtect =[
                   <Label>방수/욕실수<Pilsu>*</Pilsu></Label>
                   <Widthbox>
                     <InboxRoom>
-                      <InputRoom type="text" placeholder="방수 입력"/>
+                      <InputRoom type="text" placeholder="방수 입력" value={roomcount} onChange={change_roomcount}/>
                     </InboxRoom>
                     <SpanRoom>개</SpanRoom>
                     <InboxRoom>
-                      <InputRoom type="text" placeholder="욕실수 입력"/>
+                      <InputRoom type="text" placeholder="욕실수 입력" value={bathroomcount} onChange={change_bathroomcount}/>
                     </InboxRoom>
                     <SpanRoom>개</SpanRoom>
                   </Widthbox>
@@ -94,14 +302,14 @@ const OptionProtect =[
                   <Label>복층여부<Pilsu>*</Pilsu></Label>
                   <WrapCheck>
                     <Radiobox>
-                      <Radio type="radio" name="floor" id="floor1" defaultChecked/>
+                      <Radio type="radio" name="is_duplex_floor" id="floor1" defaultChecked value='0' onChange={change_isduplexfloor}/>
                       <RadioLabel for="floor1">
                         <RadioSpan/>
                         단층
                       </RadioLabel>
                     </Radiobox>
                     <Radiobox>
-                      <Radio type="radio" name="floor" id="floor2"/>
+                      <Radio type="radio" name="is_duplex_floor" id="floor2" value='1' onChange={change_isduplexfloor}/>
                       <RadioLabel for="floor2">
                         <RadioSpan/>
                         복층
@@ -113,14 +321,14 @@ const OptionProtect =[
                   <Label>주차<Pilsu>*</Pilsu></Label>
                   <WrapCheck>
                     <Radiobox>
-                      <Radio type="radio" name="parking" id="park1" defaultChecked/>
+                      <Radio type="radio" name="parking" id="park1" defaultChecked value='0' onChange={change_isparking}/>
                       <RadioLabel for="park1" onClick={()=>{setPark(false)}}>
                         <RadioSpan/>
                         불가
                       </RadioLabel>
                     </Radiobox>
                     <Radiobox>
-                      <Radio type="radio" name="parking" id="park2"/>
+                      <Radio type="radio" name="parking" id="park2" value='1' onChange={change_isparking}/>
                       <RadioLabel for="park2" onClick={()=>{setPark(true)}}>
                         <RadioSpan/>
                         가능
@@ -128,7 +336,7 @@ const OptionProtect =[
                     </Radiobox>
                     {
                       park ?
-                      <InputPark type="text" placeholder="(e.g 1대 가능)"/>
+                      <InputPark type="text" placeholder="(e.g 1대 가능)" value={parkingoptions} onChange={change_parkingoptions}/>
                       :
                       null
                     }
@@ -138,14 +346,14 @@ const OptionProtect =[
                   <Label>엘리베이터<Pilsu>*</Pilsu></Label>
                   <WrapCheck>
                     <Radiobox>
-                      <Radio type="radio" name="elevate" id="elevate1" defaultChecked/>
+                      <Radio type="radio" name="elevate" id="elevate1" defaultChecked value='0' onChange={change_iselevator}/>
                       <RadioLabel for="elevate1">
                         <RadioSpan/>
                         없음
                       </RadioLabel>
                     </Radiobox>
                     <Radiobox>
-                      <Radio type="radio" name="elevate" id="elevate2"/>
+                      <Radio type="radio" name="elevate" id="elevate2" value='1' onChange={change_iselevator}/>
                       <RadioLabel for="elevate2">
                         <RadioSpan/>
                         있음
@@ -157,14 +365,14 @@ const OptionProtect =[
                   <Label>반려동물<Pilsu>*</Pilsu></Label>
                   <WrapCheck>
                     <Radiobox>
-                      <Radio type="radio" name="pet" id="pet1" defaultChecked/>
+                      <Radio type="radio" name="pet" id="pet1" defaultChecked value='0' onChange={change_iswithpet}/>
                       <RadioLabel for="pet1">
                         <RadioSpan/>
                         불가
                       </RadioLabel>
                     </Radiobox>
                     <Radiobox>
-                      <Radio type="radio" name="pet" id="pet2"/>
+                      <Radio type="radio" name="pet" id="pet2" value='1' onChange={change_iswithpet}/>
                       <RadioLabel for="pet2">
                         <RadioSpan/>
                         가능
@@ -194,56 +402,56 @@ const OptionProtect =[
                 <MoreView>
                   <SelectBox>
                     <Label>방향</Label>
-                    <SelectMb>
+                    <SelectMb onChange={change_direction}>
                       <Option>방향을 선택하여주세요.</Option>
-                      <Option>남향</Option>
-                      <Option>남동향</Option>
+                      <Option value='남향'>남향</Option>
+                      <Option value='남동향'>남동향</Option>
                     </SelectMb>
                   </SelectBox>
                   {/*현관구조*/}
                   <SelectBox>
                     <Label>현관구조</Label>
-                    <SelectMb>
+                    <SelectMb onChange={change_entrance}>
                       <Option>현관구조를 선택하여주세요.</Option>
-                      <Option>복도식</Option>
-                      <Option>계단식</Option>
+                      <Option value='복도식'>복도식</Option>
+                      <Option value='계단식'>계단식</Option>
                     </SelectMb>
                   </SelectBox>
                   {/*현관구조*/}
                   <SelectBox>
                     <Labelblock>난방</Labelblock>
-                    <SelectMbShort>
+                    <SelectMbShort onChange={change_heatmethod}>
                       <Option>방식 선택</Option>
-                      <Option>개별난방</Option>
-                      <Option>중앙난방</Option>
+                      <Option value='개별난방'>개별난방</Option>
+                      <Option value='중앙난방'>중앙난방</Option>
                     </SelectMbShort>
-                    <SelectMbShort>
+                    <SelectMbShort onChange={change_heatfuel}>
                       <Option>연료 선택</Option>
-                      <Option>도시가스</Option>
-                      <Option>LPG</Option>
+                      <Option value='도시가스'>도시가스</Option>
+                      <Option value='LPG'>LPG</Option>
                     </SelectMbShort>
                   </SelectBox>
                 {/*아파트일때 옵션(공간)*/}
-                  <MoreBox style={{display:"none"}}>
+                  <MoreBox style={{display:"block"}}>
                     <Label>옵션(공간)</Label>
                     <WrapCheck>
                       <Checkbox>
-                        <Check type="checkbox" id="option1" defaultChecked/>
-                        <CheckLabel for="option1">
+                        <Check type="checkbox" id="apart_spaceoption1" value='발코니' className='apartspaceoptions' onChange={change_apartspaceoption} defaultChecked/>
+                        <CheckLabel for="apart_spaceoption1">
                           <CheckSpan/>
                           발코니
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="option2"/>
-                        <CheckLabel for="option2">
+                        <Check type="checkbox" id="apart_spaceoption2" value='베란다' className='apartspaceoptions' onChange={change_apartspaceoption}/>
+                        <CheckLabel for="apart_spaceoption2">
                           <CheckSpan/>
                           베란다
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="option3"/>
-                        <CheckLabel for="option3">
+                        <Check type="checkbox" id="apart_spaceoption3" value='테라스' className='apartspaceoptions' onChange={change_apartspaceoption}/>
+                        <CheckLabel for="apart_spaceoption3">
                           <CheckSpan/>
                           테라스
                         </CheckLabel>
@@ -260,8 +468,8 @@ const OptionProtect =[
                       OptionInside.map((value) => {
                         return(
                           <Checkbox>
-                            <Check type="checkbox" id={"option1"+value.oi_id} defaultChecked={value.default ? true:false}/>
-                            <CheckLabel for={"option1"+value.oi_id}>
+                            <Check type="checkbox" id={"spaceoption"+value.oi_id} className='spaceoptions' onChange={change_spaceoption} value={value.label} defaultChecked={value.default ? true:false}/>
+                            <CheckLabel for={"spaceoption"+value.oi_id}>
                               <CheckSpan/>
                               {value.label}
                             </CheckLabel>
@@ -277,8 +485,8 @@ const OptionProtect =[
                       OptionProtect.map((value) => {
                         return(
                           <Checkbox>
-                            <Check type="checkbox" id={"option2"+value.op_id} defaultChecked={value.default ? true:false}/>
-                            <CheckLabel for={"option2"+value.op_id}>
+                            <Check type="checkbox" id={"securityoption"+value.op_id} className='securityoptions' onChange={change_securityoption} value={value.label} defaultChecked={value.default ? true:false}/>
+                            <CheckLabel for={"securityoption"+value.op_id}>
                               <CheckSpan/>
                               {value.label}
                             </CheckLabel>
@@ -291,15 +499,15 @@ const OptionProtect =[
                     <Label>공간</Label>
                     <WrapCheck>
                       <Checkbox>
-                        <Check type="checkbox" id="option2"/>
-                        <CheckLabel for="option2">
+                        <Check type="checkbox" id="space_addon_option1" value='베란다' className='spaceaddonoptions' onChange={change_spaceaddonoption}/>
+                        <CheckLabel for="space_addon_option1">
                           <CheckSpan/>
                           베란다
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="option3"/>
-                        <CheckLabel for="option3">
+                        <Check type="checkbox" id="space_addon_option2" value='테라스' className='spaceaddonoptions' onChange={change_spaceaddonoption}/>
+                        <CheckLabel for="space_addon_option2">
                           <CheckSpan/>
                           테라스
                         </CheckLabel>
@@ -321,14 +529,14 @@ const OptionProtect =[
                   <Label>계약갱신권 행사여부<Pilsu>*</Pilsu></Label>
                   <WrapCheck>
                     <Radiobox>
-                      <Radio type="radio" name="possible" id="radi1" defaultChecked/>
+                      <Radio type="radio" onChange={change_iscontractrenewal} value='0' name="is_contractrenewal" id="radi1" defaultChecked/>
                       <RadioLabel for="radi1">
                         <RadioSpan/>
                         미확인
                       </RadioLabel>
                     </Radiobox>
                     <Radiobox>
-                      <Radio type="radio" name="possible" id="radi2"/>
+                      <Radio type="radio" onChange={change_iscontractrenewal} value='1' name="is_contractrenewal" id="radi2"/>
                       <RadioLabel for="radi2">
                         <RadioSpan/>
                         확인
@@ -340,7 +548,7 @@ const OptionProtect =[
                   <Label>융자금</Label>
                   <Example>(e.g 1억 5,000)</Example>
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력"/>
+                    <InputMidi type="text" placeholder="가격 입력" value={loanprice} onChange={change_loanprice}/>
                     <Dan>만원</Dan>
                   </Flex>
                 </InputBox>
@@ -348,20 +556,20 @@ const OptionProtect =[
                   <Label>기보증금 / 월세</Label>
                   <Example>(e.g 1억 5,000)</Example>
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력"/>
+                    <InputMidi type="text" placeholder="가격 입력" value={guaranteeprice} onChange={change_guaranteeprice}/>
                     <Dan>만원</Dan>
                   </Flex>
                 </InputBox>
                 <InputBox>
                   <Label>설명</Label>
-                  <InputTxt type="text" placeholder="매물 요약 입력"/>
-                  <Textarea type="textarea" placeholder="매물 설명 입력"/>
+                  <InputTxt type="text" placeholder="매물 요약 입력" value={maemul_description} onChange={change_maemul_description}/>
+                  <Textarea type="textarea" placeholder="매물 설명 입력" value={maemul_descriptiondetail} onChange={change_maemul_descriptiondetail}/>
                 </InputBox>
               </Box>
             </WrapBox>
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link>
+              <Link onClick={nextStep}>
                 <Next type="button">확인</Next>
               </Link>
             </NextButton>

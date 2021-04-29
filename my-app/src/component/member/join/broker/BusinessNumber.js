@@ -1,6 +1,7 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -8,7 +9,18 @@ import styled from "styled-components"
 //Img
 import Close from "../../../../img/main/modal_close.png"
 
+//added reux actions go ..>>>
+import {useSelector } from 'react-redux';
+import {tempRegisterUserdataActions } from '../../../../store/actionCreators';
+
 export default function SearchResult() {
+  console.log('broker>businessNumber 컴포넌트 실행======');
+  
+  const tempregisteruserdata= useSelector(data => data.temp_register_userdata);
+  
+  console.log('data.temp_register_userrdata refer info:',tempregisteruserdata,tempRegisterUserdataActions);
+
+  const history= useHistory();
 
   /*사업자 번호 유효성*/
   const [reginum1,setReginum1] = useState("");/*기본값*/
@@ -23,17 +35,58 @@ export default function SearchResult() {
 
   const checkVaildate = () =>{
     return reginum1.length == 3 && reginum2.length == 2 && reginum3.length == 5
-   }
+  }
 
   /*사업자 번호 오류 모달*/
    const [errorNum, setErrorNum] = useState(false);
 
    useEffect(()=>{
+     console.log('member>broker?businessnumber.js페이지 useEffect상태값변화:',reginum1,reginum2,reginum3, active);
+
      if(checkVaildate())
          setActive(true);
      else
          setActive(false);
    },)
+
+   const nextStep = async (e) => {
+     console.log('nextStep다음 스탭a링크 클릭 비동기 함수 구문에서만 await 구문 사용가능:',e,e.target);
+
+     //다음버튼 누를시에 유효성 검사는 기본이고, active통과시에 서버에 clc_realtors
+     e.preventDefault();
+
+     if(active){
+       console.log('유효성 통과시에 통과되게끔 사업자번호',reginum1,reginum2,reginum3);
+
+       let business_number= reginum1 + '-'+reginum2+'-'+reginum3;
+       
+       //입력 중개업소 사업자번호(인증요청)가 사전 코렉스 측 제공 데이터베이스 존재여부 검사
+       let body_info={
+         businessnumber: business_number
+       };
+       console.log('JSON>STRINGIFY(BODY_INFO):',JSON.stringify(body_info));
+       console.log(serverController.connectFetchController);
+       let res=await serverController.connectFetchController("/api/auth/broker/broker_verify","POST",JSON.stringify(body_info));
+       console.log('res_result:',res);
+       //alert(res);
+       //redux 데이터 저장 사업자번호정보 저장(중개사) 통과시에. 입력한 정보가 존재하는지(clc_realtors국가공간정보포탈) 여부 통과시에.
+       
+       if(res.success){
+         //인증성공하면 joinAgree로 보낸다.
+
+         tempRegisterUserdataActions.businessnumberchange({bussinessnumbers: business_number});//사업자번호만 변경 지정한다.
+         tempRegisterUserdataActions.clcmngnochange({clcmngnos : res.data.mng_no});//입력한 사업자등록번호가 clc(국가공간정보포탈)에 사전등록되어있는 참조 mng_no인지 구하며, 그 정보로 가입을 하려는것이기에
+         //그 정보로 코렉스측 company,users등에 가입여부 검사.
+         history.push('/BrokerJoinAgree');
+       }else{
+         setErrorNum(true);
+         //alert(res.message);
+       }
+     }else{
+       console.log('유효성 통과 못할시에(회색) 다음단계로 기본이벤트 막음');
+       e.preventDefault();
+     }
+   }
 
     return (
         <Container>
@@ -48,7 +101,7 @@ export default function SearchResult() {
             </InputTop>
             <SubmitButton>
               {/*사업자 번호가 유효하지 않은 경우!*/}
-              <Link to="/BrokerJoinAgree">
+              <Link to="/BrokerJoinAgree" onClick={nextStep}>
                 <NextBtn type="button" name="" active={active}>다음</NextBtn>
               </Link>
               {/*사업자 번호가 유효하지 않은 경우!*/}
@@ -81,8 +134,6 @@ export default function SearchResult() {
 
             </SubmitButton>
           </WrapBusiness>
-
-
         </Container>
   );
 }

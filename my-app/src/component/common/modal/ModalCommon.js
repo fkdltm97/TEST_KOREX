@@ -20,6 +20,8 @@ import ArrowDown from '../../../img/member/arrow_down.png';
 //기존에 show,setShow,title,submit,cancle,confirm,content 이렇게 데이터를 전부 전달 받았는데 이걸 하나로 합쳐서 사용할게요
 // modalOption = {show,setShow,title,submit,cancle,confirm,content} 이렇게요.
 export default function ModalCommon({modalOption}) {
+
+  console.log('+>>>>>>>>modal common execute요소 호출:',modalOption);
   const closeModal = () =>{ modalOption.setShow(false); }
 
 
@@ -192,10 +194,10 @@ const Text = styled.p`
   line-height:1.5;
   font-size:15px;
   color:#4a4a4a;transform:skew(-0.1deg);
-  padding:40px 0;text-align:center;white-space: pre-wrap;
+  padding:80px 0;text-align:center;white-space: pre-wrap;
   @media ${(props) => props.theme.modal} {
     font-size:calc(100vw*(14/428));
-    padding:calc(100vw*(40/428)) 0;
+    padding:calc(100vw*(70/428)) 0;
   }
 `
 const WrapFilterSelect = styled.div`

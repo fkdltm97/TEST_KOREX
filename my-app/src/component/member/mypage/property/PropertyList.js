@@ -33,61 +33,68 @@ export default function Request({value, type}) {
       <Container>
           <Li>
             <ItemImg>
-              <Img src={value.img}/>
+              <Img src={value.prd_img}/>
             </ItemImg>
             <Infos>
               <ConditionDiv>
-                <ConditionType color={type}>{value.conditiontype}</ConditionType> 상태 : <Condition>{value.condition}</Condition>
+                <ConditionType color={type}>{value.prd_status}</ConditionType> 상태 : <Condition>{value.prd_status}</Condition>
               </ConditionDiv>
               <TopBox>
                 <ColorGreen>전속</ColorGreen>
                 <WrapDate>
-                  <StartDate>{value.startdate}</StartDate>
+                  <StartDate>{value.prd_exculsive_start_date}</StartDate>
                   <Line>~</Line>
-                  <EndDate>{value.enddate}</EndDate>
+                  <EndDate>{value.prd_exculsive_end_date}</EndDate>
                 </WrapDate>
               </TopBox>
-              <Number>등록번호 : {value.number}</Number>
-              <Title>{value.title}</Title>
+              <Number>등록번호 : {value.number} prd_identity_id: {value.prd_identity_id}</Number>
+              <Title>{value.prd_name}</Title>
               <Kinds>
                 <Left>물건종류</Left>
-                <Right>{value.kinds}</Right>
+                <Right>{value.prd_type}</Right>
               </Kinds>
               <Kinds>
                 <Left>건물명</Left>
-                <Right>{value.itemname}</Right>
+                <Right>{value.prd_name}</Right>
               </Kinds>
               <Trade>
                 <Left>거래유형</Left>
-                <Right>{value.trade}</Right>
+                <Right>{value.prd_sel_type}</Right>
               </Trade>
               <Address>
                 <Left>의뢰인명</Left>
-                <Right>{value.username}</Right>
+                <Right>{value.request_man_name}</Right>
               </Address>
             </Infos>
             <RightMenu>
               <Alarm>
-                <AlarmCheck type="checkbox" id={"check"+value.p_id} name=""/>
-                <Label for={"check"+value.p_id}/>
+                <AlarmCheck type="checkbox" id={"check"+value.prd_identity_id} name=""/>
+                <Label for={"check"+value.prd_identity_id}/>
               </Alarm>
               <Menu>
                 <Link onClick={showModal}>
                   <MenuIcon/>
                     {
                       menu ?
-                      <InMenu>
+                      <div>
                       {/*검토대기 상태일때*/}
+                        {value.prd_status == '검토대기' ?
+                        <InMenu>
                         <Div>
-                          <Link to="/RequestReview" className="data_link"></Link>
+                          <Link to={`/RequestReview/${value.prd_identity_id}`} className="data_link"></Link>
                           <InDiv>검토</InDiv>
                         </Div>
                         <Div>
                           <Link to="/ConditionChange" className="data_link"></Link>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
-
+                        </InMenu>
+                        :
+                        null
+                      }
                       {/*거래 준비 상태일때*/}
+                      {value.prd_status == '거래준비' ?
+                        <InMenu>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래개시승인 요청</InDiv>
@@ -105,15 +112,20 @@ export default function Request({value, type}) {
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link to="/PropertyTourSetting" className="data_link"></Link>
+                          <Link to={`/PropertyTourSetting/${value.prd_identity_id}`} className="data_link"></Link>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
+                        </InMenu>:
+                        null
+                      }
                       {/*거래 개시 상태일때*/}
-  {/*
+                      {
+                        value.prd_status == '거래개시' ?
+                        <InMenu>
                         <Div>
                           <Link className="data_link"></Link>
                           <InDiv>거래개시승인 요청</InDiv>
@@ -142,8 +154,11 @@ export default function Request({value, type}) {
                           <Link className="data_link"></Link>
                           <InDiv>삭제</InDiv>
                         </Div>
-*/}
-                      </InMenu>
+                        </InMenu>
+                        :
+                        null
+                      }
+                      </div>
                       :
                       null
                     }

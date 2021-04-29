@@ -9,6 +9,8 @@ const UPDATE_ZOOMIN = 'mapRight/zoomIn';
 const UPDATE_ZOOMOUT = 'mapRight/zoomOut';
 const UPDATE_MAPSTYLE = 'mapRight/mapStyle';
 const UPDATE_AROUND = 'mapRight/around';
+const UPDATE_CURRENT = 'mapRight/current';
+const UPDATE_DISTANCE = 'mapRight/distance';
 
 // 액션 생성 함수를 만듭니다.
 export const updateExclusive = createAction(UPDATE_EXCLUSIVE);
@@ -18,6 +20,8 @@ export const updateZoomIn = createAction(UPDATE_ZOOMIN);
 export const updateZoomOut = createAction(UPDATE_ZOOMOUT);
 export const updateMapStyle = createAction(UPDATE_MAPSTYLE);
 export const updateAround = createAction(UPDATE_AROUND);
+export const updateCurrent = createAction(UPDATE_CURRENT);
+export const updateDistance = createAction(UPDATE_DISTANCE);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
@@ -27,7 +31,9 @@ const initialState = {
     isZoomIn : 0,
     isZoomOut : 0, 
     mapStyle: "roadmap",
-    around : "",
+    around : {is:""},
+    isCurrnet : {is:false},
+    isDistance : {is:false},
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
@@ -65,6 +71,16 @@ export default handleActions({
   [UPDATE_AROUND]: (state, action) => {
     return produce(state, draft => {
         draft.around = action.payload.around ? action.payload.around : draft.around;
+    });
+  },
+  [UPDATE_CURRENT]: (state, action) => {
+    return produce(state, draft => {
+        draft.isCurrnet = action.payload.isCurrnet ? action.payload.isCurrnet : draft.isCurrnet;
+    });
+  },
+  [UPDATE_DISTANCE]: (state, action) => {
+    return produce(state, draft => {
+        draft.isDistance = action.payload.isDistance ? action.payload.isDistance : draft.isDistance;
     });
   },
 }, initialState);

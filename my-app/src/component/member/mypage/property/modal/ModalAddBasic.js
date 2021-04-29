@@ -2,7 +2,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -11,8 +10,69 @@ import ArrowDown from '../../../../../img/member/arrow_down.png';
 import Check from '../../../../../img/map/radio.png';
 import Checked from '../../../../../img/map/radio_chk.png';
 
+//리덕스 데이터 저장한다.
+import { temp_tourReservsettingActions } from '../../../../../store/actionCreators';
+
 //필터 모달
 export default function AddBasic({addBasic}) {
+   console.log('==>>>>>modalAddbasic요소 실행>>>>>>>>>>');
+
+   const [normal_select_days,setNormal_select_days] = useState('');
+   const [normal_select_times,setNormal_select_times] = useState('');
+   const [normal_isholidayexcept,setNormal_isholidayexcept] = useState('');
+   const [normal_select_daycount,setNormal_select_daycount] = useState('');
+
+  const change_normal_days = (e) => {
+    let normal_select_days=document.getElementsByClassName('normal_select_days');
+
+    let checked_items=[];
+    for(let i=0,c=0; i<normal_select_days.length; i++){
+      if(normal_select_days[i].checked){
+          checked_items[c]=normal_select_days[i].value;
+        c++;
+      }
+    }
+    console.log('=-=>>>일반추가 선택 요일들 요일 변화change:',checked_items.join(','));
+    setNormal_select_days(checked_items.join(','));
+  };
+  const change_normal_days_times = (e) => {
+    let normal_select_times=document.getElementsByClassName('normal_select_times');
+
+    let checked_items=[];
+    for(let i=0,c=0; i<normal_select_times.length; i++){
+      if(normal_select_times[i].checked){
+          checked_items[c]=normal_select_times[i].value;
+        c++;
+      }
+    }
+    console.log('=-=>>>일반추가 선택 시간들 요일 변화change:',checked_items.join(','));
+    setNormal_select_times(checked_items.join(','));
+  }
+  const change_isholidayexcept = (e) => {
+    if(e.target.checked){
+      //alert('공휴일 제외!');
+      setNormal_isholidayexcept(1);
+    }else{
+      //alert('공휴일 포함');
+      setNormal_isholidayexcept(0);
+    }
+  }
+  const change_daycount = (e) => {
+    console.log('>>>>>>선택한 값:...ㅇ',e.target.value);
+
+    setNormal_select_daycount(e.target.value);
+  }
+
+  useEffect( async () => {
+    console.log('=>>>>>>modal modaladdbasdic요소 state내부값들 변화발생시마다:',normal_select_days,normal_select_times,normal_isholidayexcept,normal_select_daycount);
+
+    temp_tourReservsettingActions.normal_select_dayschange({normal_select_dayss: normal_select_days});
+    temp_tourReservsettingActions.normal_select_timeschange({normal_select_timess: normal_select_times});
+    temp_tourReservsettingActions.normal_isholidayexceptchange({normal_isholidayexcepts : normal_isholidayexcept});
+    temp_tourReservsettingActions.normal_select_daycountchange({normal_select_daycounts : normal_select_daycount});
+
+  },[normal_select_days,normal_select_times,normal_isholidayexcept,normal_select_daycount]);
+
 
   //Add 모달창
     return (
@@ -22,49 +82,49 @@ export default function AddBasic({addBasic}) {
                 <Label>요일</Label>
                 <WrapWeek>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="sun"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days}className='normal_select_days'name="" id="sun" value='sun'/>
                     <CheckLabelPt for="sun">
                       <SpanAbsolute/>
                       일
                     </CheckLabelPt>
                   </InBox>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="mon"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days} className='normal_select_days' name="" id="mon" value="mon"/>
                     <CheckLabelPt for="mon">
                       <SpanAbsolute/>
                       월
                     </CheckLabelPt>
                   </InBox>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="tue"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days}className='normal_select_days' name="" id="tue" value="tue"/>
                     <CheckLabelPt for="tue">
                       <SpanAbsolute/>
                       화
                     </CheckLabelPt>
                   </InBox>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="wed"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days} className='normal_select_days'name="" id="wed" value="wed"/>
                     <CheckLabelPt for="wed">
                       <SpanAbsolute/>
                       수
                     </CheckLabelPt>
                   </InBox>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="thr"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days} className='normal_select_days'name="" id="thr" value="thr"/>
                     <CheckLabelPt for="thr">
                       <SpanAbsolute/>
                       목
                     </CheckLabelPt>
                   </InBox>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="fri"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days} className='normal_select_days'name="" id="fri" value="fri"/>
                     <CheckLabelPt for="fri">
                       <SpanAbsolute/>
                       금
                     </CheckLabelPt>
                   </InBox>
                   <InBox>
-                    <InputCheck type="checkbox" name="" id="sat"/>
+                    <InputCheck type="checkbox" onChange={change_normal_days} className='normal_select_days'name="" id="sat" value="sat"/>
                     <CheckLabelPt for="sat">
                       <SpanAbsolute/>
                       토
@@ -77,21 +137,21 @@ export default function AddBasic({addBasic}) {
                   <Label>시간</Label>
                   <AddSelectCondition>
                     <LineBox>
-                      <InputCheck type="checkbox" name="" id="time1"/>
+                      <InputCheck type="checkbox" onChange={change_normal_days_times} className='normal_select_times' name="" id="time1" value='오전1T'/>
                       <CheckLabelInBox for="time1">
                         <Span/>
                         오전 1T
                       </CheckLabelInBox>
                     </LineBox>
                     <LineBox>
-                      <InputCheck type="checkbox" name="" id="time2"/>
+                      <InputCheck type="checkbox" onChange={change_normal_days_times}className='normal_select_times'name="" id="time2"value='오후1T'/>
                       <CheckLabelInBox for="time2">
                         <Span/>
                         오후 1T
                       </CheckLabelInBox>
                     </LineBox>
                     <LineBox>
-                      <InputCheck type="checkbox" name="" id="time3"/>
+                      <InputCheck type="checkbox" onChange={change_normal_days_times}className='normal_select_times'name="" id="time3"value='오후2T'/>
                       <CheckLabelInBox for="time3">
                         <Span/>
                         오후 2T
@@ -103,11 +163,15 @@ export default function AddBasic({addBasic}) {
                 <AddBox>
                   <Label>선택 항목수(일자)</Label>
                   <AddSelectCondition>
-                    <AddSelectConditionList>
+                    <AddSelectConditionList onChange={change_daycount}> 
                       <InOption selected disabled>갯수 선택</InOption>
-                      <InOption>-</InOption>
-                      <InOption>-</InOption>
-                      <InOption>-</InOption>
+                      <InOption value='1'>1</InOption>
+                      <InOption value='2'>2</InOption>
+                      <InOption value='3'>3</InOption>
+                      <InOption value='4'>4</InOption>
+                      <InOption value='5'>5</InOption>
+                      <InOption value='6'>6</InOption>
+                      <InOption value='7'>7</InOption>
                     </AddSelectConditionList>
                   </AddSelectCondition>
                 </AddBox>
@@ -116,7 +180,7 @@ export default function AddBasic({addBasic}) {
                   <Label>공휴일 제외여부</Label>
                   <AddSelectCondition>
                     <LineBox>
-                      <InputCheck type="checkbox" name="" id="hday"/>
+                      <InputCheck type="checkbox" name="" id="hday" onClick={change_isholidayexcept}/>
                       <CheckLabelInBox for="hday">
                         <Span/>
                         공휴일 제외

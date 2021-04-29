@@ -2,6 +2,7 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
+import serverController from '../../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -18,12 +19,38 @@ export default function JoinInput() {
     return phone.length > 9 && pwd.length > 7
    }
    useEffect(()=>{
+     console.log('agencylogin inputs>>useEffect호출 상태 변화==============',phone,pwd);
+
      if(checkVaildate())
              setActive(true);
      else
          setActive(false);
    },)
+  
+   const agency_login_submit = async (e) => {
+     console.log('agency_login_submit 분양대행사 로그인 submit onclick발생==================',phone,pwd,active);
 
+     if(active){
+       let body_info = {
+         login_phone : phone,
+         login_password : pwd
+       };
+
+       console.log('JSON.STINRIGFY(BODY_INFO):',JSON.stringify(body_info));
+
+       let res=await serverController.connectFetchController('/api/auth/agency/login','post',JSON.stringify(body_info),function(){},function(test){console.log(test);});
+       console.log('res results:',res);
+       //alert(res);
+
+       if(!res.success){
+         document.getElementById('loginfail').style.display='block';
+       }else{
+         document.getElementById('loginfail').style.display='none';
+         alert(res.message);
+       }
+       //로그인 성공시 페이지 이동 =>>>>>>>>>>
+     }
+   }
     return (
         <Container>
           <WrapJoinInput>
@@ -34,10 +61,10 @@ export default function JoinInput() {
               <InputTitle>비밀번호</InputTitle>
               <Input type="password" name="" placeholder="비밀번호를 입력해주세요." onChange={pwdChange}/>
               {/*아이디 또는 비밀번호가 일치하지 않을때 Msg*/}
-              <ErrorMsg style={{display:"none"}}>휴대폰번호 또는 비밀번호가 일치하지 않습니다.</ErrorMsg>
+              <ErrorMsg style={{display:"none"}} id='loginfail'>휴대폰번호 또는 비밀번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
-              <Submit type="submit" name="" active={active}>로그인</Submit>
+              <Submit type="submit" name="" active={active} onClick={agency_login_submit}>로그인</Submit>
               <BottomBtns>
                 <Div>
                   <Link to="/AgencyJoin">

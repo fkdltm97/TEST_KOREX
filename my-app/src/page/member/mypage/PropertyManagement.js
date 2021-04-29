@@ -1,6 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 import styled from "styled-components"
 
@@ -17,6 +17,9 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+
+//server process
+import serverController from '../../../../src/server/serverController';
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 
 export default function Join() {
@@ -45,6 +48,8 @@ export default function Join() {
 
   //필터 모달
   const [filter, setFilter] = useState(false);
+  
+  const history = useHistory();
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
@@ -72,6 +77,19 @@ export default function Join() {
         }
   
 
+  useEffect( async () => {
+    let body_info={};
+    console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);
+    let user_info= await serverController.connectFetchController('/api/auth/islogin','GET');
+    console.log('user is login query>>:',user_info);
+    
+    if(user_info.login_session){
+
+    }else{
+      console.log('==========로그인안되어있음 :',history);
+      history.push('/');
+    }
+  },[]);
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -94,7 +112,7 @@ export default function Join() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
         min-height:calc(100vh - calc(100vw*(420/428)));
       }

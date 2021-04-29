@@ -16,7 +16,12 @@ import CheckedImg from '../../../../img/map/radio_chk.png';
 import RadioImg from '../../../../img/map/radi.png';
 import RadioChkImg from '../../../../img/map/radi_chk.png';
 
-import { Mobile, PC } from "../../../../MediaQuery"
+import { Mobile, PC } from "../../../../MediaQuery";
+
+//redux addons전페이지 정보 갖고 오기 위함(veiw형태로 정보 유지 및 vieㅈ용도) eidt하려면 state에 저장해줌
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions} from '../../../../store/actionCreators';
+import tempBrokerRequest from '../../../../store/modules/tempBrokerRequest';
 
 export default function Request({nextModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
@@ -26,12 +31,81 @@ export default function Request({nextModal}) {
   const [job, setJob] = useState(false);//현재업종 선택할 경우 box show/hide
   const [modalBroker,setModalBroker] = useState(false);
 
+  const tempBrokerRequests = useSelector(data => data.tempBrokerRequest);
+
+  //물건관련 정보 state
+  const [maemulname,setMaemulname ] = useState('');
+  const [jeonyongdimension,setJeonyongdimension] = useState('');
+  const [jeonyongpyeong,setJeonyongpyeong] = useState('');
+  const [supplydimension,setSupplydimension] = useState('');
+  const [supplypyeong,setSupplypyeong] = useState('');
+  const [selltype,setSelltype] = useState('');
+  const [sellprice,setSellprice] = useState('');
+
+  const [Managecost,setChangemanagecost] = useState('');
+  const [ibju_isinstant,setIbju_isinstant] = useState('');
+  const [ibju_specifydate,setIbju_specifydate] = useState('');
+  const [exculsive_periods,setExculsive_periods] = useState('');
+  const [managecostincludes,setManagecostincludes] = useState('');
+
+  console.log('===========>>addPorpertysecond페잊 얻어온 전 redux정보:',tempBrokerRequests);
+
+
   const rotate=()=>{
     if(openMore == true) {
       return "rotate(180deg)"
     }else{
       return "rotate(0deg)"
     }
+  }
+
+  //물건관련 정보 셋팅
+  const change_maemulname = (e) => {
+    setMaemulname(e.target.value);
+  }
+  const change_jeonyong_dimension = (e) => {
+    setJeonyongdimension(e.target.value);
+  }
+  const change_jeonyong_pyeong = (e) => {
+    setJeonyongpyeong(e.target.value);
+  }
+  const change_supply_dimension = (e) => {
+    setSupplydimension(e.target.value);
+  }
+  const change_supply_pyeong = (e) => {
+    setSupplypyeong(e.target.value);
+  }
+  const change_selltype = (e) => {
+    setSelltype(e.target.value);
+  }
+  const change_sellprice = (e) => {
+    setSellprice(e.target.value);
+  }
+  const change_Managecost = (e) => {
+    setChangemanagecost(e.target.value);
+  }
+  const radio_ibju_isinstant = (e) => {
+    setIbju_isinstant(e.target.value);
+  }
+  const change_ibju_specifydate = (e) => {
+    setIbju_specifydate(e.target.value);
+  }
+  const change_exculsive_periods = (e) => {
+    setExculsive_periods(e.target.value);
+  }
+  const managecost_includes_change = (e) => {
+    console.log('managecost_includes_checkbox 체크박스 관리비포함 체크박스항목들 변화발생:',document.getElementsByClassName('managecost_includes_checkbox'));
+
+    var managecost_includes_checkboxs=document.getElementsByClassName('managecost_includes_checkbox');
+    var checked_items=[];
+    for(let i=0,c=0; i<managecost_includes_checkboxs.length; i++){
+      if(managecost_includes_checkboxs[i].checked){
+        checked_items[c]=managecost_includes_checkboxs[i].value;
+        c++;
+      }
+    }
+    console.log('현재 변화 선택된 관리비포함 항목들:',checked_items.join(','));
+    setManagecostincludes(checked_items.join(','));
   }
     return (
         <Container>
@@ -49,9 +123,16 @@ export default function Request({nextModal}) {
                 </TopDesc>
                 <SelectBox>
                   <Label>전속기간<Pilsu>*</Pilsu></Label>
-                  <Select>
+                  <Select name='realtor_month' onChange={change_exculsive_periods}>
                     <Option>기간 선택</Option>
-                    <Option>00 개월</Option>
+                    <Option value='3'>3 개월</Option>
+                    <Option value='6'>6 개월</Option>
+                    <Option value='9'>9 개월</Option>
+                    <Option value='12'>12 개월</Option>
+                    <Option value='15'>15 개월</Option>
+                    <Option value='18'>18 개월</Option>
+                    <Option value='21'>21 개월</Option>
+                    <Option value='24'>24 개월</Option>
                   </Select>
                 </SelectBox>
               </Box>
@@ -64,22 +145,22 @@ export default function Request({nextModal}) {
                 <WrapInputBox>
                   <InputBox>
                     <Label>물건종류</Label>
-                    <InputDisabled type="text" value="물건종류(ex:아파트)" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.maemultype} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>주소</Label>
-                    <InputDisabled type="text" value="주소" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dangiaddress} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                    <InputDisabled type="text" value="OO층 OO호" disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dong +'동 '+tempBrokerRequests.floor+'층 '+tempBrokerRequests.hosil+'호'} disabled/>
                   </InputBox>
                 </WrapInputBox>
                 <WrapItemInfo>
                   <LongLine/>
                   <InputBox>
                     <Label>건물명<Pilsu>*</Pilsu></Label>
-                    <InputTxt type="text" placeholder="건물명을 입력하여주세요."/>
+                    <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname}/>
                   </InputBox>
           {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
                   <InputBox style={{display:"none"}}>
@@ -105,12 +186,12 @@ export default function Request({nextModal}) {
                     <Label>전용면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_dimension}/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_pyeong}/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -119,12 +200,12 @@ export default function Request({nextModal}) {
                     <Label>공급면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_dimension}/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력"/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_pyeong}/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -139,18 +220,18 @@ export default function Request({nextModal}) {
                 </SubTitle>
                 <SelectBox>
                   <Label>거래유형<Pilsu>*</Pilsu></Label>
-                  <SelectMb>
+                  <SelectMb onChange={change_selltype}>
                     <Option>거래유형을 선택하여주세요.</Option>
-                    <Option>매매</Option>
-                    <Option>전세</Option>
-                    <Option>월세</Option>
+                    <Option value='매매'>매매</Option>
+                    <Option value='전세'>전세</Option>
+                    <Option value='월세'>월세</Option>
                   </SelectMb>
                 </SelectBox>
                 <InputBox>
                   <Label>가격<Pilsu>*</Pilsu></Label>
                   <Example>(e.g 1억 5,000)</Example>
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력"/>
+                    <InputMidi type="text" placeholder="가격 입력" onChange={change_sellprice}/>
                     <Dan>만원</Dan>
                   </Flex>
                 </InputBox>
@@ -170,58 +251,58 @@ export default function Request({nextModal}) {
                     <Label>관리비<Pilsu>*</Pilsu></Label>
                     <SwitchButton>
                       <Switch type="checkbox" id="switch"/>
-                      <SwitchLabel for="switch" onClick={()=>{setViewInput(!viewInput)}}>
+                      <SwitchLabel for="switch" onClick={()=>{setViewInput(!viewInput);}}>
                         <SwitchSpan/>
                         <SwithTxtOff className="no">없음</SwithTxtOff>
                         <SwithTxtOn className="yes">있음</SwithTxtOn>
                       </SwitchLabel>
                     </SwitchButton>
                   {
-                    viewInput ?
+                    viewInput == true ?
                     <Flex>
-                      <InputMidi type="text" placeholder="가격 입력"/>
+                      <InputMidi type="text" placeholder="가격 입력" onChange={change_Managecost}/>
                       <Dan>만원</Dan>
                     </Flex>
                     :
                     null
-
                   }
-
                   </MoreBox>
+                  
                 {/*관리비 포함*/}
+                {viewInput == true ?
                   <MoreBox>
                     <Label>관리비 포함<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Checkbox>
-                        <Check type="checkbox" id="check1" defaultChecked/>
+                        <Check type="checkbox" value='전기'className='managecost_includes_checkbox' id="check1" defaultChecked onChange={managecost_includes_change}/>
                         <CheckLabel for="check1">
                           <CheckSpan/>
                           전기
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check2"/>
+                        <Check type="checkbox" value='수도'className='managecost_includes_checkbox'  id="check2" onChange={managecost_includes_change}/>
                         <CheckLabel for="check2">
                           <CheckSpan/>
                           수도
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check3"/>
+                        <Check type="checkbox" value='가스'className='managecost_includes_checkbox' id="check3" onChange={managecost_includes_change}/>
                         <CheckLabel for="check3">
                           <CheckSpan/>
                           가스
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check4"/>
+                        <Check type="checkbox"value='인터넷'className='managecost_includes_checkbox'  id="check4" onChange={managecost_includes_change}/>
                         <CheckLabel for="check4">
                           <CheckSpan/>
                           인터넷
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check5"/>
+                        <Check type="checkbox"value='티비'className='managecost_includes_checkbox'  id="check5" onChange={managecost_includes_change}/>
                         <CheckLabel for="check5">
                           <CheckSpan/>
                           티비
@@ -229,26 +310,29 @@ export default function Request({nextModal}) {
                       </Checkbox>
                     </WrapCheck>
                   </MoreBox>
+                  :
+                  null
+                }
               {/*입주가능일*/}
                   <MoreBox>
                     <Label>입주가능일<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi1" defaultChecked/>
+                        <Radio type="radio" name="possible" value='1' id="radi1" defaultChecked onClick={radio_ibju_isinstant}/>
                         <RadioLabel for="radi1" onClick={()=>{setViewDate(false)}}>
                           <RadioSpan/>
                           즉시
                         </RadioLabel>
                       </Radiobox>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi2"/>
+                        <Radio type="radio" name="possible" value='0' id="radi2" onClick={radio_ibju_isinstant}/>
                         <RadioLabel for="radi2" onClick={()=>{setViewDate(true)}}>
                           <RadioSpan/>
                           날짜 선택
                         </RadioLabel>
                       {
                         viewDate ?
-                        <InputDate type="date"/>
+                        <InputDate type="date" onChange={change_ibju_specifydate}/>
                         :
                         null
                       }
@@ -266,7 +350,25 @@ export default function Request({nextModal}) {
             </WrapBox>
       {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link onClick={()=>{nextModal();}}>
+              <Link onClick={()=>{
+                
+                nextModal();
+                
+                console.log('다음버튼 클릭 입력정보들 물건정보들:',maemulname,jeonyongdimension,jeonyongpyeong,supplydimension,supplypyeong,selltype,sellprice,Managecost,ibju_isinstant,ibju_specifydate,managecostincludes);
+
+                tempBrokerRequestActions.maemulnamechange({maemulnames: maemulname});
+                 tempBrokerRequestActions.jeonyongdimensionchange({jeonyongdimensions: jeonyongdimension});
+                 tempBrokerRequestActions.jeonyongpyeongchange({jeonyongpyeongs: jeonyongpyeong});
+                 tempBrokerRequestActions.supplydimensionchange({supplydimensions: supplydimension});
+                 tempBrokerRequestActions.supplypyeongchange({supplypyeongs: supplypyeong});
+                 tempBrokerRequestActions.selltypechange({selltypes: selltype});
+                 tempBrokerRequestActions.sellpricechange({sellprices: sellprice});
+                 tempBrokerRequestActions.managecostchange({managecosts: Managecost});
+                 tempBrokerRequestActions.ibjuisinstantchange({ibju_isinstants: ibju_isinstant});
+                 tempBrokerRequestActions.ibjuspecifydatechange({ibju_specifydates: ibju_specifydate});
+                 tempBrokerRequestActions.exculsiveperiodschange({exculsive_periodss: exculsive_periods});
+                 tempBrokerRequestActions.managecostincludeschange({managecostincludess: managecostincludes});
+              }}>
                 <Next type="button">다음</Next>
               </Link>
             </NextButton>

@@ -2,7 +2,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -10,7 +9,17 @@ import styled from "styled-components"
 import Check from "../../../../img/member/check.png";
 import Checked from "../../../../img/member/checked.png";
 
+//adeded redux actions go
+import {useSelector } from 'react-redux';
+import { tempRegisterUserdataActions } from '../../../../store/actionCreators';
+
 export default function JoinTab() {
+
+  console.log('compoentn>member>company>joininput 컴포넌트 실행');
+
+  const tempregisteruserdata=useSelector(data => data.temp_register_userdata);
+
+  console.log('data.tempo_register_userdata refer infio:',tempregisteruserdata,tempRegisterUserdataActions);
 
   const [name,setName] = useState("");/*기본값*/
   const [reginum1,setReginum1] = useState("");/*기본값*/
@@ -19,8 +28,8 @@ export default function JoinTab() {
 
   const [active,setActive] = useState(false);
 
-  const nameChange = (e) =>{ setName(e.target.value); }
-  const regiChange1 = (e) =>{ setReginum1(e.target.value); }
+  const nameChange = (e) =>{ setName(e.target.value); }//상호명
+  const regiChange1 = (e) =>{ setReginum1(e.target.value); }//사업자번호1,2,3 부분별 입력. 3-2-5자리.
   const regiChange2 = (e) =>{ setReginum2(e.target.value); }
   const regiChange3 = (e) =>{ setReginum3(e.target.value); }
 
@@ -29,11 +38,33 @@ export default function JoinTab() {
    }
 
    useEffect(()=>{
+     console.log('member>company>joininputjs페이지 useEfffect상태값 변화:',name,reginum1,reginum2,reginum3,active);
      if(checkVaildate())
          setActive(true);
      else
          setActive(false);
    },)
+
+   const nextStep = (e) => {
+     console.log('nextSTEP다음 스탭A링크 클릭:',e,e.target);
+
+     if(active){
+       //active값이 유효성 통과한(초록색)인경우에만 다음단계로 넘어갈수잇게끔.
+       console.log('유효성 통과시에 통과되게끔 사업자번호,상호명');
+
+       console.log('현재 최종적 확인 update값:',name,reginum1,reginum2,reginum3);
+
+        let business_number = reginum1 +'-'+reginum2+'-'+reginum3;
+
+       tempRegisterUserdataActions.businessnumberchange({bussinessnumbers : business_number});
+       tempRegisterUserdataActions.businessnamechange({bussinessnames: name});
+
+       //e.preventDefault();
+     }else{
+       console.log('유효성 통과 못했을시(회색) 다음단계로 기본이벤트 막음');
+       e.preventDefault();
+     }
+   }
 
     return (
         <Container>
@@ -51,7 +82,7 @@ export default function JoinTab() {
               <RegistInput type="text" name="" onChange={regiChange3}/>
             </InputTop>
             <SubmitButton>
-              <Link to="/CompanyJoinAgree">
+              <Link to="/CompanyJoinAgree" onClick={nextStep}> 
                 <Submit type="submit" name="" active={active}>다음</Submit>
               </Link>
             </SubmitButton>

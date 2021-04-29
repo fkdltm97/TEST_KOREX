@@ -2,7 +2,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -22,6 +21,9 @@ import IconSearch from '../../../../img/main/icon_search.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
+//server process
+import serverController from '../../../../server/serverController';
+
 //component
 import PropertyList from "./PropertyList";
 
@@ -29,49 +31,63 @@ export default function Request({setFilter,updateModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
+  const [brokerRequest_productlist,setBrokerRequest_productlist] = useState([]);
   const showModal =()=>{
     setMenu(!menu);
   }
+
   /*data map*/
   const PropertyListItem =[
     {
-      p_id : 0,
-      img:Item,
-      date:"21.00.00 - 21.00.00",
-      conditiontype:"사용자 의뢰",
-      condition:"검토대기",
-      startdate:"2021.00.00",
-      enddate:"2021.00.00",
+      prd_id : 0,
+      prd_img:Item,
+      prd_exculsive_start_date:"21.00.00",
+      prd_exculsive_end_date : '21.00.08',
+      product_create_origin:"1",
+      prd_status:"검토대기",
       number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
-      itemname:"충남내포신도시2차대방엘리움더센트럴",
-      trade:"매매",
-      username:"홍길동"
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_type:"아파트",
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_sel_type:"매매",
+      request_mem_name:"홍길동", 
     },
     {
-      p_id : 1,
-      img:Item,
-      date:"21.00.00 - 21.00.00",
-      conditiontype:"외부 수임",
-      condition:"검토대기",
-      startdate:"2021.00.00",
-      enddate:"2021.00.00",
+      prd_id : 1,
+      prd_img:Item,
+      prd_exculsive_start_date:"2021.00.00",
+      prd_exculsive_end_date:"2021.00.00",
+      product_create_origin:"2",
+      prd_status:"검토대기",
       number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
-      kinds:"아파트",
-      itemname:"충남내포신도시2차대방엘리움더센트럴",
-      trade:"매매",
-      username:"홍길동"
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_type:"아파트",
+      prd_name:"충남내포신도시2차대방엘리움더센트럴",
+      prd_sel_type:"매매",
+      request_mem_name:"홍길동"
     }
-]
+  ]
+
+  useEffect( async () => {
+    console.log('최초 한번 실행, 해당 로그인 memid(companyid전문중개사)에 해당하는 중개사에게 누구누구리스트가 의뢰한건지 어떤매물들이(등록이전) 등록된건지조회');
+
+    let body_info={
+
+    };
+
+    let res_result=await serverController.connectFetchController('/api/broker/BrokerRequest_productlist','POST',JSON.stringify(body_info));
+    console.log('brokerRequest_prouductlist load res_result:',res_result);
+
+    setBrokerRequest_productlist(res_result.result_data);
+    
+  },[]);
 
     return (
         <Container>
           <WrapRequest>
             <TopTitle>물건관리</TopTitle>
             <TopInfo>
-              <All>총 <GreenColor>2</GreenColor> 건</All>
+              <All>총 <GreenColor>{brokerRequest_productlist.length}</GreenColor> 건</All>
               <FilterAndAdd>
                 <SearchBox>
                   <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
@@ -85,23 +101,25 @@ export default function Request({setFilter,updateModal,value,type}) {
             </TopInfo>
             <WrapPropertyList>
             {
-            PropertyListItem.map((value) => {
+            brokerRequest_productlist.map((value) => {
 
+              let result_item=value[0];
+              console.log('result_item:',result_item);
               const type=()=>{
-                if(value.conditiontype == "사용자 의뢰") { //검토대기
+                if(result_item.product_create_origin == '중개의뢰' || result_item.product_create_origin == 1) { 
                   return "#fe7a01"
-                }else if(value.conditiontype == "외부 수임") {//거래준비
+                }else if(result_item.product_create_origin == '외부수임') {
                   return "#01684b"
                 }
               }
 
               return(
-                <PropertyList setFilter={setFilter} type={type} value={value}/>
+                <PropertyList setFilter={setFilter} type={type} value={result_item}/>
               )
             })
           }
-
         </WrapPropertyList>
+
       </WrapRequest>
   </Container>
   );

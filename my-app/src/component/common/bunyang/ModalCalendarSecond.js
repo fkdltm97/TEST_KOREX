@@ -7,14 +7,13 @@ import styled from "styled-components";
 
 //img
 import CloseIcon from "../../../img/main/modal_close.png";
-import Check from "../../../img/member/check.png";
-import Checked from "../../../img/member/checked.png";
 import Prev from "../../../img/member/slick_prev.png";
 import Arrow from "../../../img/member/arrow_down.png";
 
 //datepicker
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+//import "react-datepicker/dist/react-datepicker.css";
+import "../../../react-datepicker.css";
 import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
@@ -53,18 +52,19 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
         </SeletedDate>
         <Label>시간</Label>
             <br/>
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={30} //간격 설정
-          timeCaption="Time"
-          dateFormat="h:mm aa" // 시간 타입(보여주는)
-          minTime={setHours(setMinutes(new Date(), 0), 1)} //시작 시간 세팅
-          maxTime={setHours(setMinutes(new Date(), 30), 22)} // 종료 시간 세팅
-        />
-
+        <WrapDatePicker>
+          <DatePicker className="date_time"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={30} //간격 설정
+            timeCaption="Time"
+            dateFormat="h:mm aa" // 시간 타입(보여주는)
+            minTime={setHours(setMinutes(new Date(), 0), 1)} //시작 시간 세팅
+            maxTime={setHours(setMinutes(new Date(), 30), 22)} // 종료 시간 세팅
+          />
+        </WrapDatePicker>
         <NextButton>
           <Next
             type="button"
@@ -157,16 +157,15 @@ const Label = styled.label`
   }
 `;
 const SeletedDate = styled.div`
-<<<<<<< HEAD
   display: flex;
-  justfy-content: flex-start;
+  justify-content: flex-start;
   align-items: center;
   cursor: pointer;
   margin: 20px 0 50px;
+<<<<<<< HEAD
 =======
-  display:flex;justify-content:flex-start;align-items:center;
-  cursor:pointer;margin:20px 0 50px;
->>>>>>> 60ad88df2681e9eda33e18736056f5527e73af52
+
+>>>>>>> 8d876dabe4437d3cb05d47e38c9f5c71d29487af
   @media ${(props) => props.theme.modal} {
     margin: calc(100vw * (20 / 428)) 0 calc(100vw * (50 / 428));
   }
@@ -190,15 +189,18 @@ const DateDay = styled.div`
     font-size: calc(100vw * (15 / 428));
   }
 `;
+
+const WrapDatePicker = styled.div`
+  width:100%;position:relative;
+`
 const SelectBox = styled.select`
   width: 100%;
   height: 43px;
   border-radius: 4px;
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
-<<<<<<< HEAD
   text-align-last: center;
-  trnasform: skew(-0.1deg);
+  transform: skew(-0.1deg);
   text-align: center;
   appearance: none;
   background: url(${Arrow}) no-repeat 90% center;
@@ -207,14 +209,6 @@ const SelectBox = styled.select`
   color: #707070;
   font-weight: 600;
   transform: skew(-0.1deg);
-=======
-  text-align-last:center;
-  transform:skew(-0.1deg);
-  text-align:center;
-  appearance:none;
-  background:url(${Arrow}) no-repeat 90% center; background-size:11px;
-  font-size:15px;color:#707070;font-weight:600;transform:skew(-0.1deg);
->>>>>>> 60ad88df2681e9eda33e18736056f5527e73af52
   @media ${(props) => props.theme.modal} {
     height: calc(100vw * (43 / 428));
     font-size: calc(100vw * (15 / 428));

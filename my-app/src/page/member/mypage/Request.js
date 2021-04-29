@@ -17,6 +17,8 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+import ModalCommon from '../../../component/common/modal/ModalCommon';
+import ModalManner from '../../../component/member/mypage/request/modal/ModalManner';
 
 export default function Join() {
   //이용약관
@@ -40,10 +42,33 @@ export default function Join() {
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
 
-  //필터 모달창
-  const [filter,setFilter] = useState(false);
-  //물건예약수정 모달창
-  const [reserve,setReserve] = useState(false);
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
+
+
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
+      }
+  
+  
+      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+        const mannerModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"중개매너평가",
+              content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalManner/>},
+              submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+              cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+              confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
+
+        
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -56,8 +81,8 @@ export default function Join() {
               <SubTitle title={"개인"} rank={false} cursor={"default"}/>
             {/*기업으로 로그인했을때*/}
               {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-              <ModalFilter filter={filter} setFilter={setFilter}/>
-              <MyRequest setFilter={setFilter}/>
+              <MyRequest mannerModal={mannerModal}/>
+              <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
@@ -69,7 +94,7 @@ export default function Join() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
         min-height:calc(100vh - calc(100vw*(420/428)));
       }

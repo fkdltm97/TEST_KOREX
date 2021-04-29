@@ -18,12 +18,15 @@ import RadioChkImg from '../../../../img/map/radi_chk.png';
 import { Mobile, PC } from "../../../../MediaQuery"
 import ConditionChangeList from "./ConditionChangeList";
 
+import {useSelector } from 'react-redux';
+import {brokerRequest_productEditActions} from '../../../../store/actionCreators';
 
-export default function RequsetReview({disabled}) {
+export default function RequsetReview({brokerRequest_product,disabled}) {
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(true);//관리비 있음일때 input박스 노출
   const [viewDate, setViewDate] = useState(true);//입주가능일 선택할 경우 date박스
-
+ 
+  console.log('==========>>transfer brokerRequest_product:',brokerRequest_product);
   const rotate=()=>{
     if(openMore == true) {
       return "rotate(180deg)"
@@ -31,7 +34,114 @@ export default function RequsetReview({disabled}) {
       return "rotate(0deg)"
     }
   }
+  
+  const brokerRequest_product_data=useSelector(data => data.brokerRequest_product);
+  console.log('brokerRequest_rpdoucdt data:,disalbedvalue>>>',brokerRequest_product_data,disabled);
+  
+  //물건관리 상태검토시에 검토자(중개사회원)이 물건정보 update edit등록 처리되게 하려면 리덕스 데이터 state로써 저장하고, 그 필드값을 value로써 초기화해놔야 수정가능.
+  const [address,setAddress] = useState('');
+  const [companyid,setCompanyid] = useState('');
+  const [exculsive_periods,setExculsive_periods] = useState('');
+  const [exculsivedimension,setExculsivedimension] = useState('');
+  const [exculsivepyeong,setExculsivepyeong] = useState('');
+  const [floor,setFloor] = useState('');
+  const [hosil,setHosil] = useState('');
+  const [ibju_isinstant,setIbju_isinstant]= useState('');
+  const [ibju_specifydate,setIbju_specifydate]= useState('');
+  const [maemulname,setMaemulname] = useState('');
+  const [maemultype,setMaemultype] = useState('');
+  const [managecost,setManagecost] = useState('');
+  const [name,setName] = useState('');
+  const [phone,setPhone] = useState('');
+  const [requestmanname,setRequestmanname] = useState('');
+  const [requestmemid,setRequestmemid] = useState('');
+  const [requestmemphone,setRequestmemphone] = useState('');
+  const [sellprice,setSellprice] = useState('');
+  const [selltype,setSelltype] = useState('');
+  const [supplydimension,setSupplydimension] = useState('');
+  const [supplypyeong,setSupplypyeong] = useState('');
 
+  useEffect( async () => {
+    setAddress(brokerRequest_product_data.address);
+    setCompanyid(brokerRequest_product_data.companyid);
+    setExculsive_periods(brokerRequest_product_data.exculsive_periods);
+    setExculsivedimension(brokerRequest_product_data.exculsivedimension);
+    setExculsivepyeong(brokerRequest_product_data.exculsivepyeong);
+    setFloor(brokerRequest_product_data.floor);
+    setHosil(brokerRequest_product_data.hosil);
+    setIbju_isinstant(brokerRequest_product_data.ibju_isinstant);
+    setIbju_specifydate(brokerRequest_product_data.ibju_specifydate);
+    setMaemulname(brokerRequest_product_data.maemulname);
+    setMaemultype(brokerRequest_product_data.maemultype);
+    setManagecost(brokerRequest_product_data.managecost);
+    setName(brokerRequest_product_data.name);
+    setPhone(brokerRequest_product_data.phone);
+    setRequestmanname(brokerRequest_product_data.requestmanname);
+    setRequestmemid(brokerRequest_product_data.requestmemid);
+    setRequestmemphone(brokerRequest_product_data.requestmemphone);
+    setSellprice(brokerRequest_product_data.sellprice);
+    setSelltype(brokerRequest_product_data.selltype);
+    setSupplydimension(brokerRequest_product_data.supplydimension);
+    setSupplypyeong(brokerRequest_product_data.supplypyeong);
+   
+  },[]);
+  
+  //물건관리 정보 셋팅
+  const change_maemulname= (e) => {
+    setMaemulname(e.target.value);
+
+    brokerRequest_productEditActions.maemulnamechange({maemulnames: e.target.value});
+  }
+  const change_exculsivedimension=(e) => {
+    setExculsivedimension(e.target.value);
+
+    brokerRequest_productEditActions.exculsivedimensionchange({exculsivedimensions: e.target.value});
+  }
+  const change_exculsivepyeong=(e) => {
+    setExculsivepyeong(e.target.value);
+
+    brokerRequest_productEditActions.exculsivepyeongchange({exculsivepyeongs: e.target.value});
+  }
+  const change_supplydimension=(e)=>{
+    setSupplydimension(e.target.value);
+
+    brokerRequest_productEditActions.supplydimensionchange({supplydimensions: e.target.value});
+  }
+  const change_supplypyeong=(e)=>{
+    setSupplypyeong(e.target.value);
+
+    brokerRequest_productEditActions.supplypyeongchange({supplypyeongs: e.target.value});
+  }
+  const change_selltype=(e)=>{
+    setSelltype(e.target.value);
+
+    brokerRequest_productEditActions.selltypechange({selltypes: e.target.value});
+  }
+  const change_sellprice=(e)=>{
+    setSellprice(e.target.value);
+
+    brokerRequest_productEditActions.sellpricechange({sellprices: e.target.value});
+  }
+  const change_Managecost=(e)=>{
+    setManagecost(e.target.value);
+
+    brokerRequest_productEditActions.managecostchange({managecosts: e.target.value});
+  }
+  const change_radio_ibjuisinstant=(e)=>{
+    setIbju_isinstant(e.target.value);//라디오 상태값 value값 0,1가져오는형태.
+
+    brokerRequest_productEditActions.ibjuisinstantchange({ibju_isinstants: e.target.value});
+  }
+  const change_ibju_specifydate=(e)=>{
+    setIbju_specifydate(e.target.value);
+
+    brokerRequest_productEditActions.ibjuspecifydatechange({ibju_specifydates: e.target.value});
+  }
+  const change_exculsive_periods=(e)=>{
+    setExculsive_periods(e.target.value);
+
+    brokerRequest_productEditActions.exculsiveperiodschange({exculsive_periodss: e.target.value});
+  }
     return (
         <Container>
             {/*물건정보*/}
@@ -43,22 +153,22 @@ export default function RequsetReview({disabled}) {
                   <WrapInputBox>
                     <InputBox>
                       <Label>물건종류</Label>
-                      <InputDisabled type="text" value="물건종류(ex:아파트)" disabled={disabled ? true: false}/>
+                      <InputDisabled type="text" value={brokerRequest_product_data.maemultype} disabled={disabled ? true: false}/>
                     </InputBox>
                     <InputBox>
                       <Label>주소</Label>
-                      <InputDisabled type="text" value="주소" disabled={disabled ? true: false}/>
+                      <InputDisabled type="text" value={brokerRequest_product_data.address} disabled={disabled ? true: false}/>
                     </InputBox>
                     <InputBox>
                       <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                      <InputDisabled type="text" value="OO층 OO호" disabled={disabled ? true: false}/>
+                      <InputDisabled type="text" value={brokerRequest_product_data.address} disabled={disabled ? true: false}/>
                     </InputBox>
                   </WrapInputBox>
                   <WrapItemInfo>
                     <LongLine/>
                     <InputBox>
                       <Label>건물명<Pilsu>*</Pilsu></Label>
-                      <InputTxt type="text" placeholder="건물명을 입력하여주세요." disabled={disabled ? true: false}/>
+                      <InputTxt type="text" placeholder="건물명을 입력하여주세요." value={maemulname} disabled={disabled ? true: false} onChange={change_maemulname}/>
                     </InputBox>
             {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
                     <InputBox style={{display:"none"}}>
@@ -72,19 +182,19 @@ export default function RequsetReview({disabled}) {
                         </SwitchLabel>
                       </SwitchButton>
                         <Flex style={{display:"none"}}>
-                          <InputTxt type="text" placeholder="현재 업종 입력" disabled={disabled ? true: false}/>
+                          <InputTxt type="text" placeholder="현재 업종 입력" disabled={disabled ? true: false} />
                         </Flex>
                     </InputBox>
                     <InputBox>
                       <Label>전용면적<Pilsu>*</Pilsu></Label>
                       <Widthbox>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
+                          <InputShort type="text" value={exculsivedimension} placeholder="m² 선택 or 입력" disabled={disabled ? true: false} onChange={change_exculsivedimension}/>
                           <Span>m²</Span>
                         </Inbox>
                         <Same>=</Same>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력" value={exculsivepyeong} disabled={disabled ? true: false} onChange={change_exculsivepyeong}/>
                           <Span>평</Span>
                         </Inbox>
                       </Widthbox>
@@ -93,12 +203,12 @@ export default function RequsetReview({disabled}) {
                       <Label>공급면적<Pilsu>*</Pilsu></Label>
                       <Widthbox>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력" value={supplydimension}disabled={disabled ? true: false} onChange={change_supplydimension}/>
                           <Span>m²</Span>
                         </Inbox>
                         <Same>=</Same>
                         <Inbox>
-                          <InputShort type="text" placeholder="m² 선택 or 입력" disabled={disabled ? true: false}/>
+                          <InputShort type="text" placeholder="m² 선택 or 입력"value={supplypyeong} disabled={disabled ? true: false} onChange={change_supplypyeong}/>
                           <Span>평</Span>
                         </Inbox>
                       </Widthbox>
@@ -113,18 +223,18 @@ export default function RequsetReview({disabled}) {
                   </SubTitle>
                   <SelectBox>
                     <Label>거래유형<Pilsu>*</Pilsu></Label>
-                    <SelectMb disabled={disabled ? true: false}>
+                    <SelectMb disabled={disabled ? true: false} onChange={change_selltype}>
                       <Option>거래유형을 선택하여주세요.</Option>
-                      <Option selected>매매</Option>
-                      <Option>전세</Option>
-                      <Option>월세</Option>
+                      <Option value='매매'>매매</Option>
+                      <Option value='전세'>전세</Option>
+                      <Option value='월세'>월세</Option>
                     </SelectMb>
                   </SelectBox>
                   <InputBox>
                     <Label>가격<Pilsu>*</Pilsu></Label>
                     <Example>(e.g 1억 5,000)</Example>
                     <Flex>
-                      <InputMidi type="text" placeholder="가격 입력" disabled={disabled ? true: false}/>
+                      <InputMidi type="text" placeholder="가격 입력" value={sellprice} disabled={disabled ? true: false} onChange={change_sellprice}/>
                       <Dan>만원</Dan>
                     </Flex>
                   </InputBox>
@@ -153,7 +263,7 @@ export default function RequsetReview({disabled}) {
                       {
                           viewInput ?
                           <Flex>
-                            <InputMidi type="text" placeholder="가격 입력"/>
+                            <InputMidi type="text" placeholder="가격 입력" value={managecost} onChange={change_Managecost}/>
                             <Dan>만원</Dan>
                           </Flex>
                           :
@@ -206,21 +316,21 @@ export default function RequsetReview({disabled}) {
                       <Label>입주가능일<Pilsu>*</Pilsu></Label>
                       <WrapCheck>
                         <Radiobox>
-                          <Radio type="radio" name="possible" id="radi1" disabled={disabled ? true: false}/>
+                          <Radio type="radio" name="possible" value='1'id="radi1" disabled={disabled ? true: false} onClick={change_radio_ibjuisinstant}/>
                           <RadioLabel for="radi1"  onClick={()=>{setViewDate(false)}}>
                             <RadioSpan/>
                             즉시
                           </RadioLabel>
                         </Radiobox>
                         <Radiobox>
-                          <Radio type="radio" name="possible" id="radi2" defaultChecked disabled={disabled ? true: false}/>
+                          <Radio type="radio" name="possible" value='0' id="radi2" defaultChecked disabled={disabled ? true: false} onClick={change_radio_ibjuisinstant}/>
                           <RadioLabel for="radi2"  onClick={()=>{setViewDate(true)}}>
                             <RadioSpan/>
                             날짜 선택
                           </RadioLabel>
                           {
                               viewDate ?
-                              <InputDate type="date"/>
+                              <InputDate type="date" value={ibju_specifydate} onChange={change_ibju_specifydate}/>
                               :
                               null
                             }

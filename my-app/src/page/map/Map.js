@@ -9,6 +9,7 @@ import MapHeader from '../../component/map/MapHeader';
 import MainMap from '../../component/map/MainMap';
 import ReportModal from '../../component/map/sidebar/modal/ReportModal';
 import ModalMap from '../../component/map/sidebar/modal/ModalMap';
+import ModalEdit from '../../component/map/sidebar/modal/ModalEdit';
 import FilterCloseAndReset from '../../component/map/map/FilterCloseAndReset';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
@@ -18,8 +19,9 @@ import Bunyang from '../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../component/common/bunyang/ModalCalendar";
+import ModalCommon from '../../component/common/modal/ModalCommon';
 
-export default function NoticeDetail() {
+export default function NoticeDetail({status}) {
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}
@@ -45,7 +47,32 @@ export default function NoticeDetail() {
   const [report,setReport] = useState(false);
   //단지위치 모달
   const [map,setMap] = useState(false);
+  
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
 
+
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
+      }
+  
+  
+      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+        const reserveModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"물건투어 예약",
+              content:{type:"components",text:``,component:<ModalEdit/>},
+              submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+              cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+              confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
 
     return (
         <>
@@ -57,7 +84,8 @@ export default function NoticeDetail() {
           <Container>
               <ModalMap map={map} setMap={setMap}/>
               <ReportModal report={report} setReport={setReport}/>
-              <MainMap setReport={setReport} setMap={setMap}/>
+              <MainMap setReport={setReport} setMap={setMap} status={status} reserveModal={reserveModal}/>
+              <ModalCommon modalOption={modalOption}/>
           </Container>
         </>
   );
@@ -65,7 +93,7 @@ export default function NoticeDetail() {
 
 const Container = styled.div`
     width: 100%;
-    height:calc(100vh - 106px);
+    height:calc(100vh - 80px);
     @media ${(props) => props.theme.mobile} {
       height:calc(100vh - (100vw*(64/428)));
     }

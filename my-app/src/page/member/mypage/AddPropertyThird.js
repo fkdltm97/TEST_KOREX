@@ -53,7 +53,7 @@ export default function Join() {
             {/*개인로 로그인했을때*/}
               <SubTitle title={"물건(외부수임) 등록"} rank={false} cursor={"default"}/>
               <NewPropertyThird setPicture={setPicture}/>
-              <ModalCommon
+              {/*<ModalCommon
                 show={picture}
                 setShow={setPicture}
                 title={"사진업로드"}
@@ -61,7 +61,7 @@ export default function Join() {
                 submit={{show:false , title:"적용" , event : ()=>{setPicture(false); }}}
                 cancle={{show:false , title:"확인" , event : ()=>{setPicture(false); }}}
                 confirm={{show:true , title:"확인" , event : ()=>{setPicture(false); }}}
-              />
+              />*/}
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
@@ -73,7 +73,7 @@ export default function Join() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - 309px);
+    min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
         min-height:calc(100vh - calc(100vw*(420/428)));
       }

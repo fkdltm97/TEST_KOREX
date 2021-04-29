@@ -165,7 +165,7 @@ export default function MapFilter({openBunyang, rank}) {
                 </WrapRadio>
               </WrapFilter>
             </Box>
-        {/*총세대수*/}
+            {/*총세대수*/}
             <Box>
               <SubTitle>총세대수</SubTitle>
               <WrapFilter>

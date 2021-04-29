@@ -1,9 +1,10 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import serverController from '../../../../server/serverController';
 
 //css
-import styled from "styled-components"
+import styled from "styled-components";
 
 //Img
 import AppleImg from "../../../../img/member/apple.png";
@@ -12,11 +13,19 @@ import KakaoImg from "../../../../img/member/kakao.png";
 import NaverImg from "../../../../img/member/naver.png";
 
 export default function JoinSns() {
+
+    //각 버튼 눌를시에 각 버튼 관련된 sns링크화면을 제공한다. 로그인이 이미 되어 세션제공되는것은 바로 된다. 그 화면을 제공은 해야함.
+    const facebook_register_click = async(e) => {
+      let res = await serverController.connectFetchController('/auth/social/facebook','get');
+      console.log('res results:',res);
+
+
+    }
     return (
         <Container>
           <SnsButtons>
             <Facebook>
-              <Link className="data_link"></Link>
+              <Link className="data_link" onClick={facebook_register_click}></Link>
               <FacebookImage src={FacebookImg}/>
               <Txt>SIGN UP WITH FACEBOOK</Txt>
             </Facebook>

@@ -12,12 +12,20 @@ import WrapPwd from "../../../../img/member/pwdwrap.png";
 import WrapPwdMb from "../../../../img/member/mb_pwdwrap.png";
 import Close from "../../../../img/main/modal_close.png";
 
-export default function JoinInput({pwd,pwdShow,setPwdShow,setPwd,setPwdConfirm,setActive}) {
+export default function JoinInput({pwd,pwdShow,setPwdShow,setPwd,setPwdConfirm,pwdConfirm,setActive}) {
 
     const pwdChange = (e) =>{ setPwd(e.target.value); }
     const pwdConfirmChange = (e) =>{ setPwdConfirm(e.target.value); }
 
+    useEffect(() => {
+      console.log('company?joinpwd 내부 요소 변화 발생:',pwd,pwdConfirm);
 
+      if(pwd == pwdConfirm){
+        document.getElementById('passwordError').style.display='none';
+      }else{
+        document.getElementById('passwordError').style.display='block';
+      }
+    });
     return (
         <Container>
           <InputTop>
@@ -60,7 +68,7 @@ export default function JoinInput({pwd,pwdShow,setPwdShow,setPwd,setPwdConfirm,s
               <PwdConfirm type="password" name="" placeholder="비밀번호를 한번 더 입력해주세요." maxlength="2" onChange={pwdConfirmChange}/>
             </InputRow>
           {/*비밀번호가 일치하지 않을때 show*/}
-            <ErrorMsg style={{display:"none"}}>비밀번호가 일치하지 않습니다.</ErrorMsg>
+            <ErrorMsg style={{display:"none"}} id='passwordError'>비밀번호가 일치하지 않습니다.</ErrorMsg>
           </InputTop>
         </Container>
   );

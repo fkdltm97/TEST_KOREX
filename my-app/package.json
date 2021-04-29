@@ -27,6 +27,7 @@
     "react-slidedown": "^2.4.5",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
+    "rheostat": "^4.1.1",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1",
     "swiper": "^6.5.0",
@@ -55,5 +56,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

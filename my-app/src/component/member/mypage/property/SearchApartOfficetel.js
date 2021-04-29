@@ -21,25 +21,34 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
   const [activeIndex,setActiveIndex] = useState(-1);
 
   const [searchword, setSearchWord] = useState("");
-  const searchWord = (e) =>{setSearchWord(e.target.value);}
+  const searchWord = (e) =>{
+    setSearchWord(e.target.value);
+    console.log('아파트오피 검색필드 검색단어 string길이:',e.target.value,e.target.value.length);
+    if(e.target.value.length >= 1){
+      setActive(true);
+    }else{
+      setActive(false);
+    }
+  }
   const [active,setActive] = useState(false);
+  const [searchresult_close,setSearchresult_close] = useState(false);
 
   /*모달 & show,hide */
   const [modalDanji,setModalDanji] = useState(false);
 
 
-  const checkVaildate = () =>{
-    return searchword.length > 0
-   }
-
-  useEffect(()=>{
+  /*useEffect(()=>{
     if(checkVaildate())
         setActive(true);
     else
         setActive(false);
-  },)
+  },)*/
 
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  
+  const search_windowclose = () => {
+    setSearchresult_close(true);
+  }
 
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -72,7 +81,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
               <SearchBox>
                 <Search type="search" placeholder="중개의뢰 가능한 단지 검색 예: 반포자이" onChange={searchWord}/>
                 <SearchBtn type="button"/>
-                <WhiteCloseImg active={active}>
+                <WhiteCloseImg active={active} onClick={search_windowclose}>
                   <ResetSearch/>
                 </WhiteCloseImg>
             {/*검색했을때 나오는 부분 */}

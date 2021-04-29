@@ -27,10 +27,17 @@ import SearchStoreOffice from "./SearchStoreOffice";
 import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
 
 export default function Request({setFilter,value,type}) {
+
+  
+
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openApart, setOpenApart] = useState(false);
   const [openStore, setOpenStore] = useState(false);
   const [selectInfo,setSelectInfo] = useState(false);
+  
+
+  console.log('newRequest콤포넌트 요소 실행,상태변화?:',activeIndex,openApart,openStore,selectInfo);
+
 
     return (
         <Container>
@@ -69,14 +76,14 @@ export default function Request({setFilter,value,type}) {
               }
               {
                 openStore ?
-                <SearchStoreOffice/>
+                <SearchStoreOffice activeIndex={activeIndex} setActiveIndex={setActiveIndex}/>
                 :
                 null
               }
-              {/*동, 호수 선택 컴포넌트*/}
+              {/*동, 호수 선택 컴포넌트 아파트,오피스텔*/}
               {
-                selectInfo ?
-                <SearchApartOfficetelSelectInfo/>
+                (openApart==true && selectInfo==true) ?
+                <SearchApartOfficetelSelectInfo activeIndex={activeIndex} setActiveIndex={setActiveIndex}/>
                 :
                 null
 

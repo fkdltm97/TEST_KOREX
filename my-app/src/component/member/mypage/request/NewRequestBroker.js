@@ -2,7 +2,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -32,9 +31,18 @@ import { Mobile, PC } from "../../../../MediaQuery";
 
 //component
 
+//reudx addons asssets;
+import {useSelector } from 'react-redux';
+import {tempBrokerRequestActions} from '../../../../store/actionCreators';
+
 export default function Request({setFilter,value,type}) {
   const [radion, setRadion] = useState(false);
   const [active,setActive] = useState(false);
+
+  const [select_brokerid,setSelect_brokerid] = useState('');//더미용 으로 뜨는 or 추천되는 전문중개사리스트에서 선택한 id값 구함.
+  
+  const login_user_redux= useSelector(data=> data.login_user);
+
   const border=()=>{
     if(radion == true) {
       return "solid 3px #04966d"
@@ -69,24 +77,34 @@ export default function Request({setFilter,value,type}) {
     name:"홍길동",
     address:"강남구 논현동 104-5",
     sell1:"2",
-    sell1:"7",
-    sell1:"9"
+    sell2:"7",
+    sell3:"9"
   },
   {
-    b_id : 1,
+    b_id : 9,
     src:Profile,
     path:"/",
     tag1:"아파트·현대아이리스",
     tag2:"상가",
     tag3:"사무실",
-    com_name:"럭키공인중개사",
+    com_name:"중개사물산테스티",
     name:"홍길동",
     address:"강남구 논현동 104-5",
     sell1:"2",
-    sell1:"7",
-    sell1:"9"
+    sell2:"7",
+    sell3:"9"
   },
 ]
+
+const nextStep = (e) => {
+  if(radion){
+    //리덕스 저장.
+    tempBrokerRequestActions.companyidchange({companyids: select_brokerid});
+    tempBrokerRequestActions.requestmemidchange({requestmemids: login_user_redux.memid});
+  }else{
+    e.preventDefault();
+  }
+};
 
     return (
         <Container>
@@ -97,7 +115,11 @@ export default function Request({setFilter,value,type}) {
               return(
                 <WrapFlexBox>
                   <Radiobox>
-                    <Radio type="radio" name="broker" id={"radio"+value.b_id} onClick={() =>{setRadion(true)}}/>
+                    <Radio type="radio" name="broker" id={"radio"+value.b_id} value={value.b_id} onClick={(e) =>{
+                      setRadion(true);
+                      console.log('각 라디오 전문중개사 요소 클릭:',e.target.value);
+                      setSelect_brokerid(e.target.value);//클릭한 전문중개사b_id 어떤 전문중개업소 company_id?를 택한건지?
+                    }}/>
                     <RadioLabel for={"radio"+value.b_id}/>
                   </Radiobox>
                   <TopContent>
@@ -162,7 +184,7 @@ export default function Request({setFilter,value,type}) {
           }
           {/*라디오 박스 선택됐을때 다음 버튼 활성화*/}
             <NextButton>
-              <Link to="/AddRequestBrokerSecond">
+              <Link to="/AddRequestBrokerSecond" onClick={nextStep}>
                 <Next type="button"border={border} bg={bg}>다음</Next>
               </Link>
             </NextButton>

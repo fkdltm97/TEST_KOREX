@@ -13,81 +13,84 @@ import Item from '../../../../img/main/item01.png';
 import Noimg from '../../../../img/member/company_no.png';
 import IconSearch from '../../../../img/main/icon_search.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
+import Check from '../../../../img/map/radio.png';
+import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
 //component
 import ManageList from "./ManageList";
 
-export default function Manage({value,type}) {
+export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
+
   /*data map*/
   const ManageListItem =[
     {
-      Request_id : 0,
+      Manage_id : 0,
       img:Item,
-      date:"21.00.00 - 21.00.00",
-      condition:"검토대기",
-      conditionDate:"2021.00.00",
+      condition:"오늘",
       number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
+      name:"홍길동",
+      phone:"01012345678",
+      address:"충남내포신도시2차대방엘리움더센트럴 7층 707호",
       kinds:"아파트",
-      address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
       trade:"매매",
-      type:"waiting"
+      price:"1억 5,000",
+      type:"today"
     },
     {
-      Request_id : 1,
+      Manage_id : 1,
       img:Item,
-      date:"21.00.00 - 21.00.00",
-      condition:"거래준비",
-      conditionDate:"2021.00.00",
+      condition:"2일 후",
       number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
+      name:"홍길동",
+      phone:"01012345678",
+      address:"충남내포신도시2차대방엘리움더센트럴 7층 707호",
       kinds:"아파트",
-      address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)  강남구 서초동 서초동 서초동",
       trade:"매매",
-      type:"readyDeal"
+      price:"1억 5,000",
+      type:"today"
     },
     {
-      Request_id : 2,
+      Manage_id : 2,
       img:Noimg,
-      date:"21.00.00 - 21.00.00",
-      condition:"의뢰 철회",
-      conditionDate:"2021.00.00",
+      condition:"예약 해제",
       number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
+      name:"홍길동",
+      phone:"01012345678",
+      address:"충남내포신도시2차대방엘리움더센트럴 7층 707호",
       kinds:"아파트",
-      address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
       trade:"매매",
-      type:"requestCancel"
+      price:"1억 5,000",
+      type:"today"
     },
     {
-      Request_id : 2,
+      Manage_id : 3,
       img:Noimg,
-      date:"21.00.00 - 21.00.00",
-      condition:"위임 취소",
-      conditionDate:"2021.00.00",
+      condition:"만료",
       number:"2D0000324",
-      title:"충남내포신도시2차대방엘리움더센트럴",
+      name:"홍길동",
+      phone:"01012345678",
+      address:"충남내포신도시2차대방엘리움더센트럴 7층 707호",
       kinds:"아파트",
-      address:"자이 3층 203호 서울시 강남구 서초동 (OO읍 OO리)",
       trade:"매매",
-      type:"delegationCancel"
-    }
+      price:"1억 5,000",
+      type:"today"
+    },
 ]
 
     return (
         <Container>
-          <WrapRequest>
+          <WrapManage>
             <TopTitle>물건투어예약접수관리</TopTitle>
             <TopSortingBtn>
-              <AddBtn>전체</AddBtn>
+              <AddBtn onClick={()=> {selectModal();}}>전체</AddBtn>
             </TopSortingBtn>
             <TopInfo>
               <All>총 <GreenColor>4</GreenColor> 건</All>
@@ -99,46 +102,52 @@ export default function Manage({value,type}) {
                 <FilterImg src={Filter} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
-            <RequestList>
+            {/* 이 부분은 AddBtn의 select모달에서 하위요소가 선택됐을때 노출됩니다. */}
+              {
+                select ?
+                <AfterSelectView>
+                  <CheckBox>
+                    <InputCheck type="checkbox" id="all" defaultChecked/>
+                    <CheckLabel for="all">
+                      <Span/>
+                      전체선택
+                    </CheckLabel>
+                  </CheckBox>
+                  <EditBtn type="button" onClick={()=>{editAllModal();}}>일괄 수정</EditBtn>
+                </AfterSelectView>
+                :
+                null
+              }
+           
+            <WrapManageList>
             {
             ManageListItem.map((value) => {
 
               const type=()=>{
-                if(value.type == "waiting") { //검토대기
+                if(value.type == "today") { //오늘
                   return 1
-                }else if(value.type == "readyDeal") {//거래준비
+                }else if(value.type == "days") {//2일후
                   return 1
-                } else if(value.type == "requestCancel") { // 의뢰 철회
+                } else if(value.type == "cancle") { // 예약 해제
                   return 0.5
-                } else if(value.type == "delegationCancel") { // 위임 취소
+                } else if(value.type == "end") { // 만료
                   return 0.5
                 }
               }
 
               return(
-                <ManageList type={type} value={value}/>
+                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal}
+                mapModal={mapModal} type={type} value={value} select={select} setSelect={setSelect}/>
               )
             })
           }
 
-        </RequestList>
-      </WrapRequest>
+        </WrapManageList>
+      </WrapManage>
   </Container>
   );
 }
 
-const Pb = styled.b`
-  display:block;
-  @media ${(props) => props.theme.mobile} {
-        display:inline;
-    }
-`
-const Mb = styled.b`
-  display:inline;
-  @media ${(props) => props.theme.mobile} {
-        display:block;
-    }
-`
 const Container = styled.div`
     width:680px;
     margin:0 auto;
@@ -148,7 +157,7 @@ const Container = styled.div`
       padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
       }
 `
-const WrapRequest = styled.div`
+const WrapManage = styled.div`
   width:100%;
 `
 const TopTitle = styled.h2`
@@ -163,7 +172,7 @@ const TopTitle = styled.h2`
 const TopSortingBtn = styled.div`
   width:100%;margin-top:30px;
   @media ${(props) => props.theme.mobile} {
-    margin-top:calc(100vw*(30/428));
+    margin-top:calc(100vw*(20/428));
     }
 `
 const TopInfo = styled.div`
@@ -174,7 +183,7 @@ const TopInfo = styled.div`
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
     margin-top:calc(100vw*(20/428));
-    padding:calc(100vw*(22/428)) calc(100vw*(10/428));
+    padding:calc(100vw*(10/428)) calc(100vw*(10/428));
     }
 `
 const All = styled.span`
@@ -186,9 +195,9 @@ const All = styled.span`
 `
 const FilterAndAdd = styled.div`
   display:flex;justify-content:flex-end; align-items:center;
-  margin-left:45px;
+  margin-left:130px;
   @media ${(props) => props.theme.mobile} {
-    margin-left:calc(100vw*(45/428));
+    margin-left:calc(100vw*(60/428));
   }
 `
 const SearchBox = styled.div`
@@ -199,7 +208,7 @@ const SearchBox = styled.div`
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(158/428));
+    width:calc(100vw*(200/428));
     height:calc(100vw*(43/428));
     margin-right:calc(100vw*(13/428));
   }
@@ -227,7 +236,7 @@ const SearchButton = styled.button`
   }
 `
 const AddBtn = styled.div`
-  width:300px;cursor:pointer;
+  width:200px;cursor:pointer;
   height: 30px;
   border-radius: 4px;
   border: solid 1px #a3a3a3;
@@ -256,8 +265,60 @@ const FilterImg = styled.img`
   width:18px;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(18/428));
+    margin-left:calc(100vw*(15/428));
   }
 `
-const RequestList = styled.ul`
-  width:100%;
+const WrapManageList = styled.ul`
+
+`
+const AfterSelectView = styled.div`
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 40px;border-bottom:1px solid #f2f2f2;
+
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(10/428)) calc(100vw*(10/428));
+    }
+`
+const CheckBox = styled.div`
+`
+const InputCheck = styled.input`
+  display:none;
+  &:checked+label span{background:url(${Checked}) no-repeat;background-size:100% 100%}
+`
+const CheckLabel = styled.label`
+  display:inline-block;
+  font-size:15px;color:#707070;transform:skew(-0.1deg);
+  vertical-align:middle; font-weight:600;
+  @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(15/428));
+    }
+`
+const Span = styled.span`
+   display:inline-block;
+   width:20px;height:20px;
+   margin-right:15px;
+   background:url(${Check}) no-repeat; background-size:100% 100%;
+   vertical-align:middle; 
+   @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(20/428));
+      height:calc(100vw*(20/428));
+      margin-right:calc(100vw*(15/428));
+    }
+`
+const EditBtn = styled.button`
+  display:inline-block;
+  width:80px;height:32px;
+  line-height:30px;
+  border-radius: 4px;
+  border: solid 2px #429370;
+  background-color: #01684b;
+  font-size:13px;color:#fff;transform:skew(-0.1deg);
+  font-weight:600;text-align:center;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(80/428));
+      height:calc(100vw*(32/428));
+      line-height:calc(100vw*(30/428));
+      font-size:calc(100vw*(13/428));
+    }
+
 `

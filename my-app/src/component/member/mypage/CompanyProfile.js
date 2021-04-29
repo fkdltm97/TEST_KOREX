@@ -1,7 +1,8 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-
+//server process
+import serverController from '../../../server/serverController';
 
 //css
 import styled from "styled-components"
@@ -26,8 +27,10 @@ export default function JoinInput() {
   const [active,setActive] = useState(false);
 
   const companyNameChange = (e) =>{ setCompanyName(e.target.value); }
-  const addressChange1 = (e) =>{ setAddress1(e.target.value);}
-  const addressChange2 = (e) =>{ setAddress2(e.target.value);}
+  const addressChange1 = (e) =>{ 
+    setAddress1(e.target.value);
+  }
+  const addressChange2 = (e) =>{setAddress2(e.target.value);}
   const addressChange3 = (e) =>{ setAddress3(e.target.value);}
   const phoneChange = (e) =>{ setPhone(e.target.value); }
   const ceoNameChange = (e) =>{ setCeoName(e.target.value); }
@@ -41,13 +44,62 @@ export default function JoinInput() {
     && ceoName.length > 1 && ceoPhone.length > 9
    }
 
-   useEffect(()=>{
-     if(checkVaildate())
+   useEffect( async ()=>{
+     /*if(checkVaildate())
         setActive(true);
      else
         setActive(false);
-   },)
+     */
+     console.log('내부 컴포넌트의 미시적 변화때마다 실행하지는 않고, 아무런 컴포넌트 미감지하겠다, 최초 실행시점때만 실행');
+     
+     let body_info = {
+       //임의 관리자가 선택한(들어온) 소속기업(companyid)에 해당하는 것에 대한 조회 및 수정처리한다.
+       //comapany_id : xxxxxx
+     }
+     let view_info= await serverController.connectFetchController('/api/mypage/companyprofileView','POST',JSON.stringify(body_info));
+     console.log(view_info);
 
+     try{
+       let result_data=view_info.result_data;
+      setAddress2(result_data[0].address.split('  ')[0]);
+      setAddress3(result_data[0].address.split('  ')[1]);
+      setPhone(result_data[0].phone);
+      setCeoName(result_data[0].ceo_name);
+      setCeoPhone(result_data[0].ceo_phone);
+      setCompanyName(result_data[0].biz_name);
+     }catch(e){
+       console.log('error message:',e);
+     }
+   },[])
+
+   const store_submit = async () => {
+     console.log('회사프로필설정 submit발생=>>>>>>>>>>>>>');
+
+     console.log(companyName,address1,address2,address3,phone,ceoName,ceoPhone,active);
+
+     //바로 serverController fetch api진행. 회사프로필지정진행 어디소속(companyid:관리자 추가한 소속기업<>팀원계정)에 대해서 수정을 가하는지 
+     //각팀원게정들은 자신의 부모 생성자가 누구인지 참조필요?? 생성시점때 생성하는 root기업 mem_id or companyid지정필요 (mother_memid, mother_companyid) 부모 memid관리자생성자, companyid부모생성기업.관리자가 자신자체를 수정하는경우도? 자신자체는 곧 최초 회원가입시 입력한 회사정보등(사업자번호)등 기반으로 한 root기업 수정.
+
+     let body_info = {
+       companyname : companyName,
+       address1 : address1,
+        address2 : address2,
+        address3 : address3,
+        phone : phone,
+        ceoname : ceoName,
+        ceophone : ceoPhone,
+     }
+     console.log('edit store company profileinfo json post sender:',JSON.stringify(body_info));
+
+     let res= await serverController.connectFetchController('/api/mypage/companyprofileEdit','POST',JSON.stringify(body_info));
+     console.log(res);
+
+     if(res.success){
+       alert('수정되었습니다.');
+     }
+   };
+   
+   //edit page load 일때 정보 async fetch load data
 
     return (
         <Container>
@@ -71,7 +123,7 @@ export default function JoinInput() {
             <ProfileMiddle>
               <OutInputBox>
                 <InputTitle>상호명</InputTitle>
-                <InputBox type="text" name="" placeholder="상호명을 입력해주세요." onChange={companyNameChange}/>
+                <InputBox type="text" name="" placeholder="상호명을 입력해주세요." onChange={companyNameChange} value={companyName}/>
               </OutInputBox>
               <OutInputBoxAddress>
                 <InputTitle>주소</InputTitle>
@@ -79,20 +131,20 @@ export default function JoinInput() {
                   <InputBoxShort type="text" name="" onChange={addressChange1}/>
                   <SearchAddressBtn type="button" name="">주소 검색</SearchAddressBtn>
                 </Flex>
-                <InputBoxMarginbt type="text" name="" onChange={addressChange2}/>
-                <InputBoxMarginbt type="text" name="" placeholder="상세 주소를 입력해주세요." onChange={addressChange3}/>
+                <InputBoxMarginbt type="text" name="" onChange={addressChange2} value={address2}/>
+                <InputBoxMarginbt type="text" name="" placeholder="상세 주소를 입력해주세요." onChange={addressChange3} value={address3}/>
               </OutInputBoxAddress>
               <OutInputBox>
                 <InputTitle>전화번호</InputTitle>
-                <InputBox type="text" name="" placeholder="전화번호를 ’-‘를 빼고 입력하여주세요." onChange={phoneChange}/>
+                <InputBox type="text" name="" placeholder="전화번호를 ’-‘를 빼고 입력하여주세요." onChange={phoneChange} value={phone}/>
               </OutInputBox>
               <OutInputBox>
                 <InputTitle>대표명</InputTitle>
-                <InputBox type="text" name="" placeholder="이름을 입력하여주세요." onChange={ceoNameChange}/>
+                <InputBox type="text" name="" placeholder="이름을 입력하여주세요." onChange={ceoNameChange} value={ceoName}/>
               </OutInputBox>
               <OutInputBox>
                 <InputTitle>대표 휴대폰 번호</InputTitle>
-                <InputBox type="text" name="" placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요." onChange={ceoPhoneChange}/>
+                <InputBox type="text" name="" placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요." onChange={ceoPhoneChange} value={ceoPhone}/>
               </OutInputBox>
             {/*전문 중개사인 경우에만 해쉬태그 노출*/}
             {/*
@@ -104,7 +156,7 @@ export default function JoinInput() {
             </ProfileMiddle>
           {/*버튼*/}
             <Button>
-              <ProfileButton type="submit" name="" active={active}>저장</ProfileButton>
+              <ProfileButton type="submit" name="" active={active} onClick={store_submit}>저장</ProfileButton>
             </Button>
           </WrapProfile>
         </Container>
