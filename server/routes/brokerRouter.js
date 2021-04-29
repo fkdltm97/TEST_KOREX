@@ -16,7 +16,8 @@ const pool =mysqls.createPool({
     port:3307,
     user:'sinja',
     password:'sinja',
-    database:'korex'
+    database:'korex',
+    dateStrings : 'date'
 });
 
 const router=express.Router(); 
@@ -400,33 +401,125 @@ router.post('/productToursettingRegister',async function(request,response){
        var mem_id=req_body.mem_id;
        var prd_identity_ids=req_body.prd_identity_ids;
 
-       var normal_isholidayexcept=req_body.normal_isholidayexcept !='' ? req_body.normal_isholidayexcept : '';
-       var normal_select_daycount=req_body.normal_select_daycount !=''? req_body.normal_select_daycount : 0;
-       var normal_select_days=req_body.normal_select_days != ''? req_body.normal_select_days : '';
-       var normal_select_times=req_body.normal_select_times !=''? req_body.normal_select_times : '';
+       var normal_isholidayexcept=req_body.normal_isholidayexcept !='' && req_body.normal_isholidayexcept ? req_body.normal_isholidayexcept : 0;
+       var normal_select_daycount=req_body.normal_select_daycount !='' && req_body.normal_select_daycount ? req_body.normal_select_daycount : 0;
+       var normal_select_days=req_body.normal_select_days != '' && req_body.normal_select_days ? req_body.normal_select_days : '';
+       var normal_select_times=req_body.normal_select_times !='' && req_body.normal_select_times ? req_body.normal_select_times : '';
+
+       if(normal_select_days && normal_select_days!=''){
+          var normal_select_days_array = normal_select_days.split(',');
+       }
        
-       var special_specifydate = req_body.special_specifydate !='' ? req_body.special_specifydate : '0000-00-00';
-       var special_specifydatetimes= req_body.special_specifydatetimes !='' ? req_body.special_specifydatetimes : '';
-       var special_isexceptspecifydate= req_body.special_isexceptspecifydate != '' ? req_body.special_isexceptspecifydate : 0;
+       var special_specifydate = req_body.special_specifydate !='' && req_body.special_specifydate ? req_body.special_specifydate : '0000-00-00';
+       var special_specifydatetimes= req_body.special_specifydatetimes !='' && req_body.special_specifydatetimes ? req_body.special_specifydatetimes : '';
+       var special_isexceptspecifydate= req_body.special_isexceptspecifydate != '' && req_body.special_isexceptspecifydate ? req_body.special_isexceptspecifydate : 0;
          
-        await connection.beginTransaction();
 
-        var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
-        connection.commit();
-        console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
-        //connection.release();
-        var extract_insertTourid=tour_insert_rows.insertId;
+       //일반타입인경우 일반 tour_set_days항목 문자열형태 split중에서 기존항목중에서 새로추가하려는 항목중 하나가 존재 하나라도 하면 막는다.
+        if(tour_type == 1){
+            var prev_normal_toursetdays=[];
+            var [prev_toursetList]=await connection.query("select tour_set_days from tour where prd_identity_id=? and tour_type=1",[prd_identity_ids]);
+            console.log('prd_dioentity_id요청 매물에 대한 투어예약셋팅 등롤리스트:',prev_toursetList);
+            
+            var count=0;
+            for(let s=0; s<prev_toursetList.length; s++){
+                let tour_set_days_split=prev_toursetList[s]['tour_set_days'].split(',');
+                console.log('tour_sert_days_split result:',tour_set_days_split);
+                for(let i=0; i<tour_set_days_split.length; i++){
+                    prev_normal_toursetdays[count]=tour_set_days_split[i];
 
-        await connection.beginTransaction();
+                    count++;
+                }
+            }
+            connection.release();
+            console.log('일반추가 요청 request요청처리 기존 prd_identity_id 관련 tour예약셋팅리스트 선택요일들 취합(중복포함):',prev_normal_toursetdays);
+            prev_normal_toursetdays = Array.from(new Set(prev_normal_toursetdays));//set개체로 변환(중복없이)후에 그 set개체를 array로 반환받음
+            console.log('일반추가 요청 request요청처리귀준 선택요일들 중복제거:',prev_normal_toursetdays);
 
-        var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
-        connection.commit();
-        console.log('tour detail insert rows:',tourdetail_insert_rows);
+            //해당 중복제거 선택된 요일리스트에서 새로 추가하려는것이 하나라도 발견될시에 추가연산 막는다.
+            var is_overwraped_days=false;//일반 집합요일리스트 중에서, 기존에 선택된 요일들중 하나라도 추가하려고 하는경우에 중복여부
+            for(let ss=0; ss<normal_select_days_array.length; ss++){
+                for(let ii=0; ii<prev_normal_toursetdays.length; ii++){
+                    if(normal_select_days_array[ss] == prev_normal_toursetdays[ii]){
+                        is_overwraped_days=true;
+                    }
+                }
+            }
+            console.log('>>일반추가 요일중복여부::',is_overwraped_days);
 
-        connection.release();
+            if(is_overwraped_days){
 
-        return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows});      
-        
+                return response.json({success:false, message:'이미 추가됀 요일집합입니다!', error:'already_day_exists'});
+            }else{
+                //추가 가능한 요일들 이라면.(일반)
+                await connection.beginTransaction();
+
+                var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
+                connection.commit();
+                console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
+                //connection.release();
+                var extract_insertTourid=tour_insert_rows.insertId;
+
+                await connection.beginTransaction();
+
+                var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
+                connection.commit();
+                console.log('tour detail insert rows:',tourdetail_insert_rows);
+
+                connection.release();
+
+                return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows});    
+            }
+            
+        }else if(tour_type == 2){
+
+            //var prev_special_setspecifydates=[];//추가한 날짜들 리스트 구한다.
+            //var prev_special_except_specifydates=[];//제외한 날짜들 리스트 구한다.
+            var prev_special_specifydates=[];//특정 추가or제외한 날짜리스트들 집합구한다. 두개를 공통적 날짜리스트로 해야한다. 
+
+            //특정날짜를 제외or추가한 합집합 요청인 경우에는 기존 제외or추가 하려는 날짜들 리스트를 모두 뽑아서 저장(중복제거)한다.해서 그 리스트중에서 추가하려는 특정제외or추가날짜여부가 있는지 중복여부
+            var [prev_tour_specifydate_rows] = await connection.query("select tour_set_specifydate from tour where tour_type=2");
+
+            console.log('기존 제외 또는 추가되어있는 특정날짜리스트들:',prev_tour_specifydate_rows);
+
+            for(let s=0; s<prev_tour_specifydate_rows.length; s++){
+                prev_special_specifydates[s]=prev_tour_specifydate_rows[s]['tour_set_specifydate'];
+            }
+            prev_special_specifydates = Array.from(new Set(prev_special_specifydates));//특정 제외날짜리스트들 중복제거 array반환
+            console.log('중복제거 제외 특정날짜리스트들:',prev_special_specifydates);
+
+            var is_overwraped_specifydates=false;//특정제외or추가날짜 중복여부
+
+            for(let se=0; se<prev_special_specifydates.length; se++){
+                if(special_specifydate == prev_special_specifydates[se]){
+                    //제외or추가하려는 특정날짜가 기존 리스트중에서 발견되었다면
+                    is_overwraped_specifydates=true;
+                }
+            }
+            console.log('>>특별날짜 제외or추가 요일중복여부:',is_overwraped_specifydates);
+
+            if(is_overwraped_specifydates){
+                return response.json({success:false , message: '이미 추가or제외 등록한 특정날짜입니다.',error:'already_specifydate_exists'});
+            }else{
+                //추가 가능한 제외또는 등록 특정날짜라면
+                var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
+                connection.commit();
+                console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
+                //connection.release();
+                var extract_insertTourid=tour_insert_rows.insertId;
+
+                await connection.beginTransaction();
+
+                var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
+                connection.commit();
+                console.log('tour detail insert rows:',tourdetail_insert_rows);
+
+                connection.release();
+
+                return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows}); 
+            }                    
+        }
+
     }catch(err){
         console.log('server query error',err);
         connection.rollback();
