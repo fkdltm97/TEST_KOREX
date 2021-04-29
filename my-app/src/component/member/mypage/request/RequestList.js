@@ -74,7 +74,7 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                           <InDiv>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link to="/EditRequest" className="data_link"/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
@@ -103,7 +103,7 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                           <InDiv>중개매너 평가</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link to="/DetailViewRequest" className="data_link"/>
                           <InDiv>상세</InDiv>
                         </Div>
                         <Div>
@@ -153,12 +153,20 @@ const Li = styled.li`
 const ItemImg = styled.div`
   width:106px;height:106px;border: solid 1px #e4e4e4;
   margin-right:40px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));height:calc(100vw*(80/428));
+    margin-right:calc(100vw*(13/428));
+  }
 `
 const Img = styled.img`
   width:100%;height:100%;border-radius:3px;
+ 
 `
 const Infos = styled.div`
   width:450px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(280/428));
+  }
 `
 const Date = styled.div`
   display:block;
@@ -187,10 +195,7 @@ const Condition = styled(ConditionDiv)`
   }
 `
 const ConditionDate = styled(Condition)`
-@media ${(props) => props.theme.mobile} {
-  font-size:calc(100vw*(13/428));
-  margin-bottom:0;
-}
+
 `
 const Number = styled.p`
   font-size:14px;color:#979797;
@@ -206,21 +211,34 @@ const Title = styled.h3`
   font-size:18px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   margin-bottom:15px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(17/428));
+    margin-bottom:calc(100vw*(8/428));
+  }
 `
 const Kinds = styled.h2`
   display:flex;justify-content:space-between;align-items:flex-start;
   margin-bottom:6px;
   @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(6/428));
   }
 `
 const Left = styled.p`
   font-size:15px;font-weight:600;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    width:calc(100vw*(65/428));
+    word-break:keep-all;
+  }
 `
 const Right = styled(Left)`
   color:#979797;
   text-align:right;
   width:330px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(200/428));
+  }
 `
 const Address = styled(Kinds)`
 `

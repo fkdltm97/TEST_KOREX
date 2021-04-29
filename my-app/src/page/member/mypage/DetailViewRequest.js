@@ -7,7 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
-import EditRequest from '../../../component/member/mypage/request/EditRequest';
+import DetailViewRequest from '../../../component/member/mypage/request/DetailViewRequest';
 import MainFooter from '../../../component/common/MainFooter';
 import TermService from '../../../component/common/TermsOfService';
 import TermPrivacy from '../../../component/common/TermsOfPrivacy';
@@ -40,31 +40,6 @@ export default function Edit() {
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
 
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
-
-
-  //여기 두개가 핵심이에여
-    //모달 끄는 식
-      const offModal = ()=>{
-        let option = JSON.parse(JSON.stringify(modalOption));
-        option.show = false;
-        setModalOption(option);
-      }
-  
-  
-      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-        const confirmModal = () =>{
-          //여기가 모달 키는 거에엽
-          setModalOption({
-              show:true,
-              setShow:offModal,
-              title:"중개의뢰 수정",
-              content:{type:"text",text:`정상적으로 수정되었습니다.`,component:""},
-              submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
-              cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
-              confirmgreen:{show:true , title:"확인" , link:"/Request", event : ()=>{offModal(); }}
-          });
-        }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -74,9 +49,8 @@ export default function Edit() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
             {/*개인로 로그인했을때*/}
-              <SubTitle title={"중개의뢰 수정"} rank={false} cursor={"default"}/>
-              <EditRequest confirmModal={confirmModal}/>
-              <ModalCommon modalOption={modalOption}/>
+              <SubTitle title={"중개의뢰 상세"} rank={false} cursor={"default"}/>
+              <DetailViewRequest/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>

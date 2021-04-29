@@ -28,7 +28,7 @@ import ModalMap from './modal/ModalMap';
 import {useSelector} from 'react-redux';
 import {tempBrokerRequestActions} from '../../../../store/actionCreators';
 
-export default function Request({setFilter,value,type,successModal,failModal}) {
+export default function Request({setFilter,value,type,confirmModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
@@ -386,17 +386,11 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
 
               </WrapMoreView>
             </WrapBox>
-      {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
-            <NextButton onClick={nextStep}>
-              <Link className="data_link" onClick={()=>{setSuccess(true)}}/>
-              <Next type="button">다음</Next>
-            </NextButton>
-            {/* 중개의뢰 실패했을때 버튼 ( 모달이 다름 )
+      {/*!!!!확인 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link className="data_link" onClick={()=>{failModal();}}/>
-              <Next type="button">다음</Next>
+              <Link className="data_link" onClick={()=>{confirmModal();}}/>
+              <Next type="button">확인</Next>
             </NextButton>
-              */}
            </WrapRequest>
         </Container>
   );
@@ -527,6 +521,7 @@ const Select = styled.select`
   background:url(${ArrowDown}) no-repeat 92% center;background-size:11px;
   @media ${(props) => props.theme.mobile} {
       height:calc(100vw*(43/428));
+      font-size:calc(100vw*(15/428));
       background-size:calc(100vw*(11/428));
     }
 `
@@ -625,6 +620,10 @@ const Same = styled.span`
   font-size:15px;font-weight:600;
   color:#4a4a4a;transform:skew(-0.1deg);
   vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(15/428));
+    }
+
 `
 const LongLine = styled.div`
   width:100%;height:1px;
@@ -691,7 +690,7 @@ const EnterImg = styled.img`
 const ShortLine = styled(Line)`
   width:250px;
   @media ${(props) => props.theme.mobile} {
-    margin-right:calc(100vw*(223/428));
+    width:calc(100vw*(223/428));
     }
 `
 const ArrowTopImg = styled.img`
@@ -760,7 +759,7 @@ const SwithTxtOff = styled.p`
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(15/428));
     left:calc(100vw*(50/428));
-    top:calc(100vw*(-3/428));
+    top:calc(100vw*(-2/428));
   }
 `
 const SwithTxtOn = styled(SwithTxtOff)`
@@ -787,7 +786,7 @@ const Sub = styled.span`
   }
 `
 const WrapCheck = styled.div`
-  display:flex;justify-content:felx-start;align-items:center;
+  display:flex;justify-content:flex-start;align-items:center;
   flex-wrap:wrap;margin-top:20px;
   @media ${(props) => props.theme.mobile} {
     margin-top:calc(100vw*(20/428));
@@ -878,6 +877,8 @@ const Next = styled.button`
   @media ${(props) => props.theme.mobile} {
     width:100%;
     height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));
+    font-size:calc(100vw*(15/428));
   }
 `
 const Textarea = styled.textarea`
@@ -888,6 +889,12 @@ const Textarea = styled.textarea`
   border-radius: 4px;transform:skew(-0.1deg);
   border: solid 1px #e4e4e4;
   &::placeholder{color:#979797;font-weight:500;}
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    height:calc(100vw*(140/428));
+    padding:calc(100vw*(15/428));
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Condition = styled.div`
   font-size:15px;color:#707070;

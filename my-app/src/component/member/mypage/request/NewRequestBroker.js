@@ -231,9 +231,15 @@ const TopTitle = styled.h2`
 `
 const WrapFlexBox = styled.div`
   width:500px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
+   @media ${(props) => props.theme.mobile} {
+    width:100%;
+    }
 `
 const Radiobox = styled.div`
   margin-right:20px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(20/428));
+    }
 `
 const Radio = styled.input`
   display:none;
@@ -243,13 +249,16 @@ const RadioLabel = styled.label`
 display:inline-block;width:20px;height:20px;
 background:url(${RadioImg}) no-repeat; background-size:100% 100%;
 margin-right:8px;
+@media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));height:calc(100vw*(20/428));
+    margin-right:calc(100vw*(8/428));
+    }
 `
 const TopContent = styled.div`
   position:relative;
   width:100%;
   padding:25px 0;
   border-bottom: 1px solid #f2f2f2;
-
   @media ${(props) => props.theme.mobile} {
     width:100%;
     padding:calc(100vw*(25/428)) 0;
@@ -263,7 +272,7 @@ const ProfileDetail = styled.div`
   margin-bottom:24px;
   @media ${(props) => props.theme.mobile} {
     width:100%;
-    padding:0 calc(100vw*(30/428));
+    padding:0 calc(100vw*(10/428));
     margin-bottom:calc(100vw*(20/428));
   }
 `
@@ -286,11 +295,13 @@ const Tag = styled.div`
   font-size:15px;color:#01684b;
   font-weight:600;transform:skew(-0.1deg);
   text-align:center;
+  margin-bottom:5px;
   @media ${(props) => props.theme.mobile} {
     height:calc(100vw*(30/428));
     padding:calc(100vw*(6/428)) calc(100vw*(10/428));
     margin-right:calc(100vw*(5/428));
     font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(5/428));
   }
 `
 const BottomBox = styled.div`
@@ -305,7 +316,7 @@ const ComName = styled.h2`
   color:#4a4a4a;
   margin-bottom:6px;
   @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(25/428));
+    font-size:calc(100vw*(20/428));
     margin-bottom:calc(100vw*(9/428));
   }
 `
@@ -314,7 +325,7 @@ const Name = styled.div`
   font-weight:800;transform:skew(-0.1deg);
   color:#4a4a4a;margin-bottom:13px;
   @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(20/428));
+    font-size:calc(100vw*(17/428));
     margin-bottom:calc(100vw*(13/428));
   }
 `
@@ -485,6 +496,9 @@ const LongPart = styled.p`
 const NextButton = styled.div`
   width:100%;text-align:center;
   margin-top:70px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(70/428));
+    }
 `
 const Next = styled.button`
   display:inline-block;
@@ -497,4 +511,9 @@ const Next = styled.button`
   transition:all 0.3s;
   border:${({border}) => border};
   background:${({bg}) => bg};
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+    height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));font-size:calc(100vw*(15/428));
+    }
 `

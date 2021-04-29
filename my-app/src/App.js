@@ -50,7 +50,7 @@ import AddRequestSecond from './page/member/mypage/AddRequestSecond';// 중개�
 import AddRequestBroker from './page/member/mypage/AddRequestBroker'//중개의뢰 > 중개사 선택
 import AddRequestBrokerSecond from './page/member/mypage/AddRequestBrokerSecond'//중개의뢰 > 중개사 기본정보입력
 import EditRequest from './page/member/mypage/EditRequest';//중개의뢰 수정 페이지
-
+import DetailViewRequest from './page/member/mypage/DetailViewRequest';//중개의뢰 상세 페이지
 
 import MyLike from './page/member/mypage/MyLike';
 import MyMember from './page/member/mypage/MyMember';
@@ -181,6 +181,7 @@ export default function App(){
             <Route exact path="/AddRequestBroker" component={AddRequestBroker}/>{/*중개의뢰 중개사 선택*/}
             <Route exact path="/AddRequestBrokerSecond" component={AddRequestBrokerSecond}/>{/*중개의뢰 중개사 기본정보입력*/}
             <Route exact path="/EditRequest" component={EditRequest}/>{/*중개의뢰>수정*/}
+            <Route exact path="/DetailViewRequest" component={DetailViewRequest}/>{/*중개의뢰>상세보기*/}
 
             <Route exact path="/MyLike" component={MyLike}/>{/*내 관심*/}
             <Route exact path="/MyMember" component={MyMember}/>{/*팀원관리*/}
