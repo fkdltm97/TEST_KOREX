@@ -27,27 +27,27 @@ export default function Request({cancleModal,confirmModal,mapModal,value, type,s
     return (
       <Container>
           <Li opacity={type}>
-            {
-              select ?
-              <WrapRight>
-                <CheckBox>
-                  <InputCheckEa type="checkbox" name="tour" id={"ea"+value.Manage_id}/>
-                  <CheckLabelEa for={"ea"+value.Manage_id}/>
-                </CheckBox>
-              </WrapRight>
-              :
-              null
-            }
-            
             <Infos>
-              <ItemImg>
-                <Img src={value.img}/>
-              </ItemImg>
+              <WrapLeft>
+                {
+                  select ?
+                  <WrapRight>
+                    <CheckBox>
+                      <InputCheckEa type="checkbox" name="tour" id={"ea"+value.Manage_id}/>
+                      <CheckLabelEa for={"ea"+value.Manage_id}/>
+                    </CheckBox>
+                  </WrapRight>
+                  :
+                  null
+                }
+                <ItemImg>
+                  <Img src={value.img}/>
+                </ItemImg>
+              </WrapLeft>
               <InBox>
                 <ConditionDiv>
-                  상태 : <Condition>{value.condition}</Condition>
+                  상태 : <Condition>{value.condition} <Number>{value.number}</Number></Condition>
                 </ConditionDiv>
-                <Number>{value.number}</Number>
                 <Line>
                   <Left>예약자명</Left>
                   <Right>{value.name}</Right>
@@ -117,39 +117,44 @@ const Mb = styled.b`
     }
 `
 const Container = styled.div`
-
 `
 const RequestList = styled.ul`
   width:100%;
 `
 const Li = styled.li`
   width:100%;
-  position:relative;
   display:flex;justify-content:flex-start;align-items:center;
+  position:relative;
   padding:29px 24px 29px 20px;
   border-bottom:1px solid #f7f8f8;
   opacity:${({opacity}) => opacity};
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(29/428)) 0;
-    align-items:flex-start;
+    align-items:center;
+  }
+`
+const WrapLeft = styled.div`
+  display:flex;justify-content:flex-start;align-items:center;
+  margin-right:40px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:0;
   }
 `
 const ItemImg = styled.div`
   width:106px;height:106px;border: solid 1px #e4e4e4;
-  margin-right:40px;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(80/428));height:calc(100vw*(80/428));
-    margin-right:calc(100vw*(18/428));
   }
 `
 const Img = styled.img`
   width:100%;height:100%;border-radius:3px;
 `
 const Infos = styled.div`
-  display:flex;justify-content:flex-start;align-items:center;
-  width:556px;
+  display:flex;justify-content:center;align-items:center;
+  width:100%;margin: 0 auto;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(400/428));
+    width:100%;
+    justify-content:space-between;
   }
 `
 const Date = styled.div`
@@ -181,11 +186,12 @@ const Condition = styled(ConditionDiv)`
 const Number = styled.p`
   font-size:14px;color:#979797;
   transform:skew(-0.1deg);
-  margin-bottom:7px;
+  display:inline-block;
+  margin-left:5px;
   font-weight:600;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(12/428));
-    margin-bottom:calc(100vw*(3/428));
+    margin-left:calc(100vw*(5/428));
   }
 `
 const Line = styled.h2`
@@ -207,7 +213,7 @@ const Right = styled(Left)`
   text-align:right;
   width:330px;
   @media ${(props) => props.theme.mobile} {
-      width:calc(100vw*(200/428));
+      width:calc(100vw*(190/428));
     }
 `
 const RightOg = styled(Right)`
@@ -222,7 +228,7 @@ const Call = styled.a`
 const WrapRight = styled.div`
   margin-right:20px;
   @media ${(props) => props.theme.modal} {
-      margin-right:calc(100vw*(15/428));
+      margin-right:calc(100vw*(10/428));
     }
 `
 const CheckBox = styled.div`
@@ -245,7 +251,7 @@ const RightMenu = styled.div`
     right:0;
     top:20px;
     @media ${(props) => props.theme.mobile} {
-      top:calc(100vw*(20/428));
+      top:calc(100vw*(10/428));
       transform:none;
       display:flex;justify-content:flex-start;
     }

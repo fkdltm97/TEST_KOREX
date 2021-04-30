@@ -38,7 +38,7 @@ export default function ModalSelect({select,setSelect,offModal}) {
                   <H3>예약자 {value.name}({value.phone})</H3>
                 </Div>
               )
-            })/Reservation
+            })
           }
                <DescBt>변경시, 예약자에게 알림이 전송됩니다.</DescBt>
             </WrapList>

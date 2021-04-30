@@ -47,7 +47,7 @@ export default function Join() {
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openBunyang={openBunyang}/>
           <Container>
-              <SubTitle title={"삼성물산　∨"} rank={true} path={"/"} cursor={"pointer"}/>
+              <SubTitle title={"삼성물산"} arrow={"　▼"} rank={true} path={"/"} cursor={"pointer"}/>
               <CompanyProfile/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

@@ -132,7 +132,7 @@ export default function Join() {
           show:true,
           setShow:offModal,
           title:"물건투어예약접수 일괄 수정",
-          content:{type:"component",text:``,component:<ModalEditResult/>},
+          content:{type:"component",text:``,component:<ModalAllEdit/>},
           submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
           confirm:{show:true , title:"확인" , event : ()=>{offModal(); editResultModal();}}
@@ -150,6 +150,7 @@ export default function Join() {
           confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
       });
     }
+    
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>

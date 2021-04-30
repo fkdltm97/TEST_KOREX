@@ -38,7 +38,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       number:"2D0000324",
       name:"홍길동",
       phone:"01012345678",
-      address:"충남내포신도시2차대방엘리움더센트럴 7층 707호",
+      address:"충남내포신도시2차 아파트",
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
