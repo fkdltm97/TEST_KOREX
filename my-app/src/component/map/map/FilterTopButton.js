@@ -21,7 +21,6 @@ import { Mobile, PC } from "../../../MediaQuery";
 import { MapFilterRedux } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-
 export default function MapFilter({openBunyang, rank}) {
 
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
@@ -39,22 +38,40 @@ export default function MapFilter({openBunyang, rank}) {
         count++;
       }
     }
-    if(count == 0){
-      e.preventDefault();
-      return;
-    }
+    if(count == 0){ e.preventDefault(); return;}
 
     if(e.target.checked){
       filter.prd_sel_type.push(num);
       filterArr.prd_sel_type.push(text);
-      MapFilterRedux.updateFilter({  filter : filter });
-      MapFilterRedux.updateFilterArr({  filterArr: filterArr });
     }else{
       filter.prd_sel_type = filter.prd_sel_type.filter(item => item != num);
       filterArr.prd_sel_type = filterArr.prd_sel_type.filter(item => item != text);
       MapFilterRedux.updateFilter({  filter: filter });
-      MapFilterRedux.updateFilterArr({  filterArr: filterArr });
     }
+
+    function isContain(value){
+      return filterArr.prd_sel_type.some(item => item == value)
+    }
+
+    if(!isContain("매매")){
+      filterArr.priceRange="전체";
+    }
+
+    if(!isContain("월세")){
+      filterArr.monthlyRange="전체";
+    }
+
+    if(!isContain("월세") && !isContain("전세")){
+      filterArr.jeonseRange="전체";
+    }
+
+
+    
+
+    
+
+    MapFilterRedux.updateFilter({filter:filter});
+    MapFilterRedux.updateFilterArr({filterArr:filterArr});
   }
   
   return (

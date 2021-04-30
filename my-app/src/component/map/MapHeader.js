@@ -15,8 +15,12 @@ import Search from '../../img/map/search.png';
 // components
 import { Mobile, PC } from "../../MediaQuery";
 
+import { useHistory } from "react-router-dom";
+
 
 export default function MainHeader({openBunyang, rank}) {
+  const history = useHistory();
+
   const options = useMemo(
            () => [
               { value: "아파트", label: "아파트"},
@@ -27,6 +31,27 @@ export default function MainHeader({openBunyang, rank}) {
             ],
            []
         );
+
+    const onClickSearch = () => {
+      const selectType = document.querySelector('#selectType');
+      switch (selectType.value){
+        case "아파트":
+          history.push(`/map/apart`);
+          break;
+        case "오피스텔":
+          history.push(`/map/officetel`);
+          break;
+        case "상가":
+          history.push(`/map/storeOffice`);
+          break;
+        case "사무실":
+          history.push(`/map/storeOffice`);
+          break;
+        default:
+          history.push(`/map/apart`);
+      }
+    }
+
     return (
         <Container>
           <WrapHeader>
@@ -36,7 +61,7 @@ export default function MainHeader({openBunyang, rank}) {
                   <LogoImg src={PCLogo}/>
                 </Link>
                 <HeaderSearch>
-                  <SearchSelect>
+                  <SearchSelect id="selectType">
                     <Option>아파트</Option>
                     <Option>오피스텔</Option>
                     <Option>상가</Option>
@@ -44,7 +69,7 @@ export default function MainHeader({openBunyang, rank}) {
                   </SearchSelect>
                   <Line/>
                   <SearchInput type="search" name=""/>
-                  <SearchBtn type="submit" name=""/>
+                  <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
                 </HeaderSearch>
             </HederLogo>
             <HeaderRight>

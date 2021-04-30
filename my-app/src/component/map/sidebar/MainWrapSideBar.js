@@ -112,6 +112,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
 }
 
 const Container = styled.div`
+  box-shadow:  -10px 0px 5px rgba(0, 0, 0, 0.16);
   position:fixed;
   right:0;
   top:80px;

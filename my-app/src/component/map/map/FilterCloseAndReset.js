@@ -51,6 +51,9 @@ export default function MapFilter({setOpen}) {
     if(document.querySelector(`input[data-text='전용화장실']`)){
       document.querySelector(`input[data-text='전용화장실']`).checked = false;
     }
+    if(document.querySelector(`input[data-text='관리비없음']`)){
+      document.querySelector(`input[data-text='관리비없음']`).checked = false;
+    }
     if(use.length !== 0){use[0].checked = true;}
     if(floor.length !== 0){floor[0].checked = true;}
     if(purpose.length !== 0){purpose[0].checked = true;}
@@ -79,6 +82,11 @@ export default function MapFilter({setOpen}) {
     data.roomApart = "전체";
     data.bath = "전체";
     data.danji = "전체";
+    data.priceRange = "전체";
+    data.manaRange = "전체";
+    data.areaRange = "전체";
+    data.jeonseRange = "전체";
+    data.monthlyRange = "전체";
     MapFilterRedux.updateFilterArr({  filterArr: data });
   }
 
