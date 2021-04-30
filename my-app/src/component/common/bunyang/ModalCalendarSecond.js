@@ -163,9 +163,13 @@ const SeletedDate = styled.div`
   cursor: pointer;
   margin: 20px 0 50px;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 8d876dabe4437d3cb05d47e38c9f5c71d29487af
+=======
+
+>>>>>>> 8e141362e2ebabffc6c17deb37908f5906459814
   @media ${(props) => props.theme.modal} {
     margin: calc(100vw * (20 / 428)) 0 calc(100vw * (50 / 428));
   }

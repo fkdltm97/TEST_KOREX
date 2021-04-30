@@ -28,7 +28,7 @@ import ModalMap from './modal/ModalMap';
 import {useSelector} from 'react-redux';
 import {tempBrokerRequestActions} from '../../../../store/actionCreators';
 
-export default function Request({setFilter,value,type,successModal,failModal}) {
+export default function Request({setFilter,value,type,confirmModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
@@ -157,9 +157,8 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
     return (
         <Container>
           <WrapRequest>
-            <TopTitle>기본정보 입력/수정</TopTitle>
-
             <WrapBrokerInfo>
+              <Condition>상태 : <ConditionDetail>거래 개시</ConditionDetail></Condition>
               <BrokerInfo setMap={setMap}/>{/*컴포넌트입니다.*/}
             </WrapBrokerInfo>
 
@@ -182,7 +181,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                 </TopDesc>
                 <SelectBox>
                   <Label>전속기간<Pilsu>*</Pilsu></Label>
-                  <Select onChange={change_exculsive_periods}>
+                  <Select onChange={change_exculsive_periods} disabled>
                     <Option>기간 선택</Option>
                     <Option value='3'>3 개월</Option>
                     <Option value='6'>6 개월</Option>
@@ -218,18 +217,18 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                   <LongLine/>
                   <InputBox>
                     <Label>건물명<Pilsu>*</Pilsu></Label>
-                    <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname}/>
+                    <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>전용면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_dimension}/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_dimension} disabled/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_pyeong}/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_jeonyong_pyeong} disabled/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -238,12 +237,12 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                     <Label>공급면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_dimension}/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_dimension} disabled/>
                         <Span>m²</Span>
                       </Inbox>
                       <Same>=</Same>
                       <Inbox>
-                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_pyeong}/>
+                        <InputShort type="text" placeholder="m² 선택 or 입력" onChange={change_supply_pyeong} disabled/>
                         <Span>평</Span>
                       </Inbox>
                     </Widthbox>
@@ -258,7 +257,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                 </SubTitle>
                 <SelectBox>
                   <Label>거래유형<Pilsu>*</Pilsu></Label>
-                  <SelectMb onChange={change_selltype}>
+                  <SelectMb onChange={change_selltype} disabled>
                     <Option>거래유형을 선택하여주세요.</Option>
                     <Option>매매</Option>
                     <Option>전세</Option>
@@ -269,7 +268,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                   <Label>가격<Pilsu>*</Pilsu></Label>
                   <Example>(e.g 1억 5,000)</Example>
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력" onChange={change_sellprice}/>
+                    <InputMidi type="text" placeholder="가격 입력" onChange={change_sellprice} disabled/>
                     <Dan>만원</Dan>
                   </Flex>
                 </InputBox>
@@ -288,7 +287,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                   <MoreBox>
                     <Label>관리비<Pilsu>*</Pilsu></Label>
                     <SwitchButton>
-                      <Switch type="checkbox" id="switch"/>
+                      <Switch type="checkbox" id="switch" disabled/>
                       <SwitchLabel for="switch" onClick={()=>{setViewInput(!viewInput)}}>
                         <SwitchSpan/>
                         <SwithTxtOff className="no">없음</SwithTxtOff>
@@ -298,7 +297,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                   {
                     viewInput ?
                     <Flex>
-                      <InputMidi type="text" placeholder="가격 입력" onChange={change_Managecost}/>
+                      <InputMidi type="text" placeholder="가격 입력" onChange={change_Managecost} disabled/>
                       <Dan>만원</Dan>
                     </Flex>
                     :
@@ -312,35 +311,35 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                     <Label>관리비 포함<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Checkbox>
-                        <Check type="checkbox" id="check1" defaultChecked/>
+                        <Check type="checkbox" id="check1" defaultChecked disabled/>
                         <CheckLabel for="check1">
                           <CheckSpan/>
                           전기
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check2"/>
+                        <Check type="checkbox" id="check2" disabled/>
                         <CheckLabel for="check2">
                           <CheckSpan/>
                           수도
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check3"/>
+                        <Check type="checkbox" id="check3" disabled/>
                         <CheckLabel for="check3">
                           <CheckSpan/>
                           가스
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check4"/>
+                        <Check type="checkbox" id="check4" disabled/>
                         <CheckLabel for="check4">
                           <CheckSpan/>
                           인터넷
                         </CheckLabel>
                       </Checkbox>
                       <Checkbox>
-                        <Check type="checkbox" id="check5"/>
+                        <Check type="checkbox" id="check5" disabled/>
                         <CheckLabel for="check5">
                           <CheckSpan/>
                           티비
@@ -353,14 +352,14 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                     <Label>입주가능일<Pilsu>*</Pilsu></Label>
                     <WrapCheck>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi1" value='1'defaultChecked onClick={radio_ibju_isinstant}/>
+                        <Radio type="radio" name="possible" id="radi1" value='1'defaultChecked onClick={radio_ibju_isinstant} disabled/>
                         <RadioLabel for="radi1" onClick={()=>{setViewDate(false);}}>
                           <RadioSpan/>
                           즉시
                         </RadioLabel>
                       </Radiobox>
                       <Radiobox>
-                        <Radio type="radio" name="possible" id="radi2" value='0' onClick={radio_ibju_isinstant}/>
+                        <Radio type="radio" name="possible" id="radi2" value='0' onClick={radio_ibju_isinstant} disabled/>
                         <RadioLabel for="radi2" onClick={()=>{setViewDate(true)}}>
                           <RadioSpan/>
                           날짜 선택
@@ -377,7 +376,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
               {/*요청사항 입력*/}
                   <MoreBox>
                     <Label>요청사항 입력</Label>
-                    <Textarea type="textarea" placeholder="요청사항을 입력하여주세요." onChange={change_requestMessage}/>
+                    <Textarea type="textarea" placeholder="요청사항을 입력하여주세요." onChange={change_requestMessage} disabled/>
                   </MoreBox>
                 </MoreView>
                 :
@@ -387,17 +386,10 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
 
               </WrapMoreView>
             </WrapBox>
-      {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
-            <NextButton onClick={nextStep}>
-              <Link className="data_link" onClick={()=>{setSuccess(true)}}/>
-              <Next type="button">다음</Next>
-            </NextButton>
-            {/* 중개의뢰 실패했을때 버튼 ( 모달이 다름 )
             <NextButton>
-              <Link className="data_link" onClick={()=>{failModal();}}/>
-              <Next type="button">다음</Next>
+              <Link to="/Request" className="data_link"/>
+              <Next type="button">확인</Next>
             </NextButton>
-              */}
            </WrapRequest>
         </Container>
   );
@@ -418,14 +410,18 @@ const Mb = styled.b`
 const Container = styled.div`
     width:680px;
     margin:0 auto;
-    padding:24px 0 250px;
+    padding:0 0 250px;
     @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(380/428));
-      padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
+      padding:0 0 calc(100vw*(150/428));
       }
 `
 const WrapRequest = styled.div`
   width:100%;
+  padding-top:40px;
+  @media ${(props) => props.theme.mobile} {
+    padding-top:calc(100vw*(40/428));
+    }
 `
 const WrapBrokerInfo = styled.div`
   width:465px;margin:0 auto;
@@ -522,14 +518,17 @@ const Select = styled.select`
   appearance:none;color:#707070;
   font-size:15px;transform:Skew(-0.1deg);
   background:url(${ArrowDown}) no-repeat 92% center;background-size:11px;
+  &:disabled{background:#fbfbfb;}
+
   @media ${(props) => props.theme.mobile} {
       height:calc(100vw*(43/428));
-      font-size:calc(100vw*(15/428));
       background-size:calc(100vw*(11/428));
     }
 `
 const SelectMb = styled(Select)`
   margin-bottom:30px;
+  &:disabled{background:#fbfbfb;}
+
   @media ${(props) => props.theme.mobile} {
       margin-bottom:calc(100vw*(25/428));
     }
@@ -572,6 +571,7 @@ const InputTxt= styled.input`
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
   &::placeholder{color:#979797;}
+  &:disabled{background:#fbfbfb;}
   @media ${(props) => props.theme.mobile} {
       height:calc(100vw*(43/428));
       font-size:calc(100vw*(15/428));
@@ -605,6 +605,8 @@ const InputShort = styled.input`
   font-size:15px;color:#4a4a4a;
   transform:skew(-0.1deg);
   &::placeholder{color:#979797}
+    &:disabled{background:#fbfbfb;}
+
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(15/428));
     }
@@ -623,9 +625,6 @@ const Same = styled.span`
   font-size:15px;font-weight:600;
   color:#4a4a4a;transform:skew(-0.1deg);
   vertical-align:middle;
-  @media ${(props) => props.theme.mobile} {
-      font-size:calc(100vw*(15/428));
-    }
 `
 const LongLine = styled.div`
   width:100%;height:1px;
@@ -643,6 +642,7 @@ const Example = styled.p`
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(12/428));
     }
+
 `
 const Flex = styled.div`
   display:flex;justify-content:space-between;align-items:center;
@@ -657,6 +657,8 @@ const InputMidi = styled.input`
   font-weight:600;
   transform:skew(-0.1deg);text-align:center;
   &::placeholder{color:#979797}
+  &:disabled{background:#fbfbfb;}
+
   @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(315/428));
       height:calc(100vw*(43/428));
@@ -713,7 +715,6 @@ const MoreBox = styled.div`
     margin-top:calc(100vw*(30/428));
     }
 `
-
 const SwitchButton = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   width:100%;
@@ -761,7 +762,7 @@ const SwithTxtOff = styled.p`
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(15/428));
     left:calc(100vw*(50/428));
-    top:calc(100vw*(-2/428));
+    top:calc(100vw*(-3/428));
   }
 `
 const SwithTxtOn = styled(SwithTxtOff)`
@@ -788,7 +789,7 @@ const Sub = styled.span`
   }
 `
 const WrapCheck = styled.div`
-  display:flex;justify-content:flex-start;align-items:center;
+  display:flex;justify-content:felx-start;align-items:center;
   flex-wrap:wrap;margin-top:20px;
   @media ${(props) => props.theme.mobile} {
     margin-top:calc(100vw*(20/428));
@@ -828,7 +829,6 @@ const Radiobox = styled.div`
     margin-bottom:calc(100vw*(20/428));
   }
 `
-
 const Radio = styled.input`
   display:none;
   &:checked+label span{background:url(${RadioChkImg}) no-repeat; background-size:100% 100%;}
@@ -851,11 +851,12 @@ const RadioSpan = styled.span`
 `
 const InputDate = styled(InputTxt)`
   margin-top:20px;
+   &:disabled{background:#fbfbfb;}
+
   @media ${(props) => props.theme.mobile} {
     margin-top:calc(100vw*(20/428));
   }
 `
-
 const NextButton = styled.div`
 position:relative; 
   width:100%;text-align:center;
@@ -885,7 +886,6 @@ const Next = styled.button`
     font-size:calc(100vw*(15/428));
   }
 `
-
 const Textarea = styled.textarea`
   width:100%;
   height:140px;
@@ -901,4 +901,21 @@ const Textarea = styled.textarea`
     font-size:calc(100vw*(15/428));
   }
 `
-
+const Condition = styled.div`
+  font-size:15px;color:#707070;
+  text-align:left;padding-left:30px;
+  font-weight:800;transform:skew(-0.1deg);
+  margin-bottom:20px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(30/428));
+    padding-left:0;
+    }
+`
+const ConditionDetail = styled.span`
+  display:inline-block;vertical-align:middle;
+  font-size:15px;color:#979797;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    }
+`

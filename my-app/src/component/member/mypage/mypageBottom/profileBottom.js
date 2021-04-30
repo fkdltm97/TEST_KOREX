@@ -163,7 +163,7 @@ export default function ProfileBottomElement({open,setOpen}) {
                <Arrow src={RightArrow}/>
              </Li>
              <Li>
-               <Link className="data_link"></Link>
+               <Link to="/RegistProBroker" className="data_link"></Link>
                <LinkTxt>전문중개사무소 신청</LinkTxt>
                <Arrow src={RightArrow}/>
              </Li>
@@ -246,7 +246,7 @@ export default function ProfileBottomElement({open,setOpen}) {
                <Arrow src={RightArrow}/>
              </Li>
              <Li>
-               <Link className="data_link"></Link>
+               <Link to="/PropertyTourManage" className="data_link"></Link>
                <LinkTxt>물건투어예약접수 관리</LinkTxt>
                <Arrow src={RightArrow}/>
              </Li>
@@ -296,7 +296,7 @@ export default function ProfileBottomElement({open,setOpen}) {
                <Arrow src={RightArrow}/>
              </Li>
              <Li>
-               <Link className="data_link"></Link>
+               <Link to="/PropertyTourManage" className="data_link"></Link>
                <LinkTxt>물건투어예약접수 관리</LinkTxt>
                <Arrow src={RightArrow}/>
              </Li> 
@@ -387,7 +387,7 @@ export default function ProfileBottomElement({open,setOpen}) {
           <Arrow src={RightArrow}/>
         </Li>
         <Li>
-          <Link className="data_link"></Link>
+          <Link to="/RegistProBroker" className="data_link"></Link>
           <LinkTxt>전문중개사무소 신청</LinkTxt>
           <Arrow src={RightArrow}/>
         </Li>
@@ -397,7 +397,7 @@ export default function ProfileBottomElement({open,setOpen}) {
           <Arrow src={RightArrow}/>
         </Li>
         <Li>
-          <Link className="data_link"></Link>
+          <Link to="/PropertyTourManage" className="data_link"></Link>
           <LinkTxt>물건투어예약접수 관리</LinkTxt>
           <Arrow src={RightArrow}/>
         </Li>
@@ -500,7 +500,6 @@ export default function ProfileBottomElement({open,setOpen}) {
                 :
                 null}
             </Li>
-
             <Li>
               <Link to="/CompanyProfile" className="data_link"></Link>
               <LinkTxt>회사 프로필 설정</LinkTxt>
@@ -598,7 +597,6 @@ const ProfileName = styled.div`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(250/428));
     }
-
 `
 const Input = styled.input`
   width:100%;height:43px;
@@ -758,7 +756,7 @@ const MarkerImg = styled.span`
   border: solid 1px #2b664d;
   background-color: #fbfbfb;
   line-height:20px;
-  color:#2b664d;font-size:10px;font-fmaily:'nbg',sans-serif;
+  color:#2b664d;font-size:10px;font-family:'nbg',sans-serif;
   font-weight:600;
   padding-left:17px;
   background:url(${Marker}) no-repeat 4.5px center; background-size:9px 9px;

@@ -50,8 +50,8 @@ export default function WrapSideBar({setReport}) {
 const Container = styled.div`
   position:fixed;
   right:0;
-  top:106px;
-  width:495px;height:100vh;
+  top:80px;
+  width:400px;height:100vh;
   padding-bottom:120px;
   overflow-y:scroll;
   content:'';

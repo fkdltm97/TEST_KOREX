@@ -101,6 +101,10 @@ export default function Join({match}) {
 
                 let res=await serverController.connectFetchController('/api/broker/productToursettingRegister','POST',JSON.stringify(body_info));
                 console.log('res_result:',res);
+
+                if(res.error=='already_day_exists'){
+                  alert('이미 등록되어있는 요일or요일들입니다.');
+                }
               }else{
                 alert('입력값이 비어있습니다.');
               }
@@ -122,7 +126,7 @@ export default function Join({match}) {
             confirm:{show:true , title:"확인" , event : async ()=>{ 
               console.log('특별추가모달 confirm발생',temp_tourReservsettings);
               
-              if(login_user.memid!='' && login_user.company_id !='' && temp_tourReservsettings.special_specifydate!='' && temp_tourReservsettings.special_specifydatetimes !='' && temp_tourReservsettings.special_isexceptspecifydate!=''){
+              if(login_user.memid!='' && login_user.company_id !='' && temp_tourReservsettings.special_specifydate!='' && temp_tourReservsettings.special_specifydatetimes !=''){
                 let body_info={
                   tour_type: 2,
                   mem_id : login_user.memid,
@@ -136,6 +140,12 @@ export default function Join({match}) {
 
                 let res= await serverController.connectFetchController('/api/broker/productToursettingRegister','POST',JSON.stringify(body_info));
                 console.log('res_result:',res);
+
+                if(res.error =='already_exceptdate_exists'){
+                  alert('이미 등록되어있는 제외날짜입니다.');
+                }else if(res.error =='already_specifydate_exists'){
+                  alert('이미 등록되어있는 특정날짜입니다.');
+                }
               }else{
                 alert('입력값이 비어있습니다.');
               }

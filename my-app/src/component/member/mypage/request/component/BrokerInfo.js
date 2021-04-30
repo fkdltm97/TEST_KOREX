@@ -99,7 +99,7 @@ const ProfileDetail = styled.div`
   margin-bottom:24px;
   @media ${(props) => props.theme.mobile} {
     width:100%;
-    padding:0 calc(100vw*(30/428));
+    padding:0 calc(100vw*(10/428));
     margin-bottom:calc(100vw*(20/428));
   }
 `
@@ -198,29 +198,6 @@ const Part = styled.div`
   }
 `
 
-const InfoDetail = styled.div`
-  width:100%;
-  padding:22px 0;
-  background:#fbfbfb;
-  @media ${(props) => props.theme.mobile} {
-    padding:calc(100vw*(20/428)) 0;
-  }
-`
-const Icon = styled.img`
-  display:inline-block;
-  width:20px;margin-right:12px;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(20/428));
-    margin-right:calc(100vw*(12/428));
-    }
-`
-const SubTitle = styled.p`
-  font-size:15px;color:#4a4a4a;
-  font-weight:800;transform:skew(-0.1deg);
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(14/428));
-    }
-`
 const RightContent = styled.div`
   position:relative;
   width:95px;height:95px;
@@ -233,45 +210,6 @@ const ItemImg = styled.img`
   width:100%;height:100%;
   border-radius:100%;
 `
-
-const FlexBox = styled.div`
-  display:flex;width:100%;background:#fbfbfb;
-  justify-content:center;align-items:center;
-  margin-bottom:25px;
-  &:nth-child(3){margin-top:60px;}
-  &:last-child{margin-bottom:0;}
-  @media ${(props) => props.theme.mobile} {
-    margin-bottom:calc(100vw*(25/428));
-    &:nth-child(3){margin-top:calc(100vw*(40/428));}
-    }
-`
-const Left = styled.div`
-  display:flex;justify-content:flex-start;align-items:center;
-  width:100px;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(100/428));
-    }
-`
-const Star = styled.img`
-  display:inline-block;
-  width:16px;
-  margin-right:9px;
-  &:last-child{margin-right:0;}
-  vertical-align:middle;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(16/428));
-    margin-right:calc(100vw*(9/428));
-    }
-`
-
-const RightStar = styled.div`
-  display:flex;justify-content:flex-start;align-items:center;
-  width:184px;
-  margin-left:40px;
-  @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(184/428));
-    }
-`
 const CallBox = styled.div`
   display:flex;justify-content:center;align-items:center;
   width:100%;
@@ -282,7 +220,7 @@ const CallBox = styled.div`
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
   border: solid 3px #efefef;
   @media ${(props) => props.theme.mobile} {
-    width:calc(100vw*(398/428));
+    width:100%;
     height:calc(100vw*(84/428));
     padding:0;
     margin:calc(100vw*(14/428)) auto 0;

@@ -52,6 +52,20 @@ export default function MapFilter({openBunyang, rank, status}) {
     const [snapAreaArr, setSnapAreaArr] = useState([]);
     const [areaText, setAreaText] = useState("");
 
+    // 보증금( 전세금 )
+    const [minJeonse, setMinJeonse] = useState(0);
+    const [maxJeonse, setMaxJeonse] = useState(30); 
+    const [dropdownValueJeonse, setDropdownValueJeonse] = useState([0, 30])
+    const [snapJeonseArr, setSnapJeonseArr] = useState([]);
+    const [jeonseText, setJeonseText] = useState("");
+
+    // 월세
+    const [minMonthly, setMinMonthly] = useState(0);
+    const [maxMonthly, setMaxMonthly] = useState(18); 
+    const [dropdownValueMonthly, setDropdownValueMonthly] = useState([0, 18])
+    const [snapMonthlyArr, setSnapMonthlyArr] = useState([]);
+    const [monthlyText, setMonthlyText] = useState("");
+
     const makeRangeSnaps = (maxValue, setSnap, unit) => {
       let i = 0;
       let max = maxValue;
@@ -73,6 +87,8 @@ export default function MapFilter({openBunyang, rank, status}) {
       makeRangeSnaps(maxPrice, setSnapArr, 1);
       makeRangeSnaps(maxPriceMana, setSnapManaArr, 1);
       makeRangeSnaps(maxArea, setSnapAreaArr, 1);
+      makeRangeSnaps(maxJeonse, setSnapJeonseArr, 1);
+      makeRangeSnaps(maxMonthly, setSnapMonthlyArr, 1);
     }, [])
 
     useEffect(() => {
@@ -84,6 +100,42 @@ export default function MapFilter({openBunyang, rank, status}) {
       let max = dropdownValue[1];
       rangeText(min, max, minPrice, maxPrice, priceToKor(min), priceToKor(max), setPriceText, "");
     }, [dropdownValue])
+
+    useEffect(() => {
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.priceRange = priceText;
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+    }, [priceText])
+
+    useEffect(() => {
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.manaRange = manaText;
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+    }, [manaText])
+
+    useEffect(() => {
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.areaRange = areaText;
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+    }, [areaText])
+
+    useEffect(() => {
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.jeonseRange = jeonseText;
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+    }, [jeonseText])
+
+    useEffect(() => {
+      let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      data.monthlyRange = monthlyText;
+      MapFilterRedux.updateFilterArr({  filterArr: data });
+    }, [monthlyText])
+
+
+
+
+
+
 
     useEffect(() => {
       if(dropdownValueMana[0] == minPriceMana && dropdownValueMana[1] == maxPriceMana){
@@ -104,6 +156,90 @@ export default function MapFilter({openBunyang, rank, status}) {
       let max = dropdownValueArea[1];
       rangeText(min, max, minArea, maxArea, min, max, setAreaText, "평");
     }, [dropdownValueArea])
+    
+    useEffect(() => {
+      if(dropdownValueJeonse[0] == minJeonse && dropdownValueJeonse[1] == maxJeonse){
+        setJeonseText("전체");
+        return;
+      }
+      let min = dropdownValueJeonse[0];
+      let max = dropdownValueJeonse[1];
+      let minText;
+      let maxText;
+      rangeText(min, max, minJeonse, maxJeonse, jeonseTextfunc(min, minText), jeonseTextfunc(max, maxText), setJeonseText, "");
+    }, [dropdownValueJeonse])
+    
+    useEffect(() => {
+      if(dropdownValueMonthly[0] == minMonthly && dropdownValueMonthly[1] == maxMonthly){
+        setMonthlyText("전체");
+        return;
+      }
+      let min = dropdownValueMonthly[0];
+      let max = dropdownValueMonthly[1];
+      let minText;
+      let maxText;
+      rangeText(min, max, minMonthly, maxMonthly, monthlyTextfunc(min, minText), monthlyTextfunc(max, maxText), setMonthlyText, "");
+    }, [dropdownValueMonthly])
+
+    // 전세 텍스트
+    const jeonseTextfunc = (num, text) => {
+      switch(num){
+        case 1:text = "50만"; break;
+        case 2:text = "백만"; break;
+        case 3:text = "2백만"; break;
+        case 4:text = "3백만"; break;
+        case 5:text = "5백만"; break;
+        case 6:text = "1천"; break;
+        case 7:text = "2천"; break;
+        case 8: text = "3천"; break;
+        case 9:text = "4천"; break;
+        case 10:text = "5천"; break;
+        case 11:text = "6천"; break;
+        case 12:text = "7천"; break;
+        case 13:text = "8천"; break;
+        case 14:text = "9천"; break;
+        case 15:text = "1억"; break;
+        case 16:text = "1억2천"; break;
+        case 17:text = "1억5천"; break;
+        case 18:text = "1억7천"; break;
+        case 19:text = "2억"; break;
+        case 20:text = "2억5천"; break;
+        case 21:text = "3억"; break;
+        case 22:text = "3억5천"; break;
+        case 23:text = "4억"; break;
+        case 24:text = "5억"; break;
+        case 25:text = "7억"; break;
+        case 26:text = "10억"; break;
+        case 27:text = "12억"; break;
+        case 28:text = "15억"; break;
+        case 29:text = "20억"; break;
+      }
+      return(text);
+    }
+
+    // 월세 텍스트
+    const monthlyTextfunc = (num, text) => {
+      switch(num){
+        case 1:text = "5만"; break;
+        case 2:text = "10만"; break;
+        case 3:text = "20만"; break;
+        case 4:text = "25만"; break;
+        case 5:text = "30만"; break;
+        case 6:text = "35만"; break;
+        case 7:text = "40만"; break;
+        case 8: text = "50만"; break;
+        case 9:text = "60만"; break;
+        case 10:text = "70만"; break;
+        case 11:text = "100만"; break;
+        case 12:text = "150만"; break;
+        case 13:text = "200만"; break;
+        case 14:text = "250만"; break;
+        case 15:text = "300만"; break;
+        case 16:text = "400만"; break;
+        case 17:text = "500만"; break;
+      }
+      return(text);
+    }
 
     // 매매 억/천 단위
     const priceToKor = (num) => {
@@ -150,9 +286,16 @@ export default function MapFilter({openBunyang, rank, status}) {
 
     // 관리비
     const onClickAdmin = (e) => {
-      console.log(e.target.checked)
+      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+      console.log(e.target.dataset.text);
+      if(e.target.checked){
+        newArr.switchArr.push(e.target.dataset.text)
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      }else{
+        newArr.switchArr = newArr.switchArr.filter(item => item != e.target.dataset.text);
+        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      }
     }
-
 
     const filterType = () => {
       if(status == "apart"){
@@ -178,44 +321,110 @@ export default function MapFilter({openBunyang, rank, status}) {
           <WrapApart>
             {/* ---------------------- */}
 
-            {/*가격*/}
-            <Box>
-              <SubTitle>매매</SubTitle>
-              <WrapFilter>
-                <PriceView>{priceText}</PriceView>
-                <WrapRange>
-                  {/* <LeftRange/> */}
-                  {/* <RightRange/> */}
-                  {/*실제 영역 바*/}
-                  {/* <GreenBar/> */}
-                  {/*바닥에 깔리는 바*/}
-                  {/* <GrayBar/> */}
-                  <Rheostat
-                    min={minPrice}
-                    max={maxPrice}
-                    values={dropdownValue}
-                    onChange={(e) => {
-                      setDropdownValue(e.values);
-                    }}
-                    snap
-                    snapPoints={snapArr}
-                  />
-                </WrapRange>
-                <BottomBar>
-                  <BarTxt>최소</BarTxt>
-                  <BarTxt>3억</BarTxt>
-                  <BarTxt>7억</BarTxt>
-                  <BarTxt>최대</BarTxt>
-                </BottomBar>
-              </WrapFilter>
-            </Box>
-            
-            {/*관리비*/}
+            {/*가격 -- 매매-- */}
+            {
+              mapFilterRedux.filterArr.prd_sel_type.some(item => item == "매매")
+              ?
+              <Box>
+                <SubTitle>매매</SubTitle>
+                <WrapFilter>
+                  <PriceView>{priceText}</PriceView>
+                  <WrapRange>
+                    <Rheostat
+                      min={minPrice}
+                      max={maxPrice}
+                      values={dropdownValue}
+                      onChange={(e) => {
+                        setDropdownValue(e.values);
+                      }}
+                      snap
+                      snapPoints={snapArr}
+                    />
+                  </WrapRange>
+                  <BottomBar>
+                    <BarTxt>최소</BarTxt>
+                    <BarTxtMl>3억</BarTxtMl>
+                    <BarTxtMR>7억</BarTxtMR>
+                    <BarTxt>최대</BarTxt>
+                  </BottomBar>
+                </WrapFilter>
+              </Box>
+              :
+              <></>
+            }
+
+            {/*보증금 (전세금) --전세, 월세 --*/}
+            {
+              mapFilterRedux.filterArr.prd_sel_type.some(item => item == "전세" || item == "월세" )
+              ?
+              <Box>
+                <SubTitle>보증금 (전세금)</SubTitle>
+                <WrapFilter>
+                  <PriceView>{jeonseText}</PriceView>
+                  <WrapRange>
+                    <Rheostat
+                      min={minJeonse}
+                      max={maxJeonse}
+                      values={dropdownValueJeonse}
+                      onChange={(e) => {
+                        setDropdownValueJeonse(e.values);
+                      }}
+                      snap
+                      snapPoints={snapJeonseArr}
+                    />
+                  </WrapRange>
+                  <BottomBar>
+                    <BarTxt>최소</BarTxt>
+                    <BarTxt>5천만</BarTxt>
+                    <BarTxt>2.5억</BarTxt>
+                    <BarTxt>최대</BarTxt>
+                  </BottomBar>
+                </WrapFilter>
+              </Box>
+              :
+              <></>
+            }
+
+
+            {/*월세 -- 월세 --*/}
+
+            {
+              mapFilterRedux.filterArr.prd_sel_type.some(item => item == "월세" )
+              ?
+              <Box>
+                <SubTitle>월세</SubTitle>
+                <WrapFilter>
+                  <PriceView>{monthlyText}</PriceView>
+                  <WrapRange>
+                    <Rheostat
+                      min={minMonthly}
+                      max={maxMonthly}
+                      values={dropdownValueMonthly}
+                      onChange={(e) => {
+                        setDropdownValueMonthly(e.values);
+                      }}
+                      snap
+                      snapPoints={snapMonthlyArr}
+                    />
+                  </WrapRange>
+                  <BottomBar>
+                    <BarTxt>최소</BarTxt>
+                    <BarTxt>35만</BarTxt>
+                    <BarTxt>150만</BarTxt>
+                    <BarTxt>최대</BarTxt>
+                  </BottomBar>
+                </WrapFilter>
+              </Box>
+              :
+              <></>
+            }
+
+            {/*관리비 -- 항상 --*/}
             <Box>
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
+                  <Switch data-text="관리비없음" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>
@@ -223,13 +432,6 @@ export default function MapFilter({openBunyang, rank, status}) {
                 </SwitchButton>
                 <PriceView>{manaText}</PriceView>
                 <WrapRange>
-                  {/* <LeftRange2/> */}
-                  {/* <RightRange2/> */}
-                  {/*실제 영역 바*/}
-                  {/* <GreenBar2/> */}
-                  {/*바닥에 깔리는 바*/}
-                  {/* <GrayBar/> */}
-
                   <Rheostat
                     min={minPriceMana}
                     max={maxPriceMana}
@@ -243,14 +445,14 @@ export default function MapFilter({openBunyang, rank, status}) {
                 </WrapRange>
                 <BottomBar>
                   <BarTxt>최소</BarTxt>
-                  <BarTxt>25만</BarTxt>
+                  <BarTxtMl2>25만</BarTxtMl2>
                   <BarTxt>50만</BarTxt>
                   <BarTxt>최대</BarTxt>
                 </BottomBar>
               </WrapFilter>
             </Box>
-            
-            {/*면적(공급면적)*/}
+
+            {/*면적(공급면적) -- 항상 -- */}
             <Box>
                 <SubTitle>면적(공급면적)</SubTitle>
                 <WrapFilter>
@@ -275,14 +477,13 @@ export default function MapFilter({openBunyang, rank, status}) {
                   </WrapRange>
                   <BottomBar>
                     <BarTxt>최소</BarTxt>
-                    <BarTxt>30평</BarTxt>
-                    <BarTxt>70평</BarTxt>
+                    <BarTxtMl>30평</BarTxtMl>
+                    <BarTxtMR2>70평</BarTxtMR2>
                     <BarTxt>최대</BarTxt>
                   </BottomBar>
                 </WrapFilter>
               </Box>
             
-
             {/* ---------------------- */}
             {/*층수*/}
             <Box>
@@ -423,7 +624,6 @@ export default function MapFilter({openBunyang, rank, status}) {
 }
 
 const Container = styled.div`
-
 `
 const WrapApart = styled.div`
   width:100%;
@@ -435,7 +635,6 @@ const Box = styled.div`
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(22/428)) calc(100vw*(33/428));
   }
-
 `
 const BoxNoneBorder = styled(Box)`
   border-top:none;
@@ -546,6 +745,30 @@ const BarTxt = styled.p`
     &:before{top:calc(100vw*(-10/428));height:calc(100vw*(8/428));}
   }
 `
+const BarTxtMl = styled(BarTxt)`
+  margin-left:-40px;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(-55/428));
+  }
+`
+const BarTxtMR = styled(BarTxt)`
+  margin-right:-30px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(-40/428));
+  }
+`
+const BarTxtMR2 = styled(BarTxt)`
+margin-right:-26px;
+  @media ${(props) => props.theme.mobile} {
+    margin-right:calc(100vw*(-36/428));
+  }
+`
+const BarTxtMl2 = styled(BarTxt)`
+  margin-left:-10px;
+  @media ${(props) => props.theme.mobile} {
+    margin-left:calc(100vw*(-16/428));
+  }
+`
 const SwitchButton = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   width:100%;
@@ -593,7 +816,6 @@ const Span = styled.span`
     font-size:calc(100vw*(15/428));
     margin-left:calc(100vw*(10/428));
   }
-
 `
 const WrapRadio = styled.div`
   width:100%;display:flex;justify-content:flex-start;align-items:center;
@@ -636,5 +858,4 @@ const SpanR = styled.span`
 `
 const SpanC = styled(SpanR)`
   background:url(${Check}) no-repeat;background-size:100% 100%;
-
 `

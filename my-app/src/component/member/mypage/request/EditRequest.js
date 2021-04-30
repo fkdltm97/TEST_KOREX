@@ -28,7 +28,7 @@ import ModalMap from './modal/ModalMap';
 import {useSelector} from 'react-redux';
 import {tempBrokerRequestActions} from '../../../../store/actionCreators';
 
-export default function Request({setFilter,value,type,successModal,failModal}) {
+export default function Request({setFilter,value,type,confirmModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
@@ -157,9 +157,8 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
     return (
         <Container>
           <WrapRequest>
-            <TopTitle>기본정보 입력/수정</TopTitle>
-
             <WrapBrokerInfo>
+              <Condition>상태 : <ConditionDetail>거래 개시</ConditionDetail></Condition>
               <BrokerInfo setMap={setMap}/>{/*컴포넌트입니다.*/}
             </WrapBrokerInfo>
 
@@ -387,17 +386,11 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
 
               </WrapMoreView>
             </WrapBox>
-      {/*!!!!다음 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
-            <NextButton onClick={nextStep}>
-              <Link className="data_link" onClick={()=>{setSuccess(true)}}/>
-              <Next type="button">다음</Next>
-            </NextButton>
-            {/* 중개의뢰 실패했을때 버튼 ( 모달이 다름 )
+      {/*!!!!확인 버튼 , 조건문 맞춰서 액티브 됐을때 색상 바뀌어야함..!!!! */}
             <NextButton>
-              <Link className="data_link" onClick={()=>{failModal();}}/>
-              <Next type="button">다음</Next>
+              <Link className="data_link" onClick={()=>{confirmModal();}}/>
+              <Next type="button">확인</Next>
             </NextButton>
-              */}
            </WrapRequest>
         </Container>
   );
@@ -418,14 +411,18 @@ const Mb = styled.b`
 const Container = styled.div`
     width:680px;
     margin:0 auto;
-    padding:24px 0 250px;
+    padding:0 0 250px;
     @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(380/428));
-      padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
+      padding:0 0 calc(100vw*(150/428));
       }
 `
 const WrapRequest = styled.div`
   width:100%;
+  padding-top:40px;
+  @media ${(props) => props.theme.mobile} {
+    padding-top:calc(100vw*(40/428));
+    }
 `
 const WrapBrokerInfo = styled.div`
   width:465px;margin:0 auto;
@@ -626,6 +623,7 @@ const Same = styled.span`
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(15/428));
     }
+
 `
 const LongLine = styled.div`
   width:100%;height:1px;
@@ -643,6 +641,7 @@ const Example = styled.p`
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(12/428));
     }
+
 `
 const Flex = styled.div`
   display:flex;justify-content:space-between;align-items:center;
@@ -713,7 +712,6 @@ const MoreBox = styled.div`
     margin-top:calc(100vw*(30/428));
     }
 `
-
 const SwitchButton = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
   width:100%;
@@ -828,7 +826,6 @@ const Radiobox = styled.div`
     margin-bottom:calc(100vw*(20/428));
   }
 `
-
 const Radio = styled.input`
   display:none;
   &:checked+label span{background:url(${RadioChkImg}) no-repeat; background-size:100% 100%;}
@@ -855,7 +852,6 @@ const InputDate = styled(InputTxt)`
     margin-top:calc(100vw*(20/428));
   }
 `
-
 const NextButton = styled.div`
 position:relative; 
   width:100%;text-align:center;
@@ -885,7 +881,6 @@ const Next = styled.button`
     font-size:calc(100vw*(15/428));
   }
 `
-
 const Textarea = styled.textarea`
   width:100%;
   height:140px;
@@ -901,4 +896,21 @@ const Textarea = styled.textarea`
     font-size:calc(100vw*(15/428));
   }
 `
-
+const Condition = styled.div`
+  font-size:15px;color:#707070;
+  text-align:left;padding-left:30px;
+  font-weight:800;transform:skew(-0.1deg);
+  margin-bottom:20px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(30/428));
+    padding-left:0;
+    }
+`
+const ConditionDetail = styled.span`
+  display:inline-block;vertical-align:middle;
+  font-size:15px;color:#979797;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    }
+`

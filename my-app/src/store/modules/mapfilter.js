@@ -35,7 +35,12 @@ const initialState = {
       pet:"전체",
       roomApart:"전체",
       bath:"전체",
-      danji:"전체"
+      danji:"전체",
+      priceRange:"전체",
+      manaRange:"전체",
+      areaRange:"전체",
+      jeonseRange:"전체",
+      monthlyRange:"전체",
     },
 };
 

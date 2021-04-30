@@ -98,15 +98,11 @@ const ModalSelect = styled.div`
   width:100%;
   margin-top:40px;
   display:flex;justify-content:center;align-items:flex-start;
+  @media ${(props) => props.theme.mobile} {
+      margin-top:calc(100vw*(28/428));
+    }
 `
-const SearchIcon = styled.div`
-  width:30px;height:30px;text-align:center;
-  margin-right:32px;cursor:pointer;
-`
-const SearchImage = styled.img`
-  width:19px;height:18px;
-  vertical-align: -webkit-baseline-middle;
-`
+
 
 const ItemList = styled.select`
   width:81px;
@@ -118,10 +114,14 @@ const ItemList = styled.select`
   text-align-last:center;
   position:relative;
   z-index:2;
+  font-size:13px;
   transform:skew(-0.1deg);font-weight:600;
   appearance:none;
   @media ${(props) => props.theme.container} {
-      font-size:calc(100vw*(13/1436));
+      width:calc(100vw*(80/428));
+      padding:calc(100vw*(6/428));
+      margin-right:calc(100vw*(5/428));
+      font-size:calc(100vw*(13/428));
     }
 
 `
@@ -134,15 +134,25 @@ const RecentList = styled.ul`
   position:relative;
   width:30px;height:30px;padding:0;
   margin-left:30px;
+  @media ${(props) => props.theme.container} {
+      width:calc(100vw*(30/428));height:calc(100vw*(30/428));
+      margin-left:calc(100vw*(30/428));
+    }
 `
 const RecentImg = styled.img`
   width:19px;height:19px;vertical-align: -webkit-baseline-middle;
+  @media ${(props) => props.theme.container} {
+      width:calc(100vw*(19/428));height:calc(100vw*(19/428));
+    }
 
 `
 const Span = styled.span`
   font-size:13px;color:#707070;
   text-align:center;cursor:pointer;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(13/428));
+    }
 
 `
 const RecentSubdepth = styled.ul`
@@ -151,6 +161,11 @@ const RecentSubdepth = styled.ul`
   border-radius:8px;border:1px solid #707070;
   background:#fff;
   width:70px;
+  @media ${(props) => props.theme.container} {
+      width:calc(100vw*(70/428));
+      margin-top:calc(100vw*(5/428));
+      top:calc(100vw*(25/428));left:calc(100vw*(-40/428));
+    }
 `
 const ReceentSubList = styled.li`
   font-size:13px;color:#707070;
@@ -161,4 +176,8 @@ const ReceentSubList = styled.li`
   border-radius:8px;
   transition:all 0.3s;
   &:hover{background:#f8f7f7;}
+  @media ${(props) => props.theme.container} {
+      font-size:calc(100vw*(13/428));
+      padding:calc(100vw*(4/428)) 0;
+    }
 `

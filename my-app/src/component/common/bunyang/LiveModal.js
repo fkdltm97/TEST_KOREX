@@ -54,9 +54,6 @@ const comfirmModal= () =>{
   });
 }
 
-
-
-
   if(live == false)
     return null;
     return (

@@ -39,6 +39,7 @@ export default function Request({mannerModal,setFilter,value,type}) {
     setMenu(!menu);
   }
   const [brokerproductlist,setBrokerproductlist]= useState([]);
+  const [is_serveron,setIs_serveron] = useState(false);
 
   const login_user_redux = useSelector(data => data.login_user);//로그인 정보 저장 리덕스.로그인 mem_id조회.
   console.log('myRequest 내 중개의뢰 리스트 페이지 도달,내가 중개의뢰한(상품들 products조회):중개의뢰타입인것들만 조회한다.',login_user_redux);
@@ -55,6 +56,12 @@ export default function Request({mannerModal,setFilter,value,type}) {
       let res=await serverController.connectFetchController('/api/broker/user_brokerRequestlistview','post',JSON.stringify(body_info));
       console.log('res_result:',res);
       //alert(res);
+
+      if(res){
+        setIs_serveron(true);
+      }else{
+        setIs_serveron(false);
+      }
       setBrokerproductlist(res.result_data);
     }catch(e){
 
@@ -120,7 +127,7 @@ export default function Request({mannerModal,setFilter,value,type}) {
             <TopTitle>내 중개의뢰</TopTitle>
             <RequestSorting/>{/*컴포넌트입니다*/}
             <TopInfo>
-              <All>총 <GreenColor>{brokerproductlist.length}</GreenColor> 건</All>
+              <All>총 <GreenColor>{ is_serveron == true ? brokerproductlist.length : RequestListItem.length}</GreenColor> 건</All>
               <FilterAndAdd>
                 <Link to="/AddRequest">
                   <AddBtn>추가</AddBtn>
@@ -128,8 +135,11 @@ export default function Request({mannerModal,setFilter,value,type}) {
               </FilterAndAdd>
             </TopInfo>
             <RequestList>
+              {console.log('server logon or error여부 :',is_serveron)}
             {
-            /*RequestListItem.map((value) => {
+              
+            is_serveron == false &&  RequestListItem.length > 0 ?
+            RequestListItem.map((value) => {
 
               const type=()=>{
                 if(value.type == "waiting") { //검토대기
@@ -146,11 +156,13 @@ export default function Request({mannerModal,setFilter,value,type}) {
               return(
                 <RequestListPage mannerModal={mannerModal} type={type} value={value}/>
               )
-            })*/
+            })
+            :
+            null
           }
           
           {
-            brokerproductlist.length > 0 ? 
+            is_serveron == true && brokerproductlist.length > 0 ? 
             brokerproductlist.map((value) => {
 
               const type=()=>{
