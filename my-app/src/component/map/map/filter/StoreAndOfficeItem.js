@@ -20,11 +20,9 @@ import { MapFilterRedux } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
 
-export default function ApartFilter() {
+export default function ApartFilter({open, setOpen}) {
 
     const [optionArr, setOptionArr] = useState(['option1']);
-
-    const [open, setOpen] = useState(false);
 
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
 
@@ -79,7 +77,7 @@ export default function ApartFilter() {
 
               <SubDepth className={["optionList", "hidden"]}>
                 {/*주차*/}
-                <BoxNoneBorder>
+                <BoxNoneBorder id="parkWrap">
                   <SubTitle>주차</SubTitle>
                   <WrapFilter>
                     <SwitchButton>
@@ -92,7 +90,7 @@ export default function ApartFilter() {
                     </WrapFilter>
                 </BoxNoneBorder>
                 {/*화장실*/}
-                <Box>
+                <Box id="toiletWrap">
                   <SubTitle>전용화장실만 보기</SubTitle>
                   <WrapFilter>
                     <SwitchButton>
@@ -105,7 +103,7 @@ export default function ApartFilter() {
                   </WrapFilter>
                 </Box>
                 {/*옵션*/}
-                <Box>
+                <Box id="optionWrap">
                   <SubTitle>옵션</SubTitle>
                   <WrapFilter>
                     <WrapRadio>

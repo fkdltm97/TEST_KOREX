@@ -19,8 +19,7 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import { MapFilterRedux } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function ApartFilter() {
-    const [open, setOpen] = useState(false);
+export default function ApartFilter({open, setOpen}) {
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
 
     const showOpen =()=>{
@@ -28,6 +27,7 @@ export default function ApartFilter() {
       const optionList = document.querySelector(".optionList");
       optionList.classList.toggle("hidden");
     }
+
     const rotate=()=>{
       if(open == true) {
         return "rotate(180deg)"
@@ -124,7 +124,7 @@ export default function ApartFilter() {
               </DetailTopBox>
                 <SubDepth className={["optionList", "hidden"]}> 
                   {/* 용도 */}
-                  <BoxNoneBorder>
+                  <BoxNoneBorder id="purposeWrap">
                     <SubTitle>용도</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -153,7 +153,7 @@ export default function ApartFilter() {
                     </WrapFilter>
                   </BoxNoneBorder>
                   {/*방구조*/}
-                  <Box>
+                  <Box id="roomWrap">
                     <SubTitle>방구조</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -203,7 +203,7 @@ export default function ApartFilter() {
                     </WrapFilter>
                   </Box>
                   {/*복층여부*/}
-                  <Box>
+                  <Box id="doubleWrap">
                     <SubTitle>복층여부</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -232,7 +232,7 @@ export default function ApartFilter() {
                     </WrapFilter>
                   </Box>
                   {/*주차*/}
-                  <Box>
+                  <Box id="parkWrap">
                   <SubTitle>주차</SubTitle>
                   <WrapFilter>
                     <SwitchButton>
@@ -245,7 +245,7 @@ export default function ApartFilter() {
                     </WrapFilter>
                   </Box>
                   {/*반려동물*/}
-                  <Box>
+                  <Box id="petWrap">
                     <SubTitle>반려동물</SubTitle>
                     <WrapFilter>
                     <WrapRadio>
@@ -274,7 +274,7 @@ export default function ApartFilter() {
                   </WrapFilter>
                   </Box>
                   {/*옵션*/}
-                  <Box>
+                  <Box id="optionWrap">
                     <SubTitle>옵션</SubTitle>
                     <WrapFilter>
                       <WrapRadio>

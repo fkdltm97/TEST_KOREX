@@ -217,7 +217,7 @@ export default function App(){
             <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
-            <Route exact path="/Map/:text" component={(route) => <Map status={route.match.params.text}/>}/>
+            <Route exact path="/Map/:text" component={(route) => { return(<Map status={route.match.params.text}/>)}}/>
         </Router>
     );
 }

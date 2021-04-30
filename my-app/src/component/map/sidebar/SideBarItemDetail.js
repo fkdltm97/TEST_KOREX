@@ -28,6 +28,7 @@ import SideSubTitle from "./subtitle/SideSubTitle";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
+import KakaoMapSide from '../map/KakaoMapSide';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -266,7 +267,9 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                   </ChangeAddress>
                 </Li>
               </ItemInfoList>
-              <MapArea></MapArea>
+              <MapArea>
+                <KakaoMapSide />
+              </MapArea>
             </WrapTradeInfo>
         </WrapAllInfos>
         {/*전문중개사 정보*/}
@@ -618,6 +621,8 @@ const ChangeTxt = styled.p`
     margin-left:calc(100vw*(5/428));
   }
 `
+
+//  kakao map wrap
 const MapArea = styled.div`
   width:100%;height:315px;
   background:#eee;

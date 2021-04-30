@@ -37,10 +37,11 @@ export default function MapFilter({status}) {
     slidesToScroll: 1,
     centeredSlides:false,
   };
-
   const [open,setOpen] = useState(false);
-
+  const [openDetail,setOpenDetail] = useState(false);
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+  const filterWrap = document.querySelector("#filterWrap");
+  let preventBubbling = false;
 
   // 필터 redux 초기화
   useEffect(() => {
@@ -57,6 +58,11 @@ export default function MapFilter({status}) {
     data.roomApart = "전체";
     data.bath = "전체";
     data.danji = "전체";
+    data.priceRange = "전체";
+    data.manaRange = "전체";
+    data.areaRange = "전체";
+    data.jeonseRange = "전체";
+    data.monthlyRange = "전체";
     MapFilterRedux.updateFilterArr({  filterArr: data });
   }, [])
 
@@ -90,18 +96,14 @@ export default function MapFilter({status}) {
     return <>{text}</>
   }
 
-  useEffect(() => {
-
-  }, [mapFilterRedux.filterArr.priceRange])
-
-
+  // 매매
   const priceRangeText = () => {
     const data = mapFilterRedux.filterArr.priceRange;
     if(data=="전체"){
       return;
     }
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one"  onClick={()=>scrollToClick("priceWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -111,13 +113,15 @@ export default function MapFilter({status}) {
       </SlickSlide>
     )
   }
+
+  // 관리비 
   const manaRangeText = () => {
     const data = mapFilterRedux.filterArr.manaRange;
     if(data=="전체"){
       return;
     }
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one"  onClick={()=>scrollToClick("manaWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -127,13 +131,15 @@ export default function MapFilter({status}) {
       </SlickSlide>
     )
   }
+
+  // 면적 (공급면적)
   const areaRangeText = () => {
     const data = mapFilterRedux.filterArr.areaRange;
     if(data=="전체"){
       return;
     }
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("areaWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -143,13 +149,15 @@ export default function MapFilter({status}) {
       </SlickSlide>
     )
   }
+
+  // 보증금(전세금)
   const jeonseRangeText = () => {
     const data = mapFilterRedux.filterArr.jeonseRange;
     if(data=="전체"){
       return;
     }
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("jeonseWrap")} >
         <Link>
           <FliterEa>
             {data}
@@ -159,13 +167,15 @@ export default function MapFilter({status}) {
       </SlickSlide>
     )
   }
+
+  // 월세 
   const monthlyRangeText = () => {
     const data = mapFilterRedux.filterArr.monthlyRange;
     if(data=="전체"){
       return;
     }
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("monthlyWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -186,7 +196,7 @@ export default function MapFilter({status}) {
       text = text + ", " + data[i]
     }
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("optionWrap")}>
       <Link>
         <FliterEa>
           {text}
@@ -206,7 +216,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("useWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -225,7 +235,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("floorWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -244,7 +254,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("purposeWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -269,7 +279,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("roomWrap")}>
         <Link>
           <FliterEa>
             {text}
@@ -288,7 +298,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("doubleWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -307,7 +317,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("petWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -326,7 +336,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("roomWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -345,7 +355,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("toiletWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -364,7 +374,7 @@ export default function MapFilter({status}) {
     }
 
     return(
-      <SlickSlide className="slide__one">
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("danjiWrap")}>
         <Link>
           <FliterEa>
             {data}
@@ -377,12 +387,15 @@ export default function MapFilter({status}) {
 
   // 필터 삭제
   const onClickClose = (e) => {
+    preventBubbling = true;
+    setTimeout(() => {
+      preventBubbling = false;
+    }, 300)
     const data = mapFilterRedux.filterArr;
     const text = e.target.dataset.text;
     const type = e.target.dataset.type;
     if(type == "switch"){
       data.switchArr = data.switchArr.filter(item => item != text);
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       document.querySelector(`input[data-text='${text}']`).checked = false;
     }
     else if(type == "option"){
@@ -391,29 +404,24 @@ export default function MapFilter({status}) {
         option[i].checked = false;
       }
       data.life_facilites = [];
-      MapFilterRedux.updateFilterArr({  filterArr: data });
     }
     else if(type == "use"){
       data.use = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const use = document.querySelectorAll(`input[name='use']`);
       use[0].checked = true;
     }
     else if(type == "floor"){
       data.floor = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const floor = document.querySelectorAll(`input[name='floor']`);
       floor[0].checked = true;
     }
     else if(type == "purpose"){
       data.purpose = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const purpose = document.querySelectorAll(`input[name='purpose']`);
       purpose[0].checked = true;
     }
     else if(type == "room"){
       data.room = ["전체"];
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const room = document.querySelectorAll(`input[name='room']`);
       for(let i = 0 ; i < room.length ; i++){
         room[i].checked = false;
@@ -422,44 +430,64 @@ export default function MapFilter({status}) {
     }
     else if(type == "double"){
       data.double = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const double = document.querySelectorAll(`input[name='double']`);
       double[0].checked = true;
     }
     else if(type == "pet"){
       data.pet = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const pet = document.querySelectorAll(`input[name='pet']`);
       pet[0].checked = true;
     }
     else if(type == "roomApart"){
       data.roomApart = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const roomApart = document.querySelectorAll(`input[name='roomApart']`);
       roomApart[0].checked = true;
     }
     else if(type == "bath"){
       data.bath = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const bath = document.querySelectorAll(`input[name='bath']`);
       bath[0].checked = true;
     }
     else if(type == "danji"){
       data.danji = "전체";
-      MapFilterRedux.updateFilterArr({  filterArr: data });
       const danji = document.querySelectorAll(`input[name='danji']`);
       danji[0].checked = true;
     }
+    else if(type == "priceRange"){
+      data.priceRange = "전체";
+    }
+    else if(type == "manaRange"){
+      data.manaRange = "전체";
+    }
+    else if(type == "areaRange"){
+      data.areaRange = "전체";
+    }
+    else if(type == "jeonseRange"){
+      data.jeonseRange = "전체";
+    }
+    else if(type == "monthlyRange"){
+      data.monthlyRange = "전체";
+    }
+    MapFilterRedux.updateFilterArr({  filterArr: data });
   }
 
-
-
+  // 클릭 시 스크롤 이동
+  const scrollToClick = (id) => {
+    if(preventBubbling){ return; }
+    const value = document.querySelector(`#${id}`);
+    const optionList = document.querySelector(".optionList");
+    setOpenDetail(true);
+    optionList.classList.remove("hidden");
+    setTimeout(() => {
+      filterWrap.scrollTop = value.getBoundingClientRect().y-100;
+    }, 100)
+  }
+  
     return (
         <Container>
-        <WrapFilter padding={padding}>
+        <WrapFilter padding={padding} id="filterWrap">
           <SliderWrap>
-          <Slider {...settings} className="filter_slick">
-            
+           <Slider {...settings} className="filter_slick">
             {/* 거래 유형 */}
             <SlickSlide className="slide__one">
               <Link>
@@ -469,19 +497,25 @@ export default function MapFilter({status}) {
               </Link>
             </SlickSlide>
 
-
             {priceRangeText()}
             {jeonseRangeText()}
             {monthlyRangeText()}
             {manaRangeText()}
             {areaRangeText()}
-
-            {/*  주차, 화장실, 관리비 */}
+            
             {
               mapFilterRedux.filterArr.switchArr.length !== 0 &&
               mapFilterRedux.filterArr.switchArr.map((item, index) => {
+                let el = ""
+                if(item == "전용화장실"){
+                  el="toiletWrap";
+                }else if(item == "관리비없음"){
+                  el="manaWrap";
+                }else{
+                  el="parkWrap";
+                }
                 return(
-                  <SlickSlide key={index} className="slide__one">
+                  <SlickSlide key={index} className="slide__one" onClick={()=>scrollToClick(el)}>
                     <Link>
                       <FliterEa>
                         {item}
@@ -492,7 +526,6 @@ export default function MapFilter({status}) {
                 )
               })
             }
-
             {purposeText()}
             {roomText()}
             {doubleText()}
@@ -507,22 +540,21 @@ export default function MapFilter({status}) {
 
           </SliderWrap>
            
-            <FilterList className={["filterList", "hidden"]}>
+          <FilterList className={["filterList", "hidden"]}>
               <FilterTopButton/>
               {/*<ApartFilter/>*/}
               {/* <OfficetelFilter/> */}
-              <StoreAndOfficeFilter status={status}/>
+              <StoreAndOfficeFilter status={status} open={openDetail} setOpen={setOpenDetail}/>
               <FilterCloseAndReset setOpen={setOpen}/>
             </FilterList>
         
-            <FilterDownArrow className="downArrow" onClick={() => {setOpen(true)}}>
+          <FilterDownArrow className="downArrow" onClick={() => {setOpen(true)}}>
                 <Link>
                   <ImgDiv>
                     <DownImg src={FilterDown}/>
                   </ImgDiv>
                 </Link>
             </FilterDownArrow>
-  
          </WrapFilter>
         </Container>
   );

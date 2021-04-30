@@ -25,7 +25,7 @@ export default function MainHeader({openBunyang, rank, setReport,reserveModal,se
           <Mobile>
             {
               pageIndex == 0 ?
-              <WrapMap/>
+              <WrapMap status={status}/>
               :
               null
             }

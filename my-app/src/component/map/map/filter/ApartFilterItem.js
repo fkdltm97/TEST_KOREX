@@ -19,8 +19,7 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import { MapFilterRedux } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function ApartFilter() {
-    const [open, setOpen] = useState(false);
+export default function ApartFilter({open, setOpen}) {
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
 
     const showOpen =()=>{
@@ -75,7 +74,7 @@ export default function ApartFilter() {
 
                 <SubDepth className={["optionList", "hidden"]}>
                   {/* 방수 */}
-                  <BoxNoneBorder>
+                  <BoxNoneBorder id="roomWrap">
                     <SubTitle>방수</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -119,7 +118,7 @@ export default function ApartFilter() {
                   </BoxNoneBorder>
                   
                   {/* 욕실수 */}
-                  <Box>
+                  <Box id="toiletWrap">
                     <SubTitle>욕실수</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -156,7 +155,7 @@ export default function ApartFilter() {
                   </Box>
                   
                   {/*옵션*/}
-                  <Box>
+                  <Box id="optionWrap">
                     <SubTitle>옵션</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
