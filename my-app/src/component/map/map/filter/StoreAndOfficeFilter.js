@@ -624,7 +624,6 @@ export default function MapFilter({openBunyang, rank, status}) {
 }
 
 const Container = styled.div`
-
 `
 const WrapApart = styled.div`
   width:100%;
@@ -636,7 +635,6 @@ const Box = styled.div`
   @media ${(props) => props.theme.mobile} {
     padding:calc(100vw*(22/428)) calc(100vw*(33/428));
   }
-
 `
 const BoxNoneBorder = styled(Box)`
   border-top:none;
@@ -818,7 +816,6 @@ const Span = styled.span`
     font-size:calc(100vw*(15/428));
     margin-left:calc(100vw*(10/428));
   }
-
 `
 const WrapRadio = styled.div`
   width:100%;display:flex;justify-content:flex-start;align-items:center;
@@ -861,5 +858,4 @@ const SpanR = styled.span`
 `
 const SpanC = styled(SpanR)`
   background:url(${Check}) no-repeat;background-size:100% 100%;
-
 `

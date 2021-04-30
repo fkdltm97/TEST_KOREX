@@ -13,6 +13,9 @@ import "slick-carousel/slick/slick-theme.css";
 //img
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
+import DatePicker from "react-datepicker";
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
 
 
 export default function ModalMapReserve({ reserve, setReserve }) {
@@ -22,6 +25,13 @@ export default function ModalMapReserve({ reserve, setReserve }) {
     setTimeSelect(!timeSelect);
   }
   const [activeIndex,setActiveIndex] = useState(0);  //slick slider setting
+
+  const [startDate, setStartDate] = useState(
+    setHours(setMinutes(new Date(), 30), 16)
+  );
+
+  const [Interval, setInterval] = useState(30); //간격 값 저장
+
 
   var settings = {
     dots: false,
@@ -43,7 +53,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         <WrapDateItem>
                           <DateItem active={activeIndex == 0} onClick={()=>{setActiveIndex(0)}}>
                             <Day>금</Day>
-                            <Date>22</Date>
+                            <DateDay>22</DateDay>
                           </DateItem>
                         </WrapDateItem>
                       </Link>
@@ -53,7 +63,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         <WrapDateItem>
                           <DateItem active={activeIndex == 1} onClick={()=>{setActiveIndex(1)}}>
                             <Day>토</Day>
-                            <Date>23</Date>
+                            <DateDay>23</DateDay>
                           </DateItem>
                         </WrapDateItem>
                       </Link>
@@ -63,7 +73,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         <WrapDateItem>
                           <DateItem active={activeIndex == 2} onClick={()=>{setActiveIndex(2)}}>
                             <Day>일</Day>
-                            <Date>24</Date>
+                            <DateDay>24</DateDay>
                           </DateItem>
                         </WrapDateItem>
                       </Link>
@@ -73,7 +83,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         <WrapDateItem>
                           <DateItem active={activeIndex == 3} onClick={()=>{setActiveIndex(3)}}>
                             <Day>월</Day>
-                            <Date>25</Date>
+                            <DateDay>25</DateDay>
                           </DateItem>
                         </WrapDateItem>
                       </Link>
@@ -83,7 +93,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         <WrapDateItem>
                           <DateItem active={activeIndex == 4} onClick={()=>{setActiveIndex(4)}}>
                             <Day>화</Day>
-                            <Date>26</Date>
+                            <DateDay>26</DateDay>
                           </DateItem>
                         </WrapDateItem>
                       </Link>
@@ -93,7 +103,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         <WrapDateItem>
                           <DateItem active={activeIndex == 5} onClick={()=>{setActiveIndex(5)}}>
                             <Day>수</Day>
-                            <Date>27</Date>
+                            <DateDay>27</DateDay>
                           </DateItem>
                         </WrapDateItem>
                       </Link>
@@ -112,7 +122,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                 </FilterBox>
                 <FilterBox>
                   <FilterSelectSort>
-                    <FilterSelectShort>
+                    {/* <FilterSelectShort>
                       <InOption disabled selected>시</InOption>
                       <InOption>10</InOption>
                       <InOption>11</InOption>
@@ -123,7 +133,35 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                       <InOption>10</InOption>
                       <InOption>11</InOption>
                       <InOption>12</InOption>
-                    </FilterSelectShort>
+                    </FilterSelectShort> */}
+
+
+                  <DatePicker className="date_time_mobile"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={Interval} //간격 설정
+                    timeCaption="Time"
+                    dateFormat="h:mm aa" // 시간 타입(보여주는)
+                    minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                    maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+                  />
+             
+                  <DatePicker className="date_time_mobile"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={Interval} //간격 설정
+                    timeCaption="Time"
+                    dateFormat="h:mm aa" // 시간 타입(보여주는)
+                    minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                    maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+                  />
+               
+
+
                   </FilterSelectSort>
                 </FilterBox>
           </WrapModalMap>
@@ -238,7 +276,7 @@ const Day = styled.h4`
     margin-bottom:calc(100vw*(5/428));
   }
 `
-const Date = styled(Day)`
+const DateDay = styled(Day)`
   color:#4a4a4a;
   margin-bottom:0;
   @media ${(props) => props.theme.modal} {

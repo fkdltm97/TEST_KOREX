@@ -13,11 +13,24 @@ import CloseIcon from "../../../img/main/modal_close.png";
 import Check from "../../../img/member/check.png";
 import Checked from "../../../img/member/checked.png";
 
-export default function LiveModal({live, setLive}){
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
-  //여기 두개가 핵심이에여
-  //모달 끄는 식
+
+
+export default function LiveModal({cal, setCal,live, setLive}){
+
+
+  const [modalOption,setModalOption] = useState({
+    show : false,
+    setShow:null,
+    link:"",
+    title:"",
+    submit:{},
+    cancle:{},
+    confirm:{},
+    confirmgreennone:{},
+    content:{}
+  });
+
   const offModal = ()=>{
     let option = JSON.parse(JSON.stringify(modalOption));
     option.show = false;

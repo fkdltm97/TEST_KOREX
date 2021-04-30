@@ -134,7 +134,6 @@ const Mb = styled.b`
     }
 `
 const Container = styled.div`
-
 `
 const RequestList = styled.ul`
   width:100%;
@@ -195,7 +194,6 @@ const Condition = styled(ConditionDiv)`
   }
 `
 const ConditionDate = styled(Condition)`
-
 `
 const Number = styled.p`
   font-size:14px;color:#979797;
@@ -261,7 +259,6 @@ const Alarm = styled.div`
     margin-bottom:0;
     margin-right:calc(100vw*(5/428));
   }
-
 `
 const AlarmCheck = styled.input`
   display:none;
@@ -316,7 +313,6 @@ const InMenu = styled.ul`
     left:calc(100vw*(-30/428));
     width:calc(100vw*(100/428));
   }
-
 `
 const Div = styled.li`
   font-size:13px;

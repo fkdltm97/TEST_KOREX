@@ -794,7 +794,6 @@ const Radiobox = styled.div`
 const RadioboxJob = styled.div`
   width:65px;
   margin-bottom:0;
-
 `
 const Radio = styled.input`
   display:none;
@@ -840,7 +839,6 @@ const Next = styled.button`
   border: solid 3px #e4e4e4;
   background-color: #979797;
   /* 액티브 됐을때
-
   border: solid 3px #04966d;
   background-color: #01684b; */
   @media ${(props) => props.theme.mobile} {

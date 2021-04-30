@@ -19,7 +19,9 @@ import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
-export default function VisitSetting({ setAdd, setEdit, setCancle }) {
+import ModalCommon from "../../../common/modal/ModalCommon";
+
+export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
   const [active, setActive] = useState(false);
 
   const [onOff, setOnOff] = useState(true);
@@ -30,7 +32,6 @@ export default function VisitSetting({ setAdd, setEdit, setCancle }) {
     setMenu(!menu);
   };
 
-  //datepickery
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
@@ -41,6 +42,66 @@ export default function VisitSetting({ setAdd, setEdit, setCancle }) {
     setInterval(e.target.value);
   };
 
+  const [modalOption, setModalOption] = useState({
+    show: false,
+    setShow: null,
+    link: "",
+    title: "",
+    submit: {},
+    cancle: {},
+    confirm: {},
+    confirmgreennone: {},
+    content: {},
+  });
+
+  const offModal = () => {
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  };
+
+  //등록되었습니다 모달
+  const comfirmModal = () => {
+    if (onOff === false) {  //비활성화 상태
+      setModalOption({
+        show: true,
+        setShow: offModal
+        ,title: "등록",
+        content: {type: "text", text: `방문예약세팅을 활성화 하시겠습니까?`,component: "",},
+        submit: {show: true,title: "확인",event: () => {offModal();setOnOff(!onOff);},},
+        cancle: {show: true,title: "취소",event: () => { offModal(); },},
+        confirm: { show: false,title: "확인",event: () => {offModal(); }, },
+        confirmgreennone: { show: false,title: "확인", event: () => {offModal();setCal(false); },},
+      });
+    } else {
+      setModalOption({ //활성화 상태
+        show: true,
+        setShow: offModal,
+        title: "등록",
+        content: {type: "text",text: `방문예약세팅을 비활성화 하시겠습니까?`,component: "",},
+        submit: {show: true,title: "확인",event: () => {offModal();setOnOff(!onOff);},},
+        cancle: {show: true,title: "취소",event: () => {offModal();},},
+        confirm: {show: false,title: "확인",event: () => {offModal();},},
+        confirmgreennone: {show: false,title: "확인",event: () => {offModal();setCal(false);},},
+      });
+    }
+  };
+
+  const SecendComfirmModal= () =>{
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"등록",
+        content:{type:"text",text:`완료되었습니다.`,component:""},
+        submit:{show:false , title:"" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+        confirm:{show:true , title:"확인" , event : ()=>{offModal();}},
+        confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal();setCal(false);}}
+    });
+  }
+
+
+
   return (
     <Container>
       <WrapVisit>
@@ -50,12 +111,13 @@ export default function VisitSetting({ setAdd, setEdit, setCancle }) {
           <CheckLabel
             for="off"
             onClick={() => {
-              setOnOff(!onOff);
+              comfirmModal();
             }}
           >
             <Span />
             비활성화
           </CheckLabel>
+          <ModalCommon modalOption={modalOption} />
         </TopInfo>
         {onOff ? (
           <VisitInfo>
@@ -164,7 +226,7 @@ export default function VisitSetting({ setAdd, setEdit, setCancle }) {
                 type="submit"
                 active={active}
                 onClick={() => {
-                  alert("완료되었습니다.");
+                  SecendComfirmModal();
                 }}
               >
                 확인
@@ -238,24 +300,35 @@ export default function VisitSetting({ setAdd, setEdit, setCancle }) {
             <Box>
               <Label>시간</Label>
               <WrapTime>
-                <Select disabled>
-                  <Option>00:00</Option>
-                  <Option>12:00</Option>
-                  <Option>13:00</Option>
-                </Select>
-                <Select disabled>
-                  <Option>00:00</Option>
-                  <Option>12:00</Option>
-                  <Option>13:00</Option>
-                </Select>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={Interval} //간격 설정
+                  timeCaption="Time"
+                  dateFormat="h:mm aa" // 시간 타입(보여주는)
+                  minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                  maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+                />
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={Interval} //간격 설정
+                  timeCaption="Time"
+                  dateFormat="h:mm aa" // 시간 타입(보여주는)
+                  minTime={setHours(setMinutes(startDate, 0), startDate)} //시작 시간 세팅
+                  maxTime={setHours(setMinutes(new Date(), 0), 22)} // 종료 시간 세팅
+                />
               </WrapTime>
             </Box>
             <Box>
               <Label>간격</Label>
               <SelectWd100 disabled>
-                <Option>00:00</Option>
-                <Option>12:00</Option>
-                <Option>13:00</Option>
+                <Option>30</Option>
+                <Option>60</Option>
               </SelectWd100>
             </Box>
           </VisitInfo>

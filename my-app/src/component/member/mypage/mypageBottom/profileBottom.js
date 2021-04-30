@@ -500,7 +500,6 @@ export default function ProfileBottomElement({open,setOpen}) {
                 :
                 null}
             </Li>
-
             <Li>
               <Link to="/CompanyProfile" className="data_link"></Link>
               <LinkTxt>회사 프로필 설정</LinkTxt>
@@ -598,7 +597,6 @@ const ProfileName = styled.div`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(250/428));
     }
-
 `
 const Input = styled.input`
   width:100%;height:43px;

@@ -16,8 +16,12 @@ const pool =mysqls.createPool({
     port:3307,
     user:'sinja',
     password:'sinja',
+<<<<<<< HEAD
+    database:'korex'
+=======
     database:'korex',
     dateStrings : 'date'
+>>>>>>> 8e141362e2ebabffc6c17deb37908f5906459814
 });
 
 const router=express.Router(); 
@@ -401,6 +405,35 @@ router.post('/productToursettingRegister',async function(request,response){
        var mem_id=req_body.mem_id;
        var prd_identity_ids=req_body.prd_identity_ids;
 
+<<<<<<< HEAD
+       var normal_isholidayexcept=req_body.normal_isholidayexcept !='' ? req_body.normal_isholidayexcept : '';
+       var normal_select_daycount=req_body.normal_select_daycount !=''? req_body.normal_select_daycount : 0;
+       var normal_select_days=req_body.normal_select_days != ''? req_body.normal_select_days : '';
+       var normal_select_times=req_body.normal_select_times !=''? req_body.normal_select_times : '';
+       
+       var special_specifydate = req_body.special_specifydate !='' ? req_body.special_specifydate : '0000-00-00';
+       var special_specifydatetimes= req_body.special_specifydatetimes !='' ? req_body.special_specifydatetimes : '';
+       var special_isexceptspecifydate= req_body.special_isexceptspecifydate != '' ? req_body.special_isexceptspecifydate : 0;
+         
+        await connection.beginTransaction();
+
+        var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
+        connection.commit();
+        console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
+        //connection.release();
+        var extract_insertTourid=tour_insert_rows.insertId;
+
+        await connection.beginTransaction();
+
+        var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
+        connection.commit();
+        console.log('tour detail insert rows:',tourdetail_insert_rows);
+
+        connection.release();
+
+        return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows});      
+        
+=======
        var normal_isholidayexcept=req_body.normal_isholidayexcept !='' && req_body.normal_isholidayexcept ? req_body.normal_isholidayexcept : 0;
        var normal_select_daycount=req_body.normal_select_daycount !='' && req_body.normal_select_daycount ? req_body.normal_select_daycount : 0;
        var normal_select_days=req_body.normal_select_days != '' && req_body.normal_select_days ? req_body.normal_select_days : '';
@@ -520,6 +553,7 @@ router.post('/productToursettingRegister',async function(request,response){
             }                    
         }
 
+>>>>>>> 8e141362e2ebabffc6c17deb37908f5906459814
     }catch(err){
         console.log('server query error',err);
         connection.rollback();
