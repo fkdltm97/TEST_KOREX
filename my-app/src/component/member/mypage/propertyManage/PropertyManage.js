@@ -21,7 +21,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 //component
 import ManageList from "./ManageList";
 
-export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,value,type}) {
+export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -55,7 +55,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
-      type:"today"
+      type:"days"
     },
     {
       Manage_id : 2,
@@ -68,7 +68,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
-      type:"today"
+      type:"cancle"
     },
     {
       Manage_id : 3,
@@ -81,7 +81,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
-      type:"today"
+      type:"end"
     },
 ]
 
@@ -134,14 +134,12 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
                   return 0.5
                 }
               }
-
               return(
-                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal}
+                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal} editResultModal={editResultModal}
                 mapModal={mapModal} type={type} value={value} select={select} setSelect={setSelect}/>
               )
             })
           }
-
         </WrapManageList>
       </WrapManage>
   </Container>

@@ -18,7 +18,7 @@ import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
-export default function ModalCal({ cal, setCal, updatePageIndex }) {
+export default function ModalCal({ cal, setCal, calModal,updatePageIndex }) {
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
@@ -26,21 +26,6 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
   if (cal == false) return null;
   return (
     <Container>
-      <Wraplive>
-        <ModalClose>
-          <Link
-            onClick={() => {
-              setCal(false);
-              updatePageIndex(0);
-            }}
-          >
-            <CloseImg src={CloseIcon} />
-          </Link>
-        </ModalClose>
-        <ModalTop>
-          <Title>방문 예약</Title>
-        </ModalTop>
-        <Label>방문일시</Label>
         <SeletedDate>
           <Preved
             onClick={() => {
@@ -75,7 +60,6 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
             다음
           </Next>
         </NextButton>
-      </Wraplive>
     </Container>
   );
 }

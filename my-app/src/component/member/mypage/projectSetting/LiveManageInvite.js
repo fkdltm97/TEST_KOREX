@@ -26,7 +26,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import LiveManageTop from "./LiveManageTop";
 import LiveManageList from "./LiveManageList";
 
-export default function Live({setFilter,value,type}) {
+export default function Live({updateModal}) {
 
   const [url,setUrl] = useState(false);
   const [text,setText] = useState(false);
@@ -55,7 +55,7 @@ export default function Live({setFilter,value,type}) {
               <InputText placeholder="초대링크 URL 입력(필수)" onChange={urlChange}/>
               <TextArea type="textarea" onChange={textChange}/>
               <WrapFilterButtons>
-                <SaveBtn type="submit" name="" active={active}>확인</SaveBtn>
+                <SaveBtn type="submit" name="" active={active} onClick={()=>{updateModal();}}>확인</SaveBtn>
               </WrapFilterButtons>
             </WrapInvite>
           </WrapLive>

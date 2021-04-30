@@ -13,7 +13,7 @@ import Check from "../../../../img/member/check.png";
 import Checked from "../../../../img/member/checked.png";
 
 
-export default function ModalCal({cal, setCal,updatePageIndex}){
+export default function ModalCal({cal, setVCal,calModal,updatePageIndex}){
   const [startDate, setStartDate] = useState(new Date());
   const MyContainer = ({ className, children }) => {
     return (
@@ -29,15 +29,6 @@ export default function ModalCal({cal, setCal,updatePageIndex}){
     return null;
     return (
       <Container>
-        <Wraplive>
-          <ModalClose>
-              <Link onClick={()=>{setCal(false);updatePageIndex(0)}}>
-              <CloseImg src={CloseIcon}/>
-            </Link>
-          </ModalClose>
-          <ModalTop>
-            <Title>방문 예약</Title>
-          </ModalTop>
           <Label>방문일시</Label>
           <DatePicker
             locale="ko"
@@ -46,7 +37,6 @@ export default function ModalCal({cal, setCal,updatePageIndex}){
             calendarContainer={MyContainer}
             inline
           />
-        </Wraplive>
       </Container>
     );
 }

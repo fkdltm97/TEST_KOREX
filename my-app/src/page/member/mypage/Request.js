@@ -67,7 +67,57 @@ export default function Join() {
               confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal(); }}
           });
         }
+        const cancleModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"중개의뢰 철회",
+              content:{type:"text",text:`정말 의뢰를 철회하시겠습니까?`,component:""},
+              submit:{show:true , title:"확인" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
 
+        const startModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"중개 거래개시",
+              content:{type:"text",text:`거래를 개시하시겠습니까?`,component:""},
+              submit:{show:true , title:"확인" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
+
+        const cancle2Modal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"위임 취소",
+              content:{type:"text",text:`위임 취소하시겠습니까?`,component:""},
+              submit:{show:true , title:"확인" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
+
+        const completeModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"거래 완료",
+              content:{type:"text",text:`거래를 완료하시겠습니까?`,component:""},
+              submit:{show:true , title:"확인" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
         
     return (
         <>
@@ -81,7 +131,7 @@ export default function Join() {
               <SubTitle title={"개인"} rank={false} cursor={"default"}/>
             {/*기업으로 로그인했을때*/}
               {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-              <MyRequest mannerModal={mannerModal}/>
+              <MyRequest mannerModal={mannerModal} cancleModal={cancleModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal}/>
               <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
@@ -96,6 +146,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

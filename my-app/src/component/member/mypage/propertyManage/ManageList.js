@@ -16,7 +16,7 @@ import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({cancleModal,confirmModal,mapModal,value, type,select,setSelect,editModal}) {
+export default function Request({cancleModal,confirmModal,mapModal,value, type,select,setSelect,editModal,editResultModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
