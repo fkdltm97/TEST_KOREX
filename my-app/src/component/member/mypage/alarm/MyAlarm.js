@@ -53,7 +53,7 @@ export default function Like({setFilter,value,type}) {
         <Container>
           <WrapRequest count1={1} count2={2} count3={0}>
             <TopTitle>내 알림</TopTitle>
-            <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab">
+            <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab pr">
             {/*
               ** 분기처리 **
               개인 : 전속매물 공급 I 공통
@@ -136,85 +136,59 @@ const WrapRequest = styled.div`
   width:100%;
   & > div > ul > li:nth-child(1) > a::before {
     content: '${({count1})=>count1}';
-    width:calc(100vw*(20/428));
-    height:calc(100vw*(20/428));
-    line-height:calc(100vw*(20/428));
-    font-size:calc(100vw*(12/428));border-radius:100%;
-  }
-  & > div > ul > li:nth-child(2) > a::before {
-    content: '${({count2})=>count2}';
-    width:calc(100vw*(20/428));
-    height:calc(100vw*(20/428));
-    line-height:calc(100vw*(20/428));
-    font-size:calc(100vw*(12/428));border-radius:100%;
-  }
-  & > div > ul > li:nth-child(3) > a::before {
-    content: '${({count3})=>count3}';
-    width:calc(100vw*(20/428));
-    height:calc(100vw*(20/428));
-    line-height:calc(100vw*(20/428));
-    font-size:calc(100vw*(12/428));border-radius:100%;
-  }
-
-  @media ${(props) => props.theme.mobile} {
-    & > div > ul > li:nth-child(1) > a::before {
-    content: '${({count1})=>count1}';
     position:absolute;
-    top:0;
-    right:0;
-    width:20px;
-    height:20px;
-    line-height:20px;
+    top:50%;transform:translateY(-50%);    right:0;
+    width:15px;
+    height:15px;
+    line-height:15px;
     display:block;
     background:#fe7a01;
     color:#fff;text-align:center;
-    font-size:12px;border-radius:100%;
+    font-size:11px;border-radius:100%;
     @media screen and (max-width:1024px){
-      width: calc(100vw*(20/428));
-      height: calc(100vw*(20/428));
-      line-height: calc(100vw*(20/428));
-      font-size: calc(100vw*(12/428));
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
     }
   }
   & > div > ul > li:nth-child(2) > a::before {
     content: '${({count2})=>count2}';
     position:absolute;
-    top:0;
-    right:0;
-    width:20px;
-    height:20px;text-align:center;
-    line-height:20px;
+    top:50%;transform:translateY(-50%);    right:0;
+    width:15px;
+    height:15px;text-align:center;
+    line-height:15px;
     display:block;
     background:#fe7a01;
     color:#fff;
-    font-size:12px;border-radius:100%;
+    font-size:11px;border-radius:100%;
     @media screen and (max-width:1024px){
-      width: calc(100vw*(20/428));
-      height: calc(100vw*(20/428));
-      line-height: calc(100vw*(20/428));
-      font-size: calc(100vw*(12/428));
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
     }
   }
   & > div > ul > li:nth-child(3) > a::before {
     content: '${({count3})=>count3}';
     position:absolute;
-    top:0;
+    top:50%;transform:translateY(-50%);
     right:0;
-    width:20px;
-    height:20px;text-align:center;
-    line-height:20px;
+    width:15px;
+    height:15px;text-align:center;
+    line-height:15px;
     display:block;
     background:#fe7a01;
     color:#fff;
-    font-size:12px;border-radius:100%;
+    font-size:11px;border-radius:100%;
     @media screen and (max-width:1024px){
-      width: calc(100vw*(20/428));
-      height: calc(100vw*(20/428));
-      line-height: calc(100vw*(20/428));
-      font-size: calc(100vw*(12/428));
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
     }
   }
-}
 `
 const TopTitle = styled.h2`
   width:680px;margin:0 auto;

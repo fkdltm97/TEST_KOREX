@@ -27,8 +27,6 @@ SwiperCore.use([Navigation]);
 export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal}){
 
   const [active,setActive] = useState(false);
-
-
     return (
       <Container>
       {/*bunyangtop*/}
