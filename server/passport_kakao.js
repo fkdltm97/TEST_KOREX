@@ -3,7 +3,7 @@ const auth_kakao=require('./auth_kakao');
 module.exports= passport=> {
     passport.serializeUser((user,done) => {
         console.log('passoirt selirlzieUser함수실행:',user);
-        done(null,user.id);
+        done(null,user.mem_id);
     });
 
     passport.deserializeUser((id,done)=> {
