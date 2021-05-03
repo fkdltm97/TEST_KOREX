@@ -1,6 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 //css
 import styled from "styled-components"
@@ -8,6 +8,12 @@ import IconSearch from '../../img/main/icon_search.png';
 
 export default function PcSearchMain({activeText}) {
   const [searchShow,setSearchShow] = useState(false);
+  const history=useHistory();
+
+  const oonClickSearch = () => {
+    // 검색버튼 눌렀을 때 정보 가져와서 api 연동하기 
+    history.push(`/Map/${activeText}`);
+  }
 
   const showModal =()=>{
     setSearchShow(!searchShow);
@@ -19,9 +25,9 @@ export default function PcSearchMain({activeText}) {
         <WrapMainSearch>
             <MainSearch>
               <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색" onClick={() =>{setSearchShow(true)}}/>
-              <Link to={`/Map/${activeText}`} >
-                <SearchBtn type="submit" name=""/>
-              </Link>
+              {/* <Link to={`/Map/${activeText}`} > */}
+                <SearchBtn type="submit" name="" onClick={() => oonClickSearch()}/>
+              {/* </Link> */}
             </MainSearch>
         {/*검색 기록 관련_SearchResult... */}
         {

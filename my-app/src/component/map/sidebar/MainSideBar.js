@@ -23,128 +23,116 @@ import ItemTabContent from "./tabcontent/ItemTabContent";
 import BrokerTabContent from "./tabcontent/BrokerTabContent";
 import OnlyMaemul from "./topmenu/OnlyMaemul";
 import OnlyBroker from "./topmenu/OnlyBroker";
+import OnlyDanji from "./topmenu/OnlyDanji";
+import DanjiTabContent from './tabcontent/DanjiTabContent'
 
-const ItemListItem =[
-{
-  item_id : 0,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 1,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 2,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 3,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 4,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 5,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 17,
-  path:"/",
-  startDate:"21.00.00",
-  endDate: "21.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-}
-]
-
+// redux
+import { useSelector } from 'react-redux';
 
 export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
     const [activeIndex,setActiveIndex] = useState(0);
-    return (
-        <Container>
-          <WrapTab className="Tabs">
-          {/*전문중개사 버튼 눌려있을때 -> 탭으로 아파트 ㅣ 전문중개사*/}
+    const [tapStatus, setTapStatus] = useState(0);
+    const [isInit, setIsInit] = useState(true);
+    const mapRightRedux = useSelector(state=>{ return state.mapRight});
+
+    // Init
+    useEffect(() => {
+      setActiveIndex(0);
+      setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});
+      setIsInit(false);
+    }, [])
+
+    // 분기처리  
+    useEffect(() => {
+      if(isInit){return;}
+      // 전속매물, 전문중개사 
+      if(mapRightRedux.isExclusive.is && mapRightRedux.isProbroker.is){
+        setTapStatus(3)
+      } // 존속매물
+      else if(mapRightRedux.isExclusive.is){
+        setActiveIndex(0);
+        setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});
+        setTapStatus(0);
+      } // 전문중개사
+      else if(mapRightRedux.isProbroker.is){
+        setActiveIndex(1);
+        setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});
+        setTapStatus(1)
+      } // 단지별 실거재
+      else if(mapRightRedux.isBlock.is){
+        setHistoryInfo(e => {e.prevTab = 2; return JSON.parse(JSON.stringify(e));});
+        setTapStatus(2)
+      }// 석택 x
+      else{
+        setHistoryInfo(e => {e.prevTab = 4; return JSON.parse(JSON.stringify(e));});
+        setTapStatus(4)
+      }
+    }, [mapRightRedux])
+
+    // 상단 제목
+    // api length 가져오기 
+    const tapReturn = () => {
+      if(tapStatus == 3){
+        // 전문중개사 버튼 눌려있을때 -> 탭으로 아파트 ㅣ 전문중개사
+        return(
           <WrapTabBtn>
             <Mobile>{/*모바일 open List Btn*/}
               <OpenListImg onClick={() => {setUpDown(!updown)}}/>
             </Mobile>
-            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
+            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
             <Part/>
-            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = true; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
+            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
           </WrapTabBtn>
+        )
+      }else if(tapStatus == 0){
+        // 전문중개사 꺼졌을때 ( 전속매물 버튼만 active돼있을때...)
+        return(
+          <OnlyMaemul updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+        )
+      }else if(tapStatus == 1){
+        // 전속매물 꺼졌을때 ( 전문중개사만 active돼있을때...)
+        return(
+          <OnlyBroker updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+        )
+      }else if(tapStatus == 2){
+        // 단지별 실서래만
+        return(
+          <OnlyDanji updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+        )
+      }else{
+        return(<></>)
+      }
+    }
 
-          {/*전문중개사 꺼졌을때 ( 전속매물 버튼만 active돼있을때...)*/}
-          {/*<OnlyMaemul updown={updown} setUpDown={setUpDown}/>*/}
+    // 컨텐츠
+    const contentReturn = () => {
+      // 전속매물
+      if(historyInfo.prevTab == 0){
+        return(
+          <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} setHistoryInfo={setHistoryInfo} index={0}/>
+        )
+      } // 전문 중개사
+      else if(historyInfo.prevTab == 1){
+        return(
+          <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
+        )
+      } // 단지별 실거래
+      else if(historyInfo.prevTab == 2){
+        return(
+          <DanjiTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
+        )
+      } // x 
+      else if(historyInfo.prevTab == 4){
+        return(<></>)
+      }
+    }
 
-          {/*전속매물 꺼졌을때 ( 전문중개사만 active돼있을때...)*/}
-          {/*<OnlyBroker updown={updown} setUpDown={setUpDown}/>*/}
-            {
-              historyInfo.prevTab ?
-                <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
-                :
-                <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={0}/>
-             }
+
+    return (
+        <Container>
+          <WrapTab className="Tabs">
+          {tapReturn()}          
+          {contentReturn()}
           </WrapTab>
           {/**/}
         </Container>

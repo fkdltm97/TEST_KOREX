@@ -101,8 +101,24 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
     });
   }
 
+   
+  // 무한 스크롤 구현 
+  const onScrollList = () => {
+    const sideBarWrap = document.querySelector(".sideBarWrap");
+
+    // 무한스크롤 넉넉
+    // if(sideBarWrap.scrollHeight <= sideBarWrap.scrollTop+sideBarWrap.clientHeight + 100){
+    // 무한스크롤 빡빡
+    if(sideBarWrap.scrollHeight == sideBarWrap.scrollTop+sideBarWrap.clientHeight){
+      console.log("end");
+    }
+
+  }
+
+  
+
     return (
-        <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top}>
+        <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} className="sideBarWrap" onScroll={() => onScrollList()}>
         {
           pageLoader(updateReserveModal)
         }

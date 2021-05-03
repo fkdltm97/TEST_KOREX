@@ -21,7 +21,7 @@ import ArrowDown from '../../../img/member/arrow_down.png';
 // modalOption = {show,setShow,title,submit,cancle,confirm,content} 이렇게요.
 export default function ModalCommon({modalOption}) {
 
-  console.log('+>>>>>>>>modal common execute요소 호출:',modalOption);
+  // console.log('+>>>>>>>>modal common execute요소 호출:',modalOption);
   const closeModal = () =>{ modalOption.setShow(false); }
 
 

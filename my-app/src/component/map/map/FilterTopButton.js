@@ -80,11 +80,11 @@ export default function MapFilter({openBunyang, rank}) {
         <Box>
           <SubTitle>거래유형</SubTitle>
           <WrapButtons>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className="trade" type="checkbox" id="trade1" defaultChecked/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade1" defaultChecked/>
             <Label for="trade1">매매</Label>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="2" className="trade" type="checkbox" id="trade2"/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
             <Label for="trade2">전세</Label>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="3" className="trade" type="checkbox" id="trade3"/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="3" className={["trade", "changeBtn"]} type="checkbox" id="trade3"/>
             <Label for="trade3">월세</Label>
           </WrapButtons>
         </Box>

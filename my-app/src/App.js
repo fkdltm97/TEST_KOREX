@@ -135,8 +135,8 @@ export default function App(){
   //       }
   //     }
   //   },[]);//[]이걸 넣으면 아무런 state값 변화감지 하지 않겠다는것이고, 변화감지때마다 실행개념은 아니고, 최초 앱실행때만 하겠다는 뜻이기도.
-    
-  return (
+  
+    return (
         <Router>
             {/* main */}
              <Route exact path="/" component={() => <Main />}/>

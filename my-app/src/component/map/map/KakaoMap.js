@@ -38,6 +38,7 @@ export default function KakaoMap({}) {
   const container = useRef();
   const pivot = {lat:37.496463, lng:127.029358}
   const [centerClusterer, setCenterClusterer] = useState({lat:"", lng:""})
+  const [clickMarker, setClickMarker] = useState({});
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
@@ -54,32 +55,56 @@ export default function KakaoMap({}) {
   var distanceOverlay;
   var dots = [];
 
-  // 서버에서 데이터를 받아와 배열 생성
+  let firstRender = true;
+
+  // 서버에서 데이터를 받아와 배열 생성--------------
   // 호출 상황 --------
   // 첫 로드
   // 필터 변경
   // 오른쪽 메뉴 변경
   // idle event
   function getProduct() {
-    console.log(mapRightRedux.isExclusive);
+    // 로컬 저장
+    refreshArr();
+    // 서버통신 -> 배열 설정
+    // setExclusiveArr([])
+    // setProbrokerArr([])
+    // setBlockArr([])
   }
 
-  useEffect(() => {
-    if(!kakaoMap){return;}
+  const removeEvent = () => {
+    kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct );
+  }
+
+  const refreshArr = () => {
+    console.log("서버 통신하여 새로운 정보 받아오기");
     // console.log(mapRightRedux.isExclusive); // 전속 매물
     // console.log(mapRightRedux.isProbroker); // 전문 중개사
     // console.log(mapRightRedux.isBlock); // 단지별 실거래
     // console.log(mapFilterRedux.filterArr); // 필터
+  }
 
-    // 서버 작업 
-    // setExclusiveArr([])
-    // setProbrokerArr([])
-    // setBlockArr([])
-    kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct);
-    kakao.maps.event.addListener(kakaoMap, 'idle', getProduct);
 
-  }, [mapFilterRedux.filterArr, mapRightRedux, kakaoMap])
-  
+  useEffect(() => {
+    if(!kakaoMap){return;}
+    refreshArr();
+    // removeListener
+    const changeBtn = document.querySelectorAll(".changeBtn");
+    const changeBtnRange = document.querySelectorAll(".changeBtnRange");
+    for(let i = 0; i < changeBtn.length ; i++){
+      changeBtn[i].addEventListener("click", removeEvent );
+    }
+    for(let i = 0; i < changeBtnRange.length ; i++){
+      changeBtnRange[i].addEventListener("mousedown", removeEvent );
+    }
+
+    // addListener
+    kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
+    
+  },[mapFilterRedux.filterArr, mapRightRedux, kakaoMap])
+  // ----------------------
+
+
   // Array Init
   useEffect(() => {
     setExclusiveArr(
@@ -118,22 +143,35 @@ export default function KakaoMap({}) {
 
   // Map
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=92591c6a8ce52c67baa6a273c98f4f88&libraries=services,clusterer,drawing&autoload=false";
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      kakao.maps.load(() => {
-        const center = new kakao.maps.LatLng(pivot.lat, pivot.lng);
-        const options = {
-          center,
-          level: 3
-        };
-        const map = new kakao.maps.Map(container.current, options);
-        setKakaoMap(map);
-      });
+    let mapData = JSON.parse(localStorage.getItem("mapData"));
+    // local에 정보가 없을 경우
+    let center = new kakao.maps.LatLng(37.496463, 127.029358);
+    let level = 3;
+    // local에 정보가 있을 경우
+    if(mapData){
+      center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
+      level = mapData.level;
+    }
+    const options = {
+      center,
+      level: level
     };
+    const map = new kakao.maps.Map(container.current, options);
+
+    kakao.maps.event.addListener(map, 'idle', (e) => {
+      var level = map.getLevel();
+      var lng = map.getCenter().La.toFixed(6);
+      var lat = map.getCenter().Ma.toFixed(6);
+      const data = {
+        level:level,
+        lat:lat,
+        lng:lng,
+      }
+      localStorage.setItem( "mapData", JSON.stringify(data));
+    });
+    setKakaoMap(map);
+
+    
   }, [container]);
 
   // Exclusive toggle
@@ -181,14 +219,19 @@ export default function KakaoMap({}) {
     var markerImage = new kakao.maps.MarkerImage(markerImg, imageSize, imageOption);
     let markers = [];
     array.map(item => {
-      markers.push(
-        new kakao.maps.Marker({
-          map: kakaoMap, 
-          position: new kakao.maps.LatLng(item.Ma, item.La),
-          image: markerImage,
-          opacity:1
+      const markerEl = new kakao.maps.Marker({
+        map: kakaoMap, 
+        position: new kakao.maps.LatLng(item.Ma, item.La),
+        image: markerImage,
+        opacity:1
+      })
+      kakao.maps.event.addListener(markerEl, 'click', function() {
+        setClickMarker({
+          lat:item.Ma,
+          lng:item.La
         })
-      );
+      });
+      markers.push( markerEl );
     })
     var clusterer = new kakao.maps.MarkerClusterer({
       map: kakaoMap, 
@@ -405,11 +448,15 @@ export default function KakaoMap({}) {
     }
   }, [mapRightRedux.mapStyle, kakaoMap])
 
-  // Clusterer center
+  // Clusterer Click
   useEffect(() => {
-    // console.log(centerClusterer);
     // 중심좌표 -> 서버 -> 데이터 받아오기
   }, [centerClusterer])
+
+  // Marker Click
+  useEffect(() => {
+    console.log(clickMarker);
+  }, [clickMarker])
 
   // Zoom In
   useEffect(() => {

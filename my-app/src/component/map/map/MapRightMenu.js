@@ -24,6 +24,12 @@ export default function MainHeader({openBunyang, rank }) {
     const [isMapStyle, setIsMapStyle] = useState(false);
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
     
+    // Init Status
+    useEffect(() => {
+      MapRight.updateExclusive({  isExclusive: {is:true} });
+      MapRight.updateProbroker({  isProbroker: {is:true} });
+      MapRight.updateBlock({  isBlock: {is:false} });
+    }, [])
 
     // Exclusive Click
     const onClickExclusive = () => {
@@ -214,15 +220,15 @@ export default function MainHeader({openBunyang, rank }) {
             <RightMenu isFilter={isFilter}>
               <WrapMenuTop>
                 <Exclusive type="checkbox" name="" id="Exclusive" defaultChecked/>
-                <ExclusiveLabel for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
+                <ExclusiveLabel className="changeBtn" for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
               </WrapMenuTop>
               <WrapMenuBottom>
                 <RadioBox>
-                  <RadioSpan id="probrokerBuild" className={["buildType", "select"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
+                  <RadioSpan id="probrokerBuild" className={["buildType", "select", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="blockBuild" className="buildType" onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
+                  <RadioSpan id="blockBuild" className={["buildType", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
