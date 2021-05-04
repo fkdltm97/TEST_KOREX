@@ -112,6 +112,69 @@ export default function ApartFilter({open, setOpen}) {
       }
     } 
 
+    useEffect(() => {
+      let filterData = JSON.parse(localStorage.getItem("filterData"));
+      const room = document.querySelectorAll(`input[name='room']`);
+      if(!filterData){return;}
+
+      const purpose = document.querySelectorAll(`input[name='purpose']`); // 용도
+      let purposeText = filterData.purpose;
+      for(let i = 0 ; i < purpose.length ; i++){
+        if(purposeText == purpose[i].dataset.text){
+          purpose[i].checked = true;
+          break;
+        }
+      }
+
+      const roomArr = document.querySelectorAll(`input[name='room']`); // 방구조
+      let roomText = filterData.room;  
+      if(roomText[0] == "전체"){
+        roomArr[0].checked = true;
+      }else{
+        for(let i = 0 ; i < roomText.length ; i++){
+          const el = document.querySelector(`input[data-text=${roomText[i]}]`);
+          el.checked = true;
+        }
+        roomArr[0].checked = false;
+      }
+
+      const double = document.querySelectorAll(`input[name='double']`); // 용도
+      let doubleText = filterData.double;
+      for(let i = 0 ; i < double.length ; i++){
+        if(doubleText == double[i].dataset.text){
+          double[i].checked = true;
+          break;
+        }
+      }
+
+      const switchData = filterData.switchArr; // 주차가능
+      if( switchData.some(item => item == "주차가능") ) {
+        const el = document.querySelector(`input[data-text=주차가능]`);
+        el.checked = true;
+      }
+
+      const pet = document.querySelectorAll(`input[name='pet']`); // 반려동물
+      let petText = filterData.pet;
+      for(let i = 0 ; i < pet.length ; i++){
+        if(petText == pet[i].dataset.text){
+          pet[i].checked = true;
+          break;
+        }
+      }
+
+      // let optionText = filterData.life_facilites;  // 옵션
+      // for(let i = 0 ; i < optionText.length ; i++){
+      //   console.log(optionText[i])
+      //   if(optionText[i] !== "가스레인지/인덕션"){
+      //     const el = document.querySelector(`input[data-text=${optionText[i]}]`);
+      //     el.checked = true;
+      //   }else{
+      //     const el = document.querySelector("#option4");
+      //     el.checked = true;
+      //   }
+      // }
+
+    }, [])
 
     return (
         <Container>
@@ -201,7 +264,7 @@ export default function ApartFilter({open, setOpen}) {
                         </RadioBox>
                       </WrapRadio>
                     </WrapFilter>
-                  </Box>
+                  </Box>                
                   {/*복층여부*/}
                   <Box id="doubleWrap">
                     <SubTitle>복층여부</SubTitle>
@@ -231,6 +294,7 @@ export default function ApartFilter({open, setOpen}) {
                       </WrapRadio>
                     </WrapFilter>
                   </Box>
+                  
                   {/*주차*/}
                   <Box id="parkWrap">
                   <SubTitle>주차</SubTitle>
@@ -244,6 +308,7 @@ export default function ApartFilter({open, setOpen}) {
                     </SwitchButton>
                     </WrapFilter>
                   </Box>
+                  
                   {/*반려동물*/}
                   <Box id="petWrap">
                     <SubTitle>반려동물</SubTitle>
@@ -273,6 +338,7 @@ export default function ApartFilter({open, setOpen}) {
                     </WrapRadio>
                   </WrapFilter>
                   </Box>
+                  
                   {/*옵션*/}
                   <Box id="optionWrap">
                     <SubTitle>옵션</SubTitle>

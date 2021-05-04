@@ -22,48 +22,58 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
 
-    return (
-        <Container>
-        {
-            productRedux.exclusive.map((value) => {
-              return(
-                <TabContent>
-                  <Link onClick={() => {updatePageIndex(1,value.item_id); setHistoryInfo(e => {e.prevIndex.push(index); return JSON.parse(JSON.stringify(e));}); }} className="data_link"></Link>
-                  <LeftContent>
-                    {/*전속매물에 속한 아파트 일때 TopBox가 나와야함*/}
-                    <TopBox>
-                      <ColorGreen>전속매물</ColorGreen>
-                      <WrapDate>
-                        <StartDate>{value.startDate}</StartDate>
-                        <Line>~</Line>
-                        <EndDate>{value.endDate}</EndDate>
-                      </WrapDate>
-                    </TopBox>
-                    <ItemInfo>
-                      <Name>
-                        <Kind>{value.kind}</Kind>
-                        <ColorOrange>·</ColorOrange>
-                        <Detail>{value.detail}</Detail>
-                      </Name>
-                      <Price>{value.type}{value.price}</Price>
-                      <Option>
-                        <Floor>{value.floor}</Floor>
-                        <Area>{value.area}</Area>
-                        <Expenses>{value.expenses}</Expenses>
-                      </Option>
-                      <Desc>{value.desc}</Desc>
-                    </ItemInfo>
-                  </LeftContent>
-                  <RightContent>
-                    <ItemImg src={Item}/>
-                    <Input type="checkbox" name="" id={"check"+value.item_id}/>
-                    <CheckLabel for={"check"+value.item_id}/>
-                  </RightContent>
-                </TabContent>
-               )
-            })
-          }
-        </Container>
+  const onClickEl = (value) => {
+    // 클릭 id
+    // console.log(value.item_id);
+
+    updatePageIndex(1,value.item_id);
+    setHistoryInfo(e => {e.prevIndex.push(index);
+    return JSON.parse(JSON.stringify(e));});
+  }
+
+
+  return (
+    <Container>
+      {
+        productRedux.exclusive.map((value) => {
+          return(
+            <TabContent>
+              <Link onClick={() => onClickEl(value) } className="data_link"></Link>
+              <LeftContent>
+                {/*전속매물에 속한 아파트 일때 TopBox가 나와야함*/}
+                <TopBox>
+                  <ColorGreen>전속매물</ColorGreen>
+                  <WrapDate>
+                    <StartDate>{value.startDate}</StartDate>
+                    <Line>~</Line>
+                    <EndDate>{value.endDate}</EndDate>
+                  </WrapDate>
+                </TopBox>
+                <ItemInfo>
+                  <Name>
+                    <Kind>{value.kind}</Kind>
+                    <ColorOrange>·</ColorOrange>
+                    <Detail>{value.detail}</Detail>
+                  </Name>
+                  <Price>{value.type}{value.price}</Price>
+                  <Option>
+                    <Floor>{value.floor}</Floor>
+                    <Area>{value.area}</Area>
+                    <Expenses>{value.expenses}</Expenses>
+                  </Option>
+                  <Desc>{value.desc}</Desc>
+                </ItemInfo>
+              </LeftContent>
+              <RightContent>
+                <ItemImg src={Item}/>
+                <Input type="checkbox" name="" id={"check"+value.item_id}/>
+                <CheckLabel for={"check"+value.item_id}/>
+              </RightContent>
+            </TabContent>
+            )
+        })
+      }
+    </Container>
   );
 }
 

@@ -40,11 +40,19 @@ export default function MapFilter({status}) {
   const [open,setOpen] = useState(false);
   const [openDetail,setOpenDetail] = useState(false);
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+  const [isApart, setIsApart] = useState(false);
+  const [isOfficetel, setIsOfficetel] = useState(false);
+  const [isStore, setIsStore] = useState(false);
   const filterWrap = document.querySelector("#filterWrap");
   let preventBubbling = false;
 
   // 필터 redux 초기화
   useEffect(() => {
+    let filterData = JSON.parse(localStorage.getItem("filterData"));
+    if(filterData){
+      MapFilterRedux.updateFilterArr({  filterArr: filterData });
+      return;
+    }
     const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
     data.prd_sel_type=["매매"];
     data.switchArr = [];
@@ -249,7 +257,8 @@ export default function MapFilter({status}) {
   // 용도
   const purposeText = () => {
     const data = mapFilterRedux.filterArr.purpose;
-    if(data=="전체"){
+    console.log(isOfficetel);
+    if(data=="전체" || !isOfficetel){
       return;
     }
 
@@ -268,7 +277,7 @@ export default function MapFilter({status}) {
   // 방구조
   const roomText = () => {
     const data = mapFilterRedux.filterArr.room;
-    if(data[0]=="전체"){
+    if(data[0]=="전체" || !isOfficetel){
       return;
     }
 
@@ -293,7 +302,7 @@ export default function MapFilter({status}) {
   // 복층 여부
   const doubleText = () => {
     const data = mapFilterRedux.filterArr.double;
-    if(data=="전체"){
+    if(data=="전체" || !isOfficetel){
       return;
     }
 
@@ -312,7 +321,7 @@ export default function MapFilter({status}) {
   // 반려동물
   const petText = () => {
     const data = mapFilterRedux.filterArr.pet;
-    if(data=="전체"){
+    if(data=="전체" || !isOfficetel){
       return;
     }
 
@@ -331,7 +340,7 @@ export default function MapFilter({status}) {
   // 방수
   const roomApartText = () => {
     const data = mapFilterRedux.filterArr.roomApart;
-    if(data=="전체"){
+    if(data=="전체" || !isApart){
       return;
     }
 
@@ -369,7 +378,7 @@ export default function MapFilter({status}) {
   // 아파트 총세대수
   const danjiText = () => {
     const data = mapFilterRedux.filterArr.danji;
-    if(data=="전체"){
+    if(data=="전체" || !isApart){
       return;
     }
 
@@ -455,19 +464,25 @@ export default function MapFilter({status}) {
     }
     else if(type == "priceRange"){
       data.priceRange = "전체";
+      data.priceRangeValue = [0, 100];
     }
     else if(type == "manaRange"){
       data.manaRange = "전체";
+      data.manaRangeValue = [0, 75];
     }
     else if(type == "areaRange"){
       data.areaRange = "전체";
+      data.areaRangeValue = [0, 100];
     }
     else if(type == "jeonseRange"){
       data.jeonseRange = "전체";
+      data.jeonseRangeValue = [0, 30];
     }
     else if(type == "monthlyRange"){
       data.monthlyRange = "전체";
+      data.monthlyRangeValue = [0, 18];
     }
+    localStorage.setItem( "filterData", JSON.stringify(data) );
     MapFilterRedux.updateFilterArr({  filterArr: data });
   }
 
@@ -483,6 +498,22 @@ export default function MapFilter({status}) {
     }, 100)
   }
   
+  useEffect(() => {
+    // const [isApart, setIsApart] = useState(false);
+    // const [isOfficetel, setIsOfficetel] = useState(false);
+    // const [isStore, setIsStore] = useState(false);
+    setIsApart(false);
+    setIsOfficetel(false);
+    setIsStore(false);
+    if(status == "apart"){
+      setIsApart(true);
+    }else if(status == "officetel"){
+      setIsOfficetel(true);
+    }else{
+      setIsStore(true);
+    }
+  }, [status]);
+
     return (
         <Container>
         <WrapFilter padding={padding} id="filterWrap">
@@ -497,11 +528,13 @@ export default function MapFilter({status}) {
               </Link>
             </SlickSlide>
 
+            {/* 공통 */}
             {priceRangeText()}
             {jeonseRangeText()}
             {monthlyRangeText()}
             {manaRangeText()}
             {areaRangeText()}
+            {floorText()}
             
             {
               mapFilterRedux.filterArr.switchArr.length !== 0 &&
@@ -526,16 +559,26 @@ export default function MapFilter({status}) {
                 )
               })
             }
+
+
+            {roomApartText()}
+            {danjiText()}
+            {bathText()}
+
+            
+            
+            
+
             {purposeText()}
             {roomText()}
             {doubleText()}
-            {floorText()}
+            {petText()}
+
+
+
+            {/* 공통 */}
             {optionText()}
             {useText()}
-            {petText()}
-            {roomApartText()}
-            {bathText()}
-            {danjiText()}
           </Slider>
 
           </SliderWrap>

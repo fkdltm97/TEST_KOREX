@@ -41,6 +41,12 @@ const initialState = {
       areaRange:"전체", // 면적 범위
       jeonseRange:"전체", // 보증금(전세금) 범위
       monthlyRange:"전체", // 월세 범위 
+
+      priceRangeValue:[0, 100], // 매매 범위값
+      manaRangeValue:[0, 75], // 관리비 범위값
+      areaRangeValue:[0, 100], // 면적 범위값
+      jeonseRangeValue:[0, 30], // 보증금(전세금) 범위값
+      monthlyRangeValue:[0, 18], // 월세 범위 값
     },
 };
 

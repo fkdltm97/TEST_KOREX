@@ -74,13 +74,34 @@ export default function MapFilter({openBunyang, rank}) {
     MapFilterRedux.updateFilterArr({filterArr:filterArr});
   }
   
+  useEffect(() => {
+    const trade = document.querySelectorAll(".trade");
+    let filterData = JSON.parse(localStorage.getItem("filterData"));
+    if(filterData){
+      let typeArr = filterData.prd_sel_type;
+      for(let i = 0 ; i < typeArr.length ; i++){
+        if(typeArr[i] == "매매"){
+          trade[0].checked = true;
+        }
+        if(typeArr[i] == "전세"){
+          trade[1].checked = true;
+        }
+        if(typeArr[i] == "월세"){
+          trade[2].checked = true;
+        }
+      }
+    }else{
+      trade[0].checked = true;
+    }
+  }, [])
+  
   return (
     <Container>
       <WrapFilterButton>
         <Box>
           <SubTitle>거래유형</SubTitle>
           <WrapButtons>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade1" defaultChecked/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade1"/>
             <Label for="trade1">매매</Label>
             <Button onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
             <Label for="trade2">전세</Label>

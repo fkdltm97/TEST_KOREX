@@ -54,13 +54,39 @@ export default function ApartFilter({open, setOpen}) {
       let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
       if(e.target.checked){
         newArr.life_facilites.push(e.target.dataset.text)
-        MapFilterRedux.updateFilterArr({  filterArr: newArr });
       }else{
         newArr.life_facilites = newArr.life_facilites.filter(item => item != e.target.dataset.text);
-        MapFilterRedux.updateFilterArr({  filterArr: newArr });
       }
+      MapFilterRedux.updateFilterArr({  filterArr: newArr });
     } 
 
+    useEffect(() => {
+      let filterData = JSON.parse(localStorage.getItem("filterData"));
+      if(!filterData){return;}
+      const room = document.querySelectorAll(`input[name='roomApart']`); // 방수
+      let roomText = filterData.roomApart;
+      for(let i = 0 ; i < room.length ; i++){
+        if(roomText == room[i].dataset.text){
+          room[i].checked = true;
+          break;
+        }
+      }
+
+      const bath = document.querySelectorAll(`input[name='bath']`); // 욕실
+      let bathText = filterData.bath;
+      for(let i = 0 ; i < bath.length ; i++){
+        if(bathText == bath[i].dataset.text){
+          bath[i].checked = true;
+          break;
+        }
+      }
+
+      // let optionText = filterData.life_facilites;  // 옵션
+      // for(let i = 0 ; i < optionText.length ; i++){
+      //   const el = document.querySelector(`input[data-text=${optionText[i]}]`);
+      //   el.checked = true;
+      // }
+    }, [])
 
     return (
         <Container>

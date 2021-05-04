@@ -31,7 +31,6 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
 
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
     let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-
     // 가격
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(100); 
@@ -66,6 +65,8 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     const [dropdownValueMonthly, setDropdownValueMonthly] = useState([0, 18])
     const [snapMonthlyArr, setSnapMonthlyArr] = useState([]);
     const [monthlyText, setMonthlyText] = useState("");
+
+    const [firstLoad, setFirstLoad] = useState(true);
 
     useEffect(() => {
       let min = dropdownValue[0];
@@ -118,26 +119,31 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     }, [dropdownValueMonthly])
         
     useEffect(() => {
+      data.priceRangeValue = dropdownValue;
       data.priceRange = priceText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [priceText])
 
     useEffect(() => {
+      data.manaRangeValue = dropdownValueMana;
       data.manaRange = manaText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [manaText])
 
     useEffect(() => {
+      data.areaRangeValue = dropdownValueArea;
       data.areaRange = areaText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [areaText])
 
     useEffect(() => {
+      data.jeonseRangeValue = dropdownValueJeonse;
       data.jeonseRange = jeonseText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [jeonseText])
 
     useEffect(() => {  
+      data.monthlyRangeValue = dropdownValueMonthly;
       data.monthlyRange = monthlyText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [monthlyText])
@@ -249,11 +255,10 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     const onClickAdmin = (e) => {
       if(e.target.checked){
         data.switchArr.push(e.target.dataset.text)
-        MapFilterRedux.updateFilterArr({  filterArr: data });
       }else{
         data.switchArr = data.switchArr.filter(item => item != e.target.dataset.text);
-        MapFilterRedux.updateFilterArr({  filterArr: data });
       }
+      MapFilterRedux.updateFilterArr({  filterArr: data });
     }
     
     // 아파트 총세대수
@@ -276,40 +281,94 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     }
 
     useEffect(() => {
+      if(firstLoad){return;}
       if(data.priceRange == "전체"){
         setDropdownValue([0,100]);
       }
     }, [mapFilterRedux.filterArr.priceRange])
 
     useEffect(() => {
+      if(firstLoad){return;}
       if(data.manaRange == "전체"){
         setDropdownValueMana([0,75]);
       }
     }, [mapFilterRedux.filterArr.manaRange])
 
     useEffect(() => {
+      if(firstLoad){return;}
       if(data.areaRange == "전체"){
         setDropdownValueArea([0,100]);
       }
     }, [mapFilterRedux.filterArr.areaRange])
 
     useEffect(() => {
+      if(firstLoad){return;}
       if(data.jeonseRange == "전체"){
         setDropdownValueJeonse([0,30]);
       }
     }, [mapFilterRedux.filterArr.jeonseRange])
 
     useEffect(() => {
+      if(firstLoad){return;}
       if(data.monthlyRange == "전체"){
         setDropdownValueMonthly([0,18]);
       }
     }, [mapFilterRedux.filterArr.monthlyRange])
 
+    useEffect(() => {
+      let filterData = JSON.parse(localStorage.getItem("filterData"));
+      if(!filterData){return;}
+      // 공통 -------------------------------------
+      setDropdownValue(filterData.priceRangeValue); // 매매 범위
+      setDropdownValueMana(filterData.manaRangeValue); // 관리비 범위
+      setDropdownValueArea(filterData.areaRangeValue); // 면적 범위
+      setDropdownValueJeonse(filterData.jeonseRangeValue); // 전세 범위
+      setDropdownValueMonthly(filterData.monthlyRangeValue); // 월세 범위
+      const switchData = filterData.switchArr; // 관리비 
+      if( switchData.some(item => item == "관리비없음") ) {
+        const adminSwitch = document.querySelector(".adminSwitch");
+        adminSwitch.checked = true;
+      }
+      const floor = document.querySelectorAll(`input[name='floor']`); // 층수
+      let floorText = filterData.floor;
+      for(let i = 0 ; i < floor.length ; i++){
+        if(floorText == floor[i].dataset.text){
+          floor[i].checked = true;
+          break;
+        }
+      }
+      const use = document.querySelectorAll(`input[name='use']`); // 사용승인일
+      let useText = filterData.use;
+      for(let i = 0 ; i < use.length ; i++){
+        if(useText == use[i].dataset.text){
+          use[i].checked = true;
+          break;
+        }
+      }
+
+      // 아파트 
+      const danji = document.querySelectorAll(`input[name='danji']`); // 총세대수
+      let danjiText = filterData.danji;
+      for(let i = 0 ; i < danji.length ; i++){
+        if(danjiText == danji[i].dataset.text){
+          danji[i].checked = true;
+          break;
+        }
+      }
+      
+
+
+
+
+      setTimeout(() => {
+        setFirstLoad(false);
+      }, 500);
+    }, [])
+
     return (
         <Container>
           <WrapApart>
             {/* ---------------------- */}
-
             {/*가격 -- 매매-- */}
             {
               mapFilterRedux.filterArr.prd_sel_type.some(item => item == "매매")
@@ -412,7 +471,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch data-text="관리비없음" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
+                  <Switch data-text="관리비없음" className="adminSwitch" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>

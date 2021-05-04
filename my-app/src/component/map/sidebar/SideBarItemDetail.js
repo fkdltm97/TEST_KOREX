@@ -37,6 +37,8 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
   const [slideUp, setSlideUp] = useState(false);
     
   console.log('sdieBarItemDetail요소 실행  클릭한 특정상품 prd_identity_id >>>:',updateReserveModal,click_prdidentityid);
+
+  
     return (
         <Container>
           <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}

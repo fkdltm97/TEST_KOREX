@@ -64,6 +64,22 @@ export default function ApartFilter({open, setOpen}) {
       }
     } 
 
+    useEffect(() => {
+      let filterData = JSON.parse(localStorage.getItem("filterData"));
+      if(!filterData){return;}
+
+      const switchData = filterData.switchArr; // 주차가능
+      if( switchData.some(item => item == "주차가능") ) {
+        const el = document.querySelector(`input[data-text=주차가능]`);
+        el.checked = true;
+      }
+
+      if( switchData.some(item => item == "전용화장실") ) { // 전용화장실
+        const el = document.querySelector(`input[data-text=전용화장실]`);
+        el.checked = true;
+      }
+    }, [])
+
 
     return (
         <Container>

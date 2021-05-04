@@ -92,7 +92,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
     }, [mapRightRedux])
 
     // 상단 제목
-    // api length 가져오기 
+    // **api length 가져오기 
     const tapReturn = () => {
       if(tapStatus == 3){
         // 전문중개사 버튼 눌려있을때 -> 탭으로 아파트 ㅣ 전문중개사

@@ -14,6 +14,7 @@ import { Mobile, PC } from "../../../MediaQuery";
 import MainSideBar from './MainSideBar';
 import SideBarItemDetail from './SideBarItemDetail';
 import SideBarBrokerDetail from './SideBarBrokerDetail';
+import SideBarDanjiDetail from './SideBarDanjiDetail';
 
 // redux
 import { MapProductEls } from '../../../store/actionCreators';
@@ -22,7 +23,7 @@ import { useSelector } from 'react-redux';
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalReserve from '../../../component/member/mypage/reservation/ModalReserve';
 
-export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal, status}) {
+export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
@@ -63,20 +64,24 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
       case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
       case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={reserveModal} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
-      default :return <MainSideBar updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>;
+      case 3: return <SideBarDanjiDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;// 단지별 실거래 상세페이지
+      default :return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
     }
   }
   const updatePageIndex = (index,click_prd_identity_id) =>{
-    if(index < 0)
+    if(index < 0){
       setPageIndex(0);
+    }
     else if(index == 1){
       setPageIndex(1);
-      setClick_prdidentityid(click_prd_identity_id);//클릭한 prd_idnentity매물아디값 mainWrapsidebar state상태값으로 관리.
+      setClick_prdidentityid(click_prd_identity_id); //클릭한 prd_idnentity매물아디값 mainWrapsidebar state상태값으로 관리.
     }
-      else if(index == 2)
-        setPageIndex(2);
-    else
+    else if(index == 2){
+      setPageIndex(2);
+    }
+    else{
       setPageIndex(index);
+    }
   }
 
   //물건 투어예약 모달창 
@@ -103,8 +108,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
     });
   }
 
-   
-  // 무한 스크롤 구현 
+  // 무한 스크롤
   const onScrollList = () => {
     const sideBarWrap = document.querySelector(".sideBarWrap");
     
@@ -113,37 +117,74 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
     // 무한스크롤 빡빡
     if(sideBarWrap.scrollHeight == sideBarWrap.scrollTop+sideBarWrap.clientHeight){
       // **api 서버에서 데이터 가져와서 배열에 추가하기 
-      const currentArr = JSON.parse(JSON.stringify(productRedux.exclusive));
-      console.log(currentArr);
-      currentArr.push({
-        item_id : 10,
-        path:"/",
-        startDate:"20.00.00",
-        endDate: "20.00.00",
-        kind:"아파트",
-        detail:`새로운 자이 111동`,
-        type:"전세",
-        price:`111억 5,000`,
-        floor:"층수",
-        area:"공급면적",
-        expenses:"관리비",
-        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-      })
-      MapProductEls.updateExclusive({ exclusive : currentArr });
+      // 전속 매물--------------
+      if(mapRightRedux.isExclusive.is){
+        const currentArr = JSON.parse(JSON.stringify(productRedux.exclusive));
+        currentArr.push({
+          item_id : 10,
+          path:"/",
+          startDate:"20.00.00",
+          endDate: "20.00.00",
+          kind:"아파트",
+          detail:`새로운 자이 111동`,
+          type:"전세",
+          price:`111억 5,000`,
+          floor:"층수",
+          area:"공급면적",
+          expenses:"관리비",
+          desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+        })
+        MapProductEls.updateExclusive({ exclusive : currentArr });
+      }
+      // 전문 중개사--------------
+      if(mapRightRedux.isProbroker.is){
+        const currentArr = JSON.parse(JSON.stringify(productRedux.probroker));
+        currentArr.push({
+          broker_id : 1,
+          path:"/",
+          tag2:"새아파트·현대아이리스",
+          tag3:"상가",
+          tag4:"사무실",
+          name:"럭키 공인중개사 New",
+          address:"강남구 논현동 104-5",
+          sell_kind1:2,
+          sell_kind2:7,
+          sell_kind3:9,
+        })
+        MapProductEls.updateProbroker({ probroker : currentArr });
+      }
+      // 단지별 실거래
+      if(mapRightRedux.isBlock.is){
+        const currentArr = JSON.parse(JSON.stringify(productRedux.block));
+        currentArr.push({
+          danji_id : 0,
+          path:"/",
+          title:`골든카운티 New`,
+          address:"서울특별시 강남구 삼성동 200-13",
+          date:"21.02.01",
+          price:"매매 3억5,000",
+          floor:"7층",
+        })
+        MapProductEls.updateBlock({ block : currentArr });
+      }
       console.log("end");
     }
 
   }
 
+  // 탭 변경 시 Event
+  useEffect(() => {
+    updatePageIndex(0);
+  }, [mapRightRedux])
   
 
     return (
-        <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} className="sideBarWrap" onScroll={() => onScrollList()}>
+      <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} className="sideBarWrap" onScroll={() => onScrollList()}>
         {
           pageLoader(updateReserveModal)
         }
-          <ModalCommon modalOption={modalOption}/>
-        </Container>
+        <ModalCommon modalOption={modalOption}/>
+      </Container>
   );
 }
 
