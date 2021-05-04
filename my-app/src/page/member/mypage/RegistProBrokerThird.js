@@ -19,10 +19,6 @@ import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../../component/common/modal/ModalCommon';
-import ModalMap from '../../../component/member/mypage/propertyManage/modal/ModalMap';
-import ModalSelect from '../../../component/member/mypage/propertyManage/modal/ModalSelect';
-import ModalEdit from '../../../component/member/mypage/propertyManage/modal/ModalEdit';
-import ModalAllEdit from '../../../component/member/mypage/propertyManage/modal/ModalAllEdit';
 
 export default function Join() {
   //이용약관

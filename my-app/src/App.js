@@ -83,6 +83,10 @@ import RegistProBrokerThird from './page/member/mypage/RegistProBrokerThird';
 /*map*/
 import Map from './page/map/Map';
 
+/*app component*/
+import Preview from './page/App/Preview';
+
+
 /*added devlop redux elements 설정등 추가*/
 import { useSelector } from 'react-redux';
 import { Login_userActions,MyActions } from './store/actionCreators';
@@ -218,6 +222,10 @@ export default function App(){
 
             {/*map*/}
             <Route exact path="/Map/:text" component={(route) => { return(<Map status={route.match.params.text}/>)}}/>
-        </Router>
+
+            {/*app*/}
+            <Route exact path="/Preview" component={Preview}/>{/*문자로 전송되는 미리보기 페이지*/}
+
+        </Router>   
     );
 }
