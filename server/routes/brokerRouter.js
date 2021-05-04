@@ -12,13 +12,18 @@ const cors=require('cors');
 
 const mysqls=require('mysql2/promise');
 const pool =mysqls.createPool({
-    host:'localhost',
-    port:3307,
-    user:'sinja',
-    password:'sinja',
-    database:'korex',
+    host:'korex-dev-db.cewuqg5n85w2.ap-northeast-2.rds.amazonaws.com',
+    //host: 'localhost',
+    //host : '13.209.251.38',
+    port:3306,
+    user:'pref_user',
+    password:'vmfpvm$3909',
+    database:'korex_pref',
     dateStrings : 'date'
 });
+
+console.log('==>>>>>brokerRouter default program excecute poolss::',pool);
+
 
 const router=express.Router(); 
 
@@ -418,8 +423,8 @@ router.post('/productToursettingRegister',async function(request,response){
        //일반타입인경우 일반 tour_set_days항목 문자열형태 split중에서 기존항목중에서 새로추가하려는 항목중 하나가 존재 하나라도 하면 막는다.
         if(tour_type == 1){
             var prev_normal_toursetdays=[];
-            var [prev_toursetList]=await connection.query("select tour_set_days from tour where prd_identity_id=? and tour_type=1",[prd_identity_ids]);
-            console.log('prd_dioentity_id요청 매물에 대한 투어예약셋팅 등롤리스트:',prev_toursetList);
+            var [prev_toursetList]=await connection.query("select tour_set_days from tour where prd_identity_id=? and tour_type=1 ",[prd_identity_ids]);
+            console.log('prd_dioentity_id요청 매물에 대한 투어예약셋팅 일반 등록 리스트(date하나하나가 셋팅등록내역)',prev_toursetList);
             
             var count=0;
             for(let s=0; s<prev_toursetList.length; s++){
@@ -454,21 +459,240 @@ router.post('/productToursettingRegister',async function(request,response){
                 //추가 가능한 요일들 이라면.(일반)
                 await connection.beginTransaction();
 
-                var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
-                connection.commit();
-                console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
-                //connection.release();
-                var extract_insertTourid=tour_insert_rows.insertId;
+                //월수금/월수금/월수금/월 이렇게 추가했다면-> 10개가 총 tour추가되고,tourDetail은 10*3각 date별 설정한 시간대만큼 생성되게한다.
+                var outer_insert_loop= Math.ceil( normal_select_daycount / normal_select_days_array.length);//10/3->4 3/3/3/3 중에서 생성된것중에서 노출은 보여줄 항목수만큼만 하기에 안보여줄 tour_id에 대한 요청이 올 일은 없다.
+                console.log('>>>>outer_insert_loop:',outer_insert_loop);
 
+                //tour_group_id로써 쓰일 timestamp난수값 일반/특별 추가하려고했던 그 시간대 밀리초값 으로설정하여 추가된다.
+                var tourgroupid_timestamp = new Date().getTime();
+                console.log('>>>tourgroupid_timestamp:',tourgroupid_timestamp);
+                for(let outer=0; outer < outer_insert_loop; outer++){
+                    //3*4 월수금월수금월수금월수금 이렇게 생성한다. 뒤의 나머지 오버flow항목 tour_id는 클라이언트 미노출처리한다.
+                    
+                    for(let inner=0; inner < normal_select_days_array.length; inner++){
+                        //4 * 3요일의 종류수만큼 (월수금 월수금) 내부 포문 돈다. 
+                        //내부 포문은 각 요일이다. sun,sat,fri등 요일이다. 각 요일date별 tour_set_days지정한다. 각 date별 어떤 설정요일인지 지정일뿐.tour_set_times는 그 일반추가에서 했던것들 공통추가.
+                        let inner_day_value=normal_select_days_array[inner];
+                        var [tour_insert_rows] = await connection.query("insert into tour(tour_type,tour_group_id,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,tourgroupid_timestamp,prd_identity_ids,company_id,mem_id,inner_day_value,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount, special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
+                        //date만큼 tourid 요소 테이블 요소 생성 overflow하게 생성, 보여질 개수 timestamp tourgroupid에 해당하는에 존재하는 day-select_count(선택항목표현수)만큼만 노출한다.
+                        console.log('++>>>>>tour insert rows>>>>:',tour_insert_rows);
+                    }
+                }
+
+                connection.commit();
+
+                var [inserted_tourlist_rows] = await connection.query("select * from tour where tour_group_id=?",[tourgroupid_timestamp]);//고유한 투어그룹아디timestamp 로 같게 생성된 방금 생성된 tourid들 구한다.
+
+                console.log('=>>>>>inserted tourlist rows>>:',inserted_tourlist_rows);
+
+                //updated inserted tourlist query start
+                var temp_yoil_dateinfo={};
+                for(let u=0; u<inserted_tourlist_rows.length; u++){
+                    //각 설정에 의해서 추가된 date들 하나하나이고, 그 요일들 집합에 대해서,해당하는 각 실 date값 저장하기위한 쿼리.
+                    let update_local_setyoil_val=inserted_tourlist_rows[u].tour_set_days;//mon,wed,fri등의 요일값..그 요일들 집합에 대한 객체에 추가한다.
+                    let update_local_tourid=inserted_tourlist_rows[u].tour_id;//inserted된 tour리스트의 각 tour_id값. 각 tourid에 대해 update위해 필요함.
+                    console.log('>>>>inserted tour list rows>> ',inserted_tourlist_rows[u]);
+                    console.log('>>>>outer yoil loops::',update_local_setyoil_val, update_local_tourid);
+
+                    if(temp_yoil_dateinfo[update_local_setyoil_val]){
+                        console.log('>>>기존 요일에 대한 정보 있음>>',temp_yoil_dateinfo);
+                        //임의의 요일(영문)개체에 대한 프로퍼티 존재하고있는 경우 기존 배열에 대해 push하는 연산/기존에 있던 배열에 마지막 요소의 date날짜값 이후의 이후의 날짜부터 while문 검색한다.
+                        
+                        let last_index=temp_yoil_dateinfo[update_local_setyoil_val].length;
+                        let last_index_date=temp_yoil_dateinfo[update_local_setyoil_val][last_index-1];//마지막에 push되었었던 날짜값을 얻는다.그 날짜값 이후부터 검사
+                        let secure_count=0; let match_count=0;
+
+                        console.log('>>target yoil info array:',temp_yoil_dateinfo[update_local_setyoil_val]);
+                        console.log('>>target yoil info array lenght count:',last_index);
+                        console.log('>>last search date value:',last_index_date);
+
+                        let currenttime= new Date(last_index_date);//문자열 형태 날짜 문자열형태 가져온다.
+                        let find_match_date_string='';//각 요일 외부반복문당 매치하여 찾은 날짜값 저장하는.
+                        console.log('>>>last search date dateFormat:',currenttime);
+                        while(match_count<1){
+
+                            //마지막 날짜값을 제외한 다음날것부터 검색을 해야하기에, 분기처리필요함.
+                            currenttime = new Date(currenttime.setDate(currenttime.getDate() + 1));//다음날짜값 저장.
+                            
+                            let get_day_intval= currenttime.getDay();
+                            let get_yoil_string;
+
+                            switch(get_day_intval){
+                                case 0:
+                                    get_yoil_string='sun';
+                                break;
+                                case 1:
+                                    get_yoil_string='mon';
+                                break;
+                                case 2:
+                                    get_yoil_string='tue';
+                                break;
+                                case 3:
+                                    get_yoil_string='wed';
+                                break;
+                                case 4:
+                                    get_yoil_string='thr';
+                                break;
+                                case 5:
+                                    get_yoil_string='fri';
+                                break;
+                                case 6:
+                                    get_yoil_string='sat';
+                                break;
+                                
+                            }
+
+                            console.log('inner whiel loops:::',currenttime,get_yoil_string);
+
+                            let currenttime_getmonth;
+                            let currenttime_getDate;
+                            if( update_local_setyoil_val == get_yoil_string){
+                                console.log('=====>>검색 요일매치:',update_local_setyoil_val);
+                                //각 date요일별 마지막으로 있던 실날짜값 이후부터의 검색의 날짜중에서 tourdate요일에 일치하는것 찾을시 
+                                if(currenttime.getMonth() +1 < 10){
+                                    currenttime_getmonth = '0' + (parseInt(currenttime.getMonth()) + 1);
+                                }else{
+                                    currenttime_getmonth = parseInt(currenttime.getMonth())+1;
+                                }
+
+                                if(currenttime.getDate() < 10){
+                                    currenttime_getDate = '0'+ parseInt(currenttime.getDate());
+                                }else{
+                                    currenttime_getDate = currenttime.getDate();
+                                }
+
+                                temp_yoil_dateinfo[update_local_setyoil_val].push(currenttime.getFullYear()+'-'+currenttime_getmonth+'-'+currenttime_getDate);
+                                find_match_date_string=currenttime.getFullYear()+'-'+currenttime_getmonth+'-'+currenttime_getDate;
+                                match_count++;
+
+                                await connection.beginTransaction();
+
+                                console.log('>>>>whyile loops find matchstrings:',find_match_date_string,update_local_tourid);
+
+                                var [update_tourid_query]=await connection.query("update tour set tour_start_date=?, tour_end_date=? where tour_id=?",[find_match_date_string,find_match_date_string,update_local_tourid]);//어떤 매칭된 날짜값인지 tour_start_date,end_date 지정한다.
+                                console.log('>>>>>inserted tour table update_tourid_query>>>>>:',update_tourid_query);
+
+                                connection.commit();
+                            }
+
+                            if(secure_count==500){
+                                break;
+                            }
+                        }
+                        
+                    }else{
+                        //임의의 요일(영문)개체에 대해 프로퍼티 미존재할경우엔 해당 요일에 대한 정보array없는 것이기에 새로이 push
+                        let secure_count=0; let match_count=0;
+                        let find_match_date_string='';//각 요일 외부반복문당 매치하여 찾은 날짜값 저장하는.
+                        let currenttime= new Date();//현재의 시간날짜값 로부터.처음으로 있는 요일에 대한 항목이라면 현재 날짜로부터 이상부터 검색한다.
+                        console.log('>>>>>해당 요일에 대한 기존 정보 없음>>:',temp_yoil_dateinfo);
+
+                        while(match_count<1){
+                            
+                            let get_day_intval= currenttime.getDay();//현재 오늘의 날짜에 요일값 int형 반환한다.
+                            let get_yoil_string;
+                            switch(get_day_intval){
+                                case 0:
+                                    get_yoil_string='sun';
+                                break;
+                                case 1:
+                                    get_yoil_string='mon';
+                                break;
+                                case 2:
+                                    get_yoil_string='tue';
+                                break;
+                                case 3:
+                                    get_yoil_string='wed';
+                                break;
+                                case 4:
+                                    get_yoil_string='thr';
+                                break;
+                                case 5:
+                                    get_yoil_string='fri';
+                                break;
+                                case 6:
+                                    get_yoil_string='sat';
+                                break;
+                                
+                            }
+                            let currenttime_getmonth;
+                            let currenttime_getDate;
+                            console.log('inner whiel loops:::',currenttime,get_yoil_string);
+                            if( update_local_setyoil_val == get_yoil_string){
+                                console.log('=====>>검색 요일매치:',update_local_setyoil_val);
+                                //각 date요일별 마지막으로 있던 실날짜값 이후부터의 검색의 날짜중에서 tourdate요일에 일치하는것 찾을시 
+                                if(currenttime.getMonth() +1 < 10){
+                                    currenttime_getmonth = '0' + (parseInt(currenttime.getMonth()) + 1);
+                                }else{
+                                    currenttime_getmonth = parseInt(currenttime.getMonth())+1;
+                                }
+
+                                if(currenttime.getDate() < 10){
+                                    currenttime_getDate = '0'+ parseInt(currenttime.getDate());
+                                }else{
+                                    currenttime_getDate = currenttime.getDate();
+                                }
+                                temp_yoil_dateinfo[update_local_setyoil_val]=[];
+                                temp_yoil_dateinfo[update_local_setyoil_val].push(currenttime.getFullYear()+'-'+currenttime_getmonth+'-'+currenttime_getDate);
+                                find_match_date_string = currenttime.getFullYear()+'-'+currenttime_getmonth+'-'+currenttime_getDate;
+
+                                match_count++;
+
+                                console.log('>>>>>while loops find_match_date_string::',find_match_date_string,update_local_tourid);
+                                await connection.beginTransaction();
+
+                                var [update_tourid_query]=await connection.query("update tour set tour_start_date=?, tour_end_date=? where tour_id=?",[find_match_date_string,find_match_date_string,update_local_tourid]);//어떤 매칭된 날짜값인지 tour_start_date,end_date 지정한다.
+                                console.log('>>>>>inserted tour table update_tourid_query>>>>>:',update_tourid_query);
+                                
+                                connection.commit();
+                            }
+                            if(secure_count==500){
+                                break;
+                            }
+                            
+                            //현재날짜까지 포함해서 매칭여부 검색시작해야하므로 
+                            currenttime = new Date(currenttime.setDate(currenttime.getDate() + 1));//다음날짜값 저장.
+                        }
+                    }
+                }
+
+                console.log('===========>>>updated tour list rows end..>>>>>>>>>>>>>>>>');
+
+                //tourdetail inserteed query start
                 await connection.beginTransaction();
 
-                var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
-                connection.commit();
-                console.log('tour detail insert rows:',tourdetail_insert_rows);
+                for(let h=0; h< inserted_tourlist_rows.length; h++){
+                    let extracted_tourid= inserted_tourlist_rows[h].tour_id;//외부 포문이 위의 일반추가에서 추가된 요일들 월수금 월수금 월수금 월수금 반복문이고, 그 12개항목에 대해서 각각에 대해서 설정한 시간대들 x,y,z 등 내부 포문으로 각각 생성한다.
 
+                    for(let inn=0; inn<normal_select_times.split(',').length; inn++){
+                        //시간대 x,y,z각각 지정한다.
+                        var select_times_val=normal_select_times.split(',')[inn];
+                        console.log('normal-selectTimes split arrays:',select_times_val);
+                        var td_starttime_val;
+                        var td_endtime_val;
+                        switch(select_times_val){
+                            case '오전1T':
+                                td_starttime_val = '9:00am';
+                                td_endtime_val = '12:00pm';
+                            break;
+                            case '오후1T':
+                                td_starttime_val = '12:00pm';
+                                td_endtime_val = '15:00pm';
+                            break;
+                            case '오후2T':
+                                td_starttime_val = '15:00pm';
+                                td_endtime_val = '18:00pm';
+                            break;
+                        }
+                        var [tourdetail_insert_rows] = await connection.query("insert into tourdetail(tour_id,td_text,td_starttime,td_endtime,create_date,modify_date) values(?,?,?,?,?,?)",[extracted_tourid,select_times_val,td_starttime_val,td_endtime_val,new Date(),new Date()]);
+                        console.log('>>>>>>>tourdetail_insert_rows>>>:',tourdetail_insert_rows);
+                    }
+                }
+      
+                connection.commit();
                 connection.release();
 
-                return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows});    
+                return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: [tour_insert_rows,tourdetail_insert_rows]});    
             }
             
         }else if(tour_type == 2){
@@ -502,7 +726,10 @@ router.post('/productToursettingRegister',async function(request,response){
                 return response.json({success:false , message: '이미 추가or제외 등록한 특정날짜입니다.',error:'already_specifydate_exists'});
             }else{
                 //추가 가능한 제외또는 등록 특정날짜라면
-                var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
+                var tour_start_date=special_specifydate;
+                var tour_end_date=special_specifydate;//특정 설정한 날짜값 하루에 시작~종료라는 저장 표현.
+
+                var [tour_insert_rows] = await connection.query("insert into tour(tour_type,prd_identity_id,company_id,mem_id,tour_start_date,tour_end_date,tour_set_days,tour_set_times,create_date,modify_date,is_tour_holiday_except,day_select_count,tour_set_specifydate,tour_set_specifydate_times,tour_specifyday_except) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[tour_type,prd_identity_ids,company_id,mem_id,tour_start_date,tour_end_date,normal_select_days,normal_select_times,new Date(),new Date(),normal_isholidayexcept,normal_select_daycount,special_specifydate,special_specifydatetimes,special_isexceptspecifydate]);
                 connection.commit();
                 console.log('tour_insert_rows :',tour_insert_rows,tour_insert_rows.insertId);
                 //connection.release();
@@ -510,13 +737,33 @@ router.post('/productToursettingRegister',async function(request,response){
 
                 await connection.beginTransaction();
 
-                var [tourdetail_insert_rows] = await connection.query("insert into tourDetail(tour_id,td_text,create_date,modify_date) values(?,?,?,?)",[extract_insertTourid,'',new Date(),new Date()]);
+                for(let dinn=0; dinn<special_specifydatetimes.split(',').length; dinn++){
+                    var loca_setTimes=special_specifydatetimes.split(',')[dinn];//오전1t,오후1t,..등 여부 저장. 어떤 특정 date에 대한 tourid정보 하나 추가되고,tourstart~enddate추가되었고 그tourid에 대해서 설정한 시간대들만큼 detail적으로 하여 어떤 항목별 start~endtime지정, td_text는 해당 special add tourid에 대하ㅐ 지정된 시간대들 하나하나 방(시간표)
+                    var tour_starttime_val;
+                    var tour_endtime_val;
+                    switch(loca_setTimes){
+                        case '오전1T':
+                            tour_starttime_val = '9:00am';
+                            tour_endtime_val = '12:00pm';
+                        break;
+                        case '오후1T':
+                            tour_starttime_val = '12:00pm';
+                            tour_endtime_val = '15:00pm';
+                        break;
+                        case '오후2T':
+                            tour_starttime_val = '15:00pm';
+                            tour_endtime_val = '18:00pm';
+                        break;
+                    }
+                    var [tourdetail_insert_rows] = await connection.query("insert into tourdetail(tour_id,td_text,td_starttime,td_endtime,create_date,modify_date) values(?,?,?,?,?,?)",[extract_insertTourid,loca_setTimes,tour_starttime_val,tour_endtime_val,new Date(),new Date()]);
+                    console.log('>>>tourdetail insert rows>>>:',tourdetail_insert_rows);
+                }
+
                 connection.commit();
-                console.log('tour detail insert rows:',tourdetail_insert_rows);
 
                 connection.release();
 
-                return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: tour_insert_rows}); 
+                return response.json({success:true, message:'tour and tourdetail server query success!!', result_data: [tour_insert_rows,tourdetail_insert_rows]}); 
             }                    
         }
 
@@ -549,13 +796,54 @@ router.post('/productToursettinglist',async function(request,response){
         var get_company_id= company_row[0].company_id;
         console.log('get_company_id  :',get_company_id,company_row);
 
-        //마이페이지 propertyToursetting/17 특정 매물에 대한 예약 물건투어셋팅리스트
-        var [productToursettinglist_row] = await connection.query("select * from tour where mem_id=? and company_id=? and prd_identity_id=?",[mem_id,get_company_id,prd_identity_id]);
-        console.log('productTourserttinglist row:',productToursettinglist_row);
+        //마이페이지 propertyToursetting/17 특정 매물에 대한 예약 물건투어셋팅리스트 tourgroupid구분 그룹지어서.
+        var [productToursettinglist_row_groupOuter] = await connection.query("select distinct tour_group_id from tour where mem_id=? and company_id=? and prd_identity_id=? and tour_type=1",[mem_id,get_company_id,prd_identity_id]);
+        console.log('productToursettinglist_row_groupOuter row:',productToursettinglist_row_groupOuter);
+
+        var normal_touridgroup_info={};//tour_groupid별 키값을 가지고있고, 그 각 그룹아디별 리스트 취합한 요일 집합리스트월수금월수금등), 설정시간대들 그들끼리는 모두 같기의 임의하나아무거나선정 등의 정보 묶어서 표현하는 저장.
+        
+        for(let outer=0; outer<productToursettinglist_row_groupOuter.length; outer++){
+            let tour_group_id_cond=productToursettinglist_row_groupOuter[outer]['tour_group_id'];
+
+            var local_yoil_values_overwraped = [];//그룹투어아디에 해당하는 월수금 월수금 월수금 리스트 중복포함 요일들.
+            var local_set_times_overwraped = [];
+            var [group_tourlist_rows] = await connection.query("select * from tour where mem_id=? and company_id=? and prd_identity_id=? and tour_group_id=?",[mem_id,get_company_id,prd_identity_id,tour_group_id_cond]);
+            console.log('group_tourlist_rows::',group_tourlist_rows);
+
+            for(let inner=0; inner<group_tourlist_rows.length; inner++){
+                //해당 그룹id에 해당하는 세부 관련 tourlist요소들>>>>
+                local_yoil_values_overwraped.push( group_tourlist_rows[inner]['tour_set_days'] );//1덩어리:월수금월수금/ 2덩어리:화목화목화목/ 3덩어리: 일토일토일토 형태로 한다. 중복포함한 요일들을 저장한다.
+                local_set_times_overwraped.push(group_tourlist_rows[inner]['tour_set_times'] );
+            }
+            var local_yoil_values_settle = Array.from(new Set(local_yoil_values_overwraped));//그룹투어리스트 rows 투어리스트 특정 매물id,그룹투어아디,회사,memid에 해당하는 투어리스트요소에 있는 요일집합리스트 중복제거.
+            var local_set_times_settle = Array.from(new Set(local_set_times_overwraped));
+
+            console.log('========>>>중복제거한 요일집합리스트:',local_yoil_values_settle , local_set_times_settle);
+            normal_touridgroup_info[tour_group_id_cond] = {};
+            normal_touridgroup_info[tour_group_id_cond]['yoil_set_days'] = local_yoil_values_settle;
+            normal_touridgroup_info[tour_group_id_cond]['set_times'] = local_set_times_settle;//중복제거한 다 같은 요소들일것이고,tour set times시간대들 값 지정한다.
+            normal_touridgroup_info[tour_group_id_cond]['tour_type'] = 1;//일반 타입 덩어리 추가.
+        }
+
+        //특별 추가 리스트 리턴.
+        var special_tourgroup_info={};//tour_id별(어차피 특별은 하나하나가 한 예약셋팅이기에) 각 특별추가의 tour_id로 구분,키로 한다.
+        var [productToursettinglist_row_special] = await connection.query("select * from tour where mem_id=? and company_id=? and prd_identity_id=? and tour_type=2",[mem_id,get_company_id,prd_identity_id]);//해당 중개사가 해당매물에 대해서 등록한 특별추가리스트 제외,추가리스트 모두 구한다.
+
+        for(let loo=0; loo<productToursettinglist_row_special.length; loo++){
+            let special_tourrow_item=productToursettinglist_row_special[loo];
+            console.log('added special tourlist rows:',special_tourrow_item);
+            special_tourgroup_info[special_tourrow_item['tour_id']]={};
+            special_tourgroup_info[special_tourrow_item['tour_id']]['set_specifydate']=special_tourrow_item['tour_set_specifydate'];
+            special_tourgroup_info[special_tourrow_item['tour_id']]['set_specifydatetimes'] = special_tourrow_item['tour_set_specifydate_times'];
+            special_tourgroup_info[special_tourrow_item['tour_id']]['tour_type'] = 2;//특별 타입.
+            special_tourgroup_info[special_tourrow_item['tour_id']]['tour_specifyday_except'] = special_tourrow_item['tour_specifyday_except'];//특별 추가/제외여부 타입
+        }
         
         connection.release();
 
-        return response.json({success:true, message:'proudctTOursettinglist server query success!!', result_data: productToursettinglist_row});
+        console.log('==>>>>normal_touridgroup_info and specailtrougroupinfo >>>>> :',normal_touridgroup_info, special_tourgroup_info);
+
+        return response.json({success:true, message:'proudctTOursettinglist server query success!!', result_data: [normal_touridgroup_info,special_tourgroup_info]});
         
     }catch(err){
         console.log('server query error',err);
@@ -564,4 +852,344 @@ router.post('/productToursettinglist',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+
+router.post('/brokerProduct_toursetting_dates',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+    console.log('req_body :',req_body);
+    const connection=await pool.getConnection(async conn=> conn);
+    
+    console.log('/brokerProduct_toursetting_dates request session store:::>>>>',request.session);
+
+    //try catch문 mysql 구문 실행구조.
+    try{
+        var prd_identity_id=req_body.id;
+
+        //지도 클릭한 특정매물에 대한 투어셋팅예약정보 리스트 조회한다.
+        var [productToursettinglist_row_groupOuter] = await connection.query("select distinct tour_group_id from tour where prd_identity_id=? and tour_type=1",[prd_identity_id]);
+        console.log('productToursettinglist_row_groupOuter row:',productToursettinglist_row_groupOuter);
+
+        var normal_touridgroup_info={};//tour_groupid별 키값을 가지고있고, 그 각 그룹아디별 리스트 취합한 요일 집합리스트월수금월수금등), 설정시간대들 그들끼리는 모두 같기의 임의하나아무거나선정 등의 정보 묶어서 표현하는 저장. 일반 그룹아디별 있는 요일집합들 월수금월수금 월수금 및 상징표현 및 실제 날짜row들 배열같은걸로 저장리턴필요함.
+        
+        for(let outer=0; outer<productToursettinglist_row_groupOuter.length; outer++){
+            let tour_group_id_cond=productToursettinglist_row_groupOuter[outer]['tour_group_id'];
+
+            var local_yoil_values_overwraped = [];//그룹투어아디에 해당하는 월수금 월수금 월수금 리스트 중복포함 요일들.
+            var local_set_times_overwraped = [];
+            var local_match_dates= [];//그룹투어아디에 해당하는 각 요일별 실제 매칭되는 date날짜값들 배열형태로 저장키 위함.
+            let local_dayselectcount=0;//각 추가한 일반 목록별 요일집합기간리스트에서 보여줄 리스트의 총 개수만큼만 보여줘야함(오름차순 그 날짜리스트들을 전체 오름차순 하면 될뿐이고 그 것들중에서 daycount만큼만 보여주면됌)
+            var [group_tourlist_rows] = await connection.query("select * from tour where prd_identity_id=? and tour_group_id=?",[prd_identity_id,tour_group_id_cond]);
+            console.log('group_tourlist_rows::',group_tourlist_rows);
+
+            for(let inner=0; inner<group_tourlist_rows.length; inner++){
+                //해당 그룹id에 해당하는 세부 관련 tourlist요소들>>>>
+                local_yoil_values_overwraped.push( group_tourlist_rows[inner]['tour_set_days'] );//1덩어리:월수금월수금/ 2덩어리:화목화목화목/ 3덩어리: 일토일토일토 형태로 한다. 중복포함한 요일들을 저장한다.
+                local_set_times_overwraped.push(group_tourlist_rows[inner]['tour_set_times'] );
+                local_match_dates.push( { tour_date : group_tourlist_rows[inner]['tour_start_date'], tour_id: group_tourlist_rows[inner]['tour_id'], setting_times: group_tourlist_rows[inner]['tour_set_times']});//일단 시작,종료일 같음 그날시작 그날끝.하루기준 날짜. 실제 투어예약시행일.
+                local_dayselectcount = group_tourlist_rows[inner]['day_select_count'];
+            }
+            var local_yoil_values_settle = Array.from(new Set(local_yoil_values_overwraped));//그룹투어리스트 rows 투어리스트 특정 매물id,그룹투어아디,회사,memid에 해당하는 투어리스트요소에 있는 요일집합리스트 중복제거.
+            var local_set_times_settle = Array.from(new Set(local_set_times_overwraped));
+
+            console.log('========>>>중복제거한 요일집합리스트 및 투어그룹일반추가별 매칭날짜들:',local_yoil_values_settle , local_set_times_settle , local_match_dates);
+            normal_touridgroup_info[tour_group_id_cond] = {};
+            normal_touridgroup_info[tour_group_id_cond]['yoil_set_days'] = local_yoil_values_settle;
+            normal_touridgroup_info[tour_group_id_cond]['set_times'] = local_set_times_settle;//중복제거한 다 같은 요소들일것이고,tour set times시간대들 값 지정한다.
+            normal_touridgroup_info[tour_group_id_cond]['tour_type'] = 1;//일반 타입 덩어리 추가.
+            normal_touridgroup_info[tour_group_id_cond]['match_dates'] = local_match_dates;
+            normal_touridgroup_info[tour_group_id_cond]['day_select_count'] = local_dayselectcount;
+        }
+
+        function data_ascending(a,b){
+            var left = new Date(a['tour_date']).getTime();
+            var right = new Date(b['tour_date']).getTime();
+
+            return left > right ? 1 : -1;//왼쪽요소가 더크면 true리턴, 왼쪽요소가 더클시에 왼쪽요소를 오른쪽으로 밀어내는듯.
+        }
+
+        for(let key in normal_touridgroup_info){
+            console.log('>>>>server normaltouridgroup_info::',key, normal_touridgroup_info[key]);
+            let day_select_count_loca=normal_touridgroup_info[key]['day_select_count'];//표현할 항목수
+            let match_dates_loca= normal_touridgroup_info[key]['match_dates'];//각 일반타입 추가별 매칭 날짜리스트들 이들 오름차순 정렬필요함.
+            let order_settle_match_dates_loca = match_dates_loca.sort(data_ascending);//노말 매치데이터들 정렬한것 새로 리턴.
+            console.log('=>>>>>>>key 그룹투어아디의 있던 match_dates_loca 정렬전:',match_dates_loca);
+            console.log('====>>>>>>그룹투어아디에 있던 match_dates_loca 오름차순정렬후:',order_settle_match_dates_loca);
+            
+            normal_touridgroup_info[key]['match_dates'] = order_settle_match_dates_loca;//새로 relace한것 오름차순 정렬처리한걸로 교체
+        }
+        
+        //특별 추가 리스트 리턴.
+        var special_tourgroup_info={};//tour_id별(어차피 특별은 하나하나가 한 예약셋팅이기에) 각 특별추가의 tour_id로 구분,키로 한다.
+        var [productToursettinglist_row_special] = await connection.query("select * from tour where prd_identity_id=? and tour_type=2",[prd_identity_id]);//해당 중개사가 해당매물에 대해서 등록한 특별추가리스트 제외,추가리스트 모두 구한다.
+
+        for(let loo=0; loo<productToursettinglist_row_special.length; loo++){
+            let special_tourrow_item=productToursettinglist_row_special[loo];
+            console.log('added special tourlist rows:',special_tourrow_item);
+            special_tourgroup_info[special_tourrow_item['tour_id']]={};
+            special_tourgroup_info[special_tourrow_item['tour_id']]['set_specifydate']=special_tourrow_item['tour_set_specifydate'];
+            special_tourgroup_info[special_tourrow_item['tour_id']]['set_specifydatetimes'] = special_tourrow_item['tour_set_specifydate_times'];
+            special_tourgroup_info[special_tourrow_item['tour_id']]['tour_type'] = 2;//특별 타입.
+            special_tourgroup_info[special_tourrow_item['tour_id']]['tour_specifyday_except'] = special_tourrow_item['tour_specifyday_except'];//특별 추가/제외여부 타입
+            special_tourgroup_info[special_tourrow_item['tour_id']]['tour_id'] = special_tourrow_item['tour_id'];//고유 추가한 투어아이디
+        }
+        
+        connection.release();
+
+        console.log('==>>>>normal_touridgroup_info and specailtrougroupinfo >>>>> :',normal_touridgroup_info, special_tourgroup_info);
+
+        return response.json({success:true, message:'brokerProduct_toursetting_dates server query success!!', result_data: [normal_touridgroup_info,special_tourgroup_info]});
+        
+    }catch(err){
+        console.log('server query error',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
+router.post('/brokerProduct_tourid_tourdetailList',async function(request,response){
+    console.log('=->>>>>>>>>>>>request.body:',request.body);
+
+    var req_body=request.body;
+    var tour_id=req_body.tour_id_val;
+    const connection = await pool.getConnection(async conn => conn);
+    console.log('>>>>pool connection Test:',pool);
+
+    try{
+        var [product_tourdetaillist_rows] = await connection.query("select * from tourdetail where tour_id=?",[tour_id]);//해당 아디에 대한 디테일투어 설정 td_id리스트 구한다. 그 td_id에대ㅐ허 선택할시에 예약이 몰리는 개념이다.
+        console.log('>>>>>====product_tourdetaillist_rows:',product_tourdetaillist_rows);
+
+        return response.json({success:true, result_data : product_tourdetaillist_rows});
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
+/*
+//특정 등록된 매물에 셋팅된 투어예약셋팅 정보 리스트 조회한다.
+router.post('/brokerProduct_toursetting_dates',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+    console.log('req_body :',req_body);
+    const connection=await pool.getConnection(async conn=> conn);
+    console.log('>>>>pool connection Test:',pool);
+
+    //try catch문 mysql 구문 실행구조.
+    try{
+        var prd_identity_id=req_body.id;
+
+        //일반추가 요일목록들(일반요일들 집합끼리는 요일중복 발생하지 않게 처리되어있기에, 각 일반row별로는 요일들이 서로 다르다는 전제하임.) 일반 추가 항목들 일반 origin에 의해서 추가된 일반 예약셋팅 각날짜별 date목록들 각 date당 하나가 일반투어하나항목이다. 특별 투어추가항목과 겹치는것 포함하여 그냥 다 내보낸다.
+        var [product_normal_setting_tourRow] = await connection.query("select * from tour where prd_identity_id=? and tour_type=1",[prd_identity_id]);
+        
+        //특정 추가일자들 결과물 반환.
+        var [product_special_specifydate_tourRow] = await connection.query("select * from tour where prd_identity_id=? and tour_type=2 and tour_specifyday_except!=1",[prd_identity_id]);
+
+        //특정 제외일자들 결과물 반환.
+        var [product_special_exceptdate_tourRow] = await connection.query("select * from tour where prd_identity_id=? and tour_type=2 and tour_specifyday_except=1",[prd_identity_id]);
+
+        console.log('->>>>>>product_normal_setting_tourRow list:',product_normal_setting_tourRow);
+        
+        //우선 1. 일반 추가 요일목록들(각 일반추가목록row끼리는 요일중복 없는 형태일것이고, 중복이 없기에 선택한 요일들에 해당하는 ) 노출 개수에 따른 반복이 우선 필요.
+        
+        var yoil_dateArray={};
+        var total_display_count=0;//각 row별 표현할 요일개수들의 합으로 최종적 합계를 지정한다.
+        for(let row_outer=0; row_outer < product_normal_setting_tourRow.length; row_outer++){
+            console.log('======normal added row count loop start===========================================>>>');
+
+            var normal_outer_loopcount= Math.ceil( product_normal_setting_tourRow[row_outer]['day_select_count'] / (product_normal_setting_tourRow[row_outer]['tour_set_days'].split(',').length));//올림처리한것 반복회수   11/3=>3.xxx=4    6/2=3 나눠떨어지는경우, 떨어지지 않는경우 올림처리 원래 표현수보다 더 많은 datelist저장.
+            console.log('normal_outer_loopcouint 요일별 반복주기회수:',normal_outer_loopcount);
+            total_display_count += product_normal_setting_tourRow[row_outer]['day_select_count'];//최종적 표현개수합계 날짜표현갯수
+            //var normal_lastloop_innercount= product_normal_setting_tourRow[0]['day_select_count'] % (product_normal_setting_tourRow[0]['tour_set_days'].split(',').length);//5%3=2 6%2=0 나머지 여부에 따라 마지막 반복문에서 어떻게 처리되는지 여부 정해짐.                
+            //선택항목날짜 표현수 / 요일종류수 다 딱 나눠떨어지는경우에는 모든outer 반복주기회수 = 각 요일별 반복주기회수 모두 동일할당.  6%2 ==0 , 3회반복. 각 반복회수만큼 요일종류별로 저장한다. 각 요일의 반복주기횟수 
+
+            //각 row별 (normal) 설정한 시간대값 tour_set_times mon,fri 안에서 그 두 조합은 공통 시간대설정값 지정한다. 모두 일관된 같은 시간대설정값 지정한다.
+            var normal_tour_setTimes= product_normal_setting_tourRow[row_outer]['tour_set_times'];//오전,오후1t,2t 이런식 문자열 
+            var tour_id = product_normal_setting_tourRow[row_outer]['tour_id'];//일반/특별 물건투어예약row별 추가한 tour_id값 각 추가한 normal,special 리스트에 대한 날짜들값이 최종적 하나하나가 어떤 tour_id(노말 또는 특별추가:특별 우선순위로 덮어씌워짐) 에 해당하는 예약방셋팅인지 알필요가 있음. 한 매물에 대해 여러 예약방셋팅을 해놓고 그 방에 예약을 받는것과도 같다.
+            var tour_type= product_normal_setting_tourRow[row_outer]['tour_type']; //일반/특별 추가 투어항목여부 일반방?특별방??
+
+            for(let outer=0; outer<product_normal_setting_tourRow[row_outer]['tour_set_days'].split(',').length; outer++){
+                let yoil_value=product_normal_setting_tourRow[row_outer]['tour_set_days'].split(',')[outer]; //월, 수 이렇게 저장한다. mon,wed 이런식임.
+            
+                let middle=0;
+                console.log('=========================outer loop start yoil_value:=============================',yoil_value);
+                let nowtime=new Date();//현재의 날짜를 구한다.
+                let yoil_match_dates=[];//각 요일별 현재날짜로부터기준해서 오름차순으로 있는 날짜값들 저장한다. 각 날짜에 대한 정보를 의미한다.
+                let secure_count=0;
+
+                while(middle<normal_outer_loopcount){
+                    console.log('=>>>>>>>>>>>>>inner loop start.....');
+                    //월->6/2    수=> 6/2 각 요일별 세번씩 주기반복. 0,1,2 요일별 반복주기회수
+                    //해당 요일에 대해서 반복문 회수만큼 검사한다. normal_outer_llopcount회수만큼 각 요일종류별 주기회수 저장된다.
+                    let local_day_int=nowtime.getDay();
+                    let local_day_string; 
+                    switch(local_day_int){
+                        case 0:
+                            //console.log('일요일');
+                            local_day_string = 'sun';
+                        break;
+                        case 1:
+                            //console.log('월요일');
+                            local_day_string = 'mon';
+                        break;
+                        case 2:
+                            //console.log('화요일');
+                            local_day_string = 'tue';
+                        break;
+                        case 3:
+                            //console.log('수요일');
+                            local_day_string = 'wed';
+                        break;
+                        case 4:
+                            //console.log('목요일');
+                            local_day_string = 'thr';
+                        break;
+                        case 5:
+                            //console.log('금요일');
+                            local_day_string = 'fri';
+                        break;
+                        case 6:
+                            //console.log('토요일');
+                            local_day_string = 'sat';
+                        break;
+                    }
+                    console.log(nowtime.getFullYear()+'-'+(nowtime.getMonth()+1)+'-'+nowtime.getDate()+'::'+local_day_string);//반복문 나열되는 매 요일별 오늘이후의 무수한 날짜들중에서 선형적으로 오름차순으로 각 요일에 대응되는 날짜들을 요일별 매칭날짜수만큼 매칭될시에 반복문 멈춘다.
+
+                    if(yoil_value == local_day_string){
+                        //외부 반복문 요일종류값 == 내부 순환 date값 요일 일치하는것
+                        yoil_match_dates[middle] = {};
+
+                        if(nowtime.getMonth()+1 < 10){
+                            nowtime_getmonth= '0'+ ( parseInt(nowtime.getMonth())+1); //01,02,03,04,.....09
+                        }else{
+                            nowtime_getmonth = parseInt(nowtime.getMonth())+1;//10,11,12
+                        }
+
+                        if(nowtime.getDate() < 10){
+                            nowtime_getDate = '0'+ parseInt(nowtime.getDate());//01,02,03,......09
+                        }else{
+                            nowtime_getDate = nowtime.getDate();//10,11,12,...29,30,31
+                        }
+
+                        yoil_match_dates[middle]['date'] = nowtime.getFullYear()+'-'+nowtime_getmonth+'-'+nowtime_getDate;//각 날짜값 문자열 형태로 매치되는것 저장. 요일별
+                        //매치가 된 date값들을 찾을때마다 카운트변수 증가시킨다.
+                        yoil_match_dates[middle]['setTimes'] = normal_tour_setTimes;//모두 일관된 값을..
+                        yoil_match_dates[middle]['tour_id'] = tour_id;
+                        yoil_match_dates[middle]['tour_type'] = tour_type;
+
+                        middle++;
+
+                        console.log('yoil_match_dates:',yoil_match_dates);
+                    }
+                                        
+                    nowtime = new Date(nowtime.setDate(nowtime.getDate() + 1));
+
+                    if(secure_count >=100){
+                        break;
+                    }
+                    console.log('=====>>>>inner loop end..===========');
+                }
+                yoil_dateArray[yoil_value] = yoil_match_dates;
+
+                console.log('===============outer loopp end..ssssssss================================');
+            }
+            console.log('======normal added row count loop ends===========================================>>>');               
+        }
+
+        //normal row loops date processing 처리이후 normal datelist자료 취합
+        console.log('all yoil date info:',yoil_dateArray);
+        console.log('일반추가 데이터 전체 요일별 키/값 데이터 조회=========================');
+
+        var simple_all_dateList=[];//전체 일반 결과row별 요일들 집합들 합은 총 7개 최대 7개 넘을수없음(중복없음) x<=7
+        var all_datelist_index=0;
+
+        for(key in yoil_dateArray){
+            console.log('yoil_dateArray:',yoil_dateArray[key]);
+
+            //각 요일별 배열요소 순회하여 모든 날짜들 all저장.
+            let local_datelist=yoil_dateArray[key];//각 키값에 대한 값은 배열이다 키:요일/값:요일에 대한 반복주기날짜값들.
+            for(let s=0; s<local_datelist.length; s++){
+                simple_all_dateList[all_datelist_index]=local_datelist[s];
+
+                all_datelist_index++;
+            }
+        };
+        console.log('총 저장 날짜리스트(오름차순 정렬전):',simple_all_dateList);
+
+        //총 저장 날짜들 오름차순 정렬진행.=>>>>(일반 추가날짜들)
+        function data_ascending(a,b){
+            var left = new Date(a['date']).getTime();
+            var right = new Date(b['date']).getTime();
+
+            return left > right ? 1 : -1;//왼쪽요소가 더크면 true리턴, 왼쪽요소가 더클시에 왼쪽요소를 오른쪽으로 밀어내는듯.
+        }
+        function data_descending(a,b){
+            var left = new Date(a['date']).getTime();
+            var right = new Date(b['date']).getTime();
+
+            return left < right ? 1 : -1;
+        }
+        var ascend_all_normaldateList=simple_all_dateList.sort(data_ascending);
+        console.log('오름차순 정렬 총 저장 날짜리스트:',ascend_all_normaldateList);
+        console.log('+=>>>>normal datelist총 표현개수:',total_display_count);
+
+        //2단계. normallist + speical addList dateMerged
+        var merged_dateList = [];
+        for(let m=0; m<ascend_all_normaldateList.length; m++){
+            if(m < total_display_count ){
+                merged_dateList[m] = ascend_all_normaldateList[m];
+            }            
+        }
+        console.log('>>>>>mereged_dateList 초기상태 , 각 normalRow별 보여줄 선택항목요일수합계만큼만 display저장',merged_dateList);
+    
+        console.log('=>>>>>>product_special_specifydate_tourRow list:',product_special_specifydate_tourRow);
+
+        if(merged_dateList.length == 0){
+            //이런경우는 사실상 ascend_all_normaldateList 가 비어있는경우 일반추가로 인한 목록이 없던 경우로써 합병할피요가없고 그냥 해당 배열에 바로 특별추가목록들을 추가한다.
+            console.log('일반추가리스트 dateList가 없던 경우로 바로 특별추가날짜들 추가한다.');
+            for(let row_outer=0; row_outer < product_special_specifydate_tourRow.length; row_outer++){
+                let added_special_specifydate = product_special_specifydate_tourRow[row_outer];
+                merged_dateList.push({date : added_special_specifydate['tour_set_specifydate'], setTimes: added_special_specifydate['tour_set_specifydate_times'], tour_id : added_special_specifydate['tour_id'], tour_type: added_special_specifydate['tour_type']});
+            }
+        }else{
+            for(let row_outer=0; row_outer < product_special_specifydate_tourRow.length; row_outer++){
+                let added_special_specifydate= product_special_specifydate_tourRow[row_outer];//특정 추가하련는 특정날짜값.
+                let is_already_exists_date=false;//추가하려는 특정날짜값이 기존 노말dateList에 존재하는지 여부 존재하지않으면 내부for문에서 발견되지 않을것이고, 새로이 mereged에 뒤에 push한다.
+                for(let in_cond=0; in_cond < merged_dateList.length; in_cond++){
+                    if(added_special_specifydate['tour_set_specifydate'] == merged_dateList[in_cond]['date']){
+                        console.log('추가하려는 특정add날짜 기존normalist날짜와 겹침:',added_special_specifydate['tour_set_specifydate']);
+                        merged_dateList[in_cond]['tour_id'] = added_special_specifydate['tour_id'];
+                        merged_dateList[in_cond]['tour_type'] = added_special_specifydate['tour_type'];
+                        merged_dateList[in_cond]['setTimes'] = added_special_specifydate['tour_set_specifydate_times'];
+                        //추가하려는 특정날짜값에 해당하는 기존요소가 발견되면 그 기존요소에 값에 특정날짜의 시간대값을 덮어씌운다(udpate) 투어예약추가유형과,고유아디를 특별에 있던걸로 갱신합니다. 
+                        is_already_exists_date=true;
+                    }
+                }//inner for loop search end.
+    
+                if(is_already_exists_date == false){
+                    //존재하지 않은 날짜라면 새로이 push추가한다.
+                    merged_dateList.push({date : added_special_specifydate['tour_set_specifydate'], setTimes: added_special_specifydate['tour_set_specifydate_times'], tour_id : added_special_specifydate['tour_id'], tour_type : added_special_specifydate['tour_type']});
+                }
+            }
+        }
+        
+        console.log('=>>>>>mereged_dateList 합병상태, normalDATElIST + SPECIALaddDateList 중복제외한 mereged상태:',merged_dateList);
+        var ascend_all_mergedDateList = merged_dateList.sort(data_ascending);
+        console.log('=>>>>>mereged ascend오름차순정렬 배열:',ascend_all_mergedDateList);
+
+        connection.release();
+
+        console.log('->>>>product_special_exceptdate_tourRow list:',product_special_exceptdate_tourRow);
+
+        return response.json({success:true, message:'proudctTOursettinglist server query success!!', result_total_data: ascend_all_mergedDateList, except_special_specifydate_tourRowlist : product_special_exceptdate_tourRow});
+        
+    }catch(err){
+        console.log('server query error',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});*/
 module.exports=router;

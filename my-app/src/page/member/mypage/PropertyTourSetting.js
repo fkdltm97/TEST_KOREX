@@ -69,7 +69,7 @@ export default function Join({match}) {
 
 
     //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-      const addBasic = () =>{
+      const addBasic = async () =>{
         //여기가 모달 키는 거에엽
         console.log('==>>>.adDBASIC함숫 실행:');
         setModalOption({
@@ -86,7 +86,7 @@ export default function Join({match}) {
             confirm:{show:true , title:"확인" , event : async ()=>{
               console.log('일반추가 모달 확인confirm발생:',temp_tourReservsettings);
 
-              if(login_user.memid!='' && login_user.company_id !='' && temp_tourReservsettings.normal_isholidayexcept!='' && temp_tourReservsettings.normal_select_daycount !='' && temp_tourReservsettings.normal_select_days !='' && temp_tourReservsettings.normal_select_times!=''){
+              if(login_user.memid!='' && login_user.company_id !='' && temp_tourReservsettings.normal_select_daycount !='' && temp_tourReservsettings.normal_select_days !='' && temp_tourReservsettings.normal_select_times!=''){
                 let body_info={
                   tour_type : 1,//일반:1 특별:2
                   mem_id: login_user.memid,//어떤 중개사회원id가 어떤수임한 상품에 대해서 예약셋팅하는건지
@@ -115,7 +115,7 @@ export default function Join({match}) {
       }
 
     //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
-      const addSpecial = () =>{
+      const addSpecial =  async () =>{
         setModalOption({
             show:true,
             setShow:offModal,

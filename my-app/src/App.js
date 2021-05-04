@@ -92,49 +92,51 @@ import serverController from '../src/server/serverController';
 
 export default function App(){
   
-  // console.log('App js 실행================================');
+   console.log('App js 실행================================');
     
-  //   console.log('data.login users globe info refer:',Login_userActions);
+     console.log('data.login users globe info refer:',Login_userActions);
     
-  //   //유저 로그인여부 로그인했으면 로그인정보 redux저장.
-  //   useEffect ( async () => {
-  //     console.log('app.js상태 변화시에 비동기형태 함수 실행, 앱 로그인여부 검사진행 awiait형태 함수 호출');
-  //     let res=await serverController.connectFetchController('/api/auth/islogin','get');
-  //     console.log('islogin request result>>>',res,res.login_session);
-
-  //     if(res.login_session == null){
-  //       //alert('비로그인 상태입니다.');
-  //       Login_userActions.isloginchange({islogins : 0});
-  //     }else{
-  //       if(res.login_session.islogin){
-          
-  //         var get_memid=res.login_session.user_id;//mem_id 얻기
-  //         let body_info = {
-  //           mem_id : get_memid
-  //         };
-  //         console.log(JSON.stringify(body_info));
-  //         let user_info= await serverController.connectFetchController('/api/auth/userinfo_request','POST',JSON.stringify(body_info));
-  //         console.log('userinfo_request >>> res_result:',user_info,user_info.user_data);
-
-  //         //로그인 회원정보row 리덕스 저장(암호 제외 저장) 모든 페이지에서 상태값 변화 리덕스 변화상태 감지. 조회 가능.
-  //         Login_userActions.memidchange({memids: user_info.user_data.mem_id});
-  //         Login_userActions.companyidchange({companyids: user_info.user_data.company_id});
-  //         Login_userActions.user_usernamechange({user_usernames: user_info.user_data.user_username});
-  //         Login_userActions.phonechange({phones: user_info.user_data.phone});
-  //         Login_userActions.emailchange({emails: user_info.user_data.email});
-  //         Login_userActions.usernamechange({usernames: user_info.user_data.user_name});
-  //         Login_userActions.memimgchange({memimgs : user_info.user_data.mem_img});
-  //         Login_userActions.usertypechange({usertypes: user_info.user_data.user_type});
-  //         Login_userActions.registertypechange({registertypes: user_info.user_data.register_type});
-  //         Login_userActions.memadminchange({memadmins: user_info.user_data.mem_admin});
-          
-  //         Login_userActions.isloginchange({islogins: 1 });
-
-  //         Login_userActions.isexculsivechange({isexculsives : user_info.user_data.isexculsive});
-  //         //window.sessionStorage.setItem('memid',user_info.user_data.mem_id);
-  //       }
-  //     }
-  //   },[]);//[]이걸 넣으면 아무런 state값 변화감지 하지 않겠다는것이고, 변화감지때마다 실행개념은 아니고, 최초 앱실행때만 하겠다는 뜻이기도.
+     //유저 로그인여부 로그인했으면 로그인정보 redux저장.
+     useEffect ( async () => {
+       console.log('app.js상태 변화시에 비동기형태 함수 실행, 앱 로그인여부 검사진행 awiait형태 함수 호출');
+       let res=await serverController.connectFetchController('/api/auth/islogin','get');
+      
+      if(res){
+        if(res.login_session == null){
+          //alert('비로그인 상태입니다.');
+          Login_userActions.isloginchange({islogins : 0});
+        }else{
+          if(res.login_session.islogin){
+           
+            var get_memid=res.login_session.user_id;//mem_id 얻기
+            let body_info = {
+              mem_id : get_memid
+            };
+            console.log(JSON.stringify(body_info));
+            let user_info= await serverController.connectFetchController('/api/auth/userinfo_request','POST',JSON.stringify(body_info));
+            console.log('userinfo_request >>> res_result:',user_info,user_info.user_data);
+ 
+           //로그인 회원정보row 리덕스 저장(암호 제외 저장) 모든 페이지에서 상태값 변화 리덕스 변화상태 감지. 조회 가능.
+            Login_userActions.memidchange({memids: user_info.user_data.mem_id});
+            Login_userActions.companyidchange({companyids: user_info.user_data.company_id});
+            Login_userActions.user_usernamechange({user_usernames: user_info.user_data.user_username});
+            Login_userActions.phonechange({phones: user_info.user_data.phone});
+            Login_userActions.emailchange({emails: user_info.user_data.email});
+            Login_userActions.usernamechange({usernames: user_info.user_data.user_name});
+            Login_userActions.memimgchange({memimgs : user_info.user_data.mem_img});
+            Login_userActions.usertypechange({usertypes: user_info.user_data.user_type});
+           Login_userActions.registertypechange({registertypes: user_info.user_data.register_type});
+            Login_userActions.memadminchange({memadmins: user_info.user_data.mem_admin});
+           
+            Login_userActions.isloginchange({islogins: 1 });
+ 
+            Login_userActions.isexculsivechange({isexculsives : user_info.user_data.isexculsive});
+            //window.sessionStorage.setItem('memid',user_info.user_data.mem_id);
+          }
+        }
+      }
+       
+     },[]);//[]이걸 넣으면 아무런 state값 변화감지 하지 않겠다는것이고, 변화감지때마다 실행개념은 아니고, 최초 앱실행때만 하겠다는 뜻이기도.
     
   return (
         <Router>
