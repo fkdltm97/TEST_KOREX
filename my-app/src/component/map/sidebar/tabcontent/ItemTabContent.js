@@ -15,59 +15,17 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
+// redux
+import { useSelector } from 'react-redux';
 
 export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index}) {
 
-    // redux로 데이터받아오기
-    const ItemListItem =[
-      {
-        item_id : 0,
-        path:"/",
-        startDate:"20.00.00",
-        endDate: "20.00.00",
-        kind:"아파트",
-        detail:"자이 109동",
-        type:"전세",
-        price:"12억 5,000",
-        floor:"층수",
-        area:"공급면적",
-        expenses:"관리비",
-        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-      },
-      {
-        item_id : 0,
-        path:"/",
-        startDate:"20.00.00",
-        endDate: "20.00.00",
-        kind:"아파트",
-        detail:"자이 109동",
-        type:"전세",
-        price:"12억 5,000",
-        floor:"층수",
-        area:"공급면적",
-        expenses:"관리비",
-        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-      },
-      {
-        item_id : 0,
-        path:"/",
-        startDate:"20.00.00",
-        endDate: "20.00.00",
-        kind:"아파트",
-        detail:"자이 109동",
-        type:"전세",
-        price:"12억 5,000",
-        floor:"층수",
-        area:"공급면적",
-        expenses:"관리비",
-        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-      },
-    ]
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
 
     return (
         <Container>
         {
-            ItemListItem.map((value) => {
+            productRedux.exclusive.map((value) => {
               return(
                 <TabContent>
                   <Link onClick={() => {updatePageIndex(1,value.item_id); setHistoryInfo(e => {e.prevIndex.push(index); return JSON.parse(JSON.stringify(e));}); }} className="data_link"></Link>

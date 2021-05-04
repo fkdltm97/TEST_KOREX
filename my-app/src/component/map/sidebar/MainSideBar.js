@@ -29,25 +29,47 @@ import DanjiTabContent from './tabcontent/DanjiTabContent'
 // redux
 import { useSelector } from 'react-redux';
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, status}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [tapStatus, setTapStatus] = useState(0);
     const [isInit, setIsInit] = useState(true);
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
+    const [typeStatus, setTypeStatus] = useState("");
 
     // Init
     useEffect(() => {
       setActiveIndex(0);
+      setTapStatus(0)
       setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});
       setIsInit(false);
     }, [])
 
+    useEffect(() => {
+      switch (status){
+        case "apart":
+          setTypeStatus("아파트");
+          break;
+        case "officetel":
+          setTypeStatus("오피스텔");
+          break;
+        case "store":
+          setTypeStatus("상가");
+          break;
+        case "office":
+          setTypeStatus("사무실");
+          break;
+        default :
+          setTypeStatus("");
+          break;
+      }
+    }, [status])
+
     // 분기처리  
     useEffect(() => {
-      if(isInit){return;}
       // 전속매물, 전문중개사 
       if(mapRightRedux.isExclusive.is && mapRightRedux.isProbroker.is){
         setTapStatus(3)
+        if(isInit){return;}
       } // 존속매물
       else if(mapRightRedux.isExclusive.is){
         setActiveIndex(0);
@@ -79,7 +101,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             <Mobile>{/*모바일 open List Btn*/}
               <OpenListImg onClick={() => {setUpDown(!updown)}}/>
             </Mobile>
-            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>아파트 303</Span>
+            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>{typeStatus}303</Span>
             <Part/>
             <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
           </WrapTabBtn>
@@ -87,7 +109,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
       }else if(tapStatus == 0){
         // 전문중개사 꺼졌을때 ( 전속매물 버튼만 active돼있을때...)
         return(
-          <OnlyMaemul updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <OnlyMaemul typeStatus={typeStatus}  updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
       }else if(tapStatus == 1){
         // 전속매물 꺼졌을때 ( 전문중개사만 active돼있을때...)

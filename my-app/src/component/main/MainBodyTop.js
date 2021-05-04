@@ -39,10 +39,10 @@ export default function MainBody({}) {
                 <TabBtn active={activeIndex == 1} data-num="1" data-text="officetel" onClick={(e)=>{ onClickTab(e) }}>오피스텔<Part></Part></TabBtn>
               </Tab>
               <Tab>
-                <TabBtn active={activeIndex == 2} data-num="2" data-text="storeOffice" onClick={(e)=>{ onClickTab(e) }} >상가<Part></Part></TabBtn>
+                <TabBtn active={activeIndex == 2} data-num="2" data-text="store" onClick={(e)=>{ onClickTab(e) }} >상가<Part></Part></TabBtn>
               </Tab>
               <Tab>
-                <TabBtn active={activeIndex == 3} data-num="3" data-text="storeOffice" onClick={(e)=>{ onClickTab(e) }}>사무실<Part></Part></TabBtn>
+                <TabBtn active={activeIndex == 3} data-num="3" data-text="office" onClick={(e)=>{ onClickTab(e) }}>사무실<Part></Part></TabBtn>
               </Tab>
               <Tab>
                 <TabBtnOn>전문중개사</TabBtnOn>
