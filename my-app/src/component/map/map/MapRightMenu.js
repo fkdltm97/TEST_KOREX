@@ -352,7 +352,7 @@ const WrapMenuTop = styled.div`
   width:100%;height:50px;
   margin-bottom:7px;
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(50/428));
+    height:calc(100vw*(45/428));
     margin-bottom:calc(100vw*(7/428));
   }
 `
@@ -373,7 +373,7 @@ const ExclusiveLabel = styled.label`
   transition:all 0.2s;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));
-    padding:calc(100vw*(8/428)) calc(100vw*(12/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(12/428));
   }
 `
 const WrapMenuBottom = styled.div`
@@ -390,8 +390,9 @@ const WrapMenuBottom = styled.div`
   }
 
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(185/428));
+    height:calc(100vw*(160/428));
     padding:calc(100vw*(22/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
+    margin-bottom:calc(100vw*(10/428));
   }
 `
 const MapControl = styled.div`
@@ -404,8 +405,9 @@ const MapControl = styled.div`
   align-items: center;
   justify-content: center;
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(185/428));
-    padding:calc(100vw*(22/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
+    height:calc(100vw*(85/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
+    margin-bottom:calc(100vw*(10/428));
   }
 `
 
@@ -501,7 +503,7 @@ const Part = styled.div`
   height:1px;background:#707070;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(32/428));
-    margin:calc(100vw*(15/428)) auto calc(100vw*(15/428));
+    margin:calc(100vw*(10/428)) auto;
   }
 `
 const Bunyang = styled(WrapMenuTop)`
@@ -513,9 +515,17 @@ const BunyangLabel = styled(ExclusiveLabel)`
 
 const PlusBtn = styled.img`
   padding:10px;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(5/428));
+    width:calc(100vw*(25/428));
+  }
 `
 
 const MinusBtn = styled.img`
   padding:10px;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(5/428));
+    width:calc(100vw*(25/428));
+  }
 `
 
