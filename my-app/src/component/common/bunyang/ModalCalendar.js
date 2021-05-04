@@ -21,12 +21,14 @@ export default function ModalCal({cal, setCal}){
   const [value, onChange] = useState(new Date());
   const [pageIndex , setPageIndex] = useState(0);
 
+  const [SelectDate, setSelectDate] = useState("");
+
   const pageLoader = () =>{
     switch (pageIndex) {
-      case 0: return <ModalCalendarFirst updatePageIndex={updatePageIndex} cal={cal} setCal={setCal}/>;
-      case 1: return <ModalCalendarSecond updatePageIndex={updatePageIndex} cal={cal} setCal={setCal}/>
-      case 2: return <ModalCalendarThird updatePageIndex={updatePageIndex} cal={cal} setCal={setCal}/>
-      default: return <ModalCalendarFirst updatePageIndex={updatePageIndex} cal={cal} setCal={setCal}/>;
+      case 0: return <ModalCalendarFirst updatePageIndex={updatePageIndex} cal={cal} setCal={setCal} SelectDate={SelectDate} setSelectDate={setSelectDate}/>;
+      case 1: return <ModalCalendarSecond updatePageIndex={updatePageIndex} cal={cal} setCal={setCal} SelectDate={SelectDate} setSelectDate={setSelectDate}/>
+      case 2: return <ModalCalendarThird updatePageIndex={updatePageIndex} cal={cal} setCal={setCal} SelectDate={SelectDate} setSelectDate={setSelectDate}/>
+      default: return <ModalCalendarFirst updatePageIndex={updatePageIndex} cal={cal} setCal={setCal} SelectDate={SelectDate} setSelectDate={setSelectDate}/>;
     }
   }
   const updatePageIndex = (index) =>{

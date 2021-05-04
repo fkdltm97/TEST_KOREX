@@ -54,7 +54,7 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
         submit:{show:false , title:"" , event : ()=>{offModal(); }},
         cancle:{show:false , title:"" , event : ()=>{offModal(); }},
         confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
-        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);}}
+        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);updatePageIndex(0)}}
     });
   }
 

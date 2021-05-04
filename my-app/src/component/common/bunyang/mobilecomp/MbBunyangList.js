@@ -47,7 +47,7 @@ export default function BunyangList({updatePageIndex,updateModal}){
       <Container>
 {/*Total & Search*/}
         <WrapTotal>
-            <ListTop>총 <Green>2</Green>건</ListTop>
+            <ListTop>총 <Green>{BunyangListItem.length}</Green>건</ListTop>
             <BunyangSearch>
               <SearchIcon>
                 <SearchInput type="text" name="" placeholder="검색어를 입력하세요."></SearchInput>
