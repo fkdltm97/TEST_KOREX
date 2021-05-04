@@ -20,19 +20,28 @@ import { useSelector } from 'react-redux';
 
 export default function MainHeader({openBunyang, rank }) {
 
+    const [isFilter, setIsFilter] = useState(true);
     const [isMapStyle, setIsMapStyle] = useState(false);
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
     
+    // Init Status
+    useEffect(() => {
+      MapRight.updateExclusive({  isExclusive: {is:true} });
+      MapRight.updateProbroker({  isProbroker: {is:true} });
+      MapRight.updateBlock({  isBlock: {is:false} });
+    }, [])
 
     // Exclusive Click
     const onClickExclusive = () => {
       const buildType = document.querySelectorAll(".buildType");
       const exclusiveCk = document.querySelector("#Exclusive");
       if(!exclusiveCk.checked){
+        setIsFilter(true);
         buildType[1].classList.remove("select");
         MapRight.updateBlock({  isBlock: {is:false} });
         MapRight.updateExclusive({  isExclusive: {is:true} });
       }else{
+        setIsFilter(false);
         MapRight.updateExclusive({  isExclusive: {is:false} });
       }
     };
@@ -208,18 +217,18 @@ export default function MainHeader({openBunyang, rank }) {
         <Container>
           <WrapMap>
             {/*Right Tab*/}
-            <RightMenu>
+            <RightMenu isFilter={isFilter}>
               <WrapMenuTop>
                 <Exclusive type="checkbox" name="" id="Exclusive" defaultChecked/>
-                <ExclusiveLabel for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
+                <ExclusiveLabel className="changeBtn" for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
               </WrapMenuTop>
               <WrapMenuBottom>
                 <RadioBox>
-                  <RadioSpan id="probrokerBuild" className={["buildType", "select"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
+                  <RadioSpan id="probrokerBuild" className={["buildType", "select", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="blockBuild" className="buildType" onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
+                  <RadioSpan id="blockBuild" className={["buildType", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
@@ -325,7 +334,16 @@ const RightMenu = styled.div`
   width:50px;
 
   @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(80/428));
+    ${({isFilter})=>{
+      return isFilter?
+      `
+      top:calc(100vw*(80/428));
+      `
+      :
+      `
+      top:calc(100vw*(15/428));
+      `
+    }}
     right:calc(100vw*(14/428));
     width:calc(100vw*(50/428));
   }
@@ -334,7 +352,7 @@ const WrapMenuTop = styled.div`
   width:100%;height:50px;
   margin-bottom:7px;
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(50/428));
+    height:calc(100vw*(45/428));
     margin-bottom:calc(100vw*(7/428));
   }
 `
@@ -355,7 +373,7 @@ const ExclusiveLabel = styled.label`
   transition:all 0.2s;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));
-    padding:calc(100vw*(8/428)) calc(100vw*(12/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(12/428));
   }
 `
 const WrapMenuBottom = styled.div`
@@ -372,8 +390,9 @@ const WrapMenuBottom = styled.div`
   }
 
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(185/428));
+    height:calc(100vw*(160/428));
     padding:calc(100vw*(22/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
+    margin-bottom:calc(100vw*(10/428));
   }
 `
 const MapControl = styled.div`
@@ -386,8 +405,9 @@ const MapControl = styled.div`
   align-items: center;
   justify-content: center;
   @media ${(props) => props.theme.mobile} {
-    height:calc(100vw*(185/428));
-    padding:calc(100vw*(22/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
+    height:calc(100vw*(85/428));
+    padding:calc(100vw*(6/428)) calc(100vw*(5/428)) calc(100vw*(10/428)) calc(100vw*(6/428));
+    margin-bottom:calc(100vw*(10/428));
   }
 `
 
@@ -483,7 +503,7 @@ const Part = styled.div`
   height:1px;background:#707070;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(32/428));
-    margin:calc(100vw*(15/428)) auto calc(100vw*(15/428));
+    margin:calc(100vw*(10/428)) auto;
   }
 `
 const Bunyang = styled(WrapMenuTop)`
@@ -495,9 +515,17 @@ const BunyangLabel = styled(ExclusiveLabel)`
 
 const PlusBtn = styled.img`
   padding:10px;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(5/428));
+    width:calc(100vw*(25/428));
+  }
 `
 
 const MinusBtn = styled.img`
   padding:10px;
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(5/428));
+    width:calc(100vw*(25/428));
+  }
 `
 

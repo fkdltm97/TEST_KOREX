@@ -15,7 +15,7 @@ export default function MobileSearch() {
             <Link to="/MbSearch" className="data_link"></Link>
             <MainSearch>
               <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색"/>
-              <Link to="/Map">
+              <Link to="/Map/:text">
                 <SearchBtn type="submit" name=""/>
               </Link>
             </MainSearch>

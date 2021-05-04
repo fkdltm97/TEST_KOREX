@@ -12,7 +12,7 @@ import Check from '../../../../../img/map/radio.png';
 import Checked from '../../../../../img/map/radio_chk.png';
 
 //지도 모달
-export default function ModalSelect({select,setSelect}) {
+export default function ModalSelect({select,setSelect,offModal}) {
   const PropertyListItem =[
     {
       p_id : 0,

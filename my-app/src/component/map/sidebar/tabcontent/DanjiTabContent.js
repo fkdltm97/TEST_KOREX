@@ -14,65 +14,38 @@ import Profile from "../../../../img/map/profile_img.png";
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
-const DanjiListItem =[
-{
-  danji_id : 0,
-  path:"/",
-  title:"SM 드림빌",
-  address:"서울특별시 강남구 삼성동 200-13",
-  date:"21.02.01",
-  price:"매매 3억5,000",
-  floor:"7층",
-  src:FilterNext
-},
-{
-  danji_id : 1,
-  path:"/",
-  title:"강변삼부",
-  address:"서울특별시 강남구 삼성동 200-13",
-  date:"21.02.01",
-  price:"매매 3억5,000",
-  floor:"7층",
-  src:FilterNext
-},
-{
-  danji_id : 2,
-  path:"/",
-  title:"골든카운티",
-  address:"서울특별시 강남구 삼성동 200-13",
-  date:"21.02.01",
-  price:"매매 3억5,000",
-  floor:"7층",
-  src:FilterNext
-}
-]
+
+// redux
+import { useSelector } from 'react-redux';
 
 export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) {
 
-    return (
-        <Container>
-        {
-            DanjiListItem.map((value) => {
-              return(
-                <TabContent>
-                  <Link onClick={() => { updatePageIndex(2); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
-                    <TopBox>
-                      <Title>{value.title}</Title>
-                      <Address>{value.address}</Address>
-                      <DanjiInfo>
-                        <Date>{value.date}</Date>
-                        <Price>{value.price}</Price>
-                        <Floor>{value.floor}</Floor>
-                      </DanjiInfo>
-                      <LeftImg>
-                        <Img src={value.src}/>
-                      </LeftImg>
-                    </TopBox>
-                  </TabContent>
-              )
-            })
-          }
-        </Container>
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
+
+  return (
+    <Container>
+      {
+        productRedux.block.map((value) => {
+          return(
+            <TabContent>
+              <Link onClick={() => { updatePageIndex(3); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
+              <TopBox>
+                <Title>{value.title}</Title>
+                <Address>{value.address}</Address>
+                <DanjiInfo>
+                  <Date>{value.date}</Date>
+                  <Price>{value.price}</Price>
+                  <Floor>{value.floor}</Floor>
+                </DanjiInfo>
+                <LeftImg>
+                  <Img src={FilterNext}/>
+                </LeftImg>
+              </TopBox>
+            </TabContent>
+          )
+        })
+      }
+    </Container>
   );
 }
 

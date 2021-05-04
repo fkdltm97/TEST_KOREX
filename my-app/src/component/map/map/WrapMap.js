@@ -25,22 +25,33 @@ export default function WrapMap({openBunyang, rank, open, setOpen, status}) {
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
 
+
+  useEffect(() => {
+    const filterWrap = document.querySelector("#filterWrap");
+    if(mapRightRedux.isExclusive.is){
+      filterWrap.classList.remove("hidden");
+    }else{
+      filterWrap.classList.add("hidden");
+    }
+  }, [mapRightRedux.isExclusive.is])
+
   return (
       <Container>
         <KakaoMap />
         <MapRightMenu />
-        {
-          mapRightRedux.isExclusive.is?
+        <div id="filterWrap">
           <WrapMapFilter setOpen={setOpen} status={status} />
-          :
-          <></>
-        }
+        </div>
       </Container>
   );
 
 }
 
 const Container = styled.div`
+  & > .hidden{
+    display:none;
+  }
+
   position:relative;
   width:100%;
   height:100vh;

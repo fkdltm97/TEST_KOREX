@@ -11,7 +11,7 @@ import OpenList from "../../../../img/map/toggle_list.png";
 //component
 import { Mobile, PC } from "../../../../MediaQuery";
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, typeStatus}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [select,setSelect] = useState(false);
     const showModal =()=>{
@@ -23,7 +23,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             <Mobile>{/*모바일 open List Btn*/}
               <OpenListImg onClick={() => {setUpDown(!updown)}}/>
             </Mobile>
-            <NonTab onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>아파트 <Green>3</Green>건</NonTab>
+            <NonTab onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>{typeStatus} <Green>3</Green>건</NonTab>
 {/*select box 부분이 pc와 모바일이 달라서 따로 뺐습니다.~*/}
             <PC>
               <ViewBtn>

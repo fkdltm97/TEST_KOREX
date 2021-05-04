@@ -51,9 +51,9 @@ export default function Like({setFilter,value,type}) {
   ]
     return (
         <Container>
-          <WrapRequest>
+          <WrapRequest count1={1} count2={2} count3={0}>
             <TopTitle>내 알림</TopTitle>
-            <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab">
+            <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab pr">
             {/*
               ** 분기처리 **
               개인 : 전속매물 공급 I 공통
@@ -63,7 +63,7 @@ export default function Like({setFilter,value,type}) {
               분양프로젝트 팀원 : 분양공급 I 공통
 
               */}
-              <Tab label="전속매물 공급">
+              <Tab label="전속매물 공급" className="count_num">
               <ItemTopInfo/>
               {
                   AlarmListItem.map((value) => {
@@ -132,7 +132,63 @@ const Container = styled.div`
       }
 `
 const WrapRequest = styled.div`
+  position:relative;
   width:100%;
+  & > div > ul > li:nth-child(1) > a::before {
+    content: '${({count1})=>count1}';
+    position:absolute;
+    top:50%;transform:translateY(-50%);    right:0;
+    width:15px;
+    height:15px;
+    line-height:15px;
+    display:block;
+    background:#fe7a01;
+    color:#fff;text-align:center;
+    font-size:11px;border-radius:100%;
+    @media screen and (max-width:1024px){
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
+    }
+  }
+  & > div > ul > li:nth-child(2) > a::before {
+    content: '${({count2})=>count2}';
+    position:absolute;
+    top:50%;transform:translateY(-50%);    right:0;
+    width:15px;
+    height:15px;text-align:center;
+    line-height:15px;
+    display:block;
+    background:#fe7a01;
+    color:#fff;
+    font-size:11px;border-radius:100%;
+    @media screen and (max-width:1024px){
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
+    }
+  }
+  & > div > ul > li:nth-child(3) > a::before {
+    content: '${({count3})=>count3}';
+    position:absolute;
+    top:50%;transform:translateY(-50%);
+    right:0;
+    width:15px;
+    height:15px;text-align:center;
+    line-height:15px;
+    display:block;
+    background:#fe7a01;
+    color:#fff;
+    font-size:11px;border-radius:100%;
+    @media screen and (max-width:1024px){
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
+    }
+  }
 `
 const TopTitle = styled.h2`
   width:680px;margin:0 auto;
@@ -147,4 +203,12 @@ const TopTitle = styled.h2`
     padding-left:calc(100vw*(36/428));
     margin-bottom:calc(100vw*(24/428));
     }
+`
+const AlarmSpan = styled.div`
+  display:inline-block;
+  width:15px;height:15px;
+  border-radius:100%;font-size:12px;font-weight:600;
+  transform:skew(-0.1deg);background:#fe7a01;
+  text-align:center;line-height:15px;
+  margin-left:5px;
 `

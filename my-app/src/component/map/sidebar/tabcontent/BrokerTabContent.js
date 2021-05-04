@@ -14,54 +14,17 @@ import Profile from "../../../../img/map/profile_img.png";
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
-const BrokerListItem =[
-{
-  broker_id : 0,
-  path:"/",
-  tag1:"아파트·현대아이리스",
-  tag2:"상가",
-  tag3:"사무실",
-  name:"럭키 공인중개사",
-  address:"강남구 논현동 104-5",
-  sell_kind1:2,
-  sell_kind2:7,
-  sell_kind3:9,
-  profile_img:Profile
-},
-{
-  broker_id : 1,
-  path:"/",
-  tag1:"아파트·현대아이리스",
-  tag2:"상가",
-  tag3:"사무실",
-  name:"럭키 공인중개사",
-  address:"강남구 논현동 104-5",
-  sell_kind1:2,
-  sell_kind2:7,
-  sell_kind3:9,
-  profile_img:Profile
-},
-{
-  broker_id : 3,
-  path:"/",
-  tag1:"아파트·현대아이리스",
-  tag2:"상가",
-  tag3:"사무실",
-  name:"럭키 공인중개사",
-  address:"강남구 논현동 104-5",
-  sell_kind1:2,
-  sell_kind2:7,
-  sell_kind3:9,
-  profile_img:Profile
-}
-]
+// redux
+import { useSelector } from 'react-redux';
 
 export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
 
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
+
     return (
-        <Container>
+      <Container>
         {
-          BrokerListItem.map((value) => {
+          productRedux.probroker.map((value) => {
             return(
               <TabContent>
                 <Link onClick={() => { updatePageIndex(2); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
@@ -85,7 +48,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
                       </ItemInfo>
                     </LeftContent>
                     <RightContent>
-                      <ItemImg src={value.profile_img}/>
+                      <ItemImg src={Profile}/>
                     </RightContent>
                   </BottomBox>
                 </TabContent>
@@ -93,9 +56,8 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
             )
           })
         }
-
-        </Container>
-  );
+      </Container>
+    );
 }
 
 const Container = styled.div`

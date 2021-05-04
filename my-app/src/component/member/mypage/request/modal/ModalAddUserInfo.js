@@ -177,7 +177,6 @@ const FilterCloseImg = styled.img`
   }
 `
 const TopInfo = styled.div`
-
 `
 const Title = styled.h3`
 font-size:20px;font-weight:600;transform:skew(-0.1deg);
@@ -223,7 +222,6 @@ const Question = styled(SearchTitle)`
 const Buttons = styled.div`
   width:100%;
   margin-top:55px;
-
 `
 const ConfirmBtn = styled.button`
   width:100%;height:66px;

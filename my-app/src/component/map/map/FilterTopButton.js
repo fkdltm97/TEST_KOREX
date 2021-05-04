@@ -21,7 +21,6 @@ import { Mobile, PC } from "../../../MediaQuery";
 import { MapFilterRedux } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-
 export default function MapFilter({openBunyang, rank}) {
 
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
@@ -39,23 +38,62 @@ export default function MapFilter({openBunyang, rank}) {
         count++;
       }
     }
-    if(count == 0){
-      e.preventDefault();
-      return;
-    }
+    if(count == 0){ e.preventDefault(); return;}
 
     if(e.target.checked){
       filter.prd_sel_type.push(num);
       filterArr.prd_sel_type.push(text);
-      MapFilterRedux.updateFilter({  filter : filter });
-      MapFilterRedux.updateFilterArr({  filterArr: filterArr });
     }else{
       filter.prd_sel_type = filter.prd_sel_type.filter(item => item != num);
       filterArr.prd_sel_type = filterArr.prd_sel_type.filter(item => item != text);
       MapFilterRedux.updateFilter({  filter: filter });
-      MapFilterRedux.updateFilterArr({  filterArr: filterArr });
     }
+
+    function isContain(value){
+      return filterArr.prd_sel_type.some(item => item == value)
+    }
+
+    if(!isContain("매매")){
+      filterArr.priceRange="전체";
+    }
+
+    if(!isContain("월세")){
+      filterArr.monthlyRange="전체";
+    }
+
+    if(!isContain("월세") && !isContain("전세")){
+      filterArr.jeonseRange="전체";
+    }
+
+
+    
+
+    
+
+    MapFilterRedux.updateFilter({filter:filter});
+    MapFilterRedux.updateFilterArr({filterArr:filterArr});
   }
+  
+  useEffect(() => {
+    const trade = document.querySelectorAll(".trade");
+    let filterData = JSON.parse(localStorage.getItem("filterData"));
+    if(filterData){
+      let typeArr = filterData.prd_sel_type;
+      for(let i = 0 ; i < typeArr.length ; i++){
+        if(typeArr[i] == "매매"){
+          trade[0].checked = true;
+        }
+        if(typeArr[i] == "전세"){
+          trade[1].checked = true;
+        }
+        if(typeArr[i] == "월세"){
+          trade[2].checked = true;
+        }
+      }
+    }else{
+      trade[0].checked = true;
+    }
+  }, [])
   
   return (
     <Container>
@@ -63,11 +101,11 @@ export default function MapFilter({openBunyang, rank}) {
         <Box>
           <SubTitle>거래유형</SubTitle>
           <WrapButtons>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className="trade" type="checkbox" id="trade1" defaultChecked/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade1"/>
             <Label for="trade1">매매</Label>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="2" className="trade" type="checkbox" id="trade2"/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
             <Label for="trade2">전세</Label>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="3" className="trade" type="checkbox" id="trade3"/>
+            <Button onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="3" className={["trade", "changeBtn"]} type="checkbox" id="trade3"/>
             <Label for="trade3">월세</Label>
           </WrapButtons>
         </Box>

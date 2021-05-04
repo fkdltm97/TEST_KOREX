@@ -19,7 +19,7 @@ import Set from '../../../../img/member/setting.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 import MemberList from "./MemberList";
 
-export default function Member({}) {
+export default function Member({saveModal}) {
   const [name,setName] = useState("홍길동");/*기본값*/
   const [phone,setPhone] = useState("01012345678");/*기본값*/
   const [active,setActive] = useState(false);
@@ -57,7 +57,7 @@ export default function Member({}) {
                 </Select>
               </WrapInput>
               <SaveButton>
-                <SaveBtn type="submit" active={active} onClick={() => {alert('저장되었습니다.');}}>저장</SaveBtn>
+                <SaveBtn type="submit" active={active} onClick={() => {saveModal();}}>저장</SaveBtn>
               </SaveButton>
             </WrapEdit>
           </WrapMember>

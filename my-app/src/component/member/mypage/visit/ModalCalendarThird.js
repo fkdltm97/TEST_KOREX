@@ -16,7 +16,7 @@ import Close from '../../../../img/main/modal_close.png';
 
 import ModalCommon from '../../../common/modal/ModalCommon';
 
-export default function ModalCal({cal, setCal, updatePageIndex}){
+export default function ModalCal({cal, setVCal,calModal, updatePageIndex}){
   const [name,setName] = useState("");
   const [phone,setPhone] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
@@ -54,7 +54,7 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
         submit:{show:false , title:"" , event : ()=>{offModal(); }},
         cancle:{show:false , title:"" , event : ()=>{offModal(); }},
         confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
-        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);}}
+        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();updatePageIndex(0);}}
     });
   }
 
@@ -62,15 +62,6 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
     return null;
     return (
       <Container>
-        <Wraplive>
-          <ModalClose>
-              <Link onClick={()=>{setCal(false);updatePageIndex(0)}}>
-              <CloseImg src={CloseIcon}/>
-            </Link>
-          </ModalClose>
-          <ModalTop>
-            <Title>방문 예약</Title>
-          </ModalTop>
           <Label>동반고객 정보</Label>
           <Desc>
           분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br/>
@@ -97,7 +88,6 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
               <Invite type="submit" active={active} onClick={() => {comfirmModal();}}>확인</Invite>
             </InviteButton>
           </WrapAdd>
-        </Wraplive>
         <ModalCommon modalOption={modalOption}/>
       </Container>
     );

@@ -31,6 +31,8 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 //server process
 import serverController from '../../../server/serverController';
 
+import KakaoMapSide from '../map/KakaoMapSide';
+
 SwiperCore.use([Navigation, Pagination]);
 
 
@@ -188,6 +190,8 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     }
     
   },[]);
+
+  
     return (
         <Container>
           <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
@@ -418,7 +422,9 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                   </ChangeAddress>
                 </Li>
               </ItemInfoList>
-              <MapArea></MapArea>
+              <MapArea>
+                <KakaoMapSide />
+              </MapArea>
             </WrapTradeInfo>
         </WrapAllInfos>
         {/*전문중개사 정보*/}
@@ -770,6 +776,8 @@ const ChangeTxt = styled.p`
     margin-left:calc(100vw*(5/428));
   }
 `
+
+//  kakao map wrap
 const MapArea = styled.div`
   width:100%;height:315px;
   background:#eee;

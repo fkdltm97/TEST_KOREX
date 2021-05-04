@@ -8,6 +8,7 @@ import brokerRequest_product from './brokerRequest_product';
 import mapRight from './mapRight';
 import temp_tourReservsetting from './temp_tourReservsetting';
 import mapFilter from './mapfilter';
+import mapProductEls from './mapProductEls';
 
 export default combineReducers({
   my,
@@ -19,4 +20,5 @@ export default combineReducers({
   mapRight,
   temp_tourReservsetting,
   mapFilter,
+  mapProductEls,
 });

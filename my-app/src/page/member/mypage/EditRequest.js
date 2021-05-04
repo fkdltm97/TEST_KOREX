@@ -16,6 +16,7 @@ import Bunyang from '../../../component/common/bunyang/Bunyang';
 import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+import ModalCommon from '../../../component/common/modal/ModalCommon';
 
 export default function Edit() {
   //이용약관
@@ -39,6 +40,31 @@ export default function Edit() {
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
 
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
+
+
+  //여기 두개가 핵심이에여
+    //모달 끄는 식
+      const offModal = ()=>{
+        let option = JSON.parse(JSON.stringify(modalOption));
+        option.show = false;
+        setModalOption(option);
+      }
+  
+  
+      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+        const confirmModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"중개의뢰 수정",
+              content:{type:"text",text:`정상적으로 수정되었습니다.`,component:""},
+              submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+              cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+              confirmgreen:{show:true , title:"확인" , link:"/Request", event : ()=>{offModal(); }}
+          });
+        }
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -49,7 +75,8 @@ export default function Edit() {
           <Container>
             {/*개인로 로그인했을때*/}
               <SubTitle title={"중개의뢰 수정"} rank={false} cursor={"default"}/>
-              <EditRequest/>
+              <EditRequest confirmModal={confirmModal}/>
+              <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
@@ -63,6 +90,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

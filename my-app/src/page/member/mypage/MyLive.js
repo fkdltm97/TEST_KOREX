@@ -65,7 +65,7 @@ export default function Join() {
         setModalOption({
             show:true,
             setShow:offModal,
-            title:"필터입니다.",
+            title:"필터",
             content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
             submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
@@ -83,7 +83,7 @@ export default function Join() {
           <Container>
               <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
               <ModalCommon modalOption={modalOption}/>
-              <MyLive setFilter={setFilter} updateModal={updateModal}/>
+              <MyLive updateModal={updateModal}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
@@ -97,6 +97,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

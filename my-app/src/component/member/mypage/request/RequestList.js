@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, mannerModal, value,type}) {
+export default function Request({filter, setFilter, mannerModal, cancleModal,startModal,completeModal,cancle2Modal,value,type}) {
   
   console.log('중개의뢰 매물 요청 list반복:',value);
 
@@ -67,14 +67,14 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                     {
                       menu ?
                       
-                      (value.prd_status =='대기' || value.prd_status=='검토대기') ?
+                      (value.prd_status =='대기' || value.prd_status=='검토 대기') ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{cancleModal();}} className="data_link"/>
                           <InDiv>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link to="/EditRequest" className="data_link"/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
@@ -84,18 +84,18 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                       </InMenu>
                       :null
                     :
-                      (value.prd_status == '거래준비') ?
+                      (value.prd_status == '거래 준비') ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{startModal();}} className="data_link"/>
                           <InDiv>거래 개시</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{completeModal();}} className="data_link"/>
                           <InDiv>거래 완료</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{cancle2Modal();}} className="data_link"/>
                           <InDiv>위임 취소</InDiv>
                         </Div>
                         <Div>
@@ -103,7 +103,7 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                           <InDiv>중개매너 평가</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link to="/DetailViewRequest" className="data_link"/>
                           <InDiv>상세</InDiv>
                         </Div>
                         <Div>
@@ -134,7 +134,6 @@ const Mb = styled.b`
     }
 `
 const Container = styled.div`
-
 `
 const RequestList = styled.ul`
   width:100%;
@@ -153,12 +152,20 @@ const Li = styled.li`
 const ItemImg = styled.div`
   width:106px;height:106px;border: solid 1px #e4e4e4;
   margin-right:40px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(80/428));height:calc(100vw*(80/428));
+    margin-right:calc(100vw*(13/428));
+  }
 `
 const Img = styled.img`
   width:100%;height:100%;border-radius:3px;
+ 
 `
 const Infos = styled.div`
   width:450px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(280/428));
+  }
 `
 const Date = styled.div`
   display:block;
@@ -187,10 +194,6 @@ const Condition = styled(ConditionDiv)`
   }
 `
 const ConditionDate = styled(Condition)`
-@media ${(props) => props.theme.mobile} {
-  font-size:calc(100vw*(13/428));
-  margin-bottom:0;
-}
 `
 const Number = styled.p`
   font-size:14px;color:#979797;
@@ -206,21 +209,34 @@ const Title = styled.h3`
   font-size:18px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   margin-bottom:15px;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(17/428));
+    margin-bottom:calc(100vw*(8/428));
+  }
 `
 const Kinds = styled.h2`
   display:flex;justify-content:space-between;align-items:flex-start;
   margin-bottom:6px;
   @media ${(props) => props.theme.mobile} {
+    margin-bottom:calc(100vw*(6/428));
   }
 `
 const Left = styled.p`
   font-size:15px;font-weight:600;
   transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(14/428));
+    width:calc(100vw*(65/428));
+    word-break:keep-all;
+  }
 `
 const Right = styled(Left)`
   color:#979797;
   text-align:right;
   width:330px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(200/428));
+  }
 `
 const Address = styled(Kinds)`
 `
@@ -243,7 +259,6 @@ const Alarm = styled.div`
     margin-bottom:0;
     margin-right:calc(100vw*(5/428));
   }
-
 `
 const AlarmCheck = styled.input`
   display:none;
@@ -298,7 +313,6 @@ const InMenu = styled.ul`
     left:calc(100vw*(-30/428));
     width:calc(100vw*(100/428));
   }
-
 `
 const Div = styled.li`
   font-size:13px;

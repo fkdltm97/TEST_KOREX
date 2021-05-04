@@ -21,6 +21,8 @@ import ModalMap from '../../../component/member/mypage/propertyManage/modal/Moda
 import ModalSelect from '../../../component/member/mypage/propertyManage/modal/ModalSelect';
 import ModalEdit from '../../../component/member/mypage/propertyManage/modal/ModalEdit';
 import ModalAllEdit from '../../../component/member/mypage/propertyManage/modal/ModalAllEdit';
+import ModalEditResult from '../../../component/member/mypage/propertyManage/modal/ModalEditResult';
+
 
 export default function Join() {
   //이용약관
@@ -107,12 +109,13 @@ export default function Join() {
           show:true,
           setShow:offModal,
           title:"물건투어예약접수 관리",
-          content:{type:"component",text:``,component:<ModalSelect select={select} setSelect={setSelect}/>},
+          content:{type:"component",text:``,component:<ModalSelect select={select} setSelect={(e)=>{setSelect(e); offModal();}}/>},
           submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
           confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
       });
     }
+
     const editModal = () =>{
       setModalOption({
           show:true,
@@ -121,7 +124,7 @@ export default function Join() {
           content:{type:"component",text:``,component:<ModalEdit/>},
           submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
-          confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+          confirm:{show:true , title:"확인" , event : ()=>{offModal(); editResultModal();}}
       });
     }
     const editAllModal = () =>{
@@ -132,9 +135,22 @@ export default function Join() {
           content:{type:"component",text:``,component:<ModalAllEdit/>},
           submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
-          confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+          confirm:{show:true , title:"확인" , event : ()=>{offModal(); editResultModal();}}
       });
     }
+    //예약수정 얼럿창
+    const editResultModal = () =>{
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"물건투어예약접수",
+          content:{type:"component",text:``,component:<ModalEditResult/>},
+          submit:{show:true , title:"확인" , event : ()=>{offModal(); }},
+          cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+      });
+    }
+    
     return (
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -145,7 +161,7 @@ export default function Join() {
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/> 
             <PropertyManage cancleModal={cancleModal} confirmModal={confirmModal} select={select} setSelect={setSelect}
-            mapModal={mapModal} selectModal={selectModal} editModal={editModal} editAllModal={editAllModal}/>
+            mapModal={mapModal} selectModal={selectModal} editModal={editModal} editAllModal={editAllModal} editResultModal={editResultModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
@@ -160,6 +176,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

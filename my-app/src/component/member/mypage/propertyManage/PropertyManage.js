@@ -21,7 +21,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 //component
 import ManageList from "./ManageList";
 
-export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,value,type}) {
+export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -38,7 +38,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       number:"2D0000324",
       name:"홍길동",
       phone:"01012345678",
-      address:"충남내포신도시2차대방엘리움더센트럴 7층 707호",
+      address:"충남내포신도시2차 아파트",
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
@@ -55,7 +55,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
-      type:"today"
+      type:"days"
     },
     {
       Manage_id : 2,
@@ -68,7 +68,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
-      type:"today"
+      type:"cancle"
     },
     {
       Manage_id : 3,
@@ -81,7 +81,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       kinds:"아파트",
       trade:"매매",
       price:"1억 5,000",
-      type:"today"
+      type:"end"
     },
 ]
 
@@ -134,14 +134,12 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
                   return 0.5
                 }
               }
-
               return(
-                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal}
+                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal} editResultModal={editResultModal}
                 mapModal={mapModal} type={type} value={value} select={select} setSelect={setSelect}/>
               )
             })
           }
-
         </WrapManageList>
       </WrapManage>
   </Container>

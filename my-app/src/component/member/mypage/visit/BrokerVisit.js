@@ -23,7 +23,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import VisitList from "./VisitList";
 
-export default function Reserve({setMap,setFilter,setVisit,setVCal,calModal,visitorModal,updateModal,updateMapModal,value, type, type2}) {
+export default function BrokerVisitt({setMap,setFilter,setVisit,setVCal,calModal,visitorModal,updateModal,updateMapModal,value, type, type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);

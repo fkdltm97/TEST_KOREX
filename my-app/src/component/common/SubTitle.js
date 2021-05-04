@@ -139,6 +139,9 @@ const Arrow = styled.span`
   font-size:12px;
   color:#979797;
   vertical-align:middle;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+  }
 `
 const SaveImg = styled(EditImg)`
 `
