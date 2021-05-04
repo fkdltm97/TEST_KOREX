@@ -8,6 +8,7 @@ import * as brokerRequest_productEditactions from './modules/brokerRequest_produ
 import * as mapRight from './modules/mapRight';
 import * as temp_tourReservsettingAction from './modules/temp_tourReservsetting';
 import * as mapFilter from './modules/mapfilter';
+import * as mapProductEls from './modules/mapProductEls';
 
 import store from './index';
 
@@ -22,3 +23,4 @@ export const brokerRequest_productEditActions = bindActionCreators(brokerRequest
 export const MapRight = bindActionCreators(mapRight, dispatch);
 export const temp_tourReservsettingActions = bindActionCreators(temp_tourReservsettingAction,dispatch);
 export const MapFilterRedux = bindActionCreators(mapFilter, dispatch);
+export const MapProductEls = bindActionCreators(mapProductEls, dispatch);

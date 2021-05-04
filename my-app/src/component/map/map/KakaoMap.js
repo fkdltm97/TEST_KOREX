@@ -20,7 +20,7 @@ import blockClustererImg from "../../../img/map/blockClusterer.png";
 
 
 // redex
-import { MapRight } from '../../../store/actionCreators';
+import { MapRight, MapProductEls } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
 import json from '../../../json/geoMap.json'
@@ -42,6 +42,7 @@ export default function KakaoMap({}) {
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
 
   const [exclusiveArr, setExclusiveArr] = useState([]);
   const [probrokerArr, setProbrokerArr] = useState([]);
@@ -55,13 +56,12 @@ export default function KakaoMap({}) {
   var distanceOverlay;
   var dots = [];
 
-  let firstRender = true;
-
   // 서버에서 데이터를 받아와 배열 생성--------------
   // 호출 상황 --------
   // 첫 로드
   // 필터 변경
   // 오른쪽 메뉴 변경
+
   // idle event
   function getProduct() {
     // 로컬 저장
@@ -72,18 +72,39 @@ export default function KakaoMap({}) {
     // setBlockArr([])
   }
 
+  //  제거
   const removeEvent = () => {
     kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct );
   }
 
+  // 새로고침
   const refreshArr = () => {
-    console.log("서버 통신하여 새로운 정보 받아오기");
+    // **api 서버에서 데이터를 받아와 매물 리스트를 넣는다.
+    const newArr = [];
+    for(let i = 0 ; i < 10 ; i++){
+      newArr.push({
+        item_id : i,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:`자이 10${i}동`,
+        type:"전세",
+        price:`1${i}억 5,000`,
+        floor:"층수",
+        area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      });
+    }
+    MapProductEls.updateExclusive({ exclusive : newArr })
+    // console.log("서버 통신하여 새로운 정보 받아오기");
+    // MapProductEls redux
     // console.log(mapRightRedux.isExclusive); // 전속 매물
     // console.log(mapRightRedux.isProbroker); // 전문 중개사
     // console.log(mapRightRedux.isBlock); // 단지별 실거래
     // console.log(mapFilterRedux.filterArr); // 필터
   }
-
 
   useEffect(() => {
     if(!kakaoMap){return;}

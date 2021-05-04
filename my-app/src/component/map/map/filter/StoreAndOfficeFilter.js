@@ -270,7 +270,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       else if(status == "officetel"){
         return <OfficetelFilterItem open={open} setOpen={setOpen}/>
       }
-      else if(status == "storeOffice"){
+      else if(status == "store" || status == "office"){
         return <StoreAndOfficeItem open={open} setOpen={setOpen}/>
       }
     }

@@ -42,10 +42,10 @@ export default function MainHeader({openBunyang, rank}) {
           history.push(`/map/officetel`);
           break;
         case "상가":
-          history.push(`/map/storeOffice`);
+          history.push(`/map/store`);
           break;
         case "사무실":
-          history.push(`/map/storeOffice`);
+          history.push(`/map/office`);
           break;
         default:
           history.push(`/map/apart`);
