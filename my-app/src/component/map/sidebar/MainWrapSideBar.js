@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -34,6 +34,8 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   const productRedux = useSelector(state=>{ return state.mapProductEls});
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const login_userinfo= useSelector(data => data.login_user);
+
+  const containerRef = useRef();
 
   const position=()=>{
     if(updown == true) {
@@ -142,12 +144,10 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
 
   // 무한 스크롤
   const onScrollList = () => {
-    const sideBarWrap = document.querySelector(".sideBarWrap");
-    
     // 무한스크롤 넉넉
     // if(sideBarWrap.scrollHeight <= sideBarWrap.scrollTop+sideBarWrap.clientHeight + 100){
     // 무한스크롤 빡빡
-    if(sideBarWrap.scrollHeight == sideBarWrap.scrollTop+sideBarWrap.clientHeight){
+    if(containerRef.current.scrollHeight == containerRef.current.scrollTop+containerRef.current.clientHeight){
       // **api 서버에서 데이터 가져와서 배열에 추가하기 
       // 전속 매물--------------
       if(mapRightRedux.isExclusive.is){
@@ -211,7 +211,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   
 
     return (
-      <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} className="sideBarWrap" onScroll={() => onScrollList()}>
+      <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} ref={containerRef} className="sideBarWrap" onScroll={() => onScrollList()}>
         {
           pageLoader(updateReserveModal)
         }

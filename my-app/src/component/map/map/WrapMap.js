@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -24,14 +24,13 @@ const { kakao } = window;
 export default function WrapMap({openBunyang, rank, open, setOpen, status}) {
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
-
+  const filterRef = useRef();
 
   useEffect(() => {
-    const filterWrap = document.querySelector("#filterWrap");
     if(mapRightRedux.isExclusive.is){
-      filterWrap.classList.remove("hidden");
+      filterRef.current.classList.remove("hidden");
     }else{
-      filterWrap.classList.add("hidden");
+      filterRef.current.classList.add("hidden");
     }
   }, [mapRightRedux.isExclusive.is])
 
@@ -39,7 +38,7 @@ export default function WrapMap({openBunyang, rank, open, setOpen, status}) {
       <Container>
         <KakaoMap />
         <MapRightMenu />
-        <div id="filterWrap">
+        <div ref={filterRef}>
           <WrapMapFilter setOpen={setOpen} status={status} />
         </div>
       </Container>

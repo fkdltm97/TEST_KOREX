@@ -24,31 +24,10 @@ import { useSelector } from 'react-redux';
 export default function MapFilter({openBunyang, rank}) {
 
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
-  
-  const onClickTrade = (e) => {
-    let filter = JSON.parse(JSON.stringify(mapFilterRedux.filter));
-    let filterArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-    const text = e.target.dataset.text;
-    const num = e.target.dataset.num;
-    const trade = document.querySelectorAll(".trade");
-    let count = 0;
+  let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
+  let filterArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
 
-    for(let i = 0 ; i < trade.length ; i++){
-      if(trade[i].checked){
-        count++;
-      }
-    }
-    if(count == 0){ e.preventDefault(); return;}
-
-    if(e.target.checked){
-      filter.prd_sel_type.push(num);
-      filterArr.prd_sel_type.push(text);
-    }else{
-      filter.prd_sel_type = filter.prd_sel_type.filter(item => item != num);
-      filterArr.prd_sel_type = filterArr.prd_sel_type.filter(item => item != text);
-      MapFilterRedux.updateFilter({  filter: filter });
-    }
-
+  const rangeToggle = () => {
     function isContain(value){
       return filterArr.prd_sel_type.some(item => item == value)
     }
@@ -64,36 +43,32 @@ export default function MapFilter({openBunyang, rank}) {
     if(!isContain("월세") && !isContain("전세")){
       filterArr.jeonseRange="전체";
     }
-
-
-    
-
-    
-
-    MapFilterRedux.updateFilter({filter:filter});
-    MapFilterRedux.updateFilterArr({filterArr:filterArr});
   }
-  
-  useEffect(() => {
-    const trade = document.querySelectorAll(".trade");
-    let filterData = JSON.parse(localStorage.getItem("filterData"));
-    if(filterData){
-      let typeArr = filterData.prd_sel_type;
-      for(let i = 0 ; i < typeArr.length ; i++){
-        if(typeArr[i] == "매매"){
-          trade[0].checked = true;
-        }
-        if(typeArr[i] == "전세"){
-          trade[1].checked = true;
-        }
-        if(typeArr[i] == "월세"){
-          trade[2].checked = true;
-        }
-      }
+
+  const onClickTrade = (e) => {
+    const text = e.target.dataset.text;
+    const num = e.target.dataset.num;
+    let count = 0;
+    if(e.target.checked){
+      filterArr.prd_sel_type.push(text);
+      uiData.prd_sel_type[num] = 1;      
     }else{
-      trade[0].checked = true;
+      uiData.prd_sel_type.map(item => {if(item){count++}})
+      if(count == 1){
+        e.preventDefault();
+        return;
+      }
+      uiData.prd_sel_type[num] = 0;
+      filterArr.prd_sel_type = filterArr.prd_sel_type.filter(item => item != text);
     }
-  }, [])
+
+    rangeToggle();
+
+    MapFilterRedux.updateFilterArr({filterArr:filterArr});
+    MapFilterRedux.updateFilterUI({filterUI:uiData});
+  }
+
+
   
   return (
     <Container>
@@ -101,11 +76,11 @@ export default function MapFilter({openBunyang, rank}) {
         <Box>
           <SubTitle>거래유형</SubTitle>
           <WrapButtons>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade1"/>
+            <Button checked={uiData.prd_sel_type[0]} onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="0" className={["trade", "changeBtn"]} type="checkbox" id="trade1"/>
             <Label for="trade1">매매</Label>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
+            <Button checked={uiData.prd_sel_type[1]} onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
             <Label for="trade2">전세</Label>
-            <Button onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="3" className={["trade", "changeBtn"]} type="checkbox" id="trade3"/>
+            <Button checked={uiData.prd_sel_type[2]} onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade3"/>
             <Label for="trade3">월세</Label>
           </WrapButtons>
         </Box>

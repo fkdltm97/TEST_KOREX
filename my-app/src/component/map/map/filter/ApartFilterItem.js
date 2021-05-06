@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -21,11 +21,13 @@ import { useSelector } from 'react-redux';
 
 export default function ApartFilter({open, setOpen}) {
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+    let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
+    const detailRef = useRef();
 
     const showOpen =()=>{
+      detailRef.current.classList.toggle("hidden");
       setOpen(!open);
-      const optionList = document.querySelector(".optionList");
-      optionList.classList.toggle("hidden");
     }
     const rotate=()=>{
       if(open == true) {
@@ -37,19 +39,21 @@ export default function ApartFilter({open, setOpen}) {
 
     // 방수
     const onClickRoomApart = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      newArr.roomApart=e.target.dataset.text
-      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      data.roomApart=e.target.dataset.text;
+      uiData.roomApart=e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
     // 욕실
     const onClickBath = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      newArr.bath=e.target.dataset.text
-      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      data.bath=e.target.dataset.text;
+      uiData.bath=e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
-    // 옵션 
+    // 옵션  -- 사용 x
     const onClickOption = (e) => {
       let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
       if(e.target.checked){
@@ -60,33 +64,6 @@ export default function ApartFilter({open, setOpen}) {
       MapFilterRedux.updateFilterArr({  filterArr: newArr });
     } 
 
-    useEffect(() => {
-      let filterData = JSON.parse(localStorage.getItem("filterData"));
-      if(!filterData){return;}
-      const room = document.querySelectorAll(`input[name='roomApart']`); // 방수
-      let roomText = filterData.roomApart;
-      for(let i = 0 ; i < room.length ; i++){
-        if(roomText == room[i].dataset.text){
-          room[i].checked = true;
-          break;
-        }
-      }
-
-      const bath = document.querySelectorAll(`input[name='bath']`); // 욕실
-      let bathText = filterData.bath;
-      for(let i = 0 ; i < bath.length ; i++){
-        if(bathText == bath[i].dataset.text){
-          bath[i].checked = true;
-          break;
-        }
-      }
-
-      // let optionText = filterData.life_facilites;  // 옵션
-      // for(let i = 0 ; i < optionText.length ; i++){
-      //   const el = document.querySelector(`input[data-text=${optionText[i]}]`);
-      //   el.checked = true;
-      // }
-    }, [])
 
     return (
         <Container>
@@ -98,42 +75,42 @@ export default function ApartFilter({open, setOpen}) {
                 <ArrowImg src={ArrowTop} rotate={rotate}/>
               </DetailTopBox>
 
-                <SubDepth className={["optionList", "hidden"]}>
+                <SubDepth ref={detailRef} className={["hidden"]}>
                   {/* 방수 */}
                   <BoxNoneBorder id="roomWrap">
                     <SubTitle>방수</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" data-text="전체" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room1" defaultChecked/>
+                          <InputR type="radio" checked={uiData.roomApart==0} className="changeBtn" data-num={0} data-text="전체" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room1"/>
                           <LabelR for="room1">
                             <SpanR/>
                             전체
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" data-text="1개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room2"/>
+                          <InputR type="radio" checked={uiData.roomApart==1} className="changeBtn" data-num={1} data-text="1개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room2"/>
                           <LabelR for="room2">
                             <SpanR/>
                             1개
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" data-text="2개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room3"/>
+                          <InputR type="radio" checked={uiData.roomApart==2} className="changeBtn" data-num={2} data-text="2개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room3"/>
                           <LabelR for="room3">
                             <SpanR/>
                             2개
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" data-text="3개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room4"/>
+                          <InputR type="radio" checked={uiData.roomApart==3} className="changeBtn" data-num={3} data-text="3개" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room4"/>
                           <LabelR for="room4">
                             <SpanR/>
                             3개
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" data-text="4개이상" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room5"/>
+                          <InputR type="radio" checked={uiData.roomApart==4} className="changeBtn" data-num={4} data-text="4개이상" onClick={(e) => onClickRoomApart(e)} name="roomApart" id="room5"/>
                           <LabelR for="room5">
                             <SpanR/>
                             4개이상
@@ -149,28 +126,28 @@ export default function ApartFilter({open, setOpen}) {
                     <WrapFilter>
                       <WrapRadio>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" onClick={(e) => onClickBath(e)} data-text="전체" name="bath" id="bath1" defaultChecked/>
+                          <InputR type="radio" checked={uiData.bath==0} data-num={0} className="changeBtn" onClick={(e) => onClickBath(e)} data-text="전체" name="bath" id="bath1" defaultChecked/>
                           <LabelR for="bath1">
                             <SpanR/>
                             전체
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" onClick={(e) => onClickBath(e)} data-text="1개" name="bath" id="bath2"/>
+                          <InputR type="radio" checked={uiData.bath==1} data-num={1} className="changeBtn" onClick={(e) => onClickBath(e)} data-text="1개" name="bath" id="bath2"/>
                           <LabelR for="bath2">
                             <SpanR/>
                             1개
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" onClick={(e) => onClickBath(e)} data-text="2개이상" name="bath" id="bath3"/>
+                          <InputR type="radio" checked={uiData.bath==2} data-num={2} className="changeBtn" onClick={(e) => onClickBath(e)} data-text="2개이상" name="bath" id="bath3"/>
                           <LabelR for="bath3">
                             <SpanR/>
                             2개이상
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR type="radio"  className="changeBtn" onClick={(e) => onClickBath(e)} data-text="3개이상" name="bath" id="bath4"/>
+                          <InputR type="radio" checked={uiData.bath==3} data-num={3} className="changeBtn" onClick={(e) => onClickBath(e)} data-text="3개이상" name="bath" id="bath4"/>
                           <LabelR for="bath4">
                             <SpanR/>
                             3개이상
