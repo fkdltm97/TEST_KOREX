@@ -19,21 +19,17 @@ import { Mobile, PC } from "../../../../MediaQuery"
 //component
 import ManageList from "./ManageList";
 
-import {useSelector} from 'react-redux';
-
 //server process
 import serverController from '../../../../server/serverController';
 
-export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
-  console.log('===>>>>propertyMnagaew요소 실행::');
+export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
+  console.log('===>>>>propertyMnagaew요소 실행::',reservationItemlist,prdidvalue);
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
-  const login_userinfo = useSelector(data => data.login_user);
-  const [reservationItemlist,setReservationItemlist] = useState([]);
-
+  
   /*data map*/
   const ManageListItem =[
     {
@@ -90,35 +86,12 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
     },
   ]
   
-  useEffect(async () => {
-    
-    if(login_userinfo.is_login){
-      let body_info = {
-        memid : login_userinfo.memid,
-        company_id : login_userinfo.company_id,
-        user_type : login_userinfo.user_type,
-        isexculsive: login_userinfo.isexculsive
-      };
-      console.log('JSONBODY INFO TEST:',JSON.stringify(body_info));
-
-      let res= await serverController.connectFetchController('/api/broker/brokerproduct_reservationList','POST',JSON.stringify(body_info));
-
-      if(res){
-        console.log('res result ...>:::',res);
-
-        var reservation_data=res.result_data;
-        setReservationItemlist(reservation_data);
-      }
-    }
-    
-  },[]);
-
     return (
         <Container>
           <WrapManage>
             <TopTitle>물건투어예약접수관리</TopTitle>
             <TopSortingBtn>
-              <AddBtn onClick={()=> {selectModal();}}>전체</AddBtn>
+              <AddBtn onClick={()=> {selectModal();}}>{prdidvalue!=''&& prdidvalue!=null ? prdidvalue : '전체' }</AddBtn>
             </TopSortingBtn>
             <TopInfo>
               <All>총 <GreenColor>{reservationItemlist.length}</GreenColor> 건</All>

@@ -26,6 +26,8 @@ import ModalEditResult from '../../../component/member/mypage/propertyManage/mod
 //server
 import serverController from '../../../server/serverController';
 
+import {useSelector} from 'react-redux';
+
 export default function Join() {
   //이용약관
   const [termservice, setTermService] = useState(false);
@@ -57,6 +59,39 @@ export default function Join() {
   // (전체 버튼 누르면 나오는) 리스트 셀렉트
   const [select, setSelect] = useState(false);
   console.log(select);
+  
+  //사용자 투어예약접수리스트 가져오기.
+  const login_userinfo = useSelector(data => data.login_user);
+  const [reservationItemlist,setReservationItemlist] = useState([]);//reservationItemlist 예약아이템리스트 page에서 선언하고, 여기서 사용한다. 초기화하고 건내준다.
+  const [prdidvalue,setPrdidvalue] = useState('');
+
+  useEffect(async () => {
+    console.log('=>>>>propertyYTOurtmnangae페이지 최초 실행시점때만 실행, 접수리스트 데이터 조회:');
+    if(login_userinfo.is_login){
+      let body_info = {
+        memid : login_userinfo.memid,
+        company_id : login_userinfo.company_id,
+        user_type : login_userinfo.user_type,
+        isexculsive: login_userinfo.isexculsive
+      };
+      console.log('JSONBODY INFO TEST:',JSON.stringify(body_info));
+
+      let res= await serverController.connectFetchController('/api/broker/brokerproduct_reservationList','POST',JSON.stringify(body_info));
+
+      if(res){
+        console.log('res result ...>:::',res);
+
+        var reservation_data=res.result_data;
+        setReservationItemlist(reservation_data);
+      }
+    }
+    
+  },[]);
+
+  useEffect(async () => {
+    console.log('=>>>>>propertyTourmanage페이지의 reservationImtelist state변수값 변화감지 변화시에만 실행되는 형태',reservationItemlist,prdidvalue);
+
+  },[reservationItemlist,prdidvalue]);
 
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -124,7 +159,7 @@ export default function Join() {
           show:true,
           setShow:offModal,
           title:"물건투어예약접수 관리",
-          content:{type:"component",text:``,component:<ModalSelect select={select} setSelect={(e)=>{setSelect(e); offModal();}}/>},
+          content:{type:"component",text:``,component:<ModalSelect setPrdidvalue={setPrdidvalue} setReservationItemlist={setReservationItemlist} select={select} setSelect={(e)=>{setSelect(e); offModal();}}/>},
           submit:{show:false , title:"확인" , event : ()=>{offModal(); }},
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
           confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
@@ -175,7 +210,7 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/> 
-            <PropertyManage cancleModal={cancleModal} confirmModal={confirmModal} select={select} setSelect={setSelect}
+            <PropertyManage prdidvalue={prdidvalue} reservationItemlist={reservationItemlist} cancleModal={cancleModal} confirmModal={confirmModal} select={select} setSelect={setSelect}
             mapModal={mapModal} selectModal={selectModal} editModal={editModal} editAllModal={editAllModal} editResultModal={editResultModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>

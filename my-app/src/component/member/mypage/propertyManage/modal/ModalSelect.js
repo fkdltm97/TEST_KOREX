@@ -12,7 +12,16 @@ import Check from '../../../../../img/map/radio.png';
 import Checked from '../../../../../img/map/radio_chk.png';
 
 //지도 모달
-export default function ModalSelect({select,setSelect,offModal}) {
+
+//server process
+import serverController from '../../../../../server/serverController';
+
+import {useSelector} from 'react-redux';
+
+export default function ModalSelect({setPrdidvalue,setReservationItemlist,select,setSelect,offModal}) {
+  const login_userinfo = useSelector(data => data.login_user);
+  const [propertylist,setPropertylist] = useState([]);
+
   const PropertyListItem =[
     {
       p_id : 0,
@@ -48,7 +57,28 @@ export default function ModalSelect({select,setSelect,offModal}) {
       price:"1억 5,000",
       person:"3"
     }
-]
+  ]
+  
+  //로드 시점 한번만 실행, 어떤 변화state감지하지 않겠다. 변화에 반응하지 않겠다.
+  useEffect(async () => {
+    if(login_userinfo.is_login){
+      let body_info={
+        memid: login_userinfo.memid,
+        company_id: login_userinfo.company_id,
+        user_type:login_userinfo.user_type,
+        isexculsive:login_userinfo.isexculsive
+      };
+      console.log('JSONBDOY INFO TEST:',JSON.stringify(body_info));
+
+      let res=await serverController.connectFetchController('/api/broker/brokerproduct_list_view2','POST',JSON.stringify(body_info));
+
+      if(res){
+        console.log('-=>>>>>>res result:',res);
+        
+        setPropertylist(res.result_data);
+      }
+    }
+  },[]);
 
     return (
         <Container>
@@ -62,12 +92,14 @@ export default function ModalSelect({select,setSelect,offModal}) {
             </WrapTop>
             <WrapList>
             {
-            PropertyListItem.map((value) => {
-
+            propertylist.map((value) => {
+              var broker_name;
               const type=()=>{
-                if(value.conditiontype == "사용자 의뢰") { //검토대기
+                if(value['info'].product_create_origin == "사용자의뢰" || value['info']['product_create_origin']==1) { //검토대기
+                  broker_name= value['info']['request_man_name'];
                   return "#fe7a01"
-                }else if(value.conditiontype == "외부 수임") {//거래준비
+                }else if(value['info'].product_create_origin == "외부수임" || value['info']['product_create_origin']==2) {//거래준비
+                  broker_name= value['info']['outer_broker_name'];
                   return "#01684b"
                 }
               }
@@ -76,17 +108,40 @@ export default function ModalSelect({select,setSelect,offModal}) {
                 <Li>
                 <WrapRight>
                   <CheckBox>
-                    <InputCheckEa type="radio" name="tour" id={"easelect"+value.p_id} />
-                    <CheckLabelEa for={"easelect"+value.p_id} onClick={()=>{setSelect(true);}}/>
+                    <InputCheckEa type="radio" name="tour" value={value['info'].prd_identity_id} id={"easelect"+value['info'].prd_identity_id} onChange={ async (e)=>{
+                      setSelect(true);//이것을 하면 state상태가 바뀌기기에 상위 콤퍼넌트의 state가 바뀌기에 랜더링한다.useEffect가 없어도 한다. 이건 기본적 시스템리액트상에서하는것이다.
+                      //클릭한 매물의 id값을 여기서 서버에 요청해서 해당 아디에 해당하는 투어예약셋팅,투어예약셋팅에 관련된 예약신청리스트 state재갱신하여 useEffect처리.
+                      console.log('클릭한 체크박스(라벨체크될때)::',e,e.target.value,e.target.checked);
+                      
+                      if(e.target.checked){
+                        let check_prd_identity_id=e.target.value;
+
+                        let body_info={
+                          prd_identity_id : check_prd_identity_id
+                        };
+                        console.log('JSON_BODY INFO::',JSON.stringify(body_info));
+
+                        let res=await serverController.connectFetchController('/api/broker/brokerproduct_reservationList_perProduct','POST',JSON.stringify(body_info));
+
+                        if(res){
+                          console.log('-=>>>>>>res result:',res);
+                          
+                          //setPropertylist(res.result_data);
+                          setReservationItemlist(res.result_data);
+                          setPrdidvalue(check_prd_identity_id);//원래는 매물의 등록번호(prd_identity_id dislay대용) 갱신한다.
+                        }
+                      }
+                    }}/>
+                    <CheckLabelEa for={"easelect"+value['info'].prd_identity_id}/>
                   </CheckBox>
                 </WrapRight>
                 <WrapLeft>
                   <Top>
                     <TopLeft>
-                      <TopCondition><Color color={type}>{value.conditiontype}</Color>상태 : {value.condition}</TopCondition>
+                      <TopCondition><Color color={type}>{value['info'].product_create_origin}</Color>상태 : {value['info'].prd_status}</TopCondition>
                       <JunsokBox>
                         <Green>전속</Green>
-                        <Date>{value.startdate} ~{value.enddate}</Date>
+                        <Date>{value['info'].prd_exculsive_start_date} ~{value['info'].prd_exculsive_end_date}</Date>
                       </JunsokBox>
                     </TopLeft>
                     <TopRight>
@@ -95,31 +150,31 @@ export default function ModalSelect({select,setSelect,offModal}) {
                   </Top>
                   <Bottom>
                     <BottomRight>
-                      <Number>등록번호 : {value.number}</Number>
-                      <Title>{value.title}</Title>
+                      <Number>등록번호 : {value['info'].prd_identity_id}</Number>
+                      <Title>{value['info'].prd_name}</Title>
                       <FlexBox>
                         <Left>물건종류</Left>
-                        <Right>{value.kinds}</Right>
+                        <Right>{value['info'].prd_type}</Right>
                       </FlexBox>
                       <FlexBox>
                         <Left>건물명</Left>
-                        <Right>{value.itemname}</Right>
+                        <Right>{value['info'].prd_name}</Right>
                       </FlexBox>
                       <FlexBox>
                         <Left>거래유형</Left>
-                        <Right>{value.trade}</Right>
+                        <Right>{value['info'].prd_sel_type}</Right>
                       </FlexBox>
                       <FlexBox>
                         <Left>거래금액</Left>
-                        <Right>{value.price}</Right>
+                        <Right>{value['info'].prd_price}</Right>
                       </FlexBox>
                       <FlexBox>
                         <Left>물건투어 예약</Left>
-                        <Right>{value.person}명</Right>
+                        <Right>{value['reservcnt_per_prd']}명</Right>
                       </FlexBox>
                       <FlexBox>
                         <Left>의뢰인명</Left>
-                        <Right>{value.name}</Right>
+                        <Right>{broker_name}</Right>
                       </FlexBox>
                     </BottomRight>
                   </Bottom>

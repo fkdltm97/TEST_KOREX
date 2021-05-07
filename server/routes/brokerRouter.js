@@ -702,7 +702,7 @@ router.post('/productToursettingRegister',async function(request,response){
             var prev_special_specifydates=[];//특정 추가or제외한 날짜리스트들 집합구한다. 두개를 공통적 날짜리스트로 해야한다. 
 
             //특정날짜를 제외or추가한 합집합 요청인 경우에는 기존 제외or추가 하려는 날짜들 리스트를 모두 뽑아서 저장(중복제거)한다.해서 그 리스트중에서 추가하려는 특정제외or추가날짜여부가 있는지 중복여부
-            var [prev_tour_specifydate_rows] = await connection.query("select tour_set_specifydate from tour where tour_type=2");
+            var [prev_tour_specifydate_rows] = await connection.query("select tour_set_specifydate from tour where tour_type=2 and prd_identity_id=?",[prd_identity_ids]);
 
             console.log('기존 제외 또는 추가되어있는 특정날짜리스트들:',prev_tour_specifydate_rows);
 
@@ -1055,6 +1055,43 @@ router.post('/brokerproduct_reservationList',async function(request, response){
         return response.status(403).json({success:false,message:'server query full problme error!'});
     }
 });
+router.post('/brokerproduct_reservationList_perProduct',async function(request, response){
+    console.log('===========>>>request.body::',request.body);
+
+    var req_body=request.body;
+    
+    var prd_identity_id=req_body.prd_identity_id;
+
+    const connection=await pool.getConnection(async conn => conn);
+
+    try{
+        
+        var [tour_id_rows] = await connection.query("select tour_id from tour where prd_identity_id=?",[prd_identity_id]);
+        console.log('==>>>임의 매물 한개에 대한 tour_id셋팅예약방리스트(일반,추가)내역리스트,이중에서 사용자들이 요청을 한 내역들에 해당하는것만 보여주면 된다.',tour_id_rows);
+        var tour_id_strings='';
+        for(var t=0; t<tour_id_rows.length; t++){
+            if(t == tour_id_rows.length - 1){
+                tour_id_strings += tour_id_rows[t]['tour_id'];
+            }else{
+                tour_id_strings += tour_id_rows[t]['tour_id']+',';
+            }
+        }
+        console.log('=======>>>>tour_id_strings::::',tour_id_strings);
+
+        //var [tour_reservation_rows] = await connection.query("select * from tourReservation where tour_id in (?)",[tour_id_strings]);
+        var tour_reservation_rows_query= "select r.tr_id as r_tr_id,r.td_id as r_td_id,r.tour_id as r_tour_id,r.mem_id as r_mem_id,r.create_date as r_create_date,r.modify_date as r_modify_date,r.tr_name as r_tr_name,r.tr_phone as r_tr_phone,r.tr_type as r_tr_type,r.invite_text as r_invite_text,r.tr_status as r_tr_status,r.tr_user_reservtime as r_tr_user_reservtime, t.tour_id as t_tour_id, t.prd_identity_id as t_prd_identity_id,t.tour_start_date as t_tour_start_date,t.tour_end_date as t_tour_end_date, p.prd_identity_id as p_prd_identity_id,p.prd_name as p_prd_name,p.prd_img as p_prd_img,p.prd_type as p_prd_type,p.prd_sel_type as p_prd_sel_type,p.prd_price as p_prd_price from tourReservation r join tour t on r.tour_id = t.tour_id join product p on t.prd_identity_id = p.prd_identity_id where r.tour_id in ("+tour_id_strings+")";
+        var [tour_reservation_rows] = await connection.query(tour_reservation_rows_query);
+        console.log('===>>>tour_reservation_rows::::',tour_reservation_rows);
+        connection.release();
+
+        return response.json({success:true, result_data : tour_reservation_rows})
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false,message:'server query full problme error!'});
+    }
+});
 router.post('/brokerproduct_reservation_release',async function(request, response){
 
     console.log('===========>>>request.body::',request.body);
@@ -1075,6 +1112,79 @@ router.post('/brokerproduct_reservation_release',async function(request, respons
         return response.json({success:true, message:'query success'});
     }catch(err){
         console.log('server query error:',e);
+        connection.release();
+
+        return response.status(403).json({success:false,message:'server query full problme error!'});
+    }
+});
+router.post('/brokerproduct_list_view2',async function(request, response){
+    console.log('===========>>>request.body::',request.body);
+
+    var req_body=request.body;
+
+    var mem_id=req_body.memid;
+    var company_id=req_body.company_id;
+    var user_type=req_body.user_type;
+    var isexculsive=req_body.isexculsive;
+
+    const connection=await pool.getConnection(async conn => conn);
+
+    try{
+        var [prd_id_rows] = await connection.query("select * from product where company_id=?",[company_id]);
+        /*var prd_id_strings='';
+        for(var p=0; p<prd_id_rows.length; p++){
+            if(p == prd_id_rows.length-1){
+                prd_id_strings += prd_id_rows[p]['prd_identity_id'];
+            }else{
+                prd_id_strings += prd_id_rows[p]['prd_identity_id']+',';
+            }          
+        }
+        console.log('====>>>prd_id_strings::::',prd_id_strings);*/
+
+        console.log('prd_id_rows::::',prd_id_rows);
+        //각 담당 매물, 매물별 관련 정보 저장할 개체 저장.
+        var prd_identity_info_array=[];//매물별 정보 저장할 배열 객체
+
+        for(var r=0,match=0; r<prd_id_rows.length; r++){   
+            //각 담당 매물들리스트가 나오고, 그 매물별 tour_id리스트 구한다.
+            let prd_identity_id_loca=prd_id_rows[r]['prd_identity_id'];
+
+            console.log('prd_identity_id별 루프:',prd_identity_id_loca);
+
+            let [tour_id_rows_local] = await connection.query("select tour_id from tour where prd_identity_id=?",[prd_identity_id_loca]);//해당 매물에 해당하는 셋팅해뒀던 tour_id리스트를 반환하고, 그 tour_id_rows string그룹한것 저장한다.
+
+            if(tour_id_rows_local.length > 0){
+                //해당 매물에 대한 투어에약셋팅리스트가 있는 경우에만 처리한다.셋팅자체를 등록해놓지 않았다면 가능 투어일시자체에 뜨지 않을것이고, 투어예약신청 못할것임.투어셋팅 내역이 있는것들만 저장.그중에서도 또 카운트가 있는것만.(사람들이 예약신청 요청한것이 있는것만)
+                let tour_id_strings='';
+                for(let i=0; i<tour_id_rows_local.length; i++){
+                    if(i == tour_id_rows_local.length - 1){
+                        tour_id_strings += tour_id_rows_local[i]['tour_id'];
+                    }else{
+                        tour_id_strings += tour_id_rows_local[i]['tour_id']+',';
+                    }
+                }
+                console.log('===>>>>>tour_id_strings:::',tour_id_strings);
+
+                var tour_reservation_rows_query="select * from tourReservation where tour_id in ("+tour_id_strings+")";
+                var [tour_reservation_rows] = await connection.query(tour_reservation_rows_query);
+                console.log('tour_reservation_ROWS.length:',tour_reservation_rows.length);
+
+                if(tour_reservation_rows.length > 0){
+                    prd_identity_info_array[match]={};
+                    prd_identity_info_array[match]['prd_identity_id'] = prd_identity_id_loca;
+                    prd_identity_info_array[match]['info'] = prd_id_rows[r];//각 prd_identity_id인포 저장한다.
+                    prd_identity_info_array[match]['reservcnt_per_prd']=tour_reservation_rows.length;//매물별 신청한 투어예약인원수 저장한다.
+
+                    match++;
+                }            
+            }           
+        }
+        console.log('=>>>>prd_identity_info_arrayss:',prd_identity_info_array);
+        connection.release();
+
+        return response.json({success:true, result_data : prd_identity_info_array})
+    }catch(err){
+        console.log('server query error:',err);
         connection.release();
 
         return response.status(403).json({success:false,message:'server query full problme error!'});

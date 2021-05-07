@@ -1,11 +1,11 @@
 {
     "rdb":{
         "client":"mysql",
-        "host":"127.0.0.1",
-        "port":"3307",
-        "user":"sinja",
-        "password":"sinja",
-        "database":"passport_test",
+        "host":"korex-dev-db.cewuqg5n85w2.ap-northeast-2.rds.amazonaws.com",
+        "port":"3306",
+        "user":"pref_user",
+        "password":"vmfpvm$3909",
+        "database":"korex_pref",
         "charset":"utf8"
     },
     "redis":{

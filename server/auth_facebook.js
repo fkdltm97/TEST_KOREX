@@ -1,11 +1,14 @@
 //디비 관련 연결 필요
 const mysqls=require('mysql2/promise');
 const pool= mysqls.createPool({
-    host:'localhost',
-    port:3307,
-    user:'sinja',
-    password:'sinja',
-    database:'korex'
+    host:'korex-dev-db.cewuqg5n85w2.ap-northeast-2.rds.amazonaws.com',
+    //host: 'localhost',
+    //host : '13.209.251.38',
+    port:3306,
+    user:'pref_user',
+    password:'vmfpvm$3909',
+    database:'korex_pref',
+    dateStrings : 'date'
 });
 
 const LocalStrategy=require('passport-local').Strategy;
