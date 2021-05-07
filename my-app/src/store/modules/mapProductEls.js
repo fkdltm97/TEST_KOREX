@@ -5,17 +5,20 @@ import produce from 'immer';
 const UPDATE_EXCLUSIVE = 'mapProductEls/exc';
 const UPDATE_PROBROKER = 'mapProductEls/pro';
 const UPDATE_BLOCK = 'mapProductEls/block';
+const UPDATE_ORDER = 'mapProductEls/order';
 
 // 액션 생성 함수를 만듭니다.
 export const updateExclusive = createAction(UPDATE_EXCLUSIVE);
 export const updateProbroker = createAction(UPDATE_PROBROKER);
 export const updateBlock = createAction(UPDATE_BLOCK);
+export const updateOrder = createAction(UPDATE_ORDER);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
     exclusive  : [],
     probroker: [],
     block: [],
+    order:0,
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
@@ -33,6 +36,11 @@ export default handleActions({
   [UPDATE_BLOCK]: (state, action) => {
     return produce(state, draft => {
         draft.block = action.payload.block ? action.payload.block : draft.block;
+    });
+  },
+  [UPDATE_ORDER]: (state, action) => {
+    return produce(state, draft => {
+        draft.order = action.payload.order ? action.payload.order : draft.order;
     });
   },
 }, initialState);

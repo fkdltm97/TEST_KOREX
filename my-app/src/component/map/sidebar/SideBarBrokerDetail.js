@@ -41,110 +41,115 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 SwiperCore.use([Navigation, Pagination]);
 
-const ItemListItem =[
-{
-  item_id : 0,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트파트파트파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 1,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 2,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 3,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 4,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 5,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 6,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+const ItemListItem ={
+  exclusive:
+    [
+      {
+        item_id : 0,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트파트파트파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 1,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 2,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 3,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 4,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 5,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 6,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      }
+      ]
 }
-]
 
 
 export default function SideItemDetail({historyInfo,updatePageIndex,setHistoryInfo}) {
+    //서버통신하여 받아온 정보  
+    //productRedux={} 안에 넣기
 
-    return (
+     return (
         <Container>
           <SideSubTitle title={"럭키 공인중개사"} updatePageIndex={updatePageIndex} historyInfo={historyInfo}/>
           <SideBarBrokerDetailCont setHistoryInfo={setHistoryInfo}/>
           <BrokerSorting/>
           <WrapItemCont>
-            <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={2}/>
+            <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} productRedux={ItemListItem} index={2}/>
           </WrapItemCont>
         </Container>
   );

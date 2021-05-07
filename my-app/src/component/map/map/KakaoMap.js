@@ -35,19 +35,24 @@ export default function KakaoMap({}) {
   const [, setAroundClusterer] = useState();
   const [, setRoadClusterer] = useState();
   const [, setCurrnetClusterer] = useState();
-  const container = useRef();
   const pivot = {lat:37.496463, lng:127.029358}
   const [centerClusterer, setCenterClusterer] = useState({lat:"", lng:""})
   const [clickMarker, setClickMarker] = useState({});
-
+  
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
   const productRedux = useSelector(state=>{ return state.mapProductEls});
-
+  
   const [exclusiveArr, setExclusiveArr] = useState([]);
   const [probrokerArr, setProbrokerArr] = useState([]);
   const [blockArr, setBlockArr] = useState([]);
   const [aroundArr, setAroundArr] = useState([]);
+  
+  const container = useRef();
+  const rvWrapperRef = useRef();
+  const roadViewRef = useRef();
+
+
 
   // 거리재기
   var drawingFlag = false;
@@ -411,22 +416,17 @@ export default function KakaoMap({}) {
     setClusterer(clusterer);
   }
 
-  // Map Style
   useEffect(() => {
     if(!kakaoMap){
       return;
     }
-    var rvContainer = document.querySelector('.roadview');
-    var rvWrapper = document.querySelector(".rvWrapper");
     
     kakaoMap.removeOverlayMapTypeId(kakao.maps.MapTypeId.ROADVIEW);
     kakaoMap.removeOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
-    rvContainer.style.display = 'none';
-    rvWrapper.style.pointerEvents  = 'none';
-
+    roadViewRef.current.style.display = 'none';
+    rvWrapperRef.current.style.pointerEvents = 'none';
     if(mapRightRedux.mapStyle == "roadView"){
-      var rvContainer = document.querySelector('.roadview'); //로드뷰를 표시할 div
-      var rv = new kakao.maps.Roadview(rvContainer); //로드뷰 객체
+      var rv = new kakao.maps.Roadview(roadViewRef.current); //로드뷰 객체
       var rvClient = new kakao.maps.RoadviewClient();
 
       var markImage = new kakao.maps.MarkerImage(
@@ -466,15 +466,15 @@ export default function KakaoMap({}) {
       function toggleRoadview(position){
         rvClient.getNearestPanoId(position, 50, function(panoId) {
             if (panoId === null) {
-                rvContainer.style.display = 'none';
-                rvWrapper.style.pointerEvents  = 'none';
-                kakaoMap.relayout();
+              roadViewRef.current.style.display = 'none';
+              rvWrapperRef.current.style.pointerEvents  = 'none';
+              kakaoMap.relayout();
             } else {
-                kakaoMap.relayout();
-                rvContainer.style.display = 'block'; 
-                rvWrapper.style.pointerEvents  = 'auto';
-                rv.setPanoId(panoId, position);
-                rv.relayout();
+              kakaoMap.relayout();
+              roadViewRef.current.style.display = 'block'; 
+              rvWrapperRef.current.style.pointerEvents  = 'auto';
+              rv.setPanoId(panoId, position);
+              rv.relayout();
             }
         });
       }
@@ -505,6 +505,7 @@ export default function KakaoMap({}) {
     }
   }, [mapRightRedux.mapStyle, kakaoMap])
 
+  
   // Clusterer Click
   useEffect(() => {
     // 중심좌표 -> 서버 -> 데이터 받아오기
@@ -847,8 +848,8 @@ export default function KakaoMap({}) {
   return (
     <>
       <KakaoMapContainer id="container" ref={container} />
-      <RvWrapper className="rvWrapper">
-        <RoadViewDiv className="roadview"></RoadViewDiv>
+      <RvWrapper ref={rvWrapperRef} className="rvWrapper">
+        <RoadViewDiv ref={roadViewRef} className="roadview"></RoadViewDiv>
       </RvWrapper>
     </>
   )

@@ -268,8 +268,6 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
-
-
     // 검색 타입 아파트/오피스텔/상가, 사무실
     const filterType = () => {
       if(status == "apart"){ 
@@ -289,7 +287,6 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       MapFilterRedux.updateFilterArr({filterArr: filterData.filterArr});
       MapFilterRedux.updateFilterUI({filterUI:filterData.filterUI});
     }, [])
-
 
 
     return (

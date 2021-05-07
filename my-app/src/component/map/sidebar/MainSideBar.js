@@ -33,9 +33,9 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
     const [activeIndex,setActiveIndex] = useState(0);
     const [tapStatus, setTapStatus] = useState(0);
     const [isInit, setIsInit] = useState(true);
-    const mapRightRedux = useSelector(state=>{ return state.mapRight});
     const [typeStatus, setTypeStatus] = useState("");
-
+    const mapRightRedux = useSelector(state=>{ return state.mapRight});
+    const productRedux = useSelector(state=>{ return state.mapProductEls});
     // Init
     useEffect(() => {
       setActiveIndex(0);
@@ -131,7 +131,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
       // 전속매물
       if(historyInfo.prevTab == 0){
         return(
-          <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} setHistoryInfo={setHistoryInfo} index={0}/>
+          <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} setHistoryInfo={setHistoryInfo} productRedux={productRedux} index={0}/>
         )
       } // 전문 중개사
       else if(historyInfo.prevTab == 1){
