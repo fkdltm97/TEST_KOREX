@@ -142,7 +142,7 @@ export default function KakaoMap({}) {
 
   useEffect(() => {
     if(!kakaoMap){return;}
-    const filerRedux = mapFilterRedux.filterArr;
+    const filerRedux = mapFilterRedux;
     localStorage.setItem( "filterData", JSON.stringify(filerRedux));
 
     refreshArr();
@@ -158,8 +158,8 @@ export default function KakaoMap({}) {
 
     // addListener
     kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
-    
-  },[mapFilterRedux.filterArr, mapRightRedux, kakaoMap])
+  
+  },[mapFilterRedux, mapRightRedux, kakaoMap])
   // ----------------------
 
   // Array Init

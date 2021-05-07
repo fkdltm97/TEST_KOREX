@@ -31,6 +31,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
 
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
     let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
     // 가격
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(100); 
@@ -66,84 +67,78 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     const [snapMonthlyArr, setSnapMonthlyArr] = useState([]);
     const [monthlyText, setMonthlyText] = useState("");
 
-    const [firstLoad, setFirstLoad] = useState(true);
 
     useEffect(() => {
-      let min = dropdownValue[0];
-      let max = dropdownValue[1];
+      let min = uiData.priceRangeValue[0];
+      let max = uiData.priceRangeValue[1];
       if(min == minPrice && max == maxPrice){
         setPriceText("전체");
         return;
       }
       rangeText(min, max, minPrice, maxPrice, priceToKor(min), priceToKor(max), setPriceText, "");
-    }, [dropdownValue])
+    }, [uiData.priceRangeValue])
 
     useEffect(() => {
-      let min = dropdownValueMana[0];
-      let max = dropdownValueMana[1];
+      let min = uiData.manaRangeValue[0];
+      let max = uiData.manaRangeValue[1];
       if(min == minPriceMana && max == maxPriceMana){
         setManaText("전체");
         return;
       }
       rangeText(min, max, minPriceMana, maxPriceMana, min, max, setManaText, "만");
-    }, [dropdownValueMana])
+    }, [uiData.manaRangeValue])
 
     useEffect(() => {
-      let min = dropdownValueArea[0];
-      let max = dropdownValueArea[1];
+      let min = uiData.areaRangeValue[0];
+      let max = uiData.areaRangeValue[1];
       if(min == minArea && max == maxArea){
         setAreaText("전체");
         return;
       }
       rangeText(min, max, minArea, maxArea, min, max, setAreaText, "평");
-    }, [dropdownValueArea])
+    }, [uiData.areaRangeValue])
     
     useEffect(() => {
-      let min = dropdownValueJeonse[0];
-      let max = dropdownValueJeonse[1];
+      let min = uiData.jeonseRangeValue[0];
+      let max = uiData.jeonseRangeValue[1];
       if(min == minJeonse && max == maxJeonse){
         setJeonseText("전체");
         return;
       }
       rangeText(min, max, minJeonse, maxJeonse, jeonseTextfunc(min), jeonseTextfunc(max), setJeonseText, "");
-    }, [dropdownValueJeonse])
+    }, [uiData.jeonseRangeValue])
     
     useEffect(() => {
-      let min = dropdownValueMonthly[0];
-      let max = dropdownValueMonthly[1];
+      let min = uiData.monthlyRangeValue[0];
+      let max = uiData.monthlyRangeValue[1];
       if(min == minMonthly && max == maxMonthly){
         setMonthlyText("전체");
         return;
       }
       rangeText(min, max, minMonthly, maxMonthly, monthlyTextfunc(min), monthlyTextfunc(max), setMonthlyText, "");
-    }, [dropdownValueMonthly])
+    }, [uiData.monthlyRangeValue])
         
     useEffect(() => {
-      data.priceRangeValue = dropdownValue;
       data.priceRange = priceText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [priceText])
 
     useEffect(() => {
-      data.manaRangeValue = dropdownValueMana;
       data.manaRange = manaText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [manaText])
 
     useEffect(() => {
-      data.areaRangeValue = dropdownValueArea;
       data.areaRange = areaText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [areaText])
 
     useEffect(() => {
-      data.jeonseRangeValue = dropdownValueJeonse;
       data.jeonseRange = jeonseText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [jeonseText])
 
     useEffect(() => {  
-      data.monthlyRangeValue = dropdownValueMonthly;
       data.monthlyRange = monthlyText;
       MapFilterRedux.updateFilterArr({  filterArr: data });
     }, [monthlyText])
@@ -239,34 +234,42 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       }
     }
 
-    // 층수
+    // 층수 
     const onChangeFloor = (e) => {
       data.floor = e.target.dataset.text;
-      MapFilterRedux.updateFilterArr({  filterArr: data});
+      uiData.floor = e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     } 
 
     // 사용승인일
     const onChangeUse = (e) => {
       data.use = e.target.dataset.text;
-      MapFilterRedux.updateFilterArr({  filterArr: data});
+      uiData.use = e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
-    // 관리비
+    // 관리비 토글
     const onClickAdmin = (e) => {
       if(e.target.checked){
-        data.switchArr.push(e.target.dataset.text)
+        uiData.manaStatus=1;
       }else{
-        data.switchArr = data.switchArr.filter(item => item != e.target.dataset.text);
+        uiData.manaStatus=0;
       }
-      MapFilterRedux.updateFilterArr({  filterArr: data });
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
     
     // 아파트 총세대수
     const onChangeDanji = (e) => {
       data.danji = e.target.dataset.text;
-      MapFilterRedux.updateFilterArr({  filterArr: data});
+      uiData.danji = e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr: data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
-    
+
+
+
     // 검색 타입 아파트/오피스텔/상가, 사무실
     const filterType = () => {
       if(status == "apart"){ 
@@ -281,89 +284,13 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     }
 
     useEffect(() => {
-      if(firstLoad){return;}
-      if(data.priceRange == "전체"){
-        setDropdownValue([0,100]);
-      }
-    }, [mapFilterRedux.filterArr.priceRange])
-
-    useEffect(() => {
-      if(firstLoad){return;}
-      if(data.manaRange == "전체"){
-        setDropdownValueMana([0,75]);
-      }
-    }, [mapFilterRedux.filterArr.manaRange])
-
-    useEffect(() => {
-      if(firstLoad){return;}
-      if(data.areaRange == "전체"){
-        setDropdownValueArea([0,100]);
-      }
-    }, [mapFilterRedux.filterArr.areaRange])
-
-    useEffect(() => {
-      if(firstLoad){return;}
-      if(data.jeonseRange == "전체"){
-        setDropdownValueJeonse([0,30]);
-      }
-    }, [mapFilterRedux.filterArr.jeonseRange])
-
-    useEffect(() => {
-      if(firstLoad){return;}
-      if(data.monthlyRange == "전체"){
-        setDropdownValueMonthly([0,18]);
-      }
-    }, [mapFilterRedux.filterArr.monthlyRange])
-
-    useEffect(() => {
       let filterData = JSON.parse(localStorage.getItem("filterData"));
       if(!filterData){return;}
-      // 공통 -------------------------------------
-      setDropdownValue(filterData.priceRangeValue); // 매매 범위
-      setDropdownValueMana(filterData.manaRangeValue); // 관리비 범위
-      setDropdownValueArea(filterData.areaRangeValue); // 면적 범위
-      setDropdownValueJeonse(filterData.jeonseRangeValue); // 전세 범위
-      setDropdownValueMonthly(filterData.monthlyRangeValue); // 월세 범위
-      const switchData = filterData.switchArr; // 관리비 
-      if( switchData.some(item => item == "관리비없음") ) {
-        const adminSwitch = document.querySelector(".adminSwitch");
-        adminSwitch.checked = true;
-      }
-      const floor = document.querySelectorAll(`input[name='floor']`); // 층수
-      let floorText = filterData.floor;
-      for(let i = 0 ; i < floor.length ; i++){
-        if(floorText == floor[i].dataset.text){
-          floor[i].checked = true;
-          break;
-        }
-      }
-      const use = document.querySelectorAll(`input[name='use']`); // 사용승인일
-      let useText = filterData.use;
-      for(let i = 0 ; i < use.length ; i++){
-        if(useText == use[i].dataset.text){
-          use[i].checked = true;
-          break;
-        }
-      }
-
-      // 아파트 
-      const danji = document.querySelectorAll(`input[name='danji']`); // 총세대수
-      let danjiText = filterData.danji;
-      for(let i = 0 ; i < danji.length ; i++){
-        if(danjiText == danji[i].dataset.text){
-          danji[i].checked = true;
-          break;
-        }
-      }
-      
-
-
-
-
-      setTimeout(() => {
-        setFirstLoad(false);
-      }, 500);
+      MapFilterRedux.updateFilterArr({filterArr: filterData.filterArr});
+      MapFilterRedux.updateFilterUI({filterUI:filterData.filterUI});
     }, [])
+
+
 
     return (
         <Container>
@@ -381,10 +308,8 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                     <Rheostat
                       min={minPrice}
                       max={maxPrice}
-                      values={dropdownValue}
-                      onChange={(e) => {
-                        setDropdownValue(e.values);
-                      }}
+                      values={uiData.priceRangeValue}
+                      onChange={(e) => {uiData.priceRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
                       snapPoints={snapArr}
                     />
@@ -413,10 +338,8 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                     <Rheostat
                       min={minJeonse}
                       max={maxJeonse}
-                      values={dropdownValueJeonse}
-                      onChange={(e) => {
-                        setDropdownValueJeonse(e.values);
-                      }}
+                      values={uiData.jeonseRangeValue}
+                      onChange={(e) => {uiData.jeonseRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
                       snapPoints={snapJeonseArr}
                     />
@@ -433,7 +356,6 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <></>
             }
 
-
             {/*월세 -- 월세 --*/}
             {
               mapFilterRedux.filterArr.prd_sel_type.some(item => item == "월세" )
@@ -446,10 +368,8 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                     <Rheostat
                       min={minMonthly}
                       max={maxMonthly}
-                      values={dropdownValueMonthly}
-                      onChange={(e) => {
-                        setDropdownValueMonthly(e.values);
-                      }}
+                      values={uiData.monthlyRangeValue}
+                      onChange={(e) => {uiData.monthlyRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
                       snapPoints={snapMonthlyArr}
                     />
@@ -471,7 +391,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch data-text="관리비없음" className="adminSwitch" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
+                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className="adminSwitch" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>
@@ -482,10 +402,8 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                   <Rheostat
                     min={minPriceMana}
                     max={maxPriceMana}
-                    values={dropdownValueMana}
-                    onChange={(e) => {
-                      setDropdownValueMana(e.values);
-                    }}
+                    values={uiData.manaRangeValue}
+                    onChange={(e) => {uiData.manaRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                     snap
                     snapPoints={snapManaArr}
                   />
@@ -505,19 +423,11 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 <WrapFilter>
                   <PriceView>{areaText}</PriceView>
                   <WrapRange className="changeBtnRange">
-                    {/* <LeftRange/> */}
-                    {/* <RightRange/> */}
-                    {/*실제 영역 바*/}
-                    {/* <GreenBar/> */}
-                    {/*바닥에 깔리는 바*/}
-                    {/* <GrayBar/> */}
                     <Rheostat
                       min={minArea}
                       max={maxArea}
-                      values={dropdownValueArea}
-                      onChange={(e) => {
-                        setDropdownValueArea(e.values);
-                      }}
+                      values={uiData.areaRangeValue}
+                      onChange={(e) => {uiData.areaRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
                       snapPoints={snapAreaArr}
                     />
@@ -531,6 +441,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 </WrapFilter>
               </Box>
             
+
             {/* ---------------------- */}
             {/*층수*/}
             <Box  id="floorWrap">
@@ -538,28 +449,28 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBox>
-                      <InputR className="changeBtn" type="radio" data-text="전체" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor1" defaultChecked/>
+                      <InputR checked={uiData.floor==0} className="changeBtn" type="radio" data-text="전체" data-num={0} onClick={(e) => {onChangeFloor(e);}} name="floor" id="floor1"/>
                       <LabelR for="floor1" >
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR className="changeBtn" type="radio" data-text="1층" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
+                      <InputR checked={uiData.floor==1} className="changeBtn" type="radio" data-text="1층" data-num={1} onClick={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
                       <LabelR for="floor2">
                         <SpanR/>
                         1층
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" className="changeBtn" data-text="5층이상" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
+                      <InputR checked={uiData.floor==2} type="radio" className="changeBtn" data-text="5층이상" data-num={2} onClick={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
                       <LabelR for="floor3">
                         <SpanR/>
                         5층이상
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR type="radio" className="changeBtn" data-text="5층이하" onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
+                      <InputR checked={uiData.floor==3} type="radio" className="changeBtn" data-text="5층이하" data-num={3} onClick={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
                       <LabelR for="floor4">
                         <SpanR/>
                         5층이하
@@ -578,35 +489,35 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <WrapFilter>
                 <WrapRadio>
                   <RadioBox>
-                    <InputR type="radio" className="changeBtn" data-text="전체" onChange={(e) => {onChangeUse(e)}} name="use" id="use1" defaultChecked/>
+                    <InputR checked={uiData.use==0} type="radio" className="changeBtn" data-num="0" data-text="전체" onClick={(e) => {onChangeUse(e)}} name="use" id="use1"/>
                     <LabelR for="use1">
                       <SpanR/>
                       전체
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" className="changeBtn" data-text="5년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
+                    <InputR checked={uiData.use==1} type="radio" className="changeBtn" data-num="1" data-text="5년 이내" onClick={(e) => {onChangeUse(e)}} name="use" id="use2"/>
                     <LabelR for="use2">
                       <SpanR/>
                       5년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" className="changeBtn" data-text="10년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
+                    <InputR checked={uiData.use==2} type="radio" className="changeBtn" data-num="2" data-text="10년 이내" onClick={(e) => {onChangeUse(e)}} name="use" id="use3"/>
                     <LabelR for="use3">
                       <SpanR/>
                       10년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" className="changeBtn" data-text="20년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
+                    <InputR checked={uiData.use==3} type="radio" className="changeBtn" data-num="3" data-text="20년 이내" onClick={(e) => {onChangeUse(e)}} name="use" id="use4"/>
                     <LabelR for="use4">
                       <SpanR/>
                       20년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR type="radio" className="changeBtn" data-text="20년 이상" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
+                    <InputR checked={uiData.use==4} type="radio" className="changeBtn" data-num="4" data-text="20년 이상" onClick={(e) => {onChangeUse(e)}} name="use" id="use5"/>
                     <LabelR for="use5">
                       <SpanR/>
                       20년 이상
@@ -624,35 +535,35 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBoxWidth50>
-                      <InputR type="radio" className="changeBtn" onClick={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
+                      <InputR checked={uiData.danji==0} type="radio" className="changeBtn" data-num="0" onClick={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
                       <LabelR for="danji1">
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR type="radio" className="changeBtn" onClick={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
+                      <InputR checked={uiData.danji==1} type="radio" className="changeBtn" data-num="1" onClick={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
                       <LabelR for="danji2">
                         <SpanR/>
                         200세대 이상
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR type="radio" className="changeBtn" onClick={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
+                      <InputR checked={uiData.danji==2} type="radio" className="changeBtn" data-num="2" onClick={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
                       <LabelR for="danji3">
                         <SpanR/>
                         500세대 이상
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR type="radio" className="changeBtn" onClick={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
+                      <InputR checked={uiData.danji==3} type="radio" className="changeBtn" data-num="3" onClick={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
                       <LabelR for="danji4">
                         <SpanR/>
                         1000세대 이상
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR type="radio" className="changeBtn" onClick={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
+                      <InputR checked={uiData.danji==4} type="radio" className="changeBtn" data-num="4" onClick={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
                       <LabelR for="danji5">
                         <SpanR/>
                         2000세대 이상

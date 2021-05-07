@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -22,14 +22,13 @@ import { useSelector } from 'react-redux';
 
 export default function ApartFilter({open, setOpen}) {
 
-    const [optionArr, setOptionArr] = useState(['option1']);
-
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
-
+    let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
+    let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    const detailRef = useRef();
     const showOpen =()=>{
+      detailRef.current.classList.toggle("hidden");
       setOpen(!open);
-      const optionList = document.querySelector(".optionList");
-      optionList.classList.toggle("hidden");
     }
     
     const rotate=()=>{
@@ -39,20 +38,30 @@ export default function ApartFilter({open, setOpen}) {
         return "rotate(0deg)"
       }
     }
-
-    // 주차, 전용화장실
-    const onClickSwitch = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    
+    // 주차장
+    const onClickPark = (e) => {
       if(e.target.checked){
-        newArr.switchArr.push(e.target.dataset.text)
-        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+        data.is_park=e.target.dataset.text;
+        uiData.parkStore=1;
       }else{
-        newArr.switchArr = newArr.switchArr.filter(item => item != e.target.dataset.text);
-        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+        uiData.parkStore=0;
       }
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
+    }
+    
+    // 화장실
+    const onClickToilet = (e) => {
+      if(e.target.checked){
+        uiData.toilet=1;
+      }else{
+        uiData.toilet=0;
+      }
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
-    // 옵션
+    // 옵션 -- 사용 x
     const onClickOption = (e) => {
       let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
       if(e.target.checked){
@@ -64,21 +73,6 @@ export default function ApartFilter({open, setOpen}) {
       }
     } 
 
-    useEffect(() => {
-      let filterData = JSON.parse(localStorage.getItem("filterData"));
-      if(!filterData){return;}
-
-      const switchData = filterData.switchArr; // 주차가능
-      if( switchData.some(item => item == "주차가능") ) {
-        const el = document.querySelector(`input[data-text=주차가능]`);
-        el.checked = true;
-      }
-
-      if( switchData.some(item => item == "전용화장실") ) { // 전용화장실
-        const el = document.querySelector(`input[data-text=전용화장실]`);
-        el.checked = true;
-      }
-    }, [])
 
 
     return (
@@ -91,13 +85,13 @@ export default function ApartFilter({open, setOpen}) {
                 <ArrowImg src={ArrowTop} rotate={rotate}/>
               </DetailTopBox>
 
-              <SubDepth className={["optionList", "hidden"]}>
+              <SubDepth ref={detailRef} className={["hidden"]}>
                 {/*주차*/}
                 <BoxNoneBorder id="parkWrap">
                   <SubTitle>주차</SubTitle>
                   <WrapFilter>
                     <SwitchButton>
-                      <Switch className="changeBtn" type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
+                      <Switch className="changeBtn" checked={uiData.parkStore} type="checkbox" data-text="주차가능" onClick={(e) =>{ onClickPark(e) }} id="switch1"/>
                       <SwitchLabel for="switch1">
                         <SwitchSpan/>
                       </SwitchLabel>
@@ -110,7 +104,7 @@ export default function ApartFilter({open, setOpen}) {
                   <SubTitle>전용화장실만 보기</SubTitle>
                   <WrapFilter>
                     <SwitchButton>
-                      <Switch className="changeBtn" type="checkbox" data-text="전용화장실" onChange={(e) =>{ onClickSwitch(e) }} id="switch2"/>
+                      <Switch className="changeBtn" checked={uiData.toilet} type="checkbox" data-text="전용화장실" onClick={(e) =>{ onClickToilet(e) }} id="switch2"/>
                       <SwitchLabel for="switch2">
                         <SwitchSpan/>
                       </SwitchLabel>

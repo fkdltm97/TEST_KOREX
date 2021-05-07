@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -21,11 +21,14 @@ import { useSelector } from 'react-redux';
 
 export default function ApartFilter({open, setOpen}) {
     const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+    let data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
+    let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
+    const detailRef = useRef();
+    const [roomArr, setRoomArr] =useState(["전체", "오픈형원룸", "분리형원룸", "원룸원거실", "투룸", "쓰리룸이상"]); 
 
     const showOpen =()=>{
       setOpen(!open);
-      const optionList = document.querySelector(".optionList");
-      optionList.classList.toggle("hidden");
+      detailRef.current.classList.toggle("hidden");
     }
 
     const rotate=()=>{
@@ -38,66 +41,72 @@ export default function ApartFilter({open, setOpen}) {
 
     // 용도
     const onClickPurpose = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      newArr.purpose=e.target.dataset.text
-      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      data.purpose=e.target.dataset.text;
+      uiData.purpose=e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
     // 방구조
     const onClickRoom = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      const roomEls= document.querySelectorAll(".roomEls");
-      let count = 0;
-      let currentArr = [];
-
+      if(e.target.checked){
+        uiData.roomOfficetel[e.target.dataset.num]=1;
+      }else{
+        uiData.roomOfficetel[e.target.dataset.num]=0;
+      }
+      
       // 전체버튼 토글
       if(e.target.dataset.text == "전체"){
-        for(let i = 1; i < roomEls.length ; i++){
-          roomEls[i].checked = false;
-        }
+        uiData.roomOfficetel=[1, 0, 0, 0, 0, 0];
       }else{
-        roomEls[0].checked = false;
+        uiData.roomOfficetel[0]=0;
       }
-      // 꺼짐 방지 및 선택 배열 가져오기
-      for(let i = 0; i < roomEls.length ; i++){
-        if(roomEls[i].checked){
-          count++;
-          currentArr.push(roomEls[i].dataset.text);
-        }
-      }
-      if(count == 0){
-        currentArr=["전체"];
-        roomEls[0].checked = true;
-      }
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
+      
+      setTimeout(() => {
 
-      newArr.room=currentArr;
-      MapFilterRedux.updateFilterArr({  filterArr: newArr });
-    } 
+        let count = 0;
+        let currentArr=[];
+        uiData.roomOfficetel.map((item, index)=>{
+          if(item){
+            currentArr.push(roomArr[index]);
+            count++;
+          }
+        });
+        if(!count){
+          currentArr.push(["전체"])
+          uiData.roomOfficetel=[1, 0, 0, 0, 0, 0];
+        }
+        data.room=currentArr;
+        MapFilterRedux.updateFilterArr({filterArr:data});
+
+      }, 50)
+    }
 
     // 복층여부
     const onClickDouble = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      newArr.double=e.target.dataset.text
-      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      data.double=e.target.dataset.text;
+      uiData.double=e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
     // 주차 
     const onClickSwitch = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      if(e.target.checked){
-        newArr.switchArr.push(e.target.dataset.text)
-        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      if(!e.target.checked){
+        uiData.parkOfficetel=0;
       }else{
-        newArr.switchArr = newArr.switchArr.filter(item => item != e.target.dataset.text);
-        MapFilterRedux.updateFilterArr({  filterArr: newArr });
+        uiData.parkOfficetel=1;
       }
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
     // 반려동물
     const onClickPet = (e) => {
-      let newArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-      newArr.pet=e.target.dataset.text
-      MapFilterRedux.updateFilterArr({  filterArr: newArr });
+      data.pet=e.target.dataset.text;
+      uiData.pet=e.target.dataset.num;
+      MapFilterRedux.updateFilterArr({filterArr:data});
+      MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
     // 옵션 
@@ -112,69 +121,6 @@ export default function ApartFilter({open, setOpen}) {
       }
     } 
 
-    useEffect(() => {
-      let filterData = JSON.parse(localStorage.getItem("filterData"));
-      const room = document.querySelectorAll(`input[name='room']`);
-      if(!filterData){return;}
-
-      const purpose = document.querySelectorAll(`input[name='purpose']`); // 용도
-      let purposeText = filterData.purpose;
-      for(let i = 0 ; i < purpose.length ; i++){
-        if(purposeText == purpose[i].dataset.text){
-          purpose[i].checked = true;
-          break;
-        }
-      }
-
-      const roomArr = document.querySelectorAll(`input[name='room']`); // 방구조
-      let roomText = filterData.room;  
-      if(roomText[0] == "전체"){
-        roomArr[0].checked = true;
-      }else{
-        for(let i = 0 ; i < roomText.length ; i++){
-          const el = document.querySelector(`input[data-text=${roomText[i]}]`);
-          el.checked = true;
-        }
-        roomArr[0].checked = false;
-      }
-
-      const double = document.querySelectorAll(`input[name='double']`); // 용도
-      let doubleText = filterData.double;
-      for(let i = 0 ; i < double.length ; i++){
-        if(doubleText == double[i].dataset.text){
-          double[i].checked = true;
-          break;
-        }
-      }
-
-      const switchData = filterData.switchArr; // 주차가능
-      if( switchData.some(item => item == "주차가능") ) {
-        const el = document.querySelector(`input[data-text=주차가능]`);
-        el.checked = true;
-      }
-
-      const pet = document.querySelectorAll(`input[name='pet']`); // 반려동물
-      let petText = filterData.pet;
-      for(let i = 0 ; i < pet.length ; i++){
-        if(petText == pet[i].dataset.text){
-          pet[i].checked = true;
-          break;
-        }
-      }
-
-      // let optionText = filterData.life_facilites;  // 옵션
-      // for(let i = 0 ; i < optionText.length ; i++){
-      //   console.log(optionText[i])
-      //   if(optionText[i] !== "가스레인지/인덕션"){
-      //     const el = document.querySelector(`input[data-text=${optionText[i]}]`);
-      //     el.checked = true;
-      //   }else{
-      //     const el = document.querySelector("#option4");
-      //     el.checked = true;
-      //   }
-      // }
-
-    }, [])
 
     return (
         <Container>
@@ -185,28 +131,28 @@ export default function ApartFilter({open, setOpen}) {
                 <Line/>
                 <ArrowImg src={ArrowTop} rotate={rotate}/>
               </DetailTopBox>
-                <SubDepth className={["optionList", "hidden"]}> 
+                <SubDepth  ref={detailRef} className={["hidden"]}> 
                   {/* 용도 */}
                   <BoxNoneBorder id="purposeWrap">
                     <SubTitle>용도</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
                         <RadioBox>
-                          <InputR className="changeBtn" onClick={(e) => onClickPurpose(e)} data-text="전체" type="radio" name="purpose" id="purpose1" defaultChecked/>
+                          <InputR className="changeBtn" checked={uiData.purpose==0} data-num={0} onClick={(e)=>onClickPurpose(e)} data-text="전체" type="radio" name="purpose" id="purpose1" defaultChecked/>
                           <LabelR for="purpose1">
                             <SpanR/>
                             전체
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR className="changeBtn" onClick={(e) => onClickPurpose(e)} data-text="주거용" type="radio" name="purpose" id="purpose2"/>
+                          <InputR className="changeBtn" checked={uiData.purpose==1} data-num={1} onClick={(e)=>onClickPurpose(e)} data-text="주거용" type="radio" name="purpose" id="purpose2"/>
                           <LabelR for="purpose2">
                             <SpanR/>
                             주거용
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR className="changeBtn" onClick={(e) => onClickPurpose(e)} data-text="업무용" type="radio" name="purpose" id="purpose3"/>
+                          <InputR className="changeBtn" checked={uiData.purpose==2} data-num={2} onClick={(e)=>onClickPurpose(e)} data-text="업무용" type="radio" name="purpose" id="purpose3"/>
                           <LabelR for="purpose3">
                             <SpanR/>
                             업무용
@@ -221,42 +167,42 @@ export default function ApartFilter({open, setOpen}) {
                     <WrapFilter>
                       <WrapRadio>
                         <RadioBox>
-                          <InputC className={["roomEls", "changeBtn"]} onClick={(e)=>onClickRoom(e)} data-text="전체" type="checkbox" name="room" id="room1" defaultChecked/>
+                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[0]} data-num={0} onClick={(e)=>onClickRoom(e)} data-text="전체" type="checkbox" name="room" id="room1" defaultChecked/>
                           <LabelC for="room1">
                             <SpanC/>
                             전체
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["roomEls", "changeBtn"]} onClick={(e)=>onClickRoom(e)} data-text="오픈형원룸" type="checkbox" name="room" id="room2"/>
+                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[1]} data-num={1} onClick={(e)=>onClickRoom(e)} data-text="오픈형원룸" type="checkbox" name="room" id="room2"/>
                           <LabelC for="room2">
                             <SpanC/>
                             오픈형원룸
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["roomEls", "changeBtn"]} onClick={(e)=>onClickRoom(e)} data-text="분리형원룸" type="checkbox" name="room" id="room3"/>
+                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[2]} data-num={2} onClick={(e)=>onClickRoom(e)} data-text="분리형원룸" type="checkbox" name="room" id="room3"/>
                           <LabelC for="room3">
                             <SpanC/>
                             분리형원룸
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["roomEls", "changeBtn"]} onClick={(e)=>onClickRoom(e)} data-text="원룸원거실" type="checkbox" name="room" id="room4"/>
+                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[3]} data-num={3} onClick={(e)=>onClickRoom(e)} data-text="원룸원거실" type="checkbox" name="room" id="room4"/>
                           <LabelC for="room4">
                             <SpanC/>
                             원룸원거실
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["roomEls", "changeBtn"]} onClick={(e)=>onClickRoom(e)} data-text="투룸" type="checkbox" name="room" id="room5"/>
+                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[4]} data-num={4} onClick={(e)=>onClickRoom(e)} data-text="투룸" type="checkbox" name="room" id="room5"/>
                           <LabelC for="room5">
                             <SpanC/>
                             투룸
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["roomEls", "changeBtn"]} onClick={(e)=>onClickRoom(e)} data-text="쓰리룸이상" type="checkbox" name="room" id="room6"/>
+                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[5]} data-num={5} onClick={(e)=>onClickRoom(e)} data-text="쓰리룸이상" type="checkbox" name="room" id="room6"/>
                           <LabelC for="room6">
                             <SpanC/>
                             쓰리룸이상
@@ -271,21 +217,21 @@ export default function ApartFilter({open, setOpen}) {
                     <WrapFilter>
                       <WrapRadio>
                         <RadioBox>
-                          <InputR className="changeBtn" onClick={(e) => onClickDouble(e) } data-text="전체" type="radio" name="double" id="double1" defaultChecked/>
+                          <InputR className="changeBtn" checked={uiData.double==0} data-num={0} onClick={(e) => onClickDouble(e) } data-text="전체" type="radio" name="double" id="double1" defaultChecked/>
                           <LabelR for="double1">
                             <SpanR/>
                             전체
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR className="changeBtn" onClick={(e) => onClickDouble(e) } data-text="단층" type="radio" name="double" id="double2"/>
+                          <InputR className="changeBtn" checked={uiData.double==1} data-num={1} onClick={(e) => onClickDouble(e) } data-text="단층" type="radio" name="double" id="double2"/>
                           <LabelR for="double2">
                             <SpanR/>
                             단층
                           </LabelR>
                         </RadioBox>
                         <RadioBox>
-                          <InputR className="changeBtn" onClick={(e) => onClickDouble(e) } data-text="복층" type="radio" name="double" id="double3"/>
+                          <InputR className="changeBtn" checked={uiData.double==2} data-num={2} onClick={(e) => onClickDouble(e) } data-text="복층" type="radio" name="double" id="double3"/>
                           <LabelR for="double3">
                             <SpanR/>
                             복층
@@ -300,7 +246,7 @@ export default function ApartFilter({open, setOpen}) {
                   <SubTitle>주차</SubTitle>
                   <WrapFilter>
                     <SwitchButton>
-                      <Switch className="changeBtn" type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
+                      <Switch className="changeBtn" checked={uiData.parkOfficetel} type="checkbox" data-text="주차가능" onClick={(e) =>{ onClickSwitch(e) }} id="switch1"/>
                       <SwitchLabel for="switch1">
                         <SwitchSpan/>
                       </SwitchLabel>
@@ -315,21 +261,21 @@ export default function ApartFilter({open, setOpen}) {
                     <WrapFilter>
                     <WrapRadio>
                       <RadioBox>
-                        <InputR className="changeBtn" onClick={(e) => onClickPet(e)} data-text="전체" type="radio" name="pet" id="pet1" defaultChecked/>
+                        <InputR className="changeBtn" checked={uiData.pet==0} data-num={0} onClick={(e) => onClickPet(e)} data-text="전체" type="radio" name="pet" id="pet1"/>
                         <LabelR for="pet1">
                           <SpanR/>
                           전체
                         </LabelR>
                       </RadioBox>
                       <RadioBox>
-                        <InputR className="changeBtn" onClick={(e) => onClickPet(e)} data-text="반려동물가능" type="radio" name="pet" id="pet2"/>
+                        <InputR className="changeBtn" checked={uiData.pet==1} data-num={1} onClick={(e) => onClickPet(e)} data-text="반려동물가능" type="radio" name="pet" id="pet2"/>
                         <LabelR for="pet2">
                           <SpanR/>
                           가능
                         </LabelR>
                       </RadioBox>
                       <RadioBox>
-                        <InputR className="changeBtn" onClick={(e) => onClickPet(e)} data-text="반려동물불가" type="radio" name="pet" id="pet3"/>
+                        <InputR className="changeBtn" checked={uiData.pet==2} data-num={2} onClick={(e) => onClickPet(e)} data-text="반려동물불가" type="radio" name="pet" id="pet3"/>
                         <LabelR for="pet3">
                           <SpanR/>
                           불가
