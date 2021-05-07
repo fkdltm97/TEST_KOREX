@@ -18,15 +18,14 @@ import { Mobile, PC } from "../../../../MediaQuery";
 // redux
 import { useSelector } from 'react-redux';
 
-export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index}) {
+export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index, productRedux}) {
 
-  const productRedux = useSelector(state=>{ return state.mapProductEls});
+  
 
   const onClickEl = (value) => {
     // 클릭 id
     // console.log(value.item_id);
-
-    //updatePageIndex(1,value.item_id);
+    // updatePageIndex(1,value.item_id);
     updatePageIndex(1,11);
     setHistoryInfo(e => {e.prevIndex.push(index);
     return JSON.parse(JSON.stringify(e));});

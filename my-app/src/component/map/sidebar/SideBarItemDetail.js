@@ -193,6 +193,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           }
         }
       }
+
       setExcept_datelist(except_special_dates);
       setResult_usedatalist(result_use_datalist);
 
@@ -387,8 +388,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                   ㅇ 건물외관부터 내부관리상태 A급으로 유지중입니다^_^<br/><br/>
                   ㅇ 고급마감재사용 및 옵션으로 고풍스러운 실내분위기연출<br/><br/>
                   ㅇ 채광이 좋아 밝고 화사한 분위기로 아주 세련된 투룸입니다<br/><br/>
-                  ㅇ 2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습
-                  니다<br/><br/>
+                  ㅇ 2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습니다<br/><br/>
                   </TextArea>
                 </Li>
               </ItemInfoList>

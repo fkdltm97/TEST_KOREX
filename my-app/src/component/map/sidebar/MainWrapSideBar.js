@@ -26,7 +26,7 @@ import ModalReserve from '../../../component/member/mypage/reservation/ModalRese
 //server process
 import serverController from '../../../server/serverController';
 
-export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
+export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
@@ -37,8 +37,8 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   const productRedux = useSelector(state=>{ return state.mapProductEls});
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const login_userinfo= useSelector(data => data.login_user);
-  
-  const containerRef = useRef();
+
+  // const containerRef = useRef();
 
   const position=()=>{
     if(updown == true) {
@@ -67,13 +67,12 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   }
   
   const sendinfo_data={};
-  const sendInfo_local = (selectDay,selectTimes,tourid,tourtype,td_id) => {
+  const sendInfo_local = (selectDay,selectTimes,tourid,tourtype, td_id) => {
     sendinfo_data['selectDay'] = selectDay;
     sendinfo_data['selectTimes'] = selectTimes;
     sendinfo_data['tourid'] = tourid;
     sendinfo_data['tourtype'] = tourtype;
     sendinfo_data['td_id']= td_id;
-
     console.log('senfInfo_local정보 확인 먼저 저장여부>>>>:',sendinfo_data);
   }
 
@@ -81,7 +80,6 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
     switch (pageIndex) {
       case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
       case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={updateReserveModals} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
-      
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
       case 3: return <SideBarDanjiDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;// 단지별 실거래 상세페이지
       default :return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
@@ -130,11 +128,9 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
         email: login_userinfo.email,
         user_name : login_userinfo.user_name,
         user_type : login_userinfo.user_type,
-
       };
       //해당 선택날짜/선택한 시간대, 해당 날짜에 대한 tourId(예약방)에 어떤시간대(자리:요일그룹별,특수추가요일),어떤 방(일반,특별추가)에 요청한건지 구분키위함.
       console.log('JSON_BODY>>>:',JSON.stringify(body_info));
-
       let res= await serverController.connectFetchController('/api/broker/brokerProduct_tourReservation_register','POST',JSON.stringify(body_info));
       if(res){
         console.log('====>>>res::',res);
@@ -159,13 +155,10 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
 
   // 무한 스크롤
   const onScrollList = () => {
-    // 무한스크롤 넉넉
-    // if(sideBarWrap.scrollHeight <= sideBarWrap.scrollTop+sideBarWrap.clientHeight + 100){
-    // 무한스크롤 빡빡
-    if(containerRef.current.scrollHeight == containerRef.current.scrollTop+containerRef.current.clientHeight){
+    if(containerRef.current.scrollHeight <= containerRef.current.scrollTop+containerRef.current.clientHeight + 50){
       // **api 서버에서 데이터 가져와서 배열에 추가하기 
-      // 전속 매물--------------
-      if(mapRightRedux.isExclusive.is){
+      // 전속 매물 || 전문 중개사 상세--------------
+      if(mapRightRedux.isExclusive.is || pageIndex == 2){
         const currentArr = JSON.parse(JSON.stringify(productRedux.exclusive));
         currentArr.push({
           item_id : 10,
@@ -226,7 +219,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   
 
     return (
-      <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} ref={containerRef} className="sideBarWrap" onScroll={() => onScrollList()}>
+      <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} ref={containerRef} className="sideBarWrap" onScroll={()=>onScrollList()}>
         {
           pageLoader(updateReserveModal)
         }
