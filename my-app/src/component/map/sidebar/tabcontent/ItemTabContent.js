@@ -26,8 +26,8 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
     // 클릭 id
     // console.log(value.item_id);
 
-    updatePageIndex(1,value.item_id);
-    //updatePageIndex(1,17);
+    //updatePageIndex(1,value.item_id);
+    updatePageIndex(1,17);
     setHistoryInfo(e => {e.prevIndex.push(index);
     return JSON.parse(JSON.stringify(e));});
   }

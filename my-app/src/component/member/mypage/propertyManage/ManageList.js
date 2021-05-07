@@ -16,66 +16,78 @@ import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({cancleModal,confirmModal,mapModal,value, type,select,setSelect,editModal,editResultModal}) {
+export default function Request({cancleModal,confirmModal,mapModal,value,select,cond,opacity,time_distance,time_status,setSelect,editModal,editResultModal}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
+  
+  if(time_status == 'mirae'){
+    var message='+'+time_distance+'일후';
+  }else if(time_status == 'today'){
+    var message='오늘';
+  }else if(time_status == 'passed'){
+    var message='마감';
+  }
+
+  if(cond!=''){
+    var message='예약해제';
+  }
 
     return (
       <Container>
-          <Li opacity={type}>
+          <Li opacity={opacity}>
             <Infos>
               <WrapLeft>
                 {
                   select ?
                   <WrapRight>
                     <CheckBox>
-                      <InputCheckEa type="checkbox" name="tour" id={"ea"+value.Manage_id}/>
-                      <CheckLabelEa for={"ea"+value.Manage_id}/>
+                      <InputCheckEa type="checkbox" name="tour" id={"ea"+value.r_tr_id}/>
+                      <CheckLabelEa for={"ea"+value.r_tr_id}/>
                     </CheckBox>
                   </WrapRight>
                   :
                   null
                 }
                 <ItemImg>
-                  <Img src={value.img}/>
+                  <Img src={value.p_prd_img}/>
                 </ItemImg>
               </WrapLeft>
               <InBox>
                 <ConditionDiv>
-                  상태 : <Condition>{value.condition} <Number>{value.number}</Number></Condition>
+                  상태 : <Condition>{message }({value.t_tour_start_date}) <Number>{value.p_prd_identity_id}</Number></Condition>
                 </ConditionDiv>
                 <Line>
                   <Left>예약자명</Left>
-                  <Right>{value.name}</Right>
+                  <Right>{value.r_tr_name}</Right>
                 </Line>
                 <Line>
                   <Left>휴대폰번호</Left>
                   <RightOg>
-                    <Call href={"tel:"+value.phone}>{value.phone}</Call>
+                    <Call href={"tel:"+value.r_tr_phone}>{value.r_tr_phone}</Call>
                   </RightOg>
                 </Line>
                 <Line>
                   <Left>건물명</Left>
-                  <RightCursor onClick={()=>{mapModal();}}>{value.address}</RightCursor>
+                  <RightCursor onClick={()=>{mapModal();}}>{value.p_prd_name}</RightCursor>
                 </Line>
                 <Line>
                   <Left>거래유형</Left>
-                  <Right>{value.trade}</Right>
+                  <Right>{value.p_prd_sel_type}</Right>
                 </Line>
                 <Line>
                   <Left>거래금액</Left>
-                  <Right>{value.price}</Right>
+                  <Right>{value.p_prd_price}</Right>
                 </Line>
               </InBox>
             </Infos>
             <RightMenu>
               <Alarm>
-                <AlarmCheck type="checkbox" id={"check"+value.Manage_id} name=""/>
-                <Label for={"check"+value.Manage_id}/>
+                <AlarmCheck type="checkbox" id={"check"+value.r_tr_id} name=""/>
+                <Label for={"check"+value.r_tr_id}/>
               </Alarm>
               <Menu>
                 <Link onClick={showModal}>
@@ -85,7 +97,7 @@ export default function Request({cancleModal,confirmModal,mapModal,value, type,s
                       <InMenu>
                       {/*검토대기 상태일때*/}
                         <Div>
-                          <Link onClick={()=>{cancleModal();}} className="data_link"></Link>
+                          <Link onClick={()=>{cancleModal(value.r_tr_id);}} className="data_link"></Link>
                           <InDiv>예약 해제</InDiv>
                         </Div>
                         <Div>

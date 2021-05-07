@@ -98,8 +98,9 @@ export default function ModalReserve({setReservationId, except_datelist, result_
                   <Slider {...settings} className="about">
                     {
                       result_usedatalist.map((value , index) => {
-                       // console.log('=>>>>>result_useitemList:',value,index);
+                        console.log('=>>>>>result_useitemList:',value,index);
 
+                       if(!value['isexcepted']){
                         return(
                           <SlickSlide className="slide__one">
                             <Link>
@@ -112,6 +113,7 @@ export default function ModalReserve({setReservationId, except_datelist, result_
                             </Link>
                           </SlickSlide>
                         )
+                       }
                         
                       })
                     }
@@ -185,16 +187,17 @@ export default function ModalReserve({setReservationId, except_datelist, result_
                       console.log('>>>selectaday(선택날짜):',selectDay);
                       console.log('>>>timelist(선택시간대들):',timeList);
                       console.log('>>>>tourid, tourtype:',tourid,tourtype);
+                      console.log('>>>선택시간대(td_id):',e.target.value);
 
-                      setReservationId({selectDate:selectDay,selectTime:e.target.value, selectTourid:tourid, selectTourtype: tourtype}); //reserationId state변수객체가 바로 갱신되지 않은 상태에서 서버에 insert가해질 가능성 빈도수 꽤 있음.50%
-                      sendInfo_local(selectDay,e.target.value,tourid,tourtype);//선택날짜,선택시간대,투어아이디,투어타입 등 전송한다.직접전송.
+                      setReservationId({selectDate:selectDay,selectTime:e.target.value, selectTourid:tourid, selectTourtype: tourtype, selectTdid:e.target.value}); //reserationId state변수객체가 바로 갱신되지 않은 상태에서 서버에 insert가해질 가능성 빈도수 꽤 있음.50%
+                      sendInfo_local(selectDay,e.target.value,tourid,tourtype,e.target.value);//선택날짜,선택시간대,투어아이디,투어타입 등 전송한다.직접전송.
                       setTimeSelect(e.target.value);
                     }}>
                       <InOption selected disabled>시간을 선택해주세요.</InOption>
                       {
                         timeList.map((value)=>{
                           console.log('value hmm:',value);
-                          return  <InOption value={value}>{value}</InOption>
+                          return  <InOption value={value['td_id']}>{value['td_text']}({value['td_starttime']}~{value['td_endtime']})</InOption>
                         })
                       }
                     </FilterSelectSortList>

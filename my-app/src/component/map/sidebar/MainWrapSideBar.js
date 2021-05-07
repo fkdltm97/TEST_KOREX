@@ -23,6 +23,9 @@ import { useSelector } from 'react-redux';
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalReserve from '../../../component/member/mypage/reservation/ModalReserve';
 
+//server process
+import serverController from '../../../server/serverController';
+
 export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
@@ -34,7 +37,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   const productRedux = useSelector(state=>{ return state.mapProductEls});
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const login_userinfo= useSelector(data => data.login_user);
-
+  
   const position=()=>{
     if(updown == true) {
       return "absolute"
@@ -62,11 +65,12 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
   }
   
   const sendinfo_data={};
-  const sendInfo_local = (selectDay,selectTimes,tourid,tourtype) => {
+  const sendInfo_local = (selectDay,selectTimes,tourid,tourtype,td_id) => {
     sendinfo_data['selectDay'] = selectDay;
     sendinfo_data['selectTimes'] = selectTimes;
     sendinfo_data['tourid'] = tourid;
     sendinfo_data['tourtype'] = tourtype;
+    sendinfo_data['td_id']= td_id;
 
     console.log('senfInfo_local정보 확인 먼저 저장여부>>>>:',sendinfo_data);
   }
@@ -118,10 +122,21 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
         selectdate : sendinfo_data.selectDay,
         selectTime: sendinfo_data.selectTimes,
         slectTourid : sendinfo_data.tourid,
-        selectTourtype : sendinfo_data.tourtype
+        selectTourtype : sendinfo_data.tourtype,
+        selectTdid: sendinfo_data.td_id,
+        phone: login_userinfo.phone,
+        email: login_userinfo.email,
+        user_name : login_userinfo.user_name,
+        user_type : login_userinfo.user_type,
+
       };
       //해당 선택날짜/선택한 시간대, 해당 날짜에 대한 tourId(예약방)에 어떤시간대(자리:요일그룹별,특수추가요일),어떤 방(일반,특별추가)에 요청한건지 구분키위함.
       console.log('JSON_BODY>>>:',JSON.stringify(body_info));
+
+      let res= await serverController.connectFetchController('/api/broker/brokerProduct_tourReservation_register','POST',JSON.stringify(body_info));
+      if(res){
+        console.log('====>>>res::',res);
+      }
     }else{
       //alert('로그인 상태가 아닙니다.');
     }

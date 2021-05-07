@@ -23,6 +23,8 @@ import ModalEdit from '../../../component/member/mypage/propertyManage/modal/Mod
 import ModalAllEdit from '../../../component/member/mypage/propertyManage/modal/ModalAllEdit';
 import ModalEditResult from '../../../component/member/mypage/propertyManage/modal/ModalEditResult';
 
+//server
+import serverController from '../../../server/serverController';
 
 export default function Join() {
   //이용약관
@@ -66,14 +68,27 @@ export default function Join() {
 
 
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-    const cancleModal = () =>{
+    const cancleModal = (tr_id) =>{
       //여기가 모달 키는 거에엽
       setModalOption({
           show:true,
           setShow:offModal,
           title:"예약 해제",
           content:{type:"text",text:`예약을 해제하시겠습니까?\n해제 시, 예약자에게 알림이 전송됩니다.`,component:""},
-          submit:{show:true , title:"확인" , event : ()=>{offModal();confirmModal(); }},
+          submit:{show:true , title:"확인" , event : async ()=>{
+            offModal();confirmModal();
+
+            console.log('what tr_id::',tr_id);
+
+            let body_info={
+              tr_id_val : tr_id
+            };
+            let res=await serverController.connectFetchController('/api/broker/brokerproduct_reservation_release','POST',JSON.stringify(body_info));
+
+            if(res){
+              console.log('ress_>>>>>>:',res);
+            }
+          }},
           cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
           confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
       });

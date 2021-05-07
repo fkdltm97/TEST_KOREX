@@ -2,7 +2,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -17,17 +16,23 @@ import Check from '../../../../img/map/radio.png';
 import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
-
 //component
 import ManageList from "./ManageList";
 
-export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
+import {useSelector} from 'react-redux';
 
+//server process
+import serverController from '../../../../server/serverController';
+
+export default function Manage({cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
+  console.log('===>>>>propertyMnagaew요소 실행::');
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
+  const login_userinfo = useSelector(data => data.login_user);
+  const [reservationItemlist,setReservationItemlist] = useState([]);
 
   /*data map*/
   const ManageListItem =[
@@ -83,7 +88,30 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
       price:"1억 5,000",
       type:"end"
     },
-]
+  ]
+  
+  useEffect(async () => {
+    
+    if(login_userinfo.is_login){
+      let body_info = {
+        memid : login_userinfo.memid,
+        company_id : login_userinfo.company_id,
+        user_type : login_userinfo.user_type,
+        isexculsive: login_userinfo.isexculsive
+      };
+      console.log('JSONBODY INFO TEST:',JSON.stringify(body_info));
+
+      let res= await serverController.connectFetchController('/api/broker/brokerproduct_reservationList','POST',JSON.stringify(body_info));
+
+      if(res){
+        console.log('res result ...>:::',res);
+
+        var reservation_data=res.result_data;
+        setReservationItemlist(reservation_data);
+      }
+    }
+    
+  },[]);
 
     return (
         <Container>
@@ -93,7 +121,7 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
               <AddBtn onClick={()=> {selectModal();}}>전체</AddBtn>
             </TopSortingBtn>
             <TopInfo>
-              <All>총 <GreenColor>4</GreenColor> 건</All>
+              <All>총 <GreenColor>{reservationItemlist.length}</GreenColor> 건</All>
               <FilterAndAdd>
                 <SearchBox>
                   <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
@@ -121,9 +149,9 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
            
             <WrapManageList>
             {
-            ManageListItem.map((value) => {
+            reservationItemlist.map((value) => {
 
-              const type=()=>{
+              /*const type=()=>{
                 if(value.type == "today") { //오늘
                   return 1
                 }else if(value.type == "days") {//2일후
@@ -133,10 +161,52 @@ export default function Manage({cancleModal,mapModal,confirmModal,selectModal,se
                 } else if(value.type == "end") { // 만료
                   return 0.5
                 }
+              }*/
+              console.log('==>>>>managlist items::',value);
+              var tour_start_date= value.t_tour_start_date;//임의 신청한 내역의 tour_id(투어예약셋팅날짜) 어떤 날짜에 예약셋팅에 예약한건지.
+              var nowdate = new Date();
+              var now_year=nowdate.getFullYear();
+              var now_month=nowdate.getMonth()+1;
+              if(now_month < 10) now_month = '0'+now_month;
+              var now_date=nowdate.getDate();
+              if(now_date < 10) now_date ='0'+now_date;
+              var nowdate_string=now_year+'-'+now_month+'-'+now_date;//문자열 날짜 변경. 현재의 날짜 문자열
+
+              console.log('nowdate_string::',nowdate_string);
+              
+              if(new Date(tour_start_date).getTime() > new Date(nowdate_string).getTime() ){
+                //신청투어일이 현재보다 미래의 시간인경우 오늘보다 미래인경우. 투어신청일이 오늘이라면 값은 true일것임. >인경우는 date기준에선 투어일이 오늘보다 +1일이상 큰 경우.
+                var time_distance= new Date(tour_start_date).getTime() - new Date(nowdate_string).getTime();//일기준이기에 +1,2,3,..정수일 이상 차이이다.차이값은 절대값 1,2,3 정수형태 +1,+2,+3,...처리한다.
+                time_distance = (time_distance / (60*60*24*1000));
+                var time_status='mirae';
+                var opacity=1;
+                var cond='';
+              }else if(new Date(tour_start_date).getTime() == new Date(nowdate_string).getTime()){
+                //오늘이 투어신청일
+                var time_distance = 0;//오늘이기에 차이값 없음.
+                var time_status='today';
+                var opacity=0.5;
+                var cond='';
+              }else{
+                //투어신청일이 이미 지나간 경우.-1일 어제보다 이전에 한 내역이였다면.마감처리
+                var time_distance = new Date(tour_start_date).getTime() - new Date(nowdate_string).getTime();
+                time_distance = (time_distance / (60*60*24*1000));
+                var time_status='passed';
+                var opacity=0.5;
+                var cond='';
+              
+              }
+              console.log('nowdatestring,tourstatdate:',new Date(nowdate_string).getTime(),new Date(tour_start_date).getTime());
+              console.log('time_distance:::',time_distance);
+
+
+              if(value.r_tr_status == 1){
+                var cond='예약해제';
+                var opacity=0.5;
               }
               return(
                 <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal} editResultModal={editResultModal}
-                mapModal={mapModal} type={type} value={value} select={select} setSelect={setSelect}/>
+                mapModal={mapModal}  value={value} cond={cond} time_status={time_status} opacity={opacity} time_distance={time_distance} select={select} setSelect={setSelect}/>
               )
             })
           }

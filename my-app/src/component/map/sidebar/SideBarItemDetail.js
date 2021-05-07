@@ -182,6 +182,17 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
 
       result_use_datalist = result_use_datalist.sort(data_ascending);//노말 매치데이터들 정렬한것 새로 리턴.
 
+      //제외할 항목들 제외.
+      for(let s=0; s<except_special_dates.length; s++){
+        let except_special_dates_item = except_special_dates[s]['specifydate'];
+
+        for(let h=0; h<result_use_datalist.length; h++){
+          if(except_special_dates_item == result_use_datalist[h]['date']){
+            //제외할 항목에 해당되는 결과항목날짜의 경우는 프로퍼티 invisible추가하여 안보이게 처리 제외처리한다.
+            result_use_datalist[h]['isexcepted'] = true;
+          }
+        }
+      }
       setExcept_datelist(except_special_dates);
       setResult_usedatalist(result_use_datalist);
 
