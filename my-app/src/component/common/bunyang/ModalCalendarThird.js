@@ -210,7 +210,7 @@ const Wraplive = styled.div`
     display: none;}
   @media ${(props) => props.theme.modal} {
       width:calc(100vw*(395/428));
-      height:auto;
+      height:calc(100vw*(632/428));
       padding:calc(100vw*(24/428)) calc(100vw*(20/428)) calc(100vw*(50/428));
     }
 `
@@ -299,11 +299,8 @@ const InputTitle = styled.label`
 const InputInvite = styled.div`
   width:100%;
   margin-bottom:10px;
-  border-bottom:1px solid #e4e4e4;
-  padding-bottom:15px;
   @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(8/428));
-    padding-bottom:calc(100vw*(15/428));
     &:last-child{margin-bottom:0;}
     }
 `
