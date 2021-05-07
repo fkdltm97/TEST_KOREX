@@ -15,7 +15,6 @@ import Checked from "../../../img/member/checked.png";
 
 
 
-
 export default function LiveModal({cal, setCal,live, setLive}){
 
 

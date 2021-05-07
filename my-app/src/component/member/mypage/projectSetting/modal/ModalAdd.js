@@ -19,32 +19,75 @@ import Change from '../../../../../img/member/change.png';
 import Marker from '../../../../../img/member/marker.png';
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
+
+import DatePicker from "react-datepicker";
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
+
 //지도 모달
 export default function AddModal({ add, setAdd }) {
   const [active,setActive] = useState(false);
+
+  const [startDate, setStartDate] = useState(
+    setHours(setMinutes(new Date(), 30), 16)
+  );
+
+  const [SelectDate, setSelectDate] = useState(new Date());
+
+  const [Interval, setInterval] = useState(30); //간격 값 저장
+
+  const change = (e) => {
+    setInterval(e.target.value);
+  };
+
+
   if(add == false)
     return null;
     return (
-        <Container>
-              <WrapInputBox>
-                <Label>방송일</Label>
-                <Input type="date" placeholder="날짜 선택"/>
-                <Label>시간</Label>
-                <WrapSelect>
-                  <Select>
-                    <Option selected disalbed>시</Option>
-                    <Option>1시</Option>
-                    <Option>2시</Option>
-                  </Select>
-                  <Select>
-                    <Option selected disalbed>분</Option>
-                    <Option>00분</Option>
-                    <Option>10분</Option>
-                  </Select>
-                </WrapSelect>
-              </WrapInputBox>
-        </Container>
-  );
+      <Container>
+        <WrapInputBox>
+          <Label>방송일</Label>
+          <WrapDate>
+            <DatePicker
+              dateFormat="yyyy.MM.dd"
+              selected={SelectDate}
+              onChange={(date) => setSelectDate(date)}
+            />
+          </WrapDate>
+          <Label>시간</Label>
+          <WrapTime>
+            <Time>
+              <DatePicker
+                className="date_time_mobile"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={Interval} //간격 설정
+                timeCaption="Time"
+                dateFormat="h:mm aa" // 시간 타입(보여주는)
+                minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+              />
+            </Time>
+            <Time>
+              <DatePicker
+                className="date_time_mobile"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={Interval} //간격 설정
+                timeCaption="Time"
+                dateFormat="h:mm aa" // 시간 타입(보여주는)
+                minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+              />
+            </Time>
+          </WrapTime>
+        </WrapInputBox>
+      </Container>
+    );
 }
 
 const Pb = styled.b`
@@ -62,6 +105,30 @@ const Mb = styled.b`
 const Container = styled.div`
     width:100%;
 `
+
+const WrapTime = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Time = styled.div`
+  position:relative;
+  width: 195px;
+  height: 43px;
+  font-size: 15px;
+  text-align: center;
+  color: #707070;
+  transform: skew(-0.1deg);
+  font-weight: 600;
+  z-index:2;
+  @media ${(props) => props.theme.mobile} {
+    width: calc(100vw * (170 / 428));
+    height: calc(100vw * (43 / 428));
+    font-size: calc(100vw * (15 / 428));
+  }
+`
+
 
 const WrapModalAdd = styled.div`
   width:100%;
@@ -180,5 +247,13 @@ const ConfirmBtn = styled.button`
     height:calc(100vw*(60/428));
     line-height:calc(100vw*(54/428));
     font-size:calc(100vw*(15/428));
+  }
+`
+const WrapDate = styled.div`
+  width:300px;position:relative;z-index:3;
+  margin-bottom:30px;
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(280/428));
+    margin-bottom:calc(100vw*(25/428));
   }
 `

@@ -17,6 +17,37 @@ import IconRecent from "../../../img/main/icon_view.png";
 import ModalCommon from "../modal/ModalCommon";
 import ModalFilter from "../modal/ModalFilter";
 
+const BunyangListItem =[
+  {
+    bunyang_id : 0,
+    src:ItemImg,
+    path:"/MbBunyangDetail",
+    number:"2D0000324",
+    title:"충남내포신도시2차대방엘리움더센트럴",
+    option:"충청남도 / 아파트 / 민간분양",
+    address:"충청남도 홍성군 홍북읍 신경리",
+    desc1:"831세대",
+    desc2:"103㎡ ~ 114㎡",
+    desc3:"77㎡ ~ 85㎡",
+    desc4:"35,599 ~ 44,049 만원",
+    LiveCheckded : true
+  },
+  {
+    bunyang_id : 1,
+    src:ItemImg,
+    path:"/MbBunyangDetail",
+    number:"2D0000325",
+    title:"충남내포신도시2차",
+    option:"충청남도 / 테스트 / 테스트",
+    address:"충청남도 홍성군 홍북읍 신경리",
+    desc1:"500세대",
+    desc2:"103㎡ ~ 114㎡",
+    desc3:"77㎡ ~ 85㎡",
+    desc4:"35,599 ~ 44,049 만원",
+    LiveCheckded : false
+  },
+]
+
 export default function BunyangList({updatePageIndex}){
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
@@ -64,45 +95,57 @@ export default function BunyangList({updatePageIndex}){
         </SortRecent>
       </ModalSelect>
 {/*bunyang List*/}
-        <ListTop>총 <Green>2</Green>건</ListTop>
+        <ListTop>총 <Green>{BunyangListItem.length}</Green>건</ListTop>
         <WrapList>
           <ListUl>
-            <Li>
-              <LiTop className="clearfix">
-                <Link onClick={() => {updatePageIndex(1)}}>
-                  <LiImg src={ItemImg}/>
-                  <LiDesc>
-                    <LiTitle>
-                    충남내포신도시2차대방엘리움더센트럴
-                    <Number>2D0000324</Number>
-                    <LiveView>Live 방송 예고</LiveView>
-                    </LiTitle>
-                    <Option>충청남도 / 아파트 / 민간분양</Option>
-                    <Address>충청남도 홍성군 홍북읍 신경리</Address>
-                  </LiDesc>
-                </Link>
-                <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1"></Like>
-                  <Label for="Like1" className="check_label"></Label>
-                </LikeBtn>
-              </LiTop>
-            </Li>
-            <Li>
-              <LiTop className="clearfix">
-                <Link onClick={() => {updatePageIndex(1)}}>
-                  <LiImg/>
-                  <LiDesc>
-                    <LiTitle>충남내포신도시2차대방엘리움더센트럴<Number>2D0000324</Number></LiTitle>
-                    <Option>충청남도 / 아파트 / 민간분양</Option>
-                    <Address>충청남도 홍성군 홍북읍 신경리</Address>
-                  </LiDesc>
-                </Link>
-                <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1"></Like>
-                  <Label for="Like1" className="check_label"></Label>
-                </LikeBtn>
-              </LiTop>
-            </Li>
+          {
+            BunyangListItem.map((value) => {
+              if(value.LiveCheckded === true){
+                return(
+                  <Li>
+                    <LiTop className="clearfix">
+                      <Link onClick={() => {updatePageIndex(1)}}>
+                        <LiImg src={value.src}/>
+                        <LiDesc>
+                          <LiTitle>{value.title}
+                          <Number>{value.number}</Number> 
+                            <LiveView>Live 방송 예고</LiveView>
+                          </LiTitle>
+                          <Option>{value.option}</Option>
+                          <Address>{value.address}</Address>
+                        </LiDesc>
+                      </Link>
+                      <LikeBtn>
+                        <Like type="checkbox" name="" id="Like1"></Like>
+                        <Label for="Like1" className="check_label"></Label>
+                      </LikeBtn>
+                    </LiTop>
+                  </Li>
+                )
+              }
+              return(
+                <Li>
+                  <LiTop className="clearfix">
+                    <Link onClick={() => {updatePageIndex(1)}}>
+                      <LiImg src={value.src}/>
+                      <LiDesc>
+                        <LiTitle>{value.title}
+                        <Number>{value.number}</Number> 
+                          {/* <LiveView>Live 방송 예고</LiveView> */}
+                        </LiTitle>
+                        <Option>{value.option}</Option>
+                        <Address>{value.address}</Address>
+                      </LiDesc>
+                    </Link>
+                    <LikeBtn>
+                      <Like type="checkbox" name="" id="Like1"></Like>
+                      <Label for="Like1" className="check_label"></Label>
+                    </LikeBtn>
+                  </LiTop>
+                </Li>
+              )
+            })
+          }
           </ListUl>
         </WrapList>
         <ModalCommon modalOption={modalOption}/>

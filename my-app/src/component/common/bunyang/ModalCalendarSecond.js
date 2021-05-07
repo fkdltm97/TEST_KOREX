@@ -18,10 +18,45 @@ import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
-export default function ModalCal({ cal, setCal, updatePageIndex }) {
+export default function ModalCal({cal, setCal, updatePageIndex ,SelectDate, setSelectDate}) {
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
+
+const [SelectedDay, setSelectedDay] = useState("일")
+useEffect(() => {
+  switch (SelectDate.getDay()) {
+    case 0:
+      // let selectDay = "일";
+      setSelectedDay("일")
+      break;
+      case 1:
+      // let selectDay = "월"
+      setSelectedDay("월")
+      break;
+    case 2:
+      // let selectDay = "화"
+      setSelectedDay("화")
+      break;
+    case 3:
+      // let selectDay = "수"
+      setSelectedDay("수")
+      break;
+    case 4:
+      // let selectDay = "목"
+      setSelectedDay("목")
+      break;
+    case 5:
+      // let selectDay = "금"
+      setSelectedDay("금")
+      break;
+    default:
+      // let selectDay = "토"
+      setSelectedDay("토")
+      break;
+  }
+
+}, [])
 
   if (cal == false) return null;
   return (
@@ -48,7 +83,7 @@ export default function ModalCal({ cal, setCal, updatePageIndex }) {
             }}
             src={Prev}
           />
-          <DateDay>2020년 2월 16일 토요일</DateDay>
+          <DateDay>{SelectDate.getFullYear()}년 {SelectDate.getMonth()+1}월 {SelectDate.getDate()}일 {SelectedDay}요일</DateDay>
         </SeletedDate>
         <Label>시간</Label>
             <br/>
@@ -162,14 +197,7 @@ const SeletedDate = styled.div`
   align-items: center;
   cursor: pointer;
   margin: 20px 0 50px;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 8d876dabe4437d3cb05d47e38c9f5c71d29487af
-=======
-
->>>>>>> 8e141362e2ebabffc6c17deb37908f5906459814
   @media ${(props) => props.theme.modal} {
     margin: calc(100vw * (20 / 428)) 0 calc(100vw * (50 / 428));
   }

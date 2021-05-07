@@ -36,6 +36,9 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
     setHours(setMinutes(new Date(), 30), 16)
   );
 
+    const [StartDay, setStartDay] = useState(new Date());
+    const [EndDay, setEndDay] = useState(new Date("2021/07/08"));
+
   const [Interval, setInterval] = useState(30); //간격 값 저장
 
   const change = (e) => {
@@ -124,8 +127,29 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
             <Box>
               <Label>기간</Label>
               <WrapDate>
-                <InputDate type="date" placeholder="시작일" />
-                <InputDate type="date" placeholder="종료일" />
+                <Dates className="date_pick">
+                  <DatePicker
+                    className="absolute"
+                    selected={StartDay}
+                    onChange={(date) => setStartDay(date)}
+                    selectsStart
+                    startDate={StartDay}
+                    endDate={EndDay}
+                    dateFormat="yyyy.MM.dd"
+                    />
+                </Dates>
+                <Dates className="date_pick">
+                  <DatePicker
+                    className="absolute"
+                    selected={EndDay}
+                    onChange={(date) => setEndDay(date)}
+                    selectsEnd
+                    startDate={StartDay}
+                    endDate={EndDay}
+                    minDate={StartDay}
+                    dateFormat="yyyy.MM.dd"
+                  />
+                </Dates>
               </WrapDate>
             </Box>
             <Box>
@@ -187,7 +211,8 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
               <Label>시간</Label>
               <WrapTime>
                 <Time>
-                  <DatePicker className="date_time_mobile"
+                  <DatePicker
+                    className="date_time_mobile"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
@@ -200,7 +225,8 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
                   />
                 </Time>
                 <Time>
-                  <DatePicker className="date_time_mobile"
+                  <DatePicker
+                    className="date_time_mobile"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
@@ -429,6 +455,18 @@ const VisitInfo = styled.div`
     margin: 0 auto;
   }
 `;
+const Dates = styled.div`
+  width:200px;text-align:center;position:relative;z-index:3;
+  border-radius:4px;border:1px solid #e4e4e4;height:43px;
+  font-size:15px;transform:skew(-0.1deg);line-height:43px;
+  background:#fff;z-index:8;
+  @media ${(props) => props.theme.modal} {
+    width:100%;
+    margin-bottom:calc(100vw*(15/428));
+    height:calc(100vw*(43/428));line-height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+  }
+`
 const Box = styled.div`
   margin-bottom: 35px;
   @media ${(props) => props.theme.mobile} {
@@ -453,6 +491,7 @@ const WrapDate = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap:wrap;
 `;
 const InputDate = styled.input`
   display: inlnie-block;

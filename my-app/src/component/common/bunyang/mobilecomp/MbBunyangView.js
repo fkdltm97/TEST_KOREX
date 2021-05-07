@@ -58,7 +58,7 @@ export default function BunyangDetail({setLive, setDetailImg,setCal}){
           <RightDetail>
             <RightTop>
               <Number>2D0000324</Number>
-              <TopTitle>충남내포신도시2차대방엘리움더센트럴</TopTitle>
+              <TopTitle>충남내포신도시2차대방엘리움더센트럴우리집</TopTitle>
               <Option>충청남도 / 아파트 / 민간분양</Option>
               <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
               <LikeBtn>
@@ -236,7 +236,7 @@ const LikeBtn = styled.div`
 `
 const Like = styled.input`
   display:none;
-  &:checked + .check_label{width:calc(100vw*(29/428));height:calc(100vw*(29/428));background:url(${HeartCheck}) no-repeat center center;background-size:calc(100vw*(17/428)) calc(100vw*(17/428));}\
+  &:checked + .check_label{width:calc(100vw*(29/428));height:calc(100vw*(29/428));background:url(${HeartCheck}) no-repeat center center;background-size:calc(100vw*(17/428)) calc(100vw*(17/428));}
 `
 const Label = styled.label`
   display:inline-block;

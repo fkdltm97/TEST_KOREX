@@ -1,7 +1,7 @@
 //react
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 
 //style
 import styled from "styled-components";
@@ -12,9 +12,20 @@ import CloseIcon from "../../../img/main/modal_close.png";
 import Check from "../../../img/member/check.png";
 import Checked from "../../../img/member/checked.png";
 
+import ko from "date-fns/locale/ko";
+registerLocale("ko", ko); // 달력 한글화...
 
-export default function ModalCal({cal, setCal,updatePageIndex}){
+export default function ModalCal({cal, setCal,updatePageIndex,SelectDate, setSelectDate}){
   const [startDate, setStartDate] = useState(new Date());
+  
+  
+  const Change = (date)=>{
+    setStartDate(date); 
+    updatePageIndex(1);
+    //calendar second로 데이터 넘기기
+    setSelectDate(date);
+  }
+
   const MyContainer = ({ className, children }) => {
     return (
       <div>
@@ -42,10 +53,12 @@ export default function ModalCal({cal, setCal,updatePageIndex}){
           <Label>방문일시</Label>
           <DatePicker
             locale="ko"
-            selected={startDate}
+            // selected={startDate}
             calendarContainer={MyContainer}
-            onChange={(date) => {setStartDate(date); updatePageIndex(1);}}
+            onChange={Change}
             inline
+            choseDate={startDate}
+            dateFormat="yyyy.mm.dd(eee)"
           />
         </Wraplive>
       </Container>
@@ -57,6 +70,7 @@ const Container = styled.div`
 
 `
 const CalendarContainer  = styled.div`
+height:100%
 `
 const Wraplive = styled.div`
   position:fixed;z-index:1002;

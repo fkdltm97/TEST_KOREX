@@ -34,6 +34,26 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
         setActive(false);
   },)
 
+const [UserName, setUsesrName] = useState([]);
+const [UserPhone, setUserPhone] = useState([]);
+
+const [userList, setUserList] = useState([]);
+
+
+const Add = () => {
+  const NameInfo = [...UserName , name];
+  const PhoneInfo = [...UserPhone , phone];
+
+  setUserList(list => {  list.push({name:name,phone:phone});  return [...list];});
+
+  setUsesrName(NameInfo);
+  setUserPhone(PhoneInfo);
+  setName("");
+  setPhone('');
+  console.log(UserName);
+  console.log(UserPhone);
+};
+
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
   //여기 두개가 핵심이에여
@@ -54,7 +74,7 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
         submit:{show:false , title:"" , event : ()=>{offModal(); }},
         cancle:{show:false , title:"" , event : ()=>{offModal(); }},
         confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
-        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);}}
+        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);updatePageIndex(0)}}
     });
   }
 
@@ -64,8 +84,13 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
       <Container>
         <Wraplive>
           <ModalClose>
-              <Link onClick={()=>{setCal(false);updatePageIndex(0)}}>
-              <CloseImg src={CloseIcon}/>
+            <Link
+              onClick={() => {
+                setCal(false);
+                updatePageIndex(0);
+              }}
+            >
+              <CloseImg src={CloseIcon} />
             </Link>
           </ModalClose>
           <ModalTop>
@@ -73,32 +98,89 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
           </ModalTop>
           <Label>동반고객 정보</Label>
           <Desc>
-          분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br/>
-          동반고객 정보를 정확하게 입력하시길 바랍니다.<br/>
-          <br/>
-          동반고객 휴대폰 중간번호 4자리는 보안 처리되어 분양대행사에<br/>
-          제공됩니다.
+            분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br />
+            동반고객 정보를 정확하게 입력하시길 바랍니다.
+            <br />
+            <br />
+            동반고객 휴대폰 중간번호 4자리는 보안 처리되어 분양대행사에
+            <br />
+            제공됩니다.
           </Desc>
           <WrapAdd>
             <InputInvite>
               <InputTitle>이름</InputTitle>
-              <InputTxt type="text" name="" placeholder="이름을 입력하여주세요." onChange={nameChange}/>
+              <InputTxt
+                type="text"
+                name=""
+                placeholder="이름을 입력하여주세요."
+                value={name}
+                onChange={nameChange}
+              />
               <WrapPhone>
                 <InputTitle>휴대폰번호</InputTitle>
                 <WrapInput>
-                  <Input type="email" name="" placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요." onChange={phoneChange}/>
-                  <Delete src={Close} alt="delete"/>
+                  <Input
+                    type="tel"
+                    name=""
+                    placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요."
+                    value={phone}
+                    onChange={phoneChange}
+                  />
+                  <Delete
+                    src={Close}
+                    alt="delete"
+                    onClick={() => {
+                      setPhone("");
+                    }}
+                  />
                 </WrapInput>
               </WrapPhone>
             </InputInvite>
 
-            <AddBtn/>
+            <AddBtn onClick={Add} />
+
+            <InviteList>
+              {
+                userList.map((item)=>{
+                  return (
+                    <EaWrap>
+                      <EaName>{item.name}</EaName>
+                      <EaPhone>{item.phone}</EaPhone>
+                      <EaDelete src={Close}/>
+                    </EaWrap>
+                  );
+                })
+              }
+              {
+                // ==== 위에 식으로 참고 부탁드리겠습니다. //
+              }
+              {/* {UserName.map((item) => {
+                return (
+                    <EaName>{item}</EaName>
+                );
+              })}
+              {UserPhone.map((item) => {
+                  return (
+                      <EaPhone>{item}</EaPhone>
+                  );
+                })} */}
+              
+            </InviteList>
+
             <InviteButton>
-              <Invite type="submit" active={active} onClick={() => {comfirmModal();}}>확인</Invite>
+              <Invite
+                type="submit"
+                active={active}
+                onClick={() => {
+                  comfirmModal();
+                }}
+              >
+                확인
+              </Invite>
             </InviteButton>
           </WrapAdd>
         </Wraplive>
-        <ModalCommon modalOption={modalOption}/>
+        <ModalCommon modalOption={modalOption} />
       </Container>
     );
 }
@@ -115,7 +197,7 @@ const ModalBg = styled.div`
 `
 const Wraplive = styled.div`
   position:fixed;z-index:1002;
-  width:535px;height:auto;
+  width:535px;height:700px;
   background:#fff;
   border-radius:24px;
   border:1px solid #f2f2f2;
@@ -128,7 +210,7 @@ const Wraplive = styled.div`
     display: none;}
   @media ${(props) => props.theme.modal} {
       width:calc(100vw*(395/428));
-      height:auto;
+      height:calc(100vw*(632/428));
       padding:calc(100vw*(24/428)) calc(100vw*(20/428)) calc(100vw*(50/428));
     }
 `
@@ -217,11 +299,8 @@ const InputTitle = styled.label`
 const InputInvite = styled.div`
   width:100%;
   margin-bottom:10px;
-  border-bottom:1px solid #e4e4e4;
-  padding-bottom:15px;
   @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(8/428));
-    padding-bottom:calc(100vw*(15/428));
     &:last-child{margin-bottom:0;}
     }
 `
@@ -277,7 +356,7 @@ const AddBtn = styled.div`
   width:43px;height:43px;
   border-radius:4px;border:1px solid #707070;
   background:#f8f7f7 url(${Add}) no-repeat center center;background-size:19px 19px;
-  margin:20px auto 60px;
+  margin:20px auto 40px;
   @media ${(props) => props.theme.modal} {
     width:calc(100vw*(35/428));
     height:calc(100vw*(35/428));
@@ -304,4 +383,29 @@ const Invite = styled.button`
     line-height:calc(100vw*(54/428));
     font-size:calc(100vw*(15/428));
   }
+`
+const InviteList = styled.div`
+  width:100%;margin-bottom:30px;
+`
+const EaWrap = styled.div`
+  width:100%;margin-bottom:10px;
+  position:relative;
+`
+const EaName = styled.div`
+  position:relative;
+  font-size:15px;transform:skew(-0.1deg);
+  font-weight:600;display:inline-block;
+  margin-right:15px;
+  padding-left:15px;
+  &:before{position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:4px;display:block;content:'';background:#04966d;border-radius:100%;}
+`
+const EaPhone = styled(EaName)`
+  margin-right:0;
+  padding-left:0;
+  &:before{display:none;}
+`
+const EaDelete = styled.img`
+  display:inline-block;
+  width:10px;cursor:pointer;
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
 `
