@@ -16,18 +16,20 @@ import SideBarItemDetail from './SideBarItemDetail';
 import SideBarBrokerDetail from './SideBarBrokerDetail';
 
 // redux
+import { MapProductEls } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalReserve from '../../../component/member/mypage/reservation/ModalReserve';
 
-export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal}) {
+export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveModal, status}) {
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
   const [updown,setUpDown] = useState(false);
   const [click_prdidentityid,setClick_prdidentityid] = useState('');
 
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   
   const position=()=>{
@@ -58,7 +60,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
 
   const pageLoader = (updateReserveModals) =>{
     switch (pageIndex) {
-      case 0: return <MainSideBar updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
+      case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
       case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={reserveModal} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
       default :return <MainSideBar updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>;
@@ -101,8 +103,42 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
     });
   }
 
+   
+  // 무한 스크롤 구현 
+  const onScrollList = () => {
+    const sideBarWrap = document.querySelector(".sideBarWrap");
+    
+    // 무한스크롤 넉넉
+    // if(sideBarWrap.scrollHeight <= sideBarWrap.scrollTop+sideBarWrap.clientHeight + 100){
+    // 무한스크롤 빡빡
+    if(sideBarWrap.scrollHeight == sideBarWrap.scrollTop+sideBarWrap.clientHeight){
+      // **api 서버에서 데이터 가져와서 배열에 추가하기 
+      const currentArr = JSON.parse(JSON.stringify(productRedux.exclusive));
+      console.log(currentArr);
+      currentArr.push({
+        item_id : 10,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:`새로운 자이 111동`,
+        type:"전세",
+        price:`111억 5,000`,
+        floor:"층수",
+        area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      })
+      MapProductEls.updateExclusive({ exclusive : currentArr });
+      console.log("end");
+    }
+
+  }
+
+  
+
     return (
-        <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top}>
+        <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} className="sideBarWrap" onScroll={() => onScrollList()}>
         {
           pageLoader(updateReserveModal)
         }
@@ -112,6 +148,7 @@ export default function WrapSideBar({setReport,pageIndex,setPageIndex,reserveMod
 }
 
 const Container = styled.div`
+  box-shadow:  -10px 0px 5px rgba(0, 0, 0, 0.16);
   position:fixed;
   right:0;
   top:80px;

@@ -36,6 +36,9 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
     setHours(setMinutes(new Date(), 30), 16)
   );
 
+    const [StartDay, setStartDay] = useState(new Date());
+    const [EndDay, setEndDay] = useState(new Date("2021/07/08"));
+
   const [Interval, setInterval] = useState(30); //간격 값 저장
 
   const change = (e) => {
@@ -124,8 +127,23 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
             <Box>
               <Label>기간</Label>
               <WrapDate>
-                <InputDate type="date" placeholder="시작일" />
-                <InputDate type="date" placeholder="종료일" />
+                <DatePicker
+                  selected={StartDay}
+                  onChange={(date) => setStartDay(date)}
+                  selectsStart
+                  startDate={StartDay}
+                  endDate={EndDay}
+                  dateFormat="yyyy.MM.dd"
+                  />
+                <DatePicker
+                  selected={EndDay}
+                  onChange={(date) => setEndDay(date)}
+                  selectsEnd
+                  startDate={StartDay}
+                  endDate={EndDay}
+                  minDate={StartDay}
+                  dateFormat="yyyy.MM.dd"
+                />
               </WrapDate>
             </Box>
             <Box>
@@ -187,7 +205,8 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
               <Label>시간</Label>
               <WrapTime>
                 <Time>
-                  <DatePicker className="date_time_mobile"
+                  <DatePicker
+                    className="date_time_mobile"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
@@ -200,7 +219,8 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
                   />
                 </Time>
                 <Time>
-                  <DatePicker className="date_time_mobile"
+                  <DatePicker
+                    className="date_time_mobile"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect

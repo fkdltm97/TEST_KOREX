@@ -73,7 +73,7 @@ export default function Join() {
             show:true,
             setShow:offModal,
             title:"중개의뢰",
-            content:{type:"text",text:`해당물건은 전속매물이 아닙니다.\n이미 다른 중개사에게 의뢰되었거나\n거래중인 물건은 시스템에 등록할 수 없습니다.\n상기 사유에 해당하지 않는 경우,\n고객센터로 문의해주세요.`,component:""},
+            content:{type:"text",text:`등록 불가합니다.\n이미 중개 의뢰된 물건입니다.\n상기 사유에 해당하지 않는 경우,\n고객센터로 문의해주세요.`,component:""},
             submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
@@ -105,6 +105,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

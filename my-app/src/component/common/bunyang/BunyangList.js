@@ -30,7 +30,7 @@ const BunyangListItem =[
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
     desc4:"35,599 ~ 44,049 만원",
-    LiveCheckde : true
+    LiveCheckded : true
   },
   {
     bunyang_id : 1,
@@ -44,8 +44,8 @@ const BunyangListItem =[
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
     desc4:"35,599 ~ 44,049 만원",
-    LiveCheckde : false
-  }
+    LiveCheckded : false
+  },
 ]
 
 export default function BunyangList({updatePageIndex}){
@@ -100,6 +100,29 @@ export default function BunyangList({updatePageIndex}){
           <ListUl>
           {
             BunyangListItem.map((value) => {
+              if(value.LiveCheckded === true){
+                return(
+                  <Li>
+                    <LiTop className="clearfix">
+                      <Link onClick={() => {updatePageIndex(1)}}>
+                        <LiImg src={value.src}/>
+                        <LiDesc>
+                          <LiTitle>{value.title}
+                          <Number>{value.number}</Number> 
+                            <LiveView>Live 방송 예고</LiveView>
+                          </LiTitle>
+                          <Option>{value.option}</Option>
+                          <Address>{value.address}</Address>
+                        </LiDesc>
+                      </Link>
+                      <LikeBtn>
+                        <Like type="checkbox" name="" id="Like1"></Like>
+                        <Label for="Like1" className="check_label"></Label>
+                      </LikeBtn>
+                    </LiTop>
+                  </Li>
+                )
+              }
               return(
                 <Li>
                   <LiTop className="clearfix">
@@ -108,7 +131,7 @@ export default function BunyangList({updatePageIndex}){
                       <LiDesc>
                         <LiTitle>{value.title}
                         <Number>{value.number}</Number> 
-                          <LiveView>Live 방송 예고</LiveView>
+                          {/* <LiveView>Live 방송 예고</LiveView> */}
                         </LiTitle>
                         <Option>{value.option}</Option>
                         <Address>{value.address}</Address>

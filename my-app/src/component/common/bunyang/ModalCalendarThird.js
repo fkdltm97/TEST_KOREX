@@ -34,6 +34,22 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
         setActive(false);
   },)
 
+const [UserName, setUsesrName] = useState([]);
+const [UserPhone, setUserPhone] = useState([]);
+
+
+
+const Add = () => {
+  const NameInfo = [...UserName , name];
+  const PhoneInfo = [...UserPhone , phone];
+  setUsesrName(NameInfo);
+  setUserPhone(PhoneInfo);
+  setName("");
+  setPhone('');
+  console.log(UserName);
+  console.log(UserPhone);
+};
+
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
   //여기 두개가 핵심이에여
@@ -64,8 +80,13 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
       <Container>
         <Wraplive>
           <ModalClose>
-              <Link onClick={()=>{setCal(false);updatePageIndex(0)}}>
-              <CloseImg src={CloseIcon}/>
+            <Link
+              onClick={() => {
+                setCal(false);
+                updatePageIndex(0);
+              }}
+            >
+              <CloseImg src={CloseIcon} />
             </Link>
           </ModalClose>
           <ModalTop>
@@ -73,32 +94,79 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
           </ModalTop>
           <Label>동반고객 정보</Label>
           <Desc>
-          분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br/>
-          동반고객 정보를 정확하게 입력하시길 바랍니다.<br/>
-          <br/>
-          동반고객 휴대폰 중간번호 4자리는 보안 처리되어 분양대행사에<br/>
-          제공됩니다.
+            분양대행사와 보수 정산 시, 증거자료로 활용하실 수 있으니, <br />
+            동반고객 정보를 정확하게 입력하시길 바랍니다.
+            <br />
+            <br />
+            동반고객 휴대폰 중간번호 4자리는 보안 처리되어 분양대행사에
+            <br />
+            제공됩니다.
           </Desc>
           <WrapAdd>
             <InputInvite>
               <InputTitle>이름</InputTitle>
-              <InputTxt type="text" name="" placeholder="이름을 입력하여주세요." onChange={nameChange}/>
+              <InputTxt
+                type="text"
+                name=""
+                placeholder="이름을 입력하여주세요."
+                value={name}
+                onChange={nameChange}
+              />
               <WrapPhone>
                 <InputTitle>휴대폰번호</InputTitle>
                 <WrapInput>
-                  <Input type="email" name="" placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요." onChange={phoneChange}/>
-                  <Delete src={Close} alt="delete"/>
+                  <Input
+                    type="tel"
+                    name=""
+                    placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요."
+                    value={phone}
+                    onChange={phoneChange}
+                  />
+                  <Delete
+                    src={Close}
+                    alt="delete"
+                    onClick={() => {
+                      setPhone("");
+                    }}
+                  />
                 </WrapInput>
               </WrapPhone>
             </InputInvite>
 
-            <AddBtn/>
+            <AddBtn onClick={Add} />
+            <div>
+              {UserName.map((item) => {
+                return (
+                  <div>
+                    <h5>{item}</h5>
+                    <br />
+                  </div>
+                );
+              })}
+              <br />
+              {UserPhone.map((item) => {
+                return (
+                  <div>
+                    <h5>{item}</h5>
+                    <br />
+                  </div>
+                );
+              })}
+            </div>
             <InviteButton>
-              <Invite type="submit" active={active} onClick={() => {comfirmModal();}}>확인</Invite>
+              <Invite
+                type="submit"
+                active={active}
+                onClick={() => {
+                  comfirmModal();
+                }}
+              >
+                확인
+              </Invite>
             </InviteButton>
           </WrapAdd>
         </Wraplive>
-        <ModalCommon modalOption={modalOption}/>
+        <ModalCommon modalOption={modalOption} />
       </Container>
     );
 }

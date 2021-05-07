@@ -25,12 +25,12 @@ export default function MainHeader({openBunyang, rank, setReport,reserveModal,se
           <Mobile>
             {
               pageIndex == 0 ?
-              <WrapMap/>
+              <WrapMap status={status}/>
               :
               null
             }
           </Mobile>
-          <MainWrapSideBar setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
+          <MainWrapSideBar status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
           {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>*/}{/*단지 사이드바 컴포넌트*/}
         </Container>
   );

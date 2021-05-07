@@ -74,7 +74,7 @@ export default function MainPage() {
 
 const Container = styled.div`
     width: 100%;
-    min-height:calc(100vh - calc(100vw*(420/428)));
+    min-height:calc(100vh - calc(100vw*(334/428)));
     padding-bottom:calc(100vw*(100/428));
 
 `

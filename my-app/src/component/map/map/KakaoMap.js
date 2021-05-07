@@ -16,11 +16,11 @@ import bankMarker from "../../../img/map/bankMarker.png";
 
 import excClusterer from "../../../img/map/excClusterer.png";
 import proClusterer from "../../../img/map/proClusterer.png";
-import blockClusterer from "../../../img/map/blockClusterer.png";
+import blockClustererImg from "../../../img/map/blockClusterer.png";
 
 
 // redex
-import { MapRight } from '../../../store/actionCreators';
+import { MapRight, MapProductEls } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
 import json from '../../../json/geoMap.json'
@@ -31,15 +31,18 @@ export default function KakaoMap({}) {
   const [kakaoMap, setKakaoMap] = useState(null);
   const [, setExcClusterer] = useState();
   const [, setProClusterer] = useState();
-  const [, setBlockClusterer] = useState();
+  const [blockClusterer, setBlockClusterer] = useState();
   const [, setAroundClusterer] = useState();
   const [, setRoadClusterer] = useState();
   const [, setCurrnetClusterer] = useState();
   const container = useRef();
   const pivot = {lat:37.496463, lng:127.029358}
   const [centerClusterer, setCenterClusterer] = useState({lat:"", lng:""})
+  const [clickMarker, setClickMarker] = useState({});
 
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
+  const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
 
   const [exclusiveArr, setExclusiveArr] = useState([]);
   const [probrokerArr, setProbrokerArr] = useState([]);
@@ -52,6 +55,75 @@ export default function KakaoMap({}) {
   var moveLine;
   var distanceOverlay;
   var dots = [];
+
+  // 서버에서 데이터를 받아와 배열 생성--------------
+  // 호출 상황 --------
+  // 첫 로드
+  // 필터 변경
+  // 오른쪽 메뉴 변경
+
+  // idle event
+  function getProduct() {
+    // 로컬 저장
+    refreshArr();
+    // 서버통신 -> 배열 설정
+    // setExclusiveArr([])
+    // setProbrokerArr([])
+    // setBlockArr([])
+  }
+
+  //  제거
+  const removeEvent = () => {
+    kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct );
+  }
+
+  // 새로고침
+  const refreshArr = () => {
+    // **api 서버에서 데이터를 받아와 매물 리스트를 넣는다.
+    const newArr = [];
+    for(let i = 0 ; i < 10 ; i++){
+      newArr.push({
+        item_id : i,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:`자이 10${i}동`,
+        type:"전세",
+        price:`1${i}억 5,000`,
+        floor:"층수",
+        area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      });
+    }
+    MapProductEls.updateExclusive({ exclusive : newArr })
+    // console.log("서버 통신하여 새로운 정보 받아오기");
+    // MapProductEls redux
+    // console.log(mapRightRedux.isExclusive); // 전속 매물
+    // console.log(mapRightRedux.isProbroker); // 전문 중개사
+    // console.log(mapRightRedux.isBlock); // 단지별 실거래
+    // console.log(mapFilterRedux.filterArr); // 필터
+  }
+
+  useEffect(() => {
+    if(!kakaoMap){return;}
+    refreshArr();
+    // removeListener
+    const changeBtn = document.querySelectorAll(".changeBtn");
+    const changeBtnRange = document.querySelectorAll(".changeBtnRange");
+    for(let i = 0; i < changeBtn.length ; i++){
+      changeBtn[i].addEventListener("click", removeEvent );
+    }
+    for(let i = 0; i < changeBtnRange.length ; i++){
+      changeBtnRange[i].addEventListener("mousedown", removeEvent );
+    }
+
+    // addListener
+    kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
+    
+  },[mapFilterRedux.filterArr, mapRightRedux, kakaoMap])
+  // ----------------------
 
 
   // Array Init
@@ -92,34 +164,51 @@ export default function KakaoMap({}) {
 
   // Map
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=92591c6a8ce52c67baa6a273c98f4f88&libraries=services,clusterer,drawing&autoload=false";
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      kakao.maps.load(() => {
-        const center = new kakao.maps.LatLng(pivot.lat, pivot.lng);
-        const options = {
-          center,
-          level: 3
-        };
-        const map = new kakao.maps.Map(container.current, options);
-        setKakaoMap(map);
-      });
+    let mapData = JSON.parse(localStorage.getItem("mapData"));
+    // local에 정보가 없을 경우
+    let center = new kakao.maps.LatLng(37.496463, 127.029358);
+    let level = 3;
+    // local에 정보가 있을 경우
+    if(mapData){
+      center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
+      level = mapData.level;
+    }
+    const options = {
+      center,
+      level: level
     };
+    const map = new kakao.maps.Map(container.current, options);
+
+    kakao.maps.event.addListener(map, 'idle', (e) => {
+      var level = map.getLevel();
+      var lng = map.getCenter().La.toFixed(6);
+      var lat = map.getCenter().Ma.toFixed(6);
+      const data = {
+        level:level,
+        lat:lat,
+        lng:lng,
+      }
+      localStorage.setItem( "mapData", JSON.stringify(data));
+    });
+    setKakaoMap(map);
+
+    
   }, [container]);
 
   // Exclusive toggle
   useEffect(() => {
-    mapRightRedux.isExclusive.is?addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer):setExcClusterer(clusterer=>{if(!clusterer){return}; clusterer.clear(); return clusterer;});
+    mapRightRedux.isExclusive.is
+    ?
+    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
+    :
+    setExcClusterer(clusterer=>{if(!clusterer){return}; clusterer.clear(); return clusterer;});
   }, [mapRightRedux.isExclusive.is, kakaoMap])
 
   // Probroker toggle
   useEffect(() => {
     mapRightRedux.isProbroker.is
     ?
-    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer)
+    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
     :
     setProClusterer(clusterer=>{
       if(!clusterer){return;}
@@ -132,7 +221,7 @@ export default function KakaoMap({}) {
   useEffect(() => {
     mapRightRedux.isBlock.is
     ?
-    addMarkClust(blockArr, setBlockClusterer, blockMarker, blockClusterer)
+    addMarkClustBlock(blockArr, setBlockClusterer, blockMarker, blockClustererImg, 5)
     :
     setBlockClusterer(clusterer=>{
       if(!clusterer){return;}
@@ -142,7 +231,7 @@ export default function KakaoMap({}) {
   }, [mapRightRedux.isBlock.is, kakaoMap])
 
   // Marker, Clusterer Init
-  const addMarkClust = (array, setClusterer, markerImg, clustererImg) => {
+  const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
     if(array.length == 0){
       return;
     }
@@ -151,20 +240,92 @@ export default function KakaoMap({}) {
     var markerImage = new kakao.maps.MarkerImage(markerImg, imageSize, imageOption);
     let markers = [];
     array.map(item => {
-      markers.push(
-        new kakao.maps.Marker({
-          map: kakaoMap, 
-          position: new kakao.maps.LatLng(item.Ma, item.La),
-          image: markerImage,
-          opacity:1
+      const markerEl = new kakao.maps.Marker({
+        map: kakaoMap, 
+        position: new kakao.maps.LatLng(item.Ma, item.La),
+        image: markerImage,
+        opacity:1
+      })
+      kakao.maps.event.addListener(markerEl, 'click', function() {
+        setClickMarker({
+          lat:item.Ma,
+          lng:item.La
         })
-      );
+      });
+      markers.push( markerEl );
     })
-
     var clusterer = new kakao.maps.MarkerClusterer({
       map: kakaoMap, 
       averageCenter: true, 
-      minLevel: clustererImg ? 1 : 100,
+      minLevel: cluLevel,
+      disableClickZoom: true,
+      calculator: [1, 50, 100],
+      styles:[
+        {
+          width : '50px', height : '50px',
+          backgroundImage:  `url(${clustererImg})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          color: '#fff',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          lineHeight: '50px'
+        },
+        {
+          width : '60px', height : '60px',
+          backgroundImage:  `url(${clustererImg})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          color: '#fff',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          lineHeight: '60px'
+        },
+        {
+          width : '94px', height : '94px',
+          backgroundImage:  `url(${clustererImg})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          color: '#fff',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          lineHeight: '94px'
+        }
+
+      ]
+    });
+    clusterer.addMarkers(markers);
+
+    kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+      setCenterClusterer({
+        lat:cluster._center.toLatLng().Ma,
+        lng:cluster._center.toLatLng().La
+      })
+    });
+    setClusterer(clusterer);
+  }
+
+  // Block Clusterer Init
+  const addMarkClustBlock = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
+    if(array.length == 0){return;}
+
+    let markers = [];
+    array.map(item => {
+        var content =`<div style="opacity:0.4;" class="markerWrap"> 21.11.09 <br /> 매매</div>`;
+        var customOverlay = new kakao.maps.CustomOverlay({
+          position: new kakao.maps.LatLng(item.Ma, item.La),
+          content: content,
+        });
+      markers.push(customOverlay);
+      customOverlay.setMap(kakaoMap);
+    })
+    var clusterer = new kakao.maps.MarkerClusterer({
+      map: kakaoMap, 
+      averageCenter: true, 
+      minLevel: cluLevel,
       disableClickZoom: true,
       calculator: [20, 50, 100],
       styles:[
@@ -205,7 +366,6 @@ export default function KakaoMap({}) {
       ]
     });
     clusterer.addMarkers(markers);
-
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
@@ -309,11 +469,15 @@ export default function KakaoMap({}) {
     }
   }, [mapRightRedux.mapStyle, kakaoMap])
 
-  // Clusterer center
+  // Clusterer Click
   useEffect(() => {
-    // console.log(centerClusterer);
     // 중심좌표 -> 서버 -> 데이터 받아오기
   }, [centerClusterer])
+
+  // Marker Click
+  useEffect(() => {
+    console.log(clickMarker);
+  }, [clickMarker])
 
   // Zoom In
   useEffect(() => {

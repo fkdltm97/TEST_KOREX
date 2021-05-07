@@ -47,7 +47,7 @@ export default function Join() {
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openBunyang={openBunyang}/>
           <Container>
-              <SubTitle title={"삼성물산　∨"} rank={true} path={"/"} cursor={"pointer"}/>
+              <SubTitle title={"삼성물산"} arrow={"　▼"} rank={true} path={"/"} cursor={"pointer"}/>
               <CompanyProfile/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>
@@ -62,6 +62,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

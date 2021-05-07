@@ -14,7 +14,6 @@ import Check from "../../../img/member/check.png";
 import Checked from "../../../img/member/checked.png";
 
 
-// import ModalCommon from '../modal/ModalCommon';
 
 export default function LiveModal({cal, setCal,live, setLive}){
 

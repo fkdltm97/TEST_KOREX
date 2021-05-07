@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, mannerModal, value,type}) {
+export default function Request({filter, setFilter, mannerModal, cancleModal,startModal,completeModal,cancle2Modal,value,type}) {
   
   console.log('중개의뢰 매물 요청 list반복:',value);
 
@@ -67,10 +67,10 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                     {
                       menu ?
                       
-                      (value.prd_status =='대기' || value.prd_status=='검토대기') ?
+                      (value.prd_status =='대기' || value.prd_status=='검토 대기') ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{cancleModal();}} className="data_link"/>
                           <InDiv>의뢰 철회</InDiv>
                         </Div>
                         <Div>
@@ -84,18 +84,18 @@ export default function Request({filter, setFilter, mannerModal, value,type}) {
                       </InMenu>
                       :null
                     :
-                      (value.prd_status == '거래준비') ?
+                      (value.prd_status == '거래 준비') ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{startModal();}} className="data_link"/>
                           <InDiv>거래 개시</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{completeModal();}} className="data_link"/>
                           <InDiv>거래 완료</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <Link onClick={()=>{cancle2Modal();}} className="data_link"/>
                           <InDiv>위임 취소</InDiv>
                         </Div>
                         <Div>

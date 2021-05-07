@@ -61,11 +61,6 @@ useEffect(() => {
   if (cal == false) return null;
   return (
     <Container>
-      {console.log(SelectDate.getFullYear())}
-      {console.log(SelectDate.getMonth()+1)}
-      {console.log(SelectDate.getDate())}
-      {console.log(SelectDate.getDay())}
-      {/* {yy()} */}
       <Wraplive>
         <ModalClose>
           <Link

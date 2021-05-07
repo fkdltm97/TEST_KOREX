@@ -19,10 +19,6 @@ import ImgDetail from "../../../component/common/bunyang/ImgDetail";
 import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../../component/common/modal/ModalCommon';
-import ModalMap from '../../../component/member/mypage/propertyManage/modal/ModalMap';
-import ModalSelect from '../../../component/member/mypage/propertyManage/modal/ModalSelect';
-import ModalEdit from '../../../component/member/mypage/propertyManage/modal/ModalEdit';
-import ModalAllEdit from '../../../component/member/mypage/propertyManage/modal/ModalAllEdit';
 
 export default function Join() {
   //이용약관
@@ -116,6 +112,6 @@ const Container = styled.div`
     width: 100%;
     min-height:calc(100vh - 289px);
     @media ${(props) => props.theme.mobile} {
-        min-height:calc(100vh - calc(100vw*(420/428)));
+        min-height:calc(100vh - calc(100vw*(334/428)));
       }
 `

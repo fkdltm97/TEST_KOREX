@@ -15,14 +15,17 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
+// redux
+import { useSelector } from 'react-redux';
 
-export default function ItemTabContent({updatePageIndex,itemList,setHistoryInfo,setReport,index}) {
+export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index}) {
 
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
 
     return (
         <Container>
         {
-            itemList.map((value) => {
+            productRedux.exclusive.map((value) => {
               return(
                 <TabContent>
                   <Link onClick={() => {updatePageIndex(1,value.item_id); setHistoryInfo(e => {e.prevIndex.push(index); return JSON.parse(JSON.stringify(e));}); }} className="data_link"></Link>
@@ -42,7 +45,7 @@ export default function ItemTabContent({updatePageIndex,itemList,setHistoryInfo,
                         <ColorOrange>·</ColorOrange>
                         <Detail>{value.detail}</Detail>
                       </Name>
-                      <Price>{value.price}</Price>
+                      <Price>{value.type}{value.price}</Price>
                       <Option>
                         <Floor>{value.floor}</Floor>
                         <Area>{value.area}</Area>

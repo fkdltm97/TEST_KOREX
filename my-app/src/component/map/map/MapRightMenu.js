@@ -20,19 +20,28 @@ import { useSelector } from 'react-redux';
 
 export default function MainHeader({openBunyang, rank }) {
 
+    const [isFilter, setIsFilter] = useState(true);
     const [isMapStyle, setIsMapStyle] = useState(false);
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
     
+    // Init Status
+    useEffect(() => {
+      MapRight.updateExclusive({  isExclusive: {is:true} });
+      MapRight.updateProbroker({  isProbroker: {is:true} });
+      MapRight.updateBlock({  isBlock: {is:false} });
+    }, [])
 
     // Exclusive Click
     const onClickExclusive = () => {
       const buildType = document.querySelectorAll(".buildType");
       const exclusiveCk = document.querySelector("#Exclusive");
       if(!exclusiveCk.checked){
+        setIsFilter(true);
         buildType[1].classList.remove("select");
         MapRight.updateBlock({  isBlock: {is:false} });
         MapRight.updateExclusive({  isExclusive: {is:true} });
       }else{
+        setIsFilter(false);
         MapRight.updateExclusive({  isExclusive: {is:false} });
       }
     };
@@ -208,18 +217,18 @@ export default function MainHeader({openBunyang, rank }) {
         <Container>
           <WrapMap>
             {/*Right Tab*/}
-            <RightMenu>
+            <RightMenu isFilter={isFilter}>
               <WrapMenuTop>
                 <Exclusive type="checkbox" name="" id="Exclusive" defaultChecked/>
-                <ExclusiveLabel for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
+                <ExclusiveLabel className="changeBtn" for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
               </WrapMenuTop>
               <WrapMenuBottom>
                 <RadioBox>
-                  <RadioSpan id="probrokerBuild" className={["buildType", "select"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
+                  <RadioSpan id="probrokerBuild" className={["buildType", "select", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="blockBuild" className="buildType" onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
+                  <RadioSpan id="blockBuild" className={["buildType", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
@@ -325,7 +334,16 @@ const RightMenu = styled.div`
   width:50px;
 
   @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(80/428));
+    ${({isFilter})=>{
+      return isFilter?
+      `
+      top:calc(100vw*(80/428));
+      `
+      :
+      `
+      top:calc(100vw*(15/428));
+      `
+    }}
     right:calc(100vw*(14/428));
     width:calc(100vw*(50/428));
   }

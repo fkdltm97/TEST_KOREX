@@ -30,7 +30,7 @@ import RequestSorting from "./RequestSorting";
 //redux addons assets;
 import {useSelector } from 'react-redux';
 
-export default function Request({mannerModal,setFilter,value,type}) {
+export default function Request({mannerModal,startModal,cancleModal,completeModal,cancle2Modal,setFilter,value,type}) {
 
    
   //... 눌렀을때(메뉴)
@@ -75,7 +75,7 @@ export default function Request({mannerModal,setFilter,value,type}) {
       prd_identity_id : 0,
       prd_img:Item,
       date:"21.00.00 - 21.00.00",
-      prd_status:"검토대기",
+      prd_status:"검토 대기",
       modify_date:"2021.00.00",
       prd_name:"충남내포신도시2차대방엘리움더센트럴",
       prd_type:"아파트",
@@ -87,7 +87,7 @@ export default function Request({mannerModal,setFilter,value,type}) {
       prd_identity_id : 1,
       prd_img:Item,
       date:"21.00.00 - 21.00.00",
-      prd_status:"거래준비",
+      prd_status:"거래 준비",
       modify_date:"2021.00.00",
       prd_name:"충남내포신도시2차대방엘리움더센트럴",
       prd_type:"아파트",
@@ -142,19 +142,19 @@ export default function Request({mannerModal,setFilter,value,type}) {
             RequestListItem.map((value) => {
 
               const type=()=>{
-                if(value.type == "waiting") { //검토대기
+                if(value.prd_status == "검토 대기") { //검토대기
                   return 1
-                }else if(value.type == "readyDeal") {//거래준비
+                }else if(value.prd_status == "거래 준비") {//거래준비
                   return 1
-                } else if(value.type == "requestCancel") { // 의뢰 철회
+                } else if(value.prd_status == "의뢰 철회") { // 의뢰 철회
                   return 0.5
-                } else if(value.type == "delegationCancel") { // 위임 취소
+                } else if(value.prd_status == "위임 취소") { // 위임 취소
                   return 0.5
                 }
               }
 
               return(
-                <RequestListPage mannerModal={mannerModal} type={type} value={value}/>
+                <RequestListPage mannerModal={mannerModal} cancleModal={cancleModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal} type={type} value={value}/>
               )
             })
             :

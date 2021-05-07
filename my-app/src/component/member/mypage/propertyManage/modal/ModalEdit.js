@@ -135,8 +135,8 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                       <InOption>12</InOption>
                     </FilterSelectShort> */}
 
-
-                  <DatePicker className="date_time_mobile"
+              <Time>
+                  <DatePicker className="date_time"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
@@ -147,8 +147,9 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                     minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
                     maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
                   />
-             
-                  <DatePicker className="date_time_mobile"
+             </Time>
+             <Time>
+                  <DatePicker className="date_time"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
@@ -159,7 +160,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                     minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
                     maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
                   />
-               
+              </Time> 
 
 
                   </FilterSelectSort>
@@ -308,13 +309,21 @@ const FilterSelectSort = styled.div`
   width:100%;
   display:flex;justify-content:space-between;align-items:center;
 `
-
+const Time = styled.div`
+  width:210px;height:43px;position:relative;z-index:2;
+  text-align:center;font-size:15px;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(170/428));
+    font-size:calc(100vw*(15/428));
+    height:calc(100vw*(43/428));
+  }
+`
 const FilterSelectSortList = styled.select`
   width:100%;
   height:43px;
   text-align-last:center;
   font-size:15px;color:#4a4a4a;transform:skew(-0.1deg);
-  border-radius:4px;border:1px solid #a3a3a3;
+  border-radius:4px;border:1px solid #e4e4e4;
   background:#fff;
   appearance:none;
   background:url(${ArrowDown}) no-repeat 90% center;background-size:11px;

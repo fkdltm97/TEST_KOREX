@@ -21,10 +21,10 @@ export default function ModalCal({vCal, setVCal,calModal}){
 
   const pageLoader = () =>{
     switch (pageIndex) {
-      case 0: return <ModalCalendarFirst updatePageIndex={updatePageIndex} vCal={vCal} setVCal={setVCal}/>;
-      case 1: return <ModalCalendarSecond updatePageIndex={updatePageIndex} vCal={vCal} setVCal={setVCal}/>
-      case 2: return <ModalCalendarThird updatePageIndex={updatePageIndex} vCal={vCal} setVCal={setVCal}/>
-      default: return <ModalCalendarFirst updatePageIndex={updatePageIndex} vCal={vCal} setVCal={setVCal}/>;
+      case 0: return <ModalCalendarFirst updatePageIndex={updatePageIndex} calModal={calModal} vCal={vCal} setVCal={setVCal}/>;
+      case 1: return <ModalCalendarSecond updatePageIndex={updatePageIndex} calModal={calModal} vCal={vCal} setVCal={setVCal}/>
+      case 2: return <ModalCalendarThird updatePageIndex={updatePageIndex} calModal={calModal} vCal={vCal} setVCal={setVCal}/>
+      default: return <ModalCalendarFirst updatePageIndex={updatePageIndex} calModal={calModal} vCal={vCal} setVCal={setVCal}/>;
     }
   }
   const updatePageIndex = (index) =>{
@@ -40,7 +40,7 @@ export default function ModalCal({vCal, setVCal,calModal}){
     return null;
     return (
       <Container>
-        {
+        { 
           pageLoader()
         }
       </Container>
@@ -51,9 +51,43 @@ const Container = styled.div`
   width:100%;
 
 `
+const Wrap = styled.div`
+  width:100%;
+`
 const ModalBg = styled.div`
   position:fixed;
   width:100%;height:100%;left:0;top:0;
   display:block;content:'';background:rgba(0,0,0,0.05);
   z-index:1001;
+`
+const ModalClose = styled.div`
+  width:100%;
+  text-align:right;
+  margin-bottom:22px;
+  @media ${(props) => props.theme.modal} {
+      margin-bottom:calc(100vw*(25/428));
+    }
+`
+const CloseImg = styled.img`
+  display:inline-block;
+  width:15px;height:16px;
+  @media ${(props) => props.theme.modal} {
+      width:calc(100vw*(12/428));
+      height:calc(100vw*(13/428));
+    }
+`
+const ModalTop = styled.div`
+  width:100%;padding-bottom:20px;
+  border-bottom:1px solid #a3a3a3;
+  @media ${(props) => props.theme.modal} {
+      padding-bottom:calc(100vw*(15/428));
+    }
+`
+const Title = styled.div`
+  font-size:20px;
+  font-weight:800;
+  color:#707070;
+  @media ${(props) => props.theme.modal} {
+      font-size:calc(100vw*(15/428));
+    }
 `

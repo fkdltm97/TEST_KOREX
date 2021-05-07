@@ -32,6 +32,8 @@ export default function AddModal({ add, setAdd }) {
     setHours(setMinutes(new Date(), 30), 16)
   );
 
+  const [SelectDate, setSelectDate] = useState(new Date());
+
   const [Interval, setInterval] = useState(30); //간격 값 저장
 
   const change = (e) => {
@@ -42,42 +44,48 @@ export default function AddModal({ add, setAdd }) {
   if(add == false)
     return null;
     return (
-        <Container>
-              <WrapInputBox>
-                <Label>방송일</Label>
-                <Input type="date" placeholder="날짜 선택"/>
-                <Label>시간</Label>
-                <WrapTime>
-                <Time>
-                  <DatePicker className="date_time_mobile"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={Interval} //간격 설정
-                    timeCaption="Time"
-                    dateFormat="h:mm aa" // 시간 타입(보여주는)
-                    minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
-                    maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
-                  />
-                </Time>
-                <Time>
-                  <DatePicker className="date_time_mobile"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={Interval} //간격 설정
-                    timeCaption="Time"
-                    dateFormat="h:mm aa" // 시간 타입(보여주는)
-                    minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
-                    maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
-                  />
-                </Time>
-              </WrapTime>
-              </WrapInputBox>
-        </Container>
-  );
+      <Container>
+        <WrapInputBox>
+          <Label>방송일</Label>
+          <DatePicker
+            dateFormat="yyyy.MM.dd"
+            selected={SelectDate}
+            onChange={(date) => setSelectDate(date)}
+          />
+          <Label>시간</Label>
+          <WrapTime>
+            <Time>
+              <DatePicker
+                className="date_time_mobile"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={Interval} //간격 설정
+                timeCaption="Time"
+                dateFormat="h:mm aa" // 시간 타입(보여주는)
+                minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+              />
+            </Time>
+            <Time>
+              <DatePicker
+                className="date_time_mobile"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={Interval} //간격 설정
+                timeCaption="Time"
+                dateFormat="h:mm aa" // 시간 타입(보여주는)
+                minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
+                maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
+              />
+            </Time>
+          </WrapTime>
+        </WrapInputBox>
+      </Container>
+    );
 }
 
 const Pb = styled.b`
