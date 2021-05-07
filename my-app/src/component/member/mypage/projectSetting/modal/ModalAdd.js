@@ -47,11 +47,13 @@ export default function AddModal({ add, setAdd }) {
       <Container>
         <WrapInputBox>
           <Label>방송일</Label>
-          <DatePicker
-            dateFormat="yyyy.MM.dd"
-            selected={SelectDate}
-            onChange={(date) => setSelectDate(date)}
-          />
+          <WrapDate>
+            <DatePicker
+              dateFormat="yyyy.MM.dd"
+              selected={SelectDate}
+              onChange={(date) => setSelectDate(date)}
+            />
+          </WrapDate>
           <Label>시간</Label>
           <WrapTime>
             <Time>
@@ -119,6 +121,7 @@ const Time = styled.div`
   color: #707070;
   transform: skew(-0.1deg);
   font-weight: 600;
+  z-index:2;
   @media ${(props) => props.theme.mobile} {
     width: calc(100vw * (170 / 428));
     height: calc(100vw * (43 / 428));
@@ -244,5 +247,13 @@ const ConfirmBtn = styled.button`
     height:calc(100vw*(60/428));
     line-height:calc(100vw*(54/428));
     font-size:calc(100vw*(15/428));
+  }
+`
+const WrapDate = styled.div`
+  width:300px;position:relative;z-index:3;
+  margin-bottom:30px;
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(280/428));
+    margin-bottom:calc(100vw*(25/428));
   }
 `

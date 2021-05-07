@@ -37,11 +37,15 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
 const [UserName, setUsesrName] = useState([]);
 const [UserPhone, setUserPhone] = useState([]);
 
+const [userList, setUserList] = useState([]);
 
 
 const Add = () => {
   const NameInfo = [...UserName , name];
   const PhoneInfo = [...UserPhone , phone];
+
+  setUserList(list => {  list.push({name:name,phone:phone});  return [...list];});
+
   setUsesrName(NameInfo);
   setUserPhone(PhoneInfo);
   setName("");
@@ -134,25 +138,35 @@ const Add = () => {
             </InputInvite>
 
             <AddBtn onClick={Add} />
-            <div>
-              {UserName.map((item) => {
+
+            <InviteList>
+              {
+                userList.map((item)=>{
+                  return (
+                    <EaWrap>
+                      <EaName>{item.name}</EaName>
+                      <EaPhone>{item.phone}</EaPhone>
+                      <EaDelete src={Close}/>
+                    </EaWrap>
+                  );
+                })
+              }
+              {
+                // ==== 위에 식으로 참고 부탁드리겠습니다. //
+              }
+              {/* {UserName.map((item) => {
                 return (
-                  <div>
-                    <h5>{item}</h5>
-                    <br />
-                  </div>
+                    <EaName>{item}</EaName>
                 );
               })}
-              <br />
               {UserPhone.map((item) => {
-                return (
-                  <div>
-                    <h5>{item}</h5>
-                    <br />
-                  </div>
-                );
-              })}
-            </div>
+                  return (
+                      <EaPhone>{item}</EaPhone>
+                  );
+                })} */}
+              
+            </InviteList>
+
             <InviteButton>
               <Invite
                 type="submit"
@@ -183,7 +197,7 @@ const ModalBg = styled.div`
 `
 const Wraplive = styled.div`
   position:fixed;z-index:1002;
-  width:535px;height:auto;
+  width:535px;height:700px;
   background:#fff;
   border-radius:24px;
   border:1px solid #f2f2f2;
@@ -345,7 +359,7 @@ const AddBtn = styled.div`
   width:43px;height:43px;
   border-radius:4px;border:1px solid #707070;
   background:#f8f7f7 url(${Add}) no-repeat center center;background-size:19px 19px;
-  margin:20px auto 60px;
+  margin:20px auto 40px;
   @media ${(props) => props.theme.modal} {
     width:calc(100vw*(35/428));
     height:calc(100vw*(35/428));
@@ -372,4 +386,29 @@ const Invite = styled.button`
     line-height:calc(100vw*(54/428));
     font-size:calc(100vw*(15/428));
   }
+`
+const InviteList = styled.div`
+  width:100%;margin-bottom:30px;
+`
+const EaWrap = styled.div`
+  width:100%;margin-bottom:10px;
+  position:relative;
+`
+const EaName = styled.div`
+  position:relative;
+  font-size:15px;transform:skew(-0.1deg);
+  font-weight:600;display:inline-block;
+  margin-right:15px;
+  padding-left:15px;
+  &:before{position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:4px;display:block;content:'';background:#04966d;border-radius:100%;}
+`
+const EaPhone = styled(EaName)`
+  margin-right:0;
+  padding-left:0;
+  &:before{display:none;}
+`
+const EaDelete = styled.img`
+  display:inline-block;
+  width:10px;cursor:pointer;
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
 `
