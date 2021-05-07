@@ -25,13 +25,30 @@ export default function AddBasic({addBasic}) {
   const change_normal_days = (e) => {
     let normal_select_days=document.getElementsByClassName('normal_select_days');
 
+    //공휴일제외 체크상태라면 공휴일 sat,sun체크하려고 할때에 한해서 체크를 막는다.
     let checked_items=[];
-    for(let i=0,c=0; i<normal_select_days.length; i++){
-      if(normal_select_days[i].checked){
-          checked_items[c]=normal_select_days[i].value;
-        c++;
+    if(normal_isholidayexcept){
+      for(let i=0,c=0; i<normal_select_days.length; i++){
+        if(normal_select_days[i].checked){
+           if(normal_select_days[i].value == 'sat' || normal_select_days[i].value == 'sun'){
+             normal_select_days[i].checked=false;
+           }else{
+            checked_items[c]=normal_select_days[i].value;
+            c++; //공휴일제외 체크상태라면 공휴일제외한 체크항목들에 대한 카운팅만 될수있게.
+           }         
+        }
+      }
+    }else{
+      //주말제외상태아니면
+      for(let i=0,c=0; i<normal_select_days.length; i++){
+        if(normal_select_days[i].checked){
+           
+            checked_items[c]=normal_select_days[i].value;
+          c++;
+        }
       }
     }
+   
     console.log('=-=>>>일반추가 선택 요일들 요일 변화change:',checked_items.join(','));
     setNormal_select_days(checked_items.join(','));
   };
@@ -52,6 +69,14 @@ export default function AddBasic({addBasic}) {
     if(e.target.checked){
       //alert('공휴일 제외!');
       setNormal_isholidayexcept(1);
+
+      let normal_select_days=document.getElementsByClassName('normal_select_days');
+
+      for(let i=0; i<normal_select_days.length; i++){
+        if(normal_select_days[i].value == 'sat' || normal_select_days[i].value =='sun'){
+          normal_select_days[i].checked=false;
+        }
+      }
     }else{
       //alert('공휴일 포함');
       setNormal_isholidayexcept(0);
@@ -176,7 +201,7 @@ export default function AddBasic({addBasic}) {
                   </AddSelectCondition>
                 </AddBox>
             {/*수임방식 select*/}
-            <AddBox>
+                <AddBox>
                   <Label>공휴일 제외여부</Label>
                   <AddSelectCondition>
                     <LineBox>

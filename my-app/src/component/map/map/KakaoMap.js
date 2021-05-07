@@ -79,35 +79,72 @@ export default function KakaoMap({}) {
 
   // 새로고침
   const refreshArr = () => {
+ 
     // **api 서버에서 데이터를 받아와 매물 리스트를 넣는다.
-    const newArr = [];
-    for(let i = 0 ; i < 10 ; i++){
-      newArr.push({
-        item_id : i,
-        path:"/",
-        startDate:"20.00.00",
-        endDate: "20.00.00",
-        kind:"아파트",
-        detail:`자이 10${i}동`,
-        type:"전세",
-        price:`1${i}억 5,000`,
-        floor:"층수",
-        area:"공급면적",
-        expenses:"관리비",
-        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-      });
+    // 전속 매물
+    if(mapRightRedux.isExclusive.is){
+      let newArr = [];
+      for(let i = 0 ; i < 10 ; i++){
+        newArr.push({
+          item_id : i,
+          path:"/",
+          startDate:"20.00.00",
+          endDate: "20.00.00",
+          kind:"아파트",
+          detail:`자이 10${i}동`,
+          type:"전세",
+          price:`1${i}억 5,000`,
+          floor:"층수",
+          area:"공급면적",
+          expenses:"관리비",
+          desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+        });
+      }
+      MapProductEls.updateExclusive({ exclusive : newArr });
     }
-    MapProductEls.updateExclusive({ exclusive : newArr })
-    // console.log("서버 통신하여 새로운 정보 받아오기");
-    // MapProductEls redux
-    // console.log(mapRightRedux.isExclusive); // 전속 매물
-    // console.log(mapRightRedux.isProbroker); // 전문 중개사
-    // console.log(mapRightRedux.isBlock); // 단지별 실거래
+    // 전문 중개사
+    if(mapRightRedux.isProbroker.is){
+      let newArr = [];
+      for(let i = 0 ; i < 10 ; i++){
+        newArr.push({
+          broker_id : i,
+          path:"/",
+          tag1:"아파트·현대아이리스",
+          tag2:"상가",
+          tag3:"사무실",
+          name:`럭키 공인중개사${i}`,
+          address:"강남구 논현동 104-5",
+          sell_kind1:2,
+          sell_kind2:7,
+          sell_kind3:9,
+        });
+      }
+      MapProductEls.updateProbroker({ probroker : newArr });
+    }
+    // 단지별 실거래
+    if(mapRightRedux.isBlock.is){
+      let newArr = [];
+      for(let i = 0 ; i < 10 ; i++){
+        newArr.push({
+          danji_id : i,
+          path:"/",
+          title:`골든카운티${i}`,
+          address:"서울특별시 강남구 삼성동 200-13",
+          date:"21.02.01",
+          price:"매매 3억5,000",
+          floor:"7층",
+        });
+      }
+      MapProductEls.updateBlock({ block : newArr });
+    }
     // console.log(mapFilterRedux.filterArr); // 필터
   }
 
   useEffect(() => {
     if(!kakaoMap){return;}
+    const filerRedux = mapFilterRedux;
+    localStorage.setItem( "filterData", JSON.stringify(filerRedux));
+
     refreshArr();
     // removeListener
     const changeBtn = document.querySelectorAll(".changeBtn");
@@ -121,10 +158,9 @@ export default function KakaoMap({}) {
 
     // addListener
     kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
-    
-  },[mapFilterRedux.filterArr, mapRightRedux, kakaoMap])
+  
+  },[mapFilterRedux, mapRightRedux, kakaoMap])
   // ----------------------
-
 
   // Array Init
   useEffect(() => {
@@ -536,19 +572,19 @@ export default function KakaoMap({}) {
 
     switch (mapRightRedux.around.is){
       case "PS3":
-        addMarkClust(aroundArr, setAroundClusterer, childMarker)
+        addMarkClust(aroundArr, setAroundClusterer, childMarker, "", 99)
         break;
       case "SC4":
-        addMarkClust(aroundArr, setAroundClusterer, schoolMarker)
+        addMarkClust(aroundArr, setAroundClusterer, schoolMarker, "", 99)
         break;
       case "SW8":
-        addMarkClust(aroundArr, setAroundClusterer, subwayMarker)
+        addMarkClust(aroundArr, setAroundClusterer, subwayMarker, "", 99)
         break;
       case "BK9":
-        addMarkClust(aroundArr, setAroundClusterer, bankMarker)
+        addMarkClust(aroundArr, setAroundClusterer, bankMarker, "", 99)
         break;
       case "PO3":
-        addMarkClust(aroundArr, setAroundClusterer, officeMarker)
+        addMarkClust(aroundArr, setAroundClusterer, officeMarker, "", 99)
         break;
       default:
         setAroundClusterer(clusterer=>{if(!clusterer){return;} clusterer.clear(); return clusterer;});

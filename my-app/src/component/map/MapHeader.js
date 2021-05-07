@@ -1,5 +1,5 @@
 //react
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import {Link} from "react-router-dom";
 import Select from "react-select";
 
@@ -20,7 +20,7 @@ import { useHistory } from "react-router-dom";
 
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
-
+  const selectRef = useRef();
   const options = useMemo(
            () => [
               { value: "아파트", label: "아파트"},
@@ -33,8 +33,7 @@ export default function MainHeader({openBunyang, rank}) {
         );
 
     const onClickSearch = () => {
-      const selectType = document.querySelector('#selectType');
-      switch (selectType.value){
+      switch (selectRef.current.value){
         case "아파트":
           history.push(`/map/apart`);
           break;
@@ -61,7 +60,7 @@ export default function MainHeader({openBunyang, rank}) {
                   <LogoImg src={PCLogo}/>
                 </Link>
                 <HeaderSearch>
-                  <SearchSelect id="selectType">
+                  <SearchSelect ref={selectRef} >
                     <Option>아파트</Option>
                     <Option>오피스텔</Option>
                     <Option>상가</Option>

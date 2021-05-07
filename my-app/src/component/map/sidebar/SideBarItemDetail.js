@@ -28,6 +28,9 @@ import SideSubTitle from "./subtitle/SideSubTitle";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
+//server process
+import serverController from '../../../server/serverController';
+
 import KakaoMapSide from '../map/KakaoMapSide';
 
 SwiperCore.use([Navigation, Pagination]);
@@ -37,6 +40,158 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
   const [slideUp, setSlideUp] = useState(false);
     
   console.log('sdieBarItemDetail요소 실행  클릭한 특정상품 prd_identity_id >>>:',updateReserveModal,click_prdidentityid);
+  
+  var week = ['일', '월', '화', '수', '목', '금', '토'];
+
+  //해당 매물 아이템에 대한 투어예약셋팅 정보로써 고유한 state로써 취급한다.
+
+  const [except_datelist,setExcept_datelist] = useState([]);//표현에서 제외할 특정날짜리스트
+  const [result_usedatalist,setResult_usedatalist] = useState([]);//사용할 표현할 최종데이터리스트 초기값 배열
+
+  useEffect( async () => {
+    let body_info = {
+      id : click_prdidentityid
+    }
+    let res = await serverController.connectFetchController('/api/broker/brokerProduct_toursetting_dates','POST',JSON.stringify(body_info));
+    if(res){
+      console.log('res result:',res);
+      var result_data=res.result_data;
+      
+      var special_tourlist_array=[];
+      var special_count=0;
+
+      for(let key in result_data[1]){
+        console.log('>>>special tour added list:',key,result_data[1][key]);
+        special_tourlist_array[special_count] = {};
+        special_tourlist_array[special_count]['specifydate'] = result_data[1][key]['set_specifydate'];
+        special_tourlist_array[special_count]['specifydatetimes'] = result_data[1][key]['set_specifydatetimes'];
+        special_tourlist_array[special_count]['tour_id'] = result_data[1][key]['tour_id'];
+        special_tourlist_array[special_count]['tour_specifyday_except'] = result_data[1][key]['tour_specifyday_except'];
+        special_tourlist_array[special_count]['tour_type'] = result_data[1][key]['tour_type'];
+
+        special_count++;
+      }
+      //var except_special_specifydate_tourRowlist = result_data.except_special_specifydate_tourRowlist;
+      //var except_specifydatelist= [];
+      /*for(let e=0; e<except_special_specifydate_tourRowlist.length; e++){
+        except_specifydatelist[e] = except_special_specifydate_tourRowlist[e]['tour_set_specifydate'];
+      }*/
+      console.log('->>>>>server load 특별추가&제외 날짜데이터들:',special_tourlist_array);
+
+      //일반 추가 데이터들>>>
+      var default_match_dates=[];//기본 일반 추가 리스트.날짜리스트
+      var normal_count=0;
+      for(let key in result_data[0]){
+        console.log('>>>>normal tour added list, display count limit',key,result_data[0][key],result_data[0][key]['day_select_count']);
+
+        var loca_display_count_limit = result_data[0][key]['day_select_count'];
+        var loca_match_dates=result_data[0][key]['match_dates'];
+        var loca_tourtype=result_data[0][key]['tour_type'];
+        for(let inn=0; inn<loca_match_dates.length; inn++){
+
+           if(inn < loca_display_count_limit){
+             default_match_dates[normal_count] = loca_match_dates[inn];//표현할 수 만큼만 저장한다.
+             default_match_dates[normal_count]['tour_type'] = loca_tourtype;
+
+             normal_count++;
+           }          
+        }  
+      }
+      console.log('=>>>>>default match_dates::',default_match_dates);
+      var merged_match_dates=[];
+      for(let m=0; m<default_match_dates.length; m++){
+        merged_match_dates[m]={};
+        merged_match_dates[m]['tour_date']=default_match_dates[m]['tour_date'];
+        merged_match_dates[m]['tour_id']=default_match_dates[m]['tour_id'];
+        merged_match_dates[m]['setting_times']=default_match_dates[m]['setting_times'];
+        merged_match_dates[m]['tour_type']=default_match_dates[m]['tour_type'];
+      }
+
+      for(let j=0; j<special_tourlist_array.length; j++){
+
+        if(special_tourlist_array[j]['tour_specifyday_except'] == 0){
+          //추가된 항목들에 대해서만 추가하려는 항목들에대해서만 돌린다.
+        
+          var special_tourlist_array_item = special_tourlist_array[j]; //일반 기본 날짜리스트에서 special 특별 add추가리스트를 추가하는 개념.이미 있는것에 대해 추가하려고 할시 덮어씌움.
+
+          var is_overwraped=false;
+          console.log('==>>>추가하려는 특별날짜 요소(outer for):',special_tourlist_array_item);
+
+          //추가하려는 날짜가 이미 있는지 여부 이미 있으면 기존 겹치는 default날짜요소를 특별요소 관련 속성으로 덮어씌우고, 없는 새로운 요소라면 새로 추가한다.
+          for(let s=0; s<merged_match_dates.length; s++){
+            var merged_match_date_item=merged_match_dates[s];
+            //console.log('==>>>>기존 default dates items요소 순환 (inner for):',merged_match_date_item);
+            if( special_tourlist_array_item['specifydate'] == merged_match_date_item['tour_date']){
+              //console.log('====>>>날짜 겹침 매칭 기존날짜::',merged_match_date_item['tour_date']);
+              merged_match_date_item['setting_times'] = special_tourlist_array_item['specifydatetimes'];
+              merged_match_date_item['tour_id'] = special_tourlist_array_item['tour_id'];
+              merged_match_date_item['tour_type'] = special_tourlist_array_item['tour_type'];//일반->특별로 우선순위 대체 교체진행
+              merged_match_date_item['is_normal_to_special_replaced'] = true;
+              is_overwraped = true;
+            }
+          }
+          if(is_overwraped == false){
+            //중복되지 않는 특별추가요소는 그 요소에 대한것으로 새로이 추가.
+            merged_match_dates.push({tour_date : special_tourlist_array_item['specifydate'], tour_id: special_tourlist_array_item['tour_id'], setting_times: special_tourlist_array_item['specifydatetimes'], tour_type: special_tourlist_array_item['tour_type']}); //특정 tourdate,tourid,settingtimes,tourtype등 특별용 추가.
+          }
+        }
+      }
+      console.log('=>>>>>default matchdate and special_tourlist data mereged:',default_match_dates, merged_match_dates);
+
+      //merged_match_dates에서 제외할..제거할 것 
+      var except_special_dates=[];
+      var except_date_count=0;
+      for(let j=0; j<special_tourlist_array.length; j++){
+        if(special_tourlist_array[j]['tour_specifyday_except'] == 1){
+          //제외하려는 특별날짜 리스트만 돌린다. 제외하려는 날짜들을 저장해놓는다.
+
+          except_special_dates[except_date_count]= special_tourlist_array[j];//제외하려는 날짜
+
+          except_date_count++;
+        }
+      }
+      
+      var result_use_datalist=[];//서버에서 가져온 각 date날짜에 대한 정보값들을 클라이언트에서 사용하기 위한 자료구조.
+
+      for(let r=0; r<merged_match_dates.length; r++){
+        let loca_result_dateData=merged_match_dates[r];
+        console.log('.>>>>>loca result dataeData:',loca_result_dateData);
+        let loca_result_getyoil=week[new Date(loca_result_dateData['tour_date']).getDay()];//요일반환
+        let loca_result_getday=new Date(loca_result_dateData['tour_date']).getDate();//일자반환
+        let loca_result_tourid=loca_result_dateData['tour_id'];
+        let loca_result_tourtype=loca_result_dateData['tour_type'];
+
+        console.log('result_total_dataItem date, setTimes, onlydate and yoil',loca_result_dateData['tour_date'],loca_result_dateData['setting_times'],loca_result_getyoil,loca_result_getday);
+
+        result_use_datalist[r] = {};
+        result_use_datalist[r]['date'] = loca_result_dateData['tour_date'];
+        result_use_datalist[r]['setTimes'] = loca_result_dateData['setting_times'];
+        result_use_datalist[r]['date_yoil'] = loca_result_getyoil;
+        result_use_datalist[r]['date_day'] = loca_result_getday; 
+        result_use_datalist[r]['tour_id']  = loca_result_tourid;
+        result_use_datalist[r]['tour_type'] = loca_result_tourtype;
+      }
+      console.log('+>>>>>final result_use_datalist, except_speicaldates:',result_use_datalist,except_special_dates);
+
+      function data_ascending(a,b){
+          var left = new Date(a['date']).getTime();
+          var right = new Date(b['date']).getTime();
+
+          return left > right ? 1 : -1;//왼쪽요소가 더크면 true리턴, 왼쪽요소가 더클시에 왼쪽요소를 오른쪽으로 밀어내는듯.
+      }
+
+      result_use_datalist = result_use_datalist.sort(data_ascending);//노말 매치데이터들 정렬한것 새로 리턴.
+
+      setExcept_datelist(except_special_dates);
+      setResult_usedatalist(result_use_datalist);
+
+    }else{
+
+    }
+    
+  },[]);
+
+  
     return (
         <Container>
           <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
@@ -65,7 +220,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           </TopDetailImg>
         {/*물건투어예약 , 실거래, 허위매물 신고 버튼*/}
           <TopButtons>
-            <Button onClick={updateReserveModal}>
+            <Button onClick={ () => { updateReserveModal(except_datelist,result_usedatalist); }}>
               <Link className="data_link"/>
               <IconImg src={Exit}/>
               <ButtonTitle>물건투어예약</ButtonTitle>

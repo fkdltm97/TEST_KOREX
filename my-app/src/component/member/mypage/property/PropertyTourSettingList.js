@@ -21,29 +21,35 @@ export default function Tour({value,onOff,setOnOff}) {
   }
   
   console.log('========tour리스트 물건투어예약세팅요소:======',value);
-
-  var tour_set_days= value.tour_set_days !='' && value.tour_set_days != null ? value.tour_set_days : '';
-  var tour_set_times=value.tour_set_times != '' && value.tour_set_times != null? value.tour_set_times : '';
-  var tour_type=value.tour_type;//일반인지 특별인지 여부
-
-  var tour_set_specifydate=value.tour_set_specifydate !='' && value.tour_set_specifydate != null ? value.tour_set_specifydate : '';
-  var tour_set_specifydate_times=value.tour_set_specifydate_times !='' && value.tour_set_specifydate_times != null ? value.tour_set_specifydate_times : '';//특정날짜 선택한 / 특정날짜 선택한것에 대한 시간들.
-  var tour_specifyday_except = value.tour_specifyday_except != '' && value.tour_specifyday_except != null ? value.tour_specifyday_except : 0;
+  
+  if(value.tour_type == 1){
+    var tour_type=1;
+    var tour_yoilsetdays= value.yoil_set_days.length>0 && value.yoil_set_days ? value.yoil_set_days.join(',') : '';//문자열 병합
+    var tour_settimes= value.set_times.length >0 && value.set_times ? value.set_times.join(',') : '';
+    var key = value.key !='' ? value.key : '';
+  }else{
+    var tour_type=2;
+    var tour_set_specifydate= value.set_specifydate !='' && value.set_specifydate ? value.set_specifydate : '';
+    var tour_set_specifydate_times = value.set_specifydatetimes !='' ? value.set_specifydatetimes : '';
+    var tour_specifyday_except = value.tour_specifyday_except != '' ? value.tour_specifyday_except : '';
+    var key = value.key !='' ? value.key : '';
+  }
+  
     return (
         <Container>
           {
             onOff ?
             <TourList>
               <TourInfo>
-                <Title>{value.tour_type == 1 ? '일반' : '특별'}</Title>
+                <Title>{ tour_type == 1 ? '일반' : '특별'}</Title>
                 
-                { value.tour_type == 1 ?
+                { tour_type == 1 ?
                 <WrapDateTime>                
                     {
-                     tour_set_days != null && tour_set_days !='' && tour_type==1 ?
+                     tour_yoilsetdays != null && tour_yoilsetdays !='' && tour_type==1 ?
                       <Date> 
                       {
-                    tour_set_days.split(',').map((n,index) => {
+                    tour_yoilsetdays.split(',').map((n,index) => {
                       console.log('tour set days index:',n);
                       switch(n){
                         case 'sun':
@@ -79,10 +85,10 @@ export default function Tour({value,onOff,setOnOff}) {
                       null
                     }                
                   <Part/>
-                  {  tour_set_times != null && tour_set_times !='' && tour_type ==1?
+                  {  tour_settimes != null && tour_settimes !='' && tour_type ==1?
                   <Time>
                     {
-                      tour_set_times.split(',').map((n,index) => {
+                      tour_settimes.split(',').map((n,index) => {
                         console.log('tour set times index:',n);
 
                         return (<TimeEa>{n}</TimeEa>)
@@ -97,7 +103,7 @@ export default function Tour({value,onOff,setOnOff}) {
                   null
                 }
                 
-              {value.tour_type == 2 ?
+              {tour_type == 2 ?
                 <WrapDateTime>
                   {
                     tour_set_specifydate != null && tour_set_specifydate !='' && tour_type ==2 ?
@@ -156,15 +162,15 @@ export default function Tour({value,onOff,setOnOff}) {
             :
             <TourList style={{opacity:0.5}}>
               <TourInfo>
-                <Title>{value.tour_type == 1 ? '일반' : '특별'}</Title>
+                <Title>{ tour_type == 1 ? '일반' : '특별'}</Title>
                 
-                { value.tour_type == 1 ?
+                { tour_type == 1 ?
                 <WrapDateTime>                
                     {
-                     tour_set_days != null && tour_set_days !='' && tour_type==1 ?
+                     tour_yoilsetdays != null && tour_yoilsetdays !='' && tour_type==1 ?
                       <Date> 
                       {
-                    tour_set_days.split(',').map((n,index) => {
+                    tour_yoilsetdays.split(',').map((n,index) => {
                       console.log('tour set days index:',n);
                       switch(n){
                         case 'sun':
@@ -200,10 +206,10 @@ export default function Tour({value,onOff,setOnOff}) {
                       null
                     }                
                   <Part/>
-                  {  tour_set_times != null && tour_set_times !='' && tour_type ==1?
+                  {  tour_settimes != null && tour_settimes !='' && tour_type ==1?
                   <Time>
                     {
-                      tour_set_times.split(',').map((n,index) => {
+                      tour_settimes.split(',').map((n,index) => {
                         console.log('tour set times index:',n);
 
                         return (<TimeEa>{n}</TimeEa>)
@@ -218,7 +224,7 @@ export default function Tour({value,onOff,setOnOff}) {
                   null
                 }
                 
-              {value.tour_type == 2 ?
+              {tour_type == 2 ?
                 <WrapDateTime>
                   {
                     tour_set_specifydate != null && tour_set_specifydate !='' && tour_type ==2 ?

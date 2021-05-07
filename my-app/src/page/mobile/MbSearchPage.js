@@ -7,7 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
-import MainBodyTop from '../../component/main/MainBodyTop';
+import MobileMainBodyTop from '../../component/main/MobileMainBodyTop';
 import MbSearchBody from '../../component/main/mobilecomp/MbSearchBody';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
@@ -35,7 +35,7 @@ export default function MainPage() {
           <MainHeader/>
           <Container>
             <SubTitle title={"검색"} rank={false}/>
-            <MainBodyTop/>
+            <MobileMainBodyTop/>
             <MbSearchBody/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

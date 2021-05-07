@@ -31,6 +31,31 @@ export default function TourSetting({addBasic,addSpecial,id,propertyToursettingl
 
   const login_userinfo=useSelector(data => data.login_user);
   console.log('==>>>propertyToursetting 콤퍼넌트 요소 실행::>>>',propertyToursettinglist);
+
+  var propertyToursettinglist_array=[];
+  var use_index=0;
+  //일반추가요소
+  for(var key in propertyToursettinglist[0]){
+
+    propertyToursettinglist_array[use_index]={};
+    propertyToursettinglist_array[use_index]['key'] = key;
+    propertyToursettinglist_array[use_index]['set_times'] = propertyToursettinglist[0][key]['set_times'];
+    propertyToursettinglist_array[use_index]['yoil_set_days'] = propertyToursettinglist[0][key]['yoil_set_days'];
+    propertyToursettinglist_array[use_index]['tour_type'] = propertyToursettinglist[0][key]['tour_type']
+
+    use_index++;
+  }
+  //특별추가요소
+  for(var key in propertyToursettinglist[1]){
+    propertyToursettinglist_array[use_index]={};
+    propertyToursettinglist_array[use_index]['key'] = key;
+    propertyToursettinglist_array[use_index]['set_specifydatetimes'] = propertyToursettinglist[1][key]['set_specifydatetimes'];
+    propertyToursettinglist_array[use_index]['set_specifydate'] = propertyToursettinglist[1][key]['set_specifydate'];
+    propertyToursettinglist_array[use_index]['tour_specifyday_except'] = propertyToursettinglist[1][key]['tour_specifyday_except'];
+    propertyToursettinglist_array[use_index]['tour_type'] = propertyToursettinglist[1][key]['tour_type'];
+
+    use_index++
+  }
   /*data map*/
   const MemberListItem =[
     {
@@ -90,13 +115,13 @@ export default function TourSetting({addBasic,addSpecial,id,propertyToursettingl
               </CheckBox>
             </TopInfo>
             {
-            propertyToursettinglist.map((value) => {
+              propertyToursettinglist_array.map((value) => {
+               console.log('=>>>>value::',value); 
               return(
                 <PropertyTourSettingList onOff={onOff} setOnOff={setOnOff} value={value}/>
-                  )
-                }
               )
-            }
+            })          
+          }
       </WrapMember>
   </Container>
   );

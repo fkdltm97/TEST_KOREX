@@ -78,21 +78,21 @@ export default function AddSpecial({addSpecial}) {
                   swit ?
                 <WrapSwit>
                   <LineBox>
-                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times'name="" id="time1" value='오전 1T'/>
+                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times'name="" id="time1" value='오전1T'/>
                       <CheckLabelInBox for="time1">
                         <Span3/>
                         오전 1T
                       </CheckLabelInBox>
                     </LineBox>
                     <LineBox>
-                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times' name="" id="time2" value='오후 1T'/>
+                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times' name="" id="time2" value='오후1T'/>
                       <CheckLabelInBox for="time2">
                         <Span3/>
                         오후 1T
                       </CheckLabelInBox>
                     </LineBox>
                     <LineBox>
-                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times' name="" id="time3" value='오후 2T'/>
+                      <InputCheck type="checkbox" onChange={change_specifydate_times} className='specifydate_times' name="" id="time3" value='오후2T'/>
                       <CheckLabelInBox for="time3">
                         <Span3/>
                         오후 2T

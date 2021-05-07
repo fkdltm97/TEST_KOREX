@@ -18,22 +18,22 @@ import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 export default function MainHeader({openBunyang, rank, setReport,reserveModal,setMap, status}) {
     const [pageIndex , setPageIndex] = useState(0);
     return (
-        <Container>
-          <PC>
+      <Container>
+        <PC>
+          <WrapMap status={status}/>
+        </PC>
+        <Mobile>
+          {
+            pageIndex == 0 ?
             <WrapMap status={status}/>
-          </PC>
-          <Mobile>
-            {
-              pageIndex == 0 ?
-              <WrapMap status={status}/>
-              :
-              null
-            }
-          </Mobile>
-          <MainWrapSideBar status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
-          {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>*/}{/*단지 사이드바 컴포넌트*/}
-        </Container>
-  );
+            :
+            null
+          }
+        </Mobile>
+        <MainWrapSideBar setMap={setMap} status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
+        {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>*/}{/*단지 사이드바 컴포넌트*/}
+      </Container>
+    );
 }
 
 const Container = styled.div`

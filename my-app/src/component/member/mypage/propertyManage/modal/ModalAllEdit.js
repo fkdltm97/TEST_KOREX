@@ -46,6 +46,7 @@ export default function ModalMapReserve({ reserve, setReserve }) {
         <Container>
           <WrapModalMap>
               <WrapTourDate>
+                <AllPeople>총 00명</AllPeople>
                 <TourTitle>투어일시</TourTitle>
                   <Slider {...settings} className="about">
                     <SlickSlide className="slide__one">
@@ -349,5 +350,14 @@ const InOption = styled(Option)`
   &:hover{background:#f8f7f7;}
   @media ${(props) => props.theme.modal} {
     padding:calc(100vw*(8/428)) 0;
+  }
+`
+const AllPeople = styled.div`
+  font-size:15px;transform:skew(-0.1deg);
+  font-weight:600;color:#4A4A4A;
+  margin-bottom:25px;
+  @media ${(props) => props.theme.modal} {
+    font-size:calc(100vw*(15/428));
+    margin-bottom:calc(100vw*(20/428));
   }
 `

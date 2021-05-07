@@ -8,8 +8,6 @@ import styled from "styled-components"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
-
 //img
 import Filter from '../../../../img/member/filter.png';
 import Bell from '../../../../img/member/bell.png';
@@ -23,14 +21,19 @@ import Change from '../../../../img/member/change.png';
 import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
 
+//server process
+import serverController from '../../../../server/serverController';
 
-
-export default function ModalMapReserve({ reserve, setReserve }) {
+export default function ModalReserve({setReservationId, except_datelist, result_usedatalist, reserve,setReserve, sendInfo_local}) {
   //시간 셀렉트박스
   const [timeSelect,setTimeSelect] = useState(false);
-  const showSelect = ()=>{
-    setTimeSelect(!timeSelect);
-  }
+  const [selectDay,setSelectDay] = useState(null);
+  const [timeList,setTimeList] = useState([]);
+  const [tourid,setTourid] = useState('');
+  const [tourtype,setTourtype] = useState('');
+
+  const showSelect = ()=>{setTimeSelect(!timeSelect);}
+ 
   const [activeIndex,setActiveIndex] = useState(0);  //slick slider setting
 
   var settings = {
@@ -40,6 +43,51 @@ export default function ModalMapReserve({ reserve, setReserve }) {
     slidesToShow: 5,
     slidesToScroll: 5,
   };
+
+  console.log('=>>>>modalReserver모달 예약모달창 실행>>:',except_datelist,result_usedatalist);
+  //console.log(except_datelist);
+  //console.log(result_usedatalist);
+  
+  const change_dateEvent = async (date,setTimes,tour_id,tour_type) => {
+    console.log('클릭한 선택 날짜, 선택 index값',date,setTimes, activeIndex, tour_id, tour_type);
+
+    setSelectDay(date);
+    //setTimeList(setTimes.split(','));
+    setTourid(tour_id);
+    setTourtype(tour_type);
+
+    //change_dateEvent 클릭한 날짜에 대한 tour_id값구해서 그 아이디에 대해서 쿼리진행한다. 해당하는 투어디테일리스트 가져온다.
+    let body_info={
+      tour_id_val : tour_id
+    };
+    let res= await serverController.connectFetchController('/api/broker/brokerProduct_tourid_tourdetailList','POST',JSON.stringify(body_info));
+    console.log('server request result:',res);
+
+    var tdDetail_list=[];
+    for(var ss=0; ss<res['result_data'].length; ss++){
+      let result_data_item=res['result_data'][ss];
+      tdDetail_list[ss] ={};
+      tdDetail_list[ss]['td_text'] = result_data_item['td_text'];
+    
+      var tdDetail_starttime_val; var tdDetail_endtime_val;
+      if(tdDetail_list[ss]['td_text'] == '오전 1T' || tdDetail_list[ss]['td_text']=='오전1T'){
+         tdDetail_starttime_val = '9:00am';
+         tdDetail_endtime_val = '12:00pm';
+      }else if(tdDetail_list[ss]['td_text'] == '오후 1T' || tdDetail_list[ss]['td_text'] == '오후1T'){
+        tdDetail_starttime_val = '12:00pm';
+        tdDetail_endtime_val = '15:00pm';
+      }else if(tdDetail_list[ss]['td_text'] == '오후 2T' || tdDetail_list[ss]['td_text'] == '오후2T'){
+        tdDetail_starttime_val = '15:00pm';
+        tdDetail_endtime_val = '18:00pm';
+      }
+      tdDetail_list[ss]['tour_id'] = result_data_item['tour_id'];
+      tdDetail_list[ss]['td_id'] = result_data_item['td_id'];//몇번 timeDetail인지.
+      tdDetail_list[ss]['td_starttime'] = tdDetail_starttime_val;
+      tdDetail_list[ss]['td_endtime'] = tdDetail_endtime_val;
+    }
+    console.log('==>>>>tdDetail_list:',tdDetail_list);
+    setTimeList(tdDetail_list);
+  }
   if(reserve == false)
     return null;
     return (
@@ -48,7 +96,26 @@ export default function ModalMapReserve({ reserve, setReserve }) {
               <WrapTourDate>
                 <TourTitle>투어일시</TourTitle>
                   <Slider {...settings} className="about">
-                    <SlickSlide className="slide__one">
+                    {
+                      result_usedatalist.map((value , index) => {
+                       // console.log('=>>>>>result_useitemList:',value,index);
+
+                        return(
+                          <SlickSlide className="slide__one">
+                            <Link>
+                              <WrapDateItem>
+                                <DateItem active={activeIndex == index} onClick={() => { change_dateEvent(value['date'],value['setTimes'],value['tour_id'],value['tour_type']); setActiveIndex(index)}}>
+                                    <Day>{value['date_yoil']}({value['tour_type']=='1'?'일반':'특별'})</Day>
+                                    <Date>{value['date_day']}</Date>
+                                </DateItem>
+                              </WrapDateItem>
+                            </Link>
+                          </SlickSlide>
+                        )
+                        
+                      })
+                    }
+                    {/*<SlickSlide className="slide__one">
                       <Link>
                         <WrapDateItem>
                           <DateItem active={activeIndex == 0} onClick={()=>{setActiveIndex(0)}}>
@@ -107,16 +174,29 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                           </DateItem>
                         </WrapDateItem>
                       </Link>
-                    </SlickSlide>
+                    </SlickSlide>*/}
+
                   </Slider>
                 </WrapTourDate>
                 <FilterBox>
                   <FilterSelectSort>
-                    <FilterSelectSortList>
-                      <InOption disabled>시간을 선택해주세요.</InOption>
-                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                      <InOption>오후 1T(12:00 ~ 15:00)</InOption>
-                      <InOption>오후 2T(15:00 ~ 18:00)</InOption>
+                    <FilterSelectSortList id='select_setTimes' onChange={(e)=>{ 
+                      console.log('=>>>시간대선택변화 중요데이터 지정여부>>');
+                      console.log('>>>selectaday(선택날짜):',selectDay);
+                      console.log('>>>timelist(선택시간대들):',timeList);
+                      console.log('>>>>tourid, tourtype:',tourid,tourtype);
+
+                      setReservationId({selectDate:selectDay,selectTime:e.target.value, selectTourid:tourid, selectTourtype: tourtype}); //reserationId state변수객체가 바로 갱신되지 않은 상태에서 서버에 insert가해질 가능성 빈도수 꽤 있음.50%
+                      sendInfo_local(selectDay,e.target.value,tourid,tourtype);//선택날짜,선택시간대,투어아이디,투어타입 등 전송한다.직접전송.
+                      setTimeSelect(e.target.value);
+                    }}>
+                      <InOption selected disabled>시간을 선택해주세요.</InOption>
+                      {
+                        timeList.map((value)=>{
+                          console.log('value hmm:',value);
+                          return  <InOption value={value}>{value}</InOption>
+                        })
+                      }
                     </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>

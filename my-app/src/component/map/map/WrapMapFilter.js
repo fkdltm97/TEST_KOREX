@@ -40,31 +40,9 @@ export default function MapFilter({status}) {
   const [open,setOpen] = useState(false);
   const [openDetail,setOpenDetail] = useState(false);
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+  let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
   const filterWrap = document.querySelector("#filterWrap");
   let preventBubbling = false;
-
-  // 필터 redux 초기화
-  useEffect(() => {
-    const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-    data.prd_sel_type=["매매"];
-    data.switchArr = [];
-    data.life_facilites = [];
-    data.floor = "전체";
-    data.use = "전체";
-    data.purpose = "전체";
-    data.room = ["전체"];
-    data.double = "전체";
-    data.pet = "전체";
-    data.roomApart = "전체";
-    data.bath = "전체";
-    data.danji = "전체";
-    data.priceRange = "전체";
-    data.manaRange = "전체";
-    data.areaRange = "전체";
-    data.jeonseRange = "전체";
-    data.monthlyRange = "전체";
-    MapFilterRedux.updateFilterArr({  filterArr: data });
-  }, [])
 
   const padding=()=>{
     if(open == true) {
@@ -206,64 +184,6 @@ export default function MapFilter({status}) {
     </SlickSlide>
     )
   }
-
-  // 사용승일일
-  const useText = () => {
-    const data = mapFilterRedux.filterArr.use;
-
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("useWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="use" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
-
-  // 층수
-  const floorText = () => {
-    const data = mapFilterRedux.filterArr.floor;
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("floorWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="floor" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
-  
-  // 용도
-  const purposeText = () => {
-    const data = mapFilterRedux.filterArr.purpose;
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("purposeWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="purpose" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
   
   // 방구조
   const roomText = () => {
@@ -290,86 +210,9 @@ export default function MapFilter({status}) {
     )
   }
 
-  // 복층 여부
-  const doubleText = () => {
-    const data = mapFilterRedux.filterArr.double;
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("doubleWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="double" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
-
-  // 반려동물
-  const petText = () => {
-    const data = mapFilterRedux.filterArr.pet;
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("petWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="pet" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
-
-  // 방수
-  const roomApartText = () => {
-    const data = mapFilterRedux.filterArr.roomApart;
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("roomWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="roomApart" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
-
-  // 욕실
-  const bathText = () => {
-    const data = mapFilterRedux.filterArr.bath;
-    if(data=="전체"){
-      return;
-    }
-
-    return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("toiletWrap")}>
-        <Link>
-          <FliterEa>
-            {data}
-            <CloseFilter data-type="bath" onClick={(e) => {onClickClose(e)}}/>
-          </FliterEa>
-        </Link>
-      </SlickSlide>
-    )
-  }
-
-  // 아파트 총세대수
-  const danjiText = () => {
-    const data = mapFilterRedux.filterArr.danji;
-    if(data=="전체"){
+  /// 필터 생성
+  const filterText = (bool, text, dataType) => {
+    if(!bool){
       return;
     }
 
@@ -377,8 +220,8 @@ export default function MapFilter({status}) {
       <SlickSlide className="slide__one" onClick={()=>scrollToClick("danjiWrap")}>
         <Link>
           <FliterEa>
-            {data}
-            <CloseFilter data-type="danji" onClick={(e) => {onClickClose(e)}}/>
+            {text}
+            <CloseFilter data-type={dataType} onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -394,11 +237,7 @@ export default function MapFilter({status}) {
     const data = mapFilterRedux.filterArr;
     const text = e.target.dataset.text;
     const type = e.target.dataset.type;
-    if(type == "switch"){
-      data.switchArr = data.switchArr.filter(item => item != text);
-      document.querySelector(`input[data-text='${text}']`).checked = false;
-    }
-    else if(type == "option"){
+    if(type == "option"){
       const option = document.querySelectorAll(`input[name='option']`);
       for(let i = 0 ; i < option.length ; i++){
         option[i].checked = false;
@@ -407,68 +246,74 @@ export default function MapFilter({status}) {
     }
     else if(type == "use"){
       data.use = "전체";
-      const use = document.querySelectorAll(`input[name='use']`);
-      use[0].checked = true;
+      uiData.use = 0;
     }
     else if(type == "floor"){
       data.floor = "전체";
-      const floor = document.querySelectorAll(`input[name='floor']`);
-      floor[0].checked = true;
+      uiData.floor = 0;
     }
     else if(type == "purpose"){
       data.purpose = "전체";
-      const purpose = document.querySelectorAll(`input[name='purpose']`);
-      purpose[0].checked = true;
+      uiData.purpose = 0;
     }
     else if(type == "room"){
       data.room = ["전체"];
-      const room = document.querySelectorAll(`input[name='room']`);
-      for(let i = 0 ; i < room.length ; i++){
-        room[i].checked = false;
-      }
-      room[0].checked = true;
+      uiData.roomOfficetel=[1, 0, 0, 0, 0, 0];
     }
     else if(type == "double"){
       data.double = "전체";
-      const double = document.querySelectorAll(`input[name='double']`);
-      double[0].checked = true;
+      uiData.double=0;
     }
     else if(type == "pet"){
       data.pet = "전체";
-      const pet = document.querySelectorAll(`input[name='pet']`);
-      pet[0].checked = true;
+      uiData.pet=0;
+    }
+    else if(type == "parkBtn"){
+      uiData.parkOfficetel=0;
+    }
+    else if(type == "parkBtnStore"){
+      uiData.parkStore=0;
+    }
+    else if(type == "toiletBtn"){
+      uiData.toilet=0;
     }
     else if(type == "roomApart"){
       data.roomApart = "전체";
-      const roomApart = document.querySelectorAll(`input[name='roomApart']`);
-      roomApart[0].checked = true;
+      uiData.roomApart=0;
     }
     else if(type == "bath"){
       data.bath = "전체";
-      const bath = document.querySelectorAll(`input[name='bath']`);
-      bath[0].checked = true;
+      uiData.bath=0;
     }
     else if(type == "danji"){
       data.danji = "전체";
-      const danji = document.querySelectorAll(`input[name='danji']`);
-      danji[0].checked = true;
+      uiData.danji = 0;
     }
     else if(type == "priceRange"){
       data.priceRange = "전체";
+      uiData.priceRangeValue=[0,100];
     }
     else if(type == "manaRange"){
       data.manaRange = "전체";
+      uiData.manaRangeValue=[0,75];
+    }
+    else if(type == "manaBtn"){
+      uiData.manaStatus=0;
     }
     else if(type == "areaRange"){
       data.areaRange = "전체";
+      uiData.areaRangeValue = [0, 100];
     }
     else if(type == "jeonseRange"){
       data.jeonseRange = "전체";
+      uiData.jeonseRangeValue=[0,30];
     }
     else if(type == "monthlyRange"){
       data.monthlyRange = "전체";
+      uiData.monthlyRangeValue=[0,18];
     }
-    MapFilterRedux.updateFilterArr({  filterArr: data });
+    MapFilterRedux.updateFilterUI({filterUI:uiData});
+    MapFilterRedux.updateFilterArr({filterArr:data});
   }
 
   // 클릭 시 스크롤 이동
@@ -482,7 +327,7 @@ export default function MapFilter({status}) {
       filterWrap.scrollTop = value.getBoundingClientRect().y-100;
     }, 100)
   }
-  
+
     return (
         <Container>
         <WrapFilter padding={padding} id="filterWrap">
@@ -497,45 +342,37 @@ export default function MapFilter({status}) {
               </Link>
             </SlickSlide>
 
+            {/* 공통 */}
             {priceRangeText()}
             {jeonseRangeText()}
             {monthlyRangeText()}
             {manaRangeText()}
             {areaRangeText()}
+
+            {filterText(Number(uiData.floor), mapFilterRedux.filterArr.floor, "floor")}
+            {filterText(uiData.manaStatus, "관리비없음", "manaBtn")}
             
-            {
-              mapFilterRedux.filterArr.switchArr.length !== 0 &&
-              mapFilterRedux.filterArr.switchArr.map((item, index) => {
-                let el = ""
-                if(item == "전용화장실"){
-                  el="toiletWrap";
-                }else if(item == "관리비없음"){
-                  el="manaWrap";
-                }else{
-                  el="parkWrap";
-                }
-                return(
-                  <SlickSlide key={index} className="slide__one" onClick={()=>scrollToClick(el)}>
-                    <Link>
-                      <FliterEa>
-                        {item}
-                        <CloseFilter data-type="switch" data-text={item} onClick={(e) => {onClickClose(e)}}/>
-                      </FliterEa>
-                    </Link>
-                  </SlickSlide>
-                )
-              })
-            }
-            {purposeText()}
+
+            {/* 아파트 */}
+            {filterText(Number(uiData.roomApart), mapFilterRedux.filterArr.roomApart, "roomApart")}
+            {filterText(uiData.bath, mapFilterRedux.filterArr.bath, "bath")}
+            {filterText(Number(uiData.danji), mapFilterRedux.filterArr.danji, "danji")}
+
+            {/* 오피스텔 */}
+            {filterText(uiData.purpose, mapFilterRedux.filterArr.purpose, "purpose")}
             {roomText()}
-            {doubleText()}
-            {floorText()}
-            {optionText()}
-            {useText()}
-            {petText()}
-            {roomApartText()}
-            {bathText()}
-            {danjiText()}
+            {filterText(uiData.double, mapFilterRedux.filterArr.double, "double")}
+            {filterText(uiData.parkOfficetel, "주차가능", "parkBtn")}
+            {filterText(uiData.pet, mapFilterRedux.filterArr.pet, "pet")}
+
+
+            {/* 상가/사무실 */}
+            {filterText(uiData.parkStore, "주차가능", "parkBtnStore")}
+            {filterText(uiData.toilet, "전용화장실", "toiletBtn")}
+
+            {/* 공통 */}
+            {/* {optionText()} */}
+            {filterText(uiData.use, mapFilterRedux.filterArr.use, "use")}
           </Slider>
 
           </SliderWrap>

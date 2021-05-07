@@ -20,54 +20,29 @@ import { useSelector } from 'react-redux';
 export default function MapFilter({setOpen}) {
 
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
+  let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
+  const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
 
   const onClickReset = () => {
-    const data = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
-    const trade = document.querySelectorAll(".trade");
-    const use = document.querySelectorAll(`input[name='use']`);
-    const floor = document.querySelectorAll(`input[name='floor']`);
-    const option = document.querySelectorAll(`input[name='option']`);
-    const purpose = document.querySelectorAll(`input[name='purpose']`);
-    const room = document.querySelectorAll(`input[name='room']`);
-    const double = document.querySelectorAll(`input[name='double']`);
-    const pet = document.querySelectorAll(`input[name='pet']`);
-    const roomApart = document.querySelectorAll(`input[name='roomApart']`);
-    const bath = document.querySelectorAll(`input[name='bath']`);
-    const danji = document.querySelectorAll(`input[name='danji']`);
-    
-    // UI
-    for(let i = 0 ; i < trade.length ; i++){
-      trade[i].checked = false;
-    }
-    trade[0].checked = true;
-    if(option.length !== 0){
-      for(let i = 0 ; i < option.length ; i++){
-        option[i].checked = false;
-      }
-    }
-    if(document.querySelector(`input[data-text='주차가능']`)){
-      document.querySelector(`input[data-text='주차가능']`).checked = false;
-    }
-    if(document.querySelector(`input[data-text='전용화장실']`)){
-      document.querySelector(`input[data-text='전용화장실']`).checked = false;
-    }
-    if(document.querySelector(`input[data-text='관리비없음']`)){
-      document.querySelector(`input[data-text='관리비없음']`).checked = false;
-    }
-    if(use.length !== 0){use[0].checked = true;}
-    if(floor.length !== 0){floor[0].checked = true;}
-    if(purpose.length !== 0){purpose[0].checked = true;}
-    if(room.length !== 0){
-      for(let i = 0 ; i < room.length ; i++){
-        room[i].checked = false;
-      }
-      room[0].checked = true;
-    }
-    if(double.length !== 0){double[0].checked = true;}
-    if(pet.length !== 0){pet[0].checked = true;}
-    if(roomApart.length !== 0){roomApart[0].checked = true;}
-    if(bath.length !== 0){bath[0].checked = true;}
-    if(danji.length !== 0){danji[0].checked = true;}
+    uiData.prd_sel_type=[1, 0, 0];
+    uiData.priceRangeValue=[0, 100];
+    uiData.manaRangeValue=[0, 75];
+    uiData.areaRangeValue=[0, 100];
+    uiData.jeonseRangeValue=[0, 30];
+    uiData.monthlyRangeValue=[0, 18];
+    uiData.manaStatus=0;
+    uiData.floor=0;
+    uiData.use=0;
+    uiData.roomApart=0;
+    uiData.bath=0;
+    uiData.danji=0;
+    uiData.purpose=0;
+    uiData.roomOfficetel=[1, 0, 0, 0, 0, 0];
+    uiData.double=0;
+    uiData.parkOfficetel=0;
+    uiData.pet=0;
+    uiData.parkStore=0;
+    uiData.toilet=0;
 
     // Redux -- 
     data.prd_sel_type=["매매"];
@@ -87,7 +62,9 @@ export default function MapFilter({setOpen}) {
     data.areaRange = "전체";
     data.jeonseRange = "전체";
     data.monthlyRange = "전체";
-    MapFilterRedux.updateFilterArr({  filterArr: data });
+
+    MapFilterRedux.updateFilterUI({filterUI:uiData});
+    MapFilterRedux.updateFilterArr({filterArr:data});
   }
 
 

@@ -34,6 +34,12 @@ SwiperCore.use([Navigation, Pagination]);
 
 export default function PreviewPage({updateReserveModal,reportModal}) {
   const [slideUp, setSlideUp] = useState(false);
+  const [slideUp2, setSlideUp2] = useState(false);
+  const [slideUp3, setSlideUp3] = useState(false);
+  const [slideUp4, setSlideUp4] = useState(false);
+  const [slideUp5, setSlideUp5] = useState(false);
+  const [slideUp6, setSlideUp6] = useState(false);
+
         return (
         <Container>
         <TopTitle>
@@ -148,70 +154,99 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
                 null
                 }
 
+                
 
-
-                <ToggleOpenClose>
-                <Text>접기</Text>
+                <ToggleOpenClose onClick={()=>{setSlideUp(!slideUp)}}>
+                    {
+                     slideUp ?
+                     <Text>접기</Text>  
+                     :
+                     <Text>더보기</Text>  
+                    }
+                    
                 </ToggleOpenClose>
             </WrapItemInfo>
         {/*거래*/}
             <WrapTradeInfo>
-                <TitleBox>
+                <TitleBox  onClick={()=>{setSlideUp2(!slideUp2)}}>
                 <Title>거래</Title>
                 <ArrowImg src={Arrow}/>
                 </TitleBox>
-                <ItemInfoList>
-                <Li>
-                    <SubTitle>관리비</SubTitle>
-                    <SubDesc>5만원</SubDesc>
-                </Li>
-                <Li>
-                    <SubTitle>관리비 포함</SubTitle>
-                    <SubDesc>전기, 가스, 수도, 인터넷, 티비</SubDesc>
-                </Li>
-                <Li>
-                    <SubTitle>입주가능일</SubTitle>
-                    <SubDesc>2016.05.10 </SubDesc>
-                </Li>
-                <Li>
-                    <SubTitle>계약갱신청구권행사여부 확인</SubTitle>
-                    <SubDesc>확인</SubDesc>
-                </Li>
-                <Li>
-                    <SubTitle>융자금</SubTitle>
-                    <SubDesc>00원</SubDesc>
-                </Li>
-                <Li>
-                    <SubTitle>기보증금/월세</SubTitle>
-                    <SubDesc>-</SubDesc>
-                </Li>
-                </ItemInfoList>
-                <ToggleOpenClose>
-                <Text>접기</Text>
-                </ToggleOpenClose>
+                {
+                    slideUp2?
+                    <ItemInfoList>
+                        <Li>
+                            <SubTitle>관리비</SubTitle>
+                            <SubDesc>5만원</SubDesc>
+                        </Li>
+                        <Li>
+                            <SubTitle>관리비 포함</SubTitle>
+                            <SubDesc>전기, 가스, 수도, 인터넷, 티비</SubDesc>
+                        </Li>
+                        <Li>
+                            <SubTitle>입주가능일</SubTitle>
+                            <SubDesc>2016.05.10 </SubDesc>
+                        </Li>
+                        <Li>
+                            <SubTitle>계약갱신청구권행사여부 확인</SubTitle>
+                            <SubDesc>확인</SubDesc>
+                        </Li>
+                        <Li>
+                            <SubTitle>융자금</SubTitle>
+                            <SubDesc>00원</SubDesc>
+                        </Li>
+                        <Li>
+                            <SubTitle>기보증금/월세</SubTitle>
+                            <SubDesc>-</SubDesc>
+                        </Li>
+                    </ItemInfoList>
+                    :
+                    null
+
+                }
+                {
+                    slideUp2 ?
+                    <ToggleOpenClose onClick={()=>{setSlideUp2(!slideUp2)}}>
+                        <Text>접기</Text>
+                    </ToggleOpenClose>
+                    :
+                    <ToggleOpenClose onClick={()=>{setSlideUp2(!slideUp2)}}>
+                        <Text>더보기</Text>
+                    </ToggleOpenClose>
+
+                }
+                
             </WrapTradeInfo>
 
             {/*옵션*/}
                 <WrapOptionInfo>
-                <TitleBox>
+                <TitleBox onClick={()=>{setSlideUp3(!slideUp3)}}>
                     <Title>옵션</Title>
                     <ArrowImg src={Arrow}/>
                 </TitleBox>
-                <ItemInfoList>
-                    <Li>
-                    <SubTitle>공간</SubTitle>
-                    <SubDesc>발코니</SubDesc>
-                    </Li>
-                </ItemInfoList>
+                {
+                    slideUp3?
+                    <ItemInfoList>
+                        <Li>
+                        <SubTitle>공간</SubTitle>
+                        <SubDesc>발코니</SubDesc>
+                        </Li>
+                    </ItemInfoList>
+                    :
+                    null
+                }
+                
                 </WrapOptionInfo>
 
             {/*매물설명*/}
                 <WrapOptionInfo>
-                <TitleBox>
+                <TitleBox onClick={()=>{setSlideUp4(!slideUp4);}}>
                     <Title>매물설명</Title>
                     <ArrowImg src={Arrow}/>
                 </TitleBox>
-                <ItemInfoList>
+                {
+                    slideUp4 ?
+                    <ItemInfoList>
                     <Li>
                     <TextArea>
                     [ 위 치 / 교통 ]  <br/><br/>
@@ -226,50 +261,76 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
                     </TextArea>
                     </Li>
                 </ItemInfoList>
-                <ToggleOpenClose>
-                    <Text>접기</Text>
-                </ToggleOpenClose>
+                :
+                null
+                }
+                {
+                    slideUp4 ?
+                    <ToggleOpenClose onClick={()=>{setSlideUp4(!slideUp)}}>
+                        <Text>접기</Text>
+                    </ToggleOpenClose>
+                    :
+                    <ToggleOpenClose onClick={()=>{setSlideUp4(!slideUp)}}>
+                        <Text>더보기</Text>
+                    </ToggleOpenClose>
+                }
+                
                 </WrapOptionInfo>
 
             {/*단지&건물*/}
                 <WrapTradeInfo>
-                <TitleBox>
+                <TitleBox onClick={()=>{setSlideUp5(!slideUp5)}}>
                     <Title>단지/건물</Title>
                     <ArrowImg src={Arrow}/>
                 </TitleBox>
-                <ItemInfoList>
-                    <Li>
-                    <SubTitle>사용승인일</SubTitle>
-                    <SubDesc>2016.05.10 </SubDesc>
-                    </Li>
-                    <Li>
-                    <SubTitle>총세대수</SubTitle>
-                    <SubDesc>300 세대</SubDesc>
-                    </Li>
-                    <Li>
-                    <SubTitle>총주차대수</SubTitle>
-                    <SubDesc>21대 /  세대당 0.55대 협의주차</SubDesc>
-                    </Li>
-                </ItemInfoList>
+                {
+                    slideUp5 ?
+                    <ItemInfoList>
+                        <Li>
+                        <SubTitle>사용승인일</SubTitle>
+                        <SubDesc>2016.05.10 </SubDesc>
+                        </Li>
+                        <Li>
+                        <SubTitle>총세대수</SubTitle>
+                        <SubDesc>300 세대</SubDesc>
+                        </Li>
+                        <Li>
+                        <SubTitle>총주차대수</SubTitle>
+                        <SubDesc>21대 /  세대당 0.55대 협의주차</SubDesc>
+                        </Li>
+                    </ItemInfoList>
+                    :
+                    null
+                }
+                
                 </WrapTradeInfo>
             {/*위치*/}
                 <WrapTradeInfo>
-                <TitleBox>
+                <TitleBox onClick={()=>{setSlideUp5(!slideUp5)}}>
                     <Title>위치</Title>
                     <ArrowImg src={Arrow}/>
                 </TitleBox>
-                <ItemInfoList>
-                    <Li>
-                    <MapAddress>강남구 논현동 104-5</MapAddress>
-                    <ChangeAddress>
-                        <ChangeImg src={Change}/>
-                        <ChangeTxt>도로명</ChangeTxt>
-                    </ChangeAddress>
-                    </Li>
-                </ItemInfoList>
-                <MapArea>
-                    <KakaoMapSide />
-                </MapArea>
+                {
+                    slideUp5 ?
+                    <Wrap>
+                        <ItemInfoList>
+                            <Li>
+                            <MapAddress>강남구 논현동 104-5</MapAddress>
+                            <ChangeAddress>
+                                <ChangeImg src={Change}/>
+                                <ChangeTxt>도로명</ChangeTxt>
+                            </ChangeAddress>
+                            </Li>
+                        </ItemInfoList>
+                        <MapArea>
+                            <KakaoMapSide />
+                        </MapArea>
+                    </Wrap>
+                    :
+                    null
+                }
+                
+                
                 </WrapTradeInfo>
             </WrapAllInfos>
             {/*전문중개사 정보*/}
@@ -318,12 +379,13 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
 
 const Container = styled.div `
   width:100%;
-
 `
 const WrapDetail = styled.div`
     width:490px;margin:0 auto;
+    padding-bottom:100px;
 @media ${(props) => props.theme.mobile} {
     width:100%;
+    padding-bottom:calc(100vw*(100/428));
   }
 `
 const TopDetailImg = styled.div`
@@ -350,7 +412,8 @@ const TextBox = styled.div`
     line-height:calc(100vw*(60/428));
   }
 `
-
+const Wrap = styled.div`
+`
 const SwiperBennerWrap = styled.div`
   width:100%;
 `
