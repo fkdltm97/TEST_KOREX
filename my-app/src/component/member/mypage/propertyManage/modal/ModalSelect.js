@@ -18,7 +18,7 @@ import serverController from '../../../../../server/serverController';
 
 import {useSelector} from 'react-redux';
 
-export default function ModalSelect({setPrdidvalue,setReservationItemlist,select,setSelect,offModal}) {
+export default function ModalSelect({setTridchklist,setPrdidvalue,setReservationItemlist,select,setSelect,offModal}) {
   const login_userinfo = useSelector(data => data.login_user);
   const [propertylist,setPropertylist] = useState([]);
 
@@ -112,6 +112,8 @@ export default function ModalSelect({setPrdidvalue,setReservationItemlist,select
                       setSelect(true);//이것을 하면 state상태가 바뀌기기에 상위 콤퍼넌트의 state가 바뀌기에 랜더링한다.useEffect가 없어도 한다. 이건 기본적 시스템리액트상에서하는것이다.
                       //클릭한 매물의 id값을 여기서 서버에 요청해서 해당 아디에 해당하는 투어예약셋팅,투어예약셋팅에 관련된 예약신청리스트 state재갱신하여 useEffect처리.
                       console.log('클릭한 체크박스(라벨체크될때)::',e,e.target.value,e.target.checked);
+                      
+                      setTridchklist([]);//빈값 초기화한다.
                       
                       if(e.target.checked){
                         let check_prd_identity_id=e.target.value;

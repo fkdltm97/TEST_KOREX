@@ -22,14 +22,18 @@ import ManageList from "./ManageList";
 //server process
 import serverController from '../../../../server/serverController';
 
-export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
-  console.log('===>>>>propertyMnagaew요소 실행::',reservationItemlist,prdidvalue);
+export default function Manage({tridchklist_function,prdidvalue,reservationItemlist,cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
+  //console.log('===>>>>propertyMnagaew요소 실행::',reservationItemlist,prdidvalue);
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
+  const [ischk,setIschk] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
   
+  const allchk_local = () => {
+    setIschk(!ischk);
+  }
   /*data map*/
   const ManageListItem =[
     {
@@ -108,13 +112,13 @@ export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapMo
                 select ?
                 <AfterSelectView>
                   <CheckBox>
-                    <InputCheck type="checkbox" id="all" defaultChecked/>
+                    <InputCheck type="checkbox" id="all" onClick={allchk_local}/>
                     <CheckLabel for="all">
                       <Span/>
                       전체선택
                     </CheckLabel>
                   </CheckBox>
-                  <EditBtn type="button" onClick={()=>{editAllModal();}}>일괄 수정</EditBtn>
+                  <EditBtn type="button" onClick={()=>{editAllModal(prdidvalue);}}>일괄 수정</EditBtn>
                 </AfterSelectView>
                 :
                 null
@@ -135,7 +139,7 @@ export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapMo
                   return 0.5
                 }
               }*/
-              console.log('==>>>>managlist items::',value);
+              //console.log('==>>>>managlist items::',value);
               var tour_start_date= value.t_tour_start_date;//임의 신청한 내역의 tour_id(투어예약셋팅날짜) 어떤 날짜에 예약셋팅에 예약한건지.
               var nowdate = new Date();
               var now_year=nowdate.getFullYear();
@@ -145,7 +149,7 @@ export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapMo
               if(now_date < 10) now_date ='0'+now_date;
               var nowdate_string=now_year+'-'+now_month+'-'+now_date;//문자열 날짜 변경. 현재의 날짜 문자열
 
-              console.log('nowdate_string::',nowdate_string);
+              //console.log('nowdate_string::',nowdate_string);
               
               if(new Date(tour_start_date).getTime() > new Date(nowdate_string).getTime() ){
                 //신청투어일이 현재보다 미래의 시간인경우 오늘보다 미래인경우. 투어신청일이 오늘이라면 값은 true일것임. >인경우는 date기준에선 투어일이 오늘보다 +1일이상 큰 경우.
@@ -158,7 +162,7 @@ export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapMo
                 //오늘이 투어신청일
                 var time_distance = 0;//오늘이기에 차이값 없음.
                 var time_status='today';
-                var opacity=0.5;
+                var opacity=1;
                 var cond='';
               }else{
                 //투어신청일이 이미 지나간 경우.-1일 어제보다 이전에 한 내역이였다면.마감처리
@@ -169,16 +173,15 @@ export default function Manage({prdidvalue,reservationItemlist,cancleModal,mapMo
                 var cond='';
               
               }
-              console.log('nowdatestring,tourstatdate:',new Date(nowdate_string).getTime(),new Date(tour_start_date).getTime());
-              console.log('time_distance:::',time_distance);
-
+              //console.log('nowdatestring,tourstatdate:',new Date(nowdate_string).getTime(),new Date(tour_start_date).getTime());
+              //console.log('time_distance:::',time_distance);
 
               if(value.r_tr_status == 1){
                 var cond='예약해제';
                 var opacity=0.5;
               }
               return(
-                <ManageList cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal} editResultModal={editResultModal}
+                <ManageList tridchklist_function={tridchklist_function} cancleModal={cancleModal} confirmModal={confirmModal} editModal={editModal} editResultModal={editResultModal}
                 mapModal={mapModal}  value={value} cond={cond} time_status={time_status} opacity={opacity} time_distance={time_distance} select={select} setSelect={setSelect}/>
               )
             })

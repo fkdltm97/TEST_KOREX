@@ -219,6 +219,7 @@ router.post('/user_brokerOuterRequest',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//중개사회원의 모든 매물리스트
 router.post('/user_brokerRequestlistview',async function(request,response){
     console.log('=============>>>request.body:',request.body);
 
@@ -261,6 +262,7 @@ router.post('/user_brokerRequestlistview',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//사용자 중개의뢰 리스트
 router.post('/BrokerRequest_productlist',async function(request,response){
     console.log('=============>>>request.body:',request.body);
 
@@ -852,7 +854,7 @@ router.post('/productToursettinglist',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
-
+//특정매물에 대한 tourid셋팅리스트
 router.post('/brokerProduct_toursetting_dates',async function(request,response){
     console.log('=============>>>request.body:',request.body);
 
@@ -947,6 +949,7 @@ router.post('/brokerProduct_toursetting_dates',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//해당 클릭 tourid(날짜)에 대한 관련 상세시간대(td_id)리스트 
 router.post('/brokerProduct_tourid_tourdetailList',async function(request,response){
     console.log('=->>>>>>>>>>>>request.body:',request.body);
 
@@ -968,6 +971,7 @@ router.post('/brokerProduct_tourid_tourdetailList',async function(request,respon
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//사용자 투어예약셋팅매물에 대한 투어예약접수(신청)
 router.post('/brokerProduct_tourReservation_register',async function(request,response){
     console.log('=>>>>>>>request.body:',request.body);
 
@@ -1001,6 +1005,98 @@ router.post('/brokerProduct_tourReservation_register',async function(request,res
         return response.status(403).json({success:false,message:'server query full problme error!'});
     }
 });
+//사용자 투어예약접수에 대한 수정진행.(시간대 조율 조정)
+router.post('/brokerProduct_tourRerservation_modify',async function(request,response){
+    console.log('=>>>>>>>request.body:',request.body);
+
+    var req_body=request.body;
+    var tr_id=req_body.tr_id;
+    var selectdate=req_body.selectdate;
+    var selectTourid=req_body.selectTourid;
+    var selectTourtype=req_body.selectTourtype;
+    var selectTdid=req_body.selectTdid;
+    var starttime=req_body.starttime;
+    var endtime=req_body.endtime;//해당 tr_id에 대해서 수정 처리 진행. 개별 수정 진행한다.
+
+    const connection=await pool.getConnection(async conn => conn);
+    console.log('>>>>pool connection Test:',pool);
+
+    try{
+        var [tourReservation_editquery] = await connection.query("update tourReservation set td_id=?, tour_id=?, reserv_start_time=?,reserv_end_time=? where tr_id=?",[selectTdid,selectTourid,starttime,endtime,tr_id]);//어떤 tourid(날짜),시간대(td_id)에대해 시간조율 시작~종료시간대로의 변경 처리 개별수정
+
+        console.log('=>>>>>>touyrReservation_editquery:',tourReservation_editquery);
+        connection.release();
+
+        return response.json({success:true, result_data : tourReservation_editquery});
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false,message:'server query full problme error!'});
+    }
+});
+//사용자 투어예약접수내역 하나에 대한 조회
+router.post('/brokerProduct_reservationRegisterview',async function(request,response){
+    console.log('=>>>>>>>request.body:',request.body);
+    
+    var req_body=request.body;
+    var tr_id=req_body.tr_id_val;//어떤 tourid(투어날짜)에 대해 요청하는건지
+   
+    const connection=await pool.getConnection(async conn => conn);
+    console.log('>>>>pool connection Test:',pool);
+
+    try{
+        var [brokerproduct_tourReservationregi_view] = await connection.query("select r.reserv_start_time as reserv_start_time,r.reserv_end_time as reserv_end_time,r.tr_id as r_tr_id,r.tour_id as r_tour_id,r.td_id as r_td_id,r.tr_name as r_tr_name,r.tr_email as r_tr_email,r.tr_phone as r_tr_phone,t.tour_id as t_tour_id,t.tour_set_times as t_tour_set_times,t.tour_start_date as t_tour_start_date,t.tour_type as t_tour_type, td.tour_id as td_tour_id,td.td_text as td_td_text,td.td_id as td_td_id from tourReservation r join tour t on r.tour_id=t.tour_id join tourdetail td on t.tour_id=td.tour_id where tr_id=?",[tr_id]);
+        console.log('result sets:',brokerproduct_tourReservationregi_view);
+
+        connection.release();
+
+        return response.json({success:true, result_data : brokerproduct_tourReservationregi_view});
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false,message:'server query full problme error!'});
+    }
+});
+//사용자 특정한개 매물별 투어예약접수리스트들(선택)에 대한 일괄수정진행.(시간대 조율 조정)
+router.post('/brokerProduct_tourRerservation_multimodify',async function(request,response){
+    console.log('=>>>>>>>request.body:',request.body);
+
+    var req_body=request.body;
+    var tridchklist=req_body.tridchklist;//체크선택한 trid들 집합구한다.
+    tridchklist = tridchklist.split(',');
+    var selectdate=req_body.selectdate;//일괄적용 날짜(selectDate)
+    var selectTourid=req_body.selectTourid;//일괄적용 투어아이디값
+    var selectTourtype=req_body.selectTourtype;//일괄적용 투어타입값(모두 동일한 tour_id,tourtype,tourtid->>tdlist selectvalue)
+    var selectTdid=req_body.selectTdid;//일괄적용 selctTdid디테일시간값.
+    var starttime=req_body.starttime;//일괄적용 시간조율시작~종료 지정값.
+    var endtime=req_body.endtime;//해당 tr_id에 대해서 수정 처리 진행. 개별 수정 진행한다.
+
+    const connection=await pool.getConnection(async conn => conn);
+    console.log('>>>>pool connection Test:',pool);
+
+    
+    for(var s=0; s<tridchklist.length; s++){
+        let tr_id_local=tridchklist[s];//각각의 trid선택값.
+
+        try{
+            var [tourReservation_editquery] = await connection.query("update tourReservation set td_id=?, tour_id=?,reserv_start_time=?,reserv_end_time=? where tr_id=?",[selectTdid,selectTourid,starttime,endtime,tr_id_local]);
+
+            console.log('===>>>tourReservation_editquery::',tourReservation_editquery);
+            //connection.release();
+
+            //return response.json({success:true, result_data: tourReservation_editquery});
+        }catch(err){
+            console.log('server query error:',err);
+            //connection.release();
+
+            return response.status(403).json({success:false,message:'server query full problme error!'});
+        }
+    }
+    return response.json({success:true, message:'query all success!!!'});
+});
+//사용자 투어예약접수리스트조회(중개사회원)
 router.post('/brokerproduct_reservationList',async function(request, response){
     console.log('===========>>>request.body::',request.body);
 
@@ -1055,6 +1151,7 @@ router.post('/brokerproduct_reservationList',async function(request, response){
         return response.status(403).json({success:false,message:'server query full problme error!'});
     }
 });
+//임의 매물에 대한 사용자 투어예약접수리스트
 router.post('/brokerproduct_reservationList_perProduct',async function(request, response){
     console.log('===========>>>request.body::',request.body);
 
@@ -1092,6 +1189,7 @@ router.post('/brokerproduct_reservationList_perProduct',async function(request, 
         return response.status(403).json({success:false,message:'server query full problme error!'});
     }
 });
+//투어예약접수내역 예약해제 액션.
 router.post('/brokerproduct_reservation_release',async function(request, response){
 
     console.log('===========>>>request.body::',request.body);
@@ -1117,6 +1215,7 @@ router.post('/brokerproduct_reservation_release',async function(request, respons
         return response.status(403).json({success:false,message:'server query full problme error!'});
     }
 });
+//담당 매물별 정보(+각 매물별 접수신청한 투어예약인원수까지)
 router.post('/brokerproduct_list_view2',async function(request, response){
     console.log('===========>>>request.body::',request.body);
 
