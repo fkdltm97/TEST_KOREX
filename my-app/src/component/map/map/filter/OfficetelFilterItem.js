@@ -167,42 +167,42 @@ export default function ApartFilter({open, setOpen}) {
                     <WrapFilter>
                       <WrapRadio>
                         <RadioBox>
-                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[0]} data-num={0} onClick={(e)=>onClickRoom(e)} data-text="전체" type="checkbox" name="room" id="room1" defaultChecked/>
+                          <InputC className="changeBtn" checked={uiData.roomOfficetel[0]} data-num={0} onClick={(e)=>onClickRoom(e)} data-text="전체" type="checkbox" name="room" id="room1" defaultChecked/>
                           <LabelC for="room1">
                             <SpanC/>
                             전체
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[1]} data-num={1} onClick={(e)=>onClickRoom(e)} data-text="오픈형원룸" type="checkbox" name="room" id="room2"/>
+                          <InputC className="changeBtn" checked={uiData.roomOfficetel[1]} data-num={1} onClick={(e)=>onClickRoom(e)} data-text="오픈형원룸" type="checkbox" name="room" id="room2"/>
                           <LabelC for="room2">
                             <SpanC/>
                             오픈형원룸
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[2]} data-num={2} onClick={(e)=>onClickRoom(e)} data-text="분리형원룸" type="checkbox" name="room" id="room3"/>
+                          <InputC className="changeBtn" checked={uiData.roomOfficetel[2]} data-num={2} onClick={(e)=>onClickRoom(e)} data-text="분리형원룸" type="checkbox" name="room" id="room3"/>
                           <LabelC for="room3">
                             <SpanC/>
                             분리형원룸
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[3]} data-num={3} onClick={(e)=>onClickRoom(e)} data-text="원룸원거실" type="checkbox" name="room" id="room4"/>
+                          <InputC className="changeBtn" checked={uiData.roomOfficetel[3]} data-num={3} onClick={(e)=>onClickRoom(e)} data-text="원룸원거실" type="checkbox" name="room" id="room4"/>
                           <LabelC for="room4">
                             <SpanC/>
                             원룸원거실
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[4]} data-num={4} onClick={(e)=>onClickRoom(e)} data-text="투룸" type="checkbox" name="room" id="room5"/>
+                          <InputC className="changeBtn" checked={uiData.roomOfficetel[4]} data-num={4} onClick={(e)=>onClickRoom(e)} data-text="투룸" type="checkbox" name="room" id="room5"/>
                           <LabelC for="room5">
                             <SpanC/>
                             투룸
                           </LabelC>
                         </RadioBox>
                         <RadioBox>
-                          <InputC className={["changeBtn"]} checked={uiData.roomOfficetel[5]} data-num={5} onClick={(e)=>onClickRoom(e)} data-text="쓰리룸이상" type="checkbox" name="room" id="room6"/>
+                          <InputC className="changeBtn" checked={uiData.roomOfficetel[5]} data-num={5} onClick={(e)=>onClickRoom(e)} data-text="쓰리룸이상" type="checkbox" name="room" id="room6"/>
                           <LabelC for="room6">
                             <SpanC/>
                             쓰리룸이상

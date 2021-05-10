@@ -213,10 +213,10 @@ export default function MapFilter({status}) {
   const filterText = (bool, text, dataType, scroll) => {
     if(!bool){
       return;
-    }
+  }
 
     return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick(scroll)}>
+      <SlickSlide className="slide__one" className="changeBtn" onClick={()=>scrollToClick(scroll)}>
         <Link>
           <FliterEa>
             {text}

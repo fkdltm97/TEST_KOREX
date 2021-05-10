@@ -80,17 +80,19 @@ export default function KakaoMap({}) {
   //  제거
   const removeEvent = () => {
     kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct );
+    console.log("remove");
   }
 
   // 새로고침
+  // **api 현재 활성 버튼 / 필터 서버에 보내서 
+  // 지도에 띄울 좌표, 매물 리스트 받아와야 합니다.
   const refreshArr = () => {
- 
-    // **api 서버에서 데이터를 받아와 매물 리스트를 넣는다.
     // 전속 매물
     if(mapRightRedux.isExclusive.is){
       let newArr = [];
       for(let i = 0 ; i < 10 ; i++){
         newArr.push({
+          isExc:true,
           item_id : i,
           path:"/",
           startDate:"20.00.00",
@@ -149,7 +151,6 @@ export default function KakaoMap({}) {
     if(!kakaoMap){return;}
     const filerRedux = mapFilterRedux;
     localStorage.setItem( "filterData", JSON.stringify(filerRedux));
-
     refreshArr();
     // removeListener
     const changeBtn = document.querySelectorAll(".changeBtn");
@@ -160,10 +161,8 @@ export default function KakaoMap({}) {
     for(let i = 0; i < changeBtnRange.length ; i++){
       changeBtnRange[i].addEventListener("mousedown", removeEvent );
     }
-
     // addListener
     kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
-  
   },[mapFilterRedux, mapRightRedux, kakaoMap])
   // ----------------------
 
@@ -507,13 +506,16 @@ export default function KakaoMap({}) {
 
   
   // Clusterer Click
+  // **api 선택한 클러스터러의 좌표를 서버에 보내고 해당 목록 데이터를 받아와야합니다.
+  // 목록 데이터는 mapProductEl 저장하여 화면에 띄어야 합니다. 
   useEffect(() => {
-    // 중심좌표 -> 서버 -> 데이터 받아오기
+    // console.log(centerClusterer);
   }, [centerClusterer])
 
   // Marker Click
+  // **api 선택한 마커의 좌표 혹은 아이디를 서버에 보내고 해당 데이터를 받아와야합니다.
   useEffect(() => {
-    console.log(clickMarker);
+    // console.log(clickMarker);
   }, [clickMarker])
 
   // Zoom In

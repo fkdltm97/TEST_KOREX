@@ -25,17 +25,19 @@ import OnlyMaemul from "./topmenu/OnlyMaemul";
 import OnlyBroker from "./topmenu/OnlyBroker";
 import OnlyDanji from "./topmenu/OnlyDanji";
 import DanjiTabContent from './tabcontent/DanjiTabContent'
+import TopMenu from '../commonDetail/topMenu';
 
 // redux
 import { useSelector } from 'react-redux';
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, status}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, status, containerRef}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [tapStatus, setTapStatus] = useState(0);
     const [isInit, setIsInit] = useState(true);
     const [typeStatus, setTypeStatus] = useState("");
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
     const productRedux = useSelector(state=>{ return state.mapProductEls});
+    
     // Init
     useEffect(() => {
       setActiveIndex(0);
@@ -92,10 +94,9 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
     }, [mapRightRedux])
 
     // 상단 제목
-    // **api length 가져오기 
+    // **api 서버에서 총 몇개인지 가져와 length에 담아야 합니다. 
     const tapReturn = () => {
-      if(tapStatus == 3){
-        // 전문중개사 버튼 눌려있을때 -> 탭으로 아파트 ㅣ 전문중개사
+      if(tapStatus == 3){ // 전속매물/전문중개사  active
         return(
           <WrapTabBtn>
             <Mobile>{/*모바일 open List Btn*/}
@@ -106,22 +107,19 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
           </WrapTabBtn>
         )
-      }else if(tapStatus == 0){
-        // 전문중개사 꺼졌을때 ( 전속매물 버튼만 active돼있을때...)
+      }else if(tapStatus == 0){ // 전속매물 active
         return(
-          <OnlyMaemul typeStatus={typeStatus}  updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <TopMenu typeStatus={typeStatus} length={3} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
-      }else if(tapStatus == 1){
-        // 전속매물 꺼졌을때 ( 전문중개사만 active돼있을때...)
+      }else if(tapStatus == 1){ // 전문중개사 active   
         return(
-          <OnlyBroker updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <TopMenu typeStatus={"전문중개사"} length={6} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
-      }else if(tapStatus == 2){
-        // 단지별 실서래만
+      }else if(tapStatus == 2){ // 단지별 실거래 active   
         return(
-          <OnlyDanji updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <TopMenu typeStatus={"아파트단지"} length={9} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
-      }else{
+      }else{ // 선텍 x
         return(<></>)
       }
     }
@@ -131,12 +129,12 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
       // 전속매물
       if(historyInfo.prevTab == 0){
         return(
-          <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} setHistoryInfo={setHistoryInfo} productRedux={productRedux} index={0}/>
+          <ItemTabContent updatePageIndex={updatePageIndex} setReport={setReport} setHistoryInfo={setHistoryInfo} productList={productRedux.exclusive} containerRef={containerRef} index={0}/>
         )
       } // 전문 중개사
       else if(historyInfo.prevTab == 1){
         return(
-          <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo}/>
+          <BrokerTabContent updatePageIndex={updatePageIndex} setHistoryInfo={setHistoryInfo} containerRef={containerRef}/>
         )
       } // 단지별 실거래
       else if(historyInfo.prevTab == 2){

@@ -306,7 +306,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                       min={minPrice}
                       max={maxPrice}
                       values={uiData.priceRangeValue}
-                      onChange={(e) => {uiData.priceRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
+                      onChange={(e) => {uiData.priceRangeValue=e.values; MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
                       snapPoints={snapArr}
                     />
@@ -388,7 +388,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className="adminSwitch" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
+                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>

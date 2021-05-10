@@ -23,6 +23,8 @@ import Profile from "../../../img/map/profile_img.png";
 // components
 import { Mobile, PC } from "../../../MediaQuery";
 import SideSubTitle from "./subtitle/SideSubTitle";
+import ListEl from '../commonDetail/listEL';
+import BrokerDetail from '../commonDetail/brokerDetail';
 
 //swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,22 +33,107 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 //server process
 import serverController from '../../../server/serverController';
 
+// map
 import KakaoMapSide from '../map/KakaoMapSide';
+
+// redux
+import { useSelector } from 'react-redux';
 
 SwiperCore.use([Navigation, Pagination]);
 
 
 export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,report,setReport ,reser,updateReserveModal,click_prdidentityid}) {
-  const [slideUp, setSlideUp] = useState(false);
-    
-  console.log('sdieBarItemDetail요소 실행  클릭한 특정상품 prd_identity_id >>>:',updateReserveModal,click_prdidentityid);
   
+    
+  // console.log('sdieBarItemDetail요소 실행  클릭한 특정상품 prd_identity_id >>>:',updateReserveModal,click_prdidentityid);
+
   var week = ['일', '월', '화', '수', '목', '금', '토'];
 
+  const [slideUp, setSlideUp] = useState([false, false, false, false, false]);
+  
   //해당 매물 아이템에 대한 투어예약셋팅 정보로써 고유한 state로써 취급한다.
-
   const [except_datelist,setExcept_datelist] = useState([]);//표현에서 제외할 특정날짜리스트
   const [result_usedatalist,setResult_usedatalist] = useState([]);//사용할 표현할 최종데이터리스트 초기값 배열
+  const [slideImg, setSlideImg] = useState([]);
+  const [isSlide, setIsSlide] = useState(false);
+  const [item, setItem] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [deal, setDeal] = useState([]);
+  const [danji, setDanji] = useState([]);
+  const [desc, setDesc] = useState([[], []]);
+  const [broker, setBroker] = useState({});
+
+  const mapProduct = useSelector(state=>{ return state.mapProductEls});
+
+  // **api 아이디값을 서버에 보내서 정보를 받아와야 합니다.
+  useEffect(() => {
+    // console.log(mapProduct.clickExc); // 선택 아이디 
+    // 슬라이드 이미지
+    setSlideImg([
+      Detail, Detail, Detail
+    ])
+    setIsSlide(true);
+    // 아파트 정보
+    setProduct({
+      number:123456789,
+      startDate:"20.00.00",
+      endDate:"20.00.00",
+      kind:"아파트",
+      address:"자이 109동",
+      type:"전세",
+      price:"12억 5,000",
+      desc:"매물특징 칸입니다. 작은 설명 칸입니다."
+    })
+    // 물건
+    setItem([
+      {title:"해당층/총층", desc:"4/20층"},
+      {title:"공급/전용면적", desc:"60/52.89m²", ChangeM:ChangeM},
+      {title:"방/욕실 수", desc:"2/1개"},
+      {title:"방향", desc:"방향"},
+      {title:"현관구조", desc:"현관구조"},
+      {title:"난방", desc:"난방"},
+    ])
+    // 거래
+    setDeal([
+      {title:"관리비", desc:"5만원"},
+      {title:"관리비 포함", desc:"전기, 가스, 수도, 인터넷, 티비"},
+      {title:"입주가능일", desc:"2016.05.10"},
+      {title:"계약갱신청구권행사여부 확인", desc:"확인"},
+      {title:"융자금", desc:"00원"},
+      {title:"기보증금/월세", desc:"-"},
+    ])
+    // 단지/건물
+    setDanji([
+      {title:"사용승인일", desc:"2016.05.10"},
+      {title:"총세대수", desc:"300 세대"},
+      {title:"총주차대수", desc:"21대 / 세대당 0.55대 협의주차"},
+    ])
+    // 매물설명
+    setDesc([
+      [
+        "논현동 서울세관 블럭에 위치한 신축 2룸입니다",
+        " 7호선 강남구청역"
+      ],
+      [
+        "건물외관부터 내부관리상태 A급으로 유지중입니다^_^",
+        "고급마감재사용 및 옵션으로 고풍스러운 실내분위기연출",
+        "채광이 좋아 밝고 화사한 분위기로 아주 세련된 투룸입니다",
+        "2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습니다",
+      ]
+    ])
+    // 중개사 정보
+    setBroker({
+      tag_1:"아파트·현대아이리스",
+      tag_2:"상가",
+      tag_3:"사무실",
+      name:"럭키 공인중개사",
+      address:"강남구 논현동 104-5",
+      trade:2,
+      jeonse:7,
+      monthly:9,
+      profile:Profile
+    })
+  }, [])
 
   useEffect( async () => {
     let body_info = {
@@ -203,162 +290,145 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     
   },[]);
 
-  
+  const onCLickBox = (index) => {
+    let arr = slideUp;
+    arr[index] = !arr[index];
+    setSlideUp([...arr]);
+  }
+
     return (
-        <Container>
-          <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
-          <TopDetailImg>
-              <SwiperBennerWrap className="detail_swiper">
-                  <Swiper
+      <Container>
+        <SideSubTitle title={"물건 상세"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
+        
+        {/* 이미지 슬라이더 */}
+        <TopDetailImg>
+            <SwiperBennerWrap className="detail_swiper">
+                {
+                  isSlide&&
+                  <>
+                    <Swiper
                     slidesPerView={1}
                     loop={false}
                     autoplay={true}
                     navigation={{ clickable: true }}
                     onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}
-                  >
-                  <SwiperSlide>
-                    <DetailImg>
-                      <Img src={Detail}/>
-                    </DetailImg>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <DetailImg>
-                      <Img src={Detail}/>
-                    </DetailImg>
-                  </SwiperSlide>
-                </Swiper>
-            </SwiperBennerWrap>
-          </TopDetailImg>
+                    >
+                      {
+                        slideImg.map((item, index) => {
+                          return(
+                            <SwiperSlide key={index}>
+                              <DetailImg>
+                                <Img src={item}/>
+                              </DetailImg>
+                            </SwiperSlide>
+                          )
+                        })
+                      }
+                    </Swiper>
+                  </>
+                }
+          </SwiperBennerWrap>
+        </TopDetailImg>
+        
         {/*물건투어예약 , 실거래, 허위매물 신고 버튼*/}
-          <TopButtons>
-            <Button onClick={ () => { updateReserveModal(except_datelist,result_usedatalist); }}>
-              <Link className="data_link"/>
-              <IconImg src={Exit}/>
-              <ButtonTitle>물건투어예약</ButtonTitle>
-            </Button>
-            <Button>
-              <Link className="data_link"/>
-              <IconImg src={Trade}/>
-              <ButtonTitle>실거래</ButtonTitle>
-            </Button>
-            <Button>
-              <Link onClick={() => {setReport(true)}} className="data_link"/>
-              <IconImg src={Report}/>
-              <ButtonTitle>허위매물신고</ButtonTitle>
-            </Button>
-          </TopButtons>
+        <TopButtons>
+          <Button onClick={ () => { updateReserveModal(except_datelist,result_usedatalist); }}>
+            <Link className="data_link"/>
+            <IconImg src={Exit}/>
+            <ButtonTitle>물건투어예약</ButtonTitle>
+          </Button>
+          <Button>
+            <Link className="data_link"/>
+            <IconImg src={Trade}/>
+            <ButtonTitle>실거래</ButtonTitle>
+          </Button>
+          <Button>
+            <Link onClick={() => {setReport(true)}} className="data_link"/>
+            <IconImg src={Report}/>
+            <ButtonTitle>허위매물신고</ButtonTitle>
+          </Button>
+        </TopButtons>
 
-          <TopMainInfoBox>
-            <LikeBox>
-              <CheckBox type="checkbox" name="" id="Like"/>
-              <CheckLabel for="Like"/>
-            </LikeBox>
-            <Number>등록번호 1234567889</Number>
-            <ExclusiveBox>
-              <Green>전속</Green>
-              <WrapDate>
-                <StartDate>20.00.00</StartDate>
-                <Line>~</Line>
-                <EndDate>20.00.00</EndDate>
-              </WrapDate>
-            </ExclusiveBox>
-            <ItemInfo>
-              <Name>
-                <Kind>아파트</Kind>
-                <Address>자이 109동</Address>
-              </Name>
-              <Price>전세 12억 5,000</Price>
-              <Desc>매물특징 칸입니다. 작은 설명 칸입니다.</Desc>
-            </ItemInfo>
-          </TopMainInfoBox>
-    <WrapAllInfos>
-        {/*물건*/}
+        {/* 아파트 정보 */}
+        <TopMainInfoBox>
+          <LikeBox>
+            <CheckBox type="checkbox" name="" id="Like"/>
+            <CheckLabel for="Like"/>
+          </LikeBox>
+          <Number>등록번호 {product.number}</Number>
+          <ExclusiveBox>
+            <Green>전속</Green>
+            <WrapDate>
+              <StartDate>{product.startDate}</StartDate>
+              <Line>~</Line>
+              <EndDate>{product.endDate}</EndDate>
+            </WrapDate>
+          </ExclusiveBox>
+          <ItemInfo>
+            <Name>
+              <Kind>{product.kind}</Kind>
+              <Address>{product.address}</Address>
+            </Name>
+            <Price>{product.type} {product.price}</Price>
+            <Desc>{product.desc}</Desc>
+          </ItemInfo>
+        </TopMainInfoBox>
+        
+        {/* 물건, 거레, 옵션, 매물설명, 단지&건물, 위치 */}
+        <WrapAllInfos>
+          {/*물건*/}
           <WrapItemInfo>
-            <TitleBox onClick={()=>{setSlideUp(!slideUp)}}>
+            <TitleBox onClick={()=>onCLickBox(0)}>
               <Title>물건</Title>
-              <ArrowImg src={Arrow}/>
+              {slideUp[0]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
             </TitleBox>
             {
-              slideUp ?
+              slideUp[0] ?
               <ItemInfoList>
-                <Li>
-                  <SubTitle>해당층/총층</SubTitle>
-                  <SubDesc>4/20층</SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>공급/전용면적</SubTitle>
-                  <SubDesc>60/52.89m²
-                  <Link>
-                    <ChangeMImg src={ChangeM}/>
-                  </Link>
-                  </SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>방/욕실 수</SubTitle>
-                  <SubDesc>2/1개</SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>방향</SubTitle>
-                  <SubDesc>방향</SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>현관구조</SubTitle>
-                  <SubDesc>현관구조</SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>난방</SubTitle>
-                  <SubDesc>난방</SubDesc>
-                </Li>
+                {
+                  item.map((item, index) => {
+                    return(
+                      <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                    )
+                  })
+                }
               </ItemInfoList>
               :
               null
             }
-
-
-
             <ToggleOpenClose>
               <Text>접기</Text>
             </ToggleOpenClose>
           </WrapItemInfo>
-      {/*거래*/}
+
+          {/*거래*/}
           <WrapTradeInfo>
-            <TitleBox>
+            <TitleBox onClick={()=>onCLickBox(1)}>
               <Title>거래</Title>
-              <ArrowImg src={Arrow}/>
+              {slideUp[1]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
             </TitleBox>
-            <ItemInfoList>
-              <Li>
-                <SubTitle>관리비</SubTitle>
-                <SubDesc>5만원</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>관리비 포함</SubTitle>
-                <SubDesc>전기, 가스, 수도, 인터넷, 티비</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>입주가능일</SubTitle>
-                <SubDesc>2016.05.10 </SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>계약갱신청구권행사여부 확인</SubTitle>
-                <SubDesc>확인</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>융자금</SubTitle>
-                <SubDesc>00원</SubDesc>
-              </Li>
-              <Li>
-                <SubTitle>기보증금/월세</SubTitle>
-                <SubDesc>-</SubDesc>
-              </Li>
-            </ItemInfoList>
+            {
+              slideUp[1]?
+              <ItemInfoList>
+                {
+                  deal.map((item, index) => {
+                    return(
+                      <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                    )
+                  })
+                }
+              </ItemInfoList>
+              :
+              null
+            }
+            
             <ToggleOpenClose>
               <Text>접기</Text>
             </ToggleOpenClose>
           </WrapTradeInfo>
-
-        {/*옵션*/}
+          {/*옵션*/}
+          {/*
             <WrapOptionInfo>
               <TitleBox>
                 <Title>옵션</Title>
@@ -371,113 +441,94 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                 </Li>
               </ItemInfoList>
             </WrapOptionInfo>
-
+          */}
           {/*매물설명*/}
-            <WrapOptionInfo>
-              <TitleBox>
+          <WrapOptionInfo>
+              <TitleBox onClick={()=>onCLickBox(2)}>
                 <Title>매물설명</Title>
-                <ArrowImg src={Arrow}/>
+                {slideUp[2]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
               </TitleBox>
-              <ItemInfoList>
-                <Li>
-                  <TextArea>
-                  [ 위 치 / 교통 ]  <br/><br/>
-                  ㅇ 논현동 서울세관 블럭에 위치한 신축 2룸입니다<br/><br/>
-                  ㅇ 7호선 강남구청역 <br/><br/>
-                  [ 인테리어/특징 ]  <br/><br/>
-                  ㅇ 건물외관부터 내부관리상태 A급으로 유지중입니다^_^<br/><br/>
-                  ㅇ 고급마감재사용 및 옵션으로 고풍스러운 실내분위기연출<br/><br/>
-                  ㅇ 채광이 좋아 밝고 화사한 분위기로 아주 세련된 투룸입니다<br/><br/>
-                  ㅇ 2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습니다<br/><br/>
-                  </TextArea>
-                </Li>
-              </ItemInfoList>
+              {
+                slideUp[2] ?
+                <ItemInfoList>
+                  <Li>
+                    <TextArea>
+                    [ 위 치 / 교통 ]  <br/><br/>
+                    {
+                      desc[0].map((item, index) => {
+                        return(<>ㅇ{item}<br/><br/></>
+                        )
+                      })
+                    }
+                    [ 인테리어/특징 ]  <br/><br/>
+                    {
+                      desc[1].map((item, index) => {
+                        return(<>ㅇ{item}<br/><br/></>
+                        )
+                      })
+                    }
+                    </TextArea>
+                  </Li>
+                </ItemInfoList>
+                :
+                null
+              }
               <ToggleOpenClose>
                 <Text>접기</Text>
               </ToggleOpenClose>
             </WrapOptionInfo>
-
-        {/*단지&건물*/}
-            <WrapTradeInfo>
-              <TitleBox>
+          {/*단지&건물*/}
+          <WrapTradeInfo>
+              <TitleBox  onClick={()=>onCLickBox(3)}>
                 <Title>단지/건물</Title>
-                <ArrowImg src={Arrow}/>
+                {slideUp[3]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
               </TitleBox>
-              <ItemInfoList>
-                <Li>
-                  <SubTitle>사용승인일</SubTitle>
-                  <SubDesc>2016.05.10 </SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>총세대수</SubTitle>
-                  <SubDesc>300 세대</SubDesc>
-                </Li>
-                <Li>
-                  <SubTitle>총주차대수</SubTitle>
-                  <SubDesc>21대 /  세대당 0.55대 협의주차</SubDesc>
-                </Li>
-              </ItemInfoList>
+              
+              {
+                slideUp[3]?
+                <ItemInfoList>
+                  {
+                    danji.map((item, index) => {
+                      return(
+                        <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                      )
+                    })
+                  }
+                </ItemInfoList>
+                :
+                null
+              }
             </WrapTradeInfo>
-        {/*위치*/}
-            <WrapTradeInfo>
-              <TitleBox>
+          {/*위치*/}
+          <WrapTradeInfo>
+              <TitleBox onClick={()=>onCLickBox(4)}>
                 <Title>위치</Title>
-                <ArrowImg src={Arrow}/>
+                {slideUp[4]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
               </TitleBox>
-              <ItemInfoList>
-                <Li>
-                  <MapAddress>강남구 논현동 104-5</MapAddress>
-                  <ChangeAddress>
-                    <ChangeImg src={Change}/>
-                    <ChangeTxt>도로명</ChangeTxt>
-                  </ChangeAddress>
-                </Li>
-              </ItemInfoList>
-              <MapArea>
-                <KakaoMapSide />
-              </MapArea>
+              {
+                slideUp[4]?
+                <>
+                  <ItemInfoList>
+                    <Li>
+                      <MapAddress>강남구 논현동 104-5</MapAddress>
+                      <ChangeAddress>
+                        <ChangeImg src={Change}/>
+                        <ChangeTxt>도로명</ChangeTxt>
+                      </ChangeAddress>
+                    </Li>
+                  </ItemInfoList>
+                  <MapArea>
+                    <KakaoMapSide />
+                  </MapArea>
+                </>
+                :
+                null  
+              }
             </WrapTradeInfo>
         </WrapAllInfos>
-        {/*전문중개사 정보*/}
-        <BrokerInfo>
-            <TopBox>
-              <Tag>아파트·현대아이리스</Tag>
-              <Tag>상가</Tag>
-              <Tag>사무실</Tag>
-            </TopBox>
-            <MiddleBox>
-              <LeftContent>
-                <BrokerInfoDetail>
-                  <BrokerName>럭키 공인중개사</BrokerName>
-                  <BrokerAddress>강남구 논현동 104-5</BrokerAddress>
-                  <SellList>
-                    <List>매매 <ColorOrange>2</ColorOrange></List>
-                    <Part/>
-                    <List>전세 <ColorOrange>7</ColorOrange></List>
-                    <Part/>
-                    <List>월세 <ColorOrange>9</ColorOrange></List>
-                  </SellList>
-                </BrokerInfoDetail>
-              </LeftContent>
-              <RightContent>
-                <ItemImg src={Profile}/>
-              </RightContent>
-            </MiddleBox>
-            <BottomBox>
-              <ToCall>
-                <Link className="data_link"/>
-                <BottomImg src={Call}/>
-                <BottomTxt>전화 상담</BottomTxt>
-              </ToCall>
-              <LongPart/>
-              <ToChat>
-                <Link className="data_link"/>
-                <BottomImg src={Chat}/>
-                <BottomTxt>채팅 상담</BottomTxt>
-              </ToChat>
-            </BottomBox>
-        </BrokerInfo>
-        </Container>
+        
+        <BrokerDetail broker={broker}/>
+      </Container>
   );
 }
 
@@ -688,6 +739,13 @@ const Title = styled.h3`
 const ArrowImg = styled.img`
   width:10px;
   transform:rotate(270deg);
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(10/428));
+  }
+`
+const ArrowImgDown = styled.img`
+  width:10px;
+  transform:rotate(90deg);
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(10/428));
   }

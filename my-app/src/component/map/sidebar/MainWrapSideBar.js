@@ -78,7 +78,7 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
 
   const pageLoader = (updateReserveModals) =>{
     switch (pageIndex) {
-      case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
+      case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown} containerRef={containerRef}/>;
       case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={updateReserveModals} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
       case 3: return <SideBarDanjiDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;// 단지별 실거래 상세페이지
@@ -154,13 +154,14 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
   }
 
   // 무한 스크롤
+  // **api 서버에서 데이터 가져와서 배열에 추가하여야 합니다.
   const onScrollList = () => {
     if(containerRef.current.scrollHeight <= containerRef.current.scrollTop+containerRef.current.clientHeight + 50){
-      // **api 서버에서 데이터 가져와서 배열에 추가하기 
       // 전속 매물 || 전문 중개사 상세--------------
-      if(mapRightRedux.isExclusive.is || pageIndex == 2){
+      if(mapRightRedux.isExclusive.is){
         const currentArr = JSON.parse(JSON.stringify(productRedux.exclusive));
         currentArr.push({
+          isExc:true,
           item_id : 10,
           path:"/",
           startDate:"20.00.00",
@@ -206,6 +207,26 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
           floor:"7층",
         })
         MapProductEls.updateBlock({ block : currentArr });
+      }
+      // 전문중개사 매물
+      if(pageIndex == 2){
+        const currentArr = JSON.parse(JSON.stringify(productRedux.brokerProduct));
+        currentArr.push({
+          isExc:true,
+          item_id : 1,
+          path:"/",
+          startDate:"20.00.00",
+          endDate: "20.00.00",
+          kind:"새로운아파트",
+          detail:"자이 999동",
+          type:"전세",
+          price:"99억 9,999",
+          floor:"층수",
+          Area:"공급면적",
+          expenses:"관리비",
+          desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+        })
+        MapProductEls.updateBrokerProduct({ brokerProduct : currentArr });
       }
       console.log("end");
     }

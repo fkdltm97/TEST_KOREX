@@ -30,7 +30,7 @@ export default function MapFilter({setOpen}) {
     <Container>
       <CloseAndReset>
         <Arrow src={FilterDown} onClick={()=>{setOpen(false)}}/>
-        <WrapReset onClick={() => {onClickReset()}}>
+        <WrapReset className="changeBtn" onClick={() => {onClickReset()}}>
           <Reset src={ChangeGreen}/>
           <ResetTitle>초기화</ResetTitle>
         </WrapReset>
