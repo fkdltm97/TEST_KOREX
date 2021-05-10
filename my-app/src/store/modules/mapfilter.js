@@ -5,11 +5,13 @@ import produce from 'immer';
 const UPDATE_FILTER = 'mapfilter/filter';
 const UPDATE_FILTERARR = 'mapfilter/filterArr';
 const UPDATE_FILTERUI = 'mapfilter/filterUI';
+const UPDATE_RESET = 'mapfilter/filterReset';
 
 // 액션 생성 함수를 만듭니다.
 export const updateFilter = createAction(UPDATE_FILTER);
 export const updateFilterArr = createAction(UPDATE_FILTERARR);
 export const updateFilterUI = createAction(UPDATE_FILTERUI);
+export const updateFilterRest = createAction(UPDATE_RESET);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
@@ -73,7 +75,7 @@ const initialState = {
 
       parkStore:0, // 주차장
       toilet:0, // 화장실
-    }
+    },
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
@@ -90,6 +92,13 @@ export default handleActions({
   },
   [UPDATE_FILTERUI]: (state, action) => {
     return produce(state, draft => {
+        draft.filterUI = action.payload.filterUI ? action.payload.filterUI : draft.filterUI;
+    });
+  },
+  [UPDATE_RESET]: (state, action) => {
+    return produce(state, draft => {
+        draft.filter = action.payload.filter ? action.payload.filter : draft.filter;
+        draft.filterArr = action.payload.filterArr ? action.payload.filterArr : draft.filterArr;
         draft.filterUI = action.payload.filterUI ? action.payload.filterUI : draft.filterUI;
     });
   },

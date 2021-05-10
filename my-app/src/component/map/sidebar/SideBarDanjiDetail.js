@@ -25,37 +25,143 @@ import DanjiDetailTabContent from "./tabcontent/DanjiDetailTabContent";
 import DanjiDetailView from "./tabcontent/DanjiDetailView";
 
 SwiperCore.use([Navigation, Pagination]);
+
+const tableList =[
+  {
+    t_id : 0,
+    date:"21.02.01",
+    trade:"매매",
+    price:"18억,2000",
+    floor:"7층"
+  },
+  {
+    t_id : 1,
+    date:"21.02.01",
+    trade:"매매",
+    price:"18억,2000",
+    floor:"7층"
+  },
+  {
+    t_id : 2,
+    date:"21.02.01",
+    trade:"전세",
+    price:"18억,2000",
+    floor:"7층"
+  },
+  {
+    t_id : 3,
+    date:"21.02.01",
+    trade:"월세",
+    price:"18억,2000",
+    floor:"7층"
+  }
+]
+
+const widthListItem =[
+  {
+    w_id : 0,
+    width:"92m²"
+  },
+  {
+    w_id : 1,
+    width:"99m²"
+  },
+  {
+    w_id : 2,
+    width:"122m²"
+  },
+  {
+    w_id : 3,
+    width:"126m²"
+  },
+  {
+    w_id : 4,
+    width:"167m²"
+  },
+  {
+    w_id : 5,
+    width:"174m²"
+  },
+  {
+    w_id : 6,
+    width:"180m²"
+  },
+]
+
+
 export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo, map,setMap}) {
 
-    return (
-        <Container>
-          <SideSubTitle title={"SM 드림빌"} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
-          <TopInfo>
-            <FirstLine>
-              <FirstDate>2017.04.14 사용승인</FirstDate>
-              <Danji>150세대</Danji>
-            </FirstLine>
-            <SecondLine>
-              <Address onClick={()=>{setMap(true)}}>서울특별시 강남구 삼성동 200-13</Address>
-              <ChangeAddress>
-                <ChangeImg src={Change}/>
-                <Span>도로명</Span>
-              </ChangeAddress>
-            </SecondLine>
-          </TopInfo>
-          <DanjiInfo>
-            <DanjiTitle>
-              <Txt>단지 내 면적별 정보</Txt>
-              <ChangeM2>
-                <ChangeImg src={Change}/>
-                <Span>평</Span>
-              </ChangeM2>
-            </DanjiTitle>
-            {/*컴포넌트! map > sidebar > tabcontent*/}
-            <DanjiDetailTabContent/>
-            <DanjiDetailView/>
-          </DanjiInfo>
-        </Container>
+
+  const [topDesc, setTopDesc] = useState({
+    title:"",
+    acceptDate:"",
+    danji:"",
+    address:"",
+  });
+  const [isArea, setIsArea] = useState(false);
+  const [area,setArea] = useState([]);
+  const [areaIndex,setAreaIndex] = useState(0);
+  const [list, setList] = useState([]);
+  const [danjiDesc, setDanjiDesc] = useState([]);
+  const [typeIndex, setTypeIndex] = useState(0);
+
+  // **api 클릭한 아이디를 통하여 서버에서 데이터를 가져와야 합니다.
+  useEffect(() => {
+    setArea(widthListItem);
+    setList(tableList);
+    setTopDesc({
+      title:"SM 드림빌",
+      acceptDate:"2017.04.14",
+      danji:150,
+      address:"서울특별시 강남구 삼성동 200-13",
+    })
+    setDanjiDesc({
+      area:"60/52.89m²",
+      typeNum:"2/1개",
+    })
+    setIsArea(true);
+
+  }, []);
+
+  // 면적 정보
+  useEffect(() => {
+    console.log(areaIndex);
+  }, [areaIndex])
+
+  // 실거래가 전세/매매/전월세
+  useEffect(() => {
+    console.log(typeIndex);
+  }, [typeIndex])
+
+  return (
+    <Container>
+      <SideSubTitle title={topDesc.title} updatePageIndex={updatePageIndex}  historyInfo={historyInfo}/>{/*상단 타이틀은 subtitle폴더에 컴포넌트로 뺐습니다*/}
+      <TopInfo>
+        <FirstLine>
+          <FirstDate>{topDesc.acceptDate} 사용승인</FirstDate>
+          <Danji>{topDesc.danji}세대</Danji>
+        </FirstLine>
+        <SecondLine>
+          <Address onClick={()=>{setMap(true)}}>{topDesc.address}</Address>
+          <ChangeAddress>
+            <ChangeImg src={Change}/>
+            <Span>도로명</Span>
+          </ChangeAddress>
+        </SecondLine>
+      </TopInfo>
+      <DanjiInfo>
+        <DanjiTitle>
+          <Txt>단지 내 면적별 정보</Txt>
+          <ChangeM2>
+            <ChangeImg src={Change}/>
+            <Span>평</Span>
+          </ChangeM2>
+        </DanjiTitle>
+        {/*컴포넌트! map > sidebar > tabcontent*/}
+        <DanjiDetailTabContent isArea={isArea} area={area} areaIndex={areaIndex} setAreaIndex={setAreaIndex}/>
+        <DanjiDetailView list={list} danjiDesc={danjiDesc} typeIndex={typeIndex} setTypeIndex={setTypeIndex}/>
+      </DanjiInfo>
+    </Container>
   );
 }
 

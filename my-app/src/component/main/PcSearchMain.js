@@ -6,12 +6,16 @@ import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components"
 import IconSearch from '../../img/main/icon_search.png';
 
+// Init
+import initFilter from '../map/initFilter';
+
 export default function PcSearchMain({activeText}) {
   const [searchShow,setSearchShow] = useState(false);
   const history=useHistory();
 
   const oonClickSearch = () => {
-    // 검색버튼 눌렀을 때 정보 가져와서 api 연동하기 
+    // 검색버튼 눌렀을 때 정보 가져와서 api 연동하기
+    localStorage.setItem( "filterData", JSON.stringify(initFilter));
     history.push(`/Map/${activeText}`);
   }
 

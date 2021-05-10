@@ -1,6 +1,7 @@
 //react
 import React, { useMemo, useRef } from "react";
 import {Link} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Select from "react-select";
 
 //css
@@ -15,24 +16,17 @@ import Search from '../../img/map/search.png';
 // components
 import { Mobile, PC } from "../../MediaQuery";
 
-import { useHistory } from "react-router-dom";
-
+// redux
+import { MapFilterRedux } from '../../store/actionCreators';
+// Init
+import initFilter from './initFilter';
 
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
   const selectRef = useRef();
-  const options = useMemo(
-           () => [
-              { value: "아파트", label: "아파트"},
-              { value: "오피스텔", label: "오피스텔" },
-              { value: "상가", label: "상가" },
-              { value: "사무실", label: "사무실" },
-              { value: "전문중개사", label: "전문중개사" }
-            ],
-           []
-        );
 
     const onClickSearch = () => {
+      MapFilterRedux.updateFilterRest(initFilter);
       switch (selectRef.current.value){
         case "아파트":
           history.push(`/map/apart`);

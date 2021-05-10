@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -15,12 +15,15 @@ import WrapMap from './map/WrapMap';
 import MainWrapSideBar from './sidebar/MainWrapSideBar';
 import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 
-export default function MainHeader({openBunyang, rank, setReport,reserveModal,setMap, status}) {
+export default function MainHeader({openBunyang, rank, setReport,reserveModal,setMap, status}){
     const [pageIndex , setPageIndex] = useState(0);
+
+    const containerRef = useRef();
+
     return (
       <Container>
         <PC>
-          <WrapMap status={status}/>
+          <WrapMap status={status} containerRef={containerRef} />
         </PC>
         <Mobile>
           {
@@ -30,7 +33,7 @@ export default function MainHeader({openBunyang, rank, setReport,reserveModal,se
             null
           }
         </Mobile>
-        <MainWrapSideBar setMap={setMap} status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
+        <MainWrapSideBar containerRef={containerRef} setMap={setMap} status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
         {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>*/}{/*단지 사이드바 컴포넌트*/}
       </Container>
     );

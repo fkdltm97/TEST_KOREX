@@ -23,62 +23,34 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Mobile, PC } from "../../../../MediaQuery";
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
-  const WidthListItem =[
-  {
-    w_id : 0,
-    width:"92m²"
-  },
-  {
-    w_id : 1,
-    width:"99m²"
-  },
-  {
-    w_id : 2,
-    width:"122m²"
-  },
-  {
-    w_id : 3,
-    width:"126m²"
-  },
-  {
-    w_id : 4,
-    width:"167m²"
-  },
-  {
-    w_id : 5,
-    width:"174m²"
-  },
-  {
-    w_id : 6,
-    width:"180m²"
-  },
-]
+// export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
+export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex}) {
 
-
-  const [activeIndex,setActiveIndex] = useState(0);
     return (
         <Container>
             <DanjiWidthList>
               <SwiperBennerWrap className="danji_swiper">
-                    <Swiper
-                      slidesPerView={6}
-                      loop={false}
-                      autoplay={true}
-                      onSlideChange={() => console.log('slide change')}
-                      onSwiper={(swiper) => console.log(swiper)}
-                    >
-                    {
-                      WidthListItem.map((value) => {
-                        return(
-                          <SwiperSlide>
-                            <Width active={activeIndex == value.w_id} onClick={()=>{setActiveIndex(value.w_id)}}>{value.width}</Width>
-                            <Line active={activeIndex == value.w_id} onClick={()=>{setActiveIndex(value.w_id)}}/>
-                          </SwiperSlide>
-                        )
-                      })
-                    }
-                  </Swiper>
+ 
+                      {
+                        isArea&&
+                        <Swiper
+                          slidesPerView={6}
+                          loop={false}
+                          autoplay={true}
+                          onSlideChange={() => console.log('slide change')}
+                          onSwiper={(swiper) => console.log(swiper)}>
+                          {
+                            area.map((value) => {
+                              return(
+                                <SwiperSlide>
+                                  <Width active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}>{value.width}</Width>
+                                  <Line active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}/>
+                                </SwiperSlide>
+                              )
+                            })
+                          }
+                        </Swiper>
+                      }
               </SwiperBennerWrap>
             </DanjiWidthList>
         </Container>

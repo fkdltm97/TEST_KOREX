@@ -5,25 +5,39 @@ import {Link} from "react-router-dom";
 //css
 import styled from "styled-components"
 
-import View from "../../../../img/main/icon_view.png";
-import OpenList from "../../../../img/map/toggle_list.png";
+import View from "../../../img/main/icon_view.png";
+import OpenList from "../../../img/map/toggle_list.png";
 
 //component
-import { Mobile, PC } from "../../../../MediaQuery";
+import { Mobile, PC } from "../../../MediaQuery";
 
-export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown}) {
+export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, typeStatus, length}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [select,setSelect] = useState(false);
+
     const showModal =()=>{
       setSelect(!select);
     }
+
+    const productLength = () => {
+        if(typeStatus == "전문중개사" || typeStatus == "아파트단지" ){
+            return(<OrangeColor>{length}</OrangeColor>);
+        }else{
+            return(<Green>{length}</Green>);
+        }
+    }
+
+    const onClickEls = (e) => {
+        console.log(e.target.dataset.num);
+    }
+
     return (
         <Container>
           <WrapNonTab>
             <Mobile>{/*모바일 open List Btn*/}
               <OpenListImg onClick={() => {setUpDown(!updown)}}/>
             </Mobile>
-            <NonTab onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <OrangeColor>3</OrangeColor>건</NonTab>
+            <NonTab onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>{typeStatus} {productLength()}건</NonTab>
             <PC>
               <ViewBtn>
                 <Link onClick={showModal}>
@@ -32,27 +46,27 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
                     select ?
                     <InMenu>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={0} className="data_link"></Link>
                         <InDiv>최신등록순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={1} className="data_link"></Link>
                         <InDiv>높은가격순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={2} className="data_link"></Link>
                         <InDiv>낮은가격순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={3} className="data_link"></Link>
                         <InDiv>넓은면적순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={4} className="data_link"></Link>
                         <InDiv>좁은면적순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={5} className="data_link"></Link>
                         <InDiv>가나다순</InDiv>
                       </Div>
                     </InMenu>
@@ -62,6 +76,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
                 </Link>
               </ViewBtn>
             </PC>
+            {/* 퍼블리싱 -> 선택창이 안보입니다! */}
             <Mobile>
               <ViewBtn>
                 <SelectMb>

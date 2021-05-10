@@ -18,6 +18,7 @@ import Close from '../../../../img/main/modal_close.png';
 import Change from '../../../../img/member/change.png';
 import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
+import KakaoMapSide from '../../map/KakaoMapSide';
 
 //지도 모달
 export default function ModalMapReserve({ map, setMap }) {
@@ -44,10 +45,12 @@ export default function ModalMapReserve({ map, setMap }) {
                 </ChangeAddress>
               </ModalMapAddress>
               <ShowMap>
-                <InMapBox></InMapBox>
+              <KakaoMapSide/>
+                {/* <InMapBox></InMapBox>
                 <MapMarker>
                   <MapMarkerImg src={Marker}/>
-                </MapMarker>
+                </MapMarker> */}
+
               </ShowMap>
             </ModalMap>
           </WrapModalMap>

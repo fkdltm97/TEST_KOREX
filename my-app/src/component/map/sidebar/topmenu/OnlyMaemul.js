@@ -17,6 +17,11 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
     const showModal =()=>{
       setSelect(!select);
     }
+
+    const onClickEls = (e) => {
+      console.log(e.target.dataset.num);
+    }
+
     return (
         <Container>
           <WrapNonTab>
@@ -24,7 +29,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
               <OpenListImg onClick={() => {setUpDown(!updown)}}/>
             </Mobile>
             <NonTab onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = false; return JSON.parse(JSON.stringify(e));});}}>{typeStatus} <Green>3</Green>건</NonTab>
-{/*select box 부분이 pc와 모바일이 달라서 따로 뺐습니다.~*/}
+            {/*select box 부분이 pc와 모바일이 달라서 따로 뺐습니다.~*/}
             <PC>
               <ViewBtn>
                 <Link onClick={showModal}>
@@ -33,27 +38,27 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
                     select ?
                     <InMenu>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={0} className="data_link"></Link>
                         <InDiv>최신등록순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={1} className="data_link"></Link>
                         <InDiv>높은가격순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={2} className="data_link"></Link>
                         <InDiv>낮은가격순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={3} className="data_link"></Link>
                         <InDiv>넓은면적순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={4} className="data_link"></Link>
                         <InDiv>좁은면적순</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <Link onClick={(e) => onClickEls(e)} data-num={5} className="data_link"></Link>
                         <InDiv>가나다순</InDiv>
                       </Div>
                     </InMenu>
