@@ -13,7 +13,7 @@ import ArrowDown from '../../../../../img/member/arrow_down.png';
 import LiveUser from '../../../../../img/member/live_user.png';
 
 //지도 모달
-export default function CancleModal({ cancle, setCancle }) {
+export default function CancleModal(personnel , { cancle, setCancle }) {
 
   const [text,setText] = useState("");/*기본값*/
   const [active,setActive] = useState(false);

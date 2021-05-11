@@ -26,11 +26,15 @@ const BunyangListItem =[
     title:"충남내포신도시2차대방엘리움더센트럴",
     option:"충청남도 / 아파트 / 민간분양",
     address:"충청남도 홍성군 홍북읍 신경리",
-    desc1:"831세대",
-    desc2:"103㎡ ~ 114㎡",
-    desc3:"77㎡ ~ 85㎡",
-    desc4:"35,599 ~ 44,049 만원",
-    LiveCheckded : true
+    desc1:"831세대", //분양세대
+    desc2:"103㎡ ~ 114㎡", //분양면적
+    desc3:"77㎡ ~ 85㎡", //전용면적
+    desc4:"35,599 ~ 44,049 만원", //분양가격
+    LiveCheckded : true,
+    LikeCheckded : false
+    //모델하우스 주소
+    //중개보수
+    //Live 방송일시
   },
   {
     bunyang_id : 1,
@@ -44,7 +48,8 @@ const BunyangListItem =[
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
     desc4:"35,599 ~ 44,049 만원",
-    LiveCheckded : false
+    LiveCheckded : false,
+    LikeCheckded : true
   },
 ]
 
@@ -116,7 +121,7 @@ export default function BunyangList({updatePageIndex}){
                         </LiDesc>
                       </Link>
                       <LikeBtn>
-                        <Like type="checkbox" name="" id="Like1"></Like>
+                        <Like type="checkbox" name="" id="Like1" checked={value.LikeCheckded}></Like>
                         <Label for="Like1" className="check_label"></Label>
                       </LikeBtn>
                     </LiTop>
@@ -138,7 +143,7 @@ export default function BunyangList({updatePageIndex}){
                       </LiDesc>
                     </Link>
                     <LikeBtn>
-                      <Like type="checkbox" name="" id="Like1"></Like>
+                      <Like type="checkbox" name="" id="Like1" checked={value.LikeCheckded}></Like>
                       <Label for="Like1" className="check_label"></Label>
                     </LikeBtn>
                   </LiTop>

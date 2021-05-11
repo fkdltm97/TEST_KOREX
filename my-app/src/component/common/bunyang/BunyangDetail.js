@@ -61,11 +61,11 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
               </Swiper>
             </SwiperBennerWrap>
             {/*hastags*/}
-            <HashTag>
+            {/* <HashTag>
               <Tag>#hashtag</Tag>
               <Tag>#hashtag</Tag>
               <Tag>#hashtag</Tag>
-            </HashTag>
+            </HashTag> */}
             {/*홈페이지,예약등*/}
             <LeftButtons>
               <Button>

@@ -141,7 +141,7 @@ export default function ItemTabList({setFilter,value,type}) {
                       <Label for={"Like"+value.item_id} className="check_label"/>
                     </LikeBtn>
                   </LiTop>
-                  <LiBottom>
+                  {/* <LiBottom>
                     <Desc>
                       <DescTitle>분양세대</DescTitle>
                       <DescInfo>{value.danji}</DescInfo>
@@ -158,7 +158,7 @@ export default function ItemTabList({setFilter,value,type}) {
                       <DescTitle>분양가격</DescTitle>
                       <DescInfo>{value.price1} ~ {value.price2} 만원</DescInfo>
                     </Desc>
-                  </LiBottom>
+                  </LiBottom> */}
                 </Li>
               )}
             )

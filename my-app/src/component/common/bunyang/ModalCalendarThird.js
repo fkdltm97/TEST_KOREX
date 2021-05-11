@@ -45,43 +45,45 @@ const Add = () => {
   const PhoneInfo = [...UserPhone , phone];
 
   setUserList(list => {  list.push({name:name,phone:phone});  return [...list];});
-
+  
   setUsesrName(NameInfo);
   setUserPhone(PhoneInfo);
   setName("");
   setPhone('');
-  console.log(UserName);
-  console.log(UserPhone);
 };
 
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
+const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
-  //여기 두개가 핵심이에여
-  //모달 끄는 식
-  const offModal = ()=>{
-    let option = JSON.parse(JSON.stringify(modalOption));
-    option.show = false;
-    setModalOption(option);
-  }
+//여기 두개가 핵심이에여
+//모달 끄는 식
+const offModal = ()=>{
+  let option = JSON.parse(JSON.stringify(modalOption));
+  option.show = false;
+  setModalOption(option);
+}
 
-  //등록되었습니다 모달
-  const comfirmModal= () =>{
-    setModalOption({
-        show:true,
-        setShow:offModal,
-        title:"등록",
-        content:{type:"text",text:`등록되었습니다.`,component:""},
-        submit:{show:false , title:"" , event : ()=>{offModal(); }},
-        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-        confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
-        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);updatePageIndex(0)}}
-    });
-  }
+//등록되었습니다 모달
+const comfirmModal= () =>{
+  setModalOption({
+    show:true,
+    setShow:offModal,
+    title:"등록",
+    content:{type:"text",text:`등록되었습니다.`,component:""},
+    submit:{show:false , title:"" , event : ()=>{offModal(); }},
+    cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+    confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
+    confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();setCal(false);updatePageIndex(0)}}
+  });
+}
 
-  if(cal == false)
-    return null;
-    return (
-      <Container>
+const onRemove = item =>{
+  setUserList(userList.filter(user =>user.name !== item.name ))
+}
+
+if(cal == false)
+return null;
+return (
+  <Container>
         <Wraplive>
           <ModalClose>
             <Link
@@ -111,7 +113,7 @@ const Add = () => {
               <InputTitle>이름</InputTitle>
               <InputTxt
                 type="text"
-                name=""
+                name="username"
                 placeholder="이름을 입력하여주세요."
                 value={name}
                 onChange={nameChange}
@@ -121,10 +123,11 @@ const Add = () => {
                 <WrapInput>
                   <Input
                     type="tel"
-                    name=""
+                    name="userphoneNum"
                     placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요."
                     value={phone}
                     onChange={phoneChange}
+                    maxLength="11"
                   />
                   <Delete
                     src={Close}
@@ -137,7 +140,7 @@ const Add = () => {
               </WrapPhone>
             </InputInvite>
 
-            <AddBtn onClick={Add} />
+            <AddBtn type="button" onClick={Add} />
 
             <InviteList>
               {
@@ -146,7 +149,7 @@ const Add = () => {
                     <EaWrap>
                       <EaName>{item.name}</EaName>
                       <EaPhone>{item.phone}</EaPhone>
-                      <EaDelete src={Close}/>
+                      <EaDelete src={Close} onClick={(e)=>{onRemove(item)}}/>
                     </EaWrap>
                   );
                 })

@@ -34,12 +34,7 @@ export default function AddModal({ add, setAdd }) {
 
   const [SelectDate, setSelectDate] = useState(new Date());
 
-  const [Interval, setInterval] = useState(30); //간격 값 저장
-
-  const change = (e) => {
-    setInterval(e.target.value);
-  };
-
+  const [Interval, setInterval] = useState(10); //간격 값 저장
 
   if(add == false)
     return null;
@@ -70,7 +65,7 @@ export default function AddModal({ add, setAdd }) {
                 maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
               />
             </Time>
-            <Time>
+            {/* <Time>
               <DatePicker
                 className="date_time_mobile"
                 selected={startDate}
@@ -83,7 +78,7 @@ export default function AddModal({ add, setAdd }) {
                 minTime={setHours(setMinutes(new Date(), 0), 0)} //시작 시간 세팅
                 maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
               />
-            </Time>
+            </Time> */}
           </WrapTime>
         </WrapInputBox>
       </Container>
@@ -114,7 +109,7 @@ const WrapTime = styled.div`
 
 const Time = styled.div`
   position:relative;
-  width: 195px;
+  width: 100%;
   height: 43px;
   font-size: 15px;
   text-align: center;

@@ -39,7 +39,9 @@ export default function Live({addModal,editModal,cancleModal,comfirmModal,setAdd
       condition:"오늘",
       number:"1234567889",
       personnel:20,
-      type:"today"
+      type:"today",
+      activation : true, //활성화 상태..
+      disabled : false
     },
     {
       live_id :1,
@@ -47,7 +49,9 @@ export default function Live({addModal,editModal,cancleModal,comfirmModal,setAdd
       condition:"2일후",
       number:"1234567889",
       personnel:10,
-      type:"days"
+      type:"days",
+      activation : true,
+      disabled : false
     },
     {
       live_id :2,
@@ -55,7 +59,9 @@ export default function Live({addModal,editModal,cancleModal,comfirmModal,setAdd
       condition:"예약취소",
       number:"1234567889",
       personnel:50,
-      type:"cancel"
+      type:"cancel",
+      activation : false ,
+      disabled : true
     },
     {
       live_id :3,
@@ -63,7 +69,9 @@ export default function Live({addModal,editModal,cancleModal,comfirmModal,setAdd
       condition:"만료",
       number:"1234567889",
       personnel:55,
-      type:"end"
+      type:"end",
+      activation : false,
+      disabled : true
     }
 ]
 
