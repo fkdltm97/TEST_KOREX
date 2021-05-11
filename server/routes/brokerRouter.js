@@ -392,6 +392,39 @@ router.post('/brokerRequest_productconfirmupdate',async function(request,respons
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//의뢰온 매물에 대해서 의뢰수락할시에 처리.
+router.post('/brokerRequest_productstatusupdate',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+
+    const connection=await pool.getConnection(async conn=> conn);
+    
+    //try catch문 mysql 구문 실행구조.
+    try{
+
+       await connection.beginTransaction();
+      
+       var company_id=req_body.company_id;
+       var prd_identity_id=req_body.prd_identity_id;
+
+       var sql_query="update product set prd_exculsive_status='1', prd_status='거래준비' where prd_identity_id='"+prd_identity_id+"' and company_id='"+company_id+"'";
+       console.log('server sql query statment:',sql_query);
+
+        var [products_update_rows] = await connection.query(sql_query);
+        connection.commit();
+        connection.release();
+
+        return response.json({success:true, message:'product server query success!!', result_data: products_update_rows});      
+        
+    }catch(err){
+        console.log('server query error',err);
+        connection.rollback();
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
 //중개사가 등록한 매물에 대해서 투어예약셋팅설정 tour,tourdetail등 테이블처리.
 router.post('/productToursettingRegister',async function(request,response){
     console.log('=============>>>request.body:',request.body);

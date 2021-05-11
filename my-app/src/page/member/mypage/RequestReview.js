@@ -59,6 +59,8 @@ export default function RequestReviews({match}) {
   const [accept, setAccept] = useState(false);
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
   
+  const brokerRequest_productinfo=useSelector(data => data.brokerRequest_product);
+
   useEffect( async () => {
     let body_info={
        prd_identity_ids : prd_identity_id
@@ -136,7 +138,20 @@ export default function RequestReviews({match}) {
             title:"의뢰접수 수락",
             content:{type:"text",
             text:`의뢰인과 사전에 통화하여\n접수내용을 충분히 확인하시고\n의뢰 수락을 하시는 것이 좋습니다.\n의뢰를 수락하시겠습니까?`,component:""},
-            submit:{show:true , title:"확인" , link:"/RequestReviewEdit", event : ()=>{offModal(); }},
+            submit:{show:true , title:"확인" , link:"/RequestReviewEdit", event : async()=>{
+              offModal(); 
+              let body_info={
+                prd_identity_id : brokerRequest_productinfo.prdidentityid,
+                company_id : brokerRequest_productinfo.companyid
+              };
+              console.log('의뢰 수락 생성된 매물 의뢰매물의 상태값 검토대기->거래준비로 상태값만 변경:',JSON.stringify(body_info));
+              let res=await serverController.connectFetchController('/api/broker/brokerRequest_productstatusupdate','POST',JSON.stringify(body_info));
+              console.log('res result:',res);
+
+              if(res){
+
+              }
+            }},
             cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"확인" , event : ()=>{offModal();}}
         });
