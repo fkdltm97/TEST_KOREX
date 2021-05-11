@@ -9,16 +9,15 @@ import markerImg from '../../../img/map/sideMapMarker.png';
 
 const { kakao } = window;
 
-const KakaoMapSide = (props) => {
+const KakaoMapSide = ({cutomImg, centerLat, centerLng, markerLat, markerLng}) => {
 
   const [kakaoMap, setKakaoMap] = useState(null);
   const container = useRef();
-  const pivot = {lat:37.496463, lng:127.029358}
 
   // Map
   useEffect(() => {
 
-    const center = new kakao.maps.LatLng(pivot.lat, pivot.lng);
+    const center = new kakao.maps.LatLng(centerLat, centerLng);
     const options = {
         center,
         level: 3
@@ -27,9 +26,9 @@ const KakaoMapSide = (props) => {
 
     var imageSize = new kakao.maps.Size(35, 44),
     imageOption = {offset: new kakao.maps.Point(4, 4)};
-    var markerImage = new kakao.maps.MarkerImage(markerImg, imageSize, imageOption);
+    var markerImage = new kakao.maps.MarkerImage(cutomImg?cutomImg:markerImg, imageSize, imageOption);
 
-    var markerPosition  = new kakao.maps.LatLng(37.496463, 127.029358); 
+    var markerPosition  = new kakao.maps.LatLng(markerLat, markerLng); 
     var marker = new kakao.maps.Marker({
         position: markerPosition,
         image: markerImage,

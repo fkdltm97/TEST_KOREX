@@ -61,68 +61,45 @@ export default function BunyangList({updatePageIndex}){
 
 
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-    const updateModal = () =>{
-      //여기가 모달 키는 거에엽
-      setModalOption({
-          show:true,
-          setShow:offModal,
-          title:"필터",
-          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
-          submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
-          cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
-      });
-    }
+  const updateModal = () =>{
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"필터",
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+        submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+        cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+    });
+  }
 
     return (
       <Container>
-{/*bunyangtop*/}
-      <ModalTop>
-        <Title>분양</Title>
-      </ModalTop>
-{/*bunyang select*/}
-      <ModalSelect>
-        <Search>
-          <SearchInput type="text" placeholder="검색어를 입력하여주세요."/>
-          <SearchIcon type="button"/>
-        </Search>
-        <SortRecent>
-          <RecentList>
-            <Link onClick={() => {updateModal()}}>
-              <Span><RecentImg src={IconRecent}/></Span>
-            </Link>
-          </RecentList>
-        </SortRecent>
-      </ModalSelect>
-{/*bunyang List*/}
+        {/*bunyangtop*/}
+        <ModalTop>
+          <Title>분양</Title>
+        </ModalTop>
+        {/*bunyang select*/}
+        <ModalSelect>
+          <Search>
+            <SearchInput type="text" placeholder="검색어를 입력하여주세요."/>
+            <SearchIcon type="button"/>
+          </Search>
+          <SortRecent>
+            <RecentList>
+              <Link onClick={() => {updateModal()}}>
+                <Span><RecentImg src={IconRecent}/></Span>
+              </Link>
+            </RecentList>
+          </SortRecent>
+        </ModalSelect>
+        {/*bunyang List*/}
         <ListTop>총 <Green>{BunyangListItem.length}</Green>건</ListTop>
         <WrapList>
           <ListUl>
           {
             BunyangListItem.map((value) => {
-              if(value.LiveCheckded === true){
-                return(
-                  <Li>
-                    <LiTop className="clearfix">
-                      <Link onClick={() => {updatePageIndex(1)}}>
-                        <LiImg src={value.src}/>
-                        <LiDesc>
-                          <LiTitle>{value.title}
-                          <Number>{value.number}</Number> 
-                            <LiveView>Live 방송 예고</LiveView>
-                          </LiTitle>
-                          <Option>{value.option}</Option>
-                          <Address>{value.address}</Address>
-                        </LiDesc>
-                      </Link>
-                      <LikeBtn>
-                        <Like type="checkbox" name="" id="Like1"></Like>
-                        <Label for="Like1" className="check_label"></Label>
-                      </LikeBtn>
-                    </LiTop>
-                  </Li>
-                )
-              }
               return(
                 <Li>
                   <LiTop className="clearfix">
@@ -130,8 +107,8 @@ export default function BunyangList({updatePageIndex}){
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <LiTitle>{value.title}
-                        <Number>{value.number}</Number> 
-                          {/* <LiveView>Live 방송 예고</LiveView> */}
+                        <Number>{value.number}</Number>
+                          {value.LiveCheckded&&<LiveView>Live 방송 예고</LiveView>}
                         </LiTitle>
                         <Option>{value.option}</Option>
                         <Address>{value.address}</Address>

@@ -10,6 +10,9 @@ import styled from "styled-components"
 import Change from '../../../../../img/member/change.png';
 import Marker from '../../../../../img/member/marker.png';
 
+// map
+import KakaoMapSide from '../../../../map/map/KakaoMapSide';
+
 //지도 모달
 export default function ModalMapReserve({ map, setMap }) {
   if(map == false)
@@ -18,19 +21,16 @@ export default function ModalMapReserve({ map, setMap }) {
         <Container>
           <WrapModalMap>
               <ModalMapAddress>
-                <AddressTxt>서울시 구로구 신도림동 131-13 103동</AddressTxt>
+                <AddressTxt>서울시 구로구 신도림동 131-13 103동22</AddressTxt>
                 <ChangeAddress>
-                  <Link>
+                  <div className="linkToDiv">
                     <ChangeImg src={Change}/>
                     <ChangeTxt>도로명</ChangeTxt>
-                  </Link>
+                  </div>
                 </ChangeAddress>
               </ModalMapAddress>
               <ShowMap>
-                <InMapBox></InMapBox>
-                <MapMarker>
-                  <MapMarkerImg src={Marker}/>
-                </MapMarker>
+                <KakaoMapSide cutomImg={Marker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
               </ShowMap>
           </WrapModalMap>
         </Container>

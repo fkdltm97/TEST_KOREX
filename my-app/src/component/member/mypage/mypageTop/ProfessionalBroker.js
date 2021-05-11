@@ -15,10 +15,60 @@ import OrangeStar from '../../../../img/member/star_orange.png';
 import GreenStar from '../../../../img/member/star_green.png';
 import WhiteStar from '../../../../img/member/star_white.png';
 
+//components
+import CommonFlexBox from "./commonFlexBox";
+
 export default function Professional() {
+
+  // star(아이콘이미지, 제목, 별수, 오랜지 여부)
+  const star = (icon, title, length, isOrange) => {
+    let arr = [];
+    let whiteLength = 0;
+    let isWhite = false;
+    let whiteArr = [];
+    for(let i = 0 ; i < length ; i++){arr.push(i);}
+    if(5 - length !== 0){
+      whiteLength = 5 - length;
+      isWhite = true;
+      for(let i = 0 ; i < whiteLength ; i++){whiteArr.push(i);}
+    }
+    return(
+      <FlexBox>
+        <Left>
+          <Icon src={icon} alt="icon"/>
+          <SubTitle>{title}</SubTitle>
+        </Left>
+        <RightStar>
+          {
+              arr.map((item, index) => {
+                return(
+                  <Star key={index} src={isOrange ? OrangeStar : GreenStar}/>
+                )
+              })
+          }
+          {
+            isWhite&&
+            whiteArr.map((item, index) => {
+              return(
+                <Star key={index} src={WhiteStar}/>
+              )
+            })
+          }
+        </RightStar>
+      </FlexBox>
+    )
+  }
 
     return (
         <Container>
+          {/* -- 수정코드입니다. */}
+          <CommonFlexBox icon={Louder} subTitle={"중개의뢰"} price={2} jeonse={0} monthly={0} />
+          <CommonFlexBox icon={Checking} subTitle={"거래완료"} price={1} jeonse={0} monthly={0} />
+          {star(Like, "전문성",4, true)}
+          {star(Smile, "중개매너", 5, false)}
+
+          {/* -- 원래 코드입니다. */}
+          {/*
             <FlexBox>
               <Left>
                 <Icon src={Louder} alt="icon"/>
@@ -31,47 +81,49 @@ export default function Professional() {
                 <Part/>
                 <Txt>월세0</Txt>
               </Right>
-              </FlexBox>
-              <FlexBox>
-                <Left>
-                  <Icon src={Checking} alt="icon"/>
-                  <SubTitle>거래완료</SubTitle>
-                </Left>
-                <Right>
-                  <TxtHave>매매1</TxtHave>
-                  <Part/>
-                  <Txt>전세0</Txt>
-                  <Part/>
-                  <Txt>월세0</Txt>
-                </Right>
             </FlexBox>
-              <FlexBox>
-                <Left>
-                  <Icon src={Like} alt="icon"/>
-                  <SubTitle>전문성</SubTitle>
-                </Left>
-                <RightStar>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                </RightStar>
-                </FlexBox>
-                <FlexBox>
-                  <Left>
-                    <Icon src={Smile} alt="icon"/>
-                    <SubTitle>중개매너</SubTitle>
-                  </Left>
-                  <RightStar>
-                    <Star src={GreenStar}/>
-                    <Star src={GreenStar}/>
-                    <Star src={GreenStar}/>
-                    <Star src={GreenStar}/>
-                    <Star src={WhiteStar}/>
-                  </RightStar>
-              </FlexBox>
-          </Container>
+            <FlexBox>
+              <Left>
+                <Icon src={Checking} alt="icon"/>
+                <SubTitle>거래완료</SubTitle>
+              </Left>
+              <Right>
+                <TxtHave>매매1</TxtHave>
+                <Part/>
+                <Txt>전세0</Txt>
+                <Part/>
+                <Txt>월세0</Txt>
+              </Right>
+            </FlexBox>
+            <FlexBox>
+              <Left>
+                <Icon src={Like} alt="icon"/>
+                <SubTitle>전문성</SubTitle>
+              </Left>
+              <RightStar>
+                <Star src={OrangeStar}/>
+                <Star src={OrangeStar}/>
+                <Star src={OrangeStar}/>
+                <Star src={OrangeStar}/>
+                <Star src={OrangeStar}/>
+              </RightStar>
+            </FlexBox>
+
+            <FlexBox>
+              <Left>
+                <Icon src={Smile} alt="icon"/>
+                <SubTitle>중개매너</SubTitle>
+              </Left>
+              <RightStar>
+                <Star src={GreenStar}/>
+                <Star src={GreenStar}/>
+                <Star src={GreenStar}/>
+                <Star src={GreenStar}/>
+                <Star src={WhiteStar}/>
+              </RightStar>
+            </FlexBox>
+          */}
+        </Container>
   );
 }
 
