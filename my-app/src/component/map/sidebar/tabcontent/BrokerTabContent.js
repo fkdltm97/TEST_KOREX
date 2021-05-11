@@ -17,9 +17,17 @@ import { Mobile, PC } from "../../../../MediaQuery";
 // redux
 import { useSelector } from 'react-redux';
 
-export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
+export default function ItemTabContent({updatePageIndex,setHistoryInfo, containerRef}) {
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
+
+  const onClickEl = () => {
+    if(containerRef){
+      containerRef.current.scrollTop=0;
+    }
+    updatePageIndex(2);
+    setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});
+  }
 
     return (
       <Container>
@@ -27,7 +35,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
           productRedux.probroker.map((value) => {
             return(
               <TabContent>
-                <Link onClick={() => { updatePageIndex(2); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
+                <Link onClick={() => onClickEl() } className="data_link"></Link>
                   <TopBox>
                     <Tag>{value.tag1}</Tag>
                     <Tag>{value.tag2}</Tag>
@@ -52,7 +60,6 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo}) {
                     </RightContent>
                   </BottomBox>
                 </TabContent>
-
             )
           })
         }

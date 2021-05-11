@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 import Slider from "react-slick";
 
@@ -44,6 +44,9 @@ export default function MapFilter({status}) {
   const filterWrap = document.querySelector("#filterWrap");
   let preventBubbling = false;
 
+  const filterListRef = useRef();
+  const downArrowRef = useRef();
+
   const padding=()=>{
     if(open == true) {
       return "calc(100vw*(6/428)) calc(100vw*(10/428)) calc(100vw*(80/428))"
@@ -53,14 +56,12 @@ export default function MapFilter({status}) {
   }
 
   useEffect(() => {
-    const filterList = document.querySelector(".filterList");
-    const downArrow = document.querySelector(".downArrow");
     if(open){
-      filterList.classList.remove("hidden");
-      downArrow.classList.add("hidden");
+      filterListRef.current.classList.remove("hidden");
+      downArrowRef.current.classList.add("hidden");
     }else{
-      filterList.classList.add("hidden");
-      downArrow.classList.remove("hidden");
+      filterListRef.current.classList.add("hidden");
+      downArrowRef.current.classList.remove("hidden");
     }
   }, [open])
 
@@ -75,11 +76,11 @@ export default function MapFilter({status}) {
   }
 
   // 매매
-  const priceRangeText = () => {
+  const priceRangeText = () => 
+  {
+    if(uiData.prd_sel_type[0] == 0){return;}
     const data = mapFilterRedux.filterArr.priceRange;
-    if(data=="전체"){
-      return;
-    }
+    if(data=="전체"){return;}
     return(
       <SlickSlide className="slide__one"  onClick={()=>scrollToClick("priceWrap")}>
         <Link>
@@ -130,10 +131,9 @@ export default function MapFilter({status}) {
 
   // 보증금(전세금)
   const jeonseRangeText = () => {
+    if(uiData.prd_sel_type[1] == 0 && uiData.prd_sel_type[2] == 0 ){return;}
     const data = mapFilterRedux.filterArr.jeonseRange;
-    if(data=="전체"){
-      return;
-    }
+    if(data=="전체"){return;}
     return(
       <SlickSlide className="slide__one" onClick={()=>scrollToClick("jeonseWrap")} >
         <Link>
@@ -148,10 +148,9 @@ export default function MapFilter({status}) {
 
   // 월세 
   const monthlyRangeText = () => {
+    if(uiData.prd_sel_type[2] == 0){return;}
     const data = mapFilterRedux.filterArr.monthlyRange;
-    if(data=="전체"){
-      return;
-    }
+    if(data=="전체"){return;}
     return(
       <SlickSlide className="slide__one" onClick={()=>scrollToClick("monthlyWrap")}>
         <Link>
@@ -211,13 +210,13 @@ export default function MapFilter({status}) {
   }
 
   /// 필터 생성
-  const filterText = (bool, text, dataType) => {
+  const filterText = (bool, text, dataType, scroll) => {
     if(!bool){
       return;
-    }
+  }
 
     return(
-      <SlickSlide className="slide__one" onClick={()=>scrollToClick("danjiWrap")}>
+      <SlickSlide className="slide__one" className="changeBtn" onClick={()=>scrollToClick(scroll)}>
         <Link>
           <FliterEa>
             {text}
@@ -237,14 +236,14 @@ export default function MapFilter({status}) {
     const data = mapFilterRedux.filterArr;
     const text = e.target.dataset.text;
     const type = e.target.dataset.type;
-    if(type == "option"){
-      const option = document.querySelectorAll(`input[name='option']`);
-      for(let i = 0 ; i < option.length ; i++){
-        option[i].checked = false;
-      }
-      data.life_facilites = [];
-    }
-    else if(type == "use"){
+    // if(type == "option"){
+    //   const option = document.querySelectorAll(`input[name='option']`);
+    //   for(let i = 0 ; i < option.length ; i++){
+    //     option[i].checked = false;
+    //   }
+    //   data.life_facilites = [];
+    // }
+    if(type == "use"){
       data.use = "전체";
       uiData.use = 0;
     }
@@ -349,35 +348,37 @@ export default function MapFilter({status}) {
             {manaRangeText()}
             {areaRangeText()}
 
-            {filterText(Number(uiData.floor), mapFilterRedux.filterArr.floor, "floor")}
-            {filterText(uiData.manaStatus, "관리비없음", "manaBtn")}
+            {filterText(Number(uiData.floor), mapFilterRedux.filterArr.floor, "floor", "floorWrap")}
+            {filterText(uiData.manaStatus, "관리비없음", "manaBtn", "manaWrap")}
             
 
             {/* 아파트 */}
-            {filterText(Number(uiData.roomApart), mapFilterRedux.filterArr.roomApart, "roomApart")}
-            {filterText(uiData.bath, mapFilterRedux.filterArr.bath, "bath")}
-            {filterText(Number(uiData.danji), mapFilterRedux.filterArr.danji, "danji")}
+            {filterText(Number(uiData.roomApart), mapFilterRedux.filterArr.roomApart, "roomApart", "roomApartWrap")}
+            {filterText(uiData.bath, mapFilterRedux.filterArr.bath, "bath", "toiletWrap")}
 
             {/* 오피스텔 */}
-            {filterText(uiData.purpose, mapFilterRedux.filterArr.purpose, "purpose")}
+            {filterText(uiData.purpose, mapFilterRedux.filterArr.purpose, "purpose", "purposeWrap")}
             {roomText()}
-            {filterText(uiData.double, mapFilterRedux.filterArr.double, "double")}
-            {filterText(uiData.parkOfficetel, "주차가능", "parkBtn")}
-            {filterText(uiData.pet, mapFilterRedux.filterArr.pet, "pet")}
+            {filterText(uiData.double, mapFilterRedux.filterArr.double, "double", "doubleWrap")}
+            {filterText(uiData.parkOfficetel, "주차가능", "parkBtn", "parkWrap")}
+            {filterText(uiData.pet, mapFilterRedux.filterArr.pet, "pet", "petWrap")}
 
 
             {/* 상가/사무실 */}
-            {filterText(uiData.parkStore, "주차가능", "parkBtnStore")}
-            {filterText(uiData.toilet, "전용화장실", "toiletBtn")}
+            {filterText(uiData.parkStore, "주차가능", "parkBtnStore", "parkStoreWrap")}
+            {filterText(uiData.toilet, "전용화장실", "toiletBtn", "toiletWrap")}
 
             {/* 공통 */}
             {/* {optionText()} */}
-            {filterText(uiData.use, mapFilterRedux.filterArr.use, "use")}
+            {filterText(uiData.use, mapFilterRedux.filterArr.use, "use", "useWrap")}
+            
+            {/* 아파트 */}
+            {filterText(Number(uiData.danji), mapFilterRedux.filterArr.danji, "danji", "danjiWrap")}
           </Slider>
 
           </SliderWrap>
            
-          <FilterList className={["filterList", "hidden"]}>
+          <FilterList ref={filterListRef} className={["filterList", "hidden"]}>
               <FilterTopButton/>
               {/*<ApartFilter/>*/}
               {/* <OfficetelFilter/> */}
@@ -385,7 +386,7 @@ export default function MapFilter({status}) {
               <FilterCloseAndReset setOpen={setOpen}/>
             </FilterList>
         
-          <FilterDownArrow className="downArrow" onClick={() => {setOpen(true)}}>
+          <FilterDownArrow ref={downArrowRef} className="downArrow" onClick={() => {setOpen(true)}}>
                 <Link>
                   <ImgDiv>
                     <DownImg src={FilterDown}/>

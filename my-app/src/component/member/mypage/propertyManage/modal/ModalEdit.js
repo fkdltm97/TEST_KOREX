@@ -8,8 +8,6 @@ import styled from "styled-components"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
-
 //img
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
@@ -17,38 +15,176 @@ import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
+//server process
+import serverController from '../../../../../server/serverController';
 
-export default function ModalMapReserve({ reserve, setReserve }) {
+export default function ModalMapReserve({r_tr_id,sendInfo_local,sendInfo_local_starttime,sendInfo_local_endtime,except_datelist,result_usedatalist,reserve, setReserve }) {
   //시간 셀렉트박스
   const [timeSelect,setTimeSelect] = useState(false);
+  const [selectDay,setSelectDay] = useState(null);
+  const [timeList,setTimeList] = useState([]);
+  const [tourid,setTourid] = useState('');
+  const [tourtype,setTourtype] = useState('');
+  const [selecttdid,setSelecttdid] = useState('');//선택한 tdid값 시간대 선택시 설정되게한다.
+
   const showSelect = ()=>{
     setTimeSelect(!timeSelect);
   }
   const [activeIndex,setActiveIndex] = useState(0);  //slick slider setting
 
-  const [startDate, setStartDate] = useState(
+  const [startTime, setStartTime] = useState(
+    setHours(setMinutes(new Date(), 30), 16)
+  );
+  const [endTime, setEndTime] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
 
   const [Interval, setInterval] = useState(30); //간격 값 저장
 
-
   var settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
   };
+
+  console.log('===>>>modalEdit요소 물건투어예약수정 모달창 실행::(r_tr_id)',except_datelist,result_usedatalist,r_tr_id);
+  
+  //r_tr_id에 대한 신청정보 어떤 tour_id,td_id선택했었는지 여부 
+  const [serverload_timelist,setServerload_timelist]= useState([]);
+  const [serverload_tr_info,setServerload_tr_info]=useState({});
+
+  useEffect( async () => {
+    let body_info={
+      tr_id_val : r_tr_id
+    };
+    let res=await serverController.connectFetchController('/api/broker/brokerProduct_reservationRegisterview','POST',JSON.stringify(body_info));
+
+    if(res){
+      console.log('server request resultss:',res);
+
+      var result_data=res.result_data;
+      var td_detail_list=[];
+
+      var tr_info={};
+      
+      for(let r=0; r<result_data.length; r++){
+        tr_info['r_td_id']=result_data[r].r_td_id;//해당 tr_Id신청내역이 어떤 td_id 시간대를 택한건지, tour_id어떤 날짜에 해당하는 tour_id를 택한건지 활성화한다.selected,checked한다.
+        tr_info['r_tour_id']=result_data[r].r_tour_id;
+        tr_info['reserv_start_time'] = result_data[r].reserv_start_time;
+        tr_info['reserv_end_time'] = result_data[r].reserv_end_time;
+        tr_info['r_tour_start_date']=result_data[r].t_tour_start_date;
+        tr_info['r_tour_type'] = result_data[r].t_tour_type;
+
+        td_detail_list[r] = {};
+        td_detail_list[r]['td_id']=result_data[r].td_td_id;
+        td_detail_list[r]['td_text']=result_data[r].td_td_text;//어떤 디테일리스트 어떤tdid,td_text리스트인지 구한다.
+
+        if(result_data[r].td_td_text =='오전1T'){
+          td_detail_list[r]['td_starttime']='9:00am';
+          td_detail_list[r]['td_endtime']='12:00pm';
+        }else if(result_data[r].td_td_text == '오후1T'){
+          td_detail_list[r]['td_starttime']='12:00pm';
+          td_detail_list[r]['td_endtime']='15:00pm';
+        }else if(result_data[r].td_td_text == '오후2T'){
+          td_detail_list[r]['td_starttime']='15:00pm';
+          td_detail_list[r]['td_endtime']='18:00pm';
+        }
+        
+      }
+      setServerload_tr_info(tr_info);
+      setServerload_timelist(td_detail_list);
+
+      console.log('-->>>page load set reserv start,end times::',tr_info,tr_info['reserv_start_time'],tr_info['reserv_end_time']);
+      setStartTime(new Date(tr_info['reserv_start_time']));
+      setEndTime(new Date(tr_info['reserv_end_time']));
+
+      setSelectDay(tr_info['r_tour_start_date']); setTourid(tr_info['r_tour_id']); setTourtype(tr_info['r_tour_type']); setSelecttdid(tr_info['r_td_id']);
+      //초기값 state지정하고, seninfo_local정보 저장해놓는다.
+      sendInfo_local(tr_info['r_tour_start_date'],tr_info['r_td_id'],tr_info['r_tour_id'],tr_info['r_tour_type'],tr_info['r_td_id'],r_tr_id);
+      sendInfo_local_starttime(tr_info['reserv_start_time']); sendInfo_local_endtime(tr_info['reserv_end_time']);//조정 시작~종료시간대 serverload값 지정한다.
+    }
+
+  },[]);
+
+  const change_dateEvent = async (date,setTimes,tour_id,tour_type,Selecttdidval) => {
+    console.log('선택날짜 선택index값:',date,setTimes,activeIndex,tour_id,tour_type);
+
+    setSelectDay(date);
+    setTourid(tour_id);
+    setTourtype(tour_type);
+
+    let body_info={
+      tour_id_val : tour_id
+    };
+    let res=await serverController.connectFetchController('/api/broker/brokerProduct_tourid_tourdetailList','POST',JSON.stringify(body_info));
+    console.log('server request result:',res);
+
+    var tdDetail_list=[];
+    for(var ss=0; ss<res['result_data'].length; ss++){
+      let result_data_item=res['result_data'][ss];
+      tdDetail_list[ss] ={};
+      tdDetail_list[ss]['td_text'] = result_data_item['td_text'];
+      
+      var tdDetail_starttime_val; var tdDetail_endtime_val;
+      if(tdDetail_list[ss]['td_text'] == '오전 1T' || tdDetail_list[ss]['td_text']=='오전1T'){
+        tdDetail_starttime_val = '9:00am';
+        tdDetail_endtime_val = '12:00pm';
+      }else if(tdDetail_list[ss]['td_text'] == '오후 1T' || tdDetail_list[ss]['td_text'] == '오후1T'){
+        tdDetail_starttime_val = '12:00pm';
+        tdDetail_endtime_val = '15:00pm';
+      }else if(tdDetail_list[ss]['td_text'] == '오후 2T' || tdDetail_list[ss]['td_text'] == '오후2T'){
+        tdDetail_starttime_val = '15:00pm';
+        tdDetail_endtime_val = '18:00pm';
+      }
+      tdDetail_list[ss]['tour_id'] = result_data_item['tour_id'];
+      tdDetail_list[ss]['td_id'] = result_data_item['td_id'];//몇번 timeDetail인지.
+      tdDetail_list[ss]['td_starttime'] = tdDetail_starttime_val;
+      tdDetail_list[ss]['td_endtime'] = tdDetail_endtime_val;
+
+      setTimes = result_data_item['td_id'];//해당 선택한날짜에 관련된tdid디테일시간대들 값중 아무거나로 해서 tdid임의지정해서 저장처리한다.딱히 그중에서 어떤걸 택하고 한것은 아니기에 임의의 마지막것 하나로 한다.
+      Selecttdidval = result_data_item['td_id'];
+    }
+    console.log('==>>>>tdDetail_list:',tdDetail_list);
+    setServerload_timelist(tdDetail_list); //초기 불러온 정보가 있고 임의 tr에 선택된 tour_id,td_id가 있고, 그 tour_id에 있는 tdDetaillist가 불려와져있다.그중에서 td_id에 해당하는 것이 selected,checekd되어있게 한다.  
+
+    console.log('==>>>dateChange날짜 변경 이벤트 발생:',date,setTimes,tour_id,tour_type,Selecttdidval,r_tr_id);
+    sendInfo_local(date,setTimes,tour_id,tour_type,Selecttdidval,r_tr_id);//시간대 선택하여 state설정되어있는 td_id값이 있다면 보내고 없다면 ''이 갈것임. 초기값은 서버로드 값으로 무조건 처리해준다.
+  };
+
   if(reserve == false)
     return null;
     return (
         <Container>
           <WrapModalMap>
               <WrapTourDate>
-                <TourTitle>투어일시</TourTitle>
+                <TourTitle>투어일시 r_tr_id:{r_tr_id}</TourTitle>
                   <Slider {...settings} className="about">
-                    <SlickSlide className="slide__one">
+                    {
+                      result_usedatalist.map((value,index) => {
+                        //console.log('==>>>>serverload_tr_info view:',serverload_tr_info);
+                        if(serverload_tr_info['r_tour_id']==value['tour_id']){
+                          //console.log('서버로드 tr_info 선택 날짜 tour_id날짜값:',serverload_tr_info['r_tour_id'],value['tour_id']);
+                        }
+                        if(!value['isexcepted']){
+                          return(
+                            <SlickSlide className='slide__one'>
+                              <Link>
+                                <WrapDateItem>
+                                  <DateItem serverload_active={serverload_tr_info['r_tour_id']==value['tour_id']} active={activeIndex == index} onClick={() => {change_dateEvent(value['date'],selecttdid,value['tour_id'],value['tour_type'],selecttdid);
+                                  setActiveIndex(index);}}>
+                                    <Day>{value['date_yoil']}({value['tour_type']=='1'?'일반':'특별'})</Day>
+                                    <DateDay>{value['date_day']}</DateDay>
+                                  </DateItem>
+                                </WrapDateItem>
+                              </Link>
+                            </SlickSlide>
+                          )
+                        }
+                      })
+                    }
+                    {/*<SlickSlide className="slide__one">
                       <Link>
                         <WrapDateItem>
                           <DateItem active={activeIndex == 0} onClick={()=>{setActiveIndex(0)}}>
@@ -108,15 +244,30 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                         </WrapDateItem>
                       </Link>
                     </SlickSlide>
+                    */}
                   </Slider>
                 </WrapTourDate>
                 <FilterBox>
-                  <FilterSelectSort>
+                  <FilterSelectSort onChange={(e)=>{
+                    console.log('==>>>시간대 선택변화 중요 데이터 지정여부>>>');
+                    console.log('>>>selecdtaday(선택날짜):',selectDay);
+                    console.log('>>>timelist(선택시간대들):',serverload_timelist);
+                    console.log('>>>tourid,tourtype:',tourid,tourtype);
+                    console.log('>>>선택시간대(td_id):',e.target.value);
+
+                    setSelecttdid(e.target.value);//선택tdid값 지정한다. 
+
+                    sendInfo_local(selectDay,e.target.value,tourid,tourtype,e.target.value,r_tr_id);
+                    setTimeSelect(e.target.value);
+                  }}>
                     <FilterSelectSortList>
                       <InOption disabled>시간을 선택해주세요.</InOption>
-                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
-                      <InOption>오전 1T(09:00 ~ 12:00)</InOption>
+                      {
+                        serverload_timelist.map((value)=> {
+                          console.log('serverload_timelist value:',value);
+                          return <InOption value={value['td_id']} selected={serverload_tr_info['r_td_id']==value['td_id']}>{value['td_text']}({value['td_starttime']}~{value['td_endtime']})</InOption>
+                        })
+                      }
                     </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>
@@ -137,8 +288,8 @@ export default function ModalMapReserve({ reserve, setReserve }) {
 
               <Time>
                   <DatePicker className="date_time"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    selected={startTime}
+                    onChange={(time) => { setStartTime(time); console.log('시작시간대 설정 변경:',time); sendInfo_local_starttime(time);}}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={Interval} //간격 설정
@@ -150,8 +301,8 @@ export default function ModalMapReserve({ reserve, setReserve }) {
              </Time>
              <Time>
                   <DatePicker className="date_time"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    selected={endTime}
+                    onChange={(time) => { setEndTime(time); console.log('종료시간대 설정 변경:',time); sendInfo_local_endtime(time);}}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={Interval} //간격 설정
@@ -161,8 +312,6 @@ export default function ModalMapReserve({ reserve, setReserve }) {
                     maxTime={setHours(setMinutes(new Date(), 0), 23)} // 종료 시간 세팅
                   />
               </Time> 
-
-
                   </FilterSelectSort>
                 </FilterBox>
           </WrapModalMap>
@@ -259,6 +408,7 @@ const DateItem = styled.div`
   text-align:center;
   padding:10px 0;
   border:${({active}) => active ? "1px solid #707070" : "1px solid #e4e4e4"};
+  background-color: ${({serverload_active}) => serverload_active ? '#dfdfdf' : 'transparent'};
   @media ${(props) => props.theme.modal} {
     width:calc(100vw*(53/428));
     height:calc(100vw*(53/428));

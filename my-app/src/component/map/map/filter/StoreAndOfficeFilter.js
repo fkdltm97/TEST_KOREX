@@ -268,8 +268,6 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
-
-
     // 검색 타입 아파트/오피스텔/상가, 사무실
     const filterType = () => {
       if(status == "apart"){ 
@@ -291,7 +289,6 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     }, [])
 
 
-
     return (
         <Container>
           <WrapApart>
@@ -309,7 +306,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                       min={minPrice}
                       max={maxPrice}
                       values={uiData.priceRangeValue}
-                      onChange={(e) => {uiData.priceRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
+                      onChange={(e) => {uiData.priceRangeValue=e.values; MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
                       snapPoints={snapArr}
                     />
@@ -391,7 +388,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className="adminSwitch" type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
+                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>

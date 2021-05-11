@@ -34,119 +34,103 @@ import BrokerTabContent from "./tabcontent/BrokerTabContent";
 import SideBarBrokerDetailCont from "./SideBarBrokerDetailCont";
 import BrokerSorting from "./BrokerSorting";
 import ItemTabContent from "./tabcontent/ItemTabContent";
+import BrokerDetail from '../commonDetail/brokerDetail';
 
 //swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
+// redux
+import { MapProductEls } from '../../../store/actionCreators';
+import { useSelector } from 'react-redux';
+
 SwiperCore.use([Navigation, Pagination]);
 
-const ItemListItem =[
-{
-  item_id : 0,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트파트파트파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 1,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 2,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 3,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 4,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 5,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-},
-{
-  item_id : 6,
-  path:"/",
-  startDate:"20.00.00",
-  endDate: "20.00.00",
-  kind:"아파트",
-  detail:"자이 109동",
-  price:"전세 12억 5,000",
-  floor:"층수",
-  Area:"공급면적",
-  expenses:"관리비",
-  desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-}
+
+const ItemListItem = [
+      {
+        isExc:true,
+        item_id : 0,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트파트파트파트",
+        detail:"자이 109동",
+        type:"전세",
+        price:"12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        isExc:false,
+        item_id : 1,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        type:"전세",
+        price:"12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        isExc:false,
+        item_id : 2,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        type:"전세",
+        price:"12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
 ]
 
 
-export default function SideItemDetail({historyInfo,updatePageIndex,setHistoryInfo}) {
 
-    return (
-        <Container>
-          <SideSubTitle title={"럭키 공인중개사"} updatePageIndex={updatePageIndex} historyInfo={historyInfo}/>
-          <SideBarBrokerDetailCont setHistoryInfo={setHistoryInfo}/>
-          <BrokerSorting/>
-          <WrapItemCont>
-            <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} index={2}/>
-          </WrapItemCont>
-        </Container>
+export default function SideItemDetail({historyInfo,updatePageIndex,setHistoryInfo}) {
+  //서버통신하여 받아온 정보  
+  //productRedux={} 안에 넣기
+  const [brokerName, setBrokerName] = useState("");
+  const [broker, setBroker] = useState({});
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
+
+  useEffect(() => {
+    MapProductEls.updateBrokerProduct({ brokerProduct : ItemListItem });
+    setBrokerName("럭키 공인중개사")
+    setBroker({
+      tag_1:"아파트·현대아이리스",
+      tag_2:"상가",
+      tag_3:"사무실",
+      name:"홍길동",
+      address:"강남구 논현동 104-5",
+      trade:2,
+      jeonse:7,
+      monthly:9,
+      profile:Profile,
+      profession:5,
+      manner:4,
+    })
+  }, [])
+
+  return (
+    <Container>
+      <SideSubTitle title={brokerName} updatePageIndex={updatePageIndex} historyInfo={historyInfo}/>
+      <SideBarBrokerDetailCont setHistoryInfo={setHistoryInfo}  broker={broker} />
+      <BrokerSorting/>
+      <WrapItemCont>
+        <ItemTabContent updatePageIndex={updatePageIndex} itemList={ItemListItem} setHistoryInfo={setHistoryInfo} productList={productRedux.brokerProduct} index={2}/>
+      </WrapItemCont>
+    </Container>
   );
 }
 

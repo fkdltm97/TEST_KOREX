@@ -22,60 +22,31 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Mobile, PC } from "../../../../MediaQuery";
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
-  const TableList =[
-  {
-    t_id : 0,
-    date:"21.02.01",
-    trade:"매매",
-    price:"18억,2000",
-    floor:"7층"
-  },
-  {
-    t_id : 1,
-    date:"21.02.01",
-    trade:"매매",
-    price:"18억,2000",
-    floor:"7층"
-  },
-  {
-    t_id : 2,
-    date:"21.02.01",
-    trade:"전세",
-    price:"18억,2000",
-    floor:"7층"
-  },
-  {
-    t_id : 3,
-    date:"21.02.01",
-    trade:"월세",
-    price:"18억,2000",
-    floor:"7층"
-  }
-]
-  const [activeIndex,setActiveIndex] = useState(0);
+// export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
+export default function SideItemDetail({list, danjiDesc, typeIndex, setTypeIndex}) {
+
     return (
         <Container>
             <DanjiWidthList>
               <TopInfo>
                 <TextLine>
                   <Title>공급/전용면적</Title>
-                  <Data>60/52.89m²</Data>
+                  <Data>{danjiDesc.area}</Data>
                 </TextLine>
                 <TextLine>
                   <Title>해당타입세대수</Title>
-                  <Data>2/1개</Data>
+                  <Data>{danjiDesc.typeNum}</Data>
                 </TextLine>
               </TopInfo>
               <WrapPriceList>
                 <PriceListTop>
                   <Title>실거래가</Title>
                   <TabBtn>
-                    <Tab active={activeIndex == 0 } onClick={()=>{setActiveIndex(0)}}>전세</Tab>
+                    <Tab active={typeIndex == 0 } onClick={()=>{setTypeIndex(0)}}>전세</Tab>
                     <Part/>
-                    <Tab active={activeIndex == 1 } onClick={()=>{setActiveIndex(1)}}>매매</Tab>
+                    <Tab active={typeIndex == 1 } onClick={()=>{setTypeIndex(1)}}>매매</Tab>
                     <Part/>
-                    <Tab active={activeIndex == 2 } onClick={()=>{setActiveIndex(2)}}>전월세</Tab>
+                    <Tab active={typeIndex == 2 } onClick={()=>{setTypeIndex(2)}}>전월세</Tab>
                   </TabBtn>
                 </PriceListTop>
                 <PriceList>
@@ -85,18 +56,19 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                     <Div>거래금액</Div>
                     <Div>층수</Div>
                   </DivTitle>
-          {
-              TableList.map((value) => {
-                return(
-                  <DivCont>
-                    <Divv>{value.date}</Divv>
-                    <Divv>{value.trade}</Divv>
-                    <Divv>{value.price}</Divv>
-                    <Divv>{value.floor}</Divv>
-                  </DivCont>
-                )
-              })
-            }
+                  
+                  {
+                    list.map((value) => {
+                      return(
+                        <DivCont>
+                          <Divv>{value.date}</Divv>
+                          <Divv>{value.trade}</Divv>
+                          <Divv>{value.price}</Divv>
+                          <Divv>{value.floor}</Divv>
+                        </DivCont>
+                      )
+                    })
+                  }
 
                 </PriceList>
               </WrapPriceList>

@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 //css
@@ -18,12 +18,21 @@ import { Mobile, PC } from "../../../MediaQuery";
 import { MapRight } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function MainHeader({openBunyang, rank }) {
+export default function MainHeader({containerRef}) {
 
     const [isFilter, setIsFilter] = useState(true);
     const [isMapStyle, setIsMapStyle] = useState(false);
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
-    
+    const excRef=useRef();
+    const proText=useRef();
+    const blockText=useRef();
+    const aroundText=useRef();
+    const aroundAlRef=useRef();
+    const mapAlRef=useRef();
+    const distanceRef=useRef();
+    const distanceEndRef=useRef();
+    const currentRef=useRef();
+
     // Init Status
     useEffect(() => {
       MapRight.updateExclusive({  isExclusive: {is:true} });
@@ -33,11 +42,12 @@ export default function MainHeader({openBunyang, rank }) {
 
     // Exclusive Click
     const onClickExclusive = () => {
-      const buildType = document.querySelectorAll(".buildType");
-      const exclusiveCk = document.querySelector("#Exclusive");
-      if(!exclusiveCk.checked){
+      if(containerRef){
+        containerRef.current.scrollTop=0;
+      }
+      if(!excRef.current.checked){
         setIsFilter(true);
-        buildType[1].classList.remove("select");
+        blockText.current.classList.remove("select");
         MapRight.updateBlock({  isBlock: {is:false} });
         MapRight.updateExclusive({  isExclusive: {is:true} });
       }else{
@@ -48,8 +58,6 @@ export default function MainHeader({openBunyang, rank }) {
 
     // Build Click
     const onClickBuildType = (e) => {
-      const exclusiveCk = document.querySelector("#Exclusive");
-      const aroundAlert = document.querySelector(".aroundAlert");
       if(e.target.classList.contains("select")){
         e.target.classList.remove("select");
         initSelectBuild();
@@ -66,37 +74,37 @@ export default function MainHeader({openBunyang, rank }) {
       if(e.target.id == "blockBuild"){
         MapRight.updateExclusive({  isExclusive: {is:false} });
         MapRight.updateBlock({  isBlock: {is:true} });
-        exclusiveCk.checked = false;
+        excRef.current.checked = false;
       }
 
       if(e.target.id == "aroundBuild"){
-        aroundAlert.classList.remove("hidden");
+        aroundAlRef.current.classList.remove("hidden");
       }
 
     }
 
     // Build Init
     const initSelectBuild = () => {
-      const  buildType = document.querySelectorAll(".buildType");
-      const aroundAlert = document.querySelector(".aroundAlert");
-      const mapAlert = document.querySelector(".mapAlert");
-      const distanceEnd = document.querySelector(".distanceEnd");
-      aroundAlert.classList.add("hidden");
-      mapAlert.classList.add("hidden");
-      setIsMapStyle(false);
-      for(let i = 0 ; i < buildType.length ; i++){
-        buildType[i].classList.remove("select");
+      if(containerRef){
+        containerRef.current.scrollTop=0;
       }
-      distanceEnd.classList.add("hidden");
-      MapRight.updateProbroker({  isProbroker: {is:false} });
-      MapRight.updateBlock({  isBlock: {is:false} });
-      MapRight.updateAround({  around: { is:"" } });
-      MapRight.updateDistance({  isDistance: {is:false} });
+      aroundAlRef.current.classList.add("hidden");
+      mapAlRef.current.classList.add("hidden");
+      setIsMapStyle(false);
+      
+      proText.current.classList.remove("select");
+      blockText.current.classList.remove("select");
+      aroundText.current.classList.remove("select");
+      
+      distanceEndRef.current.classList.add("hidden");
+      MapRight.updateProbroker({ isProbroker: {is:false} });
+      MapRight.updateBlock({ isBlock: {is:false} });
+      MapRight.updateAround({ around: { is:"" } });
+      MapRight.updateDistance({ isDistance: {is:false} });
     }
 
     // Around  Item Click
     const onClickAroundEls = (e) => {
-      const aroundAlert = document.querySelector(".aroundAlert");
       switch (e.target.innerText){
         case "지하철":
           MapRight.updateAround({  around: {is:"SW8"} });
@@ -117,29 +125,25 @@ export default function MainHeader({openBunyang, rank }) {
           MapRight.updateAround({  around: {is:""} });
           break;
       }
-      aroundAlert.classList.add("hidden");
+      aroundAlRef.current.classList.add("hidden");
     }
 
     //  Map Styles Click
     const onClickMap = () => {
       let isBool = !isMapStyle;
       setIsMapStyle(isBool);
-      const mapAlert = document.querySelector(".mapAlert");
-      const aroundAlert = document.querySelector(".aroundAlert");
-      const distanceEnd = document.querySelector(".distanceEnd");
-      distanceEnd.classList.add("hidden");
+      distanceEndRef.current.classList.add("hidden");
       MapRight.updateDistance({  isDistance: {is:false} });
-      aroundAlert.classList.add("hidden");
+      aroundAlRef.current.classList.add("hidden");
       if(isBool){
-        mapAlert.classList.remove("hidden");
+        mapAlRef.current.classList.remove("hidden");
       }else{
-        mapAlert.classList.add("hidden");
+        mapAlRef.current.classList.add("hidden");
       }
     }
 
     // Map Styles Item Click
     const onClickMapEls = (e) => {
-      const mapAlert = document.querySelector(".mapAlert");
       switch (e.target.innerText){
         case "일반":
           MapRight.updateMapStyle({  mapStyle: "roadmap" });
@@ -157,7 +161,7 @@ export default function MainHeader({openBunyang, rank }) {
           MapRight.updateMapStyle({  mapStyle: "roadmap" });
           break;
       }
-      mapAlert.classList.add("hidden");
+      mapAlRef.current.classList.add("hidden");
       setIsMapStyle(false);
     }
 
@@ -177,15 +181,14 @@ export default function MainHeader({openBunyang, rank }) {
 
     // Current Location Click
     const onclickCurrent = () => {
-      const currentBtn = document.querySelector(".currentBtn");
       if(mapRightRedux.isCurrnet.is){
         MapRight.updateCurrent({  isCurrnet: {is: !mapRightRedux.isCurrnet.is } });
-        currentBtn.classList.remove("select");
+        currentRef.current.classList.remove("select");
         return;
       }
 
       if( window.confirm("내 위치 조회 허용?") ){
-        currentBtn.classList.add("select");
+        currentRef.current.classList.add("select");
         MapRight.updateCurrent({  isCurrnet: {is: !mapRightRedux.isCurrnet.is } });
       }else{
         return;
@@ -193,22 +196,18 @@ export default function MainHeader({openBunyang, rank }) {
     }
 
     const onClickDistance = () => {
-      const mapAlert = document.querySelector(".mapAlert");
-      const distance = document.querySelector(".distance");
-      const distanceEnd = document.querySelector(".distanceEnd");
-      const aroundAlert = document.querySelector(".aroundAlert");
       let isBool = false;
       setIsMapStyle(isBool);
-      distanceEnd.classList.toggle("hidden");
+      distanceEndRef.current.classList.toggle("hidden");
 
-      if(!distanceEnd.classList.contains("hidden")){
-        distance.classList.add("select");
+      if(!distanceEndRef.current.classList.contains("hidden")){
+        distanceRef.current.classList.add("select");
       }else{
-        distance.classList.remove("select");
+        distanceRef.current.classList.remove("select");
       }
 
-      mapAlert.classList.add("hidden");
-      aroundAlert.classList.add("hidden");
+      mapAlRef.current.classList.add("hidden");
+      aroundAlRef.current.classList.add("hidden");
       MapRight.updateAround({  around: { is:"" } });
       MapRight.updateDistance({  isDistance: {is:!mapRightRedux.isDistance.is} });
     }
@@ -219,23 +218,23 @@ export default function MainHeader({openBunyang, rank }) {
             {/*Right Tab*/}
             <RightMenu isFilter={isFilter}>
               <WrapMenuTop>
-                <Exclusive type="checkbox" name="" id="Exclusive" defaultChecked/>
+                <Exclusive type="checkbox" name="" ref={excRef} id="Exclusive" defaultChecked/>
                 <ExclusiveLabel className="changeBtn" for="Exclusive" onClick={() => { onClickExclusive() }} >전속 매물</ExclusiveLabel>
               </WrapMenuTop>
               <WrapMenuBottom>
                 <RadioBox>
-                  <RadioSpan id="probrokerBuild" className={["buildType", "select", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
+                  <RadioSpan id="probrokerBuild" ref={proText} className={["select", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}} >전문 중개사</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="blockBuild" className={["buildType", "changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
+                  <RadioSpan id="blockBuild" ref={blockText} className={["changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="aroundBuild" className="buildType" onClick={(e)=>{onClickBuildType(e)}}>주변</RadioSpan>
+                  <RadioSpan id="aroundBuild" ref={aroundText} onClick={(e)=>{onClickBuildType(e)}}>주변</RadioSpan>
                 </RadioBox>
 
-                <RadioAlert className={["aroundAlert", "hidden"]} >
+                <RadioAlert ref={aroundAlRef} className={["hidden"]} >
                   <RadioBox>
                     <RadioSpan className="aroundEl" onClick={(e) => {onClickAroundEls(e)}}>지하철</RadioSpan>
                   </RadioBox>
@@ -263,7 +262,7 @@ export default function MainHeader({openBunyang, rank }) {
                 <RadioBox>
                   <RadioSpan onClick={() => {onClickMap()}} >지도 유형</RadioSpan>
                 </RadioBox>
-                <RadioAlertMap className={["mapAlert", "hidden"]}>
+                <RadioAlertMap ref={mapAlRef} className={["hidden"]}>
                   <RadioBox>
                     <RadioSpan className="noRv" onClick={(e) => {onClickMapEls(e)}}>일반</RadioSpan>
                   </RadioBox>
@@ -283,16 +282,16 @@ export default function MainHeader({openBunyang, rank }) {
 
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan className="distance" onClick={() => {onClickDistance()} }>거리 재기</RadioSpan> 
+                  <RadioSpan className="distance" ref={distanceRef} onClick={() => {onClickDistance()} }>거리 재기</RadioSpan> 
                 </RadioBox>
-                <CurrentEnd className={["distanceEnd", "hidden"]} >
+                <CurrentEnd ref={distanceEndRef} className={["distanceEnd", "hidden"]} >
                   거리<br />
                   측정
                 </CurrentEnd>
                 
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan className="currentBtn" onClick={() => onclickCurrent() }>내위치</RadioSpan>
+                  <RadioSpan ref={currentRef} onClick={() => onclickCurrent() }>내위치</RadioSpan>
                 </RadioBox>
 
 
@@ -446,6 +445,9 @@ const CurrentEnd = styled.div`
   justify-content: center;
   cursor:pointer;
   transition:500ms;
+  @media ${(props) => props.theme.mobile} {
+    top:60px;
+  }
 `
 
 const Radio = styled.input`
@@ -468,6 +470,10 @@ const RadioAlert = styled.div`
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   padding:22px 5px 10px 6px;
   transition:200ms;
+  @media ${(props) => props.theme.mobile} {
+    height:200px;
+    bottom:-160px;
+  }
 `
 
 const RadioAlertMap = styled.div`
@@ -481,6 +487,9 @@ const RadioAlertMap = styled.div`
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   padding:22px 5px 10px 6px;
   transition:200ms;
+  @media ${(props) => props.theme.mobile} {
+    height:170px;
+  }
 `
 
 const RadioSpan = styled.span`

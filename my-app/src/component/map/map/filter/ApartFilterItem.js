@@ -75,9 +75,9 @@ export default function ApartFilter({open, setOpen}) {
                 <ArrowImg src={ArrowTop} rotate={rotate}/>
               </DetailTopBox>
 
-                <SubDepth ref={detailRef} className={["hidden"]}>
+                <SubDepth ref={detailRef} className={["optionList", "hidden"]}>
                   {/* 방수 */}
-                  <BoxNoneBorder id="roomWrap">
+                  <BoxNoneBorder id="roomApartWrap">
                     <SubTitle>방수</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -158,7 +158,7 @@ export default function ApartFilter({open, setOpen}) {
                   </Box>
                   
                   {/*옵션*/}
-                  <Box id="optionWrap">
+                  {/* <Box id="optionWrap">
                     <SubTitle>옵션</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -185,7 +185,7 @@ export default function ApartFilter({open, setOpen}) {
                         </RadioBox>
                       </WrapRadio>
                     </WrapFilter>
-                  </Box>
+                  </Box> */}
                 </SubDepth>
             </DetailOption>{/*물건상세 끝*/}
         </Container>

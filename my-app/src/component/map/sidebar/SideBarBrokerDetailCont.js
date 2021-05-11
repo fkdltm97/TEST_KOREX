@@ -35,80 +35,104 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 SwiperCore.use([Navigation, Pagination]);
-export default function SideBarBrokerDetailCont({historyInfo,updatePageIndex,setHistoryInfo}) {
+export default function SideBarBrokerDetailCont({historyInfo,updatePageIndex,setHistoryInfo, broker}) {    
 
-    return (
-        <Container>
-          <TopContent>
-            <ProfileDetail>
-                <TopBox>
-                  <Tag>아파트·현대아이리스</Tag>
-                  <Tag>상가</Tag>
-                  <Tag>사무실</Tag>
-                </TopBox>
-                <BottomBox>
-                  <LeftContent>
-                    <ItemInfo>
-                      <Name>홍길동</Name>
-                      <Address>강남구 논현동 104-5</Address>
-                      <SellList>
-                        <List>매매<ColorOrange>2</ColorOrange></List>
-                        <Part/>
-                        <List>전세 <ColorOrange>7</ColorOrange></List>
-                        <Part/>
-                        <List>월세 <ColorOrange>9</ColorOrange></List>
-                      </SellList>
-                    </ItemInfo>
-                  </LeftContent>
-                  <RightContent>
-                    <ItemImg src={Profile}/>
-                  </RightContent>
-                </BottomBox>
-            </ProfileDetail>
-            <InfoDetail>
-              <FlexBox>
-                <Left>
-                  <Icon src={Like} alt="icon"/>
-                  <SubTitle>전문성</SubTitle>
-                </Left>
-                <RightStar>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                  <Star src={OrangeStar}/>
-                </RightStar>
-                </FlexBox>
-                <FlexBox>
-                  <Left>
-                    <Icon src={Smile} alt="icon"/>
-                    <SubTitle>중개매너</SubTitle>
-                  </Left>
-                  <RightStar>
-                    <Star src={GreenStar}/>
-                    <Star src={GreenStar}/>
-                    <Star src={GreenStar}/>
-                    <Star src={GreenStar}/>
-                    <Star src={WhiteStar}/>
-                  </RightStar>
-              </FlexBox>
-            </InfoDetail>
-            <CallBox>
-              <ToCall>
-                <Link className="data_link"/>
-                <BottomImg src={Call}/>
-                <BottomTxt>전화 상담</BottomTxt>
-              </ToCall>
-              <LongPart/>
-              <ToChat>
-                <Link className="data_link"/>
-                <BottomImg src={Chat}/>
-                <BottomTxt>채팅 상담</BottomTxt>
-              </ToChat>
-            </CallBox>
-          </TopContent>
+  const star = (length, isOrange) => {
+    let arr = [];
+    let whiteLength = 0;
+    let isWhite = false;
+    let whiteArr = [];
+    for(let i = 0 ; i < length ; i++){arr.push(i);}
+    if(5 - length !== 0){
+      whiteLength = 5 - length;
+      isWhite = true;
+      for(let i = 0 ; i < whiteLength ; i++){whiteArr.push(i);}
+    }
+    return(
+      <>
+        {
+            arr.map((item, index) => {
+              return(
+                <Star key={index} src={isOrange ? OrangeStar : GreenStar}/>
+              )
+            })
+        }
+        {
+          isWhite&&
+          whiteArr.map((item, index) => {
+            return(
+              <Star key={index} src={WhiteStar}/>
+            )
+          })
+        }
+      </>
+    )
+  }
 
-        </Container>
+
+  return (
+    <Container>
+      <TopContent>
+        <ProfileDetail>
+            <TopBox>
+              <Tag>{broker.tag_1}</Tag>
+              <Tag>{broker.tag_2}</Tag>
+              <Tag>{broker.tag_3}</Tag>
+            </TopBox>
+            <BottomBox>
+              <LeftContent>
+                <ItemInfo>
+                  <Name>{broker.name}</Name>
+                  <Address>{broker.address}</Address>
+                  <SellList>
+                    <List>매매<ColorOrange>{broker.trade}</ColorOrange></List>
+                    <Part/>
+                    <List>전세 <ColorOrange>{broker.jeonse}</ColorOrange></List>
+                    <Part/>
+                    <List>월세 <ColorOrange>{broker.monthly}</ColorOrange></List>
+                  </SellList>
+                </ItemInfo>
+              </LeftContent>
+              <RightContent>
+                <ItemImg src={broker.profile}/>
+              </RightContent>
+            </BottomBox>
+        </ProfileDetail>
+        <InfoDetail>
+          <FlexBox>
+            <Left>
+              <Icon src={Like} alt="icon"/>
+              <SubTitle>전문성</SubTitle>
+            </Left>
+            <RightStar>
+              {star(broker.profession, true)}
+            </RightStar>
+            </FlexBox>
+            <FlexBox>
+              <Left>
+                <Icon src={Smile} alt="icon"/>
+                <SubTitle>중개매너</SubTitle>
+              </Left>
+              <RightStar>
+              {star(broker.manner, false)}
+              </RightStar>
+          </FlexBox>
+        </InfoDetail>
+        <CallBox>
+          <ToCall>
+            <Link className="data_link"/>
+            <BottomImg src={Call}/>
+            <BottomTxt>전화 상담</BottomTxt>
+          </ToCall>
+          <LongPart/>
+          <ToChat>
+            <Link className="data_link"/>
+            <BottomImg src={Chat}/>
+            <BottomTxt>채팅 상담</BottomTxt>
+          </ToChat>
+        </CallBox>
+      </TopContent>
+    </Container>
   );
 }
 

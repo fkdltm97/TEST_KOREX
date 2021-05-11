@@ -16,14 +16,14 @@ import Checked from '../../../../img/map/radio_chk.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({cancleModal,confirmModal,mapModal,value,select,cond,opacity,time_distance,time_status,setSelect,editModal,editResultModal}) {
-
+export default function Request({tridchklist_function,cancleModal,confirmModal,mapModal,value,select,cond,opacity,time_distance,time_status,setSelect,editModal,editResultModal}) {
+  
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
-  
+
   if(time_status == 'mirae'){
     var message='+'+time_distance+'일후';
   }else if(time_status == 'today'){
@@ -35,7 +35,28 @@ export default function Request({cancleModal,confirmModal,mapModal,value,select,
   if(cond!=''){
     var message='예약해제';
   }
+  
+  const trid_chk_change = (e) => {
+    console.log('각 체크박스요소 체크여부:',e.target,e.target.value);
 
+    if(e.target.checked){
+      //변화 발생시점에 체크가 된 상황이라면 해당 요소의 ischk 고유값은 변화
+      //setIschk(true);//각 개별 요소 변화시킨다.
+      //각 요소에 대해서 체크발생시 기존 배열에 해당 요소 추가,set으로 관리. 해제하면 기존배열에서(set)에서 대상요소 제거
+      tridchklist_function(e.target.value,'add');
+    }else{
+      //체크해제시에 
+      //setIschk(false);
+      tridchklist_function(e.target.value,'remove');
+    }
+  }
+  /*useEffect( () => {
+    console.log('managelist요소 useEfeect 형태 실행:::',ischk_val);
+
+    setIschk(ischk_val);
+  });*/
+    
+  console.log('managleilist element for loops:',value.r_tr_id);
     return (
       <Container>
           <Li opacity={opacity}>
@@ -45,7 +66,7 @@ export default function Request({cancleModal,confirmModal,mapModal,value,select,
                   select ?
                   <WrapRight>
                     <CheckBox>
-                      <InputCheckEa type="checkbox" name="tour" id={"ea"+value.r_tr_id}/>
+                      <InputCheckEa type="checkbox" name="tour" id={"ea"+value.r_tr_id} value={value.r_tr_id} onClick={trid_chk_change}/>
                       <CheckLabelEa for={"ea"+value.r_tr_id}/>
                     </CheckBox>
                   </WrapRight>
@@ -58,7 +79,7 @@ export default function Request({cancleModal,confirmModal,mapModal,value,select,
               </WrapLeft>
               <InBox>
                 <ConditionDiv>
-                  상태 : <Condition>{message }({value.t_tour_start_date}) <Number>{value.p_prd_identity_id}</Number></Condition>
+                  상태 : <Condition>{message }({value.r_tr_id})({value.t_tour_start_date}) <Number>{value.p_prd_identity_id}</Number></Condition>
                 </ConditionDiv>
                 <Line>
                   <Left>예약자명</Left>
@@ -101,7 +122,12 @@ export default function Request({cancleModal,confirmModal,mapModal,value,select,
                           <InDiv>예약 해제</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=>{editModal();}} className="data_link"></Link>
+                          <Link onClick={()=>{
+                            console.log('=>>>>value.선택한 상품prd_identity_id값:',value.p_prd_identity_id);
+                            editModal(value.p_prd_identity_id,value.r_tr_id);//선택한 매물id값에 대해서 보낸다.어떤 매물에 대한 셋팅리스트 보여준다. 또한 어떤 tr_id에 대한 예약접수내역을 클릭한지 여부 구한다.
+
+                            }} className="data_link">
+                          </Link>
                           <InDiv>수정</InDiv>
                         </Div>
                       </InMenu>

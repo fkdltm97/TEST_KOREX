@@ -27,24 +27,6 @@ export default function MapFilter({openBunyang, rank}) {
   let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
   let filterArr = JSON.parse(JSON.stringify(mapFilterRedux.filterArr));
 
-  const rangeToggle = () => {
-    function isContain(value){
-      return filterArr.prd_sel_type.some(item => item == value)
-    }
-
-    if(!isContain("매매")){
-      filterArr.priceRange="전체";
-    }
-
-    if(!isContain("월세")){
-      filterArr.monthlyRange="전체";
-    }
-
-    if(!isContain("월세") && !isContain("전세")){
-      filterArr.jeonseRange="전체";
-    }
-  }
-
   const onClickTrade = (e) => {
     const text = e.target.dataset.text;
     const num = e.target.dataset.num;
@@ -61,8 +43,6 @@ export default function MapFilter({openBunyang, rank}) {
       uiData.prd_sel_type[num] = 0;
       filterArr.prd_sel_type = filterArr.prd_sel_type.filter(item => item != text);
     }
-
-    rangeToggle();
 
     MapFilterRedux.updateFilterArr({filterArr:filterArr});
     MapFilterRedux.updateFilterUI({filterUI:uiData});

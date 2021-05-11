@@ -16,17 +16,19 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 import { Mobile, PC } from "../../../../MediaQuery";
 
 // redux
+import { MapProductEls } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index}) {
+export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index, productList, containerRef}) {
 
-  const productRedux = useSelector(state=>{ return state.mapProductEls});
+  
 
   const onClickEl = (value) => {
-    // 클릭 id
-    // console.log(value.item_id);
-
-    //updatePageIndex(1,value.item_id);
+    if(containerRef){
+      containerRef.current.scrollTop=0;
+    }
+    MapProductEls.updateClickExc({ clickExc : value.item_id });
+    // updatePageIndex(1,value.item_id);
     updatePageIndex(1,11);
     setHistoryInfo(e => {e.prevIndex.push(index);
     return JSON.parse(JSON.stringify(e));});
@@ -36,20 +38,23 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
   return (
     <Container>
       {
-        productRedux.exclusive.map((value) => {
+        productList.map((value) => {
           return(
             <TabContent>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
               <LeftContent>
                 {/*전속매물에 속한 아파트 일때 TopBox가 나와야함*/}
-                <TopBox>
-                  <ColorGreen>전속매물</ColorGreen>
-                  <WrapDate>
-                    <StartDate>{value.startDate}</StartDate>
-                    <Line>~</Line>
-                    <EndDate>{value.endDate}</EndDate>
-                  </WrapDate>
-                </TopBox>
+                {
+                  value.isExc && 
+                  <TopBox>
+                    <ColorGreen>전속매물</ColorGreen>
+                    <WrapDate>
+                      <StartDate>{value.startDate}</StartDate>
+                      <Line>~</Line>
+                      <EndDate>{value.endDate}</EndDate>
+                    </WrapDate>
+                  </TopBox>
+                }
                 <ItemInfo>
                   <Name>
                     <Kind>{value.kind}</Kind>

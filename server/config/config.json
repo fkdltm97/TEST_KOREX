@@ -29,6 +29,7 @@
         "naver":{
             "clientid":"CLIENT_ID",
             "clientsecret":"CLIENT_SECRET",
+            
             "callbackurl":"/login/oauth/naver/callback"
         }
     }
