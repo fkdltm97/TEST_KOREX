@@ -82,9 +82,9 @@ export default function BrokerVisitt({setMap,setFilter,setVisit,setVCal,calModal
             <TopTitle>내 방문예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link onClick={() => {setFilter(true);updateModal();}}>
+              <div onClick={() => {setFilter(true);updateModal();}} className="linkToDiv">
                 <FilterImg src={Filter} alt="filter"/>
-              </Link>
+              </div>
             </TopInfo>
             <ReserveList>
             {

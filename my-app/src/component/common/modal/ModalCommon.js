@@ -42,9 +42,9 @@ export default function ModalCommon({modalOption}) {
             <ModalFilterBg onClick={closeModal} bgnone={bgnone}/>
             <ModalFilter>
               <FilterCloseBtn>
-                <Link onClick={closeModal}>
+                <div onClick={closeModal} className="linkToDiv">
                   <FilterCloseImg src={Close}/>
-                </Link>
+                </div>
               </FilterCloseBtn>
               {
                 modalOption.title ?
@@ -77,6 +77,12 @@ export default function ModalCommon({modalOption}) {
                 <Link to={modalOption.submit.link}>
                   <SaveBtn type="button" name="" onClick={modalOption.submit.event}>{modalOption.submit.title}</SaveBtn>
                 </Link>
+                :
+                null
+              }
+              {
+                modalOption.submitnone && modalOption.submitnone.show ?
+                  <SaveBtn type="button" name="" onClick={modalOption.submitnone.event}>{modalOption.submitnone.title}</SaveBtn>
                 :
                 null
               }

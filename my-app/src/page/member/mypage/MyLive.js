@@ -47,7 +47,7 @@ export default function Join() {
   const [filter,setFilter] = useState(false);
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
 //여기 두개가 핵심이에여 넵!
@@ -67,7 +67,7 @@ export default function Join() {
             setShow:offModal,
             title:"필터",
             content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
-            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
         });

@@ -63,7 +63,7 @@ export default function Request({setFilter,value,type}) {
               </ItemList>
             <SortRecent>
               <RecentList>
-                <Link onClick={showMenu}>
+                <div class="linkToDiv" onClick={showMenu}>
                   <Span><RecentImg src={IconRecent}/></Span>
                 {
                   menu ?
@@ -74,7 +74,7 @@ export default function Request({setFilter,value,type}) {
                   :
                   null
                 }
-                </Link>
+                </div>
               </RecentList>
             </SortRecent>
           </ModalSelect>
@@ -119,7 +119,7 @@ const ItemList = styled.select`
   font-size:13px;
   transform:skew(-0.1deg);font-weight:600;
   appearance:none;
-  @media ${(props) => props.theme.container} {
+  @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(80/428));
       padding:calc(100vw*(6/428));
       margin-right:calc(100vw*(5/428));
@@ -136,14 +136,14 @@ const RecentList = styled.ul`
   position:relative;
   width:30px;height:30px;padding:0;
   margin-left:30px;
-  @media ${(props) => props.theme.container} {
+  @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(30/428));height:calc(100vw*(30/428));
       margin-left:calc(100vw*(30/428));
     }
 `
 const RecentImg = styled.img`
   width:19px;height:19px;vertical-align: -webkit-baseline-middle;
-  @media ${(props) => props.theme.container} {
+  @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(19/428));height:calc(100vw*(19/428));
     }
 
@@ -152,7 +152,7 @@ const Span = styled.span`
   font-size:13px;color:#707070;
   text-align:center;cursor:pointer;
   font-weight:600;transform:skew(-0.1deg);
-  @media ${(props) => props.theme.container} {
+  @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(13/428));
     }
 
@@ -163,7 +163,7 @@ const RecentSubdepth = styled.ul`
   border-radius:8px;border:1px solid #707070;
   background:#fff;
   width:70px;
-  @media ${(props) => props.theme.container} {
+  @media ${(props) => props.theme.mobile} {
       width:calc(100vw*(70/428));
       margin-top:calc(100vw*(5/428));
       top:calc(100vw*(25/428));left:calc(100vw*(-40/428));
@@ -178,7 +178,7 @@ const ReceentSubList = styled.li`
   border-radius:8px;
   transition:all 0.3s;
   &:hover{background:#f8f7f7;}
-  @media ${(props) => props.theme.container} {
+  @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(13/428));
       padding:calc(100vw*(4/428)) 0;
     }

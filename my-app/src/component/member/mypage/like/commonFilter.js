@@ -18,7 +18,7 @@ const CommonFilter = (props) => {
 
     return(
         <FilterAndAdd>
-            <div onClick={showModal}>
+            <div onClick={showModal} className="linkToDiv">
             <FilterImg src={View} alt="filter"/>
             {
                 menu ?

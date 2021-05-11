@@ -50,7 +50,7 @@ export default function Join() {
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
 
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
 
 //여기 두개가 핵심이에여
@@ -70,9 +70,9 @@ export default function Join() {
             setShow:offModal,
             title:"필터",
             content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
-            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+            confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
         });
       }
 
@@ -83,9 +83,9 @@ export default function Join() {
             setShow:offModal,
             title:"건물위치",
             content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalMap/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"" , event : ()=>{offModal(); }}
+            confirmgreennone:{show:false , title:"" , event : ()=>{offModal(); }}
         });
       }
 
@@ -95,9 +95,9 @@ export default function Join() {
             setShow:offModal,
             title:"투어예약 수정",
             content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalReserve/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:true , title:"수정" , event : ()=>{offModal(); }}
+            confirmgreennone:{show:true , title:"수정" , event : ()=>{offModal(); }}
 
         });
       }

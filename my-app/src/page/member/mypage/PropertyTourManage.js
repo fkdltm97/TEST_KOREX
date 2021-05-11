@@ -18,6 +18,7 @@ import LiveModal from "../../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalMap from '../../../component/member/mypage/propertyManage/modal/ModalMap';
+import ModalFilter from '../../../component/member/mypage/propertyManage/modal/ModalFilter';
 import ModalSelect from '../../../component/member/mypage/propertyManage/modal/ModalSelect';
 import ModalEdit from '../../../component/member/mypage/propertyManage/modal/ModalEdit';
 import ModalAllEdit from '../../../component/member/mypage/propertyManage/modal/ModalAllEdit';
@@ -54,7 +55,7 @@ export default function Join() {
   const [filter,setFilter] = useState(false);
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},submitnone:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
   // (전체 버튼 누르면 나오는) 리스트 셀렉트
   const [select, setSelect] = useState(false);
@@ -201,6 +202,19 @@ export default function Join() {
           cancle:{show:false , title:"취소" , event : ()=>{offModal(); }},
           confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
           confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal(); }}
+      });
+    }
+
+    const updateModal = () =>{
+      //여기가 모달 키는 거에엽
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"필터",
+          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+          submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
+          cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
       });
     }
 
@@ -668,7 +682,7 @@ export default function Join() {
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/> 
             <PropertyManage tridchklist_function={tridchklist_function} prdidvalue={prdidvalue} reservationItemlist={reservationItemlist} cancleModal={cancleModal} confirmModal={confirmModal} select={select} setSelect={setSelect}
-            mapModal={mapModal} selectModal={selectModal} editModal={editModal} editAllModal={editAllModal} editResultModal={editResultModal}/>
+            mapModal={mapModal} selectModal={selectModal} updateModal={updateModal} editModal={editModal} editAllModal={editAllModal} editResultModal={editResultModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
           <TermService termservice={termservice} openTermService={openTermService}/>

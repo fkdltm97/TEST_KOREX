@@ -77,9 +77,9 @@ export default function Live({updateModal}) {
             <TopTitle>내 Live시청예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link onClick={() => {updateModal();}}>
+              <div onClick={() => {updateModal();}} className="linkToDiv">
                 <FilterImg src={Filter} alt="filter"/>
-              </Link>
+              </div>
             </TopInfo>
             <ReserveList>
             {

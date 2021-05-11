@@ -40,7 +40,7 @@ export default function Join() {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
   //여기 두개가 핵심이에여
@@ -60,7 +60,7 @@ export default function Join() {
               setShow:offModal,
               title:"로그아웃",
               content:{type:"text",text:`로그아웃 하시겠습니까?`,component:""},
-              submit:{show:true , title:"로그아웃" , event : ()=>{offModal(); }},
+              submitnone:{show:true , title:"로그아웃" , event : ()=>{offModal(); }},
               cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
               confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
           });
@@ -73,7 +73,7 @@ export default function Join() {
               setShow:offModal,
               title:"회원탈퇴",
               content:{type:"text",text:`회원탈퇴 하시겠습니까?`,component:""},
-              submit:{show:true , title:"취소" , event : ()=>{offModal(); }},
+              submitnone:{show:true , title:"취소" , event : ()=>{offModal(); }},
               cancle:{show:true , title:"회원탈퇴" , event : ()=>{offModal(); }},
               confirm:{show:false , title:"" , event : ()=>{offModal(); }}
           });

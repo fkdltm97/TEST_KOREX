@@ -27,7 +27,7 @@ import serverController from '../../../../server/serverController';
 //component
 import PropertyList from "./PropertyList";
 
-export default function Request({setFilter,updateModal,value,type}) {
+export default function Propertymanage({setFilter,updateModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);

@@ -41,7 +41,6 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
               <ConditionDiv>
                 상태 : <Condition>{value.prd_status}</Condition> <ConditionDate>{value.modify_date}</ConditionDate>
               </ConditionDiv>
-              {/* 이부분 이상합니다!!!!! */}
               <Number>prd_identity_id: {value.prd_identity_id}</Number>
               <Title>{value.prd_name}</Title>
               <Kinds>
@@ -63,7 +62,7 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                 <Label for={"check"+value.prd_identity_id}/>
               </Alarm>
               <Menu>
-                <Link onClick={showModal}>
+                <div onClick={showModal} className="linkToDiv">
                   <MenuIcon/>
                     {
                       menu ?
@@ -71,15 +70,15 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                       (value.prd_status =='대기' || value.prd_status=='검토 대기') ?
                       <InMenu>
                         <Div>
-                          <Link onClick={()=>{cancleModal();}} className="data_link"/>
+                          <div onClick={()=>{cancleModal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <Link to="/EditRequest" className="data_link"/>
+                          <div to="/EditRequest"  className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <div  className={["data_link", "linkToDiv"]}/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
@@ -88,33 +87,33 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                       (value.prd_status == '거래 준비') ?
                       <InMenu>
                         <Div>
-                          <Link onClick={()=>{startModal();}} className="data_link"/>
+                          <div onClick={()=>{startModal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>거래 개시</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=>{completeModal();}} className="data_link"/>
+                          <div onClick={()=>{completeModal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>거래 완료</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=>{cancle2Modal();}} className="data_link"/>
+                          <div onClick={()=>{cancle2Modal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>위임 취소</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=>{mannerModal();}} className="data_link"/>
+                          <div onClick={()=>{mannerModal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>중개매너 평가</InDiv>
                         </Div>
                         <Div>
-                          <Link to="/DetailViewRequest" className="data_link"/>
+                          <div to="/DetailViewRequest"  className={["data_link", "linkToDiv"]}/>
                           <InDiv>상세</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"/>
+                          <div  className={["data_link", "linkToDiv"]}/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
                       : null
                     }
-                </Link>
+                </div>
               </Menu>
             </RightMenu>
           </Li>

@@ -48,24 +48,24 @@ export default function Request({value,type,type2}) {
                 <Label for={"check"+value.live_id}/>
               </Alarm>
               <Menu>
-                <Link onClick={showModal}>
+                <div onClick={showModal} className="linkToDiv">
                   <MenuIcon/>
                     {
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>예약취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <div  className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
                       </InMenu>
                       :
                       null
                     }
-                </Link>
+                </div>
               </Menu>
             </RightMenu>
           </Li>

@@ -53,32 +53,32 @@ export default function Request({updateMapModal,visitorModal,calModal,map,setMap
                 <Label for={"check"+value.v_id}/>
               </Alarm>
               <Menu>
-                <Link onClick={showModal}>
+                <div onClick={showModal} className="linkToDiv">
                   <MenuIcon/>
                     {
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link onClick={() => {setVisit(true);visitorModal();}} className="data_link"></Link>
+                          <div onClick={() => {setVisit(true);visitorModal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>동반고객 보기</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={() => {setVCal(true);calModal();}} className="data_link"></Link>
+                          <div onClick={() => {setVCal(true);calModal();}}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>예약취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
                       :
                       null
                     }
-                </Link>
+                </div>
               </Menu>
             </RightMenu>
           </Li>

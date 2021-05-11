@@ -48,11 +48,11 @@ export default function JoinInput({logoutModal,secessionModal}) {
                   </Li>
                 */}
                 <Li>
-                  <Link className="data_link" onClick={()=>{logoutModal();}}></Link>
+                  <div className="linkToDiv data_link" onClick={()=>{logoutModal();}}/>
                   <LinkTxt>로그아웃</LinkTxt>
                 </Li>
                 <Li>
-                  <Link className="data_link" onClick={()=>{secessionModal();}}></Link>
+                  <div className="linkToDiv data_link" onClick={()=>{secessionModal();}}/>
                   <LinkTxtGray>회원탈퇴</LinkTxtGray>
                 </Li>
               </Ul>

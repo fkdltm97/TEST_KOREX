@@ -44,24 +44,22 @@ export default function Request({editModal, comfirmModal, cancleModal,setCancle,
             </Infos>
             <RightMenu>
               <Menu>
-                <Link onClick={showModal}>
+                <div onClick={showModal} className="linkToDiv">
                   <MenuIcon/>
                     {
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link onClick={()=>{setCancle(true);cancleModal();}} className="data_link"></Link>
-                          <InDiv>취소 및 안내</InDiv>
+                          <InDiv onClick={()=>{setCancle(true);cancleModal();}} className="linkToDiv">취소 및 안내</InDiv>
                         </Div>
                         <Div>
-                          <Link onClick={()=>{setEdit(true);editModal();}} className="data_link"></Link>
-                          <InDiv>수정 및 안내</InDiv>
+                          <InDiv onClick={()=>{setEdit(true);editModal();}} className="linkToDiv">수정 및 안내</InDiv>
                         </Div>
                       </InMenu>
                       :
                       null
                     }
-                </Link>
+                </div>
               </Menu>
             </RightMenu>
           </Li>

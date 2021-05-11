@@ -45,24 +45,22 @@ export default function ItemTabList({value}) {
               </WrapAlarmInfo>
               <RightMenu>
                 <MenuIn>
-                  <Link onClick={showModal2}>
+                  <div onClick={showModal2} className="linkToDiv">
                     <MenuIcon/>
                       {
                         menu2 ?
                         <InMenu2>
                           <Div>
-                            <Link className="data_link"></Link>
-                            <InDiv>숨기기</InDiv>
+                            <InDiv className="linkToDiv">숨기기</InDiv>
                           </Div>
                           <Div>
-                            <Link className="data_link"></Link>
-                            <InDiv>사건ID의 모든 알림 끄기</InDiv>
+                            <InDiv className="linkToDiv">사건ID의 모든 알림 끄기</InDiv>
                           </Div>
                         </InMenu2>
                         :
                         null
                       }
-                  </Link>
+                  </div>
                 </MenuIn>
               </RightMenu>
             </TabContent>
