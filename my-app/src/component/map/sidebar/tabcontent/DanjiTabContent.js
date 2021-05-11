@@ -14,13 +14,20 @@ import Profile from "../../../../img/map/profile_img.png";
 // components
 import { Mobile, PC } from "../../../../MediaQuery";
 
-
 // redux
+import { MapProductEls } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
 export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) {
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
+
+
+  const onClickEl = (value) => {
+    MapProductEls.updateClickBlo({ clickBlo : value.danji_id });
+    updatePageIndex(3);
+    setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});
+  }
 
   return (
     <Container>
@@ -28,7 +35,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
         productRedux.block.map((value) => {
           return(
             <TabContent>
-              <Link onClick={() => { updatePageIndex(3); setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});}} className="data_link"></Link>
+              <Link onClick={() => onClickEl(value) } className="data_link"></Link>
               <TopBox>
                 <Title>{value.title}</Title>
                 <Address>{value.address}</Address>

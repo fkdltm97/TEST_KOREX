@@ -61,32 +61,21 @@ export default function KakaoMap({}) {
   var distanceOverlay;
   var dots = [];
 
-  // 서버에서 데이터를 받아와 배열 생성--------------
+
   // 호출 상황 --------
   // 첫 로드
   // 필터 변경
   // 오른쪽 메뉴 변경
-
-  // idle event
+  // idle 이벤트
   function getProduct() {
-    // 로컬 저장
-    refreshArr();
-    // 서버통신 -> 배열 설정
+    // **api
+    // 현재 활성 버튼/필터 서버에 보내서 
+    // 지도에 띄울 좌표(마커/클러스터러), 매물 리스트 받아와야 합니다.
+
     // setExclusiveArr([])
     // setProbrokerArr([])
     // setBlockArr([])
-  }
 
-  //  제거
-  const removeEvent = () => {
-    kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct );
-    console.log("remove");
-  }
-
-  // 새로고침
-  // **api 현재 활성 버튼 / 필터 서버에 보내서 
-  // 지도에 띄울 좌표, 매물 리스트 받아와야 합니다.
-  const refreshArr = () => {
     // 전속 매물
     if(mapRightRedux.isExclusive.is){
       let newArr = [];
@@ -144,15 +133,27 @@ export default function KakaoMap({}) {
       }
       MapProductEls.updateBlock({ block : newArr });
     }
-    // console.log(mapFilterRedux.filterArr); // 필터
+
   }
 
+  // 제거
+  const removeEvent = () => {
+    kakao.maps.event.removeListener(kakaoMap, 'idle', getProduct );
+  }
+
+  // 필터/메뉴 바뀔때마다 이벤트 발생
   useEffect(() => {
-    if(!kakaoMap){return;}
+    if(!kakaoMap){return;};
     const filerRedux = mapFilterRedux;
     localStorage.setItem( "filterData", JSON.stringify(filerRedux));
-    refreshArr();
-    // removeListener
+    
+    // #.1 현재 리스트/마커/클러스터러 변경
+    getProduct();
+
+    // #.2 이벤트 추가 ( 새 이벤트 추가)
+    kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
+    
+    // #.3  클릭 시 이벤트 제거 ( 기존 이벤트 제거 )
     const changeBtn = document.querySelectorAll(".changeBtn");
     const changeBtnRange = document.querySelectorAll(".changeBtnRange");
     for(let i = 0; i < changeBtn.length ; i++){
@@ -161,12 +162,10 @@ export default function KakaoMap({}) {
     for(let i = 0; i < changeBtnRange.length ; i++){
       changeBtnRange[i].addEventListener("mousedown", removeEvent );
     }
-    // addListener
-    kakao.maps.event.addListener(kakaoMap, 'idle', getProduct );
-  },[mapFilterRedux, mapRightRedux, kakaoMap])
+  },[mapFilterRedux.filterUI, mapRightRedux, kakaoMap])
   // ----------------------
 
-  // Array Init
+  // 임시 더미 데이터
   useEffect(() => {
     setExclusiveArr(
       [ 
@@ -202,7 +201,7 @@ export default function KakaoMap({}) {
     ])
   }, [])
 
-  // Map
+  // 지도 생성
   useEffect(() => {
     let mapData = JSON.parse(localStorage.getItem("mapData"));
     // local에 정보가 없을 경우
@@ -230,12 +229,10 @@ export default function KakaoMap({}) {
       }
       localStorage.setItem( "mapData", JSON.stringify(data));
     });
-    setKakaoMap(map);
-
-    
+    setKakaoMap(map); 
   }, [container]);
 
-  // Exclusive toggle
+  // 전속매물 토글
   useEffect(() => {
     mapRightRedux.isExclusive.is
     ?
@@ -244,7 +241,7 @@ export default function KakaoMap({}) {
     setExcClusterer(clusterer=>{if(!clusterer){return}; clusterer.clear(); return clusterer;});
   }, [mapRightRedux.isExclusive.is, kakaoMap])
 
-  // Probroker toggle
+  // 전문 중개사 토글
   useEffect(() => {
     mapRightRedux.isProbroker.is
     ?
@@ -257,7 +254,7 @@ export default function KakaoMap({}) {
     });
   }, [mapRightRedux.isProbroker.is, kakaoMap])
 
-  // Block toggle
+  // 단지별 실거래 토글
   useEffect(() => {
     mapRightRedux.isBlock.is
     ?
@@ -270,7 +267,7 @@ export default function KakaoMap({}) {
     });
   }, [mapRightRedux.isBlock.is, kakaoMap])
 
-  // Marker, Clusterer Init
+  // 마커/클러스터러 함수
   const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
     if(array.length == 0){
       return;
@@ -348,11 +345,12 @@ export default function KakaoMap({}) {
     setClusterer(clusterer);
   }
 
-  // Block Clusterer Init
+  // 단지별 실거래 마커/클러스터러 함수
   const addMarkClustBlock = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
     if(array.length == 0){return;}
-
     let markers = [];
+    // **api 서버에서 받아온 정보들을 토대로 분기처리
+    // 날짜별로 투명도 조절
     array.map(item => {
         var content =`<div style="opacity:0.4;" class="markerWrap"> 21.11.09 <br /> 매매</div>`;
         var customOverlay = new kakao.maps.CustomOverlay({
@@ -415,6 +413,7 @@ export default function KakaoMap({}) {
     setClusterer(clusterer);
   }
 
+  // 지도유형
   useEffect(() => {
     if(!kakaoMap){
       return;
@@ -505,20 +504,20 @@ export default function KakaoMap({}) {
   }, [mapRightRedux.mapStyle, kakaoMap])
 
   
-  // Clusterer Click
+  // 클러스터러 클릭
   // **api 선택한 클러스터러의 좌표를 서버에 보내고 해당 목록 데이터를 받아와야합니다.
   // 목록 데이터는 mapProductEl 저장하여 화면에 띄어야 합니다. 
   useEffect(() => {
     // console.log(centerClusterer);
   }, [centerClusterer])
 
-  // Marker Click
+  // 마커 클릭
   // **api 선택한 마커의 좌표 혹은 아이디를 서버에 보내고 해당 데이터를 받아와야합니다.
   useEffect(() => {
     // console.log(clickMarker);
   }, [clickMarker])
 
-  // Zoom In
+  // 줌인
   useEffect(() => {
     if(mapRightRedux.isZoomIn == 0){
       return;
@@ -526,7 +525,7 @@ export default function KakaoMap({}) {
     kakaoMap.setLevel(kakaoMap.getLevel() - 1);
   }, [mapRightRedux.isZoomIn]);
 
-  // Zoom Out
+  // 줌아웃
   useEffect(() => {
     if(mapRightRedux.isZoomOut == 0){
       return;
@@ -534,7 +533,7 @@ export default function KakaoMap({}) {
     kakaoMap.setLevel(kakaoMap.getLevel() + 1);
   }, [mapRightRedux.isZoomOut]);
 
-  // Around
+  // 주변
   useEffect(() => {
     if(!kakaoMap ||  mapRightRedux.around.is == ""){
       return;
@@ -569,7 +568,7 @@ export default function KakaoMap({}) {
     searchPlace()
   }, [mapRightRedux.around, kakaoMap])
 
-  // Around Update
+  // 주변 업데이트
   useEffect(() => {
     if(!kakaoMap){return;}
 
@@ -595,7 +594,7 @@ export default function KakaoMap({}) {
     }
   }, [mapRightRedux.around, aroundArr, kakaoMap])
 
-  // Current Location
+  // 내위치
   useEffect(() => {
     if(!kakaoMap){return;}
     if(mapRightRedux.isCurrnet.is){
@@ -633,7 +632,7 @@ export default function KakaoMap({}) {
     }
   }, [mapRightRedux.isCurrnet, kakaoMap])
 
-  // Measure Distance
+  // 거리재기
   useEffect(() => {
     if(!kakaoMap || !mapRightRedux.isDistance.is){return}
 

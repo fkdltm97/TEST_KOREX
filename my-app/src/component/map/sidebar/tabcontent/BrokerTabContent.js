@@ -15,13 +15,15 @@ import Profile from "../../../../img/map/profile_img.png";
 import { Mobile, PC } from "../../../../MediaQuery";
 
 // redux
+import { MapProductEls } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
 export default function ItemTabContent({updatePageIndex,setHistoryInfo, containerRef}) {
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
 
-  const onClickEl = () => {
+  const onClickEl = (value) => {
+    MapProductEls.updateClickPro({ clickPro : value.broker_id });
     if(containerRef){
       containerRef.current.scrollTop=0;
     }
@@ -35,7 +37,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo, containe
           productRedux.probroker.map((value) => {
             return(
               <TabContent>
-                <Link onClick={() => onClickEl() } className="data_link"></Link>
+                <Link onClick={() => onClickEl(value) } className="data_link"></Link>
                   <TopBox>
                     <Tag>{value.tag1}</Tag>
                     <Tag>{value.tag2}</Tag>
