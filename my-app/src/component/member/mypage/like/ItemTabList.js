@@ -16,6 +16,8 @@ import { Mobile, PC } from "../../../../MediaQuery"
 // Components
 import CommonFilter from './commonFilter';
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function ItemTabList({value,type}) {
 
   //... 눌렀을때(메뉴)
@@ -124,52 +126,56 @@ export default function ItemTabList({value,type}) {
     console.log(e.target.innerText);
   }
 
+  // CommonTopInfo 대신 들어갔던 코드입니다. 
+  // <TopInfo>
+  //   <All>총 <GreenColor>4</GreenColor> 건</All>
+  //   {/* -- 수정코드입니다. */}
+  //   <CommonFilter onClick={onClickList}/>
+  //   {/* -- 원래 코드입니다. */}
+  //   {/*
+  //     <FilterAndAdd>
+  //       <Link onClick={showModal}>
+  //         <FilterImg src={View} alt="filter"/>
+  //         {
+  //           menu ?
+  //           <InMenu>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>최신등록순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>높은가격순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>낮은가격순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>넓은면적순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>좁은면적순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>가나다순</InDiv>
+  //             </Div>
+  //           </InMenu>
+  //           :
+  //           null
+  //         }
+  //       </Link>
+  //     </FilterAndAdd>
+  //   */}
+  // </TopInfo>
+
     return (
         <Container>
-          <TopInfo>
-            <All>총 <GreenColor>4</GreenColor> 건</All>
-            {/* -- 수정코드입니다. */}
-            <CommonFilter onClick={onClickList}/>
-            {/* -- 원래 코드입니다. */}
-            {/*
-              <FilterAndAdd>
-                <Link onClick={showModal}>
-                  <FilterImg src={View} alt="filter"/>
-                  {
-                    menu ?
-                    <InMenu>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>최신등록순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>높은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>낮은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>넓은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>좁은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>가나다순</InDiv>
-                      </Div>
-                    </InMenu>
-                    :
-                    null
-                  }
-                </Link>
-              </FilterAndAdd>
-            */}
-          </TopInfo>
+
+          <CommonTopInfo length={4} leftComponent={<CommonFilter onClick={onClickList}/>} />
           <ListUl>
             {
               ItemListItem.map((value) => {

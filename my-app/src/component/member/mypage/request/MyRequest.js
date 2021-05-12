@@ -23,12 +23,16 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import serverController from '../../../../server/serverController';
 
+
 //component
 import RequestListPage from "./RequestList";
 import RequestSorting from "./RequestSorting";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 //redux addons assets;
 import {useSelector } from 'react-redux';
+
 
 export default function Request({mannerModal,startModal,cancleModal,completeModal,cancle2Modal,setFilter,value,type}) {
 
@@ -121,19 +125,36 @@ export default function Request({mannerModal,startModal,cancleModal,completeModa
     }
 ]
 
+  const topInfoContent = () => {
+    return(
+      <FilterAndAdd>
+      <Link to="/AddRequest">
+        <AddBtn>추가</AddBtn>
+      </Link>
+    </FilterAndAdd>
+    )
+  }
+
     return (
         <Container>
           <WrapRequest>
             <TopTitle>내 중개의뢰</TopTitle>
             <RequestSorting/>{/*컴포넌트입니다*/}
-            <TopInfo>
-              <All>총 <GreenColor>{ is_serveron == true ? brokerproductlist.length : RequestListItem.length}</GreenColor> 건</All>
-              <FilterAndAdd>
-                <Link to="/AddRequest">
-                  <AddBtn>추가</AddBtn>
-                </Link>
-              </FilterAndAdd>
-            </TopInfo>
+
+            {/* 수정코드입니다. */}
+            <CommonTopInfo length={is_serveron == true ? brokerproductlist.length : RequestListItem.length} leftComponent={topInfoContent()}/>
+            {/* -- 원래 코드입니다. */}
+            {/*
+              <TopInfo>
+                <All>총 <GreenColor>{ is_serveron == true ? brokerproductlist.length : RequestListItem.length}</GreenColor> 건</All>
+                <FilterAndAdd>
+                  <Link to="/AddRequest">
+                    <AddBtn>추가</AddBtn>
+                  </Link>
+                </FilterAndAdd>
+              </TopInfo>
+            */}
+
             <RequestList>
               {console.log('server logon or error여부 :',is_serveron)}
             {

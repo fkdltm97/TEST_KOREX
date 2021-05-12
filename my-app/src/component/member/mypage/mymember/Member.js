@@ -18,6 +18,8 @@ import Set from '../../../../img/member/setting.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 import MemberList from "./MemberList";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function Member({}) {
 
   //... 눌렀을때(메뉴)
@@ -57,16 +59,25 @@ export default function Member({}) {
     }
 ]
 
+    const topInfoContent = () => {
+      return(
+        <Link to="/MyMemberAdd">
+          <AddMember>추가</AddMember>
+        </Link>
+      )
+    }
+
     return (
         <Container>
           <WrapMember>
             <TopTitle>팀원 관리</TopTitle>
-            <TopInfo>
+            <CommonTopInfo length={3} leftComponent={topInfoContent()}/>
+            {/* <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
               <Link to="/MyMemberAdd">
                 <AddMember>추가</AddMember>
               </Link>
-            </TopInfo>
+            </TopInfo> */}
             {
             MemberListItem.map((value) => {
               return(

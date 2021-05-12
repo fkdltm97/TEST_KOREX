@@ -14,6 +14,8 @@ import Set from '../../../../img/member/setting.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function ItemTabList({}) {
 
   //... 눌렀을때(메뉴)
@@ -21,29 +23,55 @@ export default function ItemTabList({}) {
   const showModal =()=>{
     setMenu(!menu);
   }
+
+  const topInfoContent = () => {
+    return(
+      <FilterAndAdd>
+        <div onClick={showModal} className="linkToDiv">
+          <FilterImg src={View} alt="filter"/>
+          {
+            menu ?
+            <InMenu>
+              <Div>
+                <InDiv className="linkToDiv">최신알림순</InDiv>
+              </Div>
+              <Div>
+                <InDiv className="linkToDiv">과거알림순</InDiv>
+              </Div>
+            </InMenu>
+            :
+            null
+          }
+        </div>
+      </FilterAndAdd>
+    )
+  }
     return (
         <Container>
-          <TopInfo>
-            <All>총 <GreenColor>4</GreenColor> 건</All>
-            <FilterAndAdd>
-              <div onClick={showModal} className="linkToDiv">
-                <FilterImg src={View} alt="filter"/>
-                {
-                  menu ?
-                  <InMenu>
-                    <Div>
-                      <InDiv className="linkToDiv">최신알림순</InDiv>
-                    </Div>
-                    <Div>
-                      <InDiv className="linkToDiv">과거알림순</InDiv>
-                    </Div>
-                  </InMenu>
-                  :
-                  null
-                }
-              </div>
-            </FilterAndAdd>
-          </TopInfo>
+          <CommonTopInfo length={4} leftComponent={topInfoContent()}/>
+          {/*
+            <TopInfo>
+              <All>총 <GreenColor>4</GreenColor> 건</All>
+              <FilterAndAdd>
+                <div onClick={showModal} className="linkToDiv">
+                  <FilterImg src={View} alt="filter"/>
+                  {
+                    menu ?
+                    <InMenu>
+                      <Div>
+                        <InDiv className="linkToDiv">최신알림순</InDiv>
+                      </Div>
+                      <Div>
+                        <InDiv className="linkToDiv">과거알림순</InDiv>
+                      </Div>
+                    </InMenu>
+                    :
+                    null
+                  }
+                </div>
+              </FilterAndAdd>
+            </TopInfo>
+          */}
         </Container>
   );
 }

@@ -34,6 +34,13 @@ export default function SubTitle() {
       src2:RightArrow
     }
     ]
+
+
+    const onClickTeam = (value) => {
+      // 클릭 id
+      // console.log(value.Team_id);
+    }
+
     return (
         <Container>
           <WrapTeamBody>
@@ -41,7 +48,7 @@ export default function SubTitle() {
             {
               TeamListItem.map((value) => {
                 return(
-                  <List>
+                  <List onClick={() => onClickTeam(value)}>
                     <Link to={value.path} className="data_link"></Link>
                       <TeamTitle>
                         <ItemImg src={value.src}/>
