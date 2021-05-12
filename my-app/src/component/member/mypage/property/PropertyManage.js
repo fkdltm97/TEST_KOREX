@@ -67,20 +67,20 @@ export default function Propertymanage({setFilter,updateModal,value,type}) {
       request_mem_name:"홍길동"
     }
   ]
+  // 이 부분 오류나서 주석처리해놨습니다!
+  // useEffect( async () => {
+  //   console.log('최초 한번 실행, 해당 로그인 memid(companyid전문중개사)에 해당하는 중개사에게 누구누구리스트가 의뢰한건지 어떤매물들이(등록이전) 등록된건지조회');
 
-  useEffect( async () => {
-    console.log('최초 한번 실행, 해당 로그인 memid(companyid전문중개사)에 해당하는 중개사에게 누구누구리스트가 의뢰한건지 어떤매물들이(등록이전) 등록된건지조회');
+  //   let body_info={
 
-    let body_info={
+  //   };
 
-    };
+  //   let res_result=await serverController.connectFetchController('/api/broker/BrokerRequest_productlist','POST',JSON.stringify(body_info));
+  //   console.log('brokerRequest_prouductlist load res_result:',res_result);
 
-    let res_result=await serverController.connectFetchController('/api/broker/BrokerRequest_productlist','POST',JSON.stringify(body_info));
-    console.log('brokerRequest_prouductlist load res_result:',res_result);
-
-    setBrokerRequest_productlist(res_result.result_data);
+  //   setBrokerRequest_productlist(res_result.result_data);
     
-  },[]);
+  // },[]);
 
     return (
         <Container>

@@ -119,13 +119,17 @@ export default function ItemTabList({value,type}) {
   ]
 
 
+  const onClickList = (e) => {
+    // 클릭한 텍스트 불러오기
+    console.log(e.target.innerText);
+  }
 
     return (
         <Container>
           <TopInfo>
             <All>총 <GreenColor>4</GreenColor> 건</All>
             {/* -- 수정코드입니다. */}
-            <CommonFilter />
+            <CommonFilter onClick={onClickList}/>
             {/* -- 원래 코드입니다. */}
             {/*
               <FilterAndAdd>

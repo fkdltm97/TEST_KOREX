@@ -16,6 +16,8 @@ import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';
 import TermLocation from '../../component/common/TermsOfLocation';
 
+import CommonFooter from '../../component/common/commonFooter';
+
 import { Mobile, PC } from "../../MediaQuery"
 
 export default function MainPage() {
@@ -46,10 +48,11 @@ export default function MainPage() {
             <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
             <MbBunyangView setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
+          <CommonFooter/>
+          {/* <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
           <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
     </>
   );
 }

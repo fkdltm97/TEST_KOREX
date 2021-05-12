@@ -8,7 +8,9 @@ import styled from "styled-components"
 //img
 import View from '../../../../img/main/icon_view.png';
 
-const CommonFilter = (props) => {
+const CommonFilter = ({onClick}) => {
+
+    // 외부에서 클릭 시 발생하는 함수를 정의해주어야 합니다.
 
     //... 눌렀을때(메뉴)
     const [menu,setMenu] = useState(false);
@@ -16,6 +18,7 @@ const CommonFilter = (props) => {
         setMenu(!menu);
     }
 
+    
     return(
         <FilterAndAdd>
             <div onClick={showModal} className="linkToDiv">
@@ -25,27 +28,27 @@ const CommonFilter = (props) => {
                 <InMenu>
                     <Div>
                         <div className={["data_link", "linkToDiv"]}></div>
-                        <InDiv>최신등록순</InDiv>
+                        <InDiv onClick={onClick && onClick}>최신등록순</InDiv>
                     </Div>
                     <Div>
                         <div className={["data_link", "linkToDiv"]}></div>
-                        <InDiv>높은가격순</InDiv>
+                        <InDiv onClick={onClick && onClick}>높은가격순</InDiv>
                     </Div>
                     <Div>
                         <div className={["data_link", "linkToDiv"]}></div>
-                        <InDiv>낮은가격순</InDiv>
+                        <InDiv onClick={onClick && onClick}>낮은가격순</InDiv>
                     </Div>
                     <Div>
                         <div className={["data_link", "linkToDiv"]}></div>
-                        <InDiv>넓은면적순</InDiv>
+                        <InDiv onClick={onClick && onClick}>넓은면적순</InDiv>
                     </Div>
                     <Div>
                         <div className={["data_link", "linkToDiv"]}></div>
-                        <InDiv>좁은면적순</InDiv>
+                        <InDiv onClick={onClick && onClick}>좁은면적순</InDiv>
                     </Div>
                     <Div>
                         <div className={["data_link", "linkToDiv"]}></div>
-                        <InDiv>가나다순</InDiv>
+                        <InDiv onClick={onClick && onClick}>가나다순</InDiv>
                     </Div>
                 </InMenu>
                 :

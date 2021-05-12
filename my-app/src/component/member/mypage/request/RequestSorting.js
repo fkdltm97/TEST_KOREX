@@ -32,36 +32,69 @@ export default function Request({setFilter,value,type}) {
   const showMenu =()=>{
     setMenu(!menu);
   }
+
+  // 이 부분만 추가/수정하면 됩니다.
+  const listData = [
+    ["물건종류", "물건종류1", "물건종류2", "물건종류3"],
+    ["거래유형", "거래유형1", "거래유형2", "거래유형3"],
+    ["가격", "가격1", "가격2", "가격3"],
+    ["면적", "면적1", "면적2", "면적3"],
+  ]
+
+  const commonList = (array) => {
+    return(<>{
+      // listData의 자식요소에 접근
+      array.map((item, index) => {
+        return(
+        <ItemList key={index}>
+          {
+            item.map((itemChild, indexChild) => {
+              // listData의 자식요소의 자식요소에 접근
+              if(indexChild == 0){return(<ItemSubList key={indexChild} selected disabled>{itemChild}</ItemSubList>)}
+              return(<ItemSubList key={indexChild}>{itemChild}</ItemSubList>);
+            })
+          }
+        </ItemList>
+        )
+      })
+    }</>)
+  }
   
   // 이부분 이상합니다!!!!!
     return (
         <Container>
           <ModalSelect>
-              <ItemList>
-                <ItemSubList selected disabled>물건종류</ItemSubList>
-                <ItemSubList>물건종류1</ItemSubList>
-                <ItemSubList>물건종류2</ItemSubList>
-                <ItemSubList>물건종류3</ItemSubList>
-              </ItemList>
-              <ItemList>
-                <ItemSubList selected disabled>거래유형</ItemSubList>
-                <ItemSubList>거래유형1</ItemSubList>
-                <ItemSubList>거래유형2</ItemSubList>
-                <ItemSubList>거래유형3</ItemSubList>
-              </ItemList>
-              <ItemList>
-                <ItemSubList selected disabled>가격</ItemSubList>
-                <ItemSubList>가격1</ItemSubList>
-                <ItemSubList>가격2</ItemSubList>
-                <ItemSubList>가격3</ItemSubList>
-              </ItemList>
-              <ItemList>
-                <ItemSubList selected disabled>면적</ItemSubList>
-                <ItemSubList>면적1</ItemSubList>
-                <ItemSubList>면적2</ItemSubList>
-                <ItemSubList>면적3</ItemSubList>
-              </ItemList>
-            <SortRecent>
+              {/* 수정코드입니다. */}
+              {commonList(listData)}
+              {/* -- 원래 코드입니다. */}
+              {/*
+                <ItemList>
+                  <ItemSubList selected disabled>물건종류</ItemSubList>
+                  <ItemSubList>물건종류1</ItemSubList>
+                  <ItemSubList>물건종류2</ItemSubList>
+                  <ItemSubList>물건종류3</ItemSubList>
+                </ItemList>
+                <ItemList>
+                  <ItemSubList selected disabled>거래유형</ItemSubList>
+                  <ItemSubList>거래유형1</ItemSubList>
+                  <ItemSubList>거래유형2</ItemSubList>
+                  <ItemSubList>거래유형3</ItemSubList>
+                </ItemList>
+                <ItemList>
+                  <ItemSubList selected disabled>가격</ItemSubList>
+                  <ItemSubList>가격1</ItemSubList>
+                  <ItemSubList>가격2</ItemSubList>
+                  <ItemSubList>가격3</ItemSubList>
+                </ItemList>
+                <ItemList>
+                  <ItemSubList selected disabled>면적</ItemSubList>
+                  <ItemSubList>면적1</ItemSubList>
+                  <ItemSubList>면적2</ItemSubList>
+                  <ItemSubList>면적3</ItemSubList>
+                </ItemList>
+              */}
+            
+            <SortRecent> 
               <RecentList>
                 <div class="linkToDiv" onClick={showMenu}>
                   <Span><RecentImg src={IconRecent}/></Span>

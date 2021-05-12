@@ -24,6 +24,9 @@ import ModalEdit from '../../../component/member/mypage/propertyManage/modal/Mod
 import ModalAllEdit from '../../../component/member/mypage/propertyManage/modal/ModalAllEdit';
 import ModalEditResult from '../../../component/member/mypage/propertyManage/modal/ModalEditResult';
 
+import CommonHeader from '../../../component/common/commonHeader';
+import CommonFooter from '../../../component/common/commonFooter';
+
 //server
 import serverController from '../../../server/serverController';
 
@@ -31,25 +34,25 @@ import {useSelector} from 'react-redux';
 
 export default function Join() {
   //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
-  //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // //개인정보처리방침
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
-  //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // //위치기반서비스 이용약관
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
-  //분양 모달
-  const [bunyang, setBunyang] = useState(false);
-  const openBunyang = (onOff) =>{ setBunyang(onOff);}
-  //라이브 시청 모달
-  const [live, setLive] = useState(false);
-  //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
-  const [cal, setCal] = useState(false);
+  // //분양 모달
+  // const [bunyang, setBunyang] = useState(false);
+  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  // //라이브 시청 모달
+  // const [live, setLive] = useState(false);
+  // //분양 상세이미지 모달
+  // const [detailimg, setDetailImg] = useState(false);
+  // const [cal, setCal] = useState(false);
 
   //필터 모달창
   const [filter,setFilter] = useState(false);
@@ -674,21 +677,23 @@ export default function Join() {
     
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          {/* <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openBunyang={openBunyang}/>
+          <MainHeader openBunyang={openBunyang}/> */}
+          <CommonHeader/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/> 
             <PropertyManage tridchklist_function={tridchklist_function} prdidvalue={prdidvalue} reservationItemlist={reservationItemlist} cancleModal={cancleModal} confirmModal={confirmModal} select={select} setSelect={setSelect}
             mapModal={mapModal} selectModal={selectModal} updateModal={updateModal} editModal={editModal} editAllModal={editAllModal} editResultModal={editResultModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
+          <CommonFooter/>
+          {/* <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
           <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
         </>
   );
 }
