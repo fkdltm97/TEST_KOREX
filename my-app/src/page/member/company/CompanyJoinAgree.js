@@ -25,6 +25,8 @@ import { useSelector } from 'react-redux';
 import { tempRegisterdataActions } from '../../../store/actionCreators';
 //import ModalCalendar from "../../../component/common/house/ModalCalendar";
 
+import CommonFooter from '../../../component/common/commonFooter';
+
 import Bunyang from '../../../component/common/bunyang/Bunyang';
 
 export default function JoinAgree() {
@@ -112,7 +114,6 @@ export default function JoinAgree() {
     }
     return (
         <>
-          
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           <MainHeader openBunyang={openBunyang}/>
           <Container>
@@ -136,10 +137,11 @@ export default function JoinAgree() {
                 member_submit_function={member_submit_function}
               />
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
+          <CommonFooter/>
+          {/* <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
           <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
         </>
   );
 }
