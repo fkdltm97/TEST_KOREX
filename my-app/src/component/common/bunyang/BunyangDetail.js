@@ -24,7 +24,7 @@ import Checked from "../../../img/member/checked.png";
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal}){
+export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal , BunyangDate}){
 
   const [active,setActive] = useState(false);
     return (
@@ -92,18 +92,18 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                 <Option>충청남도 / 아파트 / 민간분양</Option>
                 <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
                 <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1"></Like>
+                  <Like type="checkbox" name="" id="Like1"checked={BunyangDate.LikeChecked}></Like>
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </RightTop>
               <RightBottom>
                 <Desc>
                   <DTitle>분양세대</DTitle>
-                  <DescInfo>831세대</DescInfo>
+                  <DescInfo>{BunyangDate.desc1}</DescInfo>
                 </Desc>
                 <Desc>
                   <DTitle>분양면적</DTitle>
-                  <DescInfo>103㎡ ~ 114㎡</DescInfo>
+                  <DescInfo>{BunyangDate.desc2}</DescInfo>
                 </Desc>
                 <Desc>
                   <DTitle>전용면적</DTitle>

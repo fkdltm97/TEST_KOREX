@@ -23,15 +23,15 @@ const BunyangListItem =[
     src:ItemImg,
     path:"/MbBunyangDetail",
     number:"2D0000324",
-    title:"충남내포신도시2차대방엘리움더센트럴",
+    title:"충남내포신도시2차대방엘리움더센트럴",//프로젝트명
     option:"충청남도 / 아파트 / 민간분양",
     address:"충청남도 홍성군 홍북읍 신경리",
     desc1:"831세대", //분양세대
     desc2:"103㎡ ~ 114㎡", //분양면적
     desc3:"77㎡ ~ 85㎡", //전용면적
     desc4:"35,599 ~ 44,049 만원", //분양가격
-    LiveCheckded : true,
-    LikeCheckded : false
+    LiveChecked : true, //라이브 방소예고
+    LikeChecked : false //좋아요
     //모델하우스 주소
     //중개보수
     //Live 방송일시
@@ -48,13 +48,22 @@ const BunyangListItem =[
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
     desc4:"35,599 ~ 44,049 만원",
-    LiveCheckded : false,
-    LikeCheckded : true
+    LiveChecked : false,
+    LikeChecked : true
   },
 ]
 
-export default function BunyangList({updatePageIndex}){
+
+export default function BunyangList({updatePageIndex , setBunyangDate}){
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  
+  
+  const [BYDate, setBYDate] = useState(BunyangListItem)
+
+ //Like 버튼 클릭시 동작..... 
+  const LikeButton =(value)=>{
+      console.log(value);
+  }
 
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -93,23 +102,23 @@ export default function BunyangList({updatePageIndex}){
         </Search>
         <SortRecent>
           <RecentList>
-            <Link onClick={() => {updateModal()}}>
+            <Link onClick={() => {updateModal(); }}>
               <Span><RecentImg src={IconRecent}/></Span>
             </Link>
           </RecentList>
         </SortRecent>
       </ModalSelect>
 {/*bunyang List*/}
-        <ListTop>총 <Green>{BunyangListItem.length}</Green>건</ListTop>
+        <ListTop>총 <Green>{BYDate.length}</Green>건</ListTop>
         <WrapList>
           <ListUl>
           {
-            BunyangListItem.map((value) => {
-              if(value.LiveCheckded === true){
+            BYDate.map((value) => {
+              if(value.LiveChecked === true){
                 return(
                   <Li>
                     <LiTop className="clearfix">
-                      <Link onClick={() => {updatePageIndex(1)}}>
+                      <Link onClick={() => {updatePageIndex(1); setBunyangDate(value)}}>
                         <LiImg src={value.src}/>
                         <LiDesc>
                           <LiTitle>{value.title}
@@ -121,7 +130,7 @@ export default function BunyangList({updatePageIndex}){
                         </LiDesc>
                       </Link>
                       <LikeBtn>
-                        <Like type="checkbox" name="" id="Like1" checked={value.LikeCheckded}></Like>
+                        <Like type="checkbox" name="" id="Like1" checked={value.LikeChecked} onClick={()=>{LikeButton(value)}}></Like>
                         <Label for="Like1" className="check_label"></Label>
                       </LikeBtn>
                     </LiTop>
@@ -131,7 +140,7 @@ export default function BunyangList({updatePageIndex}){
               return(
                 <Li>
                   <LiTop className="clearfix">
-                    <Link onClick={() => {updatePageIndex(1)}}>
+                    <Link onClick={() => {updatePageIndex(1); setBunyangDate(value)}}>
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <LiTitle>{value.title}
@@ -143,7 +152,7 @@ export default function BunyangList({updatePageIndex}){
                       </LiDesc>
                     </Link>
                     <LikeBtn>
-                      <Like type="checkbox" name="" id="Like1" checked={value.LikeCheckded}></Like>
+                      <Like type="checkbox" name="" id="Like1" checked={value.LikeChecked}></Like>
                       <Label for="Like1" className="check_label"></Label>
                     </LikeBtn>
                   </LiTop>

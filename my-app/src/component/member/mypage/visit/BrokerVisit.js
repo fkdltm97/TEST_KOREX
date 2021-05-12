@@ -81,7 +81,7 @@ export default function BrokerVisitt({setMap,setFilter,setVisit,setVCal,calModal
           <WrapReserve>
             <TopTitle>내 방문예약</TopTitle>
             <TopInfo>
-              <All>총 <GreenColor>3</GreenColor> 건</All>
+              <All>총 <GreenColor>{VisitListItem.length}</GreenColor> 건</All>
               <Link onClick={() => {setFilter(true);updateModal();}}>
                 <FilterImg src={Filter} alt="filter"/>
               </Link>

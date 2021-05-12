@@ -21,12 +21,14 @@ export default function Bunyang({bunyang, openBunyang ,live, setLive, detailimg,
 
   //모달창 내 페이지 이동
   const [pageIndex , setPageIndex] = useState(0);
+  
+  const [BunyangDate, setBunyangDate] = useState([])
 
   const pageLoader = () =>{
     switch (pageIndex) {
-      case 0: return <BunyangList updatePageIndex={updatePageIndex}/>;
-      case 1: return <BunyangDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>;
-      default :return <BunyangList updatePageIndex={updatePageIndex}/>;
+      case 0: return <BunyangList updatePageIndex={updatePageIndex} setBunyangDate={setBunyangDate} BunyangDate={BunyangDate}/>;
+      case 1: return <BunyangDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal} setBunyangDate={setBunyangDate}BunyangDate={BunyangDate}/>;
+      default :return <BunyangList updatePageIndex={updatePageIndex}setBunyangDate={setBunyangDate}BunyangDate={BunyangDate}/>;
     }
   }
 

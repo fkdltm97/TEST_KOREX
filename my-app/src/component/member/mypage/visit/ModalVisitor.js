@@ -21,20 +21,26 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 //지도 모달
 export default function ModalVisitorReserve({ visit, setVisit }) {
+
+  const guest = [
+    { guestname: "김동반", guestNum : "01012341234"},
+    { guestname: "김반동", guestNum : "01012345678"}
+  ];
+
   if(visit == false)
     return null;
     return (
         <Container>
           <WrapModalVisitor>
               <VisitorList>
+                {guest.map(item => {
+                return(
                 <List>
-                  <Name>김동반</Name>
-                  <Phone>010 0000 0000</Phone>
+                  <Name>{item.guestname}</Name>
+                  <Phone>{item.guestNum.substr(0,3).concat("-XXXX-").concat(item.guestNum.substr(7))}</Phone> 
                 </List>
-                <List>
-                  <Name>김동반</Name>
-                  <Phone>010 0000 0000</Phone>
-                </List>
+                )
+                })}
               </VisitorList>
           </WrapModalVisitor>
         </Container>

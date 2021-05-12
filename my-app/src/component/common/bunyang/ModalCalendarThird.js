@@ -17,14 +17,29 @@ import Close from '../../../img/main/modal_close.png';
 import ModalCommon from '../modal/ModalCommon';
 
 export default function ModalCal({cal, setCal, updatePageIndex}){
-  const [name,setName] = useState("");
-  const [phone,setPhone] = useState("");/*기본값*/
+  const [Name,setName] = useState("");
+  const [Phone,setPhone] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
+  const [Inputdate, setInputdate] = useState([{}])
 
   const phoneChange = (e) =>{ setPhone(e.target.value); }
   const nameChange = (e) =>{ setName(e.target.value); }
+  
+  const {name , phone} = Inputdate;
+  
+  const Add = () => {
+    if(name !== "" && phone !== ""){
+      setInputdate([
+        ...Inputdate ,
+        {name :Name , phone : Phone}
+      ])
+    }else{
+      finalModal()
+    }
+  };
+
   const checkVaildate = () =>{
-    return phone.length > 9 && name.length > 0
+    return Phone.length > 9 && Name.length > 0
    }
 
   useEffect(()=>{
@@ -34,24 +49,6 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
         setActive(false);
   },)
 
-const [UserName, setUsesrName] = useState([]);
-const [UserPhone, setUserPhone] = useState([]);
-
-const [userList, setUserList] = useState([]);
-
-
-const Add = () => {
-  const NameInfo = [...UserName , name];
-  const PhoneInfo = [...UserPhone , phone];
-
-  setUserList(list => {  list.push({name:name,phone:phone});  return [...list];});
-  
-  setUsesrName(NameInfo);
-  setUserPhone(PhoneInfo);
-  setName("");
-  setPhone('');
-};
-
 const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
 //여기 두개가 핵심이에여
@@ -60,6 +57,19 @@ const offModal = ()=>{
   let option = JSON.parse(JSON.stringify(modalOption));
   option.show = false;
   setModalOption(option);
+}
+
+const finalModal= () =>{
+  setModalOption({
+    show:true,
+    setShow:offModal,
+    title:"등록",
+    content:{type:"text",text:`이름과 이메일을 확인해주세요.`,component:""},
+    submit:{show:false , title:"" , event : ()=>{offModal(); }},
+    cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+    confirm:{show:false , title:"확인" , event : ()=>{offModal();}},
+    confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal();}}
+  });
 }
 
 //등록되었습니다 모달
@@ -77,7 +87,7 @@ const comfirmModal= () =>{
 }
 
 const onRemove = item =>{
-  setUserList(userList.filter(user =>user.name !== item.name ))
+  setInputdate(Inputdate.filter(user =>user.phone !== item.phone ))
 }
 
 if(cal == false)
@@ -115,7 +125,7 @@ return (
                 type="text"
                 name="username"
                 placeholder="이름을 입력하여주세요."
-                value={name}
+                value={Name}
                 onChange={nameChange}
               />
               <WrapPhone>
@@ -125,9 +135,9 @@ return (
                     type="tel"
                     name="userphoneNum"
                     placeholder="휴대번호를 ’-‘를 빼고 입력하여주세요."
-                    value={phone}
+                    value={Phone}
                     onChange={phoneChange}
-                    maxLength="11"
+                    maxLength="15"
                   />
                   <Delete
                     src={Close}
@@ -144,7 +154,7 @@ return (
 
             <InviteList>
               {
-                userList.map((item)=>{
+                Inputdate.map((item)=>{
                   return (
                     <EaWrap>
                       <EaName>{item.name}</EaName>
