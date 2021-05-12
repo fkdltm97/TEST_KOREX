@@ -80,9 +80,9 @@ export default function Live({addModal,editModal,cancleModal,comfirmModal,setAdd
           <WrapReserve>
             <TopTitle>Live 시청예약세팅</TopTitle>
             <TopInfo>
-              <Link onClick={()=>{setAdd(true);addModal();}}>
+              <div onClick={()=>{setAdd(true);addModal();}} className="linkToDiv">
                 <AddBtn>추가</AddBtn>
-              </Link>
+              </div>
             </TopInfo>
             <ReserveList>
             {
@@ -178,7 +178,7 @@ const AddBtn = styled.div`
   width:80px;height:32px;
   line-height:30px;text-align:center;
   border-radius: 4px;
-  border: solid 2px #2b664d;
+  border: solid 2px #2b664d;cursor:pointer;
   color:#2b664d;font-size:13px;font-weight:800;transform:skew(-0.1deg);
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(13/428));

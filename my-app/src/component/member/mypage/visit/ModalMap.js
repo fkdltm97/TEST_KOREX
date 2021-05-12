@@ -19,6 +19,9 @@ import Change from '../../../../img/member/change.png';
 import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
 
+// Map
+import KakaoMapSide from '../../../map/map/KakaoMapSide';
+
 //지도 모달
 export default function ModalMapReserve({ map, setMap }) {
   if(map == false)
@@ -29,17 +32,14 @@ export default function ModalMapReserve({ map, setMap }) {
               <ModalMapAddress>
                 <AddressTxt>서울시 구로구 신도림동 131-13 103동</AddressTxt>
                 <ChangeAddress>
-                  <Link>
+                  <div className="linkToDiv">
                     <ChangeImg src={Change}/>
                     <ChangeTxt>도로명</ChangeTxt>
-                  </Link>
+                  </div>
                 </ChangeAddress>
               </ModalMapAddress>
               <ShowMap>
-                <InMapBox></InMapBox>
-                <MapMarker>
-                  <MapMarkerImg src={Marker}/>
-                </MapMarker>
+                <KakaoMapSide cutomImg={Marker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
               </ShowMap>
           </WrapModalMap>
         </Container>

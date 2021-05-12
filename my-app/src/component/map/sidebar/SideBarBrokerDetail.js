@@ -105,6 +105,7 @@ export default function SideItemDetail({historyInfo,updatePageIndex,setHistoryIn
   const productRedux = useSelector(state=>{ return state.mapProductEls});
 
   useEffect(() => {
+    // console.log(productRedux.clickPro); 클릭 아이디
     MapProductEls.updateBrokerProduct({ brokerProduct : ItemListItem });
     setBrokerName("럭키 공인중개사")
     setBroker({

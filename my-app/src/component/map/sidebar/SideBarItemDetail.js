@@ -19,6 +19,7 @@ import Exit from "../../../img/main/exit.png";
 import Checked from "../../../img/map/checked.png";
 import Check from "../../../img/main/heart.png";
 import Profile from "../../../img/map/profile_img.png";
+import sideMapMarker from "../../../img/map/sideMapMarker.png";
 
 // components
 import { Mobile, PC } from "../../../MediaQuery";
@@ -518,7 +519,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                     </Li>
                   </ItemInfoList>
                   <MapArea>
-                    <KakaoMapSide />
+                    <KakaoMapSide cutomImg={sideMapMarker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
                   </MapArea>
                 </>
                 :

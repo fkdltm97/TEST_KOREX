@@ -78,9 +78,9 @@ export default function Reserve({setMap,setFilter,setReserve, value, type, type2
             <TopTitle>내 물건 투어 예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
-              <Link onClick={() => { setFilter(true); updateModal(); }}>
+              <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
                 <FilterImg src={Filter} alt="filter"/>
-              </Link>
+              </div>
             </TopInfo>
             <ReserveList>
             {

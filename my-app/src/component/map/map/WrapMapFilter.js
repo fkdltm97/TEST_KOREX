@@ -79,14 +79,14 @@ export default function MapFilter({status}) {
   const priceRangeText = () => 
   {
     if(uiData.prd_sel_type[0] == 0){return;}
+    if(uiData.priceRangeValue[0] == 0 && uiData.priceRangeValue[1] == 100){return};
     const data = mapFilterRedux.filterArr.priceRange;
-    if(data=="전체"){return;}
     return(
-      <SlickSlide className="slide__one"  onClick={()=>scrollToClick("priceWrap")}>
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick("priceWrap")}>
         <Link>
           <FliterEa>
             {data}
-            <CloseFilter data-type="priceRange" onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type="priceRange" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -95,16 +95,14 @@ export default function MapFilter({status}) {
 
   // 관리비 
   const manaRangeText = () => {
+    if(uiData.manaRangeValue[0] == 0 && uiData.manaRangeValue[1] == 75){return};
     const data = mapFilterRedux.filterArr.manaRange;
-    if(data=="전체"){
-      return;
-    }
     return(
       <SlickSlide className="slide__one"  onClick={()=>scrollToClick("manaWrap")}>
         <Link>
           <FliterEa>
             {data}
-            <CloseFilter data-type="manaRange" onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type="manaRange" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -113,16 +111,14 @@ export default function MapFilter({status}) {
 
   // 면적 (공급면적)
   const areaRangeText = () => {
+    if(uiData.areaRangeValue[0] == 0 && uiData.areaRangeValue[1] == 100){return};
     const data = mapFilterRedux.filterArr.areaRange;
-    if(data=="전체"){
-      return;
-    }
     return(
       <SlickSlide className="slide__one" onClick={()=>scrollToClick("areaWrap")}>
         <Link>
           <FliterEa>
             {data}
-            <CloseFilter data-type="areaRange" onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type="areaRange" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -132,14 +128,14 @@ export default function MapFilter({status}) {
   // 보증금(전세금)
   const jeonseRangeText = () => {
     if(uiData.prd_sel_type[1] == 0 && uiData.prd_sel_type[2] == 0 ){return;}
+    if(uiData.jeonseRangeValue[0] == 0 && uiData.jeonseRangeValue[1] == 30){return};
     const data = mapFilterRedux.filterArr.jeonseRange;
-    if(data=="전체"){return;}
     return(
       <SlickSlide className="slide__one" onClick={()=>scrollToClick("jeonseWrap")} >
         <Link>
           <FliterEa>
             {data}
-            <CloseFilter data-type="jeonseRange" onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type="jeonseRange" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -149,14 +145,14 @@ export default function MapFilter({status}) {
   // 월세 
   const monthlyRangeText = () => {
     if(uiData.prd_sel_type[2] == 0){return;}
+    if(uiData.monthlyRangeValue[0] == 0 && uiData.monthlyRangeValue[1] == 18){return};
     const data = mapFilterRedux.filterArr.monthlyRange;
-    if(data=="전체"){return;}
     return(
       <SlickSlide className="slide__one" onClick={()=>scrollToClick("monthlyWrap")}>
         <Link>
           <FliterEa>
             {data}
-            <CloseFilter data-type="monthlyRange" onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type="monthlyRange" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -202,7 +198,7 @@ export default function MapFilter({status}) {
         <Link>
           <FliterEa>
             {text}
-            <CloseFilter data-type="room" onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type="room" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -216,11 +212,11 @@ export default function MapFilter({status}) {
   }
 
     return(
-      <SlickSlide className="slide__one" className="changeBtn" onClick={()=>scrollToClick(scroll)}>
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick(scroll)}>
         <Link>
           <FliterEa>
             {text}
-            <CloseFilter data-type={dataType} onClick={(e) => {onClickClose(e)}}/>
+            <CloseFilter data-type={dataType} className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -234,7 +230,6 @@ export default function MapFilter({status}) {
       preventBubbling = false;
     }, 300)
     const data = mapFilterRedux.filterArr;
-    const text = e.target.dataset.text;
     const type = e.target.dataset.type;
     // if(type == "option"){
     //   const option = document.querySelectorAll(`input[name='option']`);

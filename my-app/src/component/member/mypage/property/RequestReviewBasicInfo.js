@@ -225,9 +225,9 @@ export default function RequsetReview({brokerRequest_product,disabled}) {
                     <Label>거래유형<Pilsu>*</Pilsu></Label>
                     <SelectMb disabled={disabled ? true: false} onChange={change_selltype}>
                       <Option>거래유형을 선택하여주세요.</Option>
-                      <Option value='매매'>매매</Option>
-                      <Option value='전세'>전세</Option>
-                      <Option value='월세'>월세</Option>
+                      <Option selected={selltype=='매매'} value='매매'>매매</Option>
+                      <Option selected={selltype=='전세'} value='전세'>전세</Option>
+                      <Option selected={selltype=='월세'} value='월세'>월세</Option>
                     </SelectMb>
                   </SelectBox>
                   <InputBox>

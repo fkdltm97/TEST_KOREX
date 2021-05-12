@@ -30,18 +30,16 @@ export default function JoinInput({profileedit,profileeditCheck}) {
   console.log('data.login_userinfo refer infoi:',login_userinfodata);
 
   const [open, setOpen] = useState(false);//profileBOTTOM사용 STATE값들..
-
+  const [inputValue, setInputValue] = useState("");
 
   const valueChk = () =>{
     return profileeditCheck;
   }
 
   const profilehead = () => {
-    console.log('profilehead함수 호출==========>>>',login_userinfodata.user_type);
-
+    // console.log('profilehead함수 호출==========>>>',login_userinfodata.user_type);
     if(login_userinfodata.is_login == 1){
       switch(login_userinfodata.user_type){
-
         case '전문중개사':
            {/*전문중개사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
            return (
@@ -50,8 +48,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
               <MarkerImg>전문</MarkerImg>
             </BrokerTag> 
           );
-        break;
-      
+        // break;
         case '분양대행사':
           {/*분양대행사일때 나오는 부분 ( BrokerKinds : 관리자 / 맴버 )*/}
           return(
@@ -59,11 +56,10 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                 <BrokerKinds>관리자</BrokerKinds>
               </BrokerTag>
             );
-          break;
+          // break;
        }
     }else{
       //로그인 오류 or 로그인 안된 상태일경우에도 일단 띄운다. 테스트용도로 비로그인상태라면 딱히 중개사or분양대행사 상태는 아니기에 두 관련 상태는 x
-
     }
      
   }
@@ -115,82 +111,131 @@ export default function JoinInput({profileedit,profileeditCheck}) {
   }
   
   const usernameChange = (e) =>{
-     console.log('상태값username 변화:',e.target.value);
-  }//사업자번호1,2,3 부분별 입력. 3-2-5자리.
+    setInputValue(e.target.value);
+    //  console.log('상태값username 변화:',e.target.value);
+  }
+  //사업자번호1,2,3 부분별 입력. 3-2-5자리.
  
-  //수정버튼
+  // -- 수정코드입니다.
   const profilelist = () => {
-      switch(profileedit){
-          case 1 :
-                  return (
-                    <ProfileTop>
-                      <ProfileImg>
-                        <Profile src={Img}/>
-                      </ProfileImg>
+    return (
+      <ProfileTop>
+        {
+          profileedit == 1?
+          <ProfileImg>
+            <Profile src={Img}/>
+          </ProfileImg>
+          :
+          <ProfileImg>
+            <Profile src={Img}/>
+            <File type="file" name="" id="file"/>
+            <Label for="file"/>
+          </ProfileImg>
+        }
+        <ProfileName>
+          {/* --원래 코드입니다. */}
+          {/* <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value="" onChange={usernameChange}/>*/}
+          {/* -- 수정코드입니다. */}
+          <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value={inputValue} onChange={usernameChange}/>
+          {
+            profilehead()
+          }
+        </ProfileName>
+        <ProfileBtns>
+          <MySetting>
+            <Link to="/MyProfileSetting">계정설정</Link>
+          </MySetting>
+          {/*
+            {/*개인, 기업일때 중개의뢰하기
+            <LinkBtn>
+              <Link to="/AddRequest">중개의뢰하기</Link>
+            </LinkBtn>
+            {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
+            <LinkBtn>
+              <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
+            </LinkBtn>
+            <LinkBtn>
+              <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
+            </LinkBtn>
+          */}
+        </ProfileBtns>
+      </ProfileTop>
+    );
+  }
 
-                      <ProfileName>
-                        <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value='' onChange={usernameChange}/>
-                        {
-                          profilehead()
-                        }
-                      </ProfileName>
-                      <ProfileBtns>
-                        <MySetting>
-                          <Link to="/MyProfileSetting">계정설정</Link>
-                        </MySetting>
-{/*
-                        {/*개인, 기업일때 중개의뢰하기
-                        <LinkBtn>
-                          <Link to="/AddRequest">중개의뢰하기</Link>
-                        </LinkBtn>
-                        {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
-                        <LinkBtn>
-                          <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
-                        </LinkBtn>
-                        <LinkBtn>
-                          <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
-                        </LinkBtn>
+//   수정버튼  --원래 코드입니다.
+//   const profilelist = () => {
+//       switch(profileedit){
+//           case 1 :
+//                   return (
+//                     <ProfileTop>
+//                       <ProfileImg>
+//                         <Profile src={Img}/>
+//                       </ProfileImg>
 
-*/}                      </ProfileBtns>
-                    </ProfileTop>
-                  );
-          case 2 :
-                  return (
-                    <ProfileTop>
-                      <ProfileImg>
-                        <Profile src={Img}/>
-                        <File type="file" name="" id="file"/>
-                        <Label for="file"/>
-                      </ProfileImg>
-                      <ProfileName>
-                        <InputBorder type="email" name="user_name" placeholder="이름을 설정해주세요." value='' onChange={usernameChange}/>
-                        {
-                          profilehead()
-                        }
-                      </ProfileName>
-                      <ProfileBtns>
-                        <MySetting>
-                          <Link to="/MyProfileSetting">계정설정</Link>{/*분양대행사는 계정설정버튼만 노출됨*/}
-                        </MySetting>
-{/*
-                        {/*개인, 기업일때 중개의뢰하기
-                        <LinkBtn>
-                          <Link to="/AddRequest">중개의뢰하기</Link>
-                        </LinkBtn>
-                        {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
-                        <LinkBtn>
-                          <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
-                        </LinkBtn>
-                        <LinkBtn>
-                          <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
-                        </LinkBtn>          
-*/}    
-                      </ProfileBtns>
-                    </ProfileTop>
-                  );
-          default : return null;
-      }
-    }
+//                       <ProfileName>
+//                         <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value='' onChange={usernameChange}/>
+//                         {
+//                           profilehead()
+//                         }
+//                       </ProfileName>
+//                       <ProfileBtns>
+//                         <MySetting>
+//                           <Link to="/MyProfileSetting">계정설정</Link>
+//                         </MySetting>
+// {/*
+//                         {/*개인, 기업일때 중개의뢰하기
+//                         <LinkBtn>
+//                           <Link to="/AddRequest">중개의뢰하기</Link>
+//                         </LinkBtn>
+//                         {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
+//                         <LinkBtn>
+//                           <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
+//                         </LinkBtn>
+//                         <LinkBtn>
+//                           <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
+//                         </LinkBtn>
+
+// */}                      </ProfileBtns>
+//                     </ProfileTop>
+//                   );
+//           case 2 :
+//                   return (
+//                     <ProfileTop>
+//                       <ProfileImg>
+//                         <Profile src={Img}/>
+//                         <File type="file" name="" id="file"/>
+//                         <Label for="file"/>
+//                       </ProfileImg>
+//                       <ProfileName>
+//                         <InputBorder type="email" name="user_name" placeholder="이름을 설정해주세요." value='' onChange={usernameChange}/>
+//                         {
+//                           profilehead()
+//                         }
+//                       </ProfileName>
+//                       <ProfileBtns>
+//                         <MySetting>
+//                           <Link to="/MyProfileSetting">계정설정</Link>{/*분양대행사는 계정설정버튼만 노출됨*/}
+//                         </MySetting>
+// {/*
+//                         {/*개인, 기업일때 중개의뢰하기
+//                         <LinkBtn>
+//                           <Link to="/AddRequest">중개의뢰하기</Link>
+//                         </LinkBtn>
+//                         {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
+//                         <LinkBtn>
+//                           <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
+//                         </LinkBtn>
+//                         <LinkBtn>
+//                           <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
+//                         </LinkBtn>          
+// */}    
+//                       </ProfileBtns>
+//                     </ProfileTop>
+//                   );
+//           default : return null;
+//       }
+//   }
 
     return (
         <Container>

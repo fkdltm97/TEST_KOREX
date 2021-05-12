@@ -14,6 +14,10 @@ import HeartCheck from "../../../../img/main/heart_check.png";
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
+// Components
+import CommonFilter from './commonFilter';
+
+
 export default function ItemTabList({setFilter,value,type}) {
 
   //... 눌렀을때(메뉴)
@@ -76,47 +80,56 @@ export default function ItemTabList({setFilter,value,type}) {
   }
   ]
 
-
+  const onClickList = (e) => {
+    // 클릭한 텍스트 불러오기
+    console.log(e.target.innerText);
+  }
+  
     return (
         <Container>
             <TopInfo>
               <All>총 <GreenColor>4</GreenColor> 건</All>
-              <FilterAndAdd>
-                <Link onClick={showModal}>
-                  <FilterImg src={View} alt="filter"/>
-                  {
-                    menu ?
-                    <InMenu>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>최신등록순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>높은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>낮은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>넓은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>좁은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>가나다순</InDiv>
-                      </Div>
-                    </InMenu>
-                    :
-                    null
-                  }
-                </Link>
-              </FilterAndAdd>
+              {/* -- 수정코드입니다. */}
+              <CommonFilter onClick={onClickList}/>
+              {/* -- 원래 코드입니다. */}
+              {/*
+                <FilterAndAdd>
+                  <Link onClick={showModal}>
+                    <FilterImg src={View} alt="filter"/>
+                    {
+                      menu ?
+                      <InMenu>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>최신등록순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>높은가격순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>낮은가격순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>넓은면적순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>좁은면적순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>가나다순</InDiv>
+                        </Div>
+                      </InMenu>
+                      :
+                      null
+                    }
+                  </Link>
+                </FilterAndAdd>
+              */}
             </TopInfo>
             <ListUl>
           {

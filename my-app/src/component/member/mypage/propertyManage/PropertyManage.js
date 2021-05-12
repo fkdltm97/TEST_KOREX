@@ -22,7 +22,7 @@ import ManageList from "./ManageList";
 //server process
 import serverController from '../../../../server/serverController';
 
-export default function Manage({tridchklist_function,prdidvalue,reservationItemlist,cancleModal,mapModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
+export default function Manage({tridchklist_function,prdidvalue,reservationItemlist,cancleModal,mapModal,updateModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
   //console.log('===>>>>propertyMnagaew요소 실행::',reservationItemlist,prdidvalue);
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -104,7 +104,7 @@ export default function Manage({tridchklist_function,prdidvalue,reservationIteml
                   <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
                   <SearchButton type="button"/>
                 </SearchBox>
-                <FilterImg src={Filter} alt="filter"/>
+                <FilterImg onClick={()=>{updateModal();}} src={Filter} alt="filter" className="linkToDiv"/>
               </FilterAndAdd>
             </TopInfo>
             {/* 이 부분은 AddBtn의 select모달에서 하위요소가 선택됐을때 노출됩니다. */}

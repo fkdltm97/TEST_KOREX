@@ -20,23 +20,22 @@ export default function ModalCal({cal, setCal, updatePageIndex}){
   const [Name,setName] = useState("");
   const [Phone,setPhone] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
-  const [Inputdate, setInputdate] = useState([{}])
 
   const phoneChange = (e) =>{ setPhone(e.target.value); }
   const nameChange = (e) =>{ setName(e.target.value); }
   
-  const {name , phone} = Inputdate;
-  
-  const Add = () => {
-    if(name !== "" && phone !== ""){
-      setInputdate([
-        ...Inputdate ,
-        {name :Name , phone : Phone}
+  const [userList, setuserList] = useState([]);
+
+  const Add =()=>{
+    if(Name !== "" && Phone !== ""){
+      setuserList([
+        ...userList,
+        {name : Name, phone : Phone}
       ])
     }else{
       finalModal()
     }
-  };
+  }
 
   const checkVaildate = () =>{
     return Phone.length > 9 && Name.length > 0
@@ -87,7 +86,7 @@ const comfirmModal= () =>{
 }
 
 const onRemove = item =>{
-  setInputdate(Inputdate.filter(user =>user.phone !== item.phone ))
+  setuserList(userList.filter(user =>user.phone !== item.phone ))
 }
 
 if(cal == false)
@@ -154,7 +153,7 @@ return (
 
             <InviteList>
               {
-                Inputdate.map((item)=>{
+                userList.map((item)=>{
                   return (
                     <EaWrap>
                       <EaName>{item.name}</EaName>

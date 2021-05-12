@@ -15,26 +15,27 @@ export default function PersonalAndCompany() {
 
     return (
         <Container>
-              <FlexBox>
-                <Left>
-                  <Link to="/MyVisitManage" className="data_link"/>
-                  <Title>프로젝트 ID</Title>
-                  <Visit>
-                    방문예약 12 
-                  </Visit>
-                </Left>
-              </FlexBox>
-              <FlexBox>
-              <Left>
-                <Link to="/MyLiveManage" className="data_link"/>
-                <Date>2021.02.12 화요일 16:30</Date>
-                <Title>Live 시청예약</Title>
-              </Left>
-              <Right>
-                <IconImg src={LiveUser}/>
-                <UserNumber>20</UserNumber>
-              </Right>
-            </FlexBox>
+          <FlexBox>
+            <Left>
+              <Link to="/MyVisitManage" className="data_link"/>
+              <Title>프로젝트 ID</Title>
+              <Visit>
+                방문예약 12 
+              </Visit>
+            </Left>
+          </FlexBox>
+          
+          <FlexBox>
+            <Left>
+              <Link to="/MyLiveManage" className="data_link"/>
+              <Date>2021.02.12 화요일 16:30</Date>
+              <Title>Live 시청예약</Title>
+            </Left>
+            <Right>
+              <IconImg src={LiveUser}/>
+              <UserNumber>20</UserNumber>
+            </Right>
+          </FlexBox>
         </Container>
   );
 }

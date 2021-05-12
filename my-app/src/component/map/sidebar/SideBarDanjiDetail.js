@@ -24,6 +24,10 @@ import SideSubTitle from "./subtitle/SideSubTitle";
 import DanjiDetailTabContent from "./tabcontent/DanjiDetailTabContent";
 import DanjiDetailView from "./tabcontent/DanjiDetailView";
 
+// redux
+import { MapProductEls } from '../../../store/actionCreators';
+import { useSelector } from 'react-redux';
+
 SwiperCore.use([Navigation, Pagination]);
 
 const tableList =[
@@ -104,9 +108,11 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
   const [list, setList] = useState([]);
   const [danjiDesc, setDanjiDesc] = useState([]);
   const [typeIndex, setTypeIndex] = useState(0);
+  const productRedux = useSelector(state=>{ return state.mapProductEls});
 
   // **api 클릭한 아이디를 통하여 서버에서 데이터를 가져와야 합니다.
   useEffect(() => {
+    // console.log(productRedux.clickBlo)  클릭 아이디
     setArea(widthListItem);
     setList(tableList);
     setTopDesc({
@@ -125,12 +131,12 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
 
   // 면적 정보
   useEffect(() => {
-    console.log(areaIndex);
+    // console.log(areaIndex);
   }, [areaIndex])
 
   // 실거래가 전세/매매/전월세
   useEffect(() => {
-    console.log(typeIndex);
+    // console.log(typeIndex);
   }, [typeIndex])
 
   return (

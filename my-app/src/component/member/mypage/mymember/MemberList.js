@@ -43,11 +43,11 @@ export default function Member({value}) {
                     menu ?
                     <InMenu>
                       <Div>
-                        <Link to="/MyMemberEdit" className="data_link"></Link>
+                        <Link to="/MyMemberEdit" className="data_link"/>
                         <InDiv>수정</InDiv>
                       </Div>
                       <Div>
-                        <Link className="data_link"></Link>
+                        <div className="data_link linkToDiv"/>
                         <InDiv>삭제</InDiv>
                       </Div>
                     </InMenu>

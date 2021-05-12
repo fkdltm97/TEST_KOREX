@@ -41,9 +41,9 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
               <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
               <Number>등록번호 {value.number}</Number>
               <Address>
-                <Link onClick={() => {setMap(true);updateMapModal();}}>
+                <div className="linkToDiv" onClick={() => {setMap(true);updateMapModal();}}>
                   <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
-                </Link>
+                </div>
               </Address>
               <DateTime>
                 <Date>{value.date}</Date>
@@ -56,28 +56,28 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
                 <Label for={"check"+value.reserve_id}/>
               </Alarm>
               <Menu>
-                <Link onClick={showModal}>
+                <div className="linkToDiv" onClick={showModal}>
                   <MenuIcon/>
                     {
                       menu ?
                       <InMenu>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <div className={["data_link", "linkToDiv"]}></div>
                           <InDiv>예약취소</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link" onClick={()=>{setReserve(true);updateReserveModal();}}></Link>
+                          <div className={["data_link", "linkToDiv"]} onClick={()=>{setReserve(true);updateReserveModal();}}></div>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <Link className="data_link"></Link>
+                          <div className={["data_link", "linkToDiv"]}></div>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
                       :
                       null
                     }
-                </Link>
+                </div>
               </Menu>
             </RightMenu>
           </Li>

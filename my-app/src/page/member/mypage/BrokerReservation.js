@@ -23,27 +23,30 @@ import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from "../../../component/common/modal/ModalCommon";
 import ModalCalFirst from "../../../component/member/mypage/visit/ModalCalendarFirst"
 
+import CommonHeader from '../../../component/common/commonHeader';
+import CommonFooter from '../../../component/common/commonFooter';
+
 export default function Join() {
   //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
   //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
   //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //분양 모달
-  const [bunyang, setBunyang] = useState(false);
-  const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  // const [bunyang, setBunyang] = useState(false);
+  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
   //라이브 시청 모달
-  const [live, setLive] = useState(false);
+  // const [live, setLive] = useState(false);
   //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
-  const [cal, setCal] = useState(false);
+  // const [detailimg, setDetailImg] = useState(false);
+  // const [cal, setCal] = useState(false);
 
   const [rank,setRank] = useState(false);
   //지도 모달창
@@ -54,7 +57,7 @@ export default function Join() {
   const [visit,setVisit] = useState(false);
   //방문예약 수정모달창
   const [vCal,setVCal] = useState(false);
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
 //여기 두개가 핵심이에여 넵!
@@ -74,7 +77,7 @@ export default function Join() {
             setShow:offModal,
             title:"필터",
             content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
-            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
         });
@@ -121,20 +124,26 @@ export default function Join() {
 
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-          <LiveModal live={live} setLive={setLive}/>
-          <ModalCalendar cal={cal} setCal={setCal}/>
-          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openBunyang={openBunyang}/>
+          {/*
+            <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+            <LiveModal live={live} setLive={setLive}/>
+            <ModalCalendar cal={cal} setCal={setCal}/>
+            <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+            <MainHeader openBunyang={openBunyang}/>
+          */}
+          <CommonHeader/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
             <BrokerVisit calModal={calModal} visitorModal={visitorModal} updateModal={updateModal} updateMapModal={updateMapModal} setMap={setMap} setFilter={setFilter} setVisit={setVisit} setVCal={setVCal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
-          <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
-          <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <CommonFooter/>
+          {/*
+            <TermService termservice={termservice} openTermService={openTermService}/>
+            <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
+            <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
+            <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          */}
         </>
   );
 }

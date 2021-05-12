@@ -19,6 +19,7 @@ import Exit from "../../img/main/exit.png";
 import Checked from "../../img/main/heart_check.png";
 import Check from "../../img/main/heart.png";
 import Profile from "../../img/map/profile_img.png";
+import sideMapMarker from "../../img/map/sideMapMarker.png";
 
 // components
 import { Mobile, PC } from "../../MediaQuery";
@@ -28,6 +29,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 import KakaoMapSide from '../map/map/KakaoMapSide';
+
+
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -323,7 +326,7 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
                             </Li>
                         </ItemInfoList>
                         <MapArea>
-                            <KakaoMapSide />
+                          <KakaoMapSide cutomImg={sideMapMarker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
                         </MapArea>
                     </Wrap>
                     :

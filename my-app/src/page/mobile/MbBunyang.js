@@ -16,18 +16,20 @@ import ModalCommon from '../../component/common/modal/ModalCommon';
 import ModalFilter from '../../component/common/modal/ModalFilter';
 import { Mobile, PC } from "../../MediaQuery"
 
+import CommonFooter from '../../component/common/commonFooter';
+
 export default function MainPage() {
-  //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // //이용약관
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
-  //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // //개인정보처리방침
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
-  //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // //위치기반서비스 이용약관
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
@@ -64,10 +66,11 @@ export default function MainPage() {
             <MbBunyangList updateModal={updateModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
+          <CommonFooter/>
+          {/* <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
           <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
     </>
   );
 }

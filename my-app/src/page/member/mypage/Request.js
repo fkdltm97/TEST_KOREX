@@ -20,27 +20,31 @@ import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalManner from '../../../component/member/mypage/request/modal/ModalManner';
 
+
+import CommonHeader from '../../../component/common/commonHeader';
+import CommonFooter from '../../../component/common/commonFooter';
+
 export default function Join() {
   //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
   //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
   //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //분양 모달
-  const [bunyang, setBunyang] = useState(false);
-  const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  // const [bunyang, setBunyang] = useState(false);
+  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
   //라이브 시청 모달
-  const [live, setLive] = useState(false);
+  // const [live, setLive] = useState(false);
   //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
-  const [cal, setCal] = useState(false);
+  // const [detailimg, setDetailImg] = useState(false);
+  // const [cal, setCal] = useState(false);
 
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
 
@@ -121,11 +125,14 @@ export default function Join() {
         
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-          <LiveModal live={live} setLive={setLive}/>
-          <ModalCalendar cal={cal} setCal={setCal}/>
-          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openBunyang={openBunyang}/>
+          {/*
+            <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+            <LiveModal live={live} setLive={setLive}/>
+            <ModalCalendar cal={cal} setCal={setCal}/>
+            <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+            <MainHeader openBunyang={openBunyang}/>
+          */}
+          <CommonHeader />
           <Container>
             {/*개인로 로그인했을때*/}
               <SubTitle title={"개인"} rank={false} cursor={"default"}/>
@@ -134,10 +141,13 @@ export default function Join() {
               <MyRequest mannerModal={mannerModal} cancleModal={cancleModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal}/>
               <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
-          <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
-          <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <CommonFooter />
+          {/*
+            <TermService termservice={termservice} openTermService={openTermService}/>
+            <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
+            <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
+            <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          */}
         </>
   );
 }

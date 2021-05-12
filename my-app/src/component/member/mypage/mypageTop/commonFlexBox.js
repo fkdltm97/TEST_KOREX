@@ -1,7 +1,5 @@
-//react
-import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
 
+import React from 'react';
 
 //css
 import styled from "styled-components"
@@ -10,52 +8,28 @@ import styled from "styled-components"
 import Louder from '../../../../img/member/louder.png';
 import Checking from '../../../../img/member/checking.png';
 
-//components
-import CommonFlexBox from "./commonFlexBox";
 
-export default function PersonalAndCompany() {
-  console.log('p...personsal and company함수 실행...')
-    return ( 
-      <Container>
-          {/* -- 수정 코드입니다. */}
-          <CommonFlexBox icon={Louder} subTitle={"중개의뢰"} price={2} jeonse={0} monthly={0} />
-          <CommonFlexBox icon={Checking} subTitle={"거래완료"} price={1} jeonse={0} monthly={0} />
-          {/* -- 원래 코드입니다. */}
-          {/*
-            <FlexBox>
-              <Left>
-                <Icon src={Louder} alt="icon"/>
-                <SubTitle>중개의뢰</SubTitle>
-              </Left>
-              <Right>
-                <TxtHave>매매2</TxtHave>
-                <Part/>
-                <Txt>전세0</Txt>
-                <Part/>
-                <Txt>월세0</Txt>
-              </Right>
-            </FlexBox>
-            <FlexBox>
-              <Left>
-                <Icon src={Checking} alt="icon"/>
-                <SubTitle>거래완료</SubTitle>
-              </Left>
-              <Right>
-                <TxtHave>매매1</TxtHave>
-                <Part/>
-                <Txt>전세0</Txt>
-                <Part/>
-                <Txt>월세0</Txt>
-              </Right>
-            </FlexBox>
-          */}
-      </Container>
-  );
-}
+const CommonFlexBox = ({icon, subTitle, price, jeonse, monthly}) => {
 
-const Container = styled.div`
-    width:100%;
-`
+    return(
+        <FlexBox>
+        <Left>
+          <Icon src={icon} alt="icon"/>
+          <SubTitle>{subTitle}</SubTitle>
+        </Left>
+        <Right>
+          <TxtHave>매매{price}</TxtHave>
+          <Part/>
+          <Txt>전세{jeonse}</Txt>
+          <Part/>
+          <Txt>월세{monthly}</Txt>
+        </Right>
+      </FlexBox>
+    )
+};
+
+export default CommonFlexBox;
+
 const FlexBox = styled.div`
   display:flex;width:100%;
   justify-content:flex-start;align-items:center;

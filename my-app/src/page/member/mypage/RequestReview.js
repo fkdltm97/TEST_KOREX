@@ -26,6 +26,9 @@ import serverController from '../../../server/serverController';
 import {useSelector } from 'react-redux';
 import { brokerRequest_productEditActions } from '../../../store/actionCreators';
 
+import CommonHeader from '../../../component/common/commonHeader';
+import CommonFooter from '../../../component/common/commonFooter';
+
 export default function RequestReviews({match}) {
   console.log('REquestReview넘겨받은 id값:',match.params);
   var prd_identity_id=match.params.id;//해당 prd_identity_id에 해당하는 상품(매물요청)을 구한다.
@@ -34,31 +37,33 @@ export default function RequestReviews({match}) {
   const [brokerRequest_product,setBrokerRequest_product] = useState('');
 
   const [disabled, setDisabled] = useState(true);
-  //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // //이용약관
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
-  //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // //개인정보처리방침
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
-  //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // //위치기반서비스 이용약관
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
-  //분양 모달
-  const [bunyang, setBunyang] = useState(false);
-  const openBunyang = (onOff) =>{ setBunyang(onOff);}
-  //라이브 시청 모달
-  const [live, setLive] = useState(false);
-  //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
-  const [cal, setCal] = useState(false);
+  // //분양 모달
+  // const [bunyang, setBunyang] = useState(false);
+  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  // //라이브 시청 모달
+  // const [live, setLive] = useState(false);
+  // //분양 상세이미지 모달
+  // const [detailimg, setDetailImg] = useState(false);
+  // const [cal, setCal] = useState(false);
   //거절 , 수락 모달
   const [cancle, setCancle] = useState(false);
   const [accept, setAccept] = useState(false);
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
   
+  const brokerRequest_productinfo=useSelector(data => data.brokerRequest_product);
+
   useEffect( async () => {
     let body_info={
        prd_identity_ids : prd_identity_id
@@ -136,7 +141,20 @@ export default function RequestReviews({match}) {
             title:"의뢰접수 수락",
             content:{type:"text",
             text:`의뢰인과 사전에 통화하여\n접수내용을 충분히 확인하시고\n의뢰 수락을 하시는 것이 좋습니다.\n의뢰를 수락하시겠습니까?`,component:""},
-            submit:{show:true , title:"확인" , link:"/RequestReviewEdit", event : ()=>{offModal(); }},
+            submit:{show:true , title:"확인" , link:"/RequestReviewEdit", event : async()=>{
+              offModal(); 
+              let body_info={
+                prd_identity_id : brokerRequest_productinfo.prdidentityid,
+                company_id : brokerRequest_productinfo.companyid
+              };
+              console.log('의뢰 수락 생성된 매물 의뢰매물의 상태값 검토대기->거래준비로 상태값만 변경:',JSON.stringify(body_info));
+              let res=await serverController.connectFetchController('/api/broker/brokerRequest_productstatusupdate','POST',JSON.stringify(body_info));
+              console.log('res result:',res);
+
+              if(res){
+
+              }
+            }},
             cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
             confirm:{show:false , title:"확인" , event : ()=>{offModal();}}
         });
@@ -158,20 +176,22 @@ export default function RequestReviews({match}) {
 
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          {/* <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openBunyang={openBunyang}/>
+          <MainHeader openBunyang={openBunyang}/> */}
+          <CommonHeader/>
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
             <RequestReview brokerRequest_product = {brokerRequest_product} cancleModal={cancleModal} acceptModal={acceptModal} setAccept={setAccept} setCancle={setCancle} disabled={disabled}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
+          <CommonFooter/>
+          {/* <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
           <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
         </>
   );
 }

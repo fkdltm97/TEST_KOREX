@@ -26,24 +26,22 @@ export default function ItemTabList({}) {
           <TopInfo>
             <All>총 <GreenColor>4</GreenColor> 건</All>
             <FilterAndAdd>
-              <Link onClick={showModal}>
+              <div onClick={showModal} className="linkToDiv">
                 <FilterImg src={View} alt="filter"/>
                 {
                   menu ?
                   <InMenu>
                     <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>최신알림순</InDiv>
+                      <InDiv className="linkToDiv">최신알림순</InDiv>
                     </Div>
                     <Div>
-                      <Link className="data_link"></Link>
-                      <InDiv>과거알림순</InDiv>
+                      <InDiv className="linkToDiv">과거알림순</InDiv>
                     </Div>
                   </InMenu>
                   :
                   null
                 }
-              </Link>
+              </div>
             </FilterAndAdd>
           </TopInfo>
         </Container>
@@ -86,7 +84,7 @@ const TopInfo = styled.div`
   display:flex;justify-content:space-between;align-items:center;
   padding:16px 40px;
   border-bottom:1px solid #f2f2f2;
-margin-top:calc(100vw*(18/428))
+margin-top:calc(100vw*(18/428));
   @media ${(props) => props.theme.mobile} {
     margin-top:calc(100vw*(40/428));
     padding:0 calc(100vw*(34/428)) calc(100vw*(22/428));

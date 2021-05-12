@@ -136,6 +136,7 @@ address{font-style:normal;}
   height: 40vmin;
   pointer-events: none;
 }
+.linkToDiv{cursor:pointer;}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

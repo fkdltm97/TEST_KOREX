@@ -19,6 +19,9 @@ import Change from '../../../../../img/member/change.png';
 import Marker from '../../../../../img/member/marker.png';
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
+// map
+import KakaoMapSide from '../../../../map/map/KakaoMapSide';
+
 //지도 모달
 export default function ModalMapReserve({ map, setMap }) {
   if(map == false)
@@ -29,25 +32,22 @@ export default function ModalMapReserve({ map, setMap }) {
             <ModalMapBg onClick={()=>{setMap(false)}}/>
             <ModalMap>
               <MapCloseBtn>
-                <Link onClick={()=>{setMap(false)}}>
+                <div className="linkToDiv" onClick={()=>{setMap(false)}}>
                   <MapCloseImg src={Close}/>
-                </Link>
+                </div>
               </MapCloseBtn>
               <ModalMapTitle>중개업소 위치</ModalMapTitle>
               <ModalMapAddress>
                 <AddressTxt>서울시 구로구 신도림동 131-13 103동</AddressTxt>
                 <ChangeAddress>
-                  <Link>
+                  <div className="linkToDiv">
                     <ChangeImg src={Change}/>
                     <ChangeTxt>도로명</ChangeTxt>
-                  </Link>
+                  </div>
                 </ChangeAddress>
               </ModalMapAddress>
               <ShowMap>
-                <InMapBox></InMapBox>
-                <MapMarker>
-                  <MapMarkerImg src={Marker}/>
-                </MapMarker>
+                <KakaoMapSide cutomImg={Marker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
               </ShowMap>
             </ModalMap>
           </WrapModalMap>

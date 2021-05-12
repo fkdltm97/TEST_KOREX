@@ -21,27 +21,30 @@ import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 import ModalFilterComponent from '../../../component/member/mypage/reservation/ModalFilterComponent';
 
+import CommonHeader from '../../../component/common/commonHeader';
+import CommonFooter from '../../../component/common/commonFooter';
+
 export default function Join() {
   //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
   //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
   //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //분양 모달
-  const [bunyang, setBunyang] = useState(false);
-  const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  // const [bunyang, setBunyang] = useState(false);
+  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
   //라이브 시청 모달
-  const [live, setLive] = useState(false);
+  // const [live, setLive] = useState(false);
   //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
-  const [cal, setCal] = useState(false);
+  // const [detailimg, setDetailImg] = useState(false);
+  // const [cal, setCal] = useState(false);
 
   //지도 모달창
   const [map,setMap] = useState(false);
@@ -50,7 +53,7 @@ export default function Join() {
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
 
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
 
 
 //여기 두개가 핵심이에여
@@ -70,9 +73,9 @@ export default function Join() {
             setShow:offModal,
             title:"필터",
             content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
-            submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
             cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+            confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
         });
       }
 
@@ -83,9 +86,9 @@ export default function Join() {
             setShow:offModal,
             title:"건물위치",
             content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalMap/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"" , event : ()=>{offModal(); }}
+            confirmgreennone:{show:false , title:"" , event : ()=>{offModal(); }}
         });
       }
 
@@ -95,34 +98,41 @@ export default function Join() {
             setShow:offModal,
             title:"투어예약 수정",
             content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalReserve/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
             cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:true , title:"수정" , event : ()=>{offModal(); }}
+            confirmgreennone:{show:true , title:"수정" , event : ()=>{offModal(); }}
 
         });
       }
 
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-          <LiveModal live={live} setLive={setLive}/>
-          <ModalCalendar cal={cal} setCal={setCal}/>
-          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openBunyang={openBunyang}/>
+          {/*
+            <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+            <LiveModal live={live} setLive={setLive}/>
+            <ModalCalendar cal={cal} setCal={setCal}/>
+            <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+            <MainHeader openBunyang={openBunyang}/>
+          */}
+
+          <CommonHeader />
           <Container>
             {/*개인로 로그인했을때*/}
-              <SubTitle title={"개인"} rank={false} cursor={"default"}/>
+            <SubTitle title={"개인"} rank={false} cursor={"default"}/>
             {/*기업으로 로그인했을때*/}
-              {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
+            {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
             {/*중개사로 로그인했을때*/}
-              {/*<SubTitle title={"럭키공인중개사　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-              <Reservation updateModal={updateModal} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
-              <ModalCommon modalOption={modalOption}/>
+            {/*<SubTitle title={"럭키공인중개사　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
+            <Reservation updateModal={updateModal} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
+            <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
-          <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
-          <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <CommonFooter />
+          {/*
+            <TermService termservice={termservice} openTermService={openTermService}/>
+            <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
+            <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
+            <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          */}
         </>
   );
 }

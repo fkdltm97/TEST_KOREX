@@ -12,14 +12,263 @@ import Marker from '../../../../img/member/mark.png';
 //redux addons asetess
 import {useSelector} from 'react-redux';
 
+//component
+import CommonList from '../commonList/commonList'
+
 export default function ProfileBottomElement({open,setOpen}) {
-     console.log('profileBottom함수 호출>>>:',useSelector);
+  
+    console.log('profileBottom함수 호출>>>:',useSelector);
+    const login_userinfodata=useSelector(data => data.login_user);
+    console.log('-------,<<>login_userinfodata',login_userinfodata);
 
-     const login_userinfodata=useSelector(data => data.login_user);
 
-     console.log('-------,<<>login_userinfodata',login_userinfodata);
-
+    // -- 수정코드입니다.
+    // 타이틀 / 링크
+    const myLike = "내 관심";
+    const myLikeLink = "MyLike";
+    const reservation = "내 물건 투어 예약";
+    const reservationLink = "Reservation";
+    const request = "내 중개 의뢰";
+    const requestLink = "Request";
+    const myAlarm = "내 알림";
+    const myAlarmLink = "MyAlarm";
+    const CompanyProfile = "회사 프로필 설정";
+    const CompanyProfileLink = "CompanyProfile";
+    const myMember = "팀원 관리";
+    const myMemberLink = "MyMember";
+    const myLive = "내 Live 시청 예약";
+    const myLiveLink = "MyLive";
+    const brokerReservation = "내 방문예약";
+    const brokerReservationLink = "BrokerReservation";
+    const registProBroker = "전문중개사무소 신청";
+    const registProBrokerLink = "RegistProBroker";
+    const propertyManagement = "물건관리";
+    const propertyManagementLink = "PropertyManagement";
+    const propertyTourManage = "물건투어예약접수 관리";
+    const propertyTourManageLink = "PropertyTourManage";
+    
+    // 공통 li
+    const commonReturn = (array) => {
+      return(
+        <>
+            {
+              array.map((item, index) => {
+                return(
+                  <Li key={index}>
+                    <Link to={`/${item.link}`} className="data_link"></Link>
+                    <LinkTxt>{item.title}</LinkTxt>
+                    <Arrow src={RightArrow}/>
+                  </Li>
+                )
+              })
+            }
+        </> 
+      )
+    }
+    // 분양 프로젝트 관리
+    const commonProjectMana = () => {
+      return(
+        <Li>
+          <LiPJ>
+            <Link className="data_link" onClick={() =>{setOpen(!open)}}/>
+            <LinkTxt>분양프로젝트 관리</LinkTxt>
+            <ArrowRotate src={RightArrow}/>
+          </LiPJ>
+          {
+            open ?
+            <SubDepth>
+              <SubLi><Link to="/MyLiveSetting" className="data_link"/>- Live 시청예약세팅</SubLi>
+              <SubLi><Link to="/MyVisitSetting" className="data_link"/>- 방문예약세팅</SubLi>
+            </SubDepth>
+            :
+            null
+          }
+        </Li>
+      )
+    }
+    // 각 분기별 리스트  
+    const listData = {
+      privateRoot : [
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: request, link:requestLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      privateTeam : [
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: request, link:requestLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      companyRoot:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: request, link:requestLink},
+        {title: CompanyProfile, link:CompanyProfileLink},
+        {title: myMember, link:myMemberLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      companyTeam:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: request, link:requestLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      brokerRoot:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: myLive, link:myLiveLink},
+        {title: brokerReservation, link:brokerReservationLink},
+        {title: registProBroker, link:registProBrokerLink},
+        {title: CompanyProfile, link:CompanyProfileLink},
+        {title: myMember, link:myMemberLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      brokerTeam:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: myLive, link:myLiveLink},
+        {title: brokerReservation, link:brokerReservationLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      brokerExcRoot:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: myLive, link:myLiveLink},
+        {title: brokerReservation, link:brokerReservationLink},
+        {title: propertyManagement, link:propertyManagementLink},
+        {title: propertyTourManage, link:propertyTourManageLink},
+        {title: CompanyProfile, link:CompanyProfileLink},
+        {title: myMember, link:myMemberLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      brokerExcTeam:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: myLive, link:myLiveLink},
+        {title: brokerReservation, link:brokerReservationLink},
+        {title: propertyManagement, link:propertyManagementLink},
+        {title: propertyTourManage, link:propertyTourManageLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      bunyangRoot:[
+        {title: CompanyProfile, link:CompanyProfileLink},
+        {title: myMember, link:myMemberLink},
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      bunyangTeam:[
+        {title: myAlarm, link:myAlarmLink},
+      ],
+      default:[
+        {title: myLike, link:myLikeLink},
+        {title: reservation, link:reservationLink},
+        {title: request, link:requestLink},
+        {title: myLive, link:myLiveLink},
+        {title: brokerReservation, link:brokerReservationLink},
+        {title: registProBroker, link:registProBrokerLink},
+        {title: propertyManagement, link:propertyManagementLink},
+        {title: propertyTourManage, link:propertyTourManageLink},
+      ],
+      defaultDown:[
+        {title: CompanyProfile, link:CompanyProfileLink},
+        {title: myMember, link:myMemberLink},
+        {title: myAlarm, link:myAlarmLink},
+      ]
+    }
+    // 렌터링 함수
     const profilebottom_contents_control = () => {
+      if(login_userinfodata.is_login == 1){
+        if(login_userinfodata.user_type == '개인'){
+          if(login_userinfodata.mem_admin=='root'){
+            return(
+              <div>
+                <CommonList array={listData.privateRoot} />
+              </div>
+            )
+          }else if(login_userinfodata.mem_admin=='team'){
+            return(
+              <div>
+                <CommonList array={listData.privateTeam} />
+              </div>
+            )
+          }
+        }
+        if(login_userinfodata.user_type == '기업'){
+         if(login_userinfodata.mem_admin=='root'){
+           return(
+             <div>
+               <CommonList array={listData.companyRoot} />
+              </div>
+           )
+         }else if(login_userinfodata.mem_admin=='team'){
+            return(
+              <div>
+                <CommonList array={listData.companyTeam} />
+              </div>
+            );
+         }
+       }
+       if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive != '1'){
+         if(login_userinfodata.mem_admin=='root'){
+           return(
+            <div>
+              <CommonList array={listData.brokerRoot} />
+            </div>
+          );
+         }else if(login_userinfodata.mem_admin=='team'){
+           return(
+            <div>
+              <CommonList array={listData.brokerTeam} />
+            </div>
+          );
+         }
+       }
+       if(login_userinfodata.user_type == '중개사' && login_userinfodata.isexculsive == '1'){
+         if(login_userinfodata.mem_admin=='root'){
+           return(
+            <div>
+              <CommonList array={listData.brokerExcRoot} />
+            </div>
+          );
+         }else if(login_userinfodata.mem_admin=='team'){
+           return(
+            <div>
+              <CommonList array={listData.brokerExcTeam} />
+            </div>
+          );
+         }
+       }
+       if(login_userinfodata.user_type == '분양대행사'){
+          if(login_userinfodata.mem_admin=='root'){
+            return(
+              <div>
+                {commonProjectMana()}
+                <CommonList array={listData.bunyangRoot} />
+              </div>
+          );
+          }else if(login_userinfodata.mem_admin=='team'){
+            return(
+            <div>
+              <CommonList array={listData.bunyangTeam} />
+            </div>
+            );
+          }
+        }
+      } else{
+        //비로그인 or 오류로 인한 상태일경우 테스트환경 조성
+        return(
+          <div>
+            <CommonList array={listData.default} />
+            {commonProjectMana()}
+            <CommonList array={listData.defaultDown} />
+          </div>
+        );
+     }
+    }
+
+    // --원래 코드입니다.
+   /*
+   const profilebottom_contents_control = () => {
 
       if(login_userinfodata.is_login == 1){
         if(login_userinfodata.user_type == '개인'){
@@ -434,6 +683,8 @@ export default function ProfileBottomElement({open,setOpen}) {
       );
      }
    }
+   */
+   
     return (
       <Container>
           <Ul>

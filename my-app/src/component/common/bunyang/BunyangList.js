@@ -75,18 +75,18 @@ export default function BunyangList({updatePageIndex , setBunyangDate}){
 
 
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-    const updateModal = () =>{
-      //여기가 모달 키는 거에엽
-      setModalOption({
-          show:true,
-          setShow:offModal,
-          title:"필터",
-          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
-          submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
-          cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
-      });
-    }
+  const updateModal = () =>{
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"필터",
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+        submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+        cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+    });
+  }
 
     return (
       <Container>
@@ -144,8 +144,8 @@ export default function BunyangList({updatePageIndex , setBunyangDate}){
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <LiTitle>{value.title}
-                        <Number>{value.number}</Number> 
-                          {/* <LiveView>Live 방송 예고</LiveView> */}
+                        <Number>{value.number}</Number>
+                          {value.LiveCheckded&&<LiveView>Live 방송 예고</LiveView>}
                         </LiTitle>
                         <Option>{value.option}</Option>
                         <Address>{value.address}</Address>

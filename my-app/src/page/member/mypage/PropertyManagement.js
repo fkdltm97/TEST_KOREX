@@ -22,27 +22,30 @@ import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
 import serverController from '../../../../src/server/serverController';
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 
+import CommonHeader from '../../../component/common/commonHeader';
+import CommonFooter from '../../../component/common/commonFooter';
+
 export default function Join() {
-  //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+  // //이용약관
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
-  //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // //개인정보처리방침
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
-  //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // //위치기반서비스 이용약관
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
-  //분양 모달
-  const [bunyang, setBunyang] = useState(false);
-  const openBunyang = (onOff) =>{ setBunyang(onOff);}
-  //라이브 시청 모달
-  const [live, setLive] = useState(false);
-  //분양 상세이미지 모달
-  const [detailimg, setDetailImg] = useState(false);
-  const [cal, setCal] = useState(false);
+  // //분양 모달
+  // const [bunyang, setBunyang] = useState(false);
+  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  // //라이브 시청 모달
+  // const [live, setLive] = useState(false);
+  // //분양 상세이미지 모달
+  // const [detailimg, setDetailImg] = useState(false);
+  // const [cal, setCal] = useState(false);
 
   const [rank,setRank] = useState(false);
 
@@ -50,7 +53,7 @@ export default function Join() {
   const [filter, setFilter] = useState(false);
   
   const history = useHistory();
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
   //여기 두개가 핵심이에여
@@ -70,42 +73,45 @@ export default function Join() {
               setShow:offModal,
               title:"필터",
               content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
-              submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
+              submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
               cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
               confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
           });
         }
   
-
-  useEffect( async () => {
-    let body_info={};
-    console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);
-    let user_info= await serverController.connectFetchController('/api/auth/islogin','GET');
-    console.log('user is login query>>:',user_info);
+  // 이 부분 오류나서 주석처리해놨습니다!
+  // useEffect( async () => {
+  //   let body_info={};
+  //   console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);
+  //   let user_info= await serverController.connectFetchController('/api/auth/islogin','GET');
+  //   console.log('user is login query>>:',user_info);
     
-    if(user_info.login_session){
+  //   if(user_info.login_session){
 
-    }else{
-      console.log('==========로그인안되어있음 :',history);
-      history.push('/');
-    }
-  },[]);
+  //   }else{
+  //     console.log('==========로그인안되어있음 :',history);
+  //     history.push('/');
+  //   }
+  // },[]);
+
     return (
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          {/* <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MainHeader openBunyang={openBunyang}/>
+          <MainHeader openBunyang={openBunyang}/> */}
+          <CommonHeader />
           <Container>
             <SubTitle title={"소속명"} arrow={"　▼"} rank={false} path={"/Team"} cursor={"pointer"}/>
             <PropertyManage setFilter={setFilter} updateModal={updateModal}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
-          <TermService termservice={termservice} openTermService={openTermService}/>
+          <CommonFooter/>
+          {/* <TermService termservice={termservice} openTermService={openTermService}/>
           <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
           <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+          <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
         </>
   );
 }

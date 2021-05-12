@@ -9,35 +9,50 @@ import Img from '../../../../img/member/no_profile.png';
 import RightArrow from '../../../../img/notice/right_arrow.png';
 import Plus from '../../../../img/member/plus.png';
 import Marker from '../../../../img/member/mark.png';
+
 //component
+import CommonList from '../commonList/commonList'
 
 export default function JoinInput({logoutModal,secessionModal}) {
-    return (
+  
+  const listData = [
+    {title: "이메일 변경", link:"EmailChange"},
+    {title: "휴대폰번호 변경", link:"PhoneChange"},
+    {title: "비밀번호 변경", link:"PasswordChange"},
+  ]
+
+  
+  return (
         <Container>
           <WrapProfile>
             <ProfileBottom>
               <Ul>
+                {/* -- 수정코드입니다. */}
+                <CommonList array={listData}/>
+                {/* -- 원래 코드입니다. */}
+                {/*
+                  <Li>
+                    <Link to="/EmailChange" className="data_link"/>
+                    <LinkTxt>이메일 변경</LinkTxt>
+                    <Arrow src={RightArrow}/>
+                  </Li>
+                  <Li>
+                    <Link to="PhoneChange" className="data_link"/>
+                    <LinkTxt>휴대폰번호 변경</LinkTxt>
+                    <Arrow src={RightArrow}/>
+                  </Li>
+                  <Li>
+                    <Link to="PasswordChange" className="data_link"/>
+                    <LinkTxt>비밀번호 변경</LinkTxt>
+                    <Arrow src={RightArrow}/>
+                  </Li>
+                */}
                 <Li>
-                  <Link to="/EmailChange" className="data_link"/>
-                  <LinkTxt>이메일 변경</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li>
-                <Li>
-                  <Link to="PhoneChange" className="data_link"/>
-                  <LinkTxt>휴대폰번호 변경</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li>
-                <Li>
-                  <Link to="PasswordChange" className="data_link"/>
-                  <LinkTxt>비밀번호 변경</LinkTxt>
-                  <Arrow src={RightArrow}/>
-                </Li>
-                <Li>
-                  <Link className="data_link" onClick={()=>{logoutModal();}}></Link>
+                  <div className="linkToDiv data_link" onClick={()=>{logoutModal();}}/>
                   <LinkTxt>로그아웃</LinkTxt>
                 </Li>
                 <Li>
-                  <Link className="data_link" onClick={()=>{secessionModal();}}></Link>
+                  <div className="linkToDiv data_link" onClick={()=>{secessionModal();}}/>
                   <LinkTxtGray>회원탈퇴</LinkTxtGray>
                 </Li>
               </Ul>
