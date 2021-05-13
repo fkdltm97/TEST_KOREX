@@ -82,8 +82,8 @@ export default function Bunyang({bunyang, openBunyang ,live, setLive, detailimg,
 const Container = styled.div`
   width:100%;
   @media ${(props) => props.theme.mobile} {
-      display:none;
-    }
+    display:none;
+  }
 `
 
 const ModalBg = styled.div`

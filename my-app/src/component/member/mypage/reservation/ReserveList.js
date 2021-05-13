@@ -25,8 +25,16 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
-  const showModal =()=>{
+  const showModal =()=>{  
     setMenu(!menu);
+  }
+
+
+  // 클릭 아이디
+  const onClickAddress = (data) => {
+    console.log(data.reserve_id);
+    // setMap(true);
+    // updateMapModal();
   }
 
     return (
@@ -41,7 +49,7 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
               <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
               <Number>등록번호 {value.number}</Number>
               <Address>
-                <div className="linkToDiv" onClick={() => {setMap(true);updateMapModal();}}>
+                <div className="linkToDiv" onClick={() => {onClickAddress(value)}}>
                   <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
                 </div>
               </Address>

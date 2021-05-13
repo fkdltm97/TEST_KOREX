@@ -23,11 +23,11 @@ import {useSelector} from 'react-redux';
 
 export default function JoinInput({profileedit,profileeditCheck}) {
 
-  console.log('myProfile컴포넌트 실행=========== 실행시마다 리덕스에서 로그인여부 검사하고 로그인됐으면 정보 가져와서 뿌리기');
+  // console.log('myProfile컴포넌트 실행=========== 실행시마다 리덕스에서 로그인여부 검사하고 로그인됐으면 정보 가져와서 뿌리기');
 
   const login_userinfodata= useSelector(data => data.login_user);
 
-  console.log('data.login_userinfo refer infoi:',login_userinfodata);
+  // console.log('data.login_userinfo refer infoi:',login_userinfodata);
 
   const [open, setOpen] = useState(false);//profileBOTTOM사용 STATE값들..
   const [inputValue, setInputValue] = useState("");
@@ -38,6 +38,11 @@ export default function JoinInput({profileedit,profileeditCheck}) {
 
   const profilehead = () => {
     // console.log('profilehead함수 호출==========>>>',login_userinfodata.user_type);
+    console.log("sjh---------------------------")
+    console.log(login_userinfodata);
+    console.log(login_userinfodata.is_login);
+    console.log(login_userinfodata.user_type);
+
     if(login_userinfodata.is_login == 1){
       switch(login_userinfodata.user_type){
         case '전문중개사':

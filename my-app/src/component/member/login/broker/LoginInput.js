@@ -1,6 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 import serverController from '../../../../server/serverController';
 
@@ -11,6 +11,8 @@ export default function JoinInput() {
   const [phone,setPhone] = useState("");/*기본값*/
   const [pwd,setPwd] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
+
+  const history = useHistory();
 
   const phoneChange = (e) =>{ setPhone(e.target.value); }
   const pwdChange = (e) =>{ setPwd(e.target.value); }
@@ -27,7 +29,7 @@ export default function JoinInput() {
    },)
    
   const broker_login_submit = async (e) => {
-    console.log('broker_login_submit 중개사로그인 submit onclick발생===================',phone,pwd,active);
+    // console.log('broker_login_submit 중개사로그인 submit onclick발생===================',phone,pwd,active);
 
     if(active){
       let body_info = {
@@ -35,16 +37,19 @@ export default function JoinInput() {
         login_password: pwd
       };
 
-      console.log("JSON.STRINGIFY(BODY_INFO):",JSON.stringify(body_info));
+      // console.log("JSON.STRINGIFY(BODY_INFO):",JSON.stringify(body_info));
 
       let res=await serverController.connectFetchController('/api/auth/broker/login','post',JSON.stringify(body_info),function(){},function(test){console.log(test)});
-      console.log('res results:',res);
+      // console.log('res results:',res);
 
       if(!res.success){
         document.getElementById('loginfail').style.display='block';
       }else{
         document.getElementById('loginfail').style.display='none';
         alert(res.message);
+        // 메인페이지 이동
+        history.push('/'); 
+        // 로그인 성공 시 redux에 데이터를 담아야합니다.
       }
       //로그인 성공시 페이지 이동===========>>
     }

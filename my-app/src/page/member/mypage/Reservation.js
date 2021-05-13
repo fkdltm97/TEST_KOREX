@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 
 import styled from "styled-components"
 
+import Item from '../../../img/main/item01.png';
+
 //component
 import MainHeader from '../../../component/common/MainHeader';
 import SubTitle from '../../../component/common/SubTitle';
@@ -58,7 +60,9 @@ export default function Join() {
   const [condiChecked, setCondiChecked] = useState([1, 0, 0, 0, 0]);
   const sortRef = useRef();
   const condiRef = useRef();
-  
+
+  const [listData, setListData] = useState([]);
+
     //여기 두개가 핵심이에여
     //모달 끄는 식
     const offModal = ()=>{
@@ -87,14 +91,57 @@ export default function Join() {
       setCondiChecked([1, 0, 0, 0, 0]);
     }
 
-
     // 적용버튼을 눌렀을때 서버에서 새로운 리스트를 불러온다.
     const onClickSubmit = () => {
       // 선택한 정렬기준과 상태입니다.
       console.log(sortRef.current.value); // 0, 1, 2
       console.log(condiRef.current.value); // 0, 1, 2, 3, 4
+
+      // setListData([ - data -])
       offModal();
     }
+
+    // 초기 리스트를 설정해줍니다.
+    useEffect(() => {
+      setListData([
+        {
+          reserve_id : 0,
+          src:Item,
+          path:"/",
+          condition:"오늘",
+          number:"1234567889",
+          address:"충남내포신도시2차대방엘리움더센트럴",
+          locaImg:Location,
+          date:"2020.01.01 (월)",
+          time:"오전1T (09:00-12:00)",
+          type:"today"
+        },
+        {
+          reserve_id : 1,
+          src:Item,
+          path:"/",
+          condition:"2일후",
+          number:"1234567889",
+          address:"충남내포신도시2차대방엘리움더센트럴",
+          locaImg:Location,
+          date:"2020.01.01 (월)",
+          time:"오전1T (09:00-12:00)",
+          type:"days"
+        },
+        {
+          reserve_id : 2,
+          src:Item,
+          path:"/",
+          condition:"예약취소",
+          number:"1234567889",
+          address:"충남내포신도시2차대방엘리움더센트럴",
+          locaImg:Location,
+          date:"2020.01.01 (월)",
+          time:"오전1T (09:00-12:00)",
+          type:"cancel"
+        }
+      ])
+    }, [])
 
     //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
     const updateModal = () =>{
@@ -154,7 +201,7 @@ export default function Join() {
             {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
             {/*중개사로 로그인했을때*/}
             {/*<SubTitle title={"럭키공인중개사　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-            <Reservation updateModal={updateModal} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
+            <Reservation listData={listData} updateModal={updateModal} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setMap={setMap} setFilter={setFilter} setReserve={setReserve}/>
             <ModalCommon modalOption={modalOption}/>
           </Container>
           <CommonFooter />
