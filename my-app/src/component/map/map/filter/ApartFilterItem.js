@@ -158,7 +158,7 @@ export default function ApartFilter({open, setOpen}) {
                   </Box>
                   
                   {/*옵션*/}
-                  {/* <Box id="optionWrap">
+                  {/*<Box id="optionWrap">
                     <SubTitle>옵션</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -185,7 +185,7 @@ export default function ApartFilter({open, setOpen}) {
                         </RadioBox>
                       </WrapRadio>
                     </WrapFilter>
-                  </Box> */}
+                  </Box>*/ }
                 </SubDepth>
             </DetailOption>{/*물건상세 끝*/}
         </Container>

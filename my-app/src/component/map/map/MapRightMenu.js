@@ -227,7 +227,7 @@ export default function MainHeader({containerRef}) {
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="blockBuild" ref={blockText} className={["changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
+                  <RadioSpan id="blockBuild" ref={blockText} className={[""]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>

@@ -376,7 +376,7 @@ export default function MapFilter({status}) {
           <FilterList ref={filterListRef} className={["filterList", "hidden"]}>
               <FilterTopButton/>
               {/*<ApartFilter/>*/}
-              {/* <OfficetelFilter/> */}
+              {/*<OfficetelFilter/>*/}
               <StoreAndOfficeFilter status={status} open={openDetail} setOpen={setOpenDetail}/>
               <FilterCloseAndReset setOpen={setOpen}/>
             </FilterList>

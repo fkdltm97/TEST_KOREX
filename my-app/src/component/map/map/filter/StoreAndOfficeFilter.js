@@ -331,7 +331,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 <SubTitle>보증금 (전세금)</SubTitle>
                 <WrapFilter>
                   <PriceView>{jeonseText}</PriceView>
-                  <WrapRange className="changeBtnRange">
+                  <WrapRange className="Range">
                     <Rheostat
                       min={minJeonse}
                       max={maxJeonse}
