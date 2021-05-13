@@ -54,9 +54,10 @@ const BunyangListItem =[
 ]
 
 
-export default function BunyangList({updatePageIndex , setBunyangDate}){
+export default function BunyangList({updatePageIndex , setBunyangDate, setClickId}){
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
   
+  const [searchVal, setSearchVal] = useState("");
   
   const [BYDate, setBYDate] = useState(BunyangListItem)
 
@@ -88,6 +89,22 @@ export default function BunyangList({updatePageIndex , setBunyangDate}){
     });
   }
 
+    // 리스트 클릭 시 발생하는 함수입니다.
+  // updatePageIndex값을 바꾸고 부모에게 클릭한 아이디값을 전달합니다.
+  const onClickList = (value) => {
+    setClickId(value.bunyang_id);
+    setBunyangDate(value);
+    updatePageIndex(1);
+  }
+
+  // 검색버튼 눌렀을때 검색값을 서버에 보내 리스트 데이터를 얻어와야합니다.
+  // 받아온 데이터는 BYDate안에 넣습니다.
+  const onClickSearch = () => {
+    // setBYDate([])
+    console.log(searchVal);
+  }
+
+
     return (
       <Container>
 {/*bunyangtop*/}
@@ -97,8 +114,8 @@ export default function BunyangList({updatePageIndex , setBunyangDate}){
 {/*bunyang select*/}
       <ModalSelect>
         <Search>
-          <SearchInput type="text" placeholder="검색어를 입력하여주세요."/>
-          <SearchIcon type="button"/>
+          <SearchInput type="text" placeholder="검색어를 입력하여주세요." value={searchVal} onChange={(e) => setSearchVal(e.target.value)}/>
+          <SearchIcon type="button" onClick={() => onClickSearch()}/>
         </Search>
         <SortRecent>
           <RecentList>
@@ -118,7 +135,7 @@ export default function BunyangList({updatePageIndex , setBunyangDate}){
                 return(
                   <Li>
                     <LiTop className="clearfix">
-                      <Link onClick={() => {updatePageIndex(1); setBunyangDate(value)}}>
+                      <Link onClick={() => onClickList(value)}>
                         <LiImg src={value.src}/>
                         <LiDesc>
                           <LiTitle>{value.title}
@@ -140,7 +157,7 @@ export default function BunyangList({updatePageIndex , setBunyangDate}){
               return(
                 <Li>
                   <LiTop className="clearfix">
-                    <Link onClick={() => {updatePageIndex(1); setBunyangDate(value)}}>
+                    <Link onClick={() => onClickList(value)}>
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <LiTitle>{value.title}

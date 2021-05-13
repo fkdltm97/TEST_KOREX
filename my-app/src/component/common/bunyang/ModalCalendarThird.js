@@ -16,7 +16,7 @@ import Close from '../../../img/main/modal_close.png';
 
 import ModalCommon from '../modal/ModalCommon';
 
-export default function ModalCal({cal, setCal, updatePageIndex}){
+export default function ModalCal({cal, setCal, updatePageIndex, SelectDate, selectTime}){
   const [Name,setName] = useState("");
   const [Phone,setPhone] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
@@ -73,6 +73,22 @@ const finalModal= () =>{
 
 //등록되었습니다 모달
 const comfirmModal= () =>{
+  // 서버 통신이 이루어져야한다.
+  // 날짜
+  // console.log(`${new Date(SelectDate).getFullYear()}-${new Date(SelectDate).getMonth() + 1}-${new Date(SelectDate).getDate()}`);
+  // 시간
+  // console.log(`${new Date(selectTime).getHours()} : ${new Date(selectTime).getMinutes()}`);
+  // 이름 
+  // console.log(Name);
+  // 번호 
+  // console.log(Phone);
+
+  // input 창이 비어있을때 나오는 이벤트입니다.
+  // if(!Name || !Phone){
+  //   console.log(" 비어있어요!! ")
+  //   return;
+  // }
+
   setModalOption({
     show:true,
     setShow:offModal,

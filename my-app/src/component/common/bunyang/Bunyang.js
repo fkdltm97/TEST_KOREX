@@ -17,17 +17,19 @@ import IconRecent from "../../../img/main/icon_view.png";
 import ItemImg from "../../../img/main/item01.png";
 
 import { Mobile, PC } from "../../../MediaQuery"
-export default function Bunyang({bunyang, openBunyang ,live, setLive, detailimg, setDetailImg,cal, setCal}) {
+export default function Bunyang({bunyang, openBunyang ,live, setLive, detailimg, setDetailImg,cal, setCal, setImgArr, imgArr}) {
 
   //모달창 내 페이지 이동
   const [pageIndex , setPageIndex] = useState(0);
-  
+
   const [BunyangDate, setBunyangDate] = useState([])
+  // 클락한 리스트의 아이디
+  const [clickId, setClickId] = useState(0);
 
   const pageLoader = () =>{
     switch (pageIndex) {
-      case 0: return <BunyangList updatePageIndex={updatePageIndex} setBunyangDate={setBunyangDate} BunyangDate={BunyangDate}/>;
-      case 1: return <BunyangDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal} setBunyangDate={setBunyangDate}BunyangDate={BunyangDate}/>;
+      case 0: return <BunyangList updatePageIndex={updatePageIndex} setBunyangDate={setBunyangDate} BunyangDate={BunyangDate} setClickId={setClickId}/>;
+      case 1: return <BunyangDetail updatePageIndex={updatePageIndex} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal} setBunyangDate={setBunyangDate} BunyangDate={BunyangDate} clickId={clickId} setImgArr={setImgArr} imgArr={imgArr}/>;
       default :return <BunyangList updatePageIndex={updatePageIndex}setBunyangDate={setBunyangDate}BunyangDate={BunyangDate}/>;
     }
   }
