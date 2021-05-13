@@ -22,6 +22,10 @@ import ManageList from "./ManageList";
 //server process
 import serverController from '../../../../server/serverController';
 
+
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
+
 export default function Manage({tridchklist_function,prdidvalue,reservationItemlist,cancleModal,mapModal,updateModal,confirmModal,selectModal,select,setSelect, editModal,editAllModal,editResultModal,value,type}) {
   //console.log('===>>>>propertyMnagaew요소 실행::',reservationItemlist,prdidvalue);
   //... 눌렀을때(메뉴)
@@ -90,6 +94,17 @@ export default function Manage({tridchklist_function,prdidvalue,reservationIteml
     },
   ]
   
+  const topInfoContent = () => {
+    return(
+      <FilterAndAdd>
+        <SearchBox>
+          <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
+          <SearchButton type="button"/>
+        </SearchBox>
+        <FilterImg onClick={()=>{updateModal();}} src={Filter} alt="filter" className="linkToDiv"/>
+      </FilterAndAdd>
+    )
+  }
     return (
         <Container>
           <WrapManage>
@@ -97,16 +112,20 @@ export default function Manage({tridchklist_function,prdidvalue,reservationIteml
             <TopSortingBtn>
               <AddBtn onClick={()=> {selectModal();}}>{prdidvalue!=''&& prdidvalue!=null ? prdidvalue : '전체' }</AddBtn>
             </TopSortingBtn>
-            <TopInfo>
-              <All>총 <GreenColor>{reservationItemlist.length}</GreenColor> 건</All>
-              <FilterAndAdd>
-                <SearchBox>
-                  <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
-                  <SearchButton type="button"/>
-                </SearchBox>
-                <FilterImg onClick={()=>{updateModal();}} src={Filter} alt="filter" className="linkToDiv"/>
-              </FilterAndAdd>
-            </TopInfo>
+
+            {/* justify-content 가 달라 적용하지 않았습니다. */}
+            {/* <CommonTopInfo length={reservationItemlist.length} leftComponent={topInfoContent()}/> */}
+              <TopInfo>
+                <All>총 <GreenColor>{reservationItemlist.length}</GreenColor> 건</All>
+                <FilterAndAdd>
+                  <SearchBox>
+                    <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
+                    <SearchButton type="button"/>
+                  </SearchBox>
+                  <FilterImg onClick={()=>{updateModal();}} src={Filter} alt="filter" className="linkToDiv"/>
+                </FilterAndAdd>
+              </TopInfo>
+           
             {/* 이 부분은 AddBtn의 select모달에서 하위요소가 선택됐을때 노출됩니다. */}
               {
                 select ?

@@ -27,6 +27,8 @@ import serverController from '../../../../server/serverController';
 //component
 import PropertyList from "./PropertyList";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function Propertymanage({setFilter,updateModal,value,type}) {
 
   //... 눌렀을때(메뉴)
@@ -82,23 +84,42 @@ export default function Propertymanage({setFilter,updateModal,value,type}) {
     
    },[]);
 
+
+  const topInfoContent = () => {
+    return(
+      <FilterAndAdd>
+        <SearchBox>
+          <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
+          <SearchButton type="button"/>
+        </SearchBox>
+        <FilterImg onClick={()=>{setFilter(true);updateModal();}} src={Filter} alt="filter"/>
+        <Link to="/AddProperty">
+          <AddBtn>추가</AddBtn>
+        </Link>
+      </FilterAndAdd>
+    )
+  }
+
     return (
         <Container>
           <WrapRequest>
             <TopTitle>물건관리</TopTitle>
-            <TopInfo>
-              <All>총 <GreenColor>{brokerRequest_productlist.length}</GreenColor> 건</All>
-              <FilterAndAdd>
-                <SearchBox>
-                  <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
-                  <SearchButton type="button"/>
-                </SearchBox>
-                <FilterImg onClick={()=>{setFilter(true);updateModal();}} src={Filter} alt="filter"/>
-                <Link to="/AddProperty">
-                  <AddBtn>추가</AddBtn>
-                </Link>
-              </FilterAndAdd>
-            </TopInfo>
+            <CommonTopInfo length={brokerRequest_productlist.length} leftComponent={topInfoContent()}/>
+            {/*
+              <TopInfo>
+                <All>총 <GreenColor>{brokerRequest_productlist.length}</GreenColor> 건</All>
+                <FilterAndAdd>
+                  <SearchBox>
+                    <InputSearch type="search" placeholder="건물,의뢰인 검색"/>
+                    <SearchButton type="button"/>
+                  </SearchBox>
+                  <FilterImg onClick={()=>{setFilter(true);updateModal();}} src={Filter} alt="filter"/>
+                  <Link to="/AddProperty">
+                    <AddBtn>추가</AddBtn>
+                  </Link>
+                </FilterAndAdd>
+              </TopInfo>
+            */}
             <WrapPropertyList>
             {
             brokerRequest_productlist.map((value) => {

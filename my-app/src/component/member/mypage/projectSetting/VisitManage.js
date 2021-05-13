@@ -24,6 +24,8 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import VisitManageList from "./VisitManageList";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function Reserve({updateModal,visitorModal,cancleModal,setFilter,setVisit,setCancle,value, type, type2}) {
 
   //... 눌렀을때(메뉴)
@@ -77,11 +79,25 @@ export default function Reserve({updateModal,visitorModal,cancleModal,setFilter,
     }
 ]
 
+  const topInfoContent =  () => {
+
+    return(
+      <FilterAndAdd>
+        <SearchBox>
+          <InputSearch type="search" placeholder="예약자 검색"/>
+          <SearchButton type="button"/>
+        </SearchBox>
+        <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
+      </FilterAndAdd>
+    )
+  }
+
     return (
         <Container>
           <WrapReserve>
             <TopTitle>방문예약접수 관리</TopTitle>
-            <TopInfo>
+            <CommonTopInfo length={3} leftComponent={topInfoContent()} />
+            {/* <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
               <FilterAndAdd>
                 <SearchBox>
@@ -90,7 +106,7 @@ export default function Reserve({updateModal,visitorModal,cancleModal,setFilter,
                 </SearchBox>
                 <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
               </FilterAndAdd>
-            </TopInfo>
+            </TopInfo> */}
             <ReserveList>
             {
             VisitListItem.map((value) => {

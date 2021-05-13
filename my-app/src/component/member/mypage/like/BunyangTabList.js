@@ -17,6 +17,7 @@ import { Mobile, PC } from "../../../../MediaQuery"
 // Components
 import CommonFilter from './commonFilter';
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
 
 export default function ItemTabList({setFilter,value,type}) {
 
@@ -25,115 +26,125 @@ export default function ItemTabList({setFilter,value,type}) {
   const showModal =()=>{
     setMenu(!menu);
   }
+  const [listData, setListData] = useState([]);
 
-  const ItemListItem =[
-  {
-    item_id : 0,
-    path:"/",
-    title:"충남내포신도시2차대방엘리움더센트럴",
-    number: "2D0000324",
-    option1:"충청남도",
-    option2:"아파트",
-    option3:"민간분양",
-    address:"충청남도 홍성군 홍북읍 신경리",
-    danji:"831세대",
-    width1:"103㎡",
-    width2:"114㎡",
-    width3:"77㎡",
-    width4:"85㎡",
-    price1:"35,599",
-    price2:"44,049"
-  },
-  {
-    item_id : 1,
-    path:"/",
-    title:"충남내포신도시2차대방엘리움더센트럴",
-    number: "2D0000324",
-    option1:"충청남도",
-    option2:"아파트",
-    option3:"민간분양",
-    address:"충청남도 홍성군 홍북읍 신경리",
-    danji:"500세대",
-    width1:"103㎡",
-    width2:"114㎡",
-    width3:"77㎡",
-    width4:"85㎡",
-    price1:"35,599",
-    price2:"44,049"
-  },
-  {
-    item_id : 2,
-    path:"/",
-    title:"충남내포신도시2차대방엘리움더센트럴",
-    number: "2D0000324",
-    option1:"충청남도",
-    option2:"아파트",
-    option3:"민간분양",
-    address:"충청남도 홍성군 홍북읍 신경리",
-    danji:"300세대",
-    width1:"103㎡",
-    width2:"114㎡",
-    width3:"77㎡",
-    width4:"85㎡",
-    price1:"35,599",
-    price2:"44,049"
-  }
-  ]
 
+
+  useEffect(() => {
+    setListData([
+      {
+        item_id : 0,
+        path:"/",
+        title:"충남내포신도시2차대방엘리움더센트럴",
+        number: "2D0000324",
+        option1:"충청남도",
+        option2:"아파트",
+        option3:"민간분양",
+        address:"충청남도 홍성군 홍북읍 신경리",
+        danji:"831세대",
+        width1:"103㎡",
+        width2:"114㎡",
+        width3:"77㎡",
+        width4:"85㎡",
+        price1:"35,599",
+        price2:"44,049"
+      },
+      {
+        item_id : 1,
+        path:"/",
+        title:"충남내포신도시2차대방엘리움더센트럴",
+        number: "2D0000324",
+        option1:"충청남도",
+        option2:"아파트",
+        option3:"민간분양",
+        address:"충청남도 홍성군 홍북읍 신경리",
+        danji:"500세대",
+        width1:"103㎡",
+        width2:"114㎡",
+        width3:"77㎡",
+        width4:"85㎡",
+        price1:"35,599",
+        price2:"44,049"
+      },
+      {
+        item_id : 2,
+        path:"/",
+        title:"충남내포신도시2차대방엘리움더센트럴",
+        number: "2D0000324",
+        option1:"충청남도",
+        option2:"아파트",
+        option3:"민간분양",
+        address:"충청남도 홍성군 홍북읍 신경리",
+        danji:"300세대",
+        width1:"103㎡",
+        width2:"114㎡",
+        width3:"77㎡",
+        width4:"85㎡",
+        price1:"35,599",
+        price2:"44,049"
+      }
+    ])
+  }, [])
+
+  // 클릭한 텍스트 불러오기
+  // 클릭한 옵션을 기준으로 리스트를 다시 불러온다.
   const onClickList = (e) => {
-    // 클릭한 텍스트 불러오기
     console.log(e.target.innerText);
+    // setListData([  -data-  ])
   }
   
+  // CommonTopInfo 대신 들어갔던 코드입니다. 
+  // <TopInfo>
+  //   <All>총 <GreenColor>4</GreenColor> 건</All>
+  //   {/* -- 수정코드입니다. */}
+  //   <CommonFilter onClick={onClickList}/>
+  //   {/* -- 원래 코드입니다. */}
+  //   {/*
+  //     <FilterAndAdd>
+  //       <Link onClick={showModal}>
+  //         <FilterImg src={View} alt="filter"/>
+  //         {
+  //           menu ?
+  //           <InMenu>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>최신등록순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>높은가격순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>낮은가격순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>넓은면적순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>좁은면적순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>가나다순</InDiv>
+  //             </Div>
+  //           </InMenu>
+  //           :
+  //           null
+  //         }
+  //       </Link>
+  //     </FilterAndAdd>
+  //   */}
+  // </TopInfo>
+
     return (
         <Container>
-            <TopInfo>
-              <All>총 <GreenColor>4</GreenColor> 건</All>
-              {/* -- 수정코드입니다. */}
-              <CommonFilter onClick={onClickList}/>
-              {/* -- 원래 코드입니다. */}
-              {/*
-                <FilterAndAdd>
-                  <Link onClick={showModal}>
-                    <FilterImg src={View} alt="filter"/>
-                    {
-                      menu ?
-                      <InMenu>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>최신등록순</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>높은가격순</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>낮은가격순</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>넓은면적순</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>좁은면적순</InDiv>
-                        </Div>
-                        <Div>
-                          <Link className="data_link"></Link>
-                          <InDiv>가나다순</InDiv>
-                        </Div>
-                      </InMenu>
-                      :
-                      null
-                    }
-                  </Link>
-                </FilterAndAdd>
-              */}
-            </TopInfo>
+            <CommonTopInfo length={4} leftComponent={<CommonFilter onClick={onClickList}/>} />
             <ListUl>
           {
-              ItemListItem.map((value) => {
+              listData.map((value) => {
               return(
                 <Li>
                   <LiTop className="clearfix">
@@ -154,7 +165,7 @@ export default function ItemTabList({setFilter,value,type}) {
                       <Label for={"Like"+value.item_id} className="check_label"/>
                     </LikeBtn>
                   </LiTop>
-                  <LiBottom>
+                  {/* <LiBottom>
                     <Desc>
                       <DescTitle>분양세대</DescTitle>
                       <DescInfo>{value.danji}</DescInfo>
@@ -171,7 +182,7 @@ export default function ItemTabList({setFilter,value,type}) {
                       <DescTitle>분양가격</DescTitle>
                       <DescInfo>{value.price1} ~ {value.price2} 만원</DescInfo>
                     </Desc>
-                  </LiBottom>
+                  </LiBottom> */}
                 </Li>
               )}
             )

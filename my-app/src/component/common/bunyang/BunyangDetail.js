@@ -24,7 +24,54 @@ import Checked from "../../../img/member/checked.png";
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal}){
+export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal, BunyangDate, clickId, setImgArr, imgArr}){
+
+  const [rightTopData, setRightTopData] = useState({});
+  const [rigthDetailData, setRigthDetailData] = useState([]);
+  const [hashTagArr, setHashTagArr] = useState([]);
+  // 처음부터 렌더하게되면 이미지 슬라이더가 먹지않아 이미지가 받아온 후 렌더되도록 하였습니다.
+  const [firstRender, setFirstRender] = useState(false);
+
+
+  // 클릭한 아이디를 서버에 보내고 데이터를 받아와 적용시키면 됩니다.
+  useEffect(() => {
+    // console.log(clickId);
+
+    // 우측 상단 데이터입니다.
+    setRightTopData({
+      title:"충남내포신도시2차대방엘리움더센트럴",
+      number:"2D0000324",
+      option:"충청남도 / 아파트 / 민간분양",
+      address:"충청남도 홍성군 홍북읍 신경리 947번지",
+    })
+
+    // 우측 하단 데이터입니다.
+    setRigthDetailData([
+      {title: "분양세대", content: BunyangDate.desc1},
+      {title: "분양면적", content: BunyangDate.desc2},
+      {title: "전용면적", content: "77㎡ ~ 85㎡"},
+      {title: "분양가격", content: "35,599 ~ 44,049 만원"},
+      {title: "전용면적", content: "77㎡ ~ 85㎡"},
+      {title: "모델하우스 주소", content: "서울특별시 강남구 서초동 길동아파트 103 103호"},
+      {title: "중개보수", content: "-"},
+      {title: "Live 방송일시", content: "2021.01.01   00:00"},
+    ])
+    
+    // HashTag 배열입니다.
+    setHashTagArr([
+      "#hashtag","#hashtag","#hashtag"
+    ])
+    
+    // 이미지 배열입니다.
+    setImgArr([
+      SwipImg, SwipImg
+    ])
+    setFirstRender(true);
+
+    
+  }, [])
+
+
 
   const [active,setActive] = useState(false);
     return (
@@ -39,16 +86,33 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
         <WrapDetail>
           <LeftDetail>
             <SwiperBennerWrap className="bunyang_swiper">
-              <Swiper
-                spaceBetween={5}
-                slidesPerView={1}
-                loop={true}
-                autoplay={false}
-                navigation={{ clickable: true }}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-              >
-                <SwiperSlide>
+                {
+                  firstRender ?
+                  <Swiper
+                    spaceBetween={5}
+                    slidesPerView={1}
+                    loop={true}
+                    autoplay={false}
+                    navigation={{ clickable: true }}
+                    onSlideChange={() => console.log('slide change')}
+                    onSwiper={(swiper) => console.log(swiper)}
+                  >
+                  {
+                    imgArr.map((item, index) => {
+                      return(
+                        <SwiperSlide ket={index}>
+                          <Link onClick={() => {setDetailImg(true)}}>
+                            <Img src={item} alt="img"/>
+                          </Link>
+                        </SwiperSlide>
+                      )
+                    })
+                  }
+                  </Swiper>
+                  :
+                  <></>
+                }
+                {/* <SwiperSlide>
                   <Link onClick={() => {setDetailImg(true)}}>
                     <Img src={SwipImg} alt="img"/>
                   </Link>
@@ -57,14 +121,18 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   <Link onClick={() => {setDetailImg(true)}}>
                     <Img src={SwipImg} alt="img"/>
                   </Link>
-                </SwiperSlide>
-              </Swiper>
+                </SwiperSlide> */}
+              
             </SwiperBennerWrap>
             {/*hastags*/}
             <HashTag>
-              <Tag>#hashtag</Tag>
-              <Tag>#hashtag</Tag>
-              <Tag>#hashtag</Tag>
+              {
+                hashTagArr.map((item, index) => {
+                  return(
+                    <Tag key={index}>{item}</Tag>
+                  )
+                })
+              }
             </HashTag>
             {/*홈페이지,예약등*/}
             <LeftButtons>
@@ -88,47 +156,66 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
           {/*RightDetail*/}
             <RightDetail>
               <RightTop>
-                <TopTitle>충남내포신도시2차대방엘리움더센트럴<Number>2D0000324</Number></TopTitle>
-                <Option>충청남도 / 아파트 / 민간분양</Option>
-                <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
+                <TopTitle>{rightTopData.title}<Number>{rightTopData.number}</Number></TopTitle>
+                <Option>{rightTopData.option}</Option>
+                <Address>{rightTopData.address}</Address>
+                {/*
+                  <TopTitle>충남내포신도시2차대방엘리움더센트럴<Number>2D0000324</Number></TopTitle>
+                  <Option>충청남도 / 아파트 / 민간분양</Option>
+                  <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
+                */}
                 <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1"></Like>
+                  <Like type="checkbox" name="" id="Like1"checked={BunyangDate.LikeChecked}></Like>
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </RightTop>
               <RightBottom>
-                <Desc>
-                  <DTitle>분양세대</DTitle>
-                  <DescInfo>831세대</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>분양면적</DTitle>
-                  <DescInfo>103㎡ ~ 114㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>전용면적</DTitle>
-                  <DescInfo>77㎡ ~ 85㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>분양가격</DTitle>
-                  <DescInfo>35,599 ~ 44,049 만원</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>전용면적</DTitle>
-                  <DescInfo>77㎡ ~ 85㎡</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>모델하우스 주소</DTitle>
-                  <DescInfo>서울특별시 강남구 서초동 길동아파트 103 103호</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>중개보수</DTitle>
-                  <DescInfo>-</DescInfo>
-                </Desc>
-                <Desc>
-                  <DTitle>Live 방송일시</DTitle>
-                  <DescInfo>2021.01.01   00:00</DescInfo>
-                </Desc>
+                {
+                  rigthDetailData.map((item, index) => {
+                    return(
+                      <Desc key={index}>
+                        <DTitle>{item.title}</DTitle>
+                        <DescInfo>{item.content}</DescInfo>
+                      </Desc>
+                    ) 
+                    })   
+                }
+                
+                {/*
+                  <Desc>
+                    <DTitle>분양세대</DTitle>
+                    <DescInfo>831세대</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>분양면적</DTitle>
+                    <DescInfo>103㎡ ~ 114㎡</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>전용면적</DTitle>
+                    <DescInfo>77㎡ ~ 85㎡</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>분양가격</DTitle>
+                    <DescInfo>35,599 ~ 44,049 만원</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>전용면적</DTitle>
+                    <DescInfo>77㎡ ~ 85㎡</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>모델하우스 주소</DTitle>
+                    <DescInfo>서울특별시 강남구 서초동 길동아파트 103 103호</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>중개보수</DTitle>
+                    <DescInfo>-</DescInfo>
+                  </Desc>
+                  <Desc>
+                    <DTitle>Live 방송일시</DTitle>
+                    <DescInfo>2021.01.01   00:00</DescInfo>
+                  </Desc>
+                */}
+
               </RightBottom>
             </RightDetail>
           </WrapDetail>

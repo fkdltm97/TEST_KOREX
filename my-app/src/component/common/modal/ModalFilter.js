@@ -10,37 +10,37 @@ import styled from "styled-components"
 import ArrowDown from '../../../img/member/arrow_down.png';
 
 //필터 모달
-export default function Reserve({updateModal}) {
+export default function Reserve({updateModal, onChangeSort, onChangeCondi}) {
 
   //Filter 모달창
-    return (
-        <Container>
-          <WrapFilterModal>
-              <WrapFilterSelect>
-              {/*정렬기준 select*/}
-                <FilterBox>
-                  <FilterLabel>정렬기준</FilterLabel>
-                  <FilterSelectSort>
-                    <FilterSelectSortList>
-                      <InOption>최신등록순</InOption>
-                      <InOption>과거등록순</InOption>
-                      <InOption>가나다순</InOption>
-                    </FilterSelectSortList>
-                  </FilterSelectSort>
-                </FilterBox>
-              {/*상태 select*/}
-                <FilterBox>
-                  <FilterLabel>보기</FilterLabel>
-                  <FilterSelectCondition>
-                    <FilterSelectConditionList>
-                      <InOption>전체</InOption>
-                      <InOption>Live방송 예고</InOption>
-                    </FilterSelectConditionList>
-                  </FilterSelectCondition>
-                </FilterBox>
-              </WrapFilterSelect>
-          </WrapFilterModal>
-        </Container>
+  return (
+    <Container>
+      <WrapFilterModal>
+          <WrapFilterSelect>
+          {/*정렬기준 select*/}
+            <FilterBox>
+              <FilterLabel>정렬기준</FilterLabel>
+              <FilterSelectSort>
+                <FilterSelectSortList onChange={(e) => onChangeSort(e)}>
+                  <InOption>최신등록순</InOption>
+                  <InOption>과거등록순</InOption>
+                  <InOption>가나다순</InOption>
+                </FilterSelectSortList>
+              </FilterSelectSort>
+            </FilterBox>
+          {/*상태 select*/}
+            <FilterBox>
+              <FilterLabel>보기</FilterLabel>
+              <FilterSelectCondition>
+                <FilterSelectConditionList onChange={(e) => onChangeCondi(e)}>
+                  <InOption>전체</InOption>
+                  <InOption>Live방송 예고</InOption>
+                </FilterSelectConditionList>
+              </FilterSelectCondition>
+            </FilterBox>
+          </WrapFilterSelect>
+      </WrapFilterModal>
+    </Container>
   );
 }
 

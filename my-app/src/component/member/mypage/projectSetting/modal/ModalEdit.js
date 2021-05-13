@@ -3,6 +3,8 @@ import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
 
+import DatePicker from "react-datepicker";
+
 //css
 import styled from "styled-components"
 
@@ -14,32 +16,54 @@ import ArrowDown from '../../../../../img/member/arrow_down.png';
 //지도 모달
 export default function EditModal({ edit, setEdit }) {
   const [active,setActive] = useState(false);
+
+  const [SelectDate, setSelectDate] = useState(new Date());
+
   if(edit == false)
     return null;
     return (
-        <Container>
-              <WrapInputBox>
-                <Label>방송일</Label>
-                <Input type="date" placeholder="날짜 선택"/>
-                <Label>시간</Label>
-                <WrapSelect>
-                  <Select>
-                    <Option selected disalbed>시</Option>
-                    <Option>1시</Option>
-                    <Option>2시</Option>
-                  </Select>
-                  <Select>
-                    <Option selected disalbed>분</Option>
-                    <Option>00분</Option>
-                    <Option>10분</Option>
-                  </Select>
-                </WrapSelect>
-                <Label>방송변경안내</Label>
-                <TextArea type="textarea"/>
-              </WrapInputBox>
-        </Container>
-  );
+      <Container>
+        <WrapInputBox>
+          <Label>방송일</Label>
+          <WrapDate>
+            <DatePicker
+              dateFormat="yyyy.MM.dd"
+              selected={SelectDate}
+              onChange={(date) => setSelectDate(date)}
+            />
+          </WrapDate>
+          <Label>시간</Label>
+          <WrapSelect>
+            <Select>
+              <Option selected disalbed>
+                시
+              </Option>
+              <Option>1시</Option>
+              <Option>2시</Option>
+            </Select>
+            <Select>
+              <Option selected disalbed>
+                분
+              </Option>
+              <Option>00분</Option>
+              <Option>10분</Option>
+            </Select>
+          </WrapSelect>
+          <Label>방송변경안내</Label>
+          <TextArea type="textarea" />
+        </WrapInputBox>
+      </Container>
+    );
 }
+
+const WrapDate = styled.div`
+  width:300px;position:relative;z-index:3;
+  margin-bottom:30px;
+  @media ${(props) => props.theme.modal} {
+    width:calc(100vw*(280/428));
+    margin-bottom:calc(100vw*(25/428));
+  }
+`
 
 const Pb = styled.b`
   display:block;

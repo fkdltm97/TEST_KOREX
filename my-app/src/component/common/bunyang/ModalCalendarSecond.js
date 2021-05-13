@@ -18,13 +18,16 @@ import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
-export default function ModalCal({cal, setCal, updatePageIndex ,SelectDate, setSelectDate}) {
+export default function ModalCal({cal, setCal, updatePageIndex ,SelectDate, setSelectDate, setSelectTime}) {
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
 
 const [SelectedDay, setSelectedDay] = useState("일")
 useEffect(() => {
+  // 선택하지않고 바로 지나갔을경우를 대비하여 초기값을 넣었습니다.
+  setSelectTime(setHours(setMinutes(new Date(), 30), 16))
+  
   switch (SelectDate.getDay()) {
     case 0:
       // let selectDay = "일";
@@ -58,6 +61,8 @@ useEffect(() => {
 
 }, [])
 
+
+
   if (cal == false) return null;
   return (
     <Container>
@@ -90,7 +95,7 @@ useEffect(() => {
         <WrapDatePicker>
           <DatePicker className="date_time"
             selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => {setStartDate(date); setSelectTime(date); }}
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={30} //간격 설정

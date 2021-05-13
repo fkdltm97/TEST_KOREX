@@ -41,6 +41,7 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
               <ConditionDiv>
                 상태 : <Condition>{value.prd_status}</Condition> <ConditionDate>{value.modify_date}</ConditionDate>
               </ConditionDiv>
+              {/* prd_identity_id가 텍스트로 들어가있습니다. */}
               <Number>prd_identity_id: {value.prd_identity_id}</Number>
               <Title>{value.prd_name}</Title>
               <Kinds>

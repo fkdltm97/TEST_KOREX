@@ -20,7 +20,7 @@ import BackBtn from '../../../img/notice/back_btn.png';
 import CloseBtn from '../../../img/main/w_close_btn.png';
 
 SwiperCore.use([Navigation]);
-export default function ImgDetail({detailimg, setDetailImg}){
+export default function ImgDetail({detailimg, setDetailImg, imgArr}){
   if(detailimg == false)
     return null;
     return (
@@ -41,7 +41,18 @@ export default function ImgDetail({detailimg, setDetailImg}){
               onSlideChange={() => console.log('slide change')}
               onSwiper={(swiper) => console.log(swiper)}
             >
-              <SwiperSlide>
+              {
+                imgArr.map((item, index) => {
+                  return(
+                    <SwiperSlide key={index}>
+                      <Imgbox>
+                        <Img src={item} alt="img"/>
+                      </Imgbox>
+                    </SwiperSlide>
+                  )
+                })
+              }
+              {/* <SwiperSlide>
                 <Imgbox>
                   <Img src={SwipImg} alt="img"/>
                 </Imgbox>
@@ -50,7 +61,7 @@ export default function ImgDetail({detailimg, setDetailImg}){
                 <Imgbox>
                   <Img src={SwipImg} alt="img"/>
                 </Imgbox>
-              </SwiperSlide>
+              </SwiperSlide> */}
             </Swiper>
           </SwiperBennerWrap>
       </Container>

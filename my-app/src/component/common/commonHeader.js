@@ -30,14 +30,16 @@ const CommonHeader = (props) => {
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
+  // 분양 이미지 배열입니다. 이 배열을 통하여 분양디테일이미지와 상세이미지를 보여줍니다.
+  const [imgArr, setImgArr] = useState([])
   const [cal, setCal] = useState(false);
 
     return(
         <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg} imgArr={imgArr}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
-          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal} setImgArr={setImgArr} imgArr={imgArr}/>
           <MainHeader openBunyang={openBunyang}/>
         </>
     )

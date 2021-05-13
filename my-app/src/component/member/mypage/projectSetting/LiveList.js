@@ -13,57 +13,196 @@ import LiveUser from '../../../../img/member/live_user.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({editModal, comfirmModal, cancleModal,setCancle,setEdit,value,type,type2}) {
+import ModalCommon from '../../../common/modal/ModalCommon'
 
+export default function Request({
+  editModal,
+  cancleModal,
+  setCancle,
+  setEdit,
+  value,
+  type,
+  type2
+}) {
   //... 눌렀을때(메뉴)
-  const [menu,setMenu] = useState(false);
-  const showModal =()=>{
+  const [menu, setMenu] = useState(false);
+  const showModal = () => {
     setMenu(!menu);
-  }
+  };
 
-    return (
-      <Container>
-          <Li opacity={type2}>
-            <Infos>
-              <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
-              <Number>등록번호 {value.number}</Number>
-              <Live>
-                <Txt>Live 시청 예약</Txt>
-                <Person>
-                  <PersonImg src={LiveUser}/>
-                  <Personnel>{value.personnel}</Personnel>
-                </Person>
-              </Live>
-              <SwitchButton>
-                <Switch type="checkbox" id={"switch"+value.live_id}/>
-                <SwitchLabel for={"switch"+value.live_id}>
-                  <SwitchSpan/>
-                </SwitchLabel>
-                <Span>예약기능 활성화</Span>
-              </SwitchButton>
-            </Infos>
-            <RightMenu>
-              <Menu>
-                <div onClick={showModal} className="linkToDiv">
-                  <MenuIcon/>
-                    {
-                      menu ?
-                      <InMenu>
-                        <Div>
-                          <InDiv onClick={()=>{setCancle(true);cancleModal();}} className="linkToDiv">취소 및 안내</InDiv>
-                        </Div>
-                        <Div>
-                          <InDiv onClick={()=>{setEdit(true);editModal();}} className="linkToDiv">수정 및 안내</InDiv>
-                        </Div>
-                      </InMenu>
-                      :
-                      null
-                    }
-                </div>
-              </Menu>
-            </RightMenu>
-          </Li>
-          </Container>
+  const [CheckOption, setCheckOption] = useState(value.activation);
+  // const [Disabled, setDisabled] = useState(value.type)
+
+  const [modalOption, setModalOption] = useState({
+    show: false,
+    setShow: null,
+    link: "",
+    title: "",
+    submit: {},
+    cancle: {},
+    confirm: {},
+    confirmgreennone: {},
+    content: {},
+  });
+
+  //여기 두개가 핵심이에여
+  //모달 끄는 식
+  const offModal = () => {
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  };
+
+  //등록되었습니다 모달
+  const comfirmModal = () => {
+    if (CheckOption === true) {
+      setModalOption({
+        show: true,
+        setShow: offModal,
+        title: "등록",
+        content: {
+          type: "text",
+          text: `예약기능 비활성화하시겠습니까?`,
+          component: "",
+        },
+        submit: {
+          show: true,
+          title: "비활성화",
+          event: () => {
+            offModal();
+            setCheckOption(false);
+          },
+        },
+        cancle: {
+          show: true,
+          title: "취소",
+          event: () => {
+            offModal();
+          },
+        },
+        confirm: {
+          show: false,
+          title: "확인",
+          event: () => {
+            offModal();
+          },
+        },
+        confirmgreennone: {
+          show: false,
+          title: "확인",
+          event: () => {
+            offModal();
+          },
+        },
+      });
+    } else {
+      setModalOption({
+        show: true,
+        setShow: offModal,
+        title: "등록",
+        content: {
+          type: "text",
+          text: `예약기능 활성화하시겠습니까?`,
+          component: "",
+        },
+        submit: {
+          show: true,
+          title: "활성화",
+          event: () => {
+            offModal();
+            setCheckOption(true);
+          },
+        },
+        cancle: {
+          show: true,
+          title: "취소",
+          event: () => {
+            offModal();
+          },
+        },
+        confirm: {
+          show: false,
+          title: "확인",
+          event: () => {
+            offModal();
+          },
+        },
+        confirmgreennone: {
+          show: false,
+          title: "확인",
+          event: () => {
+            offModal();
+          },
+        },
+      });
+    }
+  };
+
+  return (
+    <Container>
+      <Li opacity={type2}>
+        <Infos>
+          <Condition>
+            상태:<Orange color={type}>{value.condition}</Orange>
+          </Condition>
+          <Number>등록번호 {value.number}</Number>
+          <Live>
+            <Txt>Live 시청 예약</Txt>
+            <Person>
+              <PersonImg src={LiveUser} />
+              <Personnel>{value.personnel}</Personnel>
+            </Person>
+          </Live>
+          <SwitchButton>
+            <Switch
+              type="checkbox"
+              id={"switch" + value.live_id}
+              checked={CheckOption}
+              disabled={value.disabled}
+              onClick={() => {
+                comfirmModal();
+              }}
+            />
+            <SwitchLabel for={"switch" + value.live_id}>
+              <SwitchSpan />
+            </SwitchLabel>
+            <Span>예약기능 활성화</Span>
+          </SwitchButton>
+        </Infos>
+        <RightMenu>
+          <Menu>
+            <Link onClick={showModal}>
+              <MenuIcon />
+              {menu ? (
+                <InMenu>
+                  <Div>
+                    <Link
+                      onClick={() => {
+                        setCancle(true);
+                        cancleModal(value.personnel);
+                      }}
+                      className="data_link"
+                    ></Link>
+                    <InDiv>취소 및 안내</InDiv>
+                  </Div>
+                  <Div>
+                    <Link
+                      onClick={() => {
+                        setEdit(true);
+                        editModal();
+                      }}
+                      className="data_link"
+                    ></Link>
+                    <InDiv>수정 및 안내</InDiv>
+                  </Div>
+                </InMenu>
+              ) : null}
+            </Link>
+          </Menu>
+        </RightMenu>
+      </Li>
+      <ModalCommon modalOption={modalOption} />
+    </Container>
   );
 }
 

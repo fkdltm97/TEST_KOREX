@@ -1,5 +1,5 @@
 //react
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
 
 import styled from "styled-components"
@@ -54,56 +54,87 @@ export default function Join() {
   const [reserve,setReserve] = useState(false);
 
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreennone:{},content:{}});
-
-
-//여기 두개가 핵심이에여
-  //모달 끄는 식
+  const [sortChecked, setSortChecked] = useState([1, 0, 0]);
+  const [condiChecked, setCondiChecked] = useState([1, 0, 0, 0, 0]);
+  const sortRef = useRef();
+  const condiRef = useRef();
+  
+    //여기 두개가 핵심이에여
+    //모달 끄는 식
     const offModal = ()=>{
       let option = JSON.parse(JSON.stringify(modalOption));
       option.show = false;
       setModalOption(option);
     }
 
+    // 모달창을 다시 열어도 선택한 옵션을 계속 유지시킵니다. 
+    const onChangeSort = (e) => {
+      let newChecked = [0, 0, 0];
+      newChecked[e.target.value] = 1;
+      setSortChecked([...newChecked]);
+    }
+
+    const onChangeCondi = (e) => {
+      let newChecked = [0, 0, 0, 0, 0];
+      newChecked[e.target.value] = 1;
+      setCondiChecked([...newChecked]);
+    }
+
+    // 모달창을 닫고 선택한 옵션들을 초기화합니다.
+    const onClickReset = () => {
+      offModal();
+      setSortChecked([1, 0, 0]);
+      setCondiChecked([1, 0, 0, 0, 0]);
+    }
+
+
+    // 적용버튼을 눌렀을때 서버에서 새로운 리스트를 불러온다.
+    const onClickSubmit = () => {
+      // 선택한 정렬기준과 상태입니다.
+      console.log(sortRef.current.value); // 0, 1, 2
+      console.log(condiRef.current.value); // 0, 1, 2, 3, 4
+      offModal();
+    }
 
     //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-      const updateModal = () =>{
-        //여기가 모달 키는 거에엽
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"필터",
-            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
-            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
-            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-            confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
-        });
-      }
+    const updateModal = () =>{
+      //여기가 모달 키는 거에엽
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"필터",
+          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent condiRef={condiRef} sortRef={sortRef} onChangeSort={onChangeSort} onChangeCondi={onChangeCondi} sortChecked={sortChecked} condiChecked={condiChecked}/>},
+          submitnone:{show:true , title:"적용" , event : ()=> onClickSubmit()},
+          cancle:{show:true , title:"초기화" , event : ()=> onClickReset()},
+          confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal();}}
+      });
+    }
 
     //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
-      const updateMapModal = () =>{
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"건물위치",
-            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalMap/>},
-            submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirmgreennone:{show:false , title:"" , event : ()=>{offModal(); }}
-        });
-      }
+    const updateMapModal = () =>{
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"건물위치",
+          content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalMap/>},
+          submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
+          cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+          confirmgreennone:{show:false , title:"" , event : ()=>{offModal(); }}
+      });
+    }
 
-      const updateReserveModal = () =>{
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"투어예약 수정",
-            content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalReserve/>},
-            submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirmgreennone:{show:true , title:"수정" , event : ()=>{offModal(); }}
+    const updateReserveModal = () =>{
+      setModalOption({
+          show:true,
+          setShow:offModal,
+          title:"투어예약 수정",
+          content:{type:"component",text:`ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ`,component:<ModalReserve/>},
+          submitnone:{show:false , title:"" , event : ()=>{offModal(); }},
+          cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+          confirmgreennone:{show:true , title:"수정" , event : ()=>{offModal(); }}
 
-        });
-      }
+      });
+    }
 
     return (
         <>

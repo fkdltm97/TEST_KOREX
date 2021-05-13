@@ -23,6 +23,8 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import ReserveListPage from "./ReserveList";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
   /*data map*/
   const ReserveListItem =[
     {
@@ -72,45 +74,58 @@ export default function Reserve({setMap,setFilter,setReserve, value, type, type2
   }
 
 
+  const topInfoContent = () => {
+    return(
+      <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
+        <FilterImg src={Filter} alt="filter"/>
+      </div>
+    )
+  }
+  
+
     return (
         <Container>
           <WrapReserve>
             <TopTitle>내 물건 투어 예약</TopTitle>
-            <TopInfo>
-              <All>총 <GreenColor>3</GreenColor> 건</All>
-              <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
-                <FilterImg src={Filter} alt="filter"/>
-              </div>
-            </TopInfo>
+            {/* 수정코드입니다. */}
+            <CommonTopInfo length={3} leftComponent={topInfoContent()}/>
+            {/* -- 원래 코드입니다. */}
+            {/*
+              <TopInfo>
+                <All>총 <GreenColor>3</GreenColor> 건</All>
+                <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
+                  <FilterImg src={Filter} alt="filter"/>
+                </div>
+              </TopInfo>
+            */}
+
             <ReserveList>
-            {
-            ReserveListItem.map((value) => {
-
-              const type=()=>{
-                if(value.type == "today") {
-                  return "#fe7a01"
-                }else if(value.type == "cancel") {
-                  return "#707070"
-                } else if(value.type == "days") {
-                  return "#01684b"
+              {
+              ReserveListItem.map((value) => {
+                const type=()=>{
+                  if(value.type == "today") {
+                    return "#fe7a01"
+                  }else if(value.type == "cancel") {
+                    return "#707070"
+                  } else if(value.type == "days") {
+                    return "#01684b"
+                  }
                 }
-              }
-              const type2=()=>{
-                if(value.type == "today") {
-                  return 1
-                }else if(value.type == "cancel") {
-                  return 0.5
-                } else if(value.type == "days") {
-                  return 1
+                const type2=()=>{
+                  if(value.type == "today") {
+                    return 1
+                  }else if(value.type == "cancel") {
+                    return 0.5
+                  } else if(value.type == "days") {
+                    return 1
+                  }
                 }
-              }
-
-              return(
-                <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
-              )
-            })
-          }
-        </ReserveList>
+                return(
+                  <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
+                )
+              })
+            }
+          </ReserveList>
       </WrapReserve>
   </Container>
   );

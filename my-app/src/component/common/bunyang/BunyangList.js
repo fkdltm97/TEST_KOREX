@@ -23,14 +23,18 @@ const BunyangListItem =[
     src:ItemImg,
     path:"/MbBunyangDetail",
     number:"2D0000324",
-    title:"충남내포신도시2차대방엘리움더센트럴",
+    title:"충남내포신도시2차대방엘리움더센트럴",//프로젝트명
     option:"충청남도 / 아파트 / 민간분양",
     address:"충청남도 홍성군 홍북읍 신경리",
-    desc1:"831세대",
-    desc2:"103㎡ ~ 114㎡",
-    desc3:"77㎡ ~ 85㎡",
-    desc4:"35,599 ~ 44,049 만원",
-    LiveCheckded : true
+    desc1:"831세대", //분양세대
+    desc2:"103㎡ ~ 114㎡", //분양면적
+    desc3:"77㎡ ~ 85㎡", //전용면적
+    desc4:"35,599 ~ 44,049 만원", //분양가격
+    LiveChecked : true, //라이브 방소예고
+    LikeChecked : false //좋아요
+    //모델하우스 주소
+    //중개보수
+    //Live 방송일시
   },
   {
     bunyang_id : 1,
@@ -44,12 +48,26 @@ const BunyangListItem =[
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
     desc4:"35,599 ~ 44,049 만원",
-    LiveCheckded : false
+    LiveChecked : false,
+    LikeChecked : true
   },
 ]
 
-export default function BunyangList({updatePageIndex}){
+
+export default function BunyangList({updatePageIndex , setBunyangDate, setClickId}){
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  
+  const [searchVal, setSearchVal] = useState("");
+  
+  const [BYDate, setBYDate] = useState(BunyangListItem)
+
+ //Like 버튼 클릭시 동작..... 
+ // like 버튼 토글기능 추가로 구현하였습니다.
+  const LikeButton =(value, index)=>{
+    let listData = BYDate;
+    listData[index].LikeChecked = !value.LikeChecked;
+    setBYDate([...listData])
+  }
 
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -60,6 +78,16 @@ export default function BunyangList({updatePageIndex}){
   }
 
 
+  // 필터 모달창 리스트 선택 시 값을 받아와 서버통신을 진행합니다.
+  // 이를 기준으로 BYDate 를 업데이트 합니다.  setBYDate([])
+  const onChangeSort = (e) => {
+    // console.log(e.target.value);
+  }
+  const onChangeCondi = (e) => {
+    // console.log(e.target.value);
+  }
+
+
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
   const updateModal = () =>{
     //여기가 모달 키는 거에엽
@@ -67,43 +95,83 @@ export default function BunyangList({updatePageIndex}){
         show:true,
         setShow:offModal,
         title:"필터",
-        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter onChangeSort={onChangeSort} onChangeCondi={onChangeCondi}/>},
         submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
         cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
         confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
     });
   }
 
+  // 리스트 클릭 시 발생하는 함수입니다.
+  // updatePageIndex값을 바꾸고 부모에게 클릭한 아이디값을 전달합니다.
+  const onClickList = (value) => {
+    setClickId(value.bunyang_id);
+    setBunyangDate(value);
+    updatePageIndex(1);
+  }
+
+  // 검색버튼 눌렀을때 검색값을 서버에 보내 리스트 데이터를 얻어와야합니다.
+  // 받아온 데이터는 BYDate안에 넣습니다.
+  const onClickSearch = () => {
+    // setBYDate([])
+    console.log(searchVal);
+  }
+
+
     return (
       <Container>
-        {/*bunyangtop*/}
-        <ModalTop>
-          <Title>분양</Title>
-        </ModalTop>
-        {/*bunyang select*/}
-        <ModalSelect>
-          <Search>
-            <SearchInput type="text" placeholder="검색어를 입력하여주세요."/>
-            <SearchIcon type="button"/>
-          </Search>
-          <SortRecent>
-            <RecentList>
-              <Link onClick={() => {updateModal()}}>
-                <Span><RecentImg src={IconRecent}/></Span>
-              </Link>
-            </RecentList>
-          </SortRecent>
-        </ModalSelect>
-        {/*bunyang List*/}
-        <ListTop>총 <Green>{BunyangListItem.length}</Green>건</ListTop>
+{/*bunyangtop*/}
+      <ModalTop>
+        <Title>분양</Title>
+      </ModalTop>
+{/*bunyang select*/}
+      <ModalSelect>
+        <Search>
+          <SearchInput type="text" placeholder="검색어를 입력하여주세요." value={searchVal} onChange={(e) => setSearchVal(e.target.value)}/>
+          <SearchIcon type="button" onClick={() => onClickSearch()}/>
+        </Search>
+        <SortRecent>
+          <RecentList>
+            <Link onClick={() => {updateModal(); }}>
+              <Span><RecentImg src={IconRecent}/></Span>
+            </Link>
+          </RecentList>
+        </SortRecent>
+      </ModalSelect>
+{/*bunyang List*/}
+        <ListTop>총 <Green>{BYDate.length}</Green>건</ListTop>
         <WrapList>
           <ListUl>
           {
-            BunyangListItem.map((value) => {
+            BYDate.map((value, index) => {
+              if(value.LiveChecked === true){
+                return(
+                  <Li>
+                    <LiTop className="clearfix">
+                      <Link onClick={() => onClickList(value)}>
+                        <LiImg src={value.src}/>
+                        <LiDesc>
+                          <LiTitle>{value.title}
+                          <Number>{value.number}</Number> 
+                            <LiveView>Live 방송 예고</LiveView>
+                          </LiTitle>
+                          <Option>{value.option}</Option>
+                          <Address>{value.address}</Address>
+                        </LiDesc>
+                      </Link>
+                      <LikeBtn>
+                        {/* map이 돌아갈때마다 id와 for을 달리하여 겹치는 현상을 방지하였습니다. */}
+                        <Like type="checkbox" name="" id={`Like${index}`} checked={value.LikeChecked} onClick={()=>{LikeButton(value, index)}}></Like>
+                        <Label for={`Like${index}`} className="check_label"></Label>
+                      </LikeBtn>
+                    </LiTop>
+                  </Li>
+                )
+              }
               return(
                 <Li>
                   <LiTop className="clearfix">
-                    <Link onClick={() => {updatePageIndex(1)}}>
+                    <Link onClick={() => onClickList(value)}>
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <LiTitle>{value.title}
@@ -115,8 +183,8 @@ export default function BunyangList({updatePageIndex}){
                       </LiDesc>
                     </Link>
                     <LikeBtn>
-                      <Like type="checkbox" name="" id="Like1"></Like>
-                      <Label for="Like1" className="check_label"></Label>
+                      <Like type="checkbox" name="" id={`Like${index}`} checked={value.LikeChecked} onClick={()=>{LikeButton(value, index)}}></Like>
+                      <Label for={`Like${index}`} className="check_label"></Label>
                     </LikeBtn>
                   </LiTop>
                 </Li>

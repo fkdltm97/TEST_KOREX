@@ -25,7 +25,8 @@ const BunyangListItem =[
     desc1:"831세대",
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
-    desc4:"35,599 ~ 44,049 만원"
+    desc4:"35,599 ~ 44,049 만원",
+    LiveCheckded : true
   },
   {
     bunyang_id : 1,
@@ -38,7 +39,8 @@ const BunyangListItem =[
     desc1:"500세대",
     desc2:"103㎡ ~ 114㎡",
     desc3:"77㎡ ~ 85㎡",
-    desc4:"35,599 ~ 44,049 만원"
+    desc4:"35,599 ~ 44,049 만원",
+    LiveCheckded : false
   }
 ]
 
@@ -65,8 +67,10 @@ export default function BunyangList({updatePageIndex,updateModal}){
           <ListUl>
           {
             BunyangListItem.map((value) => {
-              return(
-                <Li>
+              if(value.LiveCheckded === true){
+
+                return(
+                  <Li>
                   <LiTop className="clearfix">
                     <Link to={value.path}>
                       <LiImg src={value.src}/>
@@ -85,13 +89,32 @@ export default function BunyangList({updatePageIndex,updateModal}){
                   </LiTop>
                 </Li>
               )
+            }
+            return(
+              <Li>
+              <LiTop className="clearfix">
+                <Link to={value.path}>
+                  <LiImg src={value.src}/>
+                  <LiDesc>
+                    <Number>{value.number}</Number>
+                    <LiTitle>{value.title}</LiTitle>
+                    <Option>{value.option}</Option>
+                    <Address>{value.address}</Address>
+                  </LiDesc>
+                </Link>
+                <LikeBtn>
+                  <Like type="checkbox" name="" id="Like1"></Like>
+                  <Label for="Like1" className="check_label"></Label>
+                </LikeBtn>
+              </LiTop>
+            </Li>
+          )
             })
           }
           </ListUl>
-        </WrapList>
-
+          </WrapList>
       </Container>
-    );
+      );
 }
 
 const Container = styled.div`

@@ -38,9 +38,9 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
   return (
     <Container>
       {
-        productList.map((value) => {
+        productList.map((value, index) => {
           return(
-            <TabContent>
+            <TabContent key={index}>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
               <LeftContent>
                 {/*전속매물에 속한 아파트 일때 TopBox가 나와야함*/}
