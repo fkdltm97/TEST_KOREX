@@ -34,9 +34,9 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo, containe
     return (
       <Container>
         {
-          productRedux.probroker.map((value) => {
+          productRedux.probroker.map((value, index) => {
             return(
-              <TabContent>
+              <TabContent key={index}>
                 <Link onClick={() => onClickEl(value) } className="data_link"></Link>
                   <TopBox>
                     <Tag>{value.tag1}</Tag>

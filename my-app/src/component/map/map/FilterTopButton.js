@@ -56,11 +56,11 @@ export default function MapFilter({openBunyang, rank}) {
         <Box>
           <SubTitle>거래유형</SubTitle>
           <WrapButtons>
-            <Button checked={uiData.prd_sel_type[0]} onClick={(e) => {onClickTrade(e)}} data-text="매매" data-num="0" className={["trade", "changeBtn"]} type="checkbox" id="trade1"/>
+            <Button checked={uiData.prd_sel_type[0]} onChange={(e) => {onClickTrade(e)}} data-text="매매" data-num="0" className={["trade", "changeBtn"]} type="checkbox" id="trade1"/>
             <Label for="trade1">매매</Label>
-            <Button checked={uiData.prd_sel_type[1]} onClick={(e) => {onClickTrade(e)}} data-text="전세" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
+            <Button checked={uiData.prd_sel_type[1]} onChange={(e) => {onClickTrade(e)}} data-text="전세" data-num="1" className={["trade", "changeBtn"]} type="checkbox" id="trade2"/>
             <Label for="trade2">전세</Label>
-            <Button checked={uiData.prd_sel_type[2]} onClick={(e) => {onClickTrade(e)}} data-text="월세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade3"/>
+            <Button checked={uiData.prd_sel_type[2]} onChange={(e) => {onClickTrade(e)}} data-text="월세" data-num="2" className={["trade", "changeBtn"]} type="checkbox" id="trade3"/>
             <Label for="trade3">월세</Label>
           </WrapButtons>
         </Box>

@@ -62,8 +62,11 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
   const [BYDate, setBYDate] = useState(BunyangListItem)
 
  //Like 버튼 클릭시 동작..... 
-  const LikeButton =(value)=>{
-      console.log(value);
+ // like 버튼 토글기능 추가로 구현하였습니다.
+  const LikeButton =(value, index)=>{
+    let listData = BYDate;
+    listData[index].LikeChecked = !value.LikeChecked;
+    setBYDate([...listData])
   }
 
   //여기 두개가 핵심이에여
@@ -75,6 +78,16 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
   }
 
 
+  // 필터 모달창 리스트 선택 시 값을 받아와 서버통신을 진행합니다.
+  // 이를 기준으로 BYDate 를 업데이트 합니다.  setBYDate([])
+  const onChangeSort = (e) => {
+    // console.log(e.target.value);
+  }
+  const onChangeCondi = (e) => {
+    // console.log(e.target.value);
+  }
+
+
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
   const updateModal = () =>{
     //여기가 모달 키는 거에엽
@@ -82,14 +95,14 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
         show:true,
         setShow:offModal,
         title:"필터",
-        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter onChangeSort={onChangeSort} onChangeCondi={onChangeCondi}/>},
         submit:{show:true , title:"적용" , event : ()=>{offModal(); }},
         cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
         confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
     });
   }
 
-    // 리스트 클릭 시 발생하는 함수입니다.
+  // 리스트 클릭 시 발생하는 함수입니다.
   // updatePageIndex값을 바꾸고 부모에게 클릭한 아이디값을 전달합니다.
   const onClickList = (value) => {
     setClickId(value.bunyang_id);
@@ -130,7 +143,7 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
         <WrapList>
           <ListUl>
           {
-            BYDate.map((value) => {
+            BYDate.map((value, index) => {
               if(value.LiveChecked === true){
                 return(
                   <Li>
@@ -147,8 +160,9 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
                         </LiDesc>
                       </Link>
                       <LikeBtn>
-                        <Like type="checkbox" name="" id="Like1" checked={value.LikeChecked} onClick={()=>{LikeButton(value)}}></Like>
-                        <Label for="Like1" className="check_label"></Label>
+                        {/* map이 돌아갈때마다 id와 for을 달리하여 겹치는 현상을 방지하였습니다. */}
+                        <Like type="checkbox" name="" id={`Like${index}`} checked={value.LikeChecked} onClick={()=>{LikeButton(value, index)}}></Like>
+                        <Label for={`Like${index}`} className="check_label"></Label>
                       </LikeBtn>
                     </LiTop>
                   </Li>
@@ -169,8 +183,8 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
                       </LiDesc>
                     </Link>
                     <LikeBtn>
-                      <Like type="checkbox" name="" id="Like1" checked={value.LikeChecked}></Like>
-                      <Label for="Like1" className="check_label"></Label>
+                      <Like type="checkbox" name="" id={`Like${index}`} checked={value.LikeChecked} onClick={()=>{LikeButton(value, index)}}></Like>
+                      <Label for={`Like${index}`} className="check_label"></Label>
                     </LikeBtn>
                   </LiTop>
                 </Li>

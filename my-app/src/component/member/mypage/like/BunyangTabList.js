@@ -26,64 +26,71 @@ export default function ItemTabList({setFilter,value,type}) {
   const showModal =()=>{
     setMenu(!menu);
   }
+  const [listData, setListData] = useState([]);
 
-  const ItemListItem =[
-  {
-    item_id : 0,
-    path:"/",
-    title:"충남내포신도시2차대방엘리움더센트럴",
-    number: "2D0000324",
-    option1:"충청남도",
-    option2:"아파트",
-    option3:"민간분양",
-    address:"충청남도 홍성군 홍북읍 신경리",
-    danji:"831세대",
-    width1:"103㎡",
-    width2:"114㎡",
-    width3:"77㎡",
-    width4:"85㎡",
-    price1:"35,599",
-    price2:"44,049"
-  },
-  {
-    item_id : 1,
-    path:"/",
-    title:"충남내포신도시2차대방엘리움더센트럴",
-    number: "2D0000324",
-    option1:"충청남도",
-    option2:"아파트",
-    option3:"민간분양",
-    address:"충청남도 홍성군 홍북읍 신경리",
-    danji:"500세대",
-    width1:"103㎡",
-    width2:"114㎡",
-    width3:"77㎡",
-    width4:"85㎡",
-    price1:"35,599",
-    price2:"44,049"
-  },
-  {
-    item_id : 2,
-    path:"/",
-    title:"충남내포신도시2차대방엘리움더센트럴",
-    number: "2D0000324",
-    option1:"충청남도",
-    option2:"아파트",
-    option3:"민간분양",
-    address:"충청남도 홍성군 홍북읍 신경리",
-    danji:"300세대",
-    width1:"103㎡",
-    width2:"114㎡",
-    width3:"77㎡",
-    width4:"85㎡",
-    price1:"35,599",
-    price2:"44,049"
-  }
-  ]
 
+
+  useEffect(() => {
+    setListData([
+      {
+        item_id : 0,
+        path:"/",
+        title:"충남내포신도시2차대방엘리움더센트럴",
+        number: "2D0000324",
+        option1:"충청남도",
+        option2:"아파트",
+        option3:"민간분양",
+        address:"충청남도 홍성군 홍북읍 신경리",
+        danji:"831세대",
+        width1:"103㎡",
+        width2:"114㎡",
+        width3:"77㎡",
+        width4:"85㎡",
+        price1:"35,599",
+        price2:"44,049"
+      },
+      {
+        item_id : 1,
+        path:"/",
+        title:"충남내포신도시2차대방엘리움더센트럴",
+        number: "2D0000324",
+        option1:"충청남도",
+        option2:"아파트",
+        option3:"민간분양",
+        address:"충청남도 홍성군 홍북읍 신경리",
+        danji:"500세대",
+        width1:"103㎡",
+        width2:"114㎡",
+        width3:"77㎡",
+        width4:"85㎡",
+        price1:"35,599",
+        price2:"44,049"
+      },
+      {
+        item_id : 2,
+        path:"/",
+        title:"충남내포신도시2차대방엘리움더센트럴",
+        number: "2D0000324",
+        option1:"충청남도",
+        option2:"아파트",
+        option3:"민간분양",
+        address:"충청남도 홍성군 홍북읍 신경리",
+        danji:"300세대",
+        width1:"103㎡",
+        width2:"114㎡",
+        width3:"77㎡",
+        width4:"85㎡",
+        price1:"35,599",
+        price2:"44,049"
+      }
+    ])
+  }, [])
+
+  // 클릭한 텍스트 불러오기
+  // 클릭한 옵션을 기준으로 리스트를 다시 불러온다.
   const onClickList = (e) => {
-    // 클릭한 텍스트 불러오기
     console.log(e.target.innerText);
+    // setListData([  -data-  ])
   }
   
   // CommonTopInfo 대신 들어갔던 코드입니다. 
@@ -137,7 +144,7 @@ export default function ItemTabList({setFilter,value,type}) {
             <CommonTopInfo length={4} leftComponent={<CommonFilter onClick={onClickList}/>} />
             <ListUl>
           {
-              ItemListItem.map((value) => {
+              listData.map((value) => {
               return(
                 <Li>
                   <LiTop className="clearfix">

@@ -100,34 +100,32 @@ export default function Reserve({setMap,setFilter,setReserve, value, type, type2
             */}
 
             <ReserveList>
-            {
-            ReserveListItem.map((value) => {
-
-              const type=()=>{
-                if(value.type == "today") {
-                  return "#fe7a01"
-                }else if(value.type == "cancel") {
-                  return "#707070"
-                } else if(value.type == "days") {
-                  return "#01684b"
+              {
+              ReserveListItem.map((value) => {
+                const type=()=>{
+                  if(value.type == "today") {
+                    return "#fe7a01"
+                  }else if(value.type == "cancel") {
+                    return "#707070"
+                  } else if(value.type == "days") {
+                    return "#01684b"
+                  }
                 }
-              }
-              const type2=()=>{
-                if(value.type == "today") {
-                  return 1
-                }else if(value.type == "cancel") {
-                  return 0.5
-                } else if(value.type == "days") {
-                  return 1
+                const type2=()=>{
+                  if(value.type == "today") {
+                    return 1
+                  }else if(value.type == "cancel") {
+                    return 0.5
+                  } else if(value.type == "days") {
+                    return 1
+                  }
                 }
-              }
-
-              return(
-                <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
-              )
-            })
-          }
-        </ReserveList>
+                return(
+                  <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
+                )
+              })
+            }
+          </ReserveList>
       </WrapReserve>
   </Container>
   );

@@ -21,30 +21,28 @@ import LiveModal from "../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../component/common/modal/ModalCommon';
 
-import CommonHeader from '../../component/common/commonHeader';
-import CommonFooter from '../../component/common/commonFooter';
 
 export default function NoticeDetail({status}) {
-  // //이용약관
-  // const [termservice, setTermService] = useState(false);
-  // const openTermService = (onOff) =>{ setTermService(onOff);}
+  //이용약관
+  const [termservice, setTermService] = useState(false);
+  const openTermService = (onOff) =>{ setTermService(onOff);}
 
-  // //개인정보처리방침
-  // const [termprivacy, setTermPrivacy] = useState(false);
-  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  //개인정보처리방침
+  const [termprivacy, setTermPrivacy] = useState(false);
+  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
-  // //위치기반서비스 이용약관
-  // const [termlocation, setTermLocation] = useState(false);
-  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  //위치기반서비스 이용약관
+  const [termlocation, setTermLocation] = useState(false);
+  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
-  // //분양 모달
-  // const [bunyang, setBunyang] = useState(false);
-  // const openBunyang = (onOff) =>{ setBunyang(onOff);}
-  // //라이브 시청 모달
-  // const [live, setLive] = useState(false);
-  // //분양 상세이미지 모달
-  // const [detailimg, setDetailImg] = useState(false);
-  // const [cal, setCal] = useState(false);
+  //분양 모달
+  const [bunyang, setBunyang] = useState(false);
+  const openBunyang = (onOff) =>{ setBunyang(onOff);}
+  //라이브 시청 모달
+  const [live, setLive] = useState(false);
+  //분양 상세이미지 모달
+  const [detailimg, setDetailImg] = useState(false);
+  const [cal, setCal] = useState(false);
 
   //신고모달
   const [report,setReport] = useState(false);
@@ -79,12 +77,11 @@ export default function NoticeDetail({status}) {
 
     return (
         <>
-          {/* <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
           <LiveModal live={live} setLive={setLive}/>
           <ModalCalendar cal={cal} setCal={setCal}/>
           <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MapHeader openBunyang={openBunyang}/> */}
-          <CommonHeader/>
+          <MapHeader openBunyang={openBunyang}/>
           <Container>
               <ModalMap map={map} setMap={setMap}/>
               <ReportModal report={report} setReport={setReport}/>

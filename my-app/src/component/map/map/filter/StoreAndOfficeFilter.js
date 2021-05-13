@@ -388,7 +388,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <SubTitle>관리비</SubTitle>
               <WrapFilter>
                 <SwitchButton>
-                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onClick={(e) => {onClickAdmin(e)}} id="switch"/>
+                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onChange={(e) => {onClickAdmin(e)}} id="switch"/>
                   <SwitchLabel for="switch">
                     <SwitchSpan/>
                   </SwitchLabel>
@@ -446,28 +446,28 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBox>
-                      <InputR checked={uiData.floor==0} className="changeBtn" type="radio" data-text="전체" data-num={0} onClick={(e) => {onChangeFloor(e);}} name="floor" id="floor1"/>
+                      <InputR checked={uiData.floor==0} className="changeBtn" type="radio" data-text="전체" data-num={0} onChange={(e) => {onChangeFloor(e);}} name="floor" id="floor1"/>
                       <LabelR for="floor1" >
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR checked={uiData.floor==1} className="changeBtn" type="radio" data-text="1층" data-num={1} onClick={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
+                      <InputR checked={uiData.floor==1} className="changeBtn" type="radio" data-text="1층" data-num={1} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
                       <LabelR for="floor2">
                         <SpanR/>
                         1층
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR checked={uiData.floor==2} type="radio" className="changeBtn" data-text="5층이상" data-num={2} onClick={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
+                      <InputR checked={uiData.floor==2} type="radio" className="changeBtn" data-text="5층이상" data-num={2} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
                       <LabelR for="floor3">
                         <SpanR/>
                         5층이상
                       </LabelR>
                     </RadioBox>
                     <RadioBox>
-                      <InputR checked={uiData.floor==3} type="radio" className="changeBtn" data-text="5층이하" data-num={3} onClick={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
+                      <InputR checked={uiData.floor==3} type="radio" className="changeBtn" data-text="5층이하" data-num={3} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
                       <LabelR for="floor4">
                         <SpanR/>
                         5층이하
@@ -486,35 +486,35 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
               <WrapFilter>
                 <WrapRadio>
                   <RadioBox>
-                    <InputR checked={uiData.use==0} type="radio" className="changeBtn" data-num="0" data-text="전체" onClick={(e) => {onChangeUse(e)}} name="use" id="use1"/>
+                    <InputR checked={uiData.use==0} type="radio" className="changeBtn" data-num="0" data-text="전체" onChange={(e) => {onChangeUse(e)}} name="use" id="use1"/>
                     <LabelR for="use1">
                       <SpanR/>
                       전체
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR checked={uiData.use==1} type="radio" className="changeBtn" data-num="1" data-text="5년 이내" onClick={(e) => {onChangeUse(e)}} name="use" id="use2"/>
+                    <InputR checked={uiData.use==1} type="radio" className="changeBtn" data-num="1" data-text="5년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
                     <LabelR for="use2">
                       <SpanR/>
                       5년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR checked={uiData.use==2} type="radio" className="changeBtn" data-num="2" data-text="10년 이내" onClick={(e) => {onChangeUse(e)}} name="use" id="use3"/>
+                    <InputR checked={uiData.use==2} type="radio" className="changeBtn" data-num="2" data-text="10년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
                     <LabelR for="use3">
                       <SpanR/>
                       10년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR checked={uiData.use==3} type="radio" className="changeBtn" data-num="3" data-text="20년 이내" onClick={(e) => {onChangeUse(e)}} name="use" id="use4"/>
+                    <InputR checked={uiData.use==3} type="radio" className="changeBtn" data-num="3" data-text="20년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
                     <LabelR for="use4">
                       <SpanR/>
                       20년 이내
                     </LabelR>
                   </RadioBox>
                   <RadioBox>
-                    <InputR checked={uiData.use==4} type="radio" className="changeBtn" data-num="4" data-text="20년 이상" onClick={(e) => {onChangeUse(e)}} name="use" id="use5"/>
+                    <InputR checked={uiData.use==4} type="radio" className="changeBtn" data-num="4" data-text="20년 이상" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
                     <LabelR for="use5">
                       <SpanR/>
                       20년 이상
@@ -532,35 +532,35 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                 <WrapFilter>
                   <WrapRadio>
                     <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==0} type="radio" className="changeBtn" data-num="0" onClick={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
+                      <InputR checked={uiData.danji==0} type="radio" className="changeBtn" data-num="0" onChange={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
                       <LabelR for="danji1">
                         <SpanR/>
                         전체
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==1} type="radio" className="changeBtn" data-num="1" onClick={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
+                      <InputR checked={uiData.danji==1} type="radio" className="changeBtn" data-num="1" onChange={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
                       <LabelR for="danji2">
                         <SpanR/>
                         200세대 이상
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==2} type="radio" className="changeBtn" data-num="2" onClick={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
+                      <InputR checked={uiData.danji==2} type="radio" className="changeBtn" data-num="2" onChange={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
                       <LabelR for="danji3">
                         <SpanR/>
                         500세대 이상
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==3} type="radio" className="changeBtn" data-num="3" onClick={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
+                      <InputR checked={uiData.danji==3} type="radio" className="changeBtn" data-num="3" onChange={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
                       <LabelR for="danji4">
                         <SpanR/>
                         1000세대 이상
                       </LabelR>
                     </RadioBoxWidth50>
                     <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==4} type="radio" className="changeBtn" data-num="4" onClick={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
+                      <InputR checked={uiData.danji==4} type="radio" className="changeBtn" data-num="4" onChange={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
                       <LabelR for="danji5">
                         <SpanR/>
                         2000세대 이상

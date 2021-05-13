@@ -32,9 +32,9 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
   return (
     <Container>
       {
-        productRedux.block.map((value) => {
+        productRedux.block.map((value, index) => {
           return(
-            <TabContent>
+            <TabContent key={index}>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
               <TopBox>
                 <Title>{value.title}</Title>

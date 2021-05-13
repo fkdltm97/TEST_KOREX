@@ -41,12 +41,24 @@ export default function Request({setFilter,value,type}) {
     ["면적", "면적1", "면적2", "면적3"],
   ]
 
+
+  const onChangeList = (e, index) => {
+    // 0 - 물건종류
+    // 1 - 거대유형
+    // 2 - 가격
+    // 3 - 면적
+    // console.log(index);
+
+    // 선택 항목
+    // console.log(e.target.value);
+  }
+
   const commonList = (array) => {
     return(<>{
       // listData의 자식요소에 접근
       array.map((item, index) => {
         return(
-        <ItemList key={index}>
+        <ItemList onChange={e => onChangeList(e, index)} key={index}>
           {
             item.map((itemChild, indexChild) => {
               // listData의 자식요소의 자식요소에 접근
