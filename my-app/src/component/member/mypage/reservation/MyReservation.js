@@ -23,94 +23,109 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import ReserveListPage from "./ReserveList";
 
-  /*data map*/
-  const ReserveListItem =[
-    {
-      reserve_id : 0,
-      src:Item,
-      path:"/",
-      condition:"오늘",
-      number:"1234567889",
-      address:"충남내포신도시2차대방엘리움더센트럴",
-      locaImg:Location,
-      date:"2020.01.01 (월)",
-      time:"오전1T (09:00-12:00)",
-      type:"today"
-    },
-    {
-      reserve_id : 1,
-      src:Item,
-      path:"/",
-      condition:"2일후",
-      number:"1234567889",
-      address:"충남내포신도시2차대방엘리움더센트럴",
-      locaImg:Location,
-      date:"2020.01.01 (월)",
-      time:"오전1T (09:00-12:00)",
-      type:"days"
-    },
-    {
-      reserve_id : 2,
-      src:Item,
-      path:"/",
-      condition:"예약취소",
-      number:"1234567889",
-      address:"충남내포신도시2차대방엘리움더센트럴",
-      locaImg:Location,
-      date:"2020.01.01 (월)",
-      time:"오전1T (09:00-12:00)",
-      type:"cancel"
-    }
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
+/*data map*/
+const ReserveListItem =[
+  {
+    reserve_id : 0,
+    src:Item,
+    path:"/",
+    condition:"오늘",
+    number:"1234567889",
+    address:"충남내포신도시2차대방엘리움더센트럴",
+    locaImg:Location,
+    date:"2020.01.01 (월)",
+    time:"오전1T (09:00-12:00)",
+    type:"today"
+  },
+  {
+    reserve_id : 1,
+    src:Item,
+    path:"/",
+    condition:"2일후",
+    number:"1234567889",
+    address:"충남내포신도시2차대방엘리움더센트럴",
+    locaImg:Location,
+    date:"2020.01.01 (월)",
+    time:"오전1T (09:00-12:00)",
+    type:"days"
+  },
+  {
+    reserve_id : 2,
+    src:Item,
+    path:"/",
+    condition:"예약취소",
+    number:"1234567889",
+    address:"충남내포신도시2차대방엘리움더센트럴",
+    locaImg:Location,
+    date:"2020.01.01 (월)",
+    time:"오전1T (09:00-12:00)",
+    type:"cancel"
+  }
 ]
 
-export default function Reserve({setMap,setFilter,setReserve, value, type, type2, updateModal,updateMapModal,updateReserveModal}) {
+export default function Reserve({setMap,setFilter,setReserve, value, type, type2, updateModal,updateMapModal,updateReserveModal, listData}) {
 
-  //... 눌렀을때(메뉴)
+  //... 눌렀을때(메뉴)  
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
   }
 
 
+  const topInfoContent = () => {
+    return(
+      <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
+        <FilterImg src={Filter} alt="filter"/>
+      </div>
+    )
+  }
+  
+
     return (
         <Container>
           <WrapReserve>
             <TopTitle>내 물건 투어 예약</TopTitle>
-            <TopInfo>
-              <All>총 <GreenColor>3</GreenColor> 건</All>
-              <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
-                <FilterImg src={Filter} alt="filter"/>
-              </div>
-            </TopInfo>
+            {/* 수정코드입니다. */}
+            <CommonTopInfo length={3} leftComponent={topInfoContent()}/>
+            {/* -- 원래 코드입니다. */}
+            {/*
+              <TopInfo>
+                <All>총 <GreenColor>3</GreenColor> 건</All>
+                <div className="linkToDiv" onClick={() => { setFilter(true); updateModal(); }}>
+                  <FilterImg src={Filter} alt="filter"/>
+                </div>
+              </TopInfo>
+            */}
+
             <ReserveList>
-            {
-            ReserveListItem.map((value) => {
-
-              const type=()=>{
-                if(value.type == "today") {
-                  return "#fe7a01"
-                }else if(value.type == "cancel") {
-                  return "#707070"
-                } else if(value.type == "days") {
-                  return "#01684b"
+              {
+              listData.map((value) => {
+                const type=()=>{
+                  if(value.type == "today") {
+                    return "#fe7a01"
+                  }else if(value.type == "cancel") {
+                    return "#707070"
+                  } else if(value.type == "days") {
+                    return "#01684b"
+                  }
                 }
-              }
-              const type2=()=>{
-                if(value.type == "today") {
-                  return 1
-                }else if(value.type == "cancel") {
-                  return 0.5
-                } else if(value.type == "days") {
-                  return 1
+                const type2=()=>{
+                  if(value.type == "today") {
+                    return 1
+                  }else if(value.type == "cancel") {
+                    return 0.5
+                  } else if(value.type == "days") {
+                    return 1
+                  }
                 }
-              }
-
-              return(
-                <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
-              )
-            })
-          }
-        </ReserveList>
+                return(
+                  <ReserveListPage setMap={setMap} setFilter={setFilter} updateMapModal={updateMapModal} updateReserveModal={updateReserveModal} setReserve={setReserve} value={value} type={type} type2={type2}/>
+                )
+              })
+            }
+          </ReserveList>
       </WrapReserve>
   </Container>
   );

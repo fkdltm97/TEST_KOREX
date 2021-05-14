@@ -23,6 +23,8 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 import LiveList from "./LiveList";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function Live({updateModal}) {
 
   //... 눌렀을때(메뉴)
@@ -71,16 +73,29 @@ export default function Live({updateModal}) {
     }
 ]
 
+  const topInfoContent = () => {
+    return(
+      <div onClick={() => {updateModal();}} className="linkToDiv">
+        <FilterImg src={Filter} alt="filter"/>
+      </div>
+    )
+  }
+
     return (
         <Container>
           <WrapReserve>
             <TopTitle>내 Live시청예약</TopTitle>
-            <TopInfo>
-              <All>총 <GreenColor>3</GreenColor> 건</All>
-              <div onClick={() => {updateModal();}} className="linkToDiv">
-                <FilterImg src={Filter} alt="filter"/>
-              </div>
-            </TopInfo>
+            {/* -- 수정코드입니다. */}
+            <CommonTopInfo length={3} leftComponent={topInfoContent()}/>
+            {/* -- 원래 코드입니다. */}
+            {/*
+              <TopInfo>
+                <All>총 <GreenColor>3</GreenColor> 건</All>
+                <div onClick={() => {updateModal();}} className="linkToDiv">
+                  <FilterImg src={Filter} alt="filter"/>
+                </div>
+              </TopInfo>
+            */}
             <ReserveList>
             {
             LiveListItem.map((value) => {

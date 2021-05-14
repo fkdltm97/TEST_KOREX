@@ -16,6 +16,8 @@ import { Mobile, PC } from "../../../../MediaQuery"
 // Components
 import CommonFilter from './commonFilter';
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function ItemTabList({value,type}) {
 
   //... 눌렀을때(메뉴)
@@ -23,156 +25,166 @@ export default function ItemTabList({value,type}) {
   const showModal =()=>{
     setMenu(!menu);
   }
-
-  const ItemListItem =[
-  {
-    item_id : 0,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 1,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 2,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 3,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 4,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 5,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  },
-  {
-    item_id : 6,
-    path:"/",
-    startDate:"20.00.00",
-    endDate: "20.00.00",
-    kind:"아파트",
-    detail:"자이 109동",
-    price:"전세 12억 5,000",
-    floor:"층수",
-    Area:"공급면적",
-    expenses:"관리비",
-    desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-  }
-  ]
+  const [listData, setListData] = useState([]);
 
 
+  // 첫 로들 시 서버통신하여 리스트들을 불러온다.
+  useEffect(() => {
+    setListData([
+      {
+        item_id : 0,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 1,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 2,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 3,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 4,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 5,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      },
+      {
+        item_id : 6,
+        path:"/",
+        startDate:"20.00.00",
+        endDate: "20.00.00",
+        kind:"아파트",
+        detail:"자이 109동",
+        price:"전세 12억 5,000",
+        floor:"층수",
+        Area:"공급면적",
+        expenses:"관리비",
+        desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+      }
+    ])
+  }, [])
+
+  // 클릭한 텍스트 불러오기
+  // 클릭한 옵션을 기준으로 리스트를 다시 불러온다.
   const onClickList = (e) => {
-    // 클릭한 텍스트 불러오기
     console.log(e.target.innerText);
+    // setListData([  -data-  ])
   }
+
+  // CommonTopInfo 대신 들어갔던 코드입니다. 
+  // <TopInfo>
+  //   <All>총 <GreenColor>4</GreenColor> 건</All>
+  //   {/* -- 수정코드입니다. */}
+  //   <CommonFilter onClick={onClickList}/>
+  //   {/* -- 원래 코드입니다. */}
+  //   {/*
+  //     <FilterAndAdd>
+  //       <Link onClick={showModal}>
+  //         <FilterImg src={View} alt="filter"/>
+  //         {
+  //           menu ?
+  //           <InMenu>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>최신등록순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>높은가격순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>낮은가격순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>넓은면적순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>좁은면적순</InDiv>
+  //             </Div>
+  //             <Div>
+  //               <Link className="data_link"></Link>
+  //               <InDiv>가나다순</InDiv>
+  //             </Div>
+  //           </InMenu>
+  //           :
+  //           null
+  //         }
+  //       </Link>
+  //     </FilterAndAdd>
+  //   */}
+  // </TopInfo>
 
     return (
         <Container>
-          <TopInfo>
-            <All>총 <GreenColor>4</GreenColor> 건</All>
-            {/* -- 수정코드입니다. */}
-            <CommonFilter onClick={onClickList}/>
-            {/* -- 원래 코드입니다. */}
-            {/*
-              <FilterAndAdd>
-                <Link onClick={showModal}>
-                  <FilterImg src={View} alt="filter"/>
-                  {
-                    menu ?
-                    <InMenu>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>최신등록순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>높은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>낮은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>넓은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>좁은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>가나다순</InDiv>
-                      </Div>
-                    </InMenu>
-                    :
-                    null
-                  }
-                </Link>
-              </FilterAndAdd>
-            */}
-          </TopInfo>
+
+          <CommonTopInfo length={4} leftComponent={<CommonFilter onClick={onClickList}/>} />
           <ListUl>
             {
-              ItemListItem.map((value) => {
+              listData.map((value) => {
                 return(
                   <TabContent>
                       <Link className="data_link"></Link>

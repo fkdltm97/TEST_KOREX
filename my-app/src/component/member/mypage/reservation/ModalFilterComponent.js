@@ -20,7 +20,7 @@ import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
 
 //필터 모달
-export default function Reserve({filter,setFilter}) {
+export default function Reserve({filter,setFilter, onChangeSort, onChangeCondi, sortChecked, condiChecked, sortRef, condiRef}) {
   //Filter내 셀렉트 박스
   const [filterSelect,setFilterSelect] = useState(false);
   const [filterSelect2,setFilterSelect2] = useState(false);
@@ -42,10 +42,10 @@ export default function Reserve({filter,setFilter}) {
                 <FilterBox>
                   <FilterLabel>정렬기준</FilterLabel>
                   <FilterSelectSort>
-                    <FilterSelectSortList>
-                      <InOption>최신등록순</InOption>
-                      <InOption>과거등록순</InOption>
-                      <InOption>가나다순</InOption>
+                    <FilterSelectSortList ref={sortRef} onChange={e => onChangeSort(e)} >
+                      <InOption value="0" selected={sortChecked[0]}>최신등록순</InOption>
+                      <InOption value="1" selected={sortChecked[1]}>과거등록순</InOption>
+                      <InOption value="2" selected={sortChecked[2]}>가나다순</InOption>
                     </FilterSelectSortList>
                   </FilterSelectSort>
                 </FilterBox>
@@ -53,12 +53,12 @@ export default function Reserve({filter,setFilter}) {
                 <FilterBox>
                   <FilterLabel>상태</FilterLabel>
                   <FilterSelectCondition>
-                    <FilterSelectConditionList>
-                      <InOption>전체</InOption>
-                      <InOption>오늘</InOption>
-                      <InOption>내일</InOption>
-                      <InOption>예약취소</InOption>
-                      <InOption>만료</InOption>
+                    <FilterSelectConditionList ref={condiRef} onChange={e => onChangeCondi(e)}>
+                      <InOption value="0" selected={condiChecked[0]}>전체</InOption>
+                      <InOption value="1" selected={condiChecked[1]}>오늘</InOption>
+                      <InOption value="2" selected={condiChecked[2]}>내일</InOption>
+                      <InOption value="3" selected={condiChecked[3]}>예약취소</InOption>
+                      <InOption value="4" selected={condiChecked[4]}>만료</InOption>
                     </FilterSelectConditionList>
                   </FilterSelectCondition>
                 </FilterBox>

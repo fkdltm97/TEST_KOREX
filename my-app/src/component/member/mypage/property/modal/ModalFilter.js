@@ -11,70 +11,132 @@ import Close from '../../../../../img/main/modal_close.png';
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
 //필터 모달
-export default function Reserve({filter,setFilter}) {
+export default function Reserve({filter,setFilter, cate, setCate}) {
+
+
+
+  const optionList = {
+    sort:["상태변경 최신순", "최신등록순", "과거등록순"],
+    condition:[ "전체",
+                "검토 대기" ,
+                "검토 중" ,
+                "거래 준비" ,
+                "거래 개시" ,
+                "거래완료승인 요청" ,
+                "거래 완료" ,
+                "기한만료",
+                "의뢰 철회" ,
+                "위임 취소" ,
+                "의뢰 거절" ,
+                "수임 취소"
+    ],
+    item:["전체", "아파트", "오피스텔", "상가", "사무실"],
+    mandate:["전체", "사용자의뢰", "외부수임"]
+  }
+
+  const commonOption = (item, index, catIndex) => {
+    return(
+      <InOption selected={cate[catIndex] == index} value={index} key={index}>{item}</InOption>
+    )
+  }
+
+  const onChangeSelect = (e, index) => {
+    let newCate = cate;
+    newCate[index] = e.target.value;
+    setCate([...newCate]);
+    console.log(e.target.value);
+  }
+
 
   //Filter 모달창
     return (
-        <Container>
-            <WrapFilterSelect>
-              {/*정렬기준 select*/}
-                <FilterBox>
-                  <FilterLabel>정렬기준</FilterLabel>
-                  <FilterSelectSort>
-                    <FilterSelectSortList>
-                      <InOption>상태변경 최신순</InOption>
-                      <InOption>최신등록순</InOption>
-                      <InOption>과거등록순</InOption>
-                    </FilterSelectSortList>
-                  </FilterSelectSort>
-                </FilterBox>
-              {/*상태 select*/}
-                <FilterBox>
-                  <FilterLabel>상태</FilterLabel>
-                  <FilterSelectCondition>
-                    <FilterSelectConditionList>
-                      <InOption>전체</InOption>
-                      <InOption>검토 대기</InOption>
-                      <InOption>검토 중</InOption>
-                      <InOption>거래 준비</InOption>
-                      <InOption>거래 개시</InOption>
-                      <InOption>거래완료승인 요청</InOption>
-                      <InOption>거래 완료</InOption>
-                      <InOption>기한만료</InOption>
-                      <InOption>의뢰 철회</InOption>
-                      <InOption>위임 취소</InOption>
-                      <InOption>의뢰 거절</InOption>
-                      <InOption>수임 취소</InOption>
-                    </FilterSelectConditionList>
-                  </FilterSelectCondition>
-                </FilterBox>
-            {/*물건종류 select*/}
-                <FilterBox>
-                  <FilterLabel>물건종류</FilterLabel>
-                  <FilterSelectCondition>
-                    <FilterSelectConditionList>
-                      <InOption>전체</InOption>
-                      <InOption>아파트</InOption>
-                      <InOption>오피스텔</InOption>
-                      <InOption>상가</InOption>
-                      <InOption>사무실</InOption>
-                    </FilterSelectConditionList>
-                  </FilterSelectCondition>
-                </FilterBox>
-            {/*수임방식 select*/}
-                <FilterBox>
-                  <FilterLabel>수임방식</FilterLabel>
-                  <FilterSelectCondition>
-                    <FilterSelectConditionList>
-                      <InOption>전체</InOption>
-                      <InOption>사용자의뢰</InOption>
-                      <InOption>외부수임</InOption>
-                    </FilterSelectConditionList>
-                  </FilterSelectCondition>
-                </FilterBox>
-              </WrapFilterSelect>
-
-        </Container>
+      <Container>
+        <WrapFilterSelect>
+          {/*정렬기준 select*/}
+          <FilterBox>
+            <FilterLabel>정렬기준</FilterLabel>
+            <FilterSelectSort>
+              <FilterSelectSortList onChange={(e) => onChangeSelect(e, 0)}>
+                {
+                  optionList.sort.map((item, index) => {
+                    return( <> {commonOption(item, index, 0)} </> );
+                  })
+                }
+                {/*
+                  <InOption>상태변경 최신순</InOption>
+                  <InOption>최신등록순</InOption>
+                  <InOption>과거등록순</InOption>
+                */}
+              </FilterSelectSortList>
+            </FilterSelectSort>
+          </FilterBox>
+          {/*상태 select*/}
+          <FilterBox>
+              <FilterLabel>상태</FilterLabel>
+              <FilterSelectCondition>
+                <FilterSelectConditionList onChange={(e) => onChangeSelect(e, 1)}>
+                  {
+                    optionList.condition.map((item, index) => {
+                      return( <> {commonOption(item, index, 1)} </> );
+                    })
+                  }
+                  {/*
+                    <InOption>전체</InOption>
+                    <InOption>검토 대기</InOption>
+                    <InOption>검토 중</InOption>
+                    <InOption>거래 준비</InOption>
+                    <InOption>거래 개시</InOption>
+                    <InOption>거래완료승인 요청</InOption>
+                    <InOption>거래 완료</InOption>
+                    <InOption>기한만료</InOption>
+                    <InOption>의뢰 철회</InOption>
+                    <InOption>위임 취소</InOption>
+                    <InOption>의뢰 거절</InOption>
+                    <InOption>수임 취소</InOption>
+                  */}
+                </FilterSelectConditionList>
+              </FilterSelectCondition>
+            </FilterBox>
+          {/*물건종류 select*/}
+          <FilterBox>
+              <FilterLabel>물건종류</FilterLabel>
+              <FilterSelectCondition>
+                <FilterSelectConditionList onChange={(e) => onChangeSelect(e, 2)}>
+                  {
+                    optionList.item.map((item, index) => {
+                      return( <> {commonOption(item, index, 2)} </> );
+                    })
+                  }
+                  {/*
+                    <InOption>전체</InOption>
+                    <InOption>아파트</InOption>
+                    <InOption>오피스텔</InOption>
+                    <InOption>상가</InOption>
+                    <InOption>사무실</InOption>
+                  */}
+                </FilterSelectConditionList>
+              </FilterSelectCondition>
+            </FilterBox>
+          {/*수임방식 select*/}
+          <FilterBox>
+            <FilterLabel>수임방식</FilterLabel>
+            <FilterSelectCondition>
+              <FilterSelectConditionList onChange={(e) => onChangeSelect(e, 3)}>
+                {
+                  optionList.mandate.map((item, index) => {
+                    return( <> {commonOption(item, index, 3)} </> );
+                  })
+                }
+                {/*
+                  <InOption>전체</InOption>
+                  <InOption>사용자의뢰</InOption>
+                  <InOption>외부수임</InOption>
+                */}
+              </FilterSelectConditionList>
+            </FilterSelectCondition>
+          </FilterBox>
+        </WrapFilterSelect>
+    </Container>
   );
 }
 

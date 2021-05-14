@@ -23,24 +23,60 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 import KakaoMapSide from '../../../map/map/KakaoMapSide';
 
 //지도 모달
-export default function ModalMapReserve({ map, setMap }) {
+export default function ModalMapReserve({ map, setMap, clickId }) {
+  
+
+  const [modalData, setModalData] = useState({});
+  const [isAddress, setIsAddress] = useState(true);
+
+  useEffect(() => {
+    // 클릭한 아이디를 서버에 보내서 주소, 도로명주소, 좌퐈값을 가져와 표시한다.
+    // console.log(clickId); // 클릭 아이디입니다.
+    setModalData({
+      address: "서울시 구로구 신도림동 131-13 103동 클릭아이디", 
+      roadAddress:"도로명주소 --- ",
+      lat:"37.496463",
+      lng:"127.029358",
+    });
+  }, []);
+
+
+  // 클릭 시 도로명주소와 주소가 바뀝니다.
+  const onClickChange = () => {
+    setIsAddress(!isAddress);
+  }
+
+
+
   if(map == false)
     return null;
     return (
         <Container>
           <WrapModalMap>
               <ModalMapAddress>
-                <AddressTxt>서울시 구로구 신도림동 131-13 103동</AddressTxt>
+                <AddressTxt>{isAddress?modalData.address:modalData.roadAddress}</AddressTxt>
                 <ChangeAddress>
-                  <div className="linkToDiv">
+                  <div className="linkToDiv" onClick={()=>onClickChange()}>
                     <ChangeImg src={Change}/>
                     <ChangeTxt>도로명</ChangeTxt>
                   </div>
                 </ChangeAddress>
               </ModalMapAddress>
-              <ShowMap>
-                <KakaoMapSide cutomImg={Marker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
-              </ShowMap>
+              
+              {/*
+                초기값은 빈 오브젝트여서 지도가 표시되지 않습니다.
+                오브젝트가 있으면 지도를 표시합니다.
+              */}
+              <>
+                {
+                 Object.keys(modalData).length === 0?
+                 <></>
+                 :
+                <ShowMap>
+                  <KakaoMapSide cutomImg={Marker} centerLat={modalData.lat} centerLng={modalData.lng} markerLat={modalData.lat} markerLng={modalData.lng}/>
+                </ShowMap>
+                }
+              </>
           </WrapModalMap>
         </Container>
   );

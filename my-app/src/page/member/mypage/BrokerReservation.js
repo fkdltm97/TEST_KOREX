@@ -60,66 +60,66 @@ export default function Join() {
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
 
-//여기 두개가 핵심이에여 넵!
+  //여기 두개가 핵심이에여 넵!
   //모달 끄는 식
-    const offModal = ()=>{
-      let option = JSON.parse(JSON.stringify(modalOption));
-      option.show = false;
-      setModalOption(option);
-    }
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
 
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+  const updateModal = () =>{
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"필터",
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+        submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
+        cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+    });
+  }
 
-    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-      const updateModal = () =>{
-        //여기가 모달 키는 거에엽
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"필터",
-            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
-            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
-            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
-        });
-      }
+  //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
+  const updateMapModal = (clickId) =>{
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"중개업소 위치",
+        content:{type:"component",text:``,component:<ModalMap clickId={clickId}/>},
+        submit:{show:false , title:"" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"" , event : ()=>{offModal(); }}
+    });
+  }
 
-    //만약에 다른걸 키고 싶으면 아래 함수 호출하시면됩니다.
-      const updateMapModal = () =>{
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"중개업소 위치",
-            content:{type:"component",text:``,component:<ModalMap/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"" , event : ()=>{offModal(); }}
-        });
-      }
+  const visitorModal = () =>{
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"동반고객 보기",
+        content:{type:"component",text:``,component:<ModalVisitor/>},
+        submit:{show:false , title:"" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}
 
-      const visitorModal = () =>{
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"동반고객 보기",
-            content:{type:"component",text:``,component:<ModalVisitor/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}
+    });
+  }
 
-        });
-      }
-      const calModal = () =>{
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"방문예약",
-            content:{type:"component",text:``,component:<ModalCal/>},
-            submit:{show:false , title:"" , event : ()=>{offModal(); }},
-            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}
+  const calModal = () =>{
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"방문예약",
+        content:{type:"component",text:``,component:<ModalCal/>},
+        submit:{show:false , title:"" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"수정" , event : ()=>{offModal(); }}
 
-        });
-      }
+    });
+  }
 
 
     return (

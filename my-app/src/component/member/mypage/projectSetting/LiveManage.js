@@ -26,6 +26,8 @@ import { Mobile, PC } from "../../../../MediaQuery"
 import LiveManageTop from "./LiveManageTop";
 import LiveManageList from "./LiveManageList";
 
+import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
+
 export default function Live({setFilter,value,type,updateModal}) {
 
   //... 눌렀을때(메뉴)
@@ -59,6 +61,18 @@ const LiveManageListItem =[
     mail:"Hong@gmail.com"
   },
 ]
+
+const topInfoContent = () => {
+  return(
+    <FilterAndAdd>
+      <SearchBox>
+        <InputSearch type="search" placeholder="예약자 검색"/>
+        <SearchButton type="button"/>
+      </SearchBox>
+      <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
+    </FilterAndAdd>
+  )
+}
     return (
         <Container>
           <WrapLive>
@@ -83,7 +97,8 @@ const LiveManageListItem =[
               )
             })
           }
-
+            <CommonTopInfo length={3} leftComponent={topInfoContent()} />
+            {/*
             <TopInfo>
               <All>총 <GreenColor>3</GreenColor> 건</All>
               <FilterAndAdd>
@@ -94,6 +109,7 @@ const LiveManageListItem =[
                 <FilterImg src={Filter} onClick={()=>{setFilter(true);updateModal();}} alt="filter"/>
               </FilterAndAdd>
             </TopInfo>
+            */}
             <WrapPropertyList>
 
               <LiveManageTop/>{/*방송 만료상태일때 LiveManageTop 사라져야함*/}

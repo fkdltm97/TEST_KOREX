@@ -17,7 +17,8 @@ import Checked from "../../../img/member/checked.png";
 
 export default function LiveModal({cal, setCal,live, setLive}){
 
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [modalOption,setModalOption] = useState({
     show : false,
     setShow:null,
@@ -36,22 +37,28 @@ export default function LiveModal({cal, setCal,live, setLive}){
     setModalOption(option);
   }
 
-
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-    const liveModal = () =>{
-      //여기가 모달 키는 거에엽
-      setModalOption({
-          show:true,
-          setShow:offModal,
-          title:"Live 시청예약",
-          content:{type:"text",text:`Live시청 예약이 정상적으로\n접수되었습니다.\n담당자가 Live방송 시작전에\n초대장을 이메일로 보내드립니다.`},
-          submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
-          cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
-          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
-          confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal(); setLive(false);}}
+  const liveModal = () =>{
+    // 확인버튼 눌렀을때 이름과 이메일 value 값입니다.
+    console.log(name, email);
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"Live 시청예약",
+        content:{type:"text",text:`Live시청 예약이 정상적으로\n접수되었습니다.\n담당자가 Live방송 시작전에\n초대장을 이메일로 보내드립니다.`},
+        submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }},
+        confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal(); setLive(false);}}
+    });
 
-      });
-    }
+    // 이후 서버에 성공적으로 저장되었다면 초기화시켜줍니다.
+    setName("");
+    setEmail("");
+  }
+
+  
   if(live == false)
   return null;
     return (
@@ -69,11 +76,11 @@ export default function LiveModal({cal, setCal,live, setLive}){
             <ModalBody>
               <Box>
                 <BoxTitle>이름</BoxTitle>
-                <InputText type="text" name="" placeholder="이름을 입력해 주세요."></InputText>
+                <InputText type="text" name="" placeholder="이름을 입력해 주세요." value={name} onChange={(e) => setName(e.target.value)}></InputText>
               </Box>
               <Box>
                 <BoxTitle>이메일</BoxTitle>
-                <InputText type="email" name="" placeholder="이메일을 입력해 주세요."></InputText>
+                <InputText type="email" name="" placeholder="이메일을 입력해 주세요." value={email} onChange={(e) => setEmail(e.target.value)}></InputText>
               </Box>
             </ModalBody>
             <ModalBtn>
