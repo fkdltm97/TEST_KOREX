@@ -86,7 +86,7 @@ const comfirmModal= () =>{
 }
 
 const onRemove = item =>{
-  setuserList(userList.filter(user =>user.phone !== item.phone ))
+  setuserList(userList.filter(user =>user.phone !== item.phone))
 }
 
 if(cal == false)

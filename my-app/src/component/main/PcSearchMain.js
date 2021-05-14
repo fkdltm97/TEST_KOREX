@@ -57,7 +57,7 @@ export default function PcSearchMain({activeText}) {
               </SearchArea>
               <Line/>
               <SearchSubway>
-                <TopTxt>지하철</TopTxt>
+                <TopTxt>지하철,대학교</TopTxt>
                 <NoneHistory>최근검색기록이 없습니다.</NoneHistory>
               {/*검색어를 입력했을때*/}
                 <SearchList style={{display:"none"}}>
@@ -74,7 +74,7 @@ export default function PcSearchMain({activeText}) {
               </SearchSubway>
               <Line/>
               <SearchUniv>
-                <TopTxt>대학교</TopTxt>
+                <TopTxt>건물명</TopTxt>
               {/*검색어를 입력했을때*/}
                 <SearchList style={{display:"none"}}>
                   <Listtxt>
