@@ -40,9 +40,9 @@ export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex}) 
                           onSlideChange={() => console.log('slide change')}
                           onSwiper={(swiper) => console.log(swiper)}>
                           {
-                            area.map((value) => {
+                            area.map((value, index) => {
                               return(
-                                <SwiperSlide>
+                                <SwiperSlide key={index}>
                                   <Width active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}>{value.width}</Width>
                                   <Line active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}/>
                                 </SwiperSlide>

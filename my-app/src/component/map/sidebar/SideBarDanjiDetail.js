@@ -30,68 +30,6 @@ import { useSelector } from 'react-redux';
 
 SwiperCore.use([Navigation, Pagination]);
 
-const tableList =[
-  {
-    t_id : 0,
-    date:"21.02.01",
-    trade:"매매",
-    price:"18억,2000",
-    floor:"7층"
-  },
-  {
-    t_id : 1,
-    date:"21.02.01",
-    trade:"매매",
-    price:"18억,2000",
-    floor:"7층"
-  },
-  {
-    t_id : 2,
-    date:"21.02.01",
-    trade:"전세",
-    price:"18억,2000",
-    floor:"7층"
-  },
-  {
-    t_id : 3,
-    date:"21.02.01",
-    trade:"월세",
-    price:"18억,2000",
-    floor:"7층"
-  }
-]
-
-const widthListItem =[
-  {
-    w_id : 0,
-    width:"92m²"
-  },
-  {
-    w_id : 1,
-    width:"99m²"
-  },
-  {
-    w_id : 2,
-    width:"122m²"
-  },
-  {
-    w_id : 3,
-    width:"126m²"
-  },
-  {
-    w_id : 4,
-    width:"167m²"
-  },
-  {
-    w_id : 5,
-    width:"174m²"
-  },
-  {
-    w_id : 6,
-    width:"180m²"
-  },
-]
-
 
 export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo, map,setMap}) {
 
@@ -102,42 +40,107 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     danji:"",
     address:"",
   });
-  const [isArea, setIsArea] = useState(false);
+  const [isArea, setIsArea] = useState(false); // isArea가 없으면 슬라이더가 깨집니다.
   const [area,setArea] = useState([]);
   const [areaIndex,setAreaIndex] = useState(0);
   const [list, setList] = useState([]);
   const [danjiDesc, setDanjiDesc] = useState([]);
   const [typeIndex, setTypeIndex] = useState(0);
+  const [isAddress, setIsAddress] = useState(true);
+  
   const productRedux = useSelector(state=>{ return state.mapProductEls});
+
+
 
   // **api 클릭한 아이디를 통하여 서버에서 데이터를 가져와야 합니다.
   useEffect(() => {
     // console.log(productRedux.clickBlo)  클릭 아이디
-    setArea(widthListItem);
-    setList(tableList);
+    // 면적 단위 
+    setArea([
+      {
+        w_id : 0, // 아이디
+        width:"92m²", // m² 면적 
+        widthPyeong:"35", // 평수 면적
+      },
+      {
+        w_id : 1,
+        width:"99m²",
+        widthPyeong:"40",
+      },
+      {
+        w_id : 2,
+        width:"122m²",
+        widthPyeong:"45",
+      },
+      {
+        w_id : 3,
+        width:"126m²",
+        widthPyeong:"50",
+      },
+      {
+        w_id : 4,
+        width:"167m²",
+        widthPyeong:"55",
+      },
+      {
+        w_id : 5,
+        width:"174m²",
+        widthPyeong:"60",
+      },
+      {
+        w_id : 6,
+        width:"180m²",
+        widthPyeong:"65",
+      }
+    ]);
+    // 계약일, 거래유형, 거래금액, 층수 정보
+    setList([
+      {
+        t_id : 0,
+        date:"21.02.01",
+        trade:"매매",
+        price:"18억,2000",
+        floor:"7층"
+      },
+      {
+        t_id : 1,
+        date:"21.02.01",
+        trade:"매매",
+        price:"18억,2000",
+        floor:"7층"
+      },
+    ]);
+    // 상단 설명
     setTopDesc({
-      title:"SM 드림빌",
-      acceptDate:"2017.04.14",
-      danji:150,
-      address:"서울특별시 강남구 삼성동 200-13",
+      title:"SM 드림빌", // 제목
+      acceptDate:"2017.04.14", // 날짜
+      danji:150, // 세대 수
+      address:"서울특별시 강남구 삼성동 200-13", // 주소
+      roadAddress:"도로명 주소 -- " // 도로명 주소
     })
+    // 단지 내 면적별 정보 정보
     setDanjiDesc({
-      area:"60/52.89m²",
-      typeNum:"2/1개",
+      area:"60/52.89m²", // 공급/전용면적
+      typeNum:"2/1개", // 해당타입세대수
     })
     setIsArea(true);
-
   }, []);
 
-  // 면적 정보
+  // 면적 정보 클릭
   useEffect(() => {
     // console.log(areaIndex);
   }, [areaIndex])
 
-  // 실거래가 전세/매매/전월세
+  // 실거래가 전세/매매/전월세 클릭
   useEffect(() => {
     // console.log(typeIndex);
   }, [typeIndex])
+
+  // 면적 <-> 평 바꾸는 작업 재혁
+
+  const onClickPyeong = () => {
+
+  }
 
   return (
     <Container>
@@ -148,8 +151,8 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           <Danji>{topDesc.danji}세대</Danji>
         </FirstLine>
         <SecondLine>
-          <Address onClick={()=>{setMap(true)}}>{topDesc.address}</Address>
-          <ChangeAddress>
+          <Address onClick={()=>{setMap(true)}}>{isAddress?topDesc.address:topDesc.roadAddress}</Address>
+          <ChangeAddress onClick={() => setIsAddress(!isAddress)}>
             <ChangeImg src={Change}/>
             <Span>도로명</Span>
           </ChangeAddress>
@@ -158,7 +161,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
       <DanjiInfo>
         <DanjiTitle>
           <Txt>단지 내 면적별 정보</Txt>
-          <ChangeM2>
+          <ChangeM2 onClick={() => onClickPyeong()}>
             <ChangeImg src={Change}/>
             <Span>평</Span>
           </ChangeM2>

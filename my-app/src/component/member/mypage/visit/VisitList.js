@@ -29,6 +29,11 @@ export default function Request({updateMapModal,visitorModal,calModal,map,setMap
     setMenu(!menu);
   }
 
+  const onClickEl = () => {
+    setMap(true);
+    updateMapModal(value.v_id);
+  }
+
     return (
       <Container>
           <Li opacity={type2}>
@@ -37,7 +42,7 @@ export default function Request({updateMapModal,visitorModal,calModal,map,setMap
               <Number>등록번호 {value.number}</Number>
               <Title>{value.project}</Title>
               <Address>
-                <Link onClick={() => {setMap(true);updateMapModal();}}>
+                <Link onClick={() => {onClickEl(value)}}>
                   <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
                 </Link>
               </Address>
