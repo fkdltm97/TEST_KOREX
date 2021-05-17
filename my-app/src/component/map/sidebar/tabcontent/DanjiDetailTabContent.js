@@ -24,7 +24,7 @@ import { Mobile, PC } from "../../../../MediaQuery";
 
 SwiperCore.use([Navigation, Pagination]);
 // export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
-export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex}) {
+export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex, isWidth}) {
 
     return (
         <Container>
@@ -43,7 +43,7 @@ export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex}) 
                             area.map((value, index) => {
                               return(
                                 <SwiperSlide key={index}>
-                                  <Width active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}>{value.width}</Width>
+                                  <Width active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}>{isWidth?`${value.width}m²`:`${value.widthPyeong}평`}</Width>
                                   <Line active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}/>
                                 </SwiperSlide>
                               )

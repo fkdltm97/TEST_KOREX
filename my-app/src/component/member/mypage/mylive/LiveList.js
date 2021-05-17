@@ -25,51 +25,62 @@ export default function Request({value,type,type2}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
-  const showModal =()=>{
-    setMenu(!menu);
+
+
+  // 예약 취소
+  const onClickCancel = () => {
+  };
+
+  // 수정
+  const onClickModify = () => {
+  };
+
+  const onClickAlarm = (e) => {
+    // true 알람 활성화, false 알람 비활성화
+    // console.log(e.target.checked);
   }
 
-    return (
-      <Container>
-          <Li opacity={type2}>
-            <Img>
-              <ItemImg src={value.src} alt="img"/>
-            {/*상품이미지가 없을경우*/}
-              {/* <ItemImg src={Noimg} alt="img"/> */}
-            </Img>
-            <Infos>
-              <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
-              <Number>등록번호 {value.number}</Number>
-              <ProjectName>{value.project}</ProjectName>
-            </Infos>
-            <RightMenu>
-              <Alarm>
-                <AlarmCheck type="checkbox" name="" value="" id={"check"+value.live_id}/>
-                <Label for={"check"+value.live_id}/>
-              </Alarm>
-              <Menu>
-                <div onClick={showModal} className="linkToDiv">
-                  <MenuIcon/>
-                    {
-                      menu ?
-                      <InMenu>
-                        <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
-                          <InDiv>예약취소</InDiv>
-                        </Div>
-                        <Div>
-                          <div  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>수정</InDiv>
-                        </Div>
-                      </InMenu>
-                      :
-                      null
-                    }
-                </div>
-              </Menu>
-            </RightMenu>
-          </Li>
-          </Container>
+  return (
+    <Container>
+      <Li opacity={type2}>
+        <Img>
+          <ItemImg src={value.src} alt="img"/>
+        {/*상품이미지가 없을경우*/}
+          {/* <ItemImg src={Noimg} alt="img"/> */}
+        </Img>
+        <Infos>
+          <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
+          <Number>등록번호 {value.number}</Number>
+          <ProjectName>{value.project}</ProjectName>
+        </Infos>
+        <RightMenu>
+          <Alarm>
+            <AlarmCheck type="checkbox" name="" value="" onClick={(e) => onClickAlarm(e)} id={"check"+value.live_id}/>
+            <Label for={"check"+value.live_id}/>
+          </Alarm>
+          <Menu>
+            <div onClick={() => setMenu(!menu)} className="linkToDiv">
+              <MenuIcon/>
+                {
+                  menu ?
+                  <InMenu>
+                    <Div>
+                      <div className={["data_link", "linkToDiv"]}/>
+                      <InDiv onClick={() => {onClickCancel()}} >예약취소</InDiv>
+                    </Div>
+                    <Div>
+                      <div className={["data_link", "linkToDiv"]}/>
+                      <InDiv onClick={() => {onClickModify()}}>수정</InDiv>
+                    </Div>
+                  </InMenu>
+                  :
+                  null
+                }
+            </div>
+          </Menu>
+        </RightMenu>
+      </Li>
+    </Container>
   );
 }
 
