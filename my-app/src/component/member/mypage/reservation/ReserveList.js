@@ -75,7 +75,7 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
                         </Div>
                         <Div>
                           <div className={["data_link", "linkToDiv"]} onClick={()=>{setReserve(true);updateReserveModal();}}></div>
-                          <InDiv>수정</InDiv>
+                          <InDiv onClick={()=>{updateReserveModal(true);}}>수정</InDiv>
                         </Div>
                         <Div>
                           <div className={["data_link", "linkToDiv"]}></div>

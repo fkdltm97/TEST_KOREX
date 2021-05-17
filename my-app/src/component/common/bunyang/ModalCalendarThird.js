@@ -21,6 +21,8 @@ export default function ModalCal({cal, setCal, updatePageIndex, SelectDate, sele
   const [Phone,setPhone] = useState("");/*기본값*/
   const [active,setActive] = useState(false);
 
+  const [Num, setNum] = useState(0);
+
   const phoneChange = (e) =>{ setPhone(e.target.value); }
   const nameChange = (e) =>{ setName(e.target.value); }
   
@@ -30,8 +32,11 @@ export default function ModalCal({cal, setCal, updatePageIndex, SelectDate, sele
     if(Name !== "" && Phone !== ""){
       setuserList([
         ...userList,
-        {name : Name, phone : Phone}
+        {name : Name, phone : Phone ,num : Num}
       ])
+      setName('');
+      setPhone('');
+      setNum(Num + 1)
     }else{
       finalModal()
     }
@@ -102,7 +107,8 @@ const comfirmModal= () =>{
 }
 
 const onRemove = item =>{
-  setuserList(userList.filter(user =>user.phone !== item.phone))
+  setuserList(userList.filter(user =>user.num !== item.num))
+  console.log(userList);
 }
 
 if(cal == false)
