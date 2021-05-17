@@ -262,7 +262,7 @@ export default function App(){
             {/* mobile */}
             <Route exact path="/MbSearch" component={MbSearch}/>{/*모바일 분양써치*/}
             <Route exact path="/MbBunyang" component={MbBunyang}/>{/*모바일 분양리스트*/}
-            <Route exact path="/MbBunyangDetail" component={MbBunyangDetail}/>{/*모바일 분양상세페이지*/}
+            <Route exact path="/MbBunyangDetail/:id" component={(route) => { console.log(route.match.params.id); return(<MbBunyangDetail status={route.match.params.id}/>)} }/>{/*모바일 분양상세페이지*/}
 
             {/*map*/}
             <Route exact path="/Map/:text" component={(route) => { return(<Map status={route.match.params.text}/>)}}/>

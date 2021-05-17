@@ -26,7 +26,7 @@ import CloseBtn from '../../../img/main/w_close_btn.png';
 SwiperCore.use([Navigation]);
 export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal, BunyangDate, clickId, setImgArr, imgArr}){
 
-  const [rightTopData, setRightTopData] = useState({});
+  const [rightTopData, setRightTopData] = useState({title:"", number:"", option:[], address:""});
   const [rigthDetailData, setRigthDetailData] = useState([]);
   const [hashTagArr, setHashTagArr] = useState([]);
   // 처음부터 렌더하게되면 이미지 슬라이더가 먹지않아 이미지가 받아온 후 렌더되도록 하였습니다.
@@ -41,7 +41,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
     setRightTopData({
       title:"충남내포신도시2차대방엘리움더센트럴",
       number:"2D0000324",
-      option:"충청남도 / 아파트 / 민간분양",
+      option:["충청남도", "아파트", "민간분양"],
       address:"충청남도 홍성군 홍북읍 신경리 947번지",
     })
 
@@ -54,7 +54,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
       {title: "전용면적", content: "77㎡ ~ 85㎡"},
       {title: "모델하우스 주소", content: "서울특별시 강남구 서초동 길동아파트 103 103호"},
       {title: "중개보수", content: "-"},
-      {title: "Live 방송일시", content: "2021.01.01   00:00"},
+      {title: "Live 방송일시", content: liveTime( new Date("2021-01-01 09:00") ) },
     ])
     
     // HashTag 배열입니다.
@@ -67,13 +67,35 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
       SwipImg, SwipImg
     ])
     setFirstRender(true);
-
-    
   }, [])
 
+  
+  // 날짜 넥스트 변환
+  const liveTime = (date) => {
+    return `${date.getFullYear()}.${addZero(date.getMonth()+1)}.${addZero(date.getDate())} ${addZero(date.getHours())}:${addZero(date.getMinutes())}`;
+  }
+
+  // 날짜에 0 추가
+  const addZero = (text) => {
+    text = String(text);
+    if(text.length == 1){
+      text = "0" + text;
+    }
+    return text;
+  }
+
+  // 옵션사이에 " / " 넣기
+  const optionList = () => {
+    let optionText = rightTopData.option[0];
+    for(let i = 1 ; i < rightTopData.option.length ; i++){
+      optionText += " / " + rightTopData.option[i];
+    }
+    return optionText;
+  }
 
 
   const [active,setActive] = useState(false);
+
     return (
       <Container>
       {/*bunyangtop*/}
@@ -157,7 +179,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
             <RightDetail>
               <RightTop>
                 <TopTitle>{rightTopData.title}<Number>{rightTopData.number}</Number></TopTitle>
-                <Option>{rightTopData.option}</Option>
+                <Option>{optionList()}</Option>
                 <Address>{rightTopData.address}</Address>
                 {/*
                   <TopTitle>충남내포신도시2차대방엘리움더센트럴<Number>2D0000324</Number></TopTitle>
@@ -165,7 +187,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
                 */}
                 <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1"checked={BunyangDate.LikeChecked}></Like>
+                  <Like type="checkbox" name="" id="Like1" checked={BunyangDate.LikeChecked}></Like>
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </RightTop>

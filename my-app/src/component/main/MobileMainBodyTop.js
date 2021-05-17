@@ -15,12 +15,14 @@ import { Mobile, PC } from "../../MediaQuery"
 export default function MainBody({}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [activeText, setActiveText] = useState("apart");
+    const [currentTab, setCurrentTab] = useState("apart");
 
     const onClickTab = (e) => {
       const text = e.target.dataset.text;
       const num = e.target.dataset.num;
-      setActiveIndex(num)
-      setActiveText(text)
+      setActiveIndex(num);
+      setActiveText(text);
+      setCurrentTab(text);
     }
 
     return (
@@ -49,7 +51,7 @@ export default function MainBody({}) {
           </PC>
         {/*Mobile 검색*/}
           <Mobile>
-            <MobileSearchMainSecond/>
+            <MobileSearchMainSecond currentTab={currentTab}/>
           </Mobile>
           </MainBodyTop>
         </Container>

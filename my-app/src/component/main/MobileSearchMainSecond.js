@@ -8,13 +8,16 @@ import IconSearch from '../../img/main/icon_search.png';
 //components
 import MbSearch from './mobilecomp/MbSearchBody';
 
-export default function MobileSearch() {
+export default function MobileSearch({currentTab}) {
+
+  
   return (
     <Container>
         <WrapMainSearch>
             <MainSearch>
               <SearchInput type="text" name="" placeholder="지역,지하철,대학교,물건명 검색"/>
-              <Link to="/Map/:text">
+              {/* <Link to="/Map/:text"> */}
+              <Link to={`/Map/${currentTab}`}>
                 <SearchBtn type="submit" name=""/>
               </Link>
             </MainSearch>

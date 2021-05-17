@@ -53,42 +53,42 @@ export default function NoticeDetail({status}) {
 
 
   //여기 두개가 핵심이에여
-    //모달 끄는 식
-      const offModal = ()=>{
-        let option = JSON.parse(JSON.stringify(modalOption));
-        option.show = false;
-        setModalOption(option);
-      }
-  
-  
-      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-        const reserveModal = () =>{
-          //여기가 모달 키는 거에엽
-          setModalOption({
-              show:true,
-              setShow:offModal,
-              title:"물건투어 예약",
-              content:{type:"components",text:``,component:<ModalEdit/>},
-              submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
-              cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
-              confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
-          });
-        }
+  //모달 끄는 식
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
 
-    return (
-        <>
-          <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-          <LiveModal live={live} setLive={setLive}/>
-          <ModalCalendar cal={cal} setCal={setCal}/>
-          <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-          <MapHeader openBunyang={openBunyang}/>
-          <Container>
-              <ModalMap map={map} setMap={setMap}/>
-              <ReportModal report={report} setReport={setReport}/>
-              <MainMap setReport={setReport} setMap={setMap} status={status} reserveModal={reserveModal}/>
-              <ModalCommon modalOption={modalOption}/>
-          </Container>
-        </>
+  
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+  const reserveModal = () =>{
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"물건투어 예약",
+        content:{type:"components",text:``,component:<ModalEdit/>},
+        submit:{show:false , title:"적용" , event : ()=>{offModal(); }},
+        cancle:{show:false , title:"초기화" , event : ()=>{offModal(); }},
+        confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
+    });
+  }
+
+  return (
+    <>
+      <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+      <LiveModal live={live} setLive={setLive}/>
+      <ModalCalendar cal={cal} setCal={setCal}/>
+      <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+      <MapHeader openBunyang={openBunyang}/>
+      <Container>
+          <ModalMap map={map} setMap={setMap}/>
+          <ReportModal report={report} setReport={setReport}/>
+          <MainMap setReport={setReport} setMap={setMap} status={status} reserveModal={reserveModal}/>
+          <ModalCommon modalOption={modalOption}/>
+      </Container>
+    </>
   );
 }
 

@@ -45,9 +45,15 @@ const BunyangListItem =[
 ]
 
 export default function BunyangList({updatePageIndex,updateModal}){
+
+    const [byList, setByList] = useState([]);
+    useEffect(() => {
+      setByList(BunyangListItem);
+    }, []) 
+
     return (
       <Container>
-{/*Total & Search*/}
+        {/*Total & Search*/}
         <WrapTotal>
             <ListTop>총 <Green>{BunyangListItem.length}</Green>건</ListTop>
             <BunyangSearch>
@@ -62,21 +68,20 @@ export default function BunyangList({updatePageIndex,updateModal}){
             </RecentList>
           </SortRecent>
         </WrapTotal>
-{/*bunyang List*/}
+        {/*bunyang List*/}
         <WrapList>
           <ListUl>
           {
-            BunyangListItem.map((value) => {
-              if(value.LiveCheckded === true){
-
-                return(
-                  <Li>
+            byList.map((value) => {
+              // 수정코드입니다.
+              return(
+                <Li>
                   <LiTop className="clearfix">
-                    <Link to={value.path}>
+                    <Link to={`${value.path}/${value.bunyang_id}`}>
                       <LiImg src={value.src}/>
                       <LiDesc>
                         <Number>{value.number}</Number>
-                        <LiveView>Live 방송 예고</LiveView>
+                        {value.LiveCheckded&&<LiveView>Live 방송 예고</LiveView>}
                         <LiTitle>{value.title}</LiTitle>
                         <Option>{value.option}</Option>
                         <Address>{value.address}</Address>
@@ -89,26 +94,49 @@ export default function BunyangList({updatePageIndex,updateModal}){
                   </LiTop>
                 </Li>
               )
-            }
-            return(
-              <Li>
-              <LiTop className="clearfix">
-                <Link to={value.path}>
-                  <LiImg src={value.src}/>
-                  <LiDesc>
-                    <Number>{value.number}</Number>
-                    <LiTitle>{value.title}</LiTitle>
-                    <Option>{value.option}</Option>
-                    <Address>{value.address}</Address>
-                  </LiDesc>
-                </Link>
-                <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1"></Like>
-                  <Label for="Like1" className="check_label"></Label>
-                </LikeBtn>
-              </LiTop>
-            </Li>
-          )
+              
+              // -- 원래 코드입니다.
+              // if(value.LiveCheckded === true){
+              //   return(
+              //     <Li>
+              //       <LiTop className="clearfix">
+              //         <Link to={value.path}>
+              //           <LiImg src={value.src}/>
+              //           <LiDesc>
+              //             <Number>{value.number}</Number>
+              //             <LiveView>Live 방송 예고</LiveView>
+              //             <LiTitle>{value.title}</LiTitle>
+              //             <Option>{value.option}</Option>
+              //             <Address>{value.address}</Address>
+              //           </LiDesc>
+              //         </Link>
+              //         <LikeBtn>
+              //           <Like type="checkbox" name="" id="Like1"></Like>
+              //           <Label for="Like1" className="check_label"></Label>
+              //         </LikeBtn>
+              //       </LiTop>
+              //     </Li>
+              //   )
+              // }
+              // return(
+              //   <Li>
+              //     <LiTop className="clearfix">
+              //       <Link to={value.path}>
+              //         <LiImg src={value.src}/>
+              //         <LiDesc>
+              //           <Number>{value.number}</Number>
+              //           <LiTitle>{value.title}</LiTitle>
+              //           <Option>{value.option}</Option>
+              //           <Address>{value.address}</Address>
+              //         </LiDesc>
+              //       </Link>
+              //       <LikeBtn>
+              //         <Like type="checkbox" name="" id="Like1"></Like>
+              //         <Label for="Like1" className="check_label"></Label>
+              //       </LikeBtn>
+              //     </LiTop>
+              //   </Li>
+              // )
             })
           }
           </ListUl>

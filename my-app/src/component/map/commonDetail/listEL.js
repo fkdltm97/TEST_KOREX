@@ -8,18 +8,19 @@ import ChangeM from "../../../img/map/change_m.png";
 // Css
 import styled from "styled-components"
 
-const ListEL = ({title, desc, ChangeM}) => {
+const ListEL = ({title, desc, descM, ChangeM}) => {
 
+    const [isDesc, setIsDesc] = useState(true);
 
     return(
         <Li>
             <SubTitle>{title}</SubTitle>
             <SubDesc>
-                {desc}
+                {isDesc?desc:descM}
                 {
                     ChangeM&&
                     <Link>
-                        <ChangeMImg src={ChangeM}/>
+                        <ChangeMImg onClick={() => setIsDesc(!isDesc)} src={ChangeM}/>
                     </Link>
                 }
             </SubDesc>
