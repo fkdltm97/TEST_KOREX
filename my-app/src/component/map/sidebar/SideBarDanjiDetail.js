@@ -41,13 +41,14 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     address:"",
   });
   const [isArea, setIsArea] = useState(false); // isArea가 없으면 슬라이더가 깨집니다.
-  const [area,setArea] = useState([]);
-  const [areaIndex,setAreaIndex] = useState(0);
-  const [list, setList] = useState([]);
-  const [danjiDesc, setDanjiDesc] = useState([]);
-  const [typeIndex, setTypeIndex] = useState(0);
-  const [isAddress, setIsAddress] = useState(true);
-  
+  const [area,setArea] = useState([]); // 면적 단위 정보
+  const [areaIndex,setAreaIndex] = useState(0); // 면적 단위 정보 클릭
+  const [list, setList] = useState([]);  // 계약일, 거래유형, 거래금액, 층수 정보
+  const [danjiDesc, setDanjiDesc] = useState([]); // 면적, 세대수
+  const [typeIndex, setTypeIndex] = useState(0); // 전세, 매매, 월세
+  const [isAddress, setIsAddress] = useState(true); // 삳단 주소 <-> 도로명주소
+  const [isWidth, setIsWidth] = useState(true); // 면적 단위 평 <-> m²
+
   const productRedux = useSelector(state=>{ return state.mapProductEls});
 
 
@@ -59,37 +60,37 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     setArea([
       {
         w_id : 0, // 아이디
-        width:"92m²", // m² 면적 
+        width:"92", //  m² 면적 
         widthPyeong:"35", // 평수 면적
       },
       {
         w_id : 1,
-        width:"99m²",
+        width:"99",
         widthPyeong:"40",
       },
       {
         w_id : 2,
-        width:"122m²",
+        width:"122",
         widthPyeong:"45",
       },
       {
         w_id : 3,
-        width:"126m²",
+        width:"126",
         widthPyeong:"50",
       },
       {
         w_id : 4,
-        width:"167m²",
+        width:"167",
         widthPyeong:"55",
       },
       {
         w_id : 5,
-        width:"174m²",
+        width:"174",
         widthPyeong:"60",
       },
       {
         w_id : 6,
-        width:"180m²",
+        width:"180",
         widthPyeong:"65",
       }
     ]);
@@ -126,21 +127,14 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     setIsArea(true);
   }, []);
 
-  // 면적 정보 클릭
+  
+  // **api  서버에 정보를 보내 해달 정보를 받아온다.
+  // 처음에 정보들을 다 받아와도 괜찮을 것 같습니다.
   useEffect(() => {
-    // console.log(areaIndex);
-  }, [areaIndex])
-
-  // 실거래가 전세/매매/전월세 클릭
-  useEffect(() => {
-    // console.log(typeIndex);
-  }, [typeIndex])
-
-  // 면적 <-> 평 바꾸는 작업 재혁
-
-  const onClickPyeong = () => {
-
-  }
+    // console.log(areaIndex); // 면적별 정보의 id 값
+    // console.log(typeIndex); // 0 전세, 1 매매, 2 전월세
+    // setList([]);
+  }, [areaIndex, typeIndex])
 
   return (
     <Container>
@@ -161,13 +155,13 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
       <DanjiInfo>
         <DanjiTitle>
           <Txt>단지 내 면적별 정보</Txt>
-          <ChangeM2 onClick={() => onClickPyeong()}>
+          <ChangeM2 onClick={() => setIsWidth(!isWidth)}>
             <ChangeImg src={Change}/>
             <Span>평</Span>
           </ChangeM2>
         </DanjiTitle>
         {/*컴포넌트! map > sidebar > tabcontent*/}
-        <DanjiDetailTabContent isArea={isArea} area={area} areaIndex={areaIndex} setAreaIndex={setAreaIndex}/>
+        <DanjiDetailTabContent isArea={isArea} area={area} areaIndex={areaIndex} setAreaIndex={setAreaIndex} isWidth={isWidth}/>
         <DanjiDetailView list={list} danjiDesc={danjiDesc} typeIndex={typeIndex} setTypeIndex={setTypeIndex}/>
       </DanjiInfo>
     </Container>

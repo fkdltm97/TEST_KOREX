@@ -51,54 +51,60 @@ export default function Join() {
   //물건예약수정 모달창
   const [reserve,setReserve] = useState(false);
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [sort, setSort] = useState(0); // 정렬 기준
+  const [condi, setCondi] = useState(0); // 상태
 
-
-//여기 두개가 핵심이에여 넵!
+  //여기 두개가 핵심이에여 넵!
   //모달 끄는 식
-    const offModal = ()=>{
-      let option = JSON.parse(JSON.stringify(modalOption));
-      option.show = false;
-      setModalOption(option);
-    }
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
+  // 초기화 버튼 클릭
+  const onClickReset = () => {
+    offModal();
+    setSort(0);
+    setCondi(0);
+  }
 
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+  const updateModal = () =>{
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"필터",
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent sort={sort} condi={condi} setSort={setSort} setCondi={setCondi}/>},
+        submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
+        cancle:{show:true , title:"초기화" , event : ()=>{ onClickReset(); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+    });
+  }
 
-    //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-      const updateModal = () =>{
-        //여기가 모달 키는 거에엽
-        setModalOption({
-            show:true,
-            setShow:offModal,
-            title:"필터",
-            content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilterComponent/>},
-            submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
-            cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-            confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
-        });
-      }
-
-    return (
-        <>
-          {/*
-            <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-            <LiveModal live={live} setLive={setLive}/>
-            <ModalCalendar cal={cal} setCal={setCal}/>
-            <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-            <MainHeader openBunyang={openBunyang}/>
-          */}
-          <CommonHeader />
-          <Container>
-              <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
-              <ModalCommon modalOption={modalOption}/>
-              <MyLive updateModal={updateModal}/>
-          </Container>
-          <CommonFooter />
-          {/*
-            <TermService termservice={termservice} openTermService={openTermService}/>
-            <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
-            <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
-            <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
-          */}
-        </>
+  return (
+    <>
+      {/*
+        <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
+        <LiveModal live={live} setLive={setLive}/>
+        <ModalCalendar cal={cal} setCal={setCal}/>
+        <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+        <MainHeader openBunyang={openBunyang}/>
+      */}
+      <CommonHeader />
+      <Container>
+          <SubTitle title={"소속명"} arrow={"　▼"} path={"/Team"} cursor={"pointer"}/>
+          <ModalCommon modalOption={modalOption}/>
+          <MyLive updateModal={updateModal}/>
+      </Container>
+      <CommonFooter />
+      {/*
+        <TermService termservice={termservice} openTermService={openTermService}/>
+        <TermPrivacy termprivacy={termprivacy} openTermPrivacy={openTermPrivacy}/>
+        <TermLocation termlocation={termlocation} openTermLocation={openTermLocation}/>
+        <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/>
+      */}
+    </>
   );
 }
 

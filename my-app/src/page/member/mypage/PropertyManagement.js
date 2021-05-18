@@ -85,7 +85,7 @@ export default function Join() {
     });
   }
   
-  // 이 부분 오류나서 주석처리해놨습니다!
+  
   useEffect( async () => {
     let body_info={};
     console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);

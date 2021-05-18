@@ -25,69 +25,95 @@ export default function Request({updateMapModal,visitorModal,calModal,map,setMap
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
-  const showModal =()=>{
-    setMenu(!menu);
-  }
+  // const showModal =()=>{
+  //   setMenu(!menu);
+  // }
 
   const onClickEl = () => {
     setMap(true);
     updateMapModal(value.v_id);
   }
 
-    return (
-      <Container>
-          <Li opacity={type2}>
-            <Infos>
-              <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
-              <Number>등록번호 {value.number}</Number>
-              <Title>{value.project}</Title>
-              <Address>
-                <Link onClick={() => {onClickEl(value)}}>
-                  <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
-                </Link>
-              </Address>
-              <DateTime>
-                <Date>{value.date}</Date>
-                <Time>{value.time}</Time>
-              </DateTime>
-              <Visitor>동반고객 {value.visitor}</Visitor>
-            </Infos>
-            <RightMenu>
-              <Alarm>
-                <AlarmCheck type="checkbox" name="" value="" id={"check"+value.v_id}/>
-                <Label for={"check"+value.v_id}/>
-              </Alarm>
-              <Menu>
-                <div onClick={showModal} className="linkToDiv">
-                  <MenuIcon/>
-                    {
-                      menu ?
-                      <InMenu>
-                        <Div>
-                          <div onClick={() => {setVisit(true);visitorModal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>동반고객 보기</InDiv>
-                        </Div>
-                        <Div>
-                          <div onClick={() => {setVCal(true);calModal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>수정</InDiv>
-                        </Div>
-                        <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
-                          <InDiv>예약취소</InDiv>
-                        </Div>
-                        <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
-                          <InDiv>삭제</InDiv>
-                        </Div>
-                      </InMenu>
-                      :
-                      null
-                    }
-                </div>
-              </Menu>
-            </RightMenu>
-          </Li>
-          </Container>
+  // 알람
+  const onClickAlarm = (e) => {
+    // true 알람 활성화, false 알람 비활성화
+    // console.log(e.target.checked);
+  }
+
+  // 동반고객 보기
+  const onClickVisit = () => {
+    setVisit(true);
+    visitorModal();
+  }
+
+  // 수정
+  const onClickModify = () => {
+    setVCal(true);
+    calModal();
+  }
+
+  // 예약취소
+  const onClickCancel = () => {
+  }
+
+  // 삭제
+  const onClickDelete = () => {
+  }
+
+  return (
+    <Container>
+      <Li opacity={type2}>
+        <Infos>
+          <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
+          <Number>등록번호 {value.number}</Number>
+          <Title>{value.project}</Title>
+          <Address>
+            <Link onClick={() => {onClickEl(value)}}>
+              <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
+            </Link>
+          </Address>
+          <DateTime>
+            <Date>{value.date}</Date>
+            <Time>{value.time}</Time>
+          </DateTime>
+          <Visitor>동반고객 {value.visitor}</Visitor>
+        </Infos>
+        <RightMenu>
+          <Alarm>
+            <AlarmCheck type="checkbox" name="" onClick={(e) => onClickAlarm(e)} value="" id={"check"+value.v_id}/>
+            <Label for={"check"+value.v_id}/>
+          </Alarm>
+          <Menu>
+            <div onClick={() => setMenu(!menu)} className="linkToDiv">
+              <MenuIcon/>
+                {
+                  menu ?
+                  <InMenu>
+                    <Div>
+                      <div className={["data_link", "linkToDiv"]}/>
+                      <InDiv onClick={() => {onClickVisit()}}>동반고객 보기</InDiv>
+                    </Div>
+                    <Div>
+                      <div className={["data_link", "linkToDiv"]}/>
+                      <InDiv onClick={() => {onClickModify();}}>수정</InDiv>
+                    </Div>
+                    <Div>
+                      <div className={["data_link", "linkToDiv"]}/>
+                      <InDiv onClick={() => onClickCancel()}>예약취소</InDiv>
+                    </Div>
+                    <Div>
+                      <div className={["data_link", "linkToDiv"]}/>
+                      <InDiv onClick={() => onClickDelete()}>삭제</InDiv>
+                    </Div>
+                  </InMenu>
+                  :
+                  null
+                }
+            </div>
+          </Menu>
+        </RightMenu>
+      </Li>
+    </Container>
   );
 }
 
