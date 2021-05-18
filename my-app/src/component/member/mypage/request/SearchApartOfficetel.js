@@ -88,7 +88,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                         <ResultBox>
                           <Link onClick={() => { setSelect_complexid(value.complex_id); setModalDanji(true)}} className='data_link'/>
                           <Title>{value.complex_name}</Title>
-                          <ResultAddress>{value.addr_raod}</ResultAddress>
+                          <ResultAddress>{value.addr_road}</ResultAddress>
                         </ResultBox>
                       )
                     })

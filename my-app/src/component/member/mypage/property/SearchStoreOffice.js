@@ -24,6 +24,9 @@ import {useSelector } from 'react-redux';
 import {tempBrokerRequestActions } from '../../../../store/actionCreators';
 import tempBrokerRequest from '../../../../store/modules/tempBrokerRequest';
 
+//server process
+import serverController from '../../../../server/serverController';
+
 export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
 
   const [hosu,setHosu] = useState(false);
@@ -33,10 +36,14 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
 
   const [search_address,setSearch_address] = useState('');
   const [floor,setFloor] = useState('');
-  const [hosil,setHosil] = useState('');
+  const [floorname,setfloorname] = useState('');
+  const [hosilname,sethosilname] = useState('');
 
   console.log('searchsoterfoffice물건외부관리 실행요소 display:',tempBrokerRequestActions,activeIndex)
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  
+  //도로명 and 지번주소 검색한 관련된 flr_id리스트 여러개 다른 종류의 매물들 층 여러개 나올수있음
+  const [flooridlist,setflooridlist] = useState([]);
 
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -46,9 +53,10 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
     setModalOption(option);
   }
 
-
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
     const updateModal = () =>{
+      nextStep();
+
       //여기가 모달 키는 거에엽
       setModalOption({
         show:true,
@@ -62,16 +70,18 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
       });
     }
 
-    const floorchange= (e) => {setFloor(e.target.value); console.log('floor change층수변경:',e.target.value);}
-    const hosilchange = (e) => {setHosil(e.target.value);}
+    const floorchange= (e) => {setFloor(e.target.value.split('|')[0]); setfloorname(e.target.value.split('|')[1]); console.log('floor change층수변경:',e.target.value);}
+    const hosilnamechange = (e) => {sethosilname(e.target.value);}
 
     const nextStep = (e) => {
-      console.log('다음단계 클릭 >>>>',floor,hosil,search_address);
+      console.log('다음단계 클릭 >>>>',floor,floorname,hosilname,search_address);
 
       //리덕스 저장한다.
       tempBrokerRequestActions.floorchange({floors:floor});
-      tempBrokerRequestActions.hosilchange({hosils: hosil});
-      tempBrokerRequestActions.dangiaddresschange({dangiaddresss : search_address});
+      tempBrokerRequestActions.floornamechange({floornames: floorname});
+      tempBrokerRequestActions.hosilnamechange({hosilnames: hosilname});
+      tempBrokerRequestActions.dangijibunaddresschange({dangijibunaddress : flooridlist[0]['addr_jibun']});
+      tempBrokerRequestActions.dangiroadaddresschange({dangiroadaddress: flooridlist[0]['addr_road']});
 
       switch(activeIndex){
         case 0:
@@ -88,6 +98,26 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
         break;
       }
     }
+
+    useEffect( async () => {
+      console.log('search_address값 변경 감지:',search_address);
+      let jibun_address= search_address.jibunaddress_val;
+      let road_address=search_address.roadaddress_val;
+
+      let body_info = {
+        jibunaddress : jibun_address,
+        roadaddress: road_address
+      };
+      let res_result = await serverController.connectFetchController('/api/matterial/floorid_search_query','POST',JSON.stringify(body_info));
+      if(res_result){
+        if(res_result.result){
+          let result_var=res_result.result;
+          console.log('reuslt_var::',result_var);
+
+          setflooridlist(result_var);
+        }
+      }
+    },[search_address]);
     return (
         <Container>
           <WrapSearch>
@@ -109,14 +139,22 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
           {/*주소 검색 후에 나오는 부분*/}
               <WrapBottomBox>
                 <SearchBox>
-                  <Search type="search" value={search_address}/>
+                  <Search type="search" value={search_address.jibunaddress_val && search_address.roadaddress_val ? search_address.jibunaddress_val+'|'+search_address.roadaddress_val : ''}/>
                   <SearchBtn type="button"/>
                 </SearchBox>
                 <SelectFloor onChange={floorchange}>
                   <Option>층 선택</Option>
-                  <Option value='1'>1층</Option>
+                  {/*<Option value='1'>1층</Option>
                   <Option value='2'>2층</Option>
                   <Option value='3'>3층</Option>
+                  */}
+                  {
+                    flooridlist.map((value) => {
+                      return (
+                        <Option value={value['flr_id']+'|'+value['flr_type']+value['floor']}>{value['flr_type']+value['floor']}</Option>
+                      );
+                    })
+                  }
                 </SelectFloor>
                 <Hosu>
                   <Label>호수</Label>
@@ -131,7 +169,7 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
                  {
                     hosu ?
                     <Flex>
-                      <InputMidi type="text" placeholder="호 입력" onChange={hosilchange}/>
+                      <InputMidi type="text" placeholder="호 입력" onChange={hosilnamechange}/>
                       <Dan>호</Dan>
                     </Flex>
                     :
@@ -142,7 +180,7 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
               </WrapBottomBox>
             </Box>
             {/*버튼 액티브 됐을때 색상 변경돼야함 // 하단 css */}
-            <NextButton onClick={nextStep}>
+            <NextButton>
             {/*<Link to="/AddPropertyBasicInfo" className="data_link"/>*/}
                 <Next type="button" onClick={()=>{updateModal();}}>다음</Next>
             </NextButton>

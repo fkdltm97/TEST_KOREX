@@ -104,7 +104,7 @@ router.post('/complexdetail_join_search',async function(request,response){
         var [match_building_rows] = await connection.query("select * from buildings where complex_id=?",[complex_id]);//건물과 해당 단지 연결된 정보 리턴. 해당 단지id에 해당하는 여러 건물들 동등 정보들 리턴한다. 나온 여러개의 bld_id에 in포함되는 조건의 floor flrid는 곧 해당 층들은 해당 bld_id건물들에 속한 floor들 의미한다.
         var match_bld_ids='';
 
-        if(match_building_rows.length > 1){
+        if(match_building_rows.length >= 1){
             for(var b=0; b<match_building_rows.length; b++){
                 if(b==match_building_rows.length -1){
                     match_bld_ids += match_building_rows[b]['bld_id'];
