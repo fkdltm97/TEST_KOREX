@@ -50,7 +50,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
 
   var week = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const [slideUp, setSlideUp] = useState([false, false, false, false, false]);
+  const [slideUp, setSlideUp] = useState([false, false, false, false, false, false]);
   
   //해당 매물 아이템에 대한 투어예약셋팅 정보로써 고유한 state로써 취급한다.
   const [except_datelist,setExcept_datelist] = useState([]);//표현에서 제외할 특정날짜리스트
@@ -60,13 +60,18 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
   const [item, setItem] = useState([]);
   const [product, setProduct] = useState([]);
   const [deal, setDeal] = useState([]);
+  const [option, setOption] = useState([]);
   const [danji, setDanji] = useState([]);
   const [desc, setDesc] = useState([[], []]);
+  const [position, setPosition] = useState({});
   const [broker, setBroker] = useState({});
+
+  const [isAddress, setIsAddress] = useState(true);
 
   const mapProduct = useSelector(state=>{ return state.mapProductEls});
 
   // **api 아이디값을 서버에 보내서 정보를 받아와야 합니다.
+  // 서버에서 받아온 데이터는 각 state의 title과 desc에 넣으면 됩니다.
   useEffect(() => {
     // console.log(mapProduct.clickExc); // 선택 아이디 
     // 슬라이드 이미지
@@ -88,7 +93,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     // 물건
     setItem([
       {title:"해당층/총층", desc:"4/20층"},
-      {title:"공급/전용면적", desc:"60/52.89m²", ChangeM:ChangeM},
+      {title:"공급/전용면적", desc:"60/52.89m²", descM:"18평", ChangeM:ChangeM},
       {title:"방/욕실 수", desc:"2/1개"},
       {title:"방향", desc:"방향"},
       {title:"현관구조", desc:"현관구조"},
@@ -102,6 +107,10 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
       {title:"계약갱신청구권행사여부 확인", desc:"확인"},
       {title:"융자금", desc:"00원"},
       {title:"기보증금/월세", desc:"-"},
+    ])
+    // 옵션
+    setOption([
+      {title:"공간", desc:"발코니"},
     ])
     // 단지/건물
     setDanji([
@@ -122,6 +131,13 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
         "2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습니다",
       ]
     ])
+    // 위치
+    setPosition({
+      address:"강남구 논현동 104-5", // 주소
+      roadAddress:"도로명 주소 --", // 도로명 주소
+      lat:"37.496463",  // 마커, 중점좌표
+      lng:"127.029358", // 마커, 중점좌표
+    })
     // 중개사 정보
     setBroker({
       tag_1:"아파트·현대아이리스",
@@ -291,10 +307,17 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     
   },[]);
 
+  // 리스트 토글
   const onCLickBox = (index) => {
     let arr = slideUp;
     arr[index] = !arr[index];
     setSlideUp([...arr]);
+  }
+
+  // 하트 버튼
+  const onClickLike = (e) => {
+    // true 활성화, false 비활성화
+    // console.log(e.target.checked)
   }
 
     return (
@@ -354,7 +377,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
         {/* 아파트 정보 */}
         <TopMainInfoBox>
           <LikeBox>
-            <CheckBox type="checkbox" name="" id="Like"/>
+            <CheckBox type="checkbox" onClick={(e) => onClickLike(e)} name="" id="Like"/>
             <CheckLabel for="Like"/>
           </LikeBox>
           <Number>등록번호 {product.number}</Number>
@@ -390,7 +413,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                 {
                   item.map((item, index) => {
                     return(
-                      <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                      <ListEl key={index} title={item.title} desc={item.desc} descM={item.descM&&item.descM} ChangeM={item.ChangeM && item.ChangeM}/>
                     )
                   })
                 }
@@ -428,29 +451,37 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
               <Text>접기</Text>
             </ToggleOpenClose>
           </WrapTradeInfo>
+          
           {/*옵션*/}
-          {/*
-            <WrapOptionInfo>
-              <TitleBox>
-                <Title>옵션</Title>
-                <ArrowImg src={Arrow}/>
-              </TitleBox>
+          <WrapOptionInfo>
+            <TitleBox onClick={()=>onCLickBox(2)}>
+              <Title>옵션</Title>
+              {slideUp[2]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
+            </TitleBox>
+            {
+              slideUp[2] ?
               <ItemInfoList>
-                <Li>
-                  <SubTitle>공간</SubTitle>
-                  <SubDesc>발코니</SubDesc>
-                </Li>
+                {
+                  option.map((item, index) => {
+                    return(
+                      <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                    )
+                  })
+                }
               </ItemInfoList>
-            </WrapOptionInfo>
-          */}
+              :
+              null
+            }
+          </WrapOptionInfo>
+         
           {/*매물설명*/}
           <WrapOptionInfo>
-              <TitleBox onClick={()=>onCLickBox(2)}>
+              <TitleBox onClick={()=>onCLickBox(3)}>
                 <Title>매물설명</Title>
-                {slideUp[2]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
+                {slideUp[3]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
               </TitleBox>
               {
-                slideUp[2] ?
+                slideUp[3] ?
                 <ItemInfoList>
                   <Li>
                     <TextArea>
@@ -480,52 +511,57 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
             </WrapOptionInfo>
           {/*단지&건물*/}
           <WrapTradeInfo>
-              <TitleBox  onClick={()=>onCLickBox(3)}>
-                <Title>단지/건물</Title>
-                {slideUp[3]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
-              </TitleBox>
-              
-              {
-                slideUp[3]?
-                <ItemInfoList>
-                  {
-                    danji.map((item, index) => {
-                      return(
-                        <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
-                      )
-                    })
-                  }
-                </ItemInfoList>
-                :
-                null
-              }
-            </WrapTradeInfo>
+            <TitleBox  onClick={()=>onCLickBox(4)}>
+              <Title>단지/건물</Title>
+              {slideUp[4]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
+            </TitleBox>
+            
+            {
+              slideUp[4]?
+              <ItemInfoList>
+                {
+                  danji.map((item, index) => {
+                    return(
+                      <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                    )
+                  })
+                }
+              </ItemInfoList>
+              :
+              null
+            }
+          </WrapTradeInfo>
           {/*위치*/}
           <WrapTradeInfo>
-              <TitleBox onClick={()=>onCLickBox(4)}>
-                <Title>위치</Title>
-                {slideUp[4]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
-              </TitleBox>
-              {
-                slideUp[4]?
-                <>
-                  <ItemInfoList>
-                    <Li>
-                      <MapAddress>강남구 논현동 104-5</MapAddress>
-                      <ChangeAddress>
-                        <ChangeImg src={Change}/>
-                        <ChangeTxt>도로명</ChangeTxt>
-                      </ChangeAddress>
-                    </Li>
-                  </ItemInfoList>
+            <TitleBox onClick={()=>onCLickBox(5)}>
+              <Title>위치</Title>
+              {slideUp[5]?<ArrowImg src={Arrow}/>:<ArrowImgDown src={Arrow}/>}
+            </TitleBox>
+            {
+              slideUp[5]?
+              <>
+                <ItemInfoList>
+                  <Li>
+                    <MapAddress>{isAddress?position.address:position.roadAddress}</MapAddress>
+                    <ChangeAddress onClick={() => setIsAddress(!isAddress) }>
+                      <ChangeImg src={Change}/>
+                      <ChangeTxt>도로명</ChangeTxt>
+                    </ChangeAddress>
+                  </Li>
+                </ItemInfoList>
+                { 
+                  Object.keys(position).length === 0?
+                  <></>
+                  :
                   <MapArea>
-                    <KakaoMapSide cutomImg={sideMapMarker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
+                    <KakaoMapSide cutomImg={sideMapMarker} centerLat={position.lat} centerLng={position.lng} markerLat={position.lat} markerLng={position.lng}/>
                   </MapArea>
-                </>
-                :
-                null  
-              }
-            </WrapTradeInfo>
+                }
+              </>
+              :
+              null  
+            }
+          </WrapTradeInfo>
         </WrapAllInfos>
         
         <BrokerDetail broker={broker}/>

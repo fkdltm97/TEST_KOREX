@@ -1,5 +1,5 @@
 //react
-import React, { useMemo, useRef, useState } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {Link} from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
@@ -27,12 +27,12 @@ import AddressSearchApi from '../common/addressSearchApi';
 
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
-  const selectRef = useRef();
+  const [currentTab, setCurrentTab] = useState("apart");
 
   const [addressApi,setAddressApi] = useState(false);
   const [search_address,setSearch_address] = useState('');
 
-    const onClickSearch = () => {
+    /*const onClickSearch = () => {
       MapFilterRedux.updateFilterRest(initFilter);
       switch (selectRef.current.value){
         case "아파트":
@@ -51,22 +51,51 @@ export default function MainHeader({openBunyang, rank}) {
           history.push(`/map/apart`);
       }
       setAddressApi(true);
-    }
+    }*/
+  const onClickSearch = () => {
+    MapFilterRedux.updateFilterRest(initFilter);
+    history.push(`/map/${currentTab}`);
+  }
 
-    return (
-        <Container>
-          <WrapHeader>
-          <PC>
+  const headerLogo = (isPc) => {
+    return(
+      <HederLogo>
+        <Link to="/">
+          <LogoImg src={isPc?PCLogo:Logo}/>
+        </Link>
+        <HeaderSearch>
+          <SearchSelect onChange={(e) => setCurrentTab(e.target.value)} >
+            <Option value={"apart"}>아파트</Option>
+            <Option value={"officetel"}>오피스텔</Option>
+            <Option value={"store"}>상가</Option>
+            <Option value={"office"}>사무실</Option>
+          </SearchSelect>
+          <Line/>
+          <SearchInput type="search" name=""/>
+          <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
+        </HeaderSearch>
+      </HederLogo>
+    )
+  }
+
+  return (
+    <Container>
+      <WrapHeader>
+        <PC>
+          {/* -- 수정코드입니다. */}
+          {headerLogo(true)}
+          {/* -- 원래 코드입니다. */}
+          {/*
             <HederLogo>
                 <Link to="/">
                   <LogoImg src={PCLogo}/>
                 </Link>
                 <HeaderSearch>
-                  <SearchSelect ref={selectRef} >
-                    <Option>아파트</Option>
-                    <Option>오피스텔</Option>
-                    <Option>상가</Option>
-                    <Option>사무실</Option>
+                  <SearchSelect onChange={(e) => setCurrentTab(e.target.value)}>
+                    <Option value={"apart"}>아파트</Option>
+                    <Option value={"officetel"}>오피스텔</Option>
+                    <Option value={"store"}>상가</Option>
+                    <Option value={"office"}>사무실</Option>
                   </SearchSelect>
                   <Line/>
                   <SearchInput type="search" name=""/>
@@ -111,11 +140,49 @@ export default function MainHeader({openBunyang, rank}) {
               <HeaderRight>
                 <Link to="/Mypage">
                   <MyImg src={Mypage}/>
+          */}
+
+          <HeaderRight>
+            <Link onClick={()=>{openBunyang(true)}}>
+              <Bunyang>분양</Bunyang>
+            </Link>
+            <Link to="/Mypage">
+              <MyImg src={Mypage}/>
+            </Link>
+          </HeaderRight>
+        </PC>
+
+        <Mobile>
+          {/* -- 수정코드입니다. */}
+          {headerLogo(false)}
+          {/* -- 원래 코드입니다. */}
+          {/*
+            <HederLogo>
+                <Link to="/">
+                  <LogoImg src={Logo}/>
                 </Link>
-              </HeaderRight>
-            </Mobile>
-          </WrapHeader>
-        </Container>
+                <HeaderSearch>
+                  <SearchSelect onChange={(e) => setCurrentTab(e.target.value)}>
+                    <Option value={"apart"}>아파트</Option>
+                    <Option value={"officetel"}>오피스텔</Option>
+                    <Option value={"store"}>상가</Option>
+                    <Option value={"office"}>사무실</Option>
+                  </SearchSelect> 
+                  <Line/>
+                  <SearchInput type="search" name=""/>
+                  <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
+                </HeaderSearch>
+            </HederLogo>
+          */}
+
+          <HeaderRight>
+            <Link to="/Mypage">
+              <MyImg src={Mypage}/>
+            </Link>
+          </HeaderRight>
+        </Mobile>
+      </WrapHeader>
+    </Container>
   );
 }
 

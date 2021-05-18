@@ -55,44 +55,50 @@ export default function Join() {
   const history = useHistory();
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submitnone:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
 
+  const [cate, setCate] = useState([0, 0, 0, 0])
 
   //여기 두개가 핵심이에여
-    //모달 끄는 식
-      const offModal = ()=>{
-        let option = JSON.parse(JSON.stringify(modalOption));
-        option.show = false;
-        setModalOption(option);
-      }
+  //모달 끄는 식
+  const offModal = ()=>{
+    let option = JSON.parse(JSON.stringify(modalOption));
+    option.show = false;
+    setModalOption(option);
+  }
+  
+  const onClickSubmit= () => {
+    // 선택한 옵션들을 서버에 보내 새로운 리스트를 받아옵니다.
+    // cate[0], cate[1], cate[2], cate[3]
+    offModal();
+  }
+  
+  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
+  const updateModal = () =>{
+    //여기가 모달 키는 거에엽
+    setModalOption({
+        show:true,
+        setShow:offModal,
+        title:"필터",
+        content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter cate={cate} setCate={setCate}/>},
+        submitnone:{show:true , title:"적용" , event : ()=>{onClickSubmit(); }},
+        cancle:{show:true , title:"초기화" , event : ()=>{offModal(); setCate([0, 0, 0, 0]); }},
+        confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
+    });
+  }
   
   
-      //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-        const updateModal = () =>{
-          //여기가 모달 키는 거에엽
-          setModalOption({
-              show:true,
-              setShow:offModal,
-              title:"필터",
-              content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
-              submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
-              cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
-              confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
-          });
-        }
-  
-  // 이 부분 오류나서 주석처리해놨습니다!
-  // useEffect( async () => {
-  //   let body_info={};
-  //   console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);
-  //   let user_info= await serverController.connectFetchController('/api/auth/islogin','GET');
-  //   console.log('user is login query>>:',user_info);
+  useEffect( async () => {
+    let body_info={};
+    console.log('propertymanagement 페이지 실행>>>>>>>>>>>>>>>>>>>>',serverController);
+    let user_info= await serverController.connectFetchController('/api/auth/islogin','GET');
+    console.log('user is login query>>:',user_info);
     
-  //   if(user_info.login_session){
+    if(user_info.login_session){
 
-  //   }else{
-  //     console.log('==========로그인안되어있음 :',history);
-  //     history.push('/');
-  //   }
-  // },[]);
+    }else{
+      console.log('==========로그인안되어있음 :',history);
+      history.push('/');
+    }
+  },[]);
 
     return (
         <>

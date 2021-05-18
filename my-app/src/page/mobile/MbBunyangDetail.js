@@ -20,24 +20,25 @@ import CommonFooter from '../../component/common/commonFooter';
 
 import { Mobile, PC } from "../../MediaQuery"
 
-export default function MainPage() {
-  //이용약관
-  const [termservice, setTermService] = useState(false);
-  const openTermService = (onOff) =>{ setTermService(onOff);}
+export default function MainPage({status}) {
+  // //이용약관
+  // const [termservice, setTermService] = useState(false);
+  // const openTermService = (onOff) =>{ setTermService(onOff);}
 
-  //개인정보처리방침
-  const [termprivacy, setTermPrivacy] = useState(false);
-  const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
+  // //개인정보처리방침
+  // const [termprivacy, setTermPrivacy] = useState(false);
+  // const openTermPrivacy = (onOff) =>{ setTermPrivacy(onOff);}
 
-  //위치기반서비스 이용약관
-  const [termlocation, setTermLocation] = useState(false);
-  const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
+  // //위치기반서비스 이용약관
+  // const [termlocation, setTermLocation] = useState(false);
+  // const openTermLocation = (onOff) =>{ setTermLocation(onOff);}
 
   //라이브 시청 모달
   const [live, setLive] = useState(false);
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
+
   return (
     <>
           <MainHeader rank={true}/>
@@ -46,7 +47,7 @@ export default function MainPage() {
             <LiveModal live={live} setLive={setLive}/>
             <ModalCalendar cal={cal} setCal={setCal}/>
             <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
-            <MbBunyangView setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
+            <MbBunyangView status={status} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
           </Container>
           <CommonFooter/>
           {/* <TermService termservice={termservice} openTermService={openTermService}/>

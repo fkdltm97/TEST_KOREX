@@ -58,9 +58,9 @@ export default function SideItemDetail({list, danjiDesc, typeIndex, setTypeIndex
                   </DivTitle>
                   
                   {
-                    list.map((value) => {
+                    list.map((value, index) => {
                       return(
-                        <DivCont>
+                        <DivCont key={index}>
                           <Divv>{value.date}</Divv>
                           <Divv>{value.trade}</Divv>
                           <Divv>{value.price}</Divv>

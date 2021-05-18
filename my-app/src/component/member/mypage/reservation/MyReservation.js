@@ -25,49 +25,49 @@ import ReserveListPage from "./ReserveList";
 
 import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
 
-  /*data map*/
-  const ReserveListItem =[
-    {
-      reserve_id : 0,
-      src:Item,
-      path:"/",
-      condition:"오늘",
-      number:"1234567889",
-      address:"충남내포신도시2차대방엘리움더센트럴",
-      locaImg:Location,
-      date:"2020.01.01 (월)",
-      time:"오전1T (09:00-12:00)",
-      type:"today"
-    },
-    {
-      reserve_id : 1,
-      src:Item,
-      path:"/",
-      condition:"2일후",
-      number:"1234567889",
-      address:"충남내포신도시2차대방엘리움더센트럴",
-      locaImg:Location,
-      date:"2020.01.01 (월)",
-      time:"오전1T (09:00-12:00)",
-      type:"days"
-    },
-    {
-      reserve_id : 2,
-      src:Item,
-      path:"/",
-      condition:"예약취소",
-      number:"1234567889",
-      address:"충남내포신도시2차대방엘리움더센트럴",
-      locaImg:Location,
-      date:"2020.01.01 (월)",
-      time:"오전1T (09:00-12:00)",
-      type:"cancel"
-    }
+/*data map*/
+const ReserveListItem =[
+  {
+    reserve_id : 0,
+    src:Item,
+    path:"/",
+    condition:"오늘",
+    number:"1234567889",
+    address:"충남내포신도시2차대방엘리움더센트럴",
+    locaImg:Location,
+    date:"2020.01.01 (월)",
+    time:"오전1T (09:00-12:00)",
+    type:"today"
+  },
+  {
+    reserve_id : 1,
+    src:Item,
+    path:"/",
+    condition:"2일후",
+    number:"1234567889",
+    address:"충남내포신도시2차대방엘리움더센트럴",
+    locaImg:Location,
+    date:"2020.01.01 (월)",
+    time:"오전1T (09:00-12:00)",
+    type:"days"
+  },
+  {
+    reserve_id : 2,
+    src:Item,
+    path:"/",
+    condition:"예약취소",
+    number:"1234567889",
+    address:"충남내포신도시2차대방엘리움더센트럴",
+    locaImg:Location,
+    date:"2020.01.01 (월)",
+    time:"오전1T (09:00-12:00)",
+    type:"cancel"
+  }
 ]
 
-export default function Reserve({setMap,setFilter,setReserve, value, type, type2, updateModal,updateMapModal,updateReserveModal}) {
+export default function Reserve({setMap,setFilter,setReserve, value, type, type2, updateModal,updateMapModal,updateReserveModal, listData}) {
 
-  //... 눌렀을때(메뉴)
+  //... 눌렀을때(메뉴)  
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
     setMenu(!menu);
@@ -101,7 +101,7 @@ export default function Reserve({setMap,setFilter,setReserve, value, type, type2
 
             <ReserveList>
               {
-              ReserveListItem.map((value) => {
+              listData.map((value) => {
                 const type=()=>{
                   if(value.type == "today") {
                     return "#fe7a01"
