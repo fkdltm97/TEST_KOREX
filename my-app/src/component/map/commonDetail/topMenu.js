@@ -14,6 +14,7 @@ import { Mobile, PC } from "../../../MediaQuery";
 export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, typeStatus, length}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [select,setSelect] = useState(false);
+    const filterText = ["최신등록순", "높은가격순", "낮은가격순", "넓은면적순", "좁은면적순", "가나다순"];
 
     const showModal =()=>{
       setSelect(!select);
@@ -27,8 +28,23 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
         }
     }
 
+    
     const onClickEls = (e) => {
         console.log(e.target.dataset.num);
+    }
+
+    const filterList = (item, index) => {
+      return(
+        <Div>
+          <Link onClick={(e) => onClickEls(e)} data-num={index} className="data_link"></Link>
+          <InDiv>{item}</InDiv>
+        </Div>
+      )
+    }
+
+    // 모바일 필터 선택
+    const onChangeFilterMb = (e) => {
+      console.log(e.target.value);
     }
 
     return (
@@ -45,30 +61,43 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
                   {
                     select ?
                     <InMenu>
-                      <Div>
-                        <Link onClick={(e) => onClickEls(e)} data-num={0} className="data_link"></Link>
-                        <InDiv>최신등록순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link onClick={(e) => onClickEls(e)} data-num={1} className="data_link"></Link>
-                        <InDiv>높은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link onClick={(e) => onClickEls(e)} data-num={2} className="data_link"></Link>
-                        <InDiv>낮은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link onClick={(e) => onClickEls(e)} data-num={3} className="data_link"></Link>
-                        <InDiv>넓은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link onClick={(e) => onClickEls(e)} data-num={4} className="data_link"></Link>
-                        <InDiv>좁은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link onClick={(e) => onClickEls(e)} data-num={5} className="data_link"></Link>
-                        <InDiv>가나다순</InDiv>
-                      </Div>
+                      {/* -- 수정 코드입니다. */}
+                      {
+                        filterText.map((item, index) => {
+                          return(
+                            <>
+                              {filterList(item, index)}
+                            </>
+                          )
+                        })
+                      }
+                      {/* -- 원래코드입니다. */}
+                      {/*
+                        <Div>
+                          <Link onClick={(e) => onClickEls(e)} data-num={0} className="data_link"></Link>
+                          <InDiv>최신등록순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link onClick={(e) => onClickEls(e)} data-num={1} className="data_link"></Link>
+                          <InDiv>높은가격순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link onClick={(e) => onClickEls(e)} data-num={2} className="data_link"></Link>
+                          <InDiv>낮은가격순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link onClick={(e) => onClickEls(e)} data-num={3} className="data_link"></Link>
+                          <InDiv>넓은면적순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link onClick={(e) => onClickEls(e)} data-num={4} className="data_link"></Link>
+                          <InDiv>좁은면적순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link onClick={(e) => onClickEls(e)} data-num={5} className="data_link"></Link>
+                          <InDiv>가나다순</InDiv>
+                        </Div>
+                      */}
                     </InMenu>
                     :
                     null
@@ -79,14 +108,26 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             {/* 퍼블리싱 -> 선택창이 안보입니다! */}
             <Mobile>
               <ViewBtn>
-                <SelectMb>
+                <SelectMb onChange={e => onChangeFilterMb(e)}>
+                  {/* 모바일부분 아이콘이랑 글자겹치는거 수정해야합니다. */}
+                  {/* -- 수정코드입니다. */}
                   <Option selected disabled></Option>
-                  <Option>최신등록순</Option>
-                  <Option>높은가격순</Option>
-                  <Option>낮은가격순</Option>
-                  <Option>넓은면적순</Option>
-                  <Option>좁은면적순</Option>
-                  <Option>가나다순</Option>
+                  {
+                    filterText.map((item, index) => {
+                      return(<Option key={index}>{item}</Option>)
+                    })
+                  }
+
+                  {/* -- 원래 코드입니다. */}
+                  {/*
+                    <Option selected disabled></Option>
+                    <Option>최신등록순</Option>
+                    <Option>높은가격순</Option>
+                    <Option>낮은가격순</Option>
+                    <Option>넓은면적순</Option>
+                    <Option>좁은면적순</Option>
+                    <Option>가나다순</Option>
+                  */}
                 </SelectMb>
               </ViewBtn>
             </Mobile>

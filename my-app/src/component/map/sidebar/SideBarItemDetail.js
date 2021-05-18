@@ -93,7 +93,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     // 물건
     setItem([
       {title:"해당층/총층", desc:"4/20층"},
-      {title:"공급/전용면적", desc:"60/52.89m²", ChangeM:ChangeM},
+      {title:"공급/전용면적", desc:"60/52.89m²", descM:"18평", ChangeM:ChangeM},
       {title:"방/욕실 수", desc:"2/1개"},
       {title:"방향", desc:"방향"},
       {title:"현관구조", desc:"현관구조"},
@@ -307,14 +307,17 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     
   },[]);
 
+  // 리스트 토글
   const onCLickBox = (index) => {
     let arr = slideUp;
     arr[index] = !arr[index];
     setSlideUp([...arr]);
   }
 
-  const onClickChangeAdd = () => {
-    setIsAddress(!isAddress);
+  // 하트 버튼
+  const onClickLike = (e) => {
+    // true 활성화, false 비활성화
+    // console.log(e.target.checked)
   }
 
     return (
@@ -374,7 +377,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
         {/* 아파트 정보 */}
         <TopMainInfoBox>
           <LikeBox>
-            <CheckBox type="checkbox" name="" id="Like"/>
+            <CheckBox type="checkbox" onClick={(e) => onClickLike(e)} name="" id="Like"/>
             <CheckLabel for="Like"/>
           </LikeBox>
           <Number>등록번호 {product.number}</Number>
@@ -410,7 +413,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                 {
                   item.map((item, index) => {
                     return(
-                      <ListEl key={index} title={item.title} desc={item.desc} ChangeM={item.ChangeM && item.ChangeM}/>
+                      <ListEl key={index} title={item.title} desc={item.desc} descM={item.descM&&item.descM} ChangeM={item.ChangeM && item.ChangeM}/>
                     )
                   })
                 }
@@ -540,7 +543,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
                 <ItemInfoList>
                   <Li>
                     <MapAddress>{isAddress?position.address:position.roadAddress}</MapAddress>
-                    <ChangeAddress onClick={() => onClickChangeAdd()}>
+                    <ChangeAddress onClick={() => setIsAddress(!isAddress) }>
                       <ChangeImg src={Change}/>
                       <ChangeTxt>도로명</ChangeTxt>
                     </ChangeAddress>

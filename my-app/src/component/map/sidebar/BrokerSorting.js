@@ -38,6 +38,7 @@ import ItemTabContent from "./tabcontent/ItemTabContent";
 //swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
+import { isCompositeComponent } from 'react-dom/test-utils';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -138,21 +139,55 @@ const ItemListItem =[
 
 export default function BrokerSortingh() {
   const [select,setSelect] = useState(false);
+  const filterText = ["최신등록순", "높은가격순", "낮은가격순", "넓은면적순", "좁은면적순", "가나다순"];
+  
   const showModal =()=>{
     setSelect(!select);
   }
-    return (
+
+  // 물건 종류
+  const onChangeSort = (e) => {
+    // console.log(e.target.value)
+  }
+
+  // 거래유형
+  const onChangeType = (e) => {
+    // console.log(e.target.value)
+  }
+
+  // 필터 리스트 El
+  const filterEl = (text, index) => {
+    return(
+      <Div onClick={() => onClickFilterPc(index)}>
+        <Link className="data_link"></Link>
+        <InDiv>{text}</InDiv>
+      </Div>
+    )
+  }
+
+  // PC 필터 선택
+  const onClickFilterPc = (index) => {
+    // console.log(index);
+  }
+
+  // 모바일 필터 선택
+  const onChangeFilterMb = (e) => {
+    // console.log(e.target.value);
+  }
+
+  
+  return (
         <Container>
             <Wrap>
               <WrapSelect>
-                <Select>
+                <Select onChange={e => onChangeSort(e)}>
                   <Option selected disabled>전체 - 물건종류</Option>
                   <Option>아파트</Option>
                   <Option>오피스텔</Option>
                   <Option>상가</Option>
                   <Option>사무실</Option>
                 </Select>
-                <Select>
+                <Select onChange={e => onChangeType(e)}>
                   <Option selected disabled>전체 - 거래유형</Option>
                   <Option>매매</Option>
                   <Option>전세</Option>
@@ -161,35 +196,48 @@ export default function BrokerSortingh() {
               </WrapSelect>
             <PC>
               <Sorting>
-                <Link onClick={showModal}>
+                <Link onClick={() => setSelect(!select)}>
                 <Img src={View}/>
                   {
                     select ?
                     <InMenu>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>최신등록순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>높은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>낮은가격순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>넓은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>좁은면적순</InDiv>
-                      </Div>
-                      <Div>
-                        <Link className="data_link"></Link>
-                        <InDiv>가나다순</InDiv>
-                      </Div>
+                      {/* -- 수정코드입니다. */}
+                      {
+                        filterText.map((item, index) => {
+                          return(
+                            <>
+                              {filterEl(item, index)}
+                            </>
+                          )
+                        })
+                      }
+                      {/* -- 원래 코드입니다. */}
+                      {/*
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>최신등록순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>높은가격순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>낮은가격순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>넓은면적순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>좁은면적순</InDiv>
+                        </Div>
+                        <Div>
+                          <Link className="data_link"></Link>
+                          <InDiv>가나다순</InDiv>
+                        </Div>
+                      */}
                     </InMenu>
                     :
                     null
@@ -199,16 +247,31 @@ export default function BrokerSortingh() {
                   </Link>
               </Sorting>
           </PC>
-          <Mobile>{/*mobile일때는 select박스로 나올수 있도록 변경...*/}
+          <Mobile>
+            {/*
+              mobile일때는 select박스로 나올수 있도록 변경...
+              -> 옵션 선택 시 배경과 선택한 텍스트가 겹치는 현상이 있습니다.
+            */}
             <SortingMb>
-              <SelectMb>
+              <SelectMb onChange={e => onChangeFilterMb(e)}>
+                {/* -- 수정코드입니다. */}
                 <Option selected disabled></Option>
-                <Option>최신등록순</Option>
-                <Option>높은가격순</Option>
-                <Option>낮은가격순</Option>
-                <Option>넓은면적순</Option>
-                <Option>좁은면적순</Option>
-                <Option>가나다순</Option>
+                {
+                  filterText.map((item, index) => {
+                    return(<Option key={index}>{item}</Option>)
+                  })
+                }
+
+                {/* -- 원래 코드입니다. */}
+                {/*
+                  <Option selected disabled></Option>
+                  <Option>최신등록순</Option>
+                  <Option>높은가격순</Option>
+                  <Option>낮은가격순</Option>
+                  <Option>넓은면적순</Option>
+                  <Option>좁은면적순</Option>
+                  <Option>가나다순</Option>
+                */}
               </SelectMb>
             </SortingMb>
           </Mobile>

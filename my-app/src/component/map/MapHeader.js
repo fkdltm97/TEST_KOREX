@@ -1,5 +1,5 @@
 //react
-import React, { useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {Link} from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
@@ -23,82 +23,101 @@ import initFilter from './initFilter';
 
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
-  const selectRef = useRef();
+  const [currentTab, setCurrentTab] = useState("apart");
 
-    const onClickSearch = () => {
-      MapFilterRedux.updateFilterRest(initFilter);
-      switch (selectRef.current.value){
-        case "아파트":
-          history.push(`/map/apart`);
-          break;
-        case "오피스텔":
-          history.push(`/map/officetel`);
-          break;
-        case "상가":
-          history.push(`/map/store`);
-          break;
-        case "사무실":
-          history.push(`/map/office`);
-          break;
-        default:
-          history.push(`/map/apart`);
-      }
-    }
+  const onClickSearch = () => {
+    MapFilterRedux.updateFilterRest(initFilter);
+    history.push(`/map/${currentTab}`);
+  }
 
-    return (
-        <Container>
-          <WrapHeader>
-          <PC>
+  const headerLogo = (isPc) => {
+    return(
+      <HederLogo>
+        <Link to="/">
+          <LogoImg src={isPc?PCLogo:Logo}/>
+        </Link>
+        <HeaderSearch>
+          <SearchSelect onChange={(e) => setCurrentTab(e.target.value)} >
+            <Option value={"apart"}>아파트</Option>
+            <Option value={"officetel"}>오피스텔</Option>
+            <Option value={"store"}>상가</Option>
+            <Option value={"office"}>사무실</Option>
+          </SearchSelect>
+          <Line/>
+          <SearchInput type="search" name=""/>
+          <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
+        </HeaderSearch>
+      </HederLogo>
+    )
+  }
+
+  return (
+    <Container>
+      <WrapHeader>
+        <PC>
+          {/* -- 수정코드입니다. */}
+          {headerLogo(true)}
+          {/* -- 원래 코드입니다. */}
+          {/*
             <HederLogo>
                 <Link to="/">
                   <LogoImg src={PCLogo}/>
                 </Link>
                 <HeaderSearch>
-                  <SearchSelect ref={selectRef} >
-                    <Option>아파트</Option>
-                    <Option>오피스텔</Option>
-                    <Option>상가</Option>
-                    <Option>사무실</Option>
+                  <SearchSelect onChange={(e) => setCurrentTab(e.target.value)}>
+                    <Option value={"apart"}>아파트</Option>
+                    <Option value={"officetel"}>오피스텔</Option>
+                    <Option value={"store"}>상가</Option>
+                    <Option value={"office"}>사무실</Option>
                   </SearchSelect>
                   <Line/>
                   <SearchInput type="search" name=""/>
                   <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
                 </HeaderSearch>
             </HederLogo>
-            <HeaderRight>
-              <Link onClick={()=>{openBunyang(true)}}>
-                <Bunyang>분양</Bunyang>
-              </Link>
-              <Link to="/Mypage">
-                <MyImg src={Mypage}/>
-              </Link>
-            </HeaderRight>
-            </PC>
-            <Mobile>
-              <HederLogo>
-                  <Link to="/">
-                    <LogoImg src={Logo}/>
-                  </Link>
-                  <HeaderSearch>
-                    <SearchSelect>
-                      <Option>아파트</Option>
-                      <Option>오피스텔</Option>
-                      <Option>상가</Option>
-                      <Option>사무실</Option>
-                    </SearchSelect>
-                    <Line/>
-                    <SearchInput type="search" name=""/>
-                    <SearchBtn type="submit" name=""/>
-                  </HeaderSearch>
-              </HederLogo>
-              <HeaderRight>
-                <Link to="/Mypage">
-                  <MyImg src={Mypage}/>
+          */}
+
+          <HeaderRight>
+            <Link onClick={()=>{openBunyang(true)}}>
+              <Bunyang>분양</Bunyang>
+            </Link>
+            <Link to="/Mypage">
+              <MyImg src={Mypage}/>
+            </Link>
+          </HeaderRight>
+        </PC>
+
+        <Mobile>
+          {/* -- 수정코드입니다. */}
+          {headerLogo(false)}
+          {/* -- 원래 코드입니다. */}
+          {/*
+            <HederLogo>
+                <Link to="/">
+                  <LogoImg src={Logo}/>
                 </Link>
-              </HeaderRight>
-            </Mobile>
-          </WrapHeader>
-        </Container>
+                <HeaderSearch>
+                  <SearchSelect onChange={(e) => setCurrentTab(e.target.value)}>
+                    <Option value={"apart"}>아파트</Option>
+                    <Option value={"officetel"}>오피스텔</Option>
+                    <Option value={"store"}>상가</Option>
+                    <Option value={"office"}>사무실</Option>
+                  </SearchSelect> 
+                  <Line/>
+                  <SearchInput type="search" name=""/>
+                  <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
+                </HeaderSearch>
+            </HederLogo>
+          */}
+
+          <HeaderRight>
+            <Link to="/Mypage">
+              <MyImg src={Mypage}/>
+            </Link>
+          </HeaderRight>
+        </Mobile>
+      </WrapHeader>
+    </Container>
   );
 }
 

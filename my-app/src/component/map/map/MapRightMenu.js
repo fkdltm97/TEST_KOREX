@@ -72,6 +72,7 @@ export default function MainHeader({containerRef}) {
       }
 
       if(e.target.id == "blockBuild"){
+        setIsFilter(false);
         MapRight.updateExclusive({  isExclusive: {is:false} });
         MapRight.updateBlock({  isBlock: {is:true} });
         excRef.current.checked = false;
