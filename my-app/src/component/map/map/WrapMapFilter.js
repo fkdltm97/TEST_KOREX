@@ -159,7 +159,7 @@ export default function MapFilter({status}) {
     )
   }
 
-  // 옵션
+  // 옵션 -- 사용 x 
   const optionText = () => {
     const data = mapFilterRedux.filterArr.life_facilites;
     let text = "";
@@ -199,6 +199,21 @@ export default function MapFilter({status}) {
           <FliterEa>
             {text}
             <CloseFilter data-type="room" className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
+          </FliterEa>
+        </Link>
+      </SlickSlide>
+    )
+  }
+
+  const filterRange = (bool, bool_2, data, scrollPos, dataType) => {
+    if(bool){return;}
+    if(bool_2){return};
+    return(
+      <SlickSlide className="slide__one" onClick={()=>scrollToClick(scrollPos)}>
+        <Link>
+          <FliterEa>
+            {data}
+            <CloseFilter data-type={dataType} className="changeBtn" onClick={(e) => {onClickClose(e)}}/>
           </FliterEa>
         </Link>
       </SlickSlide>
@@ -335,13 +350,20 @@ export default function MapFilter({status}) {
                 </FliterEa>
               </Link>
             </SlickSlide>
-
             {/* 공통 */}
-            {priceRangeText()}
-            {jeonseRangeText()}
-            {monthlyRangeText()}
-            {manaRangeText()}
-            {areaRangeText()}
+            {filterRange(uiData.prd_sel_type[0] == 0, uiData.priceRangeValue[0] == 0 && uiData.priceRangeValue[1] == 100, mapFilterRedux.filterArr.priceRange, "priceWrap", "priceRange")}
+            {filterRange(uiData.prd_sel_type[1] == 0 && uiData.prd_sel_type[2] == 0,uiData.jeonseRangeValue[0] == 0 && uiData.jeonseRangeValue[1] == 30, mapFilterRedux.filterArr.jeonseRange, "jeonseWrap", "jeonseRange")}
+            {filterRange(uiData.prd_sel_type[2] == 0,uiData.monthlyRangeValue[0] == 0 && uiData.monthlyRangeValue[1] == 18, mapFilterRedux.filterArr.monthlyRange, "monthlyWrap", "monthlyRange")}
+            {filterRange(uiData.manaRangeValue[0] == 0 && uiData.manaRangeValue[1] == 75,false, mapFilterRedux.filterArr.manaRange, "manaWrap", "manaRange")}
+            {filterRange(uiData.areaRangeValue[0] == 0 && uiData.areaRangeValue[1] == 100,false, mapFilterRedux.filterArr.areaRange, "areaWrap", "areaRange")}
+              {/*
+                {priceRangeText()}
+                {jeonseRangeText()}
+                {monthlyRangeText()}
+                {manaRangeText()}
+                {areaRangeText()}
+              */}
+           
 
             {filterText(Number(uiData.floor), mapFilterRedux.filterArr.floor, "floor", "floorWrap")}
             {filterText(uiData.manaStatus, "관리비없음", "manaBtn", "manaWrap")}
@@ -376,7 +398,7 @@ export default function MapFilter({status}) {
           <FilterList ref={filterListRef} className={["filterList", "hidden"]}>
               <FilterTopButton/>
               {/*<ApartFilter/>*/}
-              {/*<OfficetelFilter/>*/}
+              {/* <OfficetelFilter/> */}
               <StoreAndOfficeFilter status={status} open={openDetail} setOpen={setOpenDetail}/>
               <FilterCloseAndReset setOpen={setOpen}/>
             </FilterList>

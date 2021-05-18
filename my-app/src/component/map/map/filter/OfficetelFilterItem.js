@@ -13,6 +13,10 @@ import Checked from '../../../../img/map/radio_chk.png';
 import ArrowTop from '../../../../img/map/arrow_top.png';
 
 // components
+import RadioCommon from './radioCommon';
+import CkboxCommon from './ckboxCommon';
+import BtnCommon from './btnCommon';
+import DetailTopCommon from './detailTopCommon';
 import { Mobile, PC } from "../../../../MediaQuery";
 
 //redux
@@ -25,6 +29,12 @@ export default function ApartFilter({open, setOpen}) {
     let uiData = JSON.parse(JSON.stringify(mapFilterRedux.filterUI));
     const detailRef = useRef();
     const [roomArr, setRoomArr] =useState(["전체", "오픈형원룸", "분리형원룸", "원룸원거실", "투룸", "쓰리룸이상"]); 
+    const radioData = {
+      purpose:["전체", "주거용", "업무용"],
+      room:["전체", "오픈형원룸", "분리형원룸", "원룸원거실", "투룸", "쓰리룸이상"],
+      double:["전체", "단층", "복층"],
+      pet:["전체", "가능", "불가"],
+    }
 
     const showOpen =()=>{
       setOpen(!open);
@@ -126,13 +136,21 @@ export default function ApartFilter({open, setOpen}) {
         <Container>
         {/*물건상세*/}
             <DetailOption>
-              <DetailTopBox onClick={showOpen}>
-                <DetailTitle>물건상세</DetailTitle>
-                <Line/>
-                <ArrowImg src={ArrowTop} rotate={rotate}/>
-              </DetailTopBox>
-                <SubDepth  ref={detailRef} className={["optionList", "hidden"]}> 
-                  {/* 용도 */}
+              <DetailTopCommon onClick={showOpen} open={open}/>
+              {/*
+                <DetailTopBox onClick={showOpen}>
+                  <DetailTitle>물건상세</DetailTitle>
+                  <Line/>
+                  <ArrowImg src={ArrowTop} rotate={rotate}/>
+                </DetailTopBox>
+              */}
+              <SubDepth  ref={detailRef} className={["optionList", "hidden"]}>
+                <RadioCommon noBorder boxId="purposeWrap" title="용도" checked={uiData.purpose} onChange={onClickPurpose} name="purpose" array={radioData.purpose}/> 
+                <CkboxCommon boxId="roomWrap" title="방구조" checked={uiData.roomOfficetel} onChange={onClickRoom} name="room" array={radioData.room}/>   
+                <RadioCommon boxId="doubleWrap" title="복층여부" checked={uiData.double} onChange={onClickDouble} name="double" array={radioData.double}/> 
+                <BtnCommon boxId="parkWrap" title="주차" checked={uiData.parkOfficetel} dataText="주차가능" onChange={onClickSwitch} id="switch1" text="주차가능한곳만 보기"/>
+                <RadioCommon boxId="petWrap" title="반려동물" checked={uiData.pet} onChange={onClickPet} name="pet" array={radioData.pet}/> 
+                {/*
                   <BoxNoneBorder id="purposeWrap">
                     <SubTitle>용도</SubTitle>
                     <WrapFilter>
@@ -161,7 +179,7 @@ export default function ApartFilter({open, setOpen}) {
                       </WrapRadio>
                     </WrapFilter>
                   </BoxNoneBorder>
-                  {/*방구조*/}
+
                   <Box id="roomWrap">
                     <SubTitle>방구조</SubTitle>
                     <WrapFilter>
@@ -210,8 +228,10 @@ export default function ApartFilter({open, setOpen}) {
                         </RadioBox>
                       </WrapRadio>
                     </WrapFilter>
-                  </Box>                
-                  {/*복층여부*/}
+                  </Box>
+                
+
+                
                   <Box id="doubleWrap">
                     <SubTitle>복층여부</SubTitle>
                     <WrapFilter>
@@ -239,23 +259,22 @@ export default function ApartFilter({open, setOpen}) {
                         </RadioBox>
                       </WrapRadio>
                     </WrapFilter>
-                  </Box>
-                  
-                  {/*주차*/}
+                  </Box> 
+
                   <Box id="parkWrap">
-                  <SubTitle>주차</SubTitle>
-                  <WrapFilter>
-                    <SwitchButton>
-                      <Switch className="changeBtn" checked={uiData.parkOfficetel} type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
-                      <SwitchLabel for="switch1">
-                        <SwitchSpan/>
-                      </SwitchLabel>
-                      <Span>주차가능한곳만 보기</Span>
-                    </SwitchButton>
+                    <SubTitle>주차</SubTitle>
+                    <WrapFilter>
+                      <SwitchButton>
+                        <Switch className="changeBtn" checked={uiData.parkOfficetel} type="checkbox" data-text="주차가능" onChange={(e) =>{ onClickSwitch(e) }} id="switch1"/>
+                        <SwitchLabel for="switch1">
+                          <SwitchSpan/>
+                        </SwitchLabel>
+                        <Span>주차가능한곳만 보기</Span>
+                      </SwitchButton>
                     </WrapFilter>
                   </Box>
                   
-                  {/*반려동물*/}
+
                   <Box id="petWrap">
                     <SubTitle>반려동물</SubTitle>
                     <WrapFilter>
@@ -284,9 +303,11 @@ export default function ApartFilter({open, setOpen}) {
                     </WrapRadio>
                   </WrapFilter>
                   </Box>
+                */}
                   
-                  {/*옵션*/}
-                  {/* <Box id="optionWrap">
+                {/*옵션*/}
+                {/*
+                  <Box id="optionWrap">
                     <SubTitle>옵션</SubTitle>
                     <WrapFilter>
                       <WrapRadio>
@@ -334,8 +355,9 @@ export default function ApartFilter({open, setOpen}) {
                         </RadioBox>
                       </WrapRadio>
                     </WrapFilter>
-                  </Box> */}
-                </SubDepth>
+                  </Box>
+                */}
+              </SubDepth>
             </DetailOption>{/*물건상세 끝*/}
         </Container>
   );
