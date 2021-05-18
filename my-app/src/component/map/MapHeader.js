@@ -1,5 +1,5 @@
 //react
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {Link} from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
@@ -12,6 +12,7 @@ import PCLogo from '../../img/main/pc_header_logo.png';
 import Mypage from '../../img/main/mypage_icon.png';
 import Arrow from '../../img/map/arrow_down.png';
 import Search from '../../img/map/search.png';
+import Close from '../../img/main/modal_close.png';
 
 // components
 import { Mobile, PC } from "../../MediaQuery";
@@ -21,9 +22,15 @@ import { MapFilterRedux } from '../../store/actionCreators';
 // Init
 import initFilter from './initFilter';
 
+//범용 주소 검색 api
+import AddressSearchApi from '../common/addressSearchApi';
+
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
   const selectRef = useRef();
+
+  const [addressApi,setAddressApi] = useState(false);
+  const [search_address,setSearch_address] = useState('');
 
     const onClickSearch = () => {
       MapFilterRedux.updateFilterRest(initFilter);
@@ -43,6 +50,7 @@ export default function MainHeader({openBunyang, rank}) {
         default:
           history.push(`/map/apart`);
       }
+      setAddressApi(true);
     }
 
     return (
@@ -65,6 +73,15 @@ export default function MainHeader({openBunyang, rank}) {
                   <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
                 </HeaderSearch>
             </HederLogo>
+            {
+              addressApi ?
+              <AddressApi>
+                 <CloseImg src={Close} onClick={() => setAddressApi(false)}/>
+                 <AddressSearchApi setSearch_address={setSearch_address} setAddressApi={setAddressApi}/>
+              </AddressApi>
+              :
+              null
+            }
             <HeaderRight>
               <Link onClick={()=>{openBunyang(true)}}>
                 <Bunyang>분양</Bunyang>
@@ -115,6 +132,19 @@ const Container = styled.header`
           z-index:3;
       }
 `
+const AddressApi = styled.div`
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:450px;height:auto;z-index:2;
+  border:1px solid #eee;
+  background:#fff;
+  padding:70px 10px 0;
+`
+const CloseImg = styled.img`
+  position:Absolute;top:20px;right:10px;
+  width:18px;
+  cursor:pointer;
+`
+
 const WrapHeader = styled.div`
     display:flex;
     justify-content:space-between;

@@ -9,6 +9,7 @@ import * as mapRight from './modules/mapRight';
 import * as temp_tourReservsettingAction from './modules/temp_tourReservsetting';
 import * as mapFilter from './modules/mapfilter';
 import * as mapProductEls from './modules/mapProductEls';
+import * as temp_selectComplexinfo from './modules/temp_selectComplexinfo';
 
 import store from './index';
 
@@ -24,3 +25,4 @@ export const MapRight = bindActionCreators(mapRight, dispatch);
 export const temp_tourReservsettingActions = bindActionCreators(temp_tourReservsettingAction,dispatch);
 export const MapFilterRedux = bindActionCreators(mapFilter, dispatch);
 export const MapProductEls = bindActionCreators(mapProductEls, dispatch);
+export const temp_SelectComplexinfo = bindActionCreators(temp_selectComplexinfo,dispatch);

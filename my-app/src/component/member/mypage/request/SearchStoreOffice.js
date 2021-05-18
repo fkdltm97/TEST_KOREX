@@ -22,28 +22,37 @@ import SearchStoreOfficeApi from './SearchStoreOfficeApi';
 import {useSelector} from 'react-redux';
 import {tempBrokerRequestActions } from '../../../../store/actionCreators';
 
+//server request
+import serverController from '../../../../server/serverController';
+
 export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
   
   const [hosu,setHosu] = useState(false);
   const [addressApi,setAddressApi] = useState(false);
   
   //사용자 입력데이터.
-  const [search_address,setSearch_address]= useState('');//검색api에 의한 액션에 의해서만 처리되는것(사용자 직접 능동입력형태x)
-  const [floor,setFloor] = useState('');
-  const [hosil,setHosil] = useState('');
+  const [search_address,setSearch_address]= useState({});//검색api에 의한 액션에 의해서만 처리되는것(사용자 직접 능동입력형태x)
+  const [floor,setFloor] = useState('');//선택한 제공 floorid값 ..
+  const [floorname,setfloorname] = useState('');
+  const [hosilname,sethosilname] = useState('');//선택x이 아니고 입력 직접입력한 있거나 없거나 한 호값..(상가,사무실의 경우 flr_id만 있어도 된다고함.)
+  
+  //도로명 and 지번주소 검색한 관련된 flr_id매물리스트 여러개 다른종류의 다른건물의 매물들 층이 나올수있음?일단 도로명주소까지 풀로 다 검색시에는 거의 웬만해선 한 종류의 건물종류가 나오게됨(그 건물의 층flr_id들 리스트)
+  const [flooridlist,setflooridlist] = useState([]);
 
   console.log('searchStoreoffice요소 실행요소 dispay:',tempBrokerRequestActions,activeIndex);
   
-  const floorchange = (e) => {setFloor(e.target.value);}
-  const hosilchange = (e) => {setHosil(e.target.value);}
+  const floorchange = (e) => {setFloor(e.target.value.split('|')[0]); setfloorname(e.target.value.split('|')[1]);}
+  const hosilnamechange = (e) => {sethosilname(e.target.value);}
   
   const nextStep = (e) => {
-     console.log('다음단계 클릭>>>>',floor,hosil,search_address);//소재지 주소값,층수,호실값 확인
+     console.log('다음단계 클릭>>>>',floor,floorname,hosilname,search_address);//소재지 주소값,층수,호실값 확인
 
      //리덕스 저장한다.
      tempBrokerRequestActions.floorchange({floors : floor});
-     tempBrokerRequestActions.hosilchange({hosils: hosil});
-     tempBrokerRequestActions.dangiaddresschange({dangiaddresss: search_address});//단지주소(아파트,오피스텔,상가,사무실 모두 포함한다.)
+     tempBrokerRequestActions.floornamechange({floornames: floorname});
+     tempBrokerRequestActions.hosilnamechange({hosilnames: hosilname});
+     tempBrokerRequestActions.dangijibunaddresschange({dangijibunaddress: flooridlist[0]['addr_jibun']});//검색한 floor정보해당 나온 임의건물에 있는 모든 층들정보는 모두 같은 법정도,도로명주소갖고있음.
+     tempBrokerRequestActions.dangiroadaddresschange({dangiroadaddress : flooridlist[0]['addr_road']});
 
      switch(activeIndex){
       case 0:
@@ -60,6 +69,27 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
       break;
     }
   };
+
+  useEffect( async () => {
+    console.log('search_address값 변경감지:',search_address);
+    let jibun_address=search_address.jibunaddress_val;
+    let road_address=search_address.roadaddress_val;
+
+    let body_info = {
+      jibunaddress : jibun_address,
+      roadaddress: road_address
+    };
+    let res_result= await serverController.connectFetchController('/api/matterial/floorid_search_query','POST',JSON.stringify(body_info));
+    if(res_result){
+      if(res_result.result){
+        let result_var=res_result.result;
+
+        console.log('result_var::',result_var);
+
+        setflooridlist(result_var);
+      }
+    }
+  },[search_address]);//searchstoreoffcieapi에서 의해서 변하는 state값에 대해 감지하며, 도로명(지번)주소값 변경시마다 비동기 검색할수있도록 한다. 해당 주소에 대해서 검색한다.
     return (
         <Container>
           <WrapSearch>
@@ -81,14 +111,22 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
           {/*주소 검색 후에 나오는 부분*/}
               <WrapBottomBox>
                 <SearchBox>
-                  <Search type="search" value={search_address}/>
+                  <Search type="search" value={search_address.jibunaddress_val && search_address.roadaddress_val ? search_address.jibunaddress_val+'|'+search_address.roadaddress_val : ''}/>
                   <SearchBtn type="button"/>
                 </SearchBox>
                 <SelectFloor onChange={floorchange}>
                   <Option selected>층 선택</Option>
-                  <Option value='1'>1층</Option>
+                  {/*<Option value='1'>1층</Option>
                   <Option value='2'>2층</Option>
                   <Option value='3'>3층</Option>
+                  */}
+                  {
+                    flooridlist.map((value) => {
+                      return (
+                        <Option value={value['flr_id']+'|'+value['flr_type']+value['floor']}>{value['flr_type']+value['floor']}</Option>
+                      );
+                    })
+                  }
                 </SelectFloor>
                 <Hosu>
                   <Label>호수</Label>
@@ -103,7 +141,7 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
                  {
                     hosu ?
                     <Flex>
-                      <InputMidi type="text" placeholder="호 입력" onChange={hosilchange}/>
+                      <InputMidi type="text" placeholder="호 입력" onChange={hosilnamechange}/>
                       <Dan>호</Dan>
                     </Flex>
                     :

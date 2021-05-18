@@ -12,6 +12,7 @@ const smsRouter=require('./routes/coolsmsUse');//coolsms라이브러리 사용 �
 const brokerRouter=require('./routes/brokerRouter');
 const social_router=require('./routes/social_router');//social router;
 const mypageRouter=require('./routes/mypageProcess');//mypage관련 전반적 범용처리 라우터
+const matterialRouter=require('./routes/matterialRouter');//전속을 제외한 물건들에 대한 정보 관련 처리(단지,단지별실거래,지하철,대학교,등등.)
 
 const facebook_passportconfig=require('./passport_facebook');
 const kakao_passportconfig=require('./passport_kakao');
@@ -56,6 +57,7 @@ app.use('/api/coolsms',smsRouter);//coolsms형태의 주소 요청
 app.use('/auth/social',social_router);//socail 로그인,가입 관련 기능 router
 app.use('/api/broker',brokerRouter);//broker라우터 (중개사,개인/기업관련 모든것 매물 요청 관련 모든처리)
 app.use('/api/mypage',mypageRouter);//mypage라우터 api/mypage/companyprofileEdit 관련 분기 처리.
+app.use('/api/matterial',matterialRouter);
 //로그인 회원가입처리.
 
 //const router=express.Router();

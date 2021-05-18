@@ -16,11 +16,16 @@ import WhiteClose from '../../../../img/member/white_close.png';
 //component
 import ModalDanjiSelect from './modal/ModalDanjiSelect';
 
+//server process
+import serverController from '../../../../server/serverController';
+
 export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
   const [activeIndex,setActiveIndex] = useState(-1);
+  const [complex_searchlist,setComplex_searchlist] = useState([]);
+  const [select_complexid, setSelect_complexid] = useState('');
 
   //const [searchword, setSearchWord] = useState("");
-  const searchWord = (e) =>{
+  const searchWord = async (e) =>{
     //setSearchWord(e.target.value);
     console.log('아파트오피 검색필드 검색단어 string길이:',e.target.value,e.target.value.length);
     if(e.target.value.length >= 1){
@@ -28,6 +33,17 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
     }else{
       setActive(false);
     }
+    let body_info={
+       dangi_name : e.target.value
+    };
+    
+    let res_result=await serverController.connectFetchController('/api/matterial/complex_search_query','POST',JSON.stringify(body_info));
+
+    if(res_result){
+      console.log('res_result:::',res_result);
+       setComplex_searchlist(res_result.result);
+    }
+    
   }
   const [active,setActive] = useState(false);
   const [searchresult_close,setSearchresult_close]= useState(false);
@@ -49,6 +65,10 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
     setSearchresult_close(true)
   }
 
+  useEffect( () => {
+
+  },[complex_searchlist]);
+
     return (
         <Container>
           <WrapSearch>
@@ -62,7 +82,18 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                 </WhiteCloseImg>
             {/*검색했을때 나오는 부분 */}
                 <SearchResult active={active}>
-                  <ResultBox >
+                  {
+                    complex_searchlist.map((value) => {
+                      return (
+                        <ResultBox>
+                          <Link onClick={() => { setSelect_complexid(value.complex_id); setModalDanji(true)}} className='data_link'/>
+                          <Title>{value.complex_name}</Title>
+                          <ResultAddress>{value.addr_raod}</ResultAddress>
+                        </ResultBox>
+                      )
+                    })
+                  }
+                  {/*<ResultBox >
                     <Link onClick={() => {setModalDanji(true)}} className="data_link"/>
                     <Title>반포자이</Title>
                     <ResultAddress>서울 특별시 서초구 반포동</ResultAddress>
@@ -72,6 +103,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                     <Title>반포 센트럴자이</Title>
                     <ResultAddress>서울 특별시 서초구 잠원동</ResultAddress>
                   </ResultBox>
+                  */}
                   {/*검색결과가 없을 경우*/}
                   <ResultBox style={{display:"none"}}>
                     <NoResult>
@@ -84,7 +116,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
             </Box>
             {
               modalDanji ?
-              <ModalDanjiSelect setModalDanji={setModalDanji} setSelectInfo={setSelectInfo}/>
+              <ModalDanjiSelect setModalDanji={setModalDanji} setSelectInfo={setSelectInfo} select_complexid={select_complexid}/>
               :
               null
 
@@ -150,7 +182,7 @@ const SearchBtn = styled.button`
   background-size:19px 18px;
 `
 const SearchResult = styled.div`
-  width:408px;
+  width:408px; height:320px; overflow-y:auto;
   position:absolute;
   left:-1px;top:35px;background:#fff;
   border:1px solid #e4e4e4;z-index:2;border-top:0;border-radius:3px;

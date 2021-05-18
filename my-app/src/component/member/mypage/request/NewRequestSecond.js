@@ -140,11 +140,11 @@ export default function Request({setFilter,value,type}) {
                   </InputBox>
                   <InputBox>
                     <Label>주소</Label>
-                    <InputDisabled type="text" value={tempBrokerRequests.dangiaddress} disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dangijibunaddress+'('+tempBrokerRequests.dangiroadaddress+')'} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                    <InputDisabled type="text" value={tempBrokerRequests.dong+'동 '+tempBrokerRequests.floor+'층 ' +tempBrokerRequests.hosil+'호'} disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequests.dongname+' '+tempBrokerRequests.floorname+'층 ' +tempBrokerRequests.hosilname} disabled/>
                   </InputBox>
                 </WrapInputBox>
                 <WrapItemInfo>
