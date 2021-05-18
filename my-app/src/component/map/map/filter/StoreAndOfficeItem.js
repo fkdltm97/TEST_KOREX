@@ -13,6 +13,8 @@ import Checked from '../../../../img/map/radio_chk.png';
 import ArrowTop from '../../../../img/map/arrow_top.png';
 
 // components
+import BtnCommon from './btnCommon';
+import DetailTopCommon from './detailTopCommon';
 import { Mobile, PC } from "../../../../MediaQuery";
 
 //redux
@@ -79,39 +81,47 @@ export default function ApartFilter({open, setOpen}) {
         <Container>
             {/*물건상세*/}
             <DetailOption>
-              <DetailTopBox onClick={showOpen}>
-                <DetailTitle>물건상세</DetailTitle>
-                <Line/>
-                <ArrowImg src={ArrowTop} rotate={rotate}/>
-              </DetailTopBox>
-
+              <DetailTopCommon onClick={showOpen} open={open}/>
+              {/*
+                <DetailTopBox onClick={showOpen}>
+                  <DetailTitle>물건상세</DetailTitle>
+                  <Line/>
+                  <ArrowImg src={ArrowTop} rotate={rotate}/>
+                </DetailTopBox>
+              */}
               <SubDepth ref={detailRef} className={["optionList", "hidden"]}>
-                {/*주차*/}
-                <BoxNoneBorder id="parkStoreWrap">
-                  <SubTitle>주차</SubTitle>
-                  <WrapFilter>
-                    <SwitchButton>
-                      <Switch className="changeBtn" checked={uiData.parkStore} type="checkbox" data-text="주차가능" onClick={(e) =>{ onClickPark(e) }} id="switch1"/>
-                      <SwitchLabel for="switch1">
-                        <SwitchSpan/>
-                      </SwitchLabel>
-                      <Span>주차가능한곳만 보기</Span>
-                    </SwitchButton>
+                {/* -- 수정코드입니다. */}
+                <BtnCommon noBorder boxId="parkStoreWrap" title="주차" checked={uiData.parkStore} dataText="주차가능" onChange={onClickPark} id="switch1" text="주차가능한곳만 보기"/>
+                <BtnCommon boxId="toiletWrap" title="화장실" checked={uiData.toilet} dataText="전용화장실" onChange={onClickToilet} id="switch2" text="전용화장실만 보기"/>
+                {/* -- 원래 코드입니다. */}
+                {/*
+                  <BoxNoneBorder id="parkStoreWrap">
+                    <SubTitle>주차</SubTitle>
+                    <WrapFilter>
+                      <SwitchButton>
+                        <Switch className="changeBtn" checked={uiData.parkStore} type="checkbox" data-text="주차가능" onClick={(e) =>{ onClickPark(e) }} id="switch1"/>
+                        <SwitchLabel for="switch1">
+                          <SwitchSpan/>
+                        </SwitchLabel>
+                        <Span>주차가능한곳만 보기</Span>
+                      </SwitchButton>
+                      </WrapFilter>
+                  </BoxNoneBorder>
+
+                  <Box id="toiletWrap">
+                    <SubTitle>화장실</SubTitle>
+                    <WrapFilter>
+                      <SwitchButton>
+                        <Switch className="changeBtn" checked={uiData.toilet} type="checkbox" data-text="전용화장실" onClick={(e) =>{ onClickToilet(e) }} id="switch2"/>
+                        <SwitchLabel for="switch2">
+                          <SwitchSpan/>
+                        </SwitchLabel>
+                        <Span>전용화장실만 보기</Span>
+                      </SwitchButton>
                     </WrapFilter>
-                </BoxNoneBorder>
-                {/*화장실*/}
-                <Box id="toiletWrap">
-                  <SubTitle>전용화장실만 보기</SubTitle>
-                  <WrapFilter>
-                    <SwitchButton>
-                      <Switch className="changeBtn" checked={uiData.toilet} type="checkbox" data-text="전용화장실" onClick={(e) =>{ onClickToilet(e) }} id="switch2"/>
-                      <SwitchLabel for="switch2">
-                        <SwitchSpan/>
-                      </SwitchLabel>
-                      <Span>전용화장실만 보기</Span>
-                    </SwitchButton>
-                  </WrapFilter>
-                </Box>
+                  </Box>
+                */}
+
                 {/*옵션*/}
                 {/* <Box id="optionWrap">
                   <SubTitle>옵션</SubTitle>
