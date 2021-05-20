@@ -141,7 +141,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
           {/* --원래 코드입니다. */}
           {/* <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value="" onChange={usernameChange}/>*/}
           {/* -- 수정코드입니다. */}
-          <Input type="email" name="user_name" placeholder="이름을 설정해주세요." value={inputValue} onChange={usernameChange}/>
+          <Input type="text" name="user_name" placeholder="이름을 설정해주세요." value={inputValue} onChange={usernameChange}/>
           {
             profilehead()
           }
@@ -151,11 +151,11 @@ export default function JoinInput({profileedit,profileeditCheck}) {
             <Link to="/MyProfileSetting">계정설정</Link>
           </MySetting>
           {/*
-            {/*개인, 기업일때 중개의뢰하기
+            개인, 기업일때 중개의뢰하기
             <LinkBtn>
               <Link to="/AddRequest">중개의뢰하기</Link>
             </LinkBtn>
-            {/*중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
+            중개사(+전문중개사)일때 물건등록하기 / 분양대행사는 계정설정만!!
             <LinkBtn>
               <Link to="/AddProperty">물건등록하기</Link>{/*전문중개사는 바로 물건등록 페이지로 이동
             </LinkBtn>
