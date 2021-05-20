@@ -247,7 +247,7 @@ const RightLine = styled.div`
         margin-top:calc(100vw*(35/414));
     }
 
-  }
+  
 `
 
 const RightLineDiv = styled.div`

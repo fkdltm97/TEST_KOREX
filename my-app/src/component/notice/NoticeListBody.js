@@ -49,7 +49,7 @@ export default function SubTitle() {
       path:"/NoticeDetail",
       title:"[공지] 공지사항 제목이 길어질시는 이렇게 처리되어집니다. 두줄로 처리됩니다. 두줄로 처리됩니다. 두줄로 처리됩니다.",
       date:"2021년 3월 6일"
-    }
+    },
     ]
     return (
         <Container>

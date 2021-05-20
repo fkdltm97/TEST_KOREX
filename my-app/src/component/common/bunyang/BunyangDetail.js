@@ -58,9 +58,9 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
     ])
     
     // HashTag 배열입니다.
-    setHashTagArr([
-      "#hashtag","#hashtag","#hashtag"
-    ])
+    // setHashTagArr([
+    //   "#hashtag","#hashtag","#hashtag"
+    // ])
     
     // 이미지 배열입니다.
     setImgArr([
@@ -147,7 +147,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
               
             </SwiperBennerWrap>
             {/*hastags*/}
-            <HashTag>
+            {/* <HashTag>
               {
                 hashTagArr.map((item, index) => {
                   return(
@@ -155,7 +155,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   )
                 })
               }
-            </HashTag>
+            </HashTag> */}
             {/*홈페이지,예약등*/}
             <LeftButtons>
               <Button>
@@ -187,7 +187,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
                 */}
                 <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1" checked={BunyangDate.LikeChecked}></Like>
+                  <Like type="checkbox" name="" id="Like1" checked={BunyangDate.LikeChecked} ></Like>
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </RightTop>
