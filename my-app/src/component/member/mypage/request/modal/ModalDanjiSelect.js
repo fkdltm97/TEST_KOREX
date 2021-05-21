@@ -135,7 +135,7 @@ const Modal = styled.div`
   background:#fff;
   padding:49px 50px 60px 50px;
   z-index:3;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(395/428));
     padding:calc(100vw*(33/428)) calc(100vw*(15/428));
   }
@@ -143,13 +143,13 @@ const Modal = styled.div`
 const FilterCloseBtn = styled.div`
   width:100%;text-align:right;
   margin-bottom:22px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     margin-bottom:calc(100vw*(22/428));
   }
 `
 const FilterCloseImg = styled.img`
   display:inline-block;width:15px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.modal} {
     width:calc(100vw*(12/428));
   }
 `

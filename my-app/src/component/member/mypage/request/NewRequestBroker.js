@@ -30,6 +30,7 @@ import RadioChkImg from '../../../../img/map/radi_chk.png';
 import { Mobile, PC } from "../../../../MediaQuery";
 
 //component
+import NewRequestTopInfos from './NewRequestTopInfos';
 
 //reudx addons asssets;
 import {useSelector } from 'react-redux';
@@ -110,6 +111,8 @@ const nextStep = (e) => {
         <Container>
           <WrapRequest>
             <TopTitle>전문중개사 선임</TopTitle>
+            {/*05.21 상단 컴포넌트 부분 추가*/}
+            <NewRequestTopInfos/>
             {
             BrokerListItem.map((value) => {
               return(
@@ -221,7 +224,6 @@ const TopTitle = styled.h2`
   font-size:20px;color:#707070;
   text-align:left;padding-left:30px;
   font-weight:800;transform:skew(-0.1deg);
-  margin-bottom:40px;
   padding-bottom:35px;
   border-bottom:1px solid #f2f2f2;
   @media ${(props) => props.theme.mobile} {
@@ -230,7 +232,7 @@ const TopTitle = styled.h2`
     }
 `
 const WrapFlexBox = styled.div`
-  width:500px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
+  width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
    @media ${(props) => props.theme.mobile} {
     width:100%;
     }

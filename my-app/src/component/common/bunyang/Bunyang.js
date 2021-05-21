@@ -96,11 +96,11 @@ const ModalBg = styled.div`
 const ModalContent = styled.div`
   position:fixed;
   width:1146px;
-  height:752px;
+  height:660px;
   background:#fff;box-shadow: 0 0 10px 1px rgb(0 0 0 / 10%);
   left:50%;top:50%;transform:translate(-50%,-50%);
   border-radius:24px;
-  padding: 47px 46.7px 65.8px 95.8px;
+  padding: 47px 90px 30px 90px;
   overflow-y:scroll;
   z-index:1000;
   scrollbar-width: none;
@@ -116,7 +116,7 @@ const ModalContent = styled.div`
 `
 const ModalClose = styled.div`
   position:absolute;
-  right:47px;top:47px;
+  right:90px;top:47px;
   z-index:2;
 
 `

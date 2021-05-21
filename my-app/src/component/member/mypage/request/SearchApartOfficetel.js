@@ -141,10 +141,16 @@ const Mb = styled.b`
 const Container = styled.div`
   width:408px;
   margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+      width:100%;
+    }
 `
 const WrapSearch = styled.div`
   width:100%;
   margin-top:35px;
+  @media ${(props) => props.theme.mobile} {
+      margin-top:calc(100vw*(35/428));
+    }
 `
 const Box = styled.div`
   width:100%;
@@ -154,6 +160,10 @@ const Label = styled.label`
   font-size:12px;transform:skew(-0.1deg);
   font-weight:600;
   margin-bottom:10px;color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const SearchBox = styled.div`
   position:relative;
@@ -174,12 +184,21 @@ const Search = styled.input`
   font-weight:600;
   color:#4a4a4a;background:transparent;
   &::placeholder{color:#979797;}
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    font-size:calc(100vw*(15/428));
+  }
 `
 const SearchBtn = styled.button`
   position:absolute;right:0;top:0;
   width:43px;height:43px;
   background:#fff url(${SearchImg}) no-repeat center center;
   background-size:19px 18px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(43/428));
+    height:calc(100vw*(43/428));
+    background-size:calc(100vw*(19/428)) calc(100vw*(18/428));
+  }
 `
 const SearchResult = styled.div`
   width:408px; height:320px; overflow-y:auto;
@@ -187,6 +206,13 @@ const SearchResult = styled.div`
   left:-1px;top:35px;background:#fff;
   border:1px solid #e4e4e4;z-index:2;border-top:0;border-radius:3px;
   display:${({active}) => active ? "block" : "none"};
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(380/428));
+    height:calc(100vw*(320/428));
+    overflow-y:scroll;
+    z-index:3;
+    background-size:calc(100vw*(19/428)) calc(100vw*(18/428));
+  }
 `
 const ResultBox = styled.div`
   position:relative;
@@ -196,17 +222,26 @@ const ResultBox = styled.div`
   border-radius:3px;
   transition:all 0.3s;
   &:hover{background:#f8f7f7;}
+  @media ${(props) => props.theme.mobile} {
+    padding:calc(100vw*(13/428)) calc(100vw*(20/428));
+  }
 `
 const Title = styled.h5`
     font-size:15px;font-weight:600;
     transform:skew(-0.1deg);
     margin-bottom:10px;
     color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const ResultAddress = styled.p`
   font-size:15px;font-weight:500;
   transform:skew(-0.1deg);
   color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const NoResult =styled.p`
   font-size: 15px;transform:skew(-0.1deg);
@@ -214,6 +249,10 @@ const NoResult =styled.p`
   text-align: center;
   color: #979797;
   padding:35px 0;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+    padding:calc(100vw*(30/428));
+  }
 `
 const WhiteCloseImg = styled.div`
   position:absolute;
@@ -222,6 +261,11 @@ const WhiteCloseImg = styled.div`
   width:43px;height:43px;
   cursor:pointer;
   display:${({active}) => active ? "flex" : "none"};
+  @media ${(props) => props.theme.mobile} {
+    right:calc(100vw*(43/428));
+    width:calc(100vw*(43/428));
+    height:calc(100vw*(43/428));
+  }
 `
 const ResetSearch = styled.div`
   display:inline-block;
@@ -229,4 +273,9 @@ const ResetSearch = styled.div`
   width:20px;height:20px;
   background:#cecece url(${WhiteClose}) no-repeat center center;
   background-size:8px 8px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(20/428));
+    height:calc(100vw*(20/428));
+    background-size:calc(100vw*(8/428)) calc(100vw*(8/428));
+  }
 `

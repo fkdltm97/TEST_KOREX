@@ -296,6 +296,7 @@ background-size:18px 18px;appearance:none;}
   .filter_slick .slick-prev:before{color:transparent;background:url(img/notice/back_btn.png) no-repeat;background-size:calc(100vw*(10/428)) calc(100vw*(16/428));}
   .filter_slick .slick-next:before{color:transparent;background:url(img/map/filter_next.png) no-repeat;background-size:calc(100vw*(10/428)) calc(100vw*(16/428));}
 
+  .form_search .tf_keyword{font-size:calc(100vw*(22/428)) !important;}
 }
 
 @media screen and (max-width:600px){
