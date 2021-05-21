@@ -13,7 +13,7 @@ const USERTYPECHANGE= 'login_user/usertypechange';
 const REGISTERTYPECHANGE  = 'login_user/registertypechange';
 const MEMADMINCHANGE= 'login_user/memadminchange';
 const ISLOGINCHANGE= 'login_user/isloginchange';
-const ISEXCULSIVECHANGE= 'login_user/isexculsivechange';
+const ISPROCHANGE= 'login_user/isprochange';
 
 // 액션 생성 함수를 만듭니다.
 export const memidchange = createAction(MEMIDCHANGE);
@@ -27,7 +27,7 @@ export const usertypechange = createAction(USERTYPECHANGE);
 export const registertypechange= createAction(REGISTERTYPECHANGE);
 export const memadminchange= createAction(MEMADMINCHANGE);
 export const isloginchange= createAction(ISLOGINCHANGE);
-export const isexculsivechange = createAction(ISEXCULSIVECHANGE);
+export const isprochange = createAction(ISPROCHANGE);
 
 // 모듈의 초기 상태를 정의합니다.
 const initialState = {
@@ -43,7 +43,7 @@ const initialState = {
    mem_admin : '',
    mem_notification : '',
    is_login : '',
-   isexculsive: ''
+   ispro: ''
 };
 
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
@@ -124,11 +124,11 @@ export default handleActions({
       draft.is_login = action.payload.islogins;
     })
   },
-  [ISEXCULSIVECHANGE] : (state,action) => {
+  [ISPROCHANGE] : (state,action) => {
     console.log('login islogin로그인여부chnage함수 호출 변경:',state,action);
     return produce(state, draft => {
       console.log('produce에서의 state,dracft,action::',state,draft,action);
-      draft.isexculsive = action.payload.isexculsives;
+      draft.ispro = action.payload.ispros;
     })
   }
 }, initialState);

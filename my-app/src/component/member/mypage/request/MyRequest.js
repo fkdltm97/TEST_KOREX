@@ -27,7 +27,7 @@ import serverController from '../../../../server/serverController';
 //component
 import RequestListPage from "./RequestList";
 import RequestSorting from "./RequestSorting";
-
+import ModalAddUserInfo from './modal/ModalAddUserInfo';
 import CommonTopInfo from '../../../../component/member/mypage/commonList/commonTopInfo';
 
 //redux addons assets;
@@ -44,6 +44,8 @@ export default function Request({mannerModal,startModal,cancleModal,completeModa
   }
   const [brokerproductlist,setBrokerproductlist]= useState([]);
   const [is_serveron,setIs_serveron] = useState(false);
+
+  const [userInfo,setUserInfo] = useState(false);
 
   const login_user_redux = useSelector(data => data.login_user);//로그인 정보 저장 리덕스.로그인 mem_id조회.
   console.log('myRequest 내 중개의뢰 리스트 페이지 도달,내가 중개의뢰한(상품들 products조회):중개의뢰타입인것들만 조회한다.',login_user_redux);
@@ -128,9 +130,13 @@ export default function Request({mannerModal,startModal,cancleModal,completeModa
   const topInfoContent = () => {
     return(
       <FilterAndAdd>
-      <Link to="/AddRequest">
+      {/*유저 정보 있을 경우 이부분 주석 해제 되어야함*/}
+      {/*<Link to="/AddRequest" className="data_link"></Link>*/}
+
+      {/*05.21 유저 정보가 없을 경우 본인정보 추가 모달 떠야함!! default 값으로 고정*/}
+      <div className="linkToDiv" onClick={()=>{setUserInfo(true)}}>
         <AddBtn>추가</AddBtn>
-      </Link>
+      </div>
     </FilterAndAdd>
     )
   }
@@ -208,6 +214,13 @@ export default function Request({mannerModal,startModal,cancleModal,completeModa
 
         </RequestList>
       </WrapRequest>
+      
+          {
+            userInfo ?
+            <ModalAddUserInfo setUserInfo={setUserInfo}/>
+            :
+            null
+          }
   </Container>
   );
 }
@@ -264,6 +277,7 @@ const All = styled.span`
     }
 `
 const FilterAndAdd = styled.div`
+  position:relative;
   display:flex;justify-content:flex-start; align-items:center;
 `
 const AddBtn = styled.div`

@@ -821,7 +821,7 @@ app.post('/api/auth/userinfo_request',async(req,res)=>{
             register_type : rows[0].register_type,
             mem_admin : rows[0].mem_admin,
             mem_notification: rows[0].mem_notification,
-            isexculsive : ''
+            ispro : ''
         };
         console.log('make_getinfo userdsata:',get_userdata);
 
@@ -833,9 +833,9 @@ app.post('/api/auth/userinfo_request',async(req,res)=>{
 
             if(select_company_id != null){
                 console.log('select_copmpany_id:',select_company_id);
-                var [company_rows] = await connection.query('select isexculsive from company where company_id=?',[select_company_id]);
+                var [company_rows] = await connection.query('select ispro from company where company_id=?',[select_company_id]);
                 connection.release();
-                get_userdata['isexculsive'] = company_rows[0].isexculsive;
+                get_userdata['ispro'] = company_rows[0].ispro;
             }else{
                 //값이 null이면.
                 console.log('select_company_id:',select_company_id);

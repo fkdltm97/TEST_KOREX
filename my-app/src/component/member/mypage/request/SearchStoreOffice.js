@@ -178,10 +178,16 @@ const Mb = styled.b`
 const Container = styled.div`
   width:408px;
   margin:0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width:100%;
+  }
 `
 const WrapSearch = styled.div`
   width:100%;
   margin-top:35px;
+  @media ${(props) => props.theme.mobile} {
+      margin-top:calc(100vw*(35/428));
+    }
 `
 const Box = styled.div`
   width:100%;
@@ -192,16 +198,28 @@ const AddressApi = styled.div`
   border:1px solid #eee;
   background:#fff;
   padding:70px 10px 0;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(380/428));
+      padding:calc(100vw*(60/428)) 0 0;
+    }
 `
 const CloseImg = styled.img`
   position:Absolute;top:20px;right:10px;
   width:18px;
   cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+      top:calc(100vw*(20/428));
+      right:calc(100vw*(10/428));
+      width:calc(100vw*(18/428));
+    }
 `
 
 const WrapBottomBox = styled.div`
   width:100%;
   margin-top:9px;
+  @media ${(props) => props.theme.mobile} {
+      margin-top:calc(100vw*(10/428));
+    }
 `
 const SelectFloor = styled.select`
   margin-top:9px;
@@ -210,18 +228,30 @@ const SelectFloor = styled.select`
   border:1px solid #e4e4e4;
   font-size:15px;color:#707070;
   font-weight:600;transform:skew(-0.1deg);
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(125/428));
+      height:calc(100vw*(43/428));
+      font-size:calc(100vw*(15/428));
+    }
 `
 const Option = styled.option`
 `
 const Hosu = styled.div`
   width:100%;
   margin-top:14px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(14/428));
+  }
 `
 const Label = styled.label`
   display:block;
   font-size:12px;transform:skew(-0.1deg);
   font-weight:600;
   margin-bottom:10px;color:#4a4a4a;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    margin-bottom:calc(100vw*(10/428));
+  }
 `
 const SearchBox = styled.div`
   position:relative;
@@ -231,6 +261,9 @@ const SearchBox = styled.div`
   border-radius: 4px;
   border: solid 1px #e4e4e4;
   background-color: #ffffff;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+  }
 `
 const Search = styled.input`
   display:inline-block;
@@ -241,12 +274,20 @@ const Search = styled.input`
   font-weight:600;
   color:#4a4a4a;background:transparent;
   &::placeholder{color:#979797;}
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const SearchBtn = styled.button`
   position:absolute;right:0;top:50%;transform:translateY(-50%);
   width:43px;height:43px;
   background:url(${SearchImg}) no-repeat center center;
   background-size:19px 18px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(43/428));
+    height:calc(100vw*(43/428));
+    background-size:calc(100vw*(19/428)) calc(100vw*(18/428));
+  }
 `
 const SwitchButton = styled.div`
   display:flex;justify-content:flex-start;align-items:center;
@@ -254,6 +295,7 @@ const SwitchButton = styled.div`
   margin-top:20px;
   margin-bottom:20px;
   @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(20/428));
     margin-bottom:calc(100vw*(20/428));
   }
 `
@@ -292,6 +334,7 @@ const SwithTxtOff = styled.p`
   opacity:1;
   transition:all 0.3s;
   @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
   }
 `
 const SwithTxtOn = styled(SwithTxtOff)`
@@ -312,6 +355,9 @@ const Flex = styled.div`
   width:125px;height:43px;
   border:1px solid #e4e4e4;border-radius:4px;
   display:flex;justify-content:center;align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const InputMidi = styled.input`
   width:70%;
@@ -321,14 +367,23 @@ const InputMidi = styled.input`
   text-align:center;
   font-weight:600;transform:skew(-0.1deg);
   &::placeholder{font-weight:500;color:#979797;}
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const Dan = styled.p`
 font-size:15px;color:#4a4a4a;
 font-weight:600;transform:skew(-0.1deg);
+@media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
 `
 const NextButton = styled.div`
   width:100%;
   margin-top:70px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(60/428));
+  }
 `
 const Next = styled.button`
   width:100%;
@@ -345,4 +400,10 @@ const Next = styled.button`
   border: solid 3px #04966d;
   background-color: #01684b;
   */
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(60/428));
+    line-height:calc(100vw*(54/428));
+    font-size:calc(100vw*(20/428));
+    
+  }
 `

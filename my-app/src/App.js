@@ -134,7 +134,7 @@ export default function App(){
            
             Login_userActions.isloginchange({islogins: 1 });
  
-            Login_userActions.isexculsivechange({isexculsives : user_info.user_data.isexculsive});
+            Login_userActions.isprochange({ispros : user_info.user_data.ispro});
             //window.sessionStorage.setItem('memid',user_info.user_data.mem_id);
           }
         }

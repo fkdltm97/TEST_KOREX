@@ -13,9 +13,6 @@ import SearchImg from '../../../../img/map/search.png';
 import WhiteClose from '../../../../img/member/white_close.png';
 import SelectArrow from '../../../../img/member/arrow_down.png';
 
-//component
-import ModalAddUserInfo from './modal/ModalAddUserInfo';
-
 //redux addon sassetss.
 import {useSelector } from 'react-redux';
 import {tempBrokerRequestActions } from '../../../../store/actionCreators';
@@ -38,7 +35,6 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
 
   /*모달*/
   const [modalDanji,setModalDanji] = useState(false);
-  const [userInfo,setUserInfo] = useState(false);
   
   const dongchange =  (e) => { setDong(e.target.value.split(',')[0]); setDongname(e.target.value.split(',')[1])} //선택한 건물bld_id정보(동정보)저장.
   const floorchange = (e) => { setFloor(e.target.value.split(',')[0]); setfloorname(e.target.value.split(',')[1])}  //선택한 층 정보flr_id저장
@@ -133,12 +129,9 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
               </Select>
             </WrapSelectBox>
             <Next>
-      {/*휴대전화번호 정보가 있을경우 다음페이지로 넘아갑니다. ((일단 주석처리....))*/}
-              {/*<Link className="data_link" to="/AddRequestSecond"/>*/}
+              <Link className="data_link" to="/AddRequestBroker"/>
               <NextBtn type="button" onClick={()=>{
-                
-                setUserInfo(true);
-
+              
                 //리덕스 정보 저장. state정보 -> 리덕스 저장(동,층,호실, 단지명,단지주소등 저장.)
                 tempBrokerRequestActions.dongchange({dongs: dong});
                 tempBrokerRequestActions.floorchange({floors: floor});
@@ -170,13 +163,6 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
               }}>다음</NextBtn>
             </Next>
           </WrapSearch>
-      {/*휴대전화번호 정보가 없을경우 '본인정보추가 모달이 나와야함!!'*/}
-          {
-            userInfo ?
-            <ModalAddUserInfo setUserInfo={setUserInfo}/>
-            :
-            null
-          }
         </Container>
   );
 }
