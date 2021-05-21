@@ -22,7 +22,6 @@ import { useSelector } from 'react-redux';
 const { kakao } = window;
 
 export default function WrapMap({openBunyang, rank, open, setOpen, status, containerRef}) {
-
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const filterRef = useRef();
 
@@ -36,7 +35,7 @@ export default function WrapMap({openBunyang, rank, open, setOpen, status, conta
 
   return (
       <Container>
-        <KakaoMap />
+        <KakaoMap/>
         <MapRightMenu containerRef={containerRef}/>
         <div ref={filterRef}>
           <WrapMapFilter setOpen={setOpen} status={status} />

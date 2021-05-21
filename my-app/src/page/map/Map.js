@@ -21,8 +21,12 @@ import LiveModal from "../../component/common/bunyang/LiveModal";
 import ModalCalendar from "../../component/common/bunyang/ModalCalendar";
 import ModalCommon from '../../component/common/modal/ModalCommon';
 
+//server process
+import serverController from '../../server/serverController';
 
 export default function NoticeDetail({status}) {
+  console.log('==>>page>map.js요소 갱신 랜더링처리:',status);
+
   //이용약관
   const [termservice, setTermService] = useState(false);
   const openTermService = (onOff) =>{ setTermService(onOff);}
@@ -50,8 +54,7 @@ export default function NoticeDetail({status}) {
   const [map,setMap] = useState(false);
   
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
-
-
+  
   //여기 두개가 핵심이에여
   //모달 끄는 식
   const offModal = ()=>{
@@ -59,7 +62,6 @@ export default function NoticeDetail({status}) {
     option.show = false;
     setModalOption(option);
   }
-
   
   //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
   const reserveModal = () =>{
@@ -74,7 +76,7 @@ export default function NoticeDetail({status}) {
         confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
     });
   }
-
+  
   return (
     <>
       <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>

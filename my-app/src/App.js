@@ -134,7 +134,7 @@ export default function App(){
            
             Login_userActions.isloginchange({islogins: 1 });
  
-            Login_userActions.isexculsivechange({isexculsives : user_info.user_data.isexculsive});
+            Login_userActions.isprochange({ispros : user_info.user_data.ispro});
             //window.sessionStorage.setItem('memid',user_info.user_data.mem_id);
           }
         }
@@ -266,7 +266,7 @@ export default function App(){
 
             {/*map*/}
             <Route exact path="/Map/:text" component={(route) => { return(<Map status={route.match.params.text}/>)}}/>
-
+           
             {/*app*/}
             <Route exact path="/Preview" component={Preview}/>{/*문자로 전송되는 미리보기 페이지*/}
 

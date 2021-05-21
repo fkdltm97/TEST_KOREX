@@ -23,7 +23,7 @@ export default function MainHeader({openBunyang, rank, setReport,reserveModal,se
     return (
       <Container>
         <PC>
-          <WrapMap status={status} containerRef={containerRef} />
+          <WrapMap status={status} containerRef={containerRef}/>
         </PC>
         <Mobile>
           {

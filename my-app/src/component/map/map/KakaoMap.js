@@ -42,7 +42,7 @@ export default function KakaoMap({}) {
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const mapFilterRedux = useSelector(state=>{ return state.mapFilter});
   const productRedux = useSelector(state=>{ return state.mapProductEls});
-  
+
   const [exclusiveArr, setExclusiveArr] = useState([]);
   const [probrokerArr, setProbrokerArr] = useState([]);
   const [blockArr, setBlockArr] = useState([]);
@@ -52,8 +52,6 @@ export default function KakaoMap({}) {
   const rvWrapperRef = useRef();
   const roadViewRef = useRef();
 
-
-
   // 거리재기
   var drawingFlag = false;
   var clickLine;
@@ -61,6 +59,9 @@ export default function KakaoMap({}) {
   var distanceOverlay;
   var dots = [];
 
+  var searchdetail_origindata = JSON.parse(localStorage.getItem("searchdetail_origin"));
+
+  console.log('==>>kakaomap실행 ::',searchdetail_origindata);
 
   // 호출 상황 --------
   // 첫 로드
@@ -121,7 +122,7 @@ export default function KakaoMap({}) {
     }
     // 단지별 실거래
     if(mapRightRedux.isBlock.is){
-      let newArr = [];
+      /*let newArr = [];
       for(let i = 0 ; i < 10 ; i++){
         newArr.push({
           danji_id : i,
@@ -133,7 +134,7 @@ export default function KakaoMap({}) {
           floor:"7층",
         });
       }
-      MapProductEls.updateBlock({ block : newArr });
+      MapProductEls.updateBlock({ block : newArr });*/
     }
 
   }
@@ -169,6 +170,7 @@ export default function KakaoMap({}) {
 
   // 임시 더미 데이터
   useEffect(() => {
+    console.log('===>>>페이지 로드 시점 실행::');
     setExclusiveArr(
       [ 
         new kakao.maps.LatLng(37.499590, 127.026374),
@@ -191,41 +193,70 @@ export default function KakaoMap({}) {
       new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
       new kakao.maps.LatLng(37.49996818951873, 127.02943721562295)
     ])
-
-    setBlockArr([
-      new kakao.maps.LatLng(37.49966168796031, 127.03007039430118),
+    console.log('===>>productRedux::',productRedux);
+    let block_kakaomap_elements=[];
+    for(let b=0; b<productRedux.block.length; b++){
+      block_kakaomap_elements[b] = new kakao.maps.LatLng(productRedux.block[b].y,productRedux.block[b].x);
+    }
+  
+    setBlockArr(
+      /*new kakao.maps.LatLng(37.49966168796031, 127.03007039430118),
       new kakao.maps.LatLng(37.499463762912974, 127.0288828824399),
       new kakao.maps.LatLng(37.49896834100913, 127.02833986892401),
       new kakao.maps.LatLng(37.49893267508434, 127.02673400572665),
       new kakao.maps.LatLng(37.49872543597439, 127.02676785815386),
       new kakao.maps.LatLng(37.49813096097184, 127.02591949495914),
-      new kakao.maps.LatLng(37.497680616783086, 127.02518427952202)
-    ])
+      new kakao.maps.LatLng(37.497680616783086, 127.02518427952202)*/
+      block_kakaomap_elements
+    )
   }, [])
 
   // 지도 생성
   useEffect(() => {
-    
+    let searchdetail_origindata = JSON.parse(localStorage.getItem("searchdetail_origin"));
+    console.log('==>>>useEffect load continaer: 상위부모요소 실행을 통해 해당요소 실행또는 맵 실행시점',searchdetail_origindata);
+
     let mapData = JSON.parse(localStorage.getItem("mapData"));
-    // local에 정보가 없을 경우
-    let center = new kakao.maps.LatLng(37.496463, 127.029358);
-    let level = 3;
-    // local에 정보가 있을 경우
-    if(mapData){
-      center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
-      level = mapData.level;
+    
+    if(searchdetail_origindata && (searchdetail_origindata.y && searchdetail_origindata.x)){
+      //map/xxxx/url:xxparams에 정보가 있어서 origin center지점에 대한 정보가 있는경우.메인검색을 통해서 눌러서 온 경우에는 기존 데이터로 해서 하진 않음.
+      console.log('======>>main start search를 통해 접근한경우::',searchdetail_origindata.x,searchdetail_origindata.y);
+      var center = new kakao.maps.LatLng(searchdetail_origindata.y, searchdetail_origindata.x);
+      var level = 3;
+
+      /*if(mapData){
+        console.log('===>>mapData정보 있던경우::',mapData);
+        center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
+        level = mapData.level;
+      }*/
+      
+    }else if(!searchdetail_origindata){
+      var center = new kakao.maps.LatLng(37.496463, 127.029358);
+      //var center= new kakao.maps.LatLng(35.8094719990009044,127.09086515657002);
+      var level = 3;
+
+      // local에 정보가 있을 경우
+      if(mapData){
+        console.log('===>>mapData정보 있던경우::',mapData);
+        center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
+        level = mapData.level;
+      }
     }
     const options = {
       center,
       level: level
     };
+    console.log('options::',options);
     const map = new kakao.maps.Map(container.current, options);
     console.log('====>>지도생성 및 초기화:',map);
+
+    setKakaoMap(map); 
+
     kakao.maps.event.addListener(map, 'idle', (e) => {
       console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
       var level = map.getLevel();
-      var lng = map.getCenter().La.toFixed(6);
-      var lat = map.getCenter().Ma.toFixed(6);
+      var lng = map.getCenter().La.toFixed(9);
+      var lat = map.getCenter().Ma.toFixed(9);
       const data = {
         level:level,
         lat:lat,
@@ -233,7 +264,9 @@ export default function KakaoMap({}) {
       }
       localStorage.setItem( "mapData", JSON.stringify(data));
     });
-    setKakaoMap(map); 
+
+    localStorage.removeItem('searchdetail_origin');
+    
   }, [container]);
 
   // 전속매물 토글

@@ -15,7 +15,7 @@ export default function MobileSearch() {
           <NoneHistory>최근검색기록이 없습니다.</NoneHistory>
       {/*검색어를 입력했을때*/}
        {/*지역*/}
-          <SearchArea style={{display:"none"}}>
+          <SearchArea style={{display:"block"}}>
             <SearchList>
               <Listtxt>
                 <Link>지역이름</Link>
@@ -29,7 +29,7 @@ export default function MobileSearch() {
             </SearchList>
           </SearchArea>
         {/*지하철*/}
-          <SearchSubway style={{display:"none"}}>
+          <SearchSubway style={{display:"block"}}>
           {/*검색어를 입력했을때*/}
             <SearchList>
               <Listtxt>
@@ -44,7 +44,7 @@ export default function MobileSearch() {
             </SearchList>
           </SearchSubway>
         {/*대학교*/}
-          <SearchUniv style={{display:"none"}}>
+          <SearchUniv style={{display:"block"}}>
           {/*검색어를 입력했을때*/}
             <SearchList>
               <Listtxt>
