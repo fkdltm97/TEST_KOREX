@@ -156,6 +156,8 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
   // 무한 스크롤
   // **api 서버에서 데이터 가져와서 배열에 추가하여야 합니다.
   const onScrollList = () => {
+    console.log('====>>onScorllList함수실행>>>');
+    console.log('===>>currsent.scrollheight,scrolltop,.clientheight:',containerRef.current.scrollHeight,containerRef.current.scrollTop,containerRef.current.clientHeight);
     if(containerRef.current.scrollHeight <= containerRef.current.scrollTop+containerRef.current.clientHeight + 50){
       // 전속 매물 || 전문 중개사 상세--------------
       if(mapRightRedux.isExclusive.is){

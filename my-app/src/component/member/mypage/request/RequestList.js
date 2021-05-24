@@ -50,7 +50,7 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
               </Kinds>
               <Address>
                 <Left>모델하우스 주소</Left>
-                <Right>{value.address + ' '+value.address_detail}</Right>
+                <Right>{value.addressjibun + '('+value.addressroad+') '+value.address_detail}</Right>
               </Address>
               <Trade>
                 <Left>거래유형</Left>
@@ -68,7 +68,7 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                     {
                       menu ?
                       
-                      (value.prd_status =='대기' || value.prd_status=='검토 대기') ?
+                      (value.prd_status =='대기' || value.prd_status=='검토대기' || value.prd_status=='검토 대기') ?
                       <InMenu>
                         <Div>
                           <div onClick={()=>{cancleModal();}}  className={["data_link", "linkToDiv"]}/>
@@ -85,7 +85,7 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                       </InMenu>
                       :null
                     :
-                      (value.prd_status == '거래 준비') ?
+                      (value.prd_status == '거래 준비' || value.prd_status=='거래준비') ?
                       <InMenu>
                         <Div>
                           <div onClick={()=>{startModal();}}  className={["data_link", "linkToDiv"]}/>

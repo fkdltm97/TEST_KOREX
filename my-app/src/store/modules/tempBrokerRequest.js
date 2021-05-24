@@ -5,8 +5,16 @@ import produce from 'immer';
 const DONGCHANGE = 'temp_brokerRequest/dongchange';
 const HOSILCHANGE = 'temp_brokerRequest/hosilchange';
 const FLOORCHANGE = 'temp_brokerRequest/floorchange';
+const DONGNAMECHANGE = 'temp_brokerRequest/dongnamechange';
+const HOSILNAMECHANGE= 'temp_brokerRequest/hosilnamechange';
+const FLOORNAMECHANGE= 'temp_brokerRequest/floornamechange';
+
 const DANGICHANGE= 'temp_brokerRequest/dangichange';
-const DANGIADDRESSCHANGE= 'temp_brokerRequest/dangiaddresschange';
+const DANGIJIBUNADDRESSCHANGE= 'temp_brokerRequest/dangijibunaddresschange';
+const DANGIROADADDRESSCHANGE= 'temp_brokerRequest/dangiroadaddresschange';
+const XCHANGE= 'temp_brokerRequest/xchange';//특정한 선택 단지(단지에 속한 모든 매물들 동(bld_id),층(flr_id),호(ho_id)들은 모두 같은 단지의 경도,위도값 공유한다.
+const YCHANGE= 'temp_brokerRequest/ychange';
+
 const PHONECHANGE= 'temp_brokerRequest/phonechange';
 const NAMECHANGE= 'temp_brokerRequest/namechange';
 const MAEMULTYPECHANGE= 'temp_brokerRequest/maemultypechange';
@@ -30,8 +38,15 @@ const MANAGECOSTINCLUDESCHANGE= 'temp_brokerRequest/managecostincludeschange';
 export const dongchange = createAction(DONGCHANGE);
 export const hosilchange = createAction(HOSILCHANGE);
 export const floorchange = createAction(FLOORCHANGE);
+export const dongnamechange= createAction(DONGNAMECHANGE);
+export const hosilnamechange= createAction(HOSILNAMECHANGE);
+export const floornamechange= createAction(FLOORNAMECHANGE);
+
 export const dangichange = createAction(DANGICHANGE);
-export const dangiaddresschange = createAction(DANGIADDRESSCHANGE);
+export const dangijibunaddresschange = createAction(DANGIJIBUNADDRESSCHANGE);
+export const dangiroadaddresschange = createAction(DANGIROADADDRESSCHANGE);
+export const xchange= createAction(XCHANGE);
+export const ychange= createAction(YCHANGE);
 export const phonechange = createAction(PHONECHANGE);
 export const namechange = createAction(NAMECHANGE);
 export const maemultypechange = createAction(MAEMULTYPECHANGE);
@@ -56,8 +71,14 @@ const initialState = {
    dong : '',
    hosil: '',
    floor: '',
+   dongname:'',
+   hosilname:'',
+   floorname:'',
    dangi: '',
-   dangiaddress: '',
+   dangijibunaddress: '',
+   dangiroadaddress:'',
+   x:'',
+   y:'',
    name: '',
    phone: '',
    maemultype: '',
@@ -100,16 +121,52 @@ export default handleActions({
       draft.floor = action.payload.floors;
     });
   },
+  [DONGNAMECHANGE]: (state, action) => {
+    console.log('DONGNAMECHANGE 함수 호출 :',state,action);
+   return produce(state, draft => {
+     draft.dongname = action.payload.dongnames;
+   });
+ },
+ [HOSILNAMECHANGE]: (state, action) => {
+  console.log('HOSILNAMECHANGE 함수 호출 :',state,action);
+ return produce(state, draft => {
+   draft.hosilname = action.payload.hosilnames;
+ });
+},
+[FLOORNAMECHANGE]: (state, action) => {
+  console.log('FLOORNAMECHANGE 함수 호출 :',state,action);
+ return produce(state, draft => {
+   draft.floorname = action.payload.floornames;
+ });
+},
   [DANGICHANGE]: (state, action) => {
     console.log('dangichange 함수 호출 :',state,action);
    return produce(state, draft => {
      draft.dangi = action.payload.dangis;
    });
  },
- [DANGIADDRESSCHANGE]: (state, action) => {
-    console.log('dangiaddress & address change 함수 호출 :',state,action);
+ [DANGIJIBUNADDRESSCHANGE]: (state, action) => {
+    console.log('DANGIJIBUNADDRESSCHANGE 함수 호출 :',state,action);
    return produce(state, draft => {
-     draft.dangiaddress = action.payload.dangiaddresss;
+     draft.dangijibunaddress = action.payload.dangijibunaddress;
+   });
+ },
+ [DANGIROADADDRESSCHANGE]: (state, action) => {
+  console.log('dangiaddress & address change 함수 호출 :',state,action);
+ return produce(state, draft => {
+   draft.dangiroadaddress = action.payload.dangiroadaddress;
+ });
+},
+ [XCHANGE] : (state,action) => {
+   console.log('dangi x pos change함수호출:',state,action);
+   return produce(state,draft => {
+     draft.x= action.payload.x_pos;
+   });
+ },
+ [YCHANGE] : (state,action) => {
+   console.log('dangi y pos change함수 호출:',state,action);
+   return produce(state,draft => {
+     draft.y= action.payload.y_pos;
    });
  },
  [PHONECHANGE]: (state, action) => {

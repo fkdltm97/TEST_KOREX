@@ -2,7 +2,6 @@
 import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-
 //css
 import styled from "styled-components"
 
@@ -19,8 +18,51 @@ import Change from '../../../../../img/member/change.png';
 import Marker from '../../../../../img/member/marker.png';
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
+//server
+import serverController from '../../../../../server/serverController';
+
+import { temp_SelectComplexinfo } from '../../../../../store/actionCreators';
+import {useSelector} from 'react-redux';
+
 //필터 모달
-export default function ModalDanjiSelect({modalDanji,setModalDanji,setSelectInfo}) {
+export default function ModalDanjiSelect({modalDanji,setModalDanji,setSelectInfo,select_complexid}) {
+    const [addrjibun,setAddrjibun] = useState('');
+    const [addrRoad,setAddrRoad] = useState('');
+    const [complexname,setComplexname] = useState('');
+    
+    const temp_selectcomplexinfo= useSelector(data => data.temp_selectComplexinfo);
+
+    useEffect( async () => {
+      //해당 넘어온 select_complexid에 대해서 정보 조회한다.
+
+      let body_info={
+        complex_id : select_complexid
+      };
+      let res_result= await serverController.connectFetchController('/api/matterial/complexdetail_search','POST',JSON.stringify(body_info));
+      console.log('res_results:::',res_result);
+      
+      setAddrjibun(res_result.result[0].addr_jibun);
+      setAddrRoad(res_result.result[0].addr_road);
+      setComplexname(res_result.result[0].complex_name);
+      
+
+      temp_SelectComplexinfo.complexidchange({complexid: res_result.result[0].complex_id});
+        temp_SelectComplexinfo.bldpkchange({bldpk:res_result.result[0].bld_pk});
+        temp_SelectComplexinfo.complexnamechange({complexname:res_result.result[0].complex_name});
+        temp_SelectComplexinfo.dongcntchange({dongcnt:res_result.result[0].dong_cnt});
+        temp_SelectComplexinfo.addrjibunchange({addrjibun:res_result.result[0].addr_jibun});
+        temp_SelectComplexinfo.addrroadchange({addrroad:res_result.result[0].addr_road});
+        temp_SelectComplexinfo.developerchange({developer:res_result.result[0].developer});
+        temp_SelectComplexinfo.constructorchange({constructor:res_result.result[0].constructor});
+        temp_SelectComplexinfo.approvaldatechange({approvaldate:res_result.result[0].approval_date});
+        temp_SelectComplexinfo.totalparkingcntchange({totalparkcnt:res_result.result[0].total_parking_cnt});
+        temp_SelectComplexinfo.householdcntchange({householdcnt:res_result.result[0].household_cnt});
+        temp_SelectComplexinfo.xchange({x:res_result.result[0].x});
+        temp_SelectComplexinfo.ychange({y:res_result.result[0].y});
+        temp_SelectComplexinfo.heattypechange({heattype:res_result.result[0].heat_type});
+        temp_SelectComplexinfo.halltypechange({halltype:res_result.result[0].hall_type});
+        temp_SelectComplexinfo.bldtypechange({bldtype:res_result.result[0].bld_type});
+    },[]);
     return (
         <Container>
           <WrapModal>
@@ -35,23 +77,30 @@ export default function ModalDanjiSelect({modalDanji,setModalDanji,setSelectInfo
                 <Title>중개의뢰 가능한 단지 선택</Title>
               </TopInfo>
               <Body>
-                <SearchTitle>반포자이</SearchTitle>
+                <SearchTitle>{complexname}</SearchTitle>
                 <SearchResultAddress>
-                서울 서초구 반포동 20-43<br/>
-                도로명) 서울시 서초구 신반포로 270
+                {/*서울 서초구 반포동 20-43<br/>
+                도로명) 서울시 서초구 신반포로 270*/}
+                {addrjibun}<br/>
+                {addrRoad}
                 </SearchResultAddress>
               </Body>
               <Question>선택하시겠습니까?</Question>
               <Buttons>
                 <CancelBtn type="button" onClick={() => {setModalDanji(false)}}>취소</CancelBtn>
                 <Link>
-                  <ConfirmBtn type="button" onClick={()=>{setModalDanji(false);setSelectInfo(true)}}>확인</ConfirmBtn>
+                  <ConfirmBtn type="button" onClick={()=>{
+                    setModalDanji(false);setSelectInfo(true);
+
+                    console.log('선택 확인 정보:',temp_selectcomplexinfo);
+                  }
+                  }>확인</ConfirmBtn>
                 </Link>
               </Buttons>
             </Modal>
           </WrapModal>
         </Container>
-  );
+   );
 }
 
 const Pb = styled.b`

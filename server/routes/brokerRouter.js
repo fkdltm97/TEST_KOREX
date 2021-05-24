@@ -40,13 +40,21 @@ router.post('/user_brokerRequest',async function(request,response){
         selltype,sellprice,mangecost,ibju_isinstant,ibju_speciftydate, exculsive_peridos,companyid,requestmemdi
         아파트,오피의 경우 단지명,단지주소,동 층 호실의 조합으로 구분한다.사실상 이 조합이 유일하게 임의 등록하려는 전속매물끼릴를 구분할수있는 것이기에. 기존 products,transaction등에서 이러한 조합으로
         구분하여 존재하고있는것이면 등록안되게끔 하는게 단수알고리즘.
+        임의 전문중개사가 전용담당하고있는걸로 하면 안되고, 그 중개사id로 등록된 상품들중에서 해당 요청ho_id(아파트,오피스텔의 경우 등록하려는 아파트오피의 특정층의 특정호실에 대한 그 매물로 등록한 product가 있다면 그건 이미 코렉스시스템에 등록된 매물인것임,) 사무실상가의 경우는 product에서 임의 전문중개사companyid로 등록된 rpdocdut내역중에서 그 해당 flr_id층id값 어떤 상가,사무실건물의 특정 건물그 자체의 n층에 해당하는 (층단위)flr_id로의 등록이 이미 되었는지로 판단.(오피,아파트보다 좀더 신청가능한 범위가 좁음.)
         */
         //prd_id로 등록한다.
         var dong=req_body.dong;
         var hosil=req_body.hosil;
         var floor=req_body.floor;
         var dangi=req_body.dangi;
-        var dangiaddress=req_body.dangiaddress;
+        var dangijibunaddress=req_body.dangijibunaddress;
+        var dangiroadaddress=req_body.dangiroadaddress;
+        var dongname=req_body.dongname;
+        var floorname=req_body.floorname;
+        var hosilname=req_body.hosilname;
+        var x=req_body.x;
+        var y=req_body.y;
+        
         var name=req_body.name;
         var phone=req_body.phone;
         var maemultype=req_body.maemultype;
@@ -54,17 +62,20 @@ router.post('/user_brokerRequest',async function(request,response){
         var jeonyongdimension=req_body.jeonyongdimension;
         var jeonyongpyeong=req_body.jeonyongpyeong;
         var supplydimension=req_body.supplydimension;
+        var supplypyeong=req_body.supplypyeong;
         var selltype=req_body.selltype;
         var sellprice=req_body.sellprice;
         var managecost=req_body.managecost;
         var companyid=req_body.companyid;
         var requestmemid=req_body.requestmemid;
-        var address_detail=dong+' '+hosil+' '+floor;
+        var address_detail=dongname+' '+floorname+' '+hosilname;
 
-
+        var ibju_isinstant=req_body.ibju_isinstant;
+        var ibju_specifydate=req_body.ibju_specifydate;
+        var exculsive_periods=req_body.exculsive_periods;
         //product에 가장 먼저 넣고, 추출해야할것은 prd_id(insertId이고) 이 insertid를 prd_identity_id대입한다.
         await connection.beginTransaction();
-        var [products_insert_rows]=await connection.query('insert into product(company_id,prd_name,prd_type,prd_sel_type,prd_price,prd_month_price,prd_status,prd_display,prd_area,prd_area_fect,prd_exculsive_status,address,address_detail,supply_space,exculsive_space,create_date,modify_date,request_memid,product_create_origin,request_man_name,request_mem_phone,managecost) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[companyid,maemulname,maemultype,selltype,sellprice,sellprice,'검토대기',0,1,1,0,dangiaddress,address_detail,supplydimension,jeonyongdimension,new Date(),new Date(),requestmemid,1,name,phone,managecost]);
+        var [products_insert_rows]=await connection.query('insert into product(company_id,prd_name,prd_type,prd_sel_type,prd_price,prd_month_price,prd_status,prd_latitude,prd_longitude,prd_exculsive_status,address_detail,supply_space,exculsive_space,floor,modify_date,create_date,request_memid,product_create_origin,request_man_name,request_mem_phone,managecost,ibju_isinstant,ibju_specifydate,exculsive_pyeong,supply_pyeong,exculsive_periods,managecostincludes,bld_id,ho_id,addressjibun,addressroad) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[companyid,maemulname,maemultype,selltype,sellprice,sellprice,'검토대기',x,y, 0,address_detail,supplydimension,jeonyongdimension,floor,new Date(),new Date(),requestmemid,'중개의뢰',name,phone,managecost,ibju_isinstant,ibju_specifydate,jeonyongpyeong,supplypyeong,exculsive_periods,'',dong,hosil,dangijibunaddress,dangiroadaddress]);
         await connection.commit();
         console.log('produts insert query rtowss:',products_insert_rows);
         //connection.release();
@@ -79,7 +90,7 @@ router.post('/user_brokerRequest',async function(request,response){
 
         //trasnaction에 지정한다->> prd_identtiy_id로 지정
         await connection.beginTransaction();
-        var [transaction_insert_rows] = await connection.query('insert into transaction(company_id,txn_type,txn_status,txn_order_type,create_date,modify_date,prd_identity_id) values(?,?,?,?,?,?,?)',[companyid,1,'의뢰대기',selltype,new Date(),new Date(),prd_identity_id]);
+        var [transaction_insert_rows] = await connection.query('insert into transaction(company_id,txn_type,txn_status,txn_order_type,create_date,modify_date,prd_identity_id) values(?,?,?,?,?,?,?)',[companyid,1,'검토대기',selltype,new Date(),new Date(),prd_identity_id]);
         await connection.commit();
         console.log('products transaction insert query rows:',transaction_insert_rows);
 
@@ -87,7 +98,7 @@ router.post('/user_brokerRequest',async function(request,response){
 
         //transaction_history에 지정한다 -> prd_identity_id로 지정
         await connection.beginTransaction();
-        var [transaction_history_insert_rows] = await connection.query('insert into transaction_history(txn_id,company_id,prd_identity_id,th_status,th_type,create_date,modify_date) values(?,?,?,?,?,?,?)',[extract_txn_id,companyid,prd_identity_id,'의뢰대기',selltype,new Date(),new Date()]);
+        var [transaction_history_insert_rows] = await connection.query('insert into transaction_history(txn_id,company_id,prd_identity_id,th_status,th_type,create_date,modify_date) values(?,?,?,?,?,?,?)',[extract_txn_id,companyid,prd_identity_id,'검토대기',selltype,new Date(),new Date()]);
         await connection.commit();
         console.log('transaction_history insert query rows:',transaction_history_insert_rows);
 
@@ -124,22 +135,25 @@ router.post('/user_brokerOuterRequest',async function(request,response){
         구분하여 존재하고있는것이면 등록안되게끔 하는게 단수알고리즘.
         */
         //prd_id로 등록한다.
-        var address = req_body.address;
+        var dangijibunaddress = req_body.dangijibunaddress;
+        var dangiroadaddress = req_body.dangiroadaddress;
+        var x= req_body.x;
+        var y= req_body.y;
         var apartspaceoption = req_body.apartspaceoption_val;
         var bathroomcount = req_body.bathroomcount_val;
-        var companyid = req_body.companyid;
-        var dangi = req_body.dangi;
-        var direction = req_body.direction_val;
-        var dong = req_body.dong;
+        var companyid = req_body.companyid;//등록하려는 중개사회원
+        var dangi = req_body.dangi; //단지orfloor건물명 엄밀히는 단지명 complexname
+        var direction = req_body.direction_val; 
+        var dong = req_body.dong;//선택 동(빌딩bld_id)
         var entrance = req_body.entrance_val;
         var exculsive_periods= req_body.exculsive_periods;
         var exculsivedimension=req_body.exculsivedimension;
         var exculsivepyeong = req_body.exculsivepyeong;
-        var floor= req_body.floor;
+        var floor= req_body.floor;//상가사무실케이스 선택 flr_id 선택건물층.
         var guaranteeprice = req_body.guaranteeprice_val;
         var heatfuel = req_body.heatfuel_val;
         var heatmethod = req_body.heatmethod_val;
-        var hosil = req_body.hosil;
+        var hosil = req_body.hosil;//선택 호실.ho_id
         var ibju_isinstant = req_body.ibju_isinstant;
         var ibju_specifydate = req_body.ibju_specifydate;
         ibju_isinstant= (ibju_isinstant != '' || ibju_isinstant != null ) ? ibju_isinstant : 0;
@@ -153,6 +167,11 @@ router.post('/user_brokerOuterRequest',async function(request,response){
         isparking = (isparking !='' || isparking != null) ? isparking : 0;
         iselevator = (iselevator !='' || iselevator != null) ? iselevator : 0;
         iswithpet = (iswithpet !='' || iswithpet != null)? iswithpet : 0;
+
+        var dongname = req_body.dongname;
+        var hosilname = req_body.hosilname;
+        var floorname = req_body.floorname;
+
         var loanprice = req_body.loanprice_val;
         var maemul_description = req_body.mameul_description_val;
         var maemul_descriptiondetail_val = req_body.maemul_descriptiondetail_val;
@@ -171,11 +190,11 @@ router.post('/user_brokerOuterRequest',async function(request,response){
         var spaceoption = req_body.spaceoption_val;
         var supplydimension = req_body.supplydimension;
         var supplypyeong = req_body.supplypyeong;
-        var address_detail = dong + '동 '+floor+' 층'+hosil+'호';
+        var address_detail = dongname + '동 '+floorname+' 층'+hosilname+'호';
 
         //product에 가장 먼저 넣고, 추출해야할것은 prd_id(insertId이고) 이 insertid를 prd_identity_id대입한다.
         await connection.beginTransaction();
-        var [products_insert_rows]=await connection.query('insert into product(address,apartspaceoption,bathroom_count,company_id,direction,entrance,address_detail,exculsive_periods,exculsive_space,exculsive_pyeong,prd_status,floor,month_base_guaranteeprice,heat_fuel_type,heat_method_type,ibju_isinstant, ibju_specifydate, iscontractrenewal, isduplexfloor,is_elevator,is_parking,iswithpet,loanprice,maemul_description,maemul_descriptiondetail,prd_name,prd_type,managecost,managecostincludes,parkingoptions,request_man_name,request_mem_phone,room_count,securityoption,prd_price,prd_sel_type,spaceaddonoption,spaceoption,supply_space,supply_pyeong,product_create_origin) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[address,apartspaceoption,bathroomcount,companyid,direction,entrance,address_detail,exculsive_periods,exculsivedimension,exculsivepyeong,'검토대기',floor,guaranteeprice,heatfuel,heatmethod,ibju_isinstant,ibju_specifydate,iscontractrenewal,isduplexfloor,iselevator,isparking,iswithpet,loanprice,maemul_description,maemul_descriptiondetail_val,maemulname,maemultype,managecost,managecostincludes,parkingoptions,requestmanname,requestmemphone,roomcount,securityoption,sellprice,selltype,spaceaddonoption,spaceoption,supplydimension,supplypyeong,'외부수임']);
+        var [products_insert_rows]=await connection.query('insert into product(addressjibun,addressroad,prd_latitude,prd_longitude,bld_id,ho_id,apartspaceoption,bathroom_count,company_id,direction,entrance,address_detail,exculsive_periods,exculsive_space,exculsive_pyeong,prd_status,floor,month_base_guaranteeprice,heat_fuel_type,heat_method_type,ibju_isinstant, ibju_specifydate, iscontractrenewal, isduplexfloor,is_elevator,is_parking,iswithpet,loanprice,maemul_description,maemul_descriptiondetail,prd_name,prd_type,managecost,managecostincludes,parkingoptions,request_man_name,request_mem_phone,room_count,securityoption,prd_price,prd_sel_type,spaceaddonoption,spaceoption,supply_space,supply_pyeong,product_create_origin) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[dangijibunaddress,dangiroadaddress,x,y,dong,hosil,apartspaceoption,bathroomcount,companyid,direction,entrance,address_detail,exculsive_periods,exculsivedimension,exculsivepyeong,'검토대기',floor,guaranteeprice,heatfuel,heatmethod,ibju_isinstant,ibju_specifydate,iscontractrenewal,isduplexfloor,iselevator,isparking,iswithpet,loanprice,maemul_description,maemul_descriptiondetail_val,maemulname,maemultype,managecost,managecostincludes,parkingoptions,requestmanname,requestmemphone,roomcount,securityoption,sellprice,selltype,spaceaddonoption,spaceoption,supplydimension,supplypyeong,'외부수임']);
         await connection.commit();
         console.log('produts insert query rtowss:',products_insert_rows);
         //connection.release();

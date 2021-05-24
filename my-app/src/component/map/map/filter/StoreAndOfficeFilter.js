@@ -17,6 +17,8 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import StoreAndOfficeItem from "./StoreAndOfficeItem";
 import OfficetelFilterItem from "./OfficetelFilterItem";
 import ApartFilterItem from "./ApartFilterItem";
+import RadioCommon from './radioCommon';
+
 
 // redux
 import { MapFilterRedux } from '../../../../store/actionCreators';
@@ -26,6 +28,7 @@ import { useSelector } from 'react-redux';
 import Rheostat from "rheostat";
 import 'rheostat/initialize';
 import './slider.css';
+import RangeDetail from './rangeDetail';
 
 export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
 
@@ -67,54 +70,39 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     const [snapMonthlyArr, setSnapMonthlyArr] = useState([]);
     const [monthlyText, setMonthlyText] = useState("");
 
+    const radioData = {
+      floor:["전체", "1층", "5층이상", "5층이하"],
+      use:["전체", "5년 이내", "10년 이내", "20년 이내", "20년 이상"],
+      danji:["전체", "200세대 이상", "500세대 이상", "1000세대 이상", "2000세대 이상"]
+    } 
 
     useEffect(() => {
       let min = uiData.priceRangeValue[0];
       let max = uiData.priceRangeValue[1];
-      if(min == minPrice && max == maxPrice){
-        setPriceText("전체");
-        return;
-      }
-      rangeText(min, max, minPrice, maxPrice, priceToKor(min), priceToKor(max), setPriceText, "");
+      rangeText(min, max, minPrice, maxPrice, priceToKor(min), priceToKor(max), setPriceText, "",);
     }, [uiData.priceRangeValue])
 
     useEffect(() => {
       let min = uiData.manaRangeValue[0];
       let max = uiData.manaRangeValue[1];
-      if(min == minPriceMana && max == maxPriceMana){
-        setManaText("전체");
-        return;
-      }
       rangeText(min, max, minPriceMana, maxPriceMana, min, max, setManaText, "만");
     }, [uiData.manaRangeValue])
 
     useEffect(() => {
       let min = uiData.areaRangeValue[0];
       let max = uiData.areaRangeValue[1];
-      if(min == minArea && max == maxArea){
-        setAreaText("전체");
-        return;
-      }
       rangeText(min, max, minArea, maxArea, min, max, setAreaText, "평");
     }, [uiData.areaRangeValue])
     
     useEffect(() => {
       let min = uiData.jeonseRangeValue[0];
       let max = uiData.jeonseRangeValue[1];
-      if(min == minJeonse && max == maxJeonse){
-        setJeonseText("전체");
-        return;
-      }
       rangeText(min, max, minJeonse, maxJeonse, jeonseTextfunc(min), jeonseTextfunc(max), setJeonseText, "");
     }, [uiData.jeonseRangeValue])
     
     useEffect(() => {
       let min = uiData.monthlyRangeValue[0];
       let max = uiData.monthlyRangeValue[1];
-      if(min == minMonthly && max == maxMonthly){
-        setMonthlyText("전체");
-        return;
-      }
       rangeText(min, max, minMonthly, maxMonthly, monthlyTextfunc(min), monthlyTextfunc(max), setMonthlyText, "");
     }, [uiData.monthlyRangeValue])
         
@@ -225,6 +213,10 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
 
     // 범위 텍스트
     const rangeText = (min, max, minPrice, maxPrice, minText, maxText, setText, unit) => {
+      if(min == minPrice && max == maxPrice){
+        setText("전체");
+        return;
+      }
       if(min == minPrice){
         setText(maxText + unit);
       }else if(max == maxPrice){
@@ -264,7 +256,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
     const onChangeDanji = (e) => {
       data.danji = e.target.dataset.text;
       uiData.danji = e.target.dataset.num;
-      MapFilterRedux.updateFilterArr({filterArr: data});
+      MapFilterRedux.updateFilterArr({filterArr:data});
       MapFilterRedux.updateFilterUI({filterUI:uiData});
     }
 
@@ -281,6 +273,7 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       }
     }
 
+    // 로컬에 저장되어있는 값을 가져와 리덕스에 넣는다.
     useEffect(() => {
       let filterData = JSON.parse(localStorage.getItem("filterData"));
       if(!filterData){return;}
@@ -288,134 +281,236 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
       MapFilterRedux.updateFilterUI({filterUI:filterData.filterUI});
     }, [])
 
+    // 관리비 없음 버튼
+    const manaBtn = () => {
+      return(
+        <SwitchButton>
+          <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onChange={(e) => {onClickAdmin(e)}} id="switch"/>
+          <SwitchLabel for="switch">
+            <SwitchSpan/>
+          </SwitchLabel>
+          <Span>관리비 없는것만 보기</Span>
+        </SwitchButton>
+      )
+    }
 
     return (
         <Container>
           <WrapApart>
-            {/* ---------------------- */}
-            {/*가격 -- 매매-- */}
-            {
-              mapFilterRedux.filterArr.prd_sel_type.some(item => item == "매매")
-              ?
-              <Box id="priceWrap">
-                <SubTitle>매매</SubTitle>
-                <WrapFilter>
-                  <PriceView>{priceText}</PriceView>
-                  <WrapRange className="changeBtnRange">
-                    <Rheostat
-                      min={minPrice}
-                      max={maxPrice}
-                      values={uiData.priceRangeValue}
-                      onChange={(e) => {uiData.priceRangeValue=e.values; MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
-                      snap
-                      snapPoints={snapArr}
-                    />
-                  </WrapRange>
-                  <BottomBar>
-                    <BarTxt>최소</BarTxt>
-                    <BarTxtMl>3억</BarTxtMl>
-                    <BarTxtMR>7억</BarTxtMR>
-                    <BarTxt>최대</BarTxt>
-                  </BottomBar>
-                </WrapFilter>
-              </Box>
-              :
-              <></>
-            }
-
+            {/* -- 수정코드입니다. */}
+            {/* 매매 -- 매매-- */}
+            <RangeDetail
+              bool={mapFilterRedux.filterArr.prd_sel_type.some(item => item == "매매")}
+              id="priceWrap"
+              title="매매"
+              price={priceText}
+              min={minPrice}
+              max={maxPrice}
+              value={uiData.priceRangeValue}
+              onChange={(e) => {uiData.priceRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData});}}
+              snapPoints={snapArr}
+              txt="최소"
+              txt2="3억"
+              txt3="7억"
+              txt4="최대"
+            />
             {/*보증금 (전세금) --전세, 월세 --*/}
-            {
-              mapFilterRedux.filterArr.prd_sel_type.some(item => item == "전세" || item == "월세" )
-              ?
-              <Box id="jeonseWrap">
-                <SubTitle>보증금 (전세금)</SubTitle>
-                <WrapFilter>
-                  <PriceView>{jeonseText}</PriceView>
-                  <WrapRange className="changeBtnRange">
-                    <Rheostat
-                      min={minJeonse}
-                      max={maxJeonse}
-                      values={uiData.jeonseRangeValue}
-                      onChange={(e) => {uiData.jeonseRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
-                      snap
-                      snapPoints={snapJeonseArr}
-                    />
-                  </WrapRange>
-                  <BottomBar>
-                    <BarTxt>최소</BarTxt>
-                    <BarTxt>5천만</BarTxt>
-                    <BarTxt>2.5억</BarTxt>
-                    <BarTxt>최대</BarTxt>
-                  </BottomBar>
-                </WrapFilter>
-              </Box>
-              :
-              <></>
-            }
-
+            <RangeDetail
+              bool={mapFilterRedux.filterArr.prd_sel_type.some(item => item == "전세" || item == "월세" )}
+              id="jeonseWrap"
+              title="보증금 (전세금)"
+              price={jeonseText}
+              min={minJeonse}
+              max={maxJeonse}
+              value={uiData.jeonseRangeValue}
+              onChange={(e) => {uiData.jeonseRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData});}}
+              snapPoints={snapJeonseArr}
+              txt="최소"
+              txt2="5천만"
+              txt3="2.5억"
+              txt4="최대"
+            />
             {/*월세 -- 월세 --*/}
+            <RangeDetail
+              bool={mapFilterRedux.filterArr.prd_sel_type.some(item => item == "월세" )}
+              id="monthlyWrap"
+              title="월세"
+              price={monthlyText}
+              min={minMonthly}
+              max={maxMonthly}
+              value={uiData.monthlyRangeValue}
+              onChange={(e) => {uiData.monthlyRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData});}}
+              snapPoints={snapMonthlyArr}
+              txt="최소"
+              txt2="35만"
+              txt3="150만"
+              txt4="최대"
+            />
+            {/*관리비 -- 항상 --*/}
+            <RangeDetail
+              bool
+              id="manaWrap"
+              title="관리비"
+              price={manaText}
+              min={minPriceMana}
+              max={maxPriceMana}
+              value={uiData.manaRangeValue}
+              onChange={(e) => {uiData.manaRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData});}}
+              snapPoints={snapAreaArr}
+              txt="최소"
+              txt2="25만"
+              txt3="50만"
+              txt4="최대"
+              btn={manaBtn}
+            />
+            {/*면적(공급면적) -- 항상 -- */}
+            <RangeDetail
+              bool
+              id="areaWrap"
+              title="면적(공급면적)"
+              price={areaText}
+              min={minArea}
+              max={maxArea}
+              value={uiData.areaRangeValue}
+              onChange={(e) => {uiData.areaRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData});}}
+              snapPoints={snapAreaArr}
+              txt="최소"
+              txt2="30평"
+              txt3="70평"
+              txt4="최대"
+            />
+            {/* 층수 */}
+            <RadioCommon boxId="floorWrap" title="층수" checked={uiData.floor} onChange={onChangeFloor} name="floor" array={radioData.floor}/>
+            {/* 물건상세 */}
+            {filterType()}
+            {/* 사용승인일 */}
+            <RadioCommon boxId="useWrap" title="사용승인일" checked={uiData.use} onChange={onChangeUse} name="use" array={radioData.use}/>
+            {/* 총세대수 */}
             {
-              mapFilterRedux.filterArr.prd_sel_type.some(item => item == "월세" )
-              ?
-              <Box id="monthlyWrap">
-                <SubTitle>월세</SubTitle>
+              status == "apart"?
+              <RadioCommon boxId="danjiWrap" isWidth title="총세대수" checked={uiData.danji} onChange={onChangeDanji} name="danji" array={radioData.danji}/>
+              :<></>
+            }
+            {/* -- 원래 코드입니다. */}
+            {/*
+              {
+                mapFilterRedux.filterArr.prd_sel_type.some(item => item == "매매")
+                ?
+                <Box id="priceWrap">
+                  <SubTitle>매매</SubTitle>
+                  <WrapFilter>
+                    <PriceView>{priceText}</PriceView>
+                    <WrapRange className="changeBtnRange">
+                      <Rheostat
+                        min={minPrice}
+                        max={maxPrice}
+                        values={uiData.priceRangeValue}
+                        onChange={(e) => {uiData.priceRangeValue=e.values; MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
+                        snap
+                        snapPoints={snapArr}
+                      />
+                    </WrapRange>
+                    <BottomBar>
+                      <BarTxt>최소</BarTxt>
+                      <BarTxtMl>3억</BarTxtMl>
+                      <BarTxtMR>7억</BarTxtMR>
+                      <BarTxt>최대</BarTxt>
+                    </BottomBar>
+                  </WrapFilter>
+                </Box>
+                :
+                <></>
+              } 
+              {
+                mapFilterRedux.filterArr.prd_sel_type.some(item => item == "전세" || item == "월세" )
+                ?
+                <Box id="jeonseWrap">
+                  <SubTitle>보증금 (전세금)</SubTitle>
+                  <WrapFilter>
+                    <PriceView>{jeonseText}</PriceView>
+                    <WrapRange className="changeBtnRange">
+                      <Rheostat
+                        min={minJeonse}
+                        max={maxJeonse}
+                        values={uiData.jeonseRangeValue}
+                        onChange={(e) => {uiData.jeonseRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
+                        snap
+                        snapPoints={snapJeonseArr}
+                      />
+                    </WrapRange>
+                    <BottomBar>
+                      <BarTxt>최소</BarTxt>
+                      <BarTxt>5천만</BarTxt>
+                      <BarTxt>2.5억</BarTxt>
+                      <BarTxt>최대</BarTxt>
+                    </BottomBar>
+                  </WrapFilter>
+                </Box>
+                :
+                <></>
+              }
+              {
+                mapFilterRedux.filterArr.prd_sel_type.some(item => item == "월세" )
+                ?
+                <Box id="monthlyWrap">
+                  <SubTitle>월세</SubTitle>
+                  <WrapFilter>
+                    <PriceView>{monthlyText}</PriceView>
+                    <WrapRange className="changeBtnRange">
+                      <Rheostat
+                        min={minMonthly}
+                        max={maxMonthly}
+                        values={uiData.monthlyRangeValue}
+                        onChange={(e) => {uiData.monthlyRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
+                        snap
+                        snapPoints={snapMonthlyArr}
+                      />
+                    </WrapRange>
+                    <BottomBar>
+                      <BarTxt>최소</BarTxt>
+                      <BarTxt>35만</BarTxt>
+                      <BarTxt>150만</BarTxt>
+                      <BarTxt>최대</BarTxt>
+                    </BottomBar>
+                  </WrapFilter>
+                </Box>
+                :
+                <></>
+              }
+
+              <Box id="manaWrap">
+                <SubTitle>관리비</SubTitle>
                 <WrapFilter>
-                  <PriceView>{monthlyText}</PriceView>
+
+                  <SwitchButton>
+                    <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onChange={(e) => {onClickAdmin(e)}} id="switch"/>
+                    <SwitchLabel for="switch">
+                      <SwitchSpan/>
+                    </SwitchLabel>
+                    <Span>관리비 없는것만 보기</Span>
+                  </SwitchButton>
+
+                  <PriceView>{manaText}</PriceView>
                   <WrapRange className="changeBtnRange">
                     <Rheostat
-                      min={minMonthly}
-                      max={maxMonthly}
-                      values={uiData.monthlyRangeValue}
-                      onChange={(e) => {uiData.monthlyRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
+                      min={minPriceMana}
+                      max={maxPriceMana}
+                      values={uiData.manaRangeValue}
+                      onChange={(e) => {uiData.manaRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
                       snap
-                      snapPoints={snapMonthlyArr}
+                      snapPoints={snapManaArr}
                     />
                   </WrapRange>
                   <BottomBar>
                     <BarTxt>최소</BarTxt>
-                    <BarTxt>35만</BarTxt>
-                    <BarTxt>150만</BarTxt>
+                    <BarTxtMl2>25만</BarTxtMl2>
+                    <BarTxt>50만</BarTxt>
                     <BarTxt>최대</BarTxt>
                   </BottomBar>
                 </WrapFilter>
               </Box>
-              :
-              <></>
-            }
 
-            {/*관리비 -- 항상 --*/}
-            <Box id="manaWrap">
-              <SubTitle>관리비</SubTitle>
-              <WrapFilter>
-                <SwitchButton>
-                  <Switch checked={uiData.manaStatus} data-text="관리비없음" className={["adminSwitch", "changeBtn"]} type="checkbox" onChange={(e) => {onClickAdmin(e)}} id="switch"/>
-                  <SwitchLabel for="switch">
-                    <SwitchSpan/>
-                  </SwitchLabel>
-                  <Span>관리비 없는것만 보기</Span>
-                </SwitchButton>
-                <PriceView>{manaText}</PriceView>
-                <WrapRange className="changeBtnRange">
-                  <Rheostat
-                    min={minPriceMana}
-                    max={maxPriceMana}
-                    values={uiData.manaRangeValue}
-                    onChange={(e) => {uiData.manaRangeValue=e.values;  MapFilterRedux.updateFilterUI({filterUI:uiData}); }}
-                    snap
-                    snapPoints={snapManaArr}
-                  />
-                </WrapRange>
-                <BottomBar>
-                  <BarTxt>최소</BarTxt>
-                  <BarTxtMl2>25만</BarTxtMl2>
-                  <BarTxt>50만</BarTxt>
-                  <BarTxt>최대</BarTxt>
-                </BottomBar>
-              </WrapFilter>
-            </Box>
-
-            {/*면적(공급면적) -- 항상 -- */}
-            <Box id="areaWrap">
+              <Box id="areaWrap">
                 <SubTitle>면적(공급면적)</SubTitle>
                 <WrapFilter>
                   <PriceView>{areaText}</PriceView>
@@ -437,141 +532,133 @@ export default function MapFilter({openBunyang, rank, status, open, setOpen}) {
                   </BottomBar>
                 </WrapFilter>
               </Box>
-            
 
-            {/* ---------------------- */}
-            {/*층수*/}
-            <Box  id="floorWrap">
-                <SubTitle>층수</SubTitle>
+              <Box id="floorWrap">
+                  <SubTitle>층수</SubTitle>
+                  <WrapFilter>
+                    <WrapRadio>
+                        <RadioBox>
+                          <InputR checked={uiData.floor==0} className="changeBtn" type="radio" data-text="전체" data-num={0} onChange={(e) => {onChangeFloor(e);}} name="floor" id="floor1"/>
+                          <LabelR for="floor1" >
+                            <SpanR/>
+                            전체
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR checked={uiData.floor==1} className="changeBtn" type="radio" data-text="1층" data-num={1} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
+                          <LabelR for="floor2">
+                            <SpanR/>
+                            1층
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR checked={uiData.floor==2} type="radio" className="changeBtn" data-text="5층이상" data-num={2} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
+                          <LabelR for="floor3">
+                            <SpanR/>
+                            5층이상
+                          </LabelR>
+                        </RadioBox>
+                        <RadioBox>
+                          <InputR checked={uiData.floor==3} type="radio" className="changeBtn" data-text="5층이하" data-num={3} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
+                          <LabelR for="floor4">
+                            <SpanR/>
+                            5층이하
+                          </LabelR>
+                        </RadioBox>
+                    </WrapRadio>
+                  </WrapFilter>
+                </Box>
+              {filterType()}
+              <Box id="useWrap">
+                <SubTitle>사용승인일</SubTitle>
                 <WrapFilter>
-                  <WrapRadio>
-                    <RadioBox>
-                      <InputR checked={uiData.floor==0} className="changeBtn" type="radio" data-text="전체" data-num={0} onChange={(e) => {onChangeFloor(e);}} name="floor" id="floor1"/>
-                      <LabelR for="floor1" >
-                        <SpanR/>
-                        전체
-                      </LabelR>
-                    </RadioBox>
-                    <RadioBox>
-                      <InputR checked={uiData.floor==1} className="changeBtn" type="radio" data-text="1층" data-num={1} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor2"/>
-                      <LabelR for="floor2">
-                        <SpanR/>
-                        1층
-                      </LabelR>
-                    </RadioBox>
-                    <RadioBox>
-                      <InputR checked={uiData.floor==2} type="radio" className="changeBtn" data-text="5층이상" data-num={2} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor3"/>
-                      <LabelR for="floor3">
-                        <SpanR/>
-                        5층이상
-                      </LabelR>
-                    </RadioBox>
-                    <RadioBox>
-                      <InputR checked={uiData.floor==3} type="radio" className="changeBtn" data-text="5층이하" data-num={3} onChange={(e) => {onChangeFloor(e)}} name="floor" id="floor4"/>
-                      <LabelR for="floor4">
-                        <SpanR/>
-                        5층이하
-                      </LabelR>
-                    </RadioBox>
+                  <WrapRadio>            
+                      <RadioBox>
+                        <InputR checked={uiData.use==0} type="radio" className="changeBtn" data-num="0" data-text="전체" onChange={(e) => {onChangeUse(e)}} name="use" id="use1"/>
+                        <LabelR for="use1">
+                          <SpanR/>
+                          전체
+                        </LabelR>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputR checked={uiData.use==1} type="radio" className="changeBtn" data-num="1" data-text="5년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
+                        <LabelR for="use2">
+                          <SpanR/>
+                          5년 이내
+                        </LabelR>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputR checked={uiData.use==2} type="radio" className="changeBtn" data-num="2" data-text="10년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
+                        <LabelR for="use3">
+                          <SpanR/>
+                          10년 이내
+                        </LabelR>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputR checked={uiData.use==3} type="radio" className="changeBtn" data-num="3" data-text="20년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
+                        <LabelR for="use4">
+                          <SpanR/>
+                          20년 이내
+                        </LabelR>
+                      </RadioBox>
+                      <RadioBox>
+                        <InputR checked={uiData.use==4} type="radio" className="changeBtn" data-num="4" data-text="20년 이상" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
+                        <LabelR for="use5">
+                          <SpanR/>
+                          20년 이상
+                        </LabelR>
+                      </RadioBox>
                   </WrapRadio>
                 </WrapFilter>
-              </Box>
-
-            {/* 필터 */}
-            {filterType()}
-
-            {/*사용승인일*/}
-            <Box id="useWrap">
-              <SubTitle>사용승인일</SubTitle>
-              <WrapFilter>
-                <WrapRadio>
-                  <RadioBox>
-                    <InputR checked={uiData.use==0} type="radio" className="changeBtn" data-num="0" data-text="전체" onChange={(e) => {onChangeUse(e)}} name="use" id="use1"/>
-                    <LabelR for="use1">
-                      <SpanR/>
-                      전체
-                    </LabelR>
-                  </RadioBox>
-                  <RadioBox>
-                    <InputR checked={uiData.use==1} type="radio" className="changeBtn" data-num="1" data-text="5년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use2"/>
-                    <LabelR for="use2">
-                      <SpanR/>
-                      5년 이내
-                    </LabelR>
-                  </RadioBox>
-                  <RadioBox>
-                    <InputR checked={uiData.use==2} type="radio" className="changeBtn" data-num="2" data-text="10년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use3"/>
-                    <LabelR for="use3">
-                      <SpanR/>
-                      10년 이내
-                    </LabelR>
-                  </RadioBox>
-                  <RadioBox>
-                    <InputR checked={uiData.use==3} type="radio" className="changeBtn" data-num="3" data-text="20년 이내" onChange={(e) => {onChangeUse(e)}} name="use" id="use4"/>
-                    <LabelR for="use4">
-                      <SpanR/>
-                      20년 이내
-                    </LabelR>
-                  </RadioBox>
-                  <RadioBox>
-                    <InputR checked={uiData.use==4} type="radio" className="changeBtn" data-num="4" data-text="20년 이상" onChange={(e) => {onChangeUse(e)}} name="use" id="use5"/>
-                    <LabelR for="use5">
-                      <SpanR/>
-                      20년 이상
-                    </LabelR>
-                  </RadioBox>
-                </WrapRadio>
-              </WrapFilter>
-            </Box>
-          
-            {/* ->아파트<- 총세대수 */}
-            {
-              status == "apart"?
-              <Box id="danjiWrap">
-                <SubTitle>총세대수</SubTitle>
-                <WrapFilter>
-                  <WrapRadio>
-                    <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==0} type="radio" className="changeBtn" data-num="0" onChange={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
-                      <LabelR for="danji1">
-                        <SpanR/>
-                        전체
-                      </LabelR>
-                    </RadioBoxWidth50>
-                    <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==1} type="radio" className="changeBtn" data-num="1" onChange={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
-                      <LabelR for="danji2">
-                        <SpanR/>
-                        200세대 이상
-                      </LabelR>
-                    </RadioBoxWidth50>
-                    <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==2} type="radio" className="changeBtn" data-num="2" onChange={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
-                      <LabelR for="danji3">
-                        <SpanR/>
-                        500세대 이상
-                      </LabelR>
-                    </RadioBoxWidth50>
-                    <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==3} type="radio" className="changeBtn" data-num="3" onChange={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
-                      <LabelR for="danji4">
-                        <SpanR/>
-                        1000세대 이상
-                      </LabelR>
-                    </RadioBoxWidth50>
-                    <RadioBoxWidth50>
-                      <InputR checked={uiData.danji==4} type="radio" className="changeBtn" data-num="4" onChange={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
-                      <LabelR for="danji5">
-                        <SpanR/>
-                        2000세대 이상
-                      </LabelR>
-                    </RadioBoxWidth50>
-                  </WrapRadio>
-                </WrapFilter>
-              </Box>
-              :
-              <></>
-            }
+              </Box> 
+              {
+                status == "apart"?
+                <Box id="danjiWrap">
+                  <SubTitle>총세대수</SubTitle>
+                  <WrapFilter>
+                    <WrapRadio>
+                      <RadioBoxWidth50>
+                        <InputR checked={uiData.danji==0} type="radio" className="changeBtn" data-num="0" onChange={(e) => onChangeDanji(e)} data-text="전체" name="danji" id="danji1" defaultChecked/>
+                        <LabelR for="danji1">
+                          <SpanR/>
+                          전체
+                        </LabelR>
+                      </RadioBoxWidth50>
+                      <RadioBoxWidth50>
+                        <InputR checked={uiData.danji==1} type="radio" className="changeBtn" data-num="1" onChange={(e) => onChangeDanji(e)} data-text="200세대 이상" name="danji" id="danji2"/>
+                        <LabelR for="danji2">
+                          <SpanR/>
+                          200세대 이상
+                        </LabelR>
+                      </RadioBoxWidth50>
+                      <RadioBoxWidth50>
+                        <InputR checked={uiData.danji==2} type="radio" className="changeBtn" data-num="2" onChange={(e) => onChangeDanji(e)} data-text="500세대 이상" name="danji" id="danji3"/>
+                        <LabelR for="danji3">
+                          <SpanR/>
+                          500세대 이상
+                        </LabelR>
+                      </RadioBoxWidth50>
+                      <RadioBoxWidth50>
+                        <InputR checked={uiData.danji==3} type="radio" className="changeBtn" data-num="3" onChange={(e) => onChangeDanji(e)} data-text="1000세대 이상" name="danji" id="danji4"/>
+                        <LabelR for="danji4">
+                          <SpanR/>
+                          1000세대 이상
+                        </LabelR>
+                      </RadioBoxWidth50>
+                      <RadioBoxWidth50>
+                        <InputR checked={uiData.danji==4} type="radio" className="changeBtn" data-num="4" onChange={(e) => onChangeDanji(e)} data-text="2000세대 이상" name="danji" id="danji5"/>
+                        <LabelR for="danji5">
+                          <SpanR/>
+                          2000세대 이상
+                        </LabelR>
+                      </RadioBoxWidth50>
+                    </WrapRadio>
+                  </WrapFilter>
+                </Box>
+                :
+                <></>
+              }
+            */}
           
           </WrapApart>
         </Container>

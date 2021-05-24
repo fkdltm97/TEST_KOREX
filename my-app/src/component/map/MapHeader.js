@@ -12,6 +12,7 @@ import PCLogo from '../../img/main/pc_header_logo.png';
 import Mypage from '../../img/main/mypage_icon.png';
 import Arrow from '../../img/map/arrow_down.png';
 import Search from '../../img/map/search.png';
+import Close from '../../img/main/modal_close.png';
 
 // components
 import { Mobile, PC } from "../../MediaQuery";
@@ -21,10 +22,36 @@ import { MapFilterRedux } from '../../store/actionCreators';
 // Init
 import initFilter from './initFilter';
 
+//범용 주소 검색 api
+import AddressSearchApi from '../common/addressSearchApi';
+
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
   const [currentTab, setCurrentTab] = useState("apart");
 
+  const [addressApi,setAddressApi] = useState(false);
+  const [search_address,setSearch_address] = useState('');
+
+    /*const onClickSearch = () => {
+      MapFilterRedux.updateFilterRest(initFilter);
+      switch (selectRef.current.value){
+        case "아파트":
+          history.push(`/map/apart`);
+          break;
+        case "오피스텔":
+          history.push(`/map/officetel`);
+          break;
+        case "상가":
+          history.push(`/map/store`);
+          break;
+        case "사무실":
+          history.push(`/map/office`);
+          break;
+        default:
+          history.push(`/map/apart`);
+      }
+      setAddressApi(true);
+    }*/
   const onClickSearch = () => {
     MapFilterRedux.updateFilterRest(initFilter);
     history.push(`/map/${currentTab}`);
@@ -75,6 +102,44 @@ export default function MainHeader({openBunyang, rank}) {
                   <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
                 </HeaderSearch>
             </HederLogo>
+            {
+              addressApi ?
+              <AddressApi>
+                 <CloseImg src={Close} onClick={() => setAddressApi(false)}/>
+                 <AddressSearchApi setSearch_address={setSearch_address} setAddressApi={setAddressApi}/>
+              </AddressApi>
+              :
+              null
+            }
+            <HeaderRight>
+              <Link onClick={()=>{openBunyang(true)}}>
+                <Bunyang>분양</Bunyang>
+              </Link>
+              <Link to="/Mypage">
+                <MyImg src={Mypage}/>
+              </Link>
+            </HeaderRight>
+            </PC>
+            <Mobile>
+              <HederLogo>
+                  <Link to="/">
+                    <LogoImg src={Logo}/>
+                  </Link>
+                  <HeaderSearch>
+                    <SearchSelect>
+                      <Option>아파트</Option>
+                      <Option>오피스텔</Option>
+                      <Option>상가</Option>
+                      <Option>사무실</Option>
+                    </SearchSelect>
+                    <Line/>
+                    <SearchInput type="search" name=""/>
+                    <SearchBtn type="submit" name=""/>
+                  </HeaderSearch>
+              </HederLogo>
+              <HeaderRight>
+                <Link to="/Mypage">
+                  <MyImg src={Mypage}/>
           */}
 
           <HeaderRight>
@@ -134,6 +199,19 @@ const Container = styled.header`
           z-index:3;
       }
 `
+const AddressApi = styled.div`
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:450px;height:auto;z-index:2;
+  border:1px solid #eee;
+  background:#fff;
+  padding:70px 10px 0;
+`
+const CloseImg = styled.img`
+  position:Absolute;top:20px;right:10px;
+  width:18px;
+  cursor:pointer;
+`
+
 const WrapHeader = styled.div`
     display:flex;
     justify-content:space-between;

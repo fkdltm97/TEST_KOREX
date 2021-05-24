@@ -126,13 +126,19 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
 
     //정보 insert요청 진행하기 products에 넣기 진행->>>>>
     let body_info = {
-      dong: tempBrokerRequest.dong,
-      hosil: tempBrokerRequest.hosil,
-      floor: tempBrokerRequest.floor,
-      dangi: tempBrokerRequest.dangi,
-      dangiaddress: tempBrokerRequest.dangiaddress,
-      name : tempBrokerRequest.name,
-      phone: tempBrokerRequest.phone,
+      dong: tempBrokerRequest.dong,//어떤 단지의 건물(동) 택한건지?
+      hosil: tempBrokerRequest.hosil,//어떤 단지의 건물의 층의 호실택한지?(아파트,오피스텔한정, 사무실&상가는 flr_id까지만 참조)
+      floor: tempBrokerRequest.floor,//어떤 flr_id(오피,아파트,상가,사무실 모두 포괄가능한 층id값) 어떤 단지의 건물의 층을 택한지?
+      dangi: tempBrokerRequest.dangi,//단지명.
+      dangijibunaddress: tempBrokerRequest.dangijibunaddress,//검색 단지 법정명,도로명 주소.
+      dangiroadaddress: tempBrokerRequest.dangiroadaddress,
+      dongname: tempBrokerRequest.dongname,
+      floorname: tempBrokerRequest.floorname,
+      hosilname: tempBrokerRequest.hosilname,
+      x:tempBrokerRequest.x,
+      y:tempBrokerRequest.y,
+      name : tempBrokerRequest.name,//중개인 이름.
+      phone: tempBrokerRequest.phone,//요청자 번호(중개의뢰인)
       maemultype: tempBrokerRequest.maemultype,
       maemulname : tempBrokerRequest.maemulname,
       jeonyongdimension: tempBrokerRequest.jeonyongdimension,
@@ -207,11 +213,11 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                   </InputBox>
                   <InputBox>
                     <Label>주소</Label>
-                    <InputDisabled type="text" value={tempBrokerRequest.dangiaddress} disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequest.dangijibunaddress+'('+tempBrokerRequest.dangiroadaddress+')'} disabled/>
                   </InputBox>
                   <InputBox>
                     <Label>상세<Pilsu>호수는 공개되지 않습니다.</Pilsu></Label>
-                    <InputDisabled type="text" value={tempBrokerRequest.dong+'동 '+tempBrokerRequest.floor +'층 '+tempBrokerRequest.hosil+'호'} disabled/>
+                    <InputDisabled type="text" value={tempBrokerRequest.dongname+' '+tempBrokerRequest.floorname +'층 '+tempBrokerRequest.hosilname} disabled/>
                   </InputBox>
                 </WrapInputBox>
                 <WrapItemInfo>

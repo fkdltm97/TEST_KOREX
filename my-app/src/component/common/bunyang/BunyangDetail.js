@@ -146,8 +146,8 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                 </SwiperSlide> */}
               
             </SwiperBennerWrap>
-            {/*hastags*/}
-            {/* <HashTag>
+            {/*hastags
+            <HashTag>
               {
                 hashTagArr.map((item, index) => {
                   return(
@@ -155,7 +155,8 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   )
                 })
               }
-            </HashTag> */}
+            </HashTag>*/}
+
             {/*홈페이지,예약등*/}
             <LeftButtons>
               <Button>
@@ -332,17 +333,17 @@ const Tag = styled.div`
 
 `
 const LeftButtons = styled(HashTag)`
-  margin-top:20px;
+  margin-top:35px;
 
 `
 const Button = styled.div`
   position:relative;
   text-align:center;
   padding:12px 0 10px;
-  width:60px;
-  height:55px;
+  width:70px;
+  height:65px;
   border:1px solid #e4e4e4;
-  margin-right:11px;
+  margin-right:15px;
   &:last-child{margin-right:0;}
 
 `
@@ -357,13 +358,13 @@ const IconImg = styled.img`
 
 `
 const Txt = styled.p`
-  font-size:9px;
+  font-size:11px;
   font-weight:normal;
   width:100%;
-  margin-top:1px;
+  margin-top:6px;
   transform:skew(-0.1deg);
   @media ${(props) => props.theme.container} {
-      margin-top:calc(100vw*(2/1436));
+      margin-top:calc(100vw*(6/1436));
     }
 
 
@@ -484,7 +485,7 @@ const Wrap = styled.div`
 `
 const BottomButton = styled.div`
   position:relative;
-  display:flex;justfy-content:center;align-items:center;
+  display:flex;justify-content:center;align-items:center;
 `
 const BottomImg = styled.img`
   display:inline-block;

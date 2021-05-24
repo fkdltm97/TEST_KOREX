@@ -76,6 +76,8 @@ export default function KakaoMap({}) {
     // setProbrokerArr([])
     // setBlockArr([])
 
+    console.log('-=======>>getProduct함수 실행::');
+
     // 전속 매물
     if(mapRightRedux.isExclusive.is){
       let newArr = [];
@@ -203,6 +205,7 @@ export default function KakaoMap({}) {
 
   // 지도 생성
   useEffect(() => {
+    
     let mapData = JSON.parse(localStorage.getItem("mapData"));
     // local에 정보가 없을 경우
     let center = new kakao.maps.LatLng(37.496463, 127.029358);
@@ -217,8 +220,9 @@ export default function KakaoMap({}) {
       level: level
     };
     const map = new kakao.maps.Map(container.current, options);
-
+    console.log('====>>지도생성 및 초기화:',map);
     kakao.maps.event.addListener(map, 'idle', (e) => {
+      console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
       var level = map.getLevel();
       var lng = map.getCenter().La.toFixed(6);
       var lat = map.getCenter().Ma.toFixed(6);
@@ -234,15 +238,17 @@ export default function KakaoMap({}) {
 
   // 전속매물 토글
   useEffect(() => {
+    console.log('====>>전속매물 토글링(mapright:',mapRightRedux.isExclusive.is);
     mapRightRedux.isExclusive.is
     ?
     addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
     :
-    setExcClusterer(clusterer=>{if(!clusterer){return}; clusterer.clear(); return clusterer;});
+    setExcClusterer(clusterer=>{ console.log('==>>>setExccluster함수 실행:',clusterer); if(!clusterer){return}; clusterer.clear(); return clusterer;});
   }, [mapRightRedux.isExclusive.is, kakaoMap])
 
   // 전문 중개사 토글
   useEffect(() => {
+    console.log('===>>전문중개사 토글링');
     mapRightRedux.isProbroker.is
     ?
     addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
@@ -256,6 +262,7 @@ export default function KakaoMap({}) {
 
   // 단지별 실거래 토글
   useEffect(() => {
+    console.log('===>>>단지별실거래 토글링:',mapRightRedux.isBlock.is);
     mapRightRedux.isBlock.is
     ?
     addMarkClustBlock(blockArr, setBlockClusterer, blockMarker, blockClustererImg, 5)
@@ -269,6 +276,7 @@ export default function KakaoMap({}) {
 
   // 마커/클러스터러 함수
   const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
+    console.log('======addmarkcluster함수 실행:',array,setClusterer);
     if(array.length == 0){
       return;
     }
@@ -347,6 +355,7 @@ export default function KakaoMap({}) {
 
   // 단지별 실거래 마커/클러스터러 함수
   const addMarkClustBlock = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
+    console.log('======>>addMakrclusterblock함수실행:',array,setClusterer);
     if(array.length == 0){return;}
     let markers = [];
     // **api 서버에서 받아온 정보들을 토대로 분기처리
@@ -454,15 +463,19 @@ export default function KakaoMap({}) {
       });
       clusterer.addMarkers(markers);
       setRoadClusterer(clusterer);
+      console.log('===>>roadview 지도유형 선택하여 실행 함수 구문 rvmarkers설정 및 markers정보:',markers,clusterer);
 
       var clickHandler = function(mouseEvent) {    
         var position = mouseEvent.latLng; 
+        console.log('로드뷰 지도유형상태값 상태에서 카카오맵 임의지점 클릭핸들러:',position);
         rvMarker.setPosition(position);
         toggleRoadview(position);
       }; 
 
       function toggleRoadview(position){
+        console.log('=====>>toggleRoadview함수실행>>:',position);
         rvClient.getNearestPanoId(position, 50, function(panoId) {
+          console.log('rvCLIENT 클릭지점 근처의 파노라마id값 관련 콜백함수실행>>:',panoId);
             if (panoId === null) {
               roadViewRef.current.style.display = 'none';
               rvWrapperRef.current.style.pointerEvents  = 'none';
@@ -535,11 +548,13 @@ export default function KakaoMap({}) {
 
   // 주변
   useEffect(() => {
+    console.log('===>>>mapRightRedux.around 변화에따른 감지::',mapRightRedux.around);
     if(!kakaoMap ||  mapRightRedux.around.is == ""){
       return;
     }
 
     const searchPlace = () => {
+      console.log('===>>searchPlace함수실행 주변검색 주변의 시설검색::');
       setAroundClusterer(clusterer=>{if(!clusterer){return;} clusterer.clear(); return clusterer;});
       places.categorySearch(mapRightRedux.around.is, callback, {
         location: new kakao.maps.LatLng(kakaoMap.getCenter().Ma, kakaoMap.getCenter().La)
@@ -554,8 +569,10 @@ export default function KakaoMap({}) {
     })
 
     var places = new kakao.maps.services.Places(kakaoMap);
+    console.log('places::',places);
 
     var callback = function(data, status, pagination) {
+      console.log('==>>searhcplace> categorySDearch callbackfucntion call',data);
       if (status === kakao.maps.services.Status.OK) {
         let newArr = [];
         data.map(item => {
@@ -634,6 +651,7 @@ export default function KakaoMap({}) {
 
   // 거리재기
   useEffect(() => {
+    console.log('==>>mapright.istinace.is상태값변경 거리재기right요소 변경시마다 실행:거래재기상태값false이면 카카오맵핸들러click,mousemove미등록',moveLine);
     if(!kakaoMap || !mapRightRedux.isDistance.is){return}
 
     if(mapRightRedux.isDistance.is){
@@ -654,13 +672,15 @@ export default function KakaoMap({}) {
     const distanceEnd = document.querySelector(".distanceEnd");
     distanceEnd.addEventListener("click", () => {
       // 지도 오른쪽 클릭 이벤트가 발생했는데 선을 그리고있는 상태이면
+      console.log('distanceEnd거리측정 버튼 클릭시에 실행 이벤트핸들러:',drawingFlag,moveLine);
       if (drawingFlag && moveLine) {
         // 마우스무브로 그려진 선은 지도에서 제거합니다
         moveLine.setMap(null);
         moveLine = null;  
         // 마우스 클릭으로 그린 선의 좌표 배열을 얻어옵니다
         var path = clickLine.getPath();
-    
+        console.log('마지막클릭까지의 클릭좌표들값 불러오기:',path);
+
         // 선을 구성하는 좌표의 개수가 2개 이상이면
         if (path.length > 1) {
 
@@ -677,15 +697,15 @@ export default function KakaoMap({}) {
           showDistance(content, path[path.length-1]);
         }else {
           initLineDot();
-      }    
+        }    
           // 상태를 false로, 그리지 않고 있는 상태로 변경합니다
           drawingFlag = false;          
-      }    
+       }    
     })
 
     // Click
     function clickMap(mouseEvent){
-      console.log("click")
+      console.log("clickMap function call:");
       var clickPosition = mouseEvent.latLng;
       // 첫 클릭
       if (!drawingFlag) {
@@ -712,6 +732,7 @@ export default function KakaoMap({}) {
         displayCircleDot(clickPosition, 0);
       } else {  // 첫 클릭 X
         var path = clickLine.getPath();  // clickLine의 좌표배열을 가져온다.
+        console.log('첫클릭clikcmamp아님 클릭한 좌표배열 가져오기:',path);
         path.push(clickPosition); // 클릭 좌표를 넣는다.
         clickLine.setPath(path); // 패스를 설정한다.
         var distance = Math.round(clickLine.getLength()); // 거리 계산
@@ -721,9 +742,10 @@ export default function KakaoMap({}) {
 
     // Move
     function moveMouse(mouseEvent){
+      
       if (drawingFlag){
         var mousePosition = mouseEvent.latLng; 
-        
+        console.log('====>mousemove이벤트 발생>>>>',drawingFlag,clickLine,clickLine.getPath());
         // 마지막과 현재 좌표를 가져와 연결한다.
         var path = clickLine.getPath();
         var movepath = [path[path.length-1], mousePosition];  
@@ -738,6 +760,7 @@ export default function KakaoMap({}) {
 
     // Init
     function initLineDot(){
+      console.log('initilinedot실행 초기함수:',clickLine,distanceOverlay,dots);
       if (clickLine) {
         clickLine.setMap(null);    
         clickLine = null;        
@@ -801,6 +824,7 @@ export default function KakaoMap({}) {
 
     // Dot Custom Overay
     function displayCircleDot(position, distance) {
+      console.log('=>>>displayCircleodot function calls: mouseClickmap에 의해 촉발',position,distance);
       var circleOverlay = new kakao.maps.CustomOverlay({
           content: `<div class="dot"></div>`,
           position: position,
@@ -822,17 +846,20 @@ export default function KakaoMap({}) {
 
       // 배열에 추가합니다
       dots.push({circle:circleOverlay, distance: distanceOverlay});
-
+      console.log('update된 점좌표들 dots::',dots);
     }
 
     // Move Custom Overay
     function showDistance(content, position) {
+      console.log('=-==>>mousemove function에 or 마지막거리측정(end)클릭에 의해 촉발된 showdistance:',content,position);
       if (distanceOverlay) { // 커스텀오버레이가 생성된 상태이면
+        console.log('distanceoverlay prev 생성상태:',distanceOverlay)
         // 커스텀 오버레이의 위치와 표시할 내용을 설정합니다
         distanceOverlay.setPosition(position);
         distanceOverlay.setContent(content);
       } else { // 커스텀 오버레이가 생성되지 않은 상태이면
         // 커스텀 오버레이를 생성하고 지도에 표시합니다
+        console.log('distanceoverlay prev 미생성 없는 상태:',distanceOverlay);
         distanceOverlay = new kakao.maps.CustomOverlay({
           map: kakaoMap, // 커스텀오버레이를 표시할 지도입니다
           content: content,  // 커스텀오버레이에 표시할 내용입니다

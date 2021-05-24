@@ -17,17 +17,36 @@ import WhiteClose from '../../../../img/member/white_close.png';
 import ModalCommon from '../../../common/modal/ModalCommon';
 import ModalDanjiSelect from './modal/ModalDanjiSelect';
 
-export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
-  const [activeIndex,setActiveIndex] = useState(-1);
+//server process
+import serverController from '../../../../server/serverController';
 
-  const [searchword, setSearchWord] = useState("");
-  const searchWord = (e) =>{
-    setSearchWord(e.target.value);
+import {useSelector} from 'react-redux';
+
+export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
+  const temp_selectcomplexinfor = useSelector(data => data.temp_selectComplexinfo);
+
+  const [activeIndex,setActiveIndex] = useState(-1);
+  const [complex_searchlist,setComplex_searchlist] = useState([]);
+  const [select_complexid,setSelect_complexid] = useState('');
+
+  //const [searchword, setSearchWord] = useState("");
+
+  const searchWord = async (e) =>{
+    //setSearchWord(e.target.value);
     console.log('아파트오피 검색필드 검색단어 string길이:',e.target.value,e.target.value.length);
     if(e.target.value.length >= 1){
       setActive(true);
     }else{
       setActive(false);
+    }
+    let body_info = {
+      dangi_name : e.target.value
+    };
+    let res_result = await serverController.connectFetchController('/api/matterial/complex_search_query','POST',JSON.stringify(body_info));
+
+    if(res_result){
+      console.log('res_result:::',res_result);
+      setComplex_searchlist(res_result.result);
     }
   }
   const [active,setActive] = useState(false);
@@ -35,15 +54,6 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
 
   /*모달 & show,hide */
   const [modalDanji,setModalDanji] = useState(false);
-
-
-  /*useEffect(()=>{
-    if(checkVaildate())
-        setActive(true);
-    else
-        setActive(false);
-  },)*/
-
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
   
   const search_windowclose = () => {
@@ -58,20 +68,9 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
     setModalOption(option);
   }
 
-
-  //만약에 필터 모달을 키고 싶으면 아래 함수 호출하시면됩니다.
-    const updateModal = () =>{
-      //여기가 모달 키는 거에엽
-      setModalOption({
-          show:true,
-          setShow:offModal,
-          title:"중개의뢰 가능한 단지 선택",
-          content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalDanjiSelect/>},
-          submit:{show:true , title:"확인" , event : ()=>{offModal(); setSelectInfo(true);}},
-          cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
-          confirm:{show:false , title:"확인" , event : ()=>{offModal(); }}
-      });
-    }
+  useEffect( () => {
+      
+  },[complex_searchlist]);
 
     return (
         <Container>
@@ -86,6 +85,18 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                 </WhiteCloseImg>
             {/*검색했을때 나오는 부분 */}
                 <SearchResult active={active}>
+                  {
+                    complex_searchlist.map((value) => {
+                      return(
+                        <ResultBox>
+                          <Link onClick={()=> {setSelect_complexid(value.complex_id); setModalDanji(true);}} className='data_link'/>
+                          <Title>{value.complex_name}</Title>
+                          <ResultAddress>{value.addr_road}</ResultAddress>
+                        </ResultBox>
+                      )
+                    })
+                  }
+                  {/*}
                   <ResultBox>
                     <Link onClick={() => {updateModal();}} className="data_link"/>
                     <Title>반포자이</Title>
@@ -96,6 +107,7 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                     <Title>반포 센트럴자이</Title>
                     <ResultAddress>서울 특별시 서초구 잠원동</ResultAddress>
                   </ResultBox>
+                */}
               {/*검색결과가 없을 경우*/}
                   <ResultBox style={{display:"none"}}>
                     <NoResult>
@@ -106,7 +118,14 @@ export default function SearchApartOfficetel({selectInfo, setSelectInfo}) {
                 </SearchResult>
               </SearchBox>
             </Box>
-            <ModalCommon modalOption={modalOption}/>
+            {
+              modalDanji ?
+              <ModalDanjiSelect setModalDanji={setModalDanji} setSelectInfo={setSelectInfo} select_complexid={select_complexid}/>
+              :
+              null
+            }
+            {/*<ModalCommon modalOption={modalOption}/>*/}
+            
           </WrapSearch>
         </Container>
   );
@@ -190,7 +209,7 @@ const SearchBtn = styled.button`
   }
 `
 const SearchResult = styled.div`
-  width:408px;
+  width:408px;height:320px;overflow-y:auto;
   position:absolute;
   left:-1px;top:35px;background:#fff;
   border:1px solid #e4e4e4;z-index:2;border-top:0;border-radius:3px;

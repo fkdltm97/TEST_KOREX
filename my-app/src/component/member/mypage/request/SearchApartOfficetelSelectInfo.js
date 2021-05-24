@@ -20,6 +20,9 @@ import ModalAddUserInfo from './modal/ModalAddUserInfo';
 import {useSelector } from 'react-redux';
 import {tempBrokerRequestActions } from '../../../../store/actionCreators';
 
+//server process
+import serverController from '../../../../server/serverController';
+
 export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
 
   console.log('searchApartofficeselectinfo요소 실행 요소 display:',tempBrokerRequestActions,activeIndex);
@@ -29,22 +32,58 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
   const [dong,setDong] = useState('');
   const [floor,setFloor] = useState('');
   const [hosil,setHosil] = useState('');
+  const [dongname,setDongname] = useState('');
+  const [floorname, setfloorname] = useState('');
+  const [hosilname, sethosilname] = useState('');
 
   /*모달*/
   const [modalDanji,setModalDanji] = useState(false);
   const [userInfo,setUserInfo] = useState(false);
   
-  const dongchange =  (e) => { setDong(e.target.value);} 
-  const floorchange = (e) => { setFloor(e.target.value);}
-  const hosilchange = (e) => { setHosil(e.target.value);}
-
+  const dongchange =  (e) => { setDong(e.target.value.split(',')[0]); setDongname(e.target.value.split(',')[1])} //선택한 건물bld_id정보(동정보)저장.
+  const floorchange = (e) => { setFloor(e.target.value.split(',')[0]); setfloorname(e.target.value.split(',')[1])}  //선택한 층 정보flr_id저장
+  const hosilchange = (e) => { setHosil(e.target.value.split(',')[0]); sethosilname(e.target.value.split(',')[1])}  //선택한 ho_info ho_id저장
   
+  //선택한 단지(오피,아파트)와 매칭되는 관련되는 buidlings(동),floor(층),hosil(호실) 정보들 조회저장.
+  const [donglist,setdonglist] = useState([]);
+  const [floorlist,setfloorlist] = useState([]);
+  const [hosillist,sethosillist] = useState([]);
+
+  //임시저장된 단지정보 complex정보 조회저장.
+  const temp_selectComplexinfo = useSelector(data => data.temp_selectComplexinfo);
+  console.log('=>>>temp_selecdtComplexinfo::',temp_selectComplexinfo);
+
+  useEffect( async () => {
+    
+    let body_info ={
+      complexid: temp_selectComplexinfo.complexid,
+      bldpk : temp_selectComplexinfo.bldpk
+    };
+    var res_result=await serverController.connectFetchController('/api/matterial/complexdetail_join_search','POST',JSON.stringify(body_info));
+    if(res_result){
+      console.log('res_result::',res_result);
+
+      if(res_result.result[0]){
+        setdonglist(res_result.result[0])
+      }
+      if(res_result.result[1]){
+        setfloorlist(res_result.result[1]);
+      }
+      if(res_result.result[2]){
+        sethosillist(res_result.result[2]);
+      }
+    }
+  },[]);
+
+  useEffect( () => {
+    console.log('donglist,floorlist,hosillist변할시마다 :',donglist,floorlist,hosillist);
+  },[donglist,floorlist,hosillist]);
     return (
         <Container>
           <WrapSearch>
             <Box>
               <SearchBox>
-                <Search type="search" value="반포동 반포자이"/>
+                <Search type="search" value={temp_selectComplexinfo.complexname}/>
                 <SearchBtn type="button"/>
                 <WhiteCloseImg>
                   <ResetSearch/>
@@ -54,21 +93,43 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
             <WrapSelectBox>
               <Select name='dong' onChange={dongchange}>
                 <Option selected style={{color:"#979797"}}>동 선택</Option>
-                <Option value='101'>101동</Option>
+                {/*<Option value='101'>101동</Option>
                 <Option value='102'>102동</Option>
-                <Option value='103'>103동</Option>
+                <Option value='103'>103동</Option>*/}
+                {
+                  donglist.map((value) => {
+                    console.log('donglist:',value);
+                    return (
+                      <Option value={value['bld_id']+','+value['dong_name']}>{value['dong_name']}</Option>
+                    )
+                  })
+                }
               </Select>
               <Select name='floor' onChange={floorchange}>
                 <Option selected style={{color:"#979797"}}>층 선택</Option>
-                <Option value='1'>1층</Option>
+                {/*<Option value='1'>1층</Option>
                 <Option value='2'>2층</Option>
-                <Option value='3'>3층</Option>
+              <Option value='3'>3층</Option>*/}
+                {
+                  floorlist.map((value) => {
+                    return(
+                      <Option value={value['flr_id']+','+(value['flr_type']+' '+value['floor'])}>{value['flr_type']+' '+value['floor']}</Option>
+                    )
+                  })
+                }
               </Select>
               <Select name='hosil' onChange={hosilchange}>
-                <Option selected style={{color:"#979797"}}>호 선택</Option>
+                {/*<Option selected style={{color:"#979797"}}>호 선택</Option>
                 <Option value='101'>101호</Option>
                 <Option value='102'>102호</Option>
-                <Option value='103'>103호</Option>
+              <Option value='103'>103호</Option>*/}
+                 {
+                   hosillist.map((value)=> {
+                     return(
+                       <Option value={value['ho_id']+','+value['ho_name']+'호'}>{value['ho_name']}호{value['floor']}</Option>
+                     )
+                   })
+                 }
               </Select>
             </WrapSelectBox>
             <Next>
@@ -82,8 +143,15 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
                 tempBrokerRequestActions.dongchange({dongs: dong});
                 tempBrokerRequestActions.floorchange({floors: floor});
                 tempBrokerRequestActions.hosilchange({hosils: hosil});
-                tempBrokerRequestActions.dangichange({dangis : '반포동 반포자이'});
-                tempBrokerRequestActions.dangiaddresschange({dangiaddresss : '서울 특별시 서초구 반포동'});
+                tempBrokerRequestActions.dongnamechange({dongnames: dongname });
+                tempBrokerRequestActions.floornamechange({floornames: floorname});
+                tempBrokerRequestActions.hosilnamechange({hosilnames: hosilname});
+
+                tempBrokerRequestActions.dangichange({dangis : temp_selectComplexinfo.complexname});
+                tempBrokerRequestActions.dangijibunaddresschange({ dangijibunaddress : temp_selectComplexinfo.addrjibun});
+                tempBrokerRequestActions.dangiroadaddresschange({ dangiroadaddress: temp_selectComplexinfo.addrroad});
+                tempBrokerRequestActions.xchange({x_pos : temp_selectComplexinfo.x});
+                tempBrokerRequestActions.ychange({y_pos : temp_selectComplexinfo.y});
 
                 switch(activeIndex){
                   case 0:

@@ -216,7 +216,8 @@ const OptionProtect =[
     console.log('>>>추가입력정보들 state정보값들:',roomcount,bathroomcount,isduplexfloor,isparking,parkingoptions,iswithpet,direction,entrance,heatmethod,heatfuel,apartspaceoption,spaceoption,securityoption,spaceaddonoption,iscontractrenewal,loanprice,guaranteeprice,maemul_description,maemul_description,maemul_descriptiondetail);
 
     let body_info={
-      address: temp_brokerRequest.dangiaddress,
+      dangijibunaddress: temp_brokerRequest.dangijibunaddress,
+      dangiroadaddress : temp_brokerRequest.dangiroadaddress,
       companyid: login_user.company_id,//어떤 로그인 중개사회원 중개사아이디인지.
       exculsivedimension: temp_brokerRequest.jeonyongdimension,
       exculsivepyeong: temp_brokerRequest.jeonyongpyeong,
@@ -231,10 +232,15 @@ const OptionProtect =[
       selltype : temp_brokerRequest.selltype, 
       supplydimension : temp_brokerRequest.supplydimension,
       supplypyeong: temp_brokerRequest.supplypyeong,
+      x:temp_brokerRequest.x,
+      y:temp_brokerRequest.y,
 
       dong: temp_brokerRequest.dong,
       hosil : temp_brokerRequest.hosil,
       floor : temp_brokerRequest.floor,
+      dongname: temp_brokerRequest.dongname,
+      hosilname: temp_brokerRequest.hosilname,
+      floorname: temp_brokerRequest.floorname,
       dangi: temp_brokerRequest.dangi,
       exculsive_periods: temp_brokerRequest.exculsive_periods,
       managecostincludes: temp_brokerRequest.managecostincludes,
