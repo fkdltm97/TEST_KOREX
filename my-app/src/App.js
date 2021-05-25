@@ -4,7 +4,6 @@ import "./App.css"
 import { Mobile, PC } from "./MediaQuery"
 
 /* page */
-import Intro from './page/IntroPage';
 import Main from './page/MainPage';
 import MbSearch from './page/mobile/MbSearchPage';
 import MbBunyang from './page/mobile/MbBunyang';
