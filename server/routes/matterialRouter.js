@@ -2,6 +2,7 @@ const http=require('http');
 const express=require('express');
 const bodyParser=require('body-parser');
 const cors=require('cors');
+const request_api=require('request-promise-native');
 
 //const app=express();
 //app.use(bodyParser.json());
@@ -237,20 +238,20 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
 
         //나온 중심 좌표x,y값을 기준으로 계산처리. 추상적으로 임의의 지점으로부터 중심으로 해서 직사각형 area영역 크기만큼(화면스크린사이즈px사이즈 가로,세로)와 지도레벨값에 따른 분기처리를 한다. 각 레벨에서 화면상에서 현재의 화면좌표일때 기준 차이px량 크기px량만큼 위도경도 크기 차이난다.x,y
         var level_array={
-            '1' : 0.000007500 ,//레벨1일떄 단위1px당(화면상 보여지는 지도에서의 각 1px 단위크기당 일때의 위도,경도 차이값.지도상에서 가로,세로 크기1px의 차이일 경우마다 십억분에 7500차이나게형상화)
-            '2' : 0.000015000 ,
-            '3' : 0.000030000 ,
-            '4' : 0.000050000 ,
-            '5' : 0.000075000 ,
-            '6' : 0.000150000 ,
-            '7' : 0.000300000 ,
-            '8' : 0.000600000 ,
-            '9' : 0.001500000 ,
-            '10' : 0.002500000 ,
-            '11' : 0.005000000 ,
-            '12' : 0.015000000 ,
-            '13' : 0.200000000 ,
-            '14' : 0.500000000  //14레벨일때는 화면상 지도 1px가로세로당 위도경도값 0.5만큼 차이 이동된다고 할수있다. 추상화.
+            '1' : 0.000003000 ,//레벨1일떄 단위1px당(화면상 보여지는 지도에서의 각 1px 단위크기당 일때의 위도,경도 차이값.지도상에서 가로,세로 크기1px의 차이일 경우마다 십억분에 7500차이나게형상화)
+            /*'2' : 0.000015000 */'2' : 0.000007500 ,
+            '3' : 0.000015000 ,
+            '4' : 0.000025000 ,
+            '5' : 0.000038000 ,
+            '6' : 0.000075000 ,
+            '7' : 0.000150000 ,
+            '8' : 0.000300000 ,
+            '9' : 0.000750000 ,
+            '10' : 0.001250000 ,
+            '11' : 0.002500000 ,
+            '12' : 0.007500000 ,
+            '13' : 0.050000000 ,
+            '14' : 0.200000000  //14레벨일때는 화면상 지도 1px가로세로당 위도경도값 0.5만큼 차이 이동된다고 할수있다. 추상화.
         };
         var x_distance= level_array[zido_level] * parseInt(screen_width / 2);
         var y_distance = level_array[zido_level] * parseInt(screen_height / 2);
@@ -267,6 +268,8 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
         var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
         var [search_product_result] = await connection.query("select * from product where prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
         var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        //var [search_product_result] = await connection.query("select * from product");
+        //var [search_company_result] = await connection.query("select * from company");
 
         console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
         connection.release();
@@ -278,6 +281,173 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
         connection.release();
 
         return response.status(403).json({success:false, message:'server query problme error!',result:[], match_matterial: [] });
+    }
+});
+//메인 검색페이지 검색리스트중 임의 클릭 지역or대학교or지하철 지점의 관련 정보 리턴
+router.post('/mapchange_searchresult',async function(request,response){
+    console.log('=====>>>request.body:',request.body);
+
+    var req_body= request.body;
+
+    const connection = await pool.getConnection(async conn => conn);
+    //id_val, search_type_val
+    try{
+        var origin_x=req_body.lng;
+        var origin_y=req_body.lat;
+        var screen_width= req_body.screen_width;
+        var screen_height= req_body.screen_height;
+        var zido_level =req_body.level;
+
+        //나온 중심 좌표x,y값을 기준으로 계산처리. 추상적으로 임의의 지점으로부터 중심으로 해서 직사각형 area영역 크기만큼(화면스크린사이즈px사이즈 가로,세로)와 지도레벨값에 따른 분기처리를 한다. 각 레벨에서 화면상에서 현재의 화면좌표일때 기준 차이px량 크기px량만큼 위도경도 크기 차이난다.x,y
+        var level_array={
+            '1' : 0.000003000 ,//레벨1일떄 단위1px당(화면상 보여지는 지도에서의 각 1px 단위크기당 일때의 위도,경도 차이값.지도상에서 가로,세로 크기1px의 차이일 경우마다 십억분에 7500차이나게형상화)
+            /*'2' : 0.000015000 */'2' : 0.000007500 ,
+            '3' : 0.000015000 ,
+            '4' : 0.000025000 ,
+            '5' : 0.000038000 ,
+            '6' : 0.000075000 ,
+            '7' : 0.000150000 ,
+            '8' : 0.000300000 ,
+            '9' : 0.000750000 ,
+            '10' : 0.001250000 ,
+            '11' : 0.002500000 ,
+            '12' : 0.007500000 ,
+            '13' : 0.050000000 ,
+            '14' : 0.200000000  //14레벨일때는 화면상 지도 1px가로세로당 위도경도값 0.5만큼 차이 이동된다고 할수있다. 추상화.
+        };
+        var x_distance= level_array[zido_level] * parseInt(screen_width / 2);
+        var y_distance = level_array[zido_level] * parseInt(screen_height / 2);
+
+        var level_zido_startx= origin_x - x_distance;
+        var level_zido_endx= origin_x + x_distance; 
+        var level_zido_starty= origin_y - y_distance;
+        var level_zido_endy= origin_y + y_distance;
+        console.log('지도 중심origin x,y좌표 및 주변 직사각형 좌표 범위area:',origin_x,origin_y,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
+
+        //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
+        var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
+        var [search_product_result] = await connection.query("select * from product where prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        //var [search_product_result] = await connection.query("select * from product");
+        //var [search_company_result] = await connection.query("select * from company");
+
+        console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
+        connection.release();
+
+        return response.json({success:true,message:'sucecess queryss', result:[], match_matterial : [search_product_result,search_company_result,search_complex_result]});
+
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[], match_matterial: [] });
+    }
+});
+router.get('/getXY',async function(request,response){
+    console.log('getxy테스트:::');
+
+    var query=request.body.query;
+    console.log('검색 도로명주소::',query);
+    var jibun='경기도 파주시 문산읍 내포리 743-10번지';
+    var road=' 서울특별시 동작구 노량진로32길 156';
+
+    console.log('ENCODECURL::',encodeURI(road),request_api);
+    try{
+        const headers={'Authorization' : "KakaoAK "+"ac08f2d6adfd16a501ad517d7a2fab3f"};
+        const url = "https://dapi.kakao.com/v2/local/search/address.json?&query=" + encodeURI(road);
+        let api_response = await request_api.get({
+            uri:url,
+            headers: headers
+        });
+        console.log('++++>>>>response::',api_response);
+        api_response = JSON.parse(api_response);
+        console.log('resoonseodoicuemtns::',api_response.documents);
+        api_response_final = api_response.documents[0];
+
+        return {x : api_response_final.x, y:api_response_final.y}
+    }catch(err){
+        console.log('errrrrr::',err);
+    }
+});
+router.post('/getFloor_xy',async function(request,response){
+    console.log('get floor xy>>>:');
+
+    var floorid=request.body.floorid_val;
+
+    const connection = await pool.getConnection(async conn => conn);
+
+    try{       
+        var [floorsearch_result] = await connection.query("select addr_road, addr_jibun from floor where flr_id=?",[floorid]);
+        console.log('검색타입 및 해당 테이블 검색결과',floorsearch_result);
+
+        var addr_road=floorsearch_result[0]['addr_road'];
+        connection.release();
+        //해당 도로명 주소에 대해서 xy로 리턴하는 api구현. 핻해당 클릭한 임의 건물의 flrid층에 대한 그 물질에 대해서 도로명주소공유되는것 도로명주소에 대한 경도위도 반환.
+        const api_headers={'Authorization' : 'KakaoAK '+"ac08f2d6adfd16a501ad517d7a2fab3f"};
+        const api_url="https://dapi.kakao.com/v2/local/search/address.json?&query=" + encodeURI(addr_road);
+
+        let api_response = await request_api.get({
+            uri:api_url,
+            headers: api_headers
+        });
+        console.log('++++>>>>response::',api_response);
+        api_response = JSON.parse(api_response);
+        console.log('resoonseodoicuemtns::',api_response.documents);
+        api_response_final = api_response.documents[0];
+
+        return response.json({success:true,message:'sucecess queryss',result: {x: api_response_final.x, y:api_response_final.y} });
+
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[], match_matterial: [] });
+    }
+});
+router.get('/dummy_insert_test',async function(request,response){
+    console.log('insert store dummyinsert test::');
+
+    const connection = await pool.getConnection(async conn => conn);
+
+    try{
+        for(let s=0; s<100; s++){
+            let random_x= 127 + 2*Math.random();
+            let random_y= 36 + 2*Math.random();
+            console.log(random_x,random_y);
+            var [insert_query_res] = await connection.query("insert into company(mng_no,biz_name,x,y) values('','더미중개사',?,?)",[random_x,random_y]);
+            
+            console.log('insert_query_res::',insert_query_res);
+        }
+
+        return response.status(403).json({success:false, message:'success!!',result:[]});
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[]});
+    }
+});
+router.get('/dummy_insert_testproduct',async function(request,response){
+    console.log('insert store dummyinsert test::>>>');
+
+    const connection = await pool.getConnection(async conn => conn);
+
+    try{
+        for(let s=0; s<100; s++){
+            let random_x = 127 + 2*Math.random();
+            let random_y = 36 + 2*Math.random();
+            console.log(random_x,random_y);
+            var [insert_query_rows] = await connection.query("insert into product(prd_identity_id,prd_name,prd_longitude,prd_latitude) values(?,?,?,?)",[-1,'더미매물',random_x,random_y]);
+
+            console.log('insert_query_rows::',insert_query_rows);
+        }
+
+        return response.status(403).json({success:false, message:'success!!',result:[]});
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[]});
     }
 });
 module.exports=router;

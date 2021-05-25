@@ -73,7 +73,7 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
     const floorchange= (e) => {setFloor(e.target.value.split('|')[0]); setfloorname(e.target.value.split('|')[1]); console.log('floor change층수변경:',e.target.value);}
     const hosilnamechange = (e) => {sethosilname(e.target.value);}
 
-    const nextStep = (e) => {
+    const nextStep = async (e) => {
       console.log('다음단계 클릭 >>>>',floor,floorname,hosilname,search_address);
 
       //리덕스 저장한다.
@@ -96,6 +96,21 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
         case 3:
           tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
         break;
+      }
+
+      //해당 floorid에 대하ㅑㄴ floor queryt결과 정보 어든ㄴ다.
+      let body_info = {
+        floorid_val : floor
+      };
+      let res_results= await serverController.connectFetchController('/api/matterial/getFloor_xy','POST',JSON.stringify(body_info));
+      if(res_results.result){
+        console.log('res_resulstssss:',res_results);
+
+        let result_x= res_results.result.x;
+        let result_y= res_results.result.y;
+
+        tempBrokerRequestActions.xchange({x_pos : result_x});
+        tempBrokerRequestActions.ychange({y_pos : result_y});
       }
     }
 

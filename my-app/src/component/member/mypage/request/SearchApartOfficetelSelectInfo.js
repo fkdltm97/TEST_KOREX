@@ -128,9 +128,8 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
                  }
               </Select>
             </WrapSelectBox>
-            <Next>
-              <Link className="data_link" to="/AddRequestBroker"/>
-              <NextBtn type="button" onClick={()=>{
+            <Next onClick={()=>{
+                console.log('==>>>다음버튼 클릭>>단지:');
               
                 //리덕스 정보 저장. state정보 -> 리덕스 저장(동,층,호실, 단지명,단지주소등 저장.)
                 tempBrokerRequestActions.dongchange({dongs: dong});
@@ -160,7 +159,9 @@ export default function SearchApartOfficetel({setActiveIndex, activeIndex}) {
                     tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
                   break;
                 }
-              }}>다음</NextBtn>
+              }}>
+              <Link className="data_link" to="/AddRequestBroker"/>
+              <NextBtn type="button">다음</NextBtn>
             </Next>
           </WrapSearch>
         </Container>

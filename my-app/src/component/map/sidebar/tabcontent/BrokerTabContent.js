@@ -23,7 +23,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo, containe
   const productRedux = useSelector(state=>{ return state.mapProductEls});
 
   const onClickEl = (value) => {
-    MapProductEls.updateClickPro({ clickPro : value.broker_id });
+    MapProductEls.updateClickPro({ clickPro : value.company_id });
     if(containerRef){
       containerRef.current.scrollTop=0;
     }
@@ -39,21 +39,21 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo, containe
               <TabContent key={index}>
                 <Link onClick={() => onClickEl(value) } className="data_link"></Link>
                   <TopBox>
-                    <Tag>{value.tag1}</Tag>
-                    <Tag>{value.tag2}</Tag>
-                    <Tag>{value.tag3}</Tag>
+                    <Tag>아파트.대림 / 오피스텔.천호</Tag>
+                    <Tag>상가</Tag>
+                    <Tag>사무실</Tag>
                   </TopBox>
                   <BottomBox>
                     <LeftContent>
                       <ItemInfo>
-                        <Name>{value.name}</Name>
-                        <Address>{value.address}</Address>
+                        <Name>{value.biz_name}</Name>
+                        <Address>{value.addr_road}</Address>
                         <SellList>
-                          <List>매매 <ColorOrange>{value.sell_kind1}</ColorOrange></List>
+                          <List>매매 <ColorOrange>5</ColorOrange></List>
                           <Part/>
-                          <List>전세 <ColorOrange>{value.sell_kind2}</ColorOrange></List>
+                          <List>전세 <ColorOrange>8</ColorOrange></List>
                           <Part/>
-                          <List>월세 <ColorOrange>{value.sell_kind3}</ColorOrange></List>
+                          <List>월세 <ColorOrange>12</ColorOrange></List>
                         </SellList>
                       </ItemInfo>
                     </LeftContent>

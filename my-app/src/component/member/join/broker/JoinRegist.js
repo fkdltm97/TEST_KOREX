@@ -94,8 +94,11 @@ export default function JoinTab() {
        let res = await serverController.connectFetchController("/api/auth/broker/brokerVerifyRequest","POST",JSON.stringify(body_info),function(){},function(test){console.log(test)});
        console.log('res results:',res);
       
-       if(res.success){
-         setErrorNum(true);
+       if(res){
+         if(res.success){
+          setErrorNum(true);
+         }
+         
        }else{
          alert(res.message);
        }

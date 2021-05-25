@@ -47,7 +47,10 @@ export default function PcSearchMain({activeText}) {
       localStorage.setItem('searchdetail_origin',JSON.stringify(searchdetail_originresult.result[0]));
       //나온 단지들데이터들, 지도에 나타내는것 자체는 단지 자체이다. 그 단지에 관련된 단지별 실거래들도 불러옴 단지,단지별 실거래(단지자체의x,y기준 지도에 불러오기) 리덕스 저장이 나을듯??
       //관련 리덕스 데이터에 저장하는게 좋을것임. 그것을 지도에 마커랑, 클러스터화해서 보여줄필요가있음.  단지별,단지실거래 데이터들 저장 + 매물데이터들 저장하기, 전문중개사 데이터 저장 및 보여주기. product, company, compelx data
+      console.log('==>>>mapProudctEls에 정보 저장::',MapProductEls);
       MapProductEls.updateBlock({block : searchdetail_originresult.match_matterial[2]});
+      MapProductEls.updateExclusive({exclusive : searchdetail_originresult.match_matterial[0]});
+      MapProductEls.updateProbroker({probroker : searchdetail_originresult.match_matterial[1]});
     }
 
     history.push(`/Map/${activeText}`);//저기로 이동을 해버리면, 저기 페이지 요소가 실행되겠지.
@@ -81,8 +84,8 @@ export default function PcSearchMain({activeText}) {
       setMetro_list([]);
       setUniversity_list([]);
     }
-    
   };
+  
   useEffect( () => {
     console.log('metro_list,uni9viertyysit_list변화감지에 따라 요소 리랜더링:',metro_list,university_list);
   },[metro_list,university_list]);

@@ -21,19 +21,17 @@ import { useSelector } from 'react-redux';
 
 export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index, productList, containerRef}) {
 
-  
-
   const onClickEl = (value) => {
     if(containerRef){
       containerRef.current.scrollTop=0;
     }
-    MapProductEls.updateClickExc({ clickExc : value.item_id });
+    MapProductEls.updateClickExc({ clickExc : value.prd_identity_id });
     // updatePageIndex(1,value.item_id);
-    updatePageIndex(1,11);
+    updatePageIndex(1,value.prd_identity_id);
+    
     setHistoryInfo(e => {e.prevIndex.push(index);
     return JSON.parse(JSON.stringify(e));});
   }
-
 
   return (
     <Container>
@@ -45,35 +43,35 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
               <LeftContent>
                 {/*전속매물에 속한 아파트 일때 TopBox가 나와야함*/}
                 {
-                  value.isExc && 
+                 //value.isExc && 
                   <TopBox>
                     <ColorGreen>전속매물</ColorGreen>
                     <WrapDate>
-                      <StartDate>{value.startDate}</StartDate>
+                      <StartDate>20.05.05</StartDate>
                       <Line>~</Line>
-                      <EndDate>{value.endDate}</EndDate>
+                      <EndDate>21.05.05</EndDate>
                     </WrapDate>
                   </TopBox>
                 }
                 <ItemInfo>
                   <Name>
-                    <Kind>{value.kind}</Kind>
+                    <Kind>{value.prd_type}</Kind>
                     <ColorOrange>·</ColorOrange>
-                    <Detail>{value.detail}</Detail>
+                    <Detail>{value.prd_name}</Detail>
                   </Name>
-                  <Price>{value.type}{value.price}</Price>
+                  <Price>{value.prd_sel_type}{value.prd_sel_type=='월세'?value.prd_month_price : value.prd_price}만원</Price>
                   <Option>
-                    <Floor>{value.floor}</Floor>
-                    <Area>{value.area}</Area>
-                    <Expenses>{value.expenses}</Expenses>
+                    <Floor>{value.address_detail}</Floor>
+                    <Area>{value.supply_space}</Area>
+                    <Expenses>{value.managecost}만원</Expenses>
                   </Option>
-                  <Desc>{value.desc}</Desc>
+                  <Desc>{value.maemul_description}</Desc>
                 </ItemInfo>
               </LeftContent>
               <RightContent>
                 <ItemImg src={Item}/>
-                <Input type="checkbox" name="" id={"check"+value.item_id}/>
-                <CheckLabel for={"check"+value.item_id}/>
+                <Input type="checkbox" name="" id={"check"+value.prd_identity_id}/>
+                <CheckLabel for={"check"+value.prd_identity_id}/>
               </RightContent>
             </TabContent>
             )

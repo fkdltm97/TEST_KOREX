@@ -515,7 +515,7 @@ app.post('/api/auth/broker/brokerVerifyRequest',async(req,res,next)=> {
         //중개사 인증 요청 에 그냥 계속 inserted요청을 가한다. 같은번호로 여러번 신청가능하게(재신청해야할수도있음)
         try{
             await connection.beginTransaction();
-            var [rows,fields] = await connection.query("insert into BrokerIdentify(biy_phone,biy_status,create_date,modify_date) values(?,?,?,?)",[phone,0,new Date(),new Date()]);
+            var [rows,fields] = await connection.query("insert into brokeridentify(biy_phone,biy_status,create_date,modify_date) values(?,?,?,?)",[phone,0,new Date(),new Date()]);
             await connection.commit();
             connection.release();
 
