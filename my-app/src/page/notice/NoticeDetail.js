@@ -7,7 +7,6 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
-import NoticeTitle from '../../component/notice/NoticeViewTitle';
 import NoticeView from '../../component/notice/NoticeViewBody';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
@@ -52,7 +51,6 @@ export default function NoticeDetail() {
           <CommonHeader/>
           <Container>
               <SubTitle title={"공지사항"}/>
-              <NoticeTitle/>
               <NoticeView/>
           </Container>
           <CommonFooter/>

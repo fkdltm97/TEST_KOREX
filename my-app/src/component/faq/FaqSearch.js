@@ -94,6 +94,7 @@ const Container = styled.div`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(360/428));
     margin:0 auto;
+    border-bottom: 1px solid #f4f4f4;
   }
 
 `

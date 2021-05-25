@@ -95,38 +95,13 @@ const Container = styled.div`
       width:100%;
       }
 `
-const WrapRequest = styled.div`
-  width:100%;
-`
-const TopTitle = styled.h2`
-  font-size:20px;color:#707070;
-  text-align:left;padding-left:30px;
-  font-weight:800;transform:skew(-0.1deg);
-  margin-bottom:40px;
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(14/428));
-    padding-left:calc(100vw*(16/428));
-    }
-`
-const TopInfo = styled.div`
-  display:flex;justify-content:space-between;align-items:center;
-  padding:16px 40px;
-  border-bottom:1px solid #f2f2f2;
-margin-top:calc(100vw*(18/428));
-  @media ${(props) => props.theme.mobile} {
-    margin-top:calc(100vw*(40/428));
-    padding:0 calc(100vw*(34/428)) calc(100vw*(22/428));
-    }
-`
+
 const All = styled.span`
   font-size:17px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(14/428));
     }
-`
-const GreenColor = styled(All)`
-  color:#01684b;
 `
 const FilterImg = styled.img`
   display:inline-block;
@@ -139,46 +114,6 @@ const FilterImg = styled.img`
 const FilterAndAdd = styled.div`
   position:relative;
   display:flex;justify-content:flex-start; align-items:center;
-`
-const ListUl = styled.div`
-  width:100%;
-  height:563px;
-  @media ${(props) => props.theme.mobile} {
-    width:100%;
-    height:calc(100vw*(536/428));
-    }
-`
-const TabContent = styled.div`
-  position:relative;
-  width:100%;
-  padding:30px 0;margin-top:17px;
-  margin:0 auto 17px;
-  border-bottom:1px solid #f2f2f2;
-  @media ${(props) => props.theme.mobile} {
-    width:100%;
-    padding:0 calc(100vw*(16/428)) calc(100vw*(18/428)) calc(100vw*(26/428));
-    margin-bottom:calc(100vw*(18/428));
-    margin-top:calc(100vw*(18/428));
-    }
-`
-const Condition = styled.div`
-  font-size:15px;color:#707070;
-  font-weight:800;transform:skew(-0.1deg);
-  margin-bottom:15px;
-`
-const Orange = styled. span`
-  font-size:15px;color:#fe7a01;
-  font-weight:800;transform:skew(-0.1deg);
-  vertical-align:middle;
-`
-const WrapAlarmInfo = styled.div`
-  width:550px;
-  padding-left:50px;
-
-`
-const FlexBox = styled.div`
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;margin-bottom:6px;
 `
 const Left = styled.p`
   font-size:15px;color:#4a4a4a;
@@ -203,22 +138,9 @@ const InMenu = styled.ul`
   background:#fff;
   z-index:3;
   @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(100/428));
     top:calc(100vw*(20/428));
-    left:calc(100vw*(-50/428));
-  }
-`
-
-const InMenu2 = styled.ul`
-  position:absolute;
-  width:160px;
-  top:0;left:44px;
-  border:1px solid #707070;
-  border-radius:8px;
-  background:#fff;
-  z-index:3;
-  @media ${(props) => props.theme.mobile} {
-    top:calc(100vw*(20/428));
-    left:calc(100vw*(-50/428));
+    left:calc(100vw*(-78/428));
   }
 `
 const Div = styled.li`

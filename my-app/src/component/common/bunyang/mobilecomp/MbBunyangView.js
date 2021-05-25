@@ -98,11 +98,11 @@ export default function BunyangDetail({setLive, setDetailImg,setCal, status}){
             {/*hastags*/}
             <HashTag>
               {/* -- 수정코드입니다. */}
-              {
+              {/* {
                 data.hashtag.map((item, index) => {
                   return(<Tag key={index}>{item}</Tag>)
                 })
-              }
+              } */}
               {/* -- 원래 코드입니다. */}
               {/*
                 <Tag>#hashtag</Tag>
@@ -273,14 +273,15 @@ const Tag = styled.div`
   &:last-child{margin-right:0;}
 `
 const LeftButtons = styled(HashTag)`
-  margin-top:calc(100vw*(20/428));
+  margin-top:calc(100vw*(10/428));
+  margin-bottom:calc(100vw*(30/428));
 `
 const Button = styled.div`
   position:relative;
   text-align:center;
   padding:calc(100vw*(15/428)) 0;
-  width:calc(100vw*(69/428));
-  height:calc(100vw*(64/428));
+  width:calc(100vw*(75/428));
+  height:calc(100vw*(70/428));
   margin-right:calc(100vw*(11/428));
   border:1px solid #e4e4e4;
   border-radius:3px;
@@ -292,7 +293,7 @@ const IconImg = styled.img`
   margin:0 auto;
 `
 const Txt = styled.p`
-  font-size:calc(100vw*(9/428));
+  font-size:calc(100vw*(10/428));
   font-weight:600;transform:skew(-0.1deg);
   margin-top:calc(100vw*(5/428));color:#707070;
 `
