@@ -23,6 +23,7 @@ import SearchApartOfficetel from "./SearchApartOfficetel";
 import SearchStoreOffice from "./SearchStoreOffice";
 import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
 import ModalBrokerRequest from './modal/ModalBrokerRequest';
+import NewRequestTopInfos from './NewRequestTopInfos';
 
 //redux addons 전페이지 정보 갖고오기 위함(view형태로 정보 유지 및 view용도) edit하려면 state에 저장해주는게 좋음.
 import {useSelector} from 'react-redux';
@@ -153,6 +154,7 @@ export default function Request({setFilter,value,type}) {
                     <Label>건물명<Pilsu>*</Pilsu></Label>
                     <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname}/>
                   </InputBox>
+
           {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
                   <InputBox style={{display:"none"}}>
                     <Label>현재업종<Pilsu>*</Pilsu></Label>

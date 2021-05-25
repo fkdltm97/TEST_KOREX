@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux';
 export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) {
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
-
+  console.log('===>>>itemtTABCONENT:',productRedux);
 
   const onClickEl = (value) => {
     MapProductEls.updateClickBlo({ clickBlo : value.danji_id });

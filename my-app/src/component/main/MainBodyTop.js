@@ -54,7 +54,7 @@ export default function MainBody({}) {
           </PC>
         {/*Mobile 검색*/}
           <Mobile>
-            <MobileSearchMain/>
+            <MobileSearchMain activeText={activeText}/>
           </Mobile>
           </MainBodyTop>
         </Container>

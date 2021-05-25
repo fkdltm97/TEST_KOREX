@@ -21,8 +21,9 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 //component
 
-import BrokerInfo from './component/BrokerInfo';
+import BrokerInfoLess from './component/BrokerInfoLess';
 import ModalMap from './modal/ModalMap';
+import NewRequestTopInfos from './NewRequestTopInfos';
 
 //redux addons saseests.
 import {useSelector} from 'react-redux';
@@ -33,7 +34,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
   const [openMore, setOpenMore] = useState(false);
   const [viewInput, setViewInput] = useState(false);//관리비 있음일때 input박스 노출
   const [viewDate, setViewDate] = useState(false);//입주가능일 선택할 경우 date박스
-
+  const [job, setJob] = useState(false);//현재업종 선택할 경우 box show/hide
   //redux 데이터 사전 조회.
   const tempBrokerRequest= useSelector(data => data.tempBrokerRequest);
 
@@ -164,9 +165,9 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
         <Container>
           <WrapRequest>
             <TopTitle>기본정보 입력/수정</TopTitle>
-
+            <NewRequestTopInfos/>
             <WrapBrokerInfo>
-              <BrokerInfo setMap={setMap}/>{/*컴포넌트입니다.*/}
+              <BrokerInfoLess setMap={setMap}/>{/* 05.21 BrokerInfo.js 는 주소+매매까지 나와있고 BrokerLess파일은 중개사명 / 대표명만 나와있습니다. */}
             </WrapBrokerInfo>
 
             {
@@ -226,6 +227,35 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                     <Label>건물명<Pilsu>*</Pilsu></Label>
                     <InputTxt type="text" placeholder="건물명을 입력하여주세요." onChange={change_maemulname}/>
                   </InputBox>
+    {/*!!!!!! 05.21 용도는 오피스텔일때만 노출됩니다. display:none처리!!!!*/}
+                  <SelectBox>
+                    <Label>용도<Pilsu>*</Pilsu></Label>
+                    <SelectMb onChange={change_selltype}>
+                      <Option>용도를 선택하여주세요.</Option>
+                      <Option value='주거용'>주거용</Option>
+                      <Option value='업무용'>업무용</Option>
+                    </SelectMb>
+                  </SelectBox>
+    {/*!!!!!!현재 업종은 상가일때만 노출됩니다. display:none처리!!!!*/}
+                  <InputBox>
+                    <Label>현재업종<Pilsu>*</Pilsu></Label>
+                    <SwitchButton>
+                      <Switch type="checkbox" id="switch_job"/>
+                      <SwitchLabel for="switch_job" onClick={()=>{setJob(!job)}}>
+                        <SwitchSpan/>
+                        <SwithTxtOff className="no">없음</SwithTxtOff>
+                        <SwithTxtOn className="yes">있음</SwithTxtOn>
+                      </SwitchLabel>
+                    </SwitchButton>
+                    {
+                      job ?
+                      <Flex>
+                        <InputTxt type="text" placeholder="현재 업종 입력"/>
+                      </Flex>
+                      :
+                      null
+                    }
+                  </InputBox>
                   <InputBox>
                     <Label>전용면적<Pilsu>*</Pilsu></Label>
                     <Widthbox>
@@ -273,11 +303,22 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
                 </SelectBox>
                 <InputBox>
                   <Label>가격<Pilsu>*</Pilsu></Label>
+                  {/* 
+                  거래유형 > 매매 선택됐을때 하단의 InputMidi placeholder ="매매가 입력" <Example>(e.g 1억 5,000)</Example>
+                  거래유형 > 전세 선택됐을때 하단의 InputMidi placeholder ="전세가 입력" <Example>1,000/50</Example>
+                  */}
                   <Example>(e.g 1억 5,000)</Example>
+                  
                   <Flex>
-                    <InputMidi type="text" placeholder="가격 입력" onChange={change_sellprice}/>
+                    <InputMidi type="text" placeholder="매매가 입력" onChange={change_sellprice}/>
                     <Dan>만원</Dan>
                   </Flex>
+                  {/* 거래유형 > 월세 선택됐을때 아래 내용 나와야함 */}
+                  <FlexMt>
+                    <InputShortWd type="text" placeholder="보증금 입력"/>
+                    <InputShortWd type="text" placeholder="월세"/>
+                    <Dan>만원</Dan>
+                  </FlexMt>
                 </InputBox>
               </Box>
             {/*더보기*/}
@@ -615,6 +656,17 @@ const InputShort = styled.input`
       font-size:calc(100vw*(15/428));
     }
 `
+
+const InputShortWd = styled(InputShort)`
+  width:40%;
+  border:solid 1px #e4e4e4;
+  border-radius:4px;
+  height:43px;
+  &:last-child{margin-right:0;}
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+  }
+`
 const Span = styled.span`
   vertical-align:middle;
   font-size:15px;font-weight:600;
@@ -625,6 +677,7 @@ const Span = styled.span`
       margin-left:calc(100vw*(10/428));
     }
 `
+
 const Same = styled.span`
   font-size:15px;font-weight:600;
   color:#4a4a4a;transform:skew(-0.1deg);
@@ -652,6 +705,12 @@ const Example = styled.p`
 `
 const Flex = styled.div`
   display:flex;justify-content:space-between;align-items:center;
+`
+const FlexMt = styled(Flex)`
+  margin-top:10px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(10/428));
+  }
 `
 const InputMidi = styled.input`
   width: 353px;

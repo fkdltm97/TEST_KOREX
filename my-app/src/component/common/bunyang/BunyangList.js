@@ -51,6 +51,21 @@ const BunyangListItem =[
     LiveChecked : false,
     LikeChecked : true
   },
+  {
+    bunyang_id : 2,
+    src:ItemImg,
+    path:"/MbBunyangDetail",
+    number:"2D0000325",
+    title:"충남내가가서신포신도시2차",
+    option:"충청남도 / 테스트 / 테스트",
+    address:"충청남도 홍성군 홍북읍 신경리",
+    desc1:"500세대",
+    desc2:"103㎡ ~ 114㎡",
+    desc3:"77㎡ ~ 85㎡",
+    desc4:"35,599 ~ 44,049 만원",
+    LiveChecked : false,
+    LikeChecked : true
+  },
 ]
 
 
@@ -115,6 +130,7 @@ export default function BunyangList({updatePageIndex , setBunyangDate, setClickI
   const onClickSearch = () => {
     // setBYDate([])
     console.log(searchVal);
+    //충남내포
   }
 
 

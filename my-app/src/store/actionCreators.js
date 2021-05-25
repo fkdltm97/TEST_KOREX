@@ -10,6 +10,7 @@ import * as temp_tourReservsettingAction from './modules/temp_tourReservsetting'
 import * as mapFilter from './modules/mapfilter';
 import * as mapProductEls from './modules/mapProductEls';
 import * as temp_selectComplexinfo from './modules/temp_selectComplexinfo';
+import * as searchdetailorigin from './modules/searchdetailorigin';
 
 import store from './index';
 
@@ -26,3 +27,4 @@ export const temp_tourReservsettingActions = bindActionCreators(temp_tourReservs
 export const MapFilterRedux = bindActionCreators(mapFilter, dispatch);
 export const MapProductEls = bindActionCreators(mapProductEls, dispatch);
 export const temp_SelectComplexinfo = bindActionCreators(temp_selectComplexinfo,dispatch);
+export const searchDetailorigin = bindActionCreators(searchdetailorigin,dispatch);
