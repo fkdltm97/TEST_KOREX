@@ -21,10 +21,10 @@ import { useSelector } from 'react-redux';
 export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) {
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
-  console.log('===>>>itemtTABCONENT:',productRedux);
+  //console.log('===>>>itemtTABCONENT:',productRedux);
 
   const onClickEl = (value) => {
-    MapProductEls.updateClickBlo({ clickBlo : value.danji_id });
+    MapProductEls.updateClickBlo({ clickBlo : value.complex_id });
     updatePageIndex(3);
     setHistoryInfo(e => {e.prevIndex.push(0); return JSON.parse(JSON.stringify(e));});
   }
@@ -33,16 +33,17 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
     <Container>
       {
         productRedux.block.map((value, index) => {
+          //console.log('values::',value);
           return(
             <TabContent key={index}>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
               <TopBox>
-                <Title>{value.title}</Title>
-                <Address>{value.address}</Address>
+                <Title>{value.complex_name}</Title>
+                <Address>{value.addr_jibun}({value.addr_road})</Address>
                 <DanjiInfo>
-                  <Date>{value.date}</Date>
-                  <Price>{value.price}</Price>
-                  <Floor>{value.floor}</Floor>
+                  <Date>2021.05.05</Date>
+                  <Price>전세 7800만</Price>
+                  <Floor>8층</Floor>
                 </DanjiInfo>
                 <LeftImg>
                   <Img src={FilterNext}/>

@@ -44,7 +44,7 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
   const floorchange = (e) => {setFloor(e.target.value.split('|')[0]); setfloorname(e.target.value.split('|')[1]);}
   const hosilnamechange = (e) => {sethosilname(e.target.value);}
   
-  const nextStep = (e) => {
+  const nextStep = async (e) => {
      console.log('다음단계 클릭>>>>',floor,floorname,hosilname,search_address);//소재지 주소값,층수,호실값 확인
 
      //리덕스 저장한다.
@@ -67,6 +67,21 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
       case 3:
         tempBrokerRequestActions.maemultypechange({maemultypes: '사무실'});
       break;
+    }
+
+    //해당 floor id에 대한 floor query결과 정보를 얻는다. 
+    let body_info= {
+      floorid_val : floor
+    };
+    let res_results= await serverController.connectFetchController('/api/matterial/getFloor_xy','POST',JSON.stringify(body_info));
+    if(res_results.result){
+      console.log('res_resultssss:::',res_results);
+
+      let result_x= res_results.result.x;
+      let result_y= res_results.result.y; //얻어낸 그 특정 도로명 주소 flrid에 대한 x,y경도 위도 값.
+      
+      tempBrokerRequestActions.xchange({x_pos : result_x});
+      tempBrokerRequestActions.ychange({y_pos : result_y});//해당 추가하려는 매물에 대하여 x,y pos추가. 해당 flrid매물은 이제 x,y pos도 저장가능.
     }
   };
 

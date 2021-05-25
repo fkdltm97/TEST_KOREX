@@ -102,22 +102,22 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             <Mobile>{/*모바일 open List Btn*/}
               <OpenListImg onClick={() => {setUpDown(!updown)}}/>
             </Mobile>
-            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>{typeStatus}303</Span>
+            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>{typeStatus}{productRedux.exclusive.length}</Span>
             <Part/>
-            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>37</Orange></Span2>
+            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>{productRedux.probroker.length}</Orange></Span2>
           </WrapTabBtn>
         )
       }else if(tapStatus == 0){ // 전속매물 active
         return(
-          <TopMenu typeStatus={typeStatus} length={3} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <TopMenu typeStatus={typeStatus} length={productRedux.exclusive.length} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
       }else if(tapStatus == 1){ // 전문중개사 active   
         return(
-          <TopMenu typeStatus={"전문중개사"} length={6} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <TopMenu typeStatus={"전문중개사"} length={productRedux.probroker.length} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
       }else if(tapStatus == 2){ // 단지별 실거래 active   
         return(
-          <TopMenu typeStatus={"아파트단지"} length={9} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
+          <TopMenu typeStatus={"아파트단지"} length={productRedux.block.length} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )
       }else{ // 선텍 x
         return(<></>)
