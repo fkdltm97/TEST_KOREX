@@ -103,7 +103,7 @@ export default function Request({setFilter,value,type}) {
     return (
         <Container>
           <WrapRequest>
-            <TopTitle>기본정보 입력/수정</TopTitle>
+            <TopTitle>기본정보 입력</TopTitle>
             <WrapBox>
               <Box>
                 <SubTitle>

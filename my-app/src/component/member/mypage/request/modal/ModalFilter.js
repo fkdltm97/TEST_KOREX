@@ -7,16 +7,8 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //img
-import Filter from '../../../../../img/member/filter.png';
-import Bell from '../../../../../img/member/bell.png';
-import BellActive from '../../../../../img/member/bell_active.png';
-import Location from '../../../../../img/member/loca.png';
-import Set from '../../../../../img/member/setting.png';
-import Item from '../../../../../img/main/item01.png';
-import Noimg from '../../../../../img/main/main_icon3.png';
+
 import Close from '../../../../../img/main/modal_close.png';
-import Change from '../../../../../img/member/change.png';
-import Marker from '../../../../../img/member/marker.png';
 import ArrowDown from '../../../../../img/member/arrow_down.png';
 
 //필터 모달
@@ -41,15 +33,6 @@ export default function Reserve({filter,setFilter}) {
   //Filter 모달창
     return (
         <Container>
-          <WrapFilterModal>
-            <ModalFilterBg onClick={() => {setFilter(false)}}/>
-            <ModalFilter>
-              <FilterCloseBtn>
-                <Link onClick={() => {setFilter(false)}}>
-                  <FilterCloseImg src={Close}/>
-                </Link>
-              </FilterCloseBtn>
-              <ModalFilterTitle>필터</ModalFilterTitle>
               <WrapFilterSelect>
               {/*정렬기준 select*/}
                 <FilterBox>
@@ -102,8 +85,7 @@ export default function Reserve({filter,setFilter}) {
                 <ResetBtn type="button" name="">초기화</ResetBtn>
                 <SaveBtn type="submit" name="">적용</SaveBtn>
               </WrapFilterButtons>
-            </ModalFilter>
-          </WrapFilterModal>
+
         </Container>
   );
 }
