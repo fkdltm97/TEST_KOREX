@@ -18,22 +18,22 @@ export default function JoinSns() {
             <Facebook>
               <Link className="data_link"></Link>
               <FacebookImage src={FacebookImg}/>
-              <Txt>SIGN UP WITH FACEBOOK</Txt>
+              <Txt>SIGN IN WITH FACEBOOK</Txt>
             </Facebook>
             <Kakao>
               <Link className="data_link"></Link>
               <KakaoImage src={KakaoImg}/>
-              <Txt>SIGN UP WITH KAKAO</Txt>
+              <Txt>SIGN IN WITH KAKAO</Txt>
             </Kakao>
             <Naver>
               <Link className="data_link"></Link>
               <NaverImage src={NaverImg}/>
-              <Txt>SIGN UP WITH NAVER</Txt>
+              <Txt>SIGN IN WITH NAVER</Txt>
             </Naver>
             <Apple>
               <Link className="data_link"></Link>
               <AppleImage src={AppleImg}/>
-              <Txt>SIGN UP WITH APPLE</Txt>
+              <Txt>SIGN IN WITH APPLE</Txt>
             </Apple>
           </SnsButtons>
         </Container>

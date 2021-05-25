@@ -36,14 +36,14 @@ export default function SearchFaq() {
         <Container>
           <WrapSearch>
             <Search>
-              <Link onClick={()=>{setShowSearch(true)}}>
+              <div className="linkToDiv" onClick={()=>{setShowSearch(true)}}>
                 <ImgSearch src={IconSearch}/>
-              </Link>
+              </div>
             </Search>
             <Menu>
-              <Link onClick={showModal}>
+              <div className="linkToDiv" onClick={showModal}>
                 <ImgMenu src={IconMenu}/>
-              </Link>
+              </div>
                 {
                   showMenu ?
                   <RecentSubdepth>
@@ -70,12 +70,12 @@ export default function SearchFaq() {
               </SearchInput>
           {/*검색어 입력했을때 나와야함*/}
               <WriteWord active={active}>
-                <Link>
+                <div className="linkToDiv">
                   <Result>부동산 관리에 대해 문의 드립니다.</Result>
-                </Link>
-                <Link>
+                </div>
+                <div className="linkToDiv">
                   <Result>부동산 관리에 대해 문의 드립니다.</Result>
-                </Link>
+                </div>
               </WriteWord>
             </WrapSearchInput>
             :
@@ -127,6 +127,11 @@ const RecentSubdepth = styled.div`
   position:Absolute;left:35px;top:0;background:#fff;
   border-radius:8px;border:1px solid #707070;
   width:70px;
+  @media ${(props) => props.theme.mobile} {
+    left:calc(100vw*(-10/428));
+    top:calc(100vw*(20/428));
+    width:calc(100vw*(70/428));
+  }
 `
 const MenuBg = styled.div`
   position:fixed;width:100%;height:100%;
@@ -146,6 +151,10 @@ const ReceentSubList = styled.div`
   &:hover{background:#f8f7f7}
   position:relative;
   z-index:3;
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(12/428));
+    padding:calc(100vw*(7/428)) calc(100vw*(15/428));
+  }
 `
 const WrapSearchInput = styled.div`
   position:absolute;
@@ -191,6 +200,7 @@ const CloseBtn = styled.button`
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(20/428));
     height:calc(100vw*(20/428));
+    line-height:calc(100vw*(20/428));
   }
 `
 const CloseImg = styled.img`
