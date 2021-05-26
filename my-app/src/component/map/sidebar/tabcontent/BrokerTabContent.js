@@ -35,34 +35,36 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo, containe
       <Container>
         {
           productRedux.probroker.map((value, index) => {
-            return(
-              <TabContent key={index}>
-                <Link onClick={() => onClickEl(value) } className="data_link"></Link>
-                  <TopBox>
-                    <Tag>아파트.대림 / 오피스텔.천호</Tag>
-                    <Tag>상가</Tag>
-                    <Tag>사무실</Tag>
-                  </TopBox>
-                  <BottomBox>
-                    <LeftContent>
-                      <ItemInfo>
-                        <Name>{value.biz_name}</Name>
-                        <Address>{value.addr_road}</Address>
-                        <SellList>
-                          <List>매매 <ColorOrange>5</ColorOrange></List>
-                          <Part/>
-                          <List>전세 <ColorOrange>8</ColorOrange></List>
-                          <Part/>
-                          <List>월세 <ColorOrange>12</ColorOrange></List>
-                        </SellList>
-                      </ItemInfo>
-                    </LeftContent>
-                    <RightContent>
-                      <ItemImg src={Profile}/>
-                    </RightContent>
-                  </BottomBox>
-                </TabContent>
-            )
+            if(index < 10){
+              return(
+                <TabContent key={index}>
+                  <Link onClick={() => onClickEl(value) } className="data_link"></Link>
+                    <TopBox>
+                      <Tag>아파트.대림 / 오피스텔.천호</Tag>
+                      <Tag>상가</Tag>
+                      <Tag>사무실</Tag>
+                    </TopBox>
+                    <BottomBox>
+                      <LeftContent>
+                        <ItemInfo>
+                          <Name>{value.biz_name}</Name>
+                          <Address>{value.addr_road}</Address>
+                          <SellList>
+                            <List>매매 <ColorOrange>5</ColorOrange></List>
+                            <Part/>
+                            <List>전세 <ColorOrange>8</ColorOrange></List>
+                            <Part/>
+                            <List>월세 <ColorOrange>12</ColorOrange></List>
+                          </SellList>
+                        </ItemInfo>
+                      </LeftContent>
+                      <RightContent>
+                        <ItemImg src={Profile}/>
+                      </RightContent>
+                    </BottomBox>
+                  </TabContent>
+              )
+            }
           })
         }
       </Container>

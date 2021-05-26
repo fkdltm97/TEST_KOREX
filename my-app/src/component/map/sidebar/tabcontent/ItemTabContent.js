@@ -37,6 +37,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
     <Container>
       {
         productList.map((value, index) => {
+          if(index < 10){
           return(
             <TabContent key={index}>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
@@ -75,6 +76,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
               </RightContent>
             </TabContent>
             )
+          }
         })
       }
     </Container>

@@ -34,6 +34,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
       {
         productRedux.block.map((value, index) => {
           //console.log('values::',value);
+          if(index < 10){
           return(
             <TabContent key={index}>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
@@ -51,6 +52,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
               </TopBox>
             </TabContent>
           )
+          }
         })
       }
     </Container>
