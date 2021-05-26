@@ -7,25 +7,13 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //img
-import Filter from '../../../../img/member/filter.png';
-import Bell from '../../../../img/member/bell.png';
-import BellActive from '../../../../img/member/bell_active.png';
-import Location from '../../../../img/member/loca.png';
-import Set from '../../../../img/member/setting.png';
-import Item from '../../../../img/main/item01.png';
-import Noimg from '../../../../img/member/company_no.png';
-import Close from '../../../../img/main/modal_close.png';
-import Change from '../../../../img/member/change.png';
-import Marker from '../../../../img/member/marker.png';
-import ArrowDown from '../../../../img/member/arrow_down.png';
 import IconRecent from "../../../../img/main/icon_view.png";
 
-import { Mobile, PC } from "../../../../MediaQuery"
+
 
 //component
-import RequestListPage from "./RequestList";
 
-export default function Request({setFilter,value,type}) {
+export default function Request({filterModal,value,type}) {
 
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
@@ -72,7 +60,6 @@ export default function Request({setFilter,value,type}) {
     }</>)
   }
   
-  // 이부분 이상합니다!!!!!
     return (
         <Container>
           <ModalSelect>
@@ -108,18 +95,7 @@ export default function Request({setFilter,value,type}) {
             
             <SortRecent> 
               <RecentList>
-                <div class="linkToDiv" onClick={showMenu}>
-                  <Span><RecentImg src={IconRecent}/></Span>
-                {
-                  menu ?
-                  <RecentSubdepth>
-                    <ReceentSubList>최신순</ReceentSubList>
-                    <ReceentSubList>과거순</ReceentSubList>
-                  </RecentSubdepth>
-                  :
-                  null
-                }
-                </div>
+                  <Span onClick={()=>{filterModal();}}><RecentImg src={IconRecent}/></Span>
               </RecentList>
             </SortRecent>
           </ModalSelect>

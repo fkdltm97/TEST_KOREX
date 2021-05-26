@@ -1,6 +1,6 @@
 //react
 import React ,{useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 
 //css
@@ -22,7 +22,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 import { Mobile, PC } from "../../../../MediaQuery"
 
 export default function Request({value, type}) {
-
+  const history = useHistory();
   //... 눌렀을때(메뉴)
   const [menu,setMenu] = useState(false);
   const showModal =()=>{
@@ -80,7 +80,7 @@ export default function Request({value, type}) {
                       {/*검토대기 상태일때*/}
                         {value.prd_status == '검토대기' ?
                         <InMenu>
-                        <Div>
+                        <Div onClick={() => history.push(`/RequestReview/${value.prd_identity_id}`)}>
                           <div to={`/RequestReview/${value.prd_identity_id}`}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>검토</InDiv>
                         </Div>
@@ -103,15 +103,15 @@ export default function Request({value, type}) {
                           <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>수임 취소</InDiv>
                         </Div>
-                        <Div>
-                          <Link to="/ConditionChange"  className={["data_link", "linkToDiv"]}/>
+                        <Div onClick={() => history.push("/ConditionChange")}>
+                          <div to="/ConditionChange"className={["data_link", "linkToDiv"]}/>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>
                           <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
-                        <Div>
+                        <Div onClick={() => history.push(`/PropertyTourSetting/${value.prd_identity_id}`)}>
                           <div to={`/PropertyTourSetting/${value.prd_identity_id}`}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
@@ -138,7 +138,7 @@ export default function Request({value, type}) {
                           <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>수임 취소</InDiv>
                         </Div>
-                        <Div>
+                        <Div onClick={() => history.push(`/ConditionChange`)}>
                           <Link to="/ConditionChange"  className={["data_link", "linkToDiv"]}/>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
@@ -146,8 +146,8 @@ export default function Request({value, type}) {
                           <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
-                        <Div>
-                          <Link to="/PropertyTourSetting"  className={["data_link", "linkToDiv"]}/>
+                        <Div onClick={() => history.push(`/PropertyTourSetting/${value.prd_identity_id}`)}>
+                          <Link to={`/PropertyTourSetting/${value.prd_identity_id}`}  className={["data_link", "linkToDiv"]}/>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>

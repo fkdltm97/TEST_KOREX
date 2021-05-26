@@ -103,7 +103,7 @@ export default function ModalCommon({modalOption}) {
               }
               {
                 modalOption.confirmgreennone && modalOption.confirmgreennone.show ?
-                  <ConfirmBtnGreenNoneLink type="button" name="" onClick={modalOption.confirmgreennone.event}>{modalOption.confirmgreennone.title}</ConfirmBtnGreenNoneLink>
+                  <ConfirmBtnGreen type="button" name="" onClick={modalOption.confirmgreennone.event}>{modalOption.confirmgreennone.title}</ConfirmBtnGreen>
               :
                 null
               }

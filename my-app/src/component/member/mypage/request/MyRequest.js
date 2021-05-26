@@ -336,7 +336,7 @@ import CommonTopInfo from '../../../../component/member/mypage/commonList/common
 import {useSelector } from 'react-redux';
 
 
-export default function Request({mannerModal,startModal,cancleModal,completeModal,cancle2Modal,setFilter,value,type}) {
+export default function Request({mannerModal,startModal,filterModal,cancleModal,completeModal,cancle2Modal,setFilter,value,type}) {
 
    
   //... 눌렀을때(메뉴)
@@ -447,7 +447,7 @@ export default function Request({mannerModal,startModal,cancleModal,completeModa
         <Container>
           <WrapRequest>
             <TopTitle>내 중개의뢰</TopTitle>
-            <RequestSorting/>{/*컴포넌트입니다*/}
+            <RequestSorting filterModal={filterModal}/>{/*컴포넌트입니다*/}
 
             {/* 수정코드입니다. */}
             <CommonTopInfo length={is_serveron == true ? brokerproductlist.length : RequestListItem.length} leftComponent={topInfoContent()}/>
@@ -483,7 +483,7 @@ export default function Request({mannerModal,startModal,cancleModal,completeModa
               }
 
               return(
-                <RequestListPage mannerModal={mannerModal} cancleModal={cancleModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal} type={type} value={value}/>
+                <RequestListPage filterModal={filterModal} mannerModal={mannerModal} cancleModal={cancleModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal} type={type} value={value}/>
               )
             })
             :

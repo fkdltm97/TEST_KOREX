@@ -10,6 +10,7 @@ import temp_tourReservsetting from './temp_tourReservsetting';
 import mapFilter from './mapfilter';
 import mapProductEls from './mapProductEls';
 import temp_selectComplexinfo from './temp_selectComplexinfo';
+import searchdetailorigin from './searchdetailorigin';
 
 export default combineReducers({
   my,
@@ -22,5 +23,6 @@ export default combineReducers({
   temp_tourReservsetting,
   mapFilter,
   mapProductEls,
-  temp_selectComplexinfo
+  temp_selectComplexinfo,
+  searchdetailorigin
 });

@@ -115,7 +115,7 @@ export default function ModalDanjiSelect({userInfo,setUserInfo}) {
               <Buttons>
               {/*인증번호 발송 버튼 누른 후 OkBtn(확인버튼)과 TxtBoxMt(인증번호 입력칸)이 나와야함!!*/}
                 <ConfirmBtn type="button" active={active} onClick={coolSmsSend}>인증번호 발송</ConfirmBtn>
-                <Link to="/AddRequest" onClick={() => {setUserInfo(false)}} onClick={nextStep}>
+                <Link to="/AddRequest" onClick={() => {setUserInfo(false); nextStep();}} >
                   <OkBtn type="button" active2={active2}>확인</OkBtn>
                 </Link>
               </Buttons>

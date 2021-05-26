@@ -18,7 +18,6 @@ import excClusterer from "../../../img/map/excClusterer.png";
 import proClusterer from "../../../img/map/proClusterer.png";
 import blockClustererImg from "../../../img/map/blockClusterer.png";
 
-
 // redex
 import { MapRight, MapProductEls } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
@@ -26,6 +25,9 @@ import { useSelector } from 'react-redux';
 import json from '../../../json/geoMap.json'
 
 import style from './kakaoMap.css';
+
+//server
+import serverController from '../../../server/serverController';
 
 export default function KakaoMap({}) {
   const [kakaoMap, setKakaoMap] = useState(null);
@@ -68,21 +70,32 @@ export default function KakaoMap({}) {
   // 필터 변경
   // 오른쪽 메뉴 변경
   // idle 이벤트
-  function getProduct() {
+  async function getProduct() {
     // **api
     // 현재 활성 버튼/필터 서버에 보내서 
     // 지도에 띄울 좌표(마커/클러스터러), 매물 리스트 받아와야 합니다.
 
-    // setExclusiveArr([])
-    // setProbrokerArr([])
-    // setBlockArr([])
-
-    console.log('-=======>>getProduct함수 실행::');
+    // fetch api요청 해당 현재 지도의 change 중심좌표,레벨,화면스크린크기 등을 보낸다.그에 따른 그 지도상화면에서 보이는 주변 매물들 결과얻는다.
+    console.log('-=======>>getProduct함수 실행::',mapData);
+    var mapData = JSON.parse(localStorage.getItem("mapData"));
+    var idle_mapdata={
+      level : mapData.level,
+      lat : mapData.lat,
+      lng : mapData.lng,
+      screen_width : window.innerWidth,
+      screen_height : window.innerHeight
+    };
+    var res_results= await serverController.connectFetchController('/api/matterial/mapchange_searchresult','POST',JSON.stringify(idle_mapdata));
+    
+    if(res_results){
+      console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',JSON.stringify(idle_mapdata),res_results);
+    }
 
     // 전속 매물
     if(mapRightRedux.isExclusive.is){
-      let newArr = [];
-      for(let i = 0 ; i < 10 ; i++){
+      let match_matterial_exclusive= res_results.match_matterial[0];
+
+      /*for(let i = 0 ; i < match_matterial_exclusive.length ; i++){
         newArr.push({
           isExc:true,
           item_id : i,
@@ -98,11 +111,13 @@ export default function KakaoMap({}) {
           expenses:"관리비",
           desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
         });
-      }
-      MapProductEls.updateExclusive({ exclusive : newArr });
+      }*/
+      MapProductEls.updateExclusive({ exclusive : match_matterial_exclusive });
     }
     // 전문 중개사
     if(mapRightRedux.isProbroker.is){
+      let match_matterial_probroker = res_results.match_matterial[1];
+      /*
       let newArr = [];
       for(let i = 0 ; i < 10 ; i++){
         newArr.push({
@@ -117,11 +132,12 @@ export default function KakaoMap({}) {
           sell_kind2:7,
           sell_kind3:9,
         });
-      }
-      MapProductEls.updateProbroker({ probroker : newArr });
+      }*/
+      MapProductEls.updateProbroker({ probroker : match_matterial_probroker });
     }
     // 단지별 실거래
     if(mapRightRedux.isBlock.is){
+      let match_matterial_block = res_results.match_matterial[2];
       /*let newArr = [];
       for(let i = 0 ; i < 10 ; i++){
         newArr.push({
@@ -133,10 +149,30 @@ export default function KakaoMap({}) {
           price:"매매 3억5,000",
           floor:"7층",
         });
-      }
-      MapProductEls.updateBlock({ block : newArr });*/
+      }*/
+      MapProductEls.updateBlock({ block : match_matterial_block });
     }
 
+    // setExclusiveArr([])
+    // setProbrokerArr([])
+    // setBlockArr([])
+    let exclusive_kakaomap_elements=[];
+    for(let b=0; b<productRedux.exclusive.length; b++){
+      exclusive_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.exclusive[b].prd_latitude,productRedux.exclusive[b].prd_longitude);
+    }
+    setExclusiveArr(exclusive_kakaomap_elements);
+
+    let probroker_kakaomap_elements=[];
+    for(let b=0; b<productRedux.probroker.length; b++){
+      probroker_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.probroker[b].y,productRedux.probroker[b].x);
+    }
+    setProbrokerArr(probroker_kakaomap_elements);
+
+    let block_kakaomap_elements=[];
+    for(let b=0; b<productRedux.block.length; b++){
+      block_kakaomap_elements[b] = new kakao.maps.LatLng(productRedux.block[b].y,productRedux.block[b].x);
+    }
+    setBlockArr(block_kakaomap_elements);
   }
 
   // 제거
@@ -146,6 +182,7 @@ export default function KakaoMap({}) {
 
   // 필터/메뉴 바뀔때마다 이벤트 발생
   useEffect(() => {
+    console.log('===>>필터 right메뉴, 카카오맵등 바뀔떄마다 이벤트 발생:');
     if(!kakaoMap){return;};
     const filerRedux = mapFilterRedux;
     localStorage.setItem( "filterData", JSON.stringify(filerRedux));
@@ -171,8 +208,15 @@ export default function KakaoMap({}) {
   // 임시 더미 데이터
   useEffect(() => {
     console.log('===>>>페이지 로드 시점 실행::');
+    console.log('===>>productRedux::',productRedux);
+
+    let exclusive_kakaomap_elements=[];
+    for(let b=0; b<productRedux.exclusive.length; b++){
+      console.log('productredux exlcusive ssss:',productRedux.exclusive[b]);
+      exclusive_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.exclusive[b].prd_latitude,productRedux.exclusive[b].prd_longitude);
+    }
     setExclusiveArr(
-      [ 
+      /*[ 
         new kakao.maps.LatLng(37.499590, 127.026374),
         new kakao.maps.LatLng(37.499427, 127.027947),
         new kakao.maps.LatLng(37.498553, 127.028824),
@@ -181,10 +225,14 @@ export default function KakaoMap({}) {
         new kakao.maps.LatLng(37.496292, 127.025873),
         new kakao.maps.LatLng(37.497545, 127.025466),             
         new kakao.maps.LatLng(37.494424, 127.012703)                
-      ]
+      ]*/
+      exclusive_kakaomap_elements
     );
-
-    setProbrokerArr([
+    let probroker_kakaomap_elements=[];
+    for(let b=0; b<productRedux.probroker.length; b++){
+      probroker_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.probroker[b].y,productRedux.probroker[b].x);
+    }
+    setProbrokerArr(/*[
       new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
       new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
       new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
@@ -192,8 +240,10 @@ export default function KakaoMap({}) {
       new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
       new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
       new kakao.maps.LatLng(37.49996818951873, 127.02943721562295)
-    ])
-    console.log('===>>productRedux::',productRedux);
+      ]*/
+      probroker_kakaomap_elements
+    )
+    
     let block_kakaomap_elements=[];
     for(let b=0; b<productRedux.block.length; b++){
       block_kakaomap_elements[b] = new kakao.maps.LatLng(productRedux.block[b].y,productRedux.block[b].x);
@@ -271,17 +321,17 @@ export default function KakaoMap({}) {
 
   // 전속매물 토글
   useEffect(() => {
-    console.log('====>>전속매물 토글링(mapright:',mapRightRedux.isExclusive.is);
+    console.log('====>>전속매물 토글링(mapright:',mapRightRedux.isExclusive.is, exclusiveArr);
     mapRightRedux.isExclusive.is
     ?
     addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
     :
     setExcClusterer(clusterer=>{ console.log('==>>>setExccluster함수 실행:',clusterer); if(!clusterer){return}; clusterer.clear(); return clusterer;});
-  }, [mapRightRedux.isExclusive.is, kakaoMap])
+  }, [mapRightRedux.isExclusive.is, kakaoMap , exclusiveArr])
 
   // 전문 중개사 토글
   useEffect(() => {
-    console.log('===>>전문중개사 토글링');
+    console.log('===>>전문중개사 토글링',probrokerArr);
     mapRightRedux.isProbroker.is
     ?
     addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
@@ -291,11 +341,11 @@ export default function KakaoMap({}) {
       clusterer.clear();
       return clusterer;
     });
-  }, [mapRightRedux.isProbroker.is, kakaoMap])
+  }, [mapRightRedux.isProbroker.is, kakaoMap , probrokerArr])
 
   // 단지별 실거래 토글
   useEffect(() => {
-    console.log('===>>>단지별실거래 토글링:',mapRightRedux.isBlock.is);
+    console.log('===>>>단지별실거래 토글링:',mapRightRedux.isBlock.is, blockArr);
     mapRightRedux.isBlock.is
     ?
     addMarkClustBlock(blockArr, setBlockClusterer, blockMarker, blockClustererImg, 5)
@@ -305,7 +355,7 @@ export default function KakaoMap({}) {
       clusterer.clear();
       return clusterer;
     });
-  }, [mapRightRedux.isBlock.is, kakaoMap])
+  }, [mapRightRedux.isBlock.is, kakaoMap, blockArr])
 
   // 마커/클러스터러 함수
   const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
@@ -332,6 +382,7 @@ export default function KakaoMap({}) {
       });
       markers.push( markerEl );
     })
+    console.log('===>>>markesrs::',markers);
     var clusterer = new kakao.maps.MarkerClusterer({
       map: kakaoMap, 
       averageCenter: true, 
@@ -372,11 +423,10 @@ export default function KakaoMap({}) {
           fontWeight: 'bold',
           lineHeight: '94px'
         }
-
       ]
     });
     clusterer.addMarkers(markers);
-
+    console.log('==>>>make clusterer::',clusterer);
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
@@ -620,6 +670,7 @@ export default function KakaoMap({}) {
 
   // 주변 업데이트
   useEffect(() => {
+    console.log('===>>>arouindArr,맵변경,idle,around>>>');
     if(!kakaoMap){return;}
 
     switch (mapRightRedux.around.is){

@@ -117,16 +117,15 @@ export default function Request({tridchklist_function,cancleModal,confirmModal,m
                       menu ?
                       <InMenu>
                       {/*검토대기 상태일때*/}
-                        <Div>
-                          <div onClick={()=>{cancleModal(value.r_tr_id);}}  className={["data_link", "linkToDiv"]}/>
+                        <Div onClick={()=>{cancleModal(value.r_tr_id);}}>
+                          <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>예약 해제</InDiv>
                         </Div>
-                        <Div>
-                          <div onClick={()=>{
+                        <Div onClick={()=>{
                             console.log('=>>>>value.선택한 상품prd_identity_id값:',value.p_prd_identity_id);
                             editModal(value.p_prd_identity_id,value.r_tr_id);//선택한 매물id값에 대해서 보낸다.어떤 매물에 대한 셋팅리스트 보여준다. 또한 어떤 tr_id에 대한 예약접수내역을 클릭한지 여부 구한다.
-
-                            }}  className={["data_link", "linkToDiv"]}/>
+                        }}>
+                          <div className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
                       </InMenu>
