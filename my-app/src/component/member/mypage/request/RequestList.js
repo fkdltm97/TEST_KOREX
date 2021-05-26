@@ -21,7 +21,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery"
 
-export default function Request({filter, setFilter, mannerModal, cancleModal,startModal,completeModal,cancle2Modal,value,type}) {
+export default function RequestL({filter, setFilter, mannerModal, cancleModal,startModal,completeModal,cancle2Modal,value,type}) {
   
   console.log('중개의뢰 매물 요청 list반복:',value);
 
@@ -71,15 +71,13 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                       (value.prd_status =='대기' || value.prd_status=='검토대기' || value.prd_status=='검토 대기') ?
                       <InMenu>
                         <Div>
-                          <div onClick={()=>{cancleModal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>의뢰 철회</InDiv>
+                          <InDiv onClick={()=>{cancleModal();}}>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <div to="/EditRequest"  className={["data_link", "linkToDiv"]}/>
+                          <Link to="/EditRequest"  className={["data_link", "linkToDiv"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>
-                          <div  className={["data_link", "linkToDiv"]}/>
                           <InDiv>삭제</InDiv>
                         </Div>
                       </InMenu>
@@ -88,20 +86,16 @@ export default function Request({filter, setFilter, mannerModal, cancleModal,sta
                       (value.prd_status == '거래 준비' || value.prd_status=='거래준비') ?
                       <InMenu>
                         <Div>
-                          <div onClick={()=>{startModal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>거래 개시</InDiv>
+                          <InDiv onClick={()=>{startModal();}}>거래 개시</InDiv>
                         </Div>
                         <Div>
-                          <div onClick={()=>{completeModal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>거래 완료</InDiv>
+                          <InDiv onClick={()=>{completeModal();}}>거래 완료</InDiv>
                         </Div>
                         <Div>
-                          <div onClick={()=>{cancle2Modal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>위임 취소</InDiv>
+                          <InDiv onClick={()=>{cancle2Modal();}}>위임 취소</InDiv>
                         </Div>
                         <Div>
-                          <div onClick={()=>{mannerModal();}}  className={["data_link", "linkToDiv"]}/>
-                          <InDiv>중개매너 평가</InDiv>
+                          <InDiv onClick={()=>{mannerModal();}}>중개매너 평가</InDiv>
                         </Div>
                         <Div>
                           <div to="/DetailViewRequest"  className={["data_link", "linkToDiv"]}/>

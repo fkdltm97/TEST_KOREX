@@ -46,7 +46,7 @@ export default function Join() {
   // const [detailimg, setDetailImg] = useState(false);
   // const [cal, setCal] = useState(false);
 
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},submitnone:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
 
 
   //여기 두개가 핵심이에여
@@ -71,6 +71,20 @@ export default function Join() {
               confirmgreennone:{show:true , title:"확인" , event : ()=>{offModal(); }}
           });
         }
+
+        const filterModal = () =>{
+          //여기가 모달 키는 거에엽
+          setModalOption({
+              show:true,
+              setShow:offModal,
+              title:"필터",
+              content:{type:"components",text:`Testsetsetsetsetestse`,component:<ModalFilter/>},
+              submitnone:{show:true , title:"적용" , event : ()=>{offModal(); }},
+              cancle:{show:true , title:"초기화" , event : ()=>{offModal(); }},
+              confirmgreennone:{show:false , title:"확인" , event : ()=>{offModal(); }}
+          });
+        }
+
         const cancleModal = () =>{
           //여기가 모달 키는 거에엽
           setModalOption({
@@ -138,7 +152,7 @@ export default function Join() {
               <SubTitle title={"개인"} rank={false} cursor={"default"}/>
             {/*기업으로 로그인했을때*/}
               {/*<SubTitle title={"소속명　"} arrow={"▼"} path={"/Team"} rank={true}/> cursor={"pointer"}*/}
-              <MyRequest mannerModal={mannerModal} cancleModal={cancleModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal}/>
+              <MyRequest mannerModal={mannerModal} cancleModal={cancleModal} filterModal={filterModal} startModal={startModal} cancle2Modal={cancle2Modal} completeModal={completeModal}/>
               <ModalCommon modalOption={modalOption}/>
           </Container>
           <CommonFooter />

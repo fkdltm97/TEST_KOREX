@@ -164,7 +164,7 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
     return (
         <Container>
           <WrapRequest>
-            <TopTitle>기본정보 입력/수정</TopTitle>
+            <TopTitle>기본정보 입력</TopTitle>
             <NewRequestTopInfos/>
             <WrapBrokerInfo>
               <BrokerInfoLess setMap={setMap}/>{/* 05.21 BrokerInfo.js 는 주소+매매까지 나와있고 BrokerLess파일은 중개사명 / 대표명만 나와있습니다. */}
