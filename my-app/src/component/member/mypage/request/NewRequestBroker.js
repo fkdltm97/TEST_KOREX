@@ -7,30 +7,21 @@ import styled from "styled-components"
 
 //img
 
-import Arrow from "../../../../img/map/filter_next.png";
-import ArrowDown from "../../../../img/map/filter_down_arrow.png";
-import Detail from "../../../../img/map/detail_img.png";
-import Trade from "../../../../img/map/trade.png";
-import Report from "../../../../img/map/report.png";
-import ChangeM from "../../../../img/map/change_m.png";
-import Change from "../../../../img/member/change.png";
-import Exit from "../../../../img/main/exit.png";
-import Checked from "../../../../img/map/checked.png";
-import Check from "../../../../img/main/heart.png";
 import Profile from "../../../../img/map/profile_img.png";
 import Like from '../../../../img/member/like.png';
 import Smile from '../../../../img/member/smile.png';
 import OrangeStar from '../../../../img/member/star_orange.png';
 import GreenStar from '../../../../img/member/star_green.png';
 import WhiteStar from '../../../../img/member/star_white.png';
-import View from '../../../../img/main/icon_view.png';
 import RadioImg from '../../../../img/map/radi.png';
 import RadioChkImg from '../../../../img/map/radi_chk.png';
+import SearchImg from '../../../../img/map/search.png';
+import Close from '../../../../img/main/modal_close.png';
 
-import { Mobile, PC } from "../../../../MediaQuery";
 
 //component
 import NewRequestTopInfos from './NewRequestTopInfos';
+import SearchStoreOfficeApi from './SearchStoreOfficeApi';
 
 //reudx addons asssets;
 import {useSelector } from 'react-redux';
@@ -106,11 +97,30 @@ const nextStep = (e) => {
     e.preventDefault();
   }
 };
+const [addressApi,setAddressApi] = useState(false);
+const [search_address,setSearch_address]= useState({});//검색api에 의한 액션에 의해서만 처리되는것(사용자 직접 능동입력형태x)
+
 
     return (
         <Container>
           <WrapRequest>
             <TopTitle>전문중개사 선임</TopTitle>
+
+             {/*05.24 상가,사무실로 넘어왔을때 상단 검색 부분 추가*/}
+             <SearchBox onClick={() => setAddressApi(true)}>
+                <Search type="search" placeholder="물건 소재지 주소 검색"/>
+                <SearchBtn type="button"/>
+              </SearchBox>
+              {
+                addressApi ?
+                <AddressApi>
+                  <CloseImg src={Close} onClick={() => setAddressApi(false)}/>
+                  <SearchStoreOfficeApi setSearch_address={setSearch_address} setAddressApi={setAddressApi}/>
+                </AddressApi>
+                :
+                null
+              }
+
             {/*05.21 상단 컴포넌트 부분 추가*/}
             <NewRequestTopInfos/>
             {
@@ -394,6 +404,7 @@ const SubTitle = styled.p`
   font-size:15px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   @media ${(props) => props.theme.mobile} {
+    
     font-size:calc(100vw*(14/428));
     }
 `
@@ -519,3 +530,64 @@ const Next = styled.button`
     line-height:calc(100vw*(54/428));font-size:calc(100vw*(15/428));
     }
 `
+const SearchBox = styled.div`
+  position:relative;
+  display:flex;justify-content:flex-start;align-items:center;
+  width:100%;
+  height:43px;
+  margin:15px 0;
+  border-radius: 4px;
+  border: solid 1px #e4e4e4;
+  background-color: #ffffff;
+  @media ${(props) => props.theme.mobile} {
+    height:calc(100vw*(43/428));
+    margin:calc(100vw*(15/428)) 0;
+  }
+`
+const Search = styled.input`
+  display:inline-block;
+  width:100%;
+  height:100%;
+  text-align:center;
+  font-size:15px;transform:skew(-0.1deg);
+  font-weight:600;
+  color:#4a4a4a;background:transparent;
+  &::placeholder{color:#979797;}
+  @media ${(props) => props.theme.mobile} {
+    font-size:calc(100vw*(15/428));
+  }
+`
+const SearchBtn = styled.button`
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:43px;height:43px;
+  background:url(${SearchImg}) no-repeat center center;
+  background-size:19px 18px;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(43/428));
+    height:calc(100vw*(43/428));
+    background-size:calc(100vw*(19/428)) calc(100vw*(18/428));
+  }
+`
+const AddressApi = styled.div`
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:450px;height:auto;z-index:2;
+  border:1px solid #eee;
+  background:#fff;
+  padding:70px 10px 0;
+  @media ${(props) => props.theme.mobile} {
+      width:calc(100vw*(380/428));
+      padding:calc(100vw*(60/428)) 0 0;
+    }
+`
+const CloseImg = styled.img`
+  position:Absolute;top:20px;right:10px;
+  width:18px;
+  cursor:pointer;
+  @media ${(props) => props.theme.mobile} {
+      top:calc(100vw*(20/428));
+      right:calc(100vw*(10/428));
+      width:calc(100vw*(18/428));
+    }
+`
+
+

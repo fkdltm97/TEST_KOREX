@@ -154,7 +154,7 @@ export default function SearchApartOfficetel({setActiveIndex,activeIndex}) {
             </Box>
             {/*버튼 액티브 됐을때 색상 변경돼야함 // 하단 css */}
             <NextButton>
-              <Link to="/AddRequestSecond" onClick={nextStep}>
+              <Link to="/AddRequestBroker" onClick={nextStep}>
                 <Next type="button">다음</Next>
               </Link>
             </NextButton>

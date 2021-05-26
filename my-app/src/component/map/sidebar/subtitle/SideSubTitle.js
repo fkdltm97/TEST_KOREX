@@ -22,9 +22,9 @@ export default function SubTitle({title,updatePageIndex,historyInfo,value}) {
         <Container>
           <WrapSubTitle>
             <InSubTitle>
-              <Link onClick={()=>{updatePageIndex(historyInfo.prevIndex.length == 0 ? -1 : historyInfo.prevIndex.pop())}}>
+              <div className="linkToDiv" onClick={()=>{updatePageIndex(historyInfo.prevIndex.length == 0 ? -1 : historyInfo.prevIndex.pop())}}>
                 <BackImg src={BackBtn}/>
-              </Link>
+              </div>
               <TitleTxt>{title}</TitleTxt>
             </InSubTitle>
           </WrapSubTitle>

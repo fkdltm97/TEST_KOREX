@@ -3,9 +3,6 @@ import React ,{useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
 
-//selectbox
-import AsyncSelect from 'react-select/async';
-import { term1Option } from './data';
 
 //style
 import styled from "styled-components"

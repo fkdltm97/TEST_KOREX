@@ -54,9 +54,7 @@ export default function Faq() {
           <CommonHeader/>
           <Container>
               <SubTitle title={"FAQ"}/>
-              <FaqViewTitle/>
               <FaqViewBodyTop/>
-              <FaqViewBodyBottom/>
           </Container>
           <CommonFooter/>
           {/* <TermService termservice={termservice} openTermService={openTermService}/>
