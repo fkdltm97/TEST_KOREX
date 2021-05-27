@@ -88,7 +88,7 @@ export default function KakaoMap({}) {
     var res_results= await serverController.connectFetchController('/api/matterial/mapchange_searchresult','POST',JSON.stringify(idle_mapdata));
     
     if(res_results){
-      console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',JSON.stringify(idle_mapdata),res_results);
+      console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',res_results.match_matterial[0],res_results.match_matterial[1],res_results.match_matterial[2]);
     }
 
     // 전속 매물
@@ -153,26 +153,6 @@ export default function KakaoMap({}) {
       MapProductEls.updateBlock({ block : match_matterial_block });
     }
 
-    // setExclusiveArr([])
-    // setProbrokerArr([])
-    // setBlockArr([])
-    let exclusive_kakaomap_elements=[];
-    for(let b=0; b<productRedux.exclusive.length; b++){
-      exclusive_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.exclusive[b].prd_latitude,productRedux.exclusive[b].prd_longitude);
-    }
-    setExclusiveArr(exclusive_kakaomap_elements);
-
-    let probroker_kakaomap_elements=[];
-    for(let b=0; b<productRedux.probroker.length; b++){
-      probroker_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.probroker[b].y,productRedux.probroker[b].x);
-    }
-    setProbrokerArr(probroker_kakaomap_elements);
-
-    let block_kakaomap_elements=[];
-    for(let b=0; b<productRedux.block.length; b++){
-      block_kakaomap_elements[b] = new kakao.maps.LatLng(productRedux.block[b].y,productRedux.block[b].x);
-    }
-    setBlockArr(block_kakaomap_elements);
   }
 
   // 제거
@@ -207,12 +187,11 @@ export default function KakaoMap({}) {
 
   // 임시 더미 데이터
   useEffect(() => {
-    console.log('===>>>페이지 로드 시점 실행::');
+    console.log('===>>>페이지 로드 시점 실행or 리덕스데이터 변경시마다 실행(idle->getproduct fetch api정보 리덕스 저장->리덕스데이터 state에저장.)::');
     console.log('===>>productRedux::',productRedux);
 
     let exclusive_kakaomap_elements=[];
     for(let b=0; b<productRedux.exclusive.length; b++){
-      console.log('productredux exlcusive ssss:',productRedux.exclusive[b]);
       exclusive_kakaomap_elements[b]= new kakao.maps.LatLng(productRedux.exclusive[b].prd_latitude,productRedux.exclusive[b].prd_longitude);
     }
     setExclusiveArr(
@@ -259,7 +238,7 @@ export default function KakaoMap({}) {
       new kakao.maps.LatLng(37.497680616783086, 127.02518427952202)*/
       block_kakaomap_elements
     )
-  }, [])
+  }, [productRedux.block, productRedux.probroker, productRedux.exclusive]);
 
   // 지도 생성
   useEffect(() => {
@@ -305,7 +284,7 @@ export default function KakaoMap({}) {
     kakao.maps.event.addListener(map, 'idle', (e) => {
       console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
       var level = map.getLevel();
-      var lng = map.getCenter().La.toFixed(9);
+      var lng = map.getCenter().La.toFixed(11);
       var lat = map.getCenter().Ma.toFixed(9);
       const data = {
         level:level,
@@ -321,41 +300,51 @@ export default function KakaoMap({}) {
 
   // 전속매물 토글
   useEffect(() => {
-    console.log('====>>전속매물 토글링(mapright:',mapRightRedux.isExclusive.is, exclusiveArr);
+    console.log('====>>전속매물 토글링or변경시에',mapRightRedux.isExclusive.is, exclusiveArr);
     mapRightRedux.isExclusive.is
     ?
     addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
     :
-    setExcClusterer(clusterer=>{ console.log('==>>>setExccluster함수 실행:',clusterer); if(!clusterer){return}; clusterer.clear(); return clusterer;});
+    setExcClusterer(clusterer=>{ 
+      console.log('==>>>setExccluster함수 실행:',clusterer);
+      if(!clusterer){return clusterer}; 
+      console.log('cluster clear::',clusterer.clear,clusterer);
+      clusterer.clear(); 
+      return clusterer;
+    });
   }, [mapRightRedux.isExclusive.is, kakaoMap , exclusiveArr])
 
   // 전문 중개사 토글
   useEffect(() => {
-    console.log('===>>전문중개사 토글링',probrokerArr);
+    console.log('===>>전문중개사 토글링or변경시에',mapRightRedux.isProbroker, probrokerArr);
     mapRightRedux.isProbroker.is
     ?
     addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
     :
     setProClusterer(clusterer=>{
-      if(!clusterer){return;}
-      clusterer.clear();
+      console.log('==>>>setProclusterer함수 실행:',clusterer);
+      if(!clusterer){return clusterer;}
+      console.log('cluster clear::',clusterer.clear,clusterer);
+      clusterer.clear(); 
       return clusterer;
     });
   }, [mapRightRedux.isProbroker.is, kakaoMap , probrokerArr])
 
   // 단지별 실거래 토글
   useEffect(() => {
-    console.log('===>>>단지별실거래 토글링:',mapRightRedux.isBlock.is, blockArr);
+    console.log('===>>>단지별실거래 토글링or변경시에',mapRightRedux.isBlock.is, blockArr);
     mapRightRedux.isBlock.is
     ?
     addMarkClustBlock(blockArr, setBlockClusterer, blockMarker, blockClustererImg, 5)
     :
     setBlockClusterer(clusterer=>{
-      if(!clusterer){return;}
+      console.log('==>>setBlockClusterser함수 실행 ::',clusterer);
+      if(!clusterer){return clusterer;}
+      console.log('cluster clear::',clusterer.clear,clusterer);
       clusterer.clear();
       return clusterer;
     });
-  }, [mapRightRedux.isBlock.is, kakaoMap, blockArr])
+  }, [mapRightRedux.isBlock.is, kakaoMap, blockArr]);
 
   // 마커/클러스터러 함수
   const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
@@ -375,6 +364,7 @@ export default function KakaoMap({}) {
         opacity:1
       })
       kakao.maps.event.addListener(markerEl, 'click', function() {
+        console.log('markelElement클릭:',markerEl, item.Ma, item.La);
         setClickMarker({
           lat:item.Ma,
           lng:item.La
@@ -382,7 +372,7 @@ export default function KakaoMap({}) {
       });
       markers.push( markerEl );
     })
-    console.log('===>>>markesrs::',markers);
+    //console.log('===>>>markesrs::',markers);
     var clusterer = new kakao.maps.MarkerClusterer({
       map: kakaoMap, 
       averageCenter: true, 
@@ -428,6 +418,7 @@ export default function KakaoMap({}) {
     clusterer.addMarkers(markers);
     console.log('==>>>make clusterer::',clusterer);
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+      console.log('클릭클러스터:',cluster,cluster._center.toLatLng());
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
         lng:cluster._center.toLatLng().La
@@ -448,6 +439,13 @@ export default function KakaoMap({}) {
         var customOverlay = new kakao.maps.CustomOverlay({
           position: new kakao.maps.LatLng(item.Ma, item.La),
           content: content,
+        });
+        kakao.maps.event.addListener(customOverlay,'click',function(){
+          console.log('customOverlay크릭:',customOverlay,item.Ma,item.La);
+          setClickMarker({
+            lat : item.Ma,
+            lng: item.La
+          })
         });
       markers.push(customOverlay);
       customOverlay.setMap(kakaoMap);
@@ -492,11 +490,11 @@ export default function KakaoMap({}) {
           fontWeight: 'bold',
           lineHeight: '94px'
         }
-
       ]
     });
     clusterer.addMarkers(markers);
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+      console.log('->>>clustser요소 클릭::',cluster,cluster._center.toLatLng());
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
         lng:cluster._center.toLatLng().La
@@ -670,7 +668,7 @@ export default function KakaoMap({}) {
 
   // 주변 업데이트
   useEffect(() => {
-    console.log('===>>>arouindArr,맵변경,idle,around>>>');
+    //console.log('===>>>arouindArr,맵변경,idle,around>>>');
     if(!kakaoMap){return;}
 
     switch (mapRightRedux.around.is){

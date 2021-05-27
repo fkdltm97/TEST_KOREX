@@ -21,12 +21,13 @@ import { Mobile, PC } from "../../../../MediaQuery"
 
 //component
 
-import BrokerInfo from './component/BrokerInfo';
+import BrokerInfoLess from './component/BrokerInfoLess';
 import ModalMap from './modal/ModalMap';
 
 //redux addons saseests.
 import {useSelector} from 'react-redux';
 import {tempBrokerRequestActions} from '../../../../store/actionCreators';
+import NewRequestTopInfos from './NewRequestTopInfos';
 
 export default function Request({setFilter,value,type,confirmModal}) {
   const [activeIndex,setActiveIndex] = useState(-1);
@@ -156,10 +157,11 @@ export default function Request({setFilter,value,type,confirmModal}) {
   }
     return (
         <Container>
+          <NewRequestTopInfos/>
           <WrapRequest>
             <WrapBrokerInfo>
               <Condition>상태 : <ConditionDetail>거래 개시</ConditionDetail></Condition>
-              <BrokerInfo setMap={setMap}/>{/*컴포넌트입니다.*/}
+              <BrokerInfoLess setMap={setMap}/>{/*컴포넌트입니다.*/}
             </WrapBrokerInfo>
 
             {
@@ -412,21 +414,25 @@ const Container = styled.div`
     margin:0 auto;
     padding:0 0 250px;
     @media ${(props) => props.theme.mobile} {
-      width:calc(100vw*(380/428));
-      padding:0 0 calc(100vw*(150/428));
+      width:100%;
+      padding:calc(100vw*(30/428)) 0 calc(100vw*(150/428));
       }
 `
 const WrapRequest = styled.div`
   width:100%;
   padding-top:40px;
   @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(380/428));
     padding-top:calc(100vw*(40/428));
+    margin:0 auto;
     }
 `
 const WrapBrokerInfo = styled.div`
   width:465px;margin:0 auto;
+  padding-top:0;
   @media ${(props) => props.theme.mobile} {
     width:100%;
+    padding-top:calc(100vw*(15/428));
     }
 `
 const TopTitle = styled.h2`

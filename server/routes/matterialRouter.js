@@ -262,7 +262,8 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
         var level_zido_endx= origin_x + x_distance; 
         var level_zido_starty= origin_y - y_distance;
         var level_zido_endy= origin_y + y_distance;
-        console.log('지도 중심origin x,y좌표 및 주변 직사각형 좌표 범위area:',origin_x,origin_y,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
+        console.log('=======지도 중심origin x,y좌표 및 주변 직사각형 좌표 범위area:',zido_level,origin_x,origin_y,x_distance,y_distance);
+        console.log('=======startx~endx, starty~endy',level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
 
         //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
         var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
@@ -271,7 +272,21 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
         //var [search_product_result] = await connection.query("select * from product");
         //var [search_company_result] = await connection.query("select * from company");
 
-        console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
+        //console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
+
+        console.log('만족 complexss::======================',search_complex_result.length);
+        for(let c=0; c<search_complex_result.length; c++){
+            console.log('x,y:',search_complex_result[c].x,search_complex_result[c].y);
+        }
+        console.log('만족 products::======================',search_product_result.length);
+        for(let c=0; c<search_product_result.length; c++){
+            console.log('x,y:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude);
+        }
+        console.log('만족 companys::======================',search_company_result.length);
+        for(let c=0; c<search_company_result.length; c++){
+            console.log('x,y:',search_company_result[c].x,search_company_result[c].y);
+        }
+
         connection.release();
 
         return response.json({success:true,message:'sucecess queryss',result: searchdetail_result, match_matterial : [search_product_result,search_company_result,search_complex_result]});
@@ -292,8 +307,8 @@ router.post('/mapchange_searchresult',async function(request,response){
     const connection = await pool.getConnection(async conn => conn);
     //id_val, search_type_val
     try{
-        var origin_x=req_body.lng;
-        var origin_y=req_body.lat;
+        var origin_x=parseFloat(req_body.lng);
+        var origin_y=parseFloat(req_body.lat);
         var screen_width= req_body.screen_width;
         var screen_height= req_body.screen_height;
         var zido_level =req_body.level;
@@ -322,7 +337,8 @@ router.post('/mapchange_searchresult',async function(request,response){
         var level_zido_endx= origin_x + x_distance; 
         var level_zido_starty= origin_y - y_distance;
         var level_zido_endy= origin_y + y_distance;
-        console.log('지도 중심origin x,y좌표 및 주변 직사각형 좌표 범위area:',origin_x,origin_y,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
+        console.log('=======지도 중심origin x,y좌표 및 주변 직사각형 좌표 범위area:',zido_level,origin_x,origin_y,x_distance,y_distance);
+        console.log('=======startx~endx, starty~endy',level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
 
         //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
         var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
@@ -331,7 +347,20 @@ router.post('/mapchange_searchresult',async function(request,response){
         //var [search_product_result] = await connection.query("select * from product");
         //var [search_company_result] = await connection.query("select * from company");
 
-        console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
+        //console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
+
+        console.log('만족 complexss::======================',search_complex_result.length);
+        for(let c=0; c<search_complex_result.length; c++){
+            console.log('x,y:',search_complex_result[c].x,search_complex_result[c].y);
+        }
+        console.log('만족 products::======================',search_product_result.length);
+        for(let c=0; c<search_product_result.length; c++){
+            console.log('x,y:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude);
+        }
+        console.log('만족 companys::======================',search_company_result.length);
+        for(let c=0; c<search_company_result.length; c++){
+            console.log('x,y:',search_company_result[c].x,search_company_result[c].y);
+        }
         connection.release();
 
         return response.json({success:true,message:'sucecess queryss', result:[], match_matterial : [search_product_result,search_company_result,search_complex_result]});
