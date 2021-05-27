@@ -230,6 +230,25 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
         var screen_width= req_body.screen_width;
         var screen_height= req_body.screen_height;
         var zido_level =req_body.level;
+        var prd_type= req_body.prdtype_val;
+
+        switch(prd_type){
+            case 'apart':
+                prd_type='아파트';
+            break;
+
+            case 'store':
+                prd_type='상가';
+            break;
+
+            case 'officetel':
+                prd_type='오피스텔';
+            break;
+
+            case 'office':
+                prd_type='사무실';
+            break;
+        }
 
         var search_sql="select * from "+search_type+" where id="+id;
         console.log('search_sqls::',search_sql);
@@ -267,7 +286,7 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
 
         //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
         var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
-        var [search_product_result] = await connection.query("select * from product where prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        var [search_product_result] = await connection.query("select * from product where prd_type=? and prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[prd_type,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
         var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
         //var [search_product_result] = await connection.query("select * from product");
         //var [search_company_result] = await connection.query("select * from company");
@@ -280,7 +299,7 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
         }
         console.log('만족 products::======================',search_product_result.length);
         for(let c=0; c<search_product_result.length; c++){
-            console.log('x,y:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude);
+            console.log('x,y,prdtype:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude,search_product_result[c].prd_type);
         }
         console.log('만족 companys::======================',search_company_result.length);
         for(let c=0; c<search_company_result.length; c++){
@@ -299,6 +318,132 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
     }
 });
 //메인 검색페이지 검색리스트중 임의 클릭 지역or대학교or지하철 지점의 관련 정보 리턴
+router.post('/main_searchresult_roadaddress',async function(request,response){
+    console.log('=====>>>request.body:',request.body);
+
+    var req_body= request.body;
+
+    const connection = await pool.getConnection(async conn => conn);
+    //id_val, search_type_val
+    try{
+        var screen_width= req_body.screen_width;
+        var screen_height= req_body.screen_height;
+        var zido_level =req_body.level;
+        var prd_type= req_body.prdtype_val;
+        var search_road_address = req_body.search_road_address
+        var isexclusive= req_body.isexclusive_val;
+        var isprobroker=req_body.isprobroker_val;
+        var isblock= req_body.isblock_val;
+
+        switch(prd_type){
+            case 'apart':
+                prd_type='아파트';
+            break;
+
+            case 'store':
+                prd_type='상가';
+            break;
+
+            case 'officetel':
+                prd_type='오피스텔';
+            break;
+
+            case 'office':
+                prd_type='사무실';
+            break;
+        }
+
+        //해당 도로명 주소에 대해서 xy로 리턴하는 api구현, 해당 요청 도로명주소에 대한 경도위도 반환.
+        const api_headers={'Authorization' : 'KakaoAK '+"ac08f2d6adfd16a501ad517d7a2fab3f"};
+        const api_url="https://dapi.kakao.com/v2/local/search/address.json?&query=" + encodeURI(search_road_address);
+
+        let api_response= await request_api.get({
+            uri:api_url,
+            headers:api_headers
+        });
+        console.log('--->>>>responses:',api_response);
+        api_response= JSON.parse(api_response);
+        console.log('responsedocumentsss::',api_response.documents);
+        api_response_final = api_response.documents[0];//얻어낸 x,y경도위도값.
+
+        //나온 중심 좌표x,y값을 기준으로 계산처리. 추상적으로 임의의 지점으로부터 중심으로 해서 직사각형 area영역 크기만큼(화면스크린사이즈px사이즈 가로,세로)와 지도레벨값에 따른 분기처리를 한다. 각 레벨에서 화면상에서 현재의 화면좌표일때 기준 차이px량 크기px량만큼 위도경도 크기 차이난다.x,y
+        var level_array={
+            '1' : 0.000003000 ,//레벨1일떄 단위1px당(화면상 보여지는 지도에서의 각 1px 단위크기당 일때의 위도,경도 차이값.지도상에서 가로,세로 크기1px의 차이일 경우마다 십억분에 7500차이나게형상화)
+            /*'2' : 0.000015000 */'2' : 0.000007500 ,
+            '3' : 0.000015000 ,
+            '4' : 0.000025000 ,
+            '5' : 0.000038000 ,
+            '6' : 0.000075000 ,
+            '7' : 0.000150000 ,
+            '8' : 0.000300000 ,
+            '9' : 0.000750000 ,
+            '10' : 0.001250000 ,
+            '11' : 0.002500000 ,
+            '12' : 0.007500000 ,
+            '13' : 0.050000000 ,
+            '14' : 0.200000000  //14레벨일때는 화면상 지도 1px가로세로당 위도경도값 0.5만큼 차이 이동된다고 할수있다. 추상화.
+        };
+        var x_distance= level_array[zido_level] * parseInt(screen_width / 2);
+        var y_distance = level_array[zido_level] * parseInt(screen_height / 2);
+        var origin_x= parseFloat(api_response_final.x);
+        var origin_y= parseFloat(api_response_final.y);
+
+        var level_zido_startx= origin_x - x_distance;
+        var level_zido_endx= origin_x + x_distance; 
+        var level_zido_starty= origin_y - y_distance;
+        var level_zido_endy= origin_y + y_distance;
+        console.log('=======지도 중심origin x,y좌표 및 주변 직사각형 좌표 범위area:',zido_level,origin_x,origin_y,x_distance,y_distance);
+        console.log('=======startx~endx, starty~endy',level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
+
+        //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
+        if(isblock){
+            var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
+        }else{
+            var search_complex_result = [];
+        }
+        
+        if(isexclusive){
+            var [search_product_result] = await connection.query("select * from product where prd_type=? and prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[prd_type,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        }else{
+            var search_product_result = [];
+        }
+        
+        if(isprobroker){
+            var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        }else{
+            var search_company_result = [];
+        }
+        
+        //var [search_product_result] = await connection.query("select * from product");
+        //var [search_company_result] = await connection.query("select * from company");
+
+        //console.log('===>>만족되는 데이터들::',search_complex_result,search_product_result,search_company_result);
+
+        console.log('만족 complexss::======================',search_complex_result.length);
+        for(let c=0; c<search_complex_result.length; c++){
+            console.log('x,y:',search_complex_result[c].x,search_complex_result[c].y);
+        }
+        console.log('만족 products::======================',search_product_result.length);
+        for(let c=0; c<search_product_result.length; c++){
+            console.log('x,y,prdtype:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude,search_product_result[c].prd_type);
+        }
+        console.log('만족 companys::======================',search_company_result.length);
+        for(let c=0; c<search_company_result.length; c++){
+            console.log('x,y:',search_company_result[c].x,search_company_result[c].y);
+        }
+
+        connection.release();
+
+        return response.json({success:true,message:'sucecess queryss', result_origin:{x:origin_x, y:origin_y}, match_matterial : [search_product_result,search_company_result,search_complex_result]});
+
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!', result_origin:{},match_matterial: [] });
+    }
+});
+//메인 검색페이지 검색리스트중 임의 클릭 지역or대학교or지하철 지점의 관련 정보 리턴
 router.post('/mapchange_searchresult',async function(request,response){
     console.log('=====>>>request.body:',request.body);
 
@@ -312,6 +457,28 @@ router.post('/mapchange_searchresult',async function(request,response){
         var screen_width= req_body.screen_width;
         var screen_height= req_body.screen_height;
         var zido_level =req_body.level;
+        var prd_type = req_body.prdtype_val;
+        var isexclusive= req_body.isexclusive_val;
+        var isprobroker=req_body.isprobroker_val;
+        var isblock= req_body.isblock_val;
+
+        switch(prd_type){
+            case 'apart':
+                prd_type='아파트';
+            break;
+
+            case 'store':
+                prd_type='상가';
+            break;
+
+            case 'officetel':
+                prd_type='오피스텔';
+            break;
+
+            case 'office':
+                prd_type='사무실';
+            break;
+        }
 
         //나온 중심 좌표x,y값을 기준으로 계산처리. 추상적으로 임의의 지점으로부터 중심으로 해서 직사각형 area영역 크기만큼(화면스크린사이즈px사이즈 가로,세로)와 지도레벨값에 따른 분기처리를 한다. 각 레벨에서 화면상에서 현재의 화면좌표일때 기준 차이px량 크기px량만큼 위도경도 크기 차이난다.x,y
         var level_array={
@@ -341,9 +508,25 @@ router.post('/mapchange_searchresult',async function(request,response){
         console.log('=======startx~endx, starty~endy',level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy);
 
         //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
-        var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
-        var [search_product_result] = await connection.query("select * from product where prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
-        var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        if(isblock){
+            //mapRight체크된 상태에서 단지별실거래 체크된상태에서 온 경우만 쿼리진행.
+            var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
+        }else{
+            var search_complex_result = [];
+        }
+        
+        if(isexclusive){
+            var [search_product_result] = await connection.query("select * from product where prd_type=? and prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[prd_type,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        }else{
+            var search_product_result = [];
+        }
+        
+        if(isprobroker){
+            var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+        }else{
+            var search_company_result = [];
+        }
+        
         //var [search_product_result] = await connection.query("select * from product");
         //var [search_company_result] = await connection.query("select * from company");
 
@@ -355,7 +538,7 @@ router.post('/mapchange_searchresult',async function(request,response){
         }
         console.log('만족 products::======================',search_product_result.length);
         for(let c=0; c<search_product_result.length; c++){
-            console.log('x,y:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude);
+            console.log('x,y,prdtypes:',search_product_result[c].prd_longitude,search_product_result[c].prd_latitude,search_product_result[c].prd_type);
         }
         console.log('만족 companys::======================',search_company_result.length);
         for(let c=0; c<search_company_result.length; c++){
@@ -471,12 +654,38 @@ router.get('/dummy_insert_testproduct',async function(request,response){
             console.log('insert_query_rows::',insert_query_rows);
         }
 
-        return response.status(403).json({success:false, message:'success!!',result:[]});
+        return response.json({success:false, message:'success!!',result:[]});
     }catch(err){
         console.log('server query error:',err);
         connection.release();
 
         return response.status(403).json({success:false, message:'server query problme error!',result:[]});
     }
+});
+router.get('/dummy_update_prdtype_randomly',async function(request,response){
+    console.log('===>>dummy update prdtype randomly:::');
+
+    const connection = await pool.getConnection(async conn => conn);
+
+    var [dummy_rows_product] = await connection.query("select * from product where prd_name='더미매물' and prd_identity_id=-1");
+    var prd_type_array=['아파트','오피스텔','상가','사무실'];//0,1,2,3  math.floor(random()*4) 0,....3.9999 0,3
+
+    try{
+        for(let d=0; d<dummy_rows_product.length; d++){
+            var random_prdtype= Math.floor(4*Math.random());
+            random_prdtype = prd_type_array[random_prdtype];
+            var prd_id= dummy_rows_product[d]['prd_id'];
+            var [random_query]=await connection.query("update product set prd_type=? where prd_id=?",[random_prdtype, prd_id]);
+    
+            console.log('update randomqueryss::',random_query);
+        }
+
+        return response.json({success:false, message:'success!!',result:[]});
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[]});
+    }    
 });
 module.exports=router;

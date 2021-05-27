@@ -11,7 +11,7 @@ import * as mapFilter from './modules/mapfilter';
 import * as mapProductEls from './modules/mapProductEls';
 import * as temp_selectComplexinfo from './modules/temp_selectComplexinfo';
 import * as searchdetailorigin from './modules/searchdetailorigin';
-
+import * as mapheader from './modules/mapHeader';
 import store from './index';
 
 const { dispatch } = store;
@@ -28,3 +28,4 @@ export const MapFilterRedux = bindActionCreators(mapFilter, dispatch);
 export const MapProductEls = bindActionCreators(mapProductEls, dispatch);
 export const temp_SelectComplexinfo = bindActionCreators(temp_selectComplexinfo,dispatch);
 export const searchDetailorigin = bindActionCreators(searchdetailorigin,dispatch);
+export const mapHeader = bindActionCreators(mapheader,dispatch);

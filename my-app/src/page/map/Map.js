@@ -47,13 +47,14 @@ export default function NoticeDetail({status}) {
   //분양 상세이미지 모달
   const [detailimg, setDetailImg] = useState(false);
   const [cal, setCal] = useState(false);
-
+  
   //신고모달
   const [report,setReport] = useState(false);
   //단지위치 모달
   const [map,setMap] = useState(false);
   
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
+  
   
   //여기 두개가 핵심이에여
   //모달 끄는 식
@@ -76,18 +77,18 @@ export default function NoticeDetail({status}) {
         confirm:{show:true , title:"확인" , event : ()=>{offModal(); }}
     });
   }
-  
+
   return (
     <>
       <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
       <LiveModal live={live} setLive={setLive}/>
       <ModalCalendar cal={cal} setCal={setCal}/>
       <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
-      <MapHeader openBunyang={openBunyang}/>
+      <MapHeader  openBunyang={openBunyang}/>
       <Container>
           <ModalMap map={map} setMap={setMap}/>
           <ReportModal report={report} setReport={setReport}/>
-          <MainMap setReport={setReport} setMap={setMap} status={status} reserveModal={reserveModal}/>
+          <MainMap setReport={setReport} setMap={setMap} status={status}  reserveModal={reserveModal}/>
           <ModalCommon modalOption={modalOption}/>
       </Container>
     </>
