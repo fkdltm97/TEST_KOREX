@@ -85,7 +85,7 @@ export default function SideBarBrokerDetailCont({historyInfo,updatePageIndex,set
                   <Name>{broker.name}</Name>
                   <Address>{broker.address}</Address>
                   <SellList>
-                    <List>매매<ColorOrange>{broker.trade}</ColorOrange></List>
+                    <List>매매 <ColorOrange>{broker.trade}</ColorOrange></List>
                     <Part/>
                     <List>전세 <ColorOrange>{broker.jeonse}</ColorOrange></List>
                     <Part/>

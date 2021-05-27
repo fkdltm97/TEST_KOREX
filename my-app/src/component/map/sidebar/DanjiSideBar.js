@@ -213,7 +213,7 @@ const Orange = styled.span`
 
 const WrapNonTab = styled.div`
   width:100%;padding:0 25px;
-  display:flex;justify-content:space-between;align-items;center;
+  display:flex;justify-content:space-between;align-items:center;
   @media ${(props) => props.theme.mobile} {
     font-size:calc(100vw*(15/428));
   }
