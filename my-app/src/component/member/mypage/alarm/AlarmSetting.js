@@ -37,13 +37,20 @@ export default function Like({setFilter,value,type}) {
             <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab">
             {/*
               ** 분기처리 **
-              개인 : 전속매물 공급 I 공통
-              기업 : 전속매물 공급 I 공통
-              중개사 : 분양수요 I 공통
-              전문중개사 : 분양수요 I 전속매물 공급 I 공통
-              분양프로젝트 팀원 : 분양공급 I 공통
+              cf.전속매물 수요 관련 화면설계 : #86:1-a, #87:2-a
+              개인 : 전속매물 수요 I 전속매물 공급 I 공통
+              기업 : 전속매물 수요 I 전속매물 공급 I 공통
+              중개사 : 전속매물 수요 I 분양 수요 I 공통
+              전문중개사 : 전속매물 수요 I 분양 수요 I 전속매물 공급 I 공통
+              분양프로젝트 팀원 : 분양 공급 I 공통
 
               */}
+              <Tab label="전속매물 수요">
+                <JunsokSetting/>
+              </Tab>
+              <Tab label="분양 수요">
+                <JunsokSetting/>
+              </Tab>
               <Tab label="전속매물 공급">
                 <JunsokSetting/>
               </Tab>

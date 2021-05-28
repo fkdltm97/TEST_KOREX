@@ -82,7 +82,7 @@ const Container = styled.div`
 `
 const WrapFilter = styled.div`
   position:absolute;
-  width: 390px;
+  width: 360px;
   height: 80px;
   padding:15px 25px 0;
   border-radius: 17px;

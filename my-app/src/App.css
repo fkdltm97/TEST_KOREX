@@ -284,7 +284,7 @@ background-size:18px 18px;appearance:none;}
   .nav-tabs li:first-child{margin-right:calc(100vw*(24/428));}
   .nav-tabs li:first-child:after{position:absolute;right:calc(100vw*(-13/428));top:50%;content:'';display:block;transform:translateY(-50%);width:1px; height:calc(100vw*(15/428));background:#707070;}
   .alarm_tab .nav-tabs li{margin-right:calc(100vw*(24/428));}
-  .alarm_tab.pr .nav-tabs li.nav-item a{padding-right:calc(100vw*(25/428));}
+  .alarm_tab.pr .nav-tabs li.nav-item a{padding-right:calc(100vw*(18/428));}
   .alarm_tab .nav-tabs li:last-child{margin-right:0;}
   .alarm_tab .nav-tabs li:after{position:absolute;right:calc(100vw*(-13/428));top:50%;content:'';display:block;transform:translateY(-50%);width:1px; height:calc(100vw*(15/428));background:#707070;}
   .alarm_tab .nav-tabs li:last-child:after{display: none;}

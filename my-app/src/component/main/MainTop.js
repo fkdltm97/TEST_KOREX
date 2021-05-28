@@ -21,7 +21,7 @@ export default function MainBody() {
 const Container = styled.div`
     width:565px;
     margin:0 auto 0;
-    padding-top:150px;
+    padding-top:100px;
     @media ${(props) => props.theme.container} {
         width:calc(100vw*(565/1436));
         padding-top:calc(100vw*(100/428));
@@ -36,7 +36,7 @@ const MainTop = styled.div`
 `
 
 const MainTopTxt = styled.p`
-    font-size:51px;
+    font-size:40px;
     color:#fe7a01;
     text-align:center;
     @media ${(props) => props.theme.container} {

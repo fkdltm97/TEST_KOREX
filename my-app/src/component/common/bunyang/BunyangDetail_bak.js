@@ -453,9 +453,7 @@ const Desc = styled.div`
 `
 const DTitle = styled.p`
   width:170px;
-  font-size:15px;
-  color:#4a4a4a;
-  //color: ${(props) => (props.children ? '#fe7a01' : '#4a4a4a')};
+  font-size:15px;color:#4a4a4a;
   font-weight:800;transform:skew(-0.1deg);
   @media ${(props) => props.theme.container} {
       width:calc(100vw*(170/1436));
@@ -465,7 +463,7 @@ const DTitle = styled.p`
 `
 const DescInfo = styled(DTitle)`
   width:auto;
-  //color:#707070;
+  color:#707070;
   text-align:right;
   word-break:keep-all;
 `
