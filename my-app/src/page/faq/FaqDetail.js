@@ -7,9 +7,7 @@ import styled from "styled-components"
 //component
 import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
-import FaqViewTitle from '../../component/faq/FaqViewTitle';
 import FaqViewBodyTop from '../../component/faq/FaqViewBodyTop';
-import FaqViewBodyBottom from '../../component/faq/FaqViewBodyBottom';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';

@@ -74,7 +74,7 @@ export default function MainPage({}) {
         <MainFooter openTermService={openTermService} openTermPrivacy={openTermPrivacy} openTermLocation={openTermLocation}/> */}
       </PC>
       <Mobile>
-        <MainHeader/>
+        <CommonHeader/>
         <MainBody/>
         <CommonFooter/>
         {/* <TermService termservice={termservice} openTermService={openTermService}/>

@@ -8,12 +8,7 @@ import MobileSearchMain from "./MobileSearchMain";
 
 //css
 import styled from "styled-components"
-import MainTopImg from '../../img/main/main_top.png';
-import IconSearch from '../../img/main/icon_search.png';
-import SearchIcon1 from '../../img/main/search_icon1.png';
-import SearchIcon2 from '../../img/main/search_icon2.png';
-import SearchIcon3 from '../../img/main/search_icon3.png';
-import CloseBtnImg from '../../img/main/close_btn.png';
+
 
 import { Mobile, PC } from "../../MediaQuery"
 
@@ -115,7 +110,9 @@ const TabBtn = styled.div`
   color:${({active}) => active ? "#FE7A01" : "#979797"};
   font-weight:${({active}) => active ? "800" : "normal"};
   transform:skew(-0.1deg);
-
+  transition:all 0.3s;
+  cursor:pointer;
+    &:hover{color:#fe7a01;font-weight:800;}
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(16/428));
     }

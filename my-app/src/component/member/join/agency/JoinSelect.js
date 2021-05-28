@@ -187,7 +187,7 @@ export default function JoinTab() {
             </ChooseBox>
           </WrapChooseBox>
 
-          {/*체크박스가 선택되면 아래 내용이 활성화 됩니다.( WrapChooseBox는 display:none처리되어야 함)*/}
+  {/*상단의 체크박스가 선택되면 아래 내용이 활성화 됩니다.( WrapChooseBox는 display:none처리되어야 함)*/}
           <WrapJoinInput>
             <InputTop>
               <InputTitle>이름</InputTitle>

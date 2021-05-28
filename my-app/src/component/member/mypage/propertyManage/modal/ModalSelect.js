@@ -248,9 +248,9 @@ const Span = styled.span`
 const WrapList = styled.ul`
   margin-top:10px;
   width:100%;
-  height:250px;overflow-y:scroll;
+  height:320px;overflow-y:scroll;
   @media ${(props) => props.theme.modal} {
-      height:calc(100vw*(250/428));
+      height:calc(100vw*(310/428));
       margin-top:calc(100vw*(10/428));
     }
 `
