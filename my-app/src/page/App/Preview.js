@@ -5,19 +5,11 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //component
-import MainHeader from '../../component/common/MainHeader';
 import Preview from '../../component/AppComponent/Preview';
-import MainFooter from '../../component/common/MainFooter';
-import TermService from '../../component/common/TermsOfService';
-import TermPrivacy from '../../component/common/TermsOfPrivacy';
-import TermLocation from '../../component/common/TermsOfLocation';
-import Bunyang from '../../component/common/bunyang/Bunyang';
-import ImgDetail from "../../component/common/bunyang/ImgDetail";
-import LiveModal from "../../component/common/bunyang/LiveModal";
-import ModalCalendar from "../../component/common/bunyang/ModalCalendar";
 import ModalCommon from "../../component/common/modal/ModalCommon";
 import ModalEdit from "../../component/AppComponent/modal/ModalEdit";
 import ReportModal from "../../component/AppComponent/modal/ReportModal";
+import ModalReject from "../../component/AppComponent/modal/ModalReject";
 
 import CommonHeader from '../../component/common/commonHeader';
 import CommonFooter from '../../component/common/commonFooter';
@@ -44,7 +36,7 @@ export default function Join() {
   // const [detailimg, setDetailImg] = useState(false);
   // const [cal, setCal] = useState(false);
 
-  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},content:{}});
+  const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},submitnone:{},cancle:{},confirm:{},confirmgreennone:{},link:{},content:{}});
   const [off,setOff] = useState(false);
 
 //여기 두개가 핵심이에여
@@ -78,6 +70,44 @@ export default function Join() {
 
         });
       }
+
+      const rejectModal = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"거절 사유",
+            content:{type:"component",text:`ddfdf`,component:<ModalReject off={off} setOff={(e)=>{setOff(e); offModal();}}/>},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirmgreennone:{show:true , title:"확인" , event : ()=>{rejectModalConfirm(); }}
+
+        });
+      }
+      const rejectModalConfirm = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"거절 사유",
+            content:{type:"text",text:`정상적으로 처리 되었습니다.`,component:''},
+            submit:{show:false , title:"" , event : ()=>{offModal(); }},
+            cancle:{show:false , title:"" , event : ()=>{offModal(); }},
+            confirmgreennone:{show:true , title:"확인", event : ()=>{offModal(); }}
+
+        });
+      }
+
+      const confirmModal = () =>{
+        setModalOption({
+            show:true,
+            setShow:offModal,
+            title:"거래개시 승인",
+            content:{type:"text",text:`해당 물건을 플랫폼에\n게시하시겠습니까?\n전속기간 종료 후에는 게시 삭제되며,\n중개의뢰 계약은 자동으로 종료됩니다.`,component:''},
+            submitnone:{show:true , title:"확인" , event : ()=>{offModal(); }},
+            cancle:{show:true , title:"취소" , event : ()=>{offModal(); }},
+            confirmgreennone:{show:false , title:"확인", event : ()=>{offModal(); }}
+
+        });
+      }
     return (
         <>
           {/* <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg}/>
@@ -87,7 +117,7 @@ export default function Join() {
           <MainHeader openBunyang={openBunyang}/> */}
           <CommonHeader/>
           <Container>
-              <Preview updateReserveModal={updateReserveModal} reportModal={reportModal}/>
+              <Preview updateReserveModal={updateReserveModal} reportModal={reportModal} rejectModal={rejectModal} confirmModal={confirmModal}/>
               <ModalCommon modalOption={modalOption}/>
           </Container>
           <CommonFooter/>

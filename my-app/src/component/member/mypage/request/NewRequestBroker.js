@@ -106,7 +106,7 @@ const [search_address,setSearch_address]= useState({});//검색api에 의한 액
           <WrapRequest>
             <TopTitle>전문중개사 선임</TopTitle>
 
-             {/*05.24 상가,사무실로 넘어왔을때 상단 검색 부분 추가*/}
+      {/*05.24 상가,사무실로 넘어왔을때 상단 검색 부분 추가*/}
              <SearchBox onClick={() => setAddressApi(true)}>
                 <Search type="search" placeholder="물건 소재지 주소 검색"/>
                 <SearchBtn type="button"/>
