@@ -85,7 +85,7 @@ export default function BrokerVisitt({setMap,setFilter,setVisit,setVCal,calModal
               <Link onClick={() => {setFilter(true);updateModal();}}/>
               {/* <All>총 <GreenColor>3</GreenColor> 건</All> */}
               {/* <div onClick={() => {setFilter(true);updateModal();}} className="linkToDiv"> */}
-                <FilterImg src={Filter} alt="filter"/>
+                <FilterImg  onClick={() => {setFilter(true);updateModal();}} src={Filter} alt="filter"/>
               {/* </div> */}
             </TopInfo>
             <ReserveList>
@@ -179,6 +179,7 @@ const GreenColor = styled(All)`
 const FilterImg = styled.img`
   display:inline-block;
   width:18px;
+  cursor:pointer;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(18/428));
   }

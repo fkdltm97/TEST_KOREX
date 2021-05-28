@@ -69,7 +69,7 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
           <Condition>상태:<Orange color={type}>{value.condition}</Orange></Condition>
           <Number>등록번호 {value.number}</Number>
           <Address>
-            <div className="linkToDiv" onClick={() => {onClickAddress(value)}}>
+            <div className="linkToDiv" onClick={() => {updateMapModal();onClickAddress(value)}}>
               <AddressTitle>{value.address}<LocaImg src={value.locaImg}/></AddressTitle>
             </div>
           </Address>
@@ -90,16 +90,13 @@ export default function Request({map,setMap,filter,setFilter,reserve,setReserve,
                   menu ?
                   <InMenu>
                     <Div>
-                      <div className={["data_link", "linkToDiv"]}></div>
-                      <InDiv onClick={() => onClickCancel()}>예약취소</InDiv>
+                      <InDiv className="linkToDiv" onClick={() => onClickCancel()}>예약취소</InDiv>
                     </Div>
                     <Div>
-                      <div className={["data_link", "linkToDiv"]}></div>
-                      <InDiv onClick={()=>{onClickModify()}}>수정</InDiv>
+                      <InDiv className="linkToDiv" onClick={()=>{onClickModify()}}>수정</InDiv>
                     </Div>
                     <Div>
-                      <div className={["data_link", "linkToDiv"]}></div>
-                      <InDiv onClick={() => {onClickDelete()}}>삭제</InDiv>
+                      <InDiv className="linkToDiv" onClick={() => {onClickDelete()}}>삭제</InDiv>
                     </Div>
                   </InMenu>
                   :
