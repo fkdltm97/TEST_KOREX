@@ -5,20 +5,13 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //component
-import MainHeader from '../../../component/common/MainHeader';
+
 import SubTitle from '../../../component/common/SubTitle';
 import LiveSetting from '../../../component/member/mypage/projectSetting/LiveSetting';
 import ModalAdd from '../../../component/member/mypage/projectSetting/modal/ModalAdd';
 import ModalEdit from '../../../component/member/mypage/projectSetting/modal/ModalEdit';
 import ModalCancle from '../../../component/member/mypage/projectSetting/modal/ModalCancle';
-import MainFooter from '../../../component/common/MainFooter';
-import TermService from '../../../component/common/TermsOfService';
-import TermPrivacy from '../../../component/common/TermsOfPrivacy';
-import TermLocation from '../../../component/common/TermsOfLocation';
-import Bunyang from '../../../component/common/bunyang/Bunyang';
-import ImgDetail from "../../../component/common/bunyang/ImgDetail";
-import LiveModal from "../../../component/common/bunyang/LiveModal";
-import ModalCalendar from "../../../component/common/bunyang/ModalCalendar";
+
 import ModalCommon from '../../../component/common/modal/ModalCommon';
 
 import CommonHeader from '../../../component/common/commonHeader';

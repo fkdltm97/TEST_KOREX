@@ -34,6 +34,8 @@ const CommonHeader = (props) => {
   const [imgArr, setImgArr] = useState([])
   const [cal, setCal] = useState(false);
 
+
+  console.log(bunyang);
     return(
         <>
           <ImgDetail detailimg={detailimg} setDetailImg={setDetailImg} imgArr={imgArr}/>

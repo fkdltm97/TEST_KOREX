@@ -24,8 +24,6 @@ import KakaoMapSide from '../../../map/map/KakaoMapSide';
 
 //지도 모달
 export default function ModalMapReserve({ map, setMap }) {
-  if(map == false)
-    return null;
     return (
         <Container>
           <WrapModalMap>

@@ -43,16 +43,29 @@ export default function Bunyang({bunyang, openBunyang ,live, setLive, detailimg,
       setPageIndex(index);
   }
 
+  const body = document.querySelector('html');
+  if(bunyang == true)
+      body.style.overflow = 'hidden';
+  else
+      return null;
+
+      
+  const closeModal = ()=>{
+    setPageIndex(0);
+    openBunyang(false);
+    body.style.overflow = 'auto';
+  }
+
 //모달창
   if(bunyang == false)
     return null;
     return (
       <Container>
         <PC>
-          <ModalBg onClick={()=>{setPageIndex(0);openBunyang(false)}}></ModalBg>
+          <ModalBg onClick={closeModal}></ModalBg>
           <ModalContent>
             <ModalClose>
-              <Link onClick={()=>{setPageIndex(0);openBunyang(false)}}>
+              <Link onClick={closeModal}>
                 <CloseImg src={CloseIcon}/>
               </Link>
             </ModalClose>

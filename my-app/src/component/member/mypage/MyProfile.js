@@ -162,7 +162,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
             <LinkBtn>
               <Link onClick={()=>{proBrokerModal();}}>물건등록하기</Link>{/*일반중개사일경우 모달창뜨고 페이지로 이동
             </LinkBtn>
-          */}
+            */}
         </ProfileBtns>
       </ProfileTop>
     );

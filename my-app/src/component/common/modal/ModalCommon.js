@@ -21,10 +21,14 @@ import ArrowDown from '../../../img/member/arrow_down.png';
 // modalOption = {show,setShow,title,submit,cancle,confirm,content} 이렇게요.
 export default function ModalCommon({modalOption}) {
 
+   const body = document.querySelector('html');
+  if(modalOption.show == true)
+      body.style.overflow = 'hidden';
+  else
+      return null;
+
   // console.log('+>>>>>>>>modal common execute요소 호출:',modalOption);
-  const closeModal = () =>{ modalOption.setShow(false); }
-
-
+  const closeModal = () =>{ modalOption.setShow(false); body.style.overflow = 'scroll'; }
   const bgnone=()=>{
     if(bgnone == false) {
       return "background:rgba(0,0,0,0)"
