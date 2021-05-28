@@ -38,6 +38,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
       {
         productList.map((value, index) => {
           if(index < 10){
+            //초기엔 10개까지만 최초 보여주다가 스크롤이벤트 발생시마다 추가로 보여줌.
           return(
             <TabContent key={index}>
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>

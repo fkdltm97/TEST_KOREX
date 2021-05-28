@@ -77,7 +77,7 @@ export default function KakaoMap({status}) {
     // 지도에 띄울 좌표(마커/클러스터러), 매물 리스트 받아와야 합니다.
 
     // fetch api요청 해당 현재 지도의 change 중심좌표,레벨,화면스크린크기 등을 보낸다.그에 따른 그 지도상화면에서 보이는 주변 매물들 결과얻는다.
-    console.log('-=======>>getProduct함수 실행::',mapData);
+    //console.log('-=======>>getProduct함수 실행::',mapData);
     var mapData = JSON.parse(localStorage.getItem("mapData"));
     var idle_mapdata={
       level : mapData.level,
@@ -93,10 +93,9 @@ export default function KakaoMap({status}) {
     var res_results= await serverController.connectFetchController('/api/matterial/mapchange_searchresult','POST',JSON.stringify(idle_mapdata));
     
     if(res_results){
-      console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',res_results.match_matterial[0],res_results.match_matterial[1],res_results.match_matterial[2]);
-    }
+      //console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',res_results.match_matterial[0],res_results.match_matterial[1],res_results.match_matterial[2]);
 
-    // 전속 매물
+      // 전속 매물
     if(mapRightRedux.isExclusive.is){
       let match_matterial_exclusive= res_results.match_matterial[0];
 
@@ -163,6 +162,7 @@ export default function KakaoMap({status}) {
     }else{
       MapProductEls.updateBlock({ block : []});
     }
+  }
 
   }
 
@@ -173,7 +173,7 @@ export default function KakaoMap({status}) {
   
   // 필터/메뉴 바뀔때마다 이벤트 발생
   useEffect(() => {
-    console.log('===>>필터 right메뉴, 카카오맵등 바뀔떄마다 이벤트 발생:');
+    //console.log('===>>필터 right메뉴, 카카오맵등 바뀔떄마다 이벤트 발생:');
     if(!kakaoMap){return;};
     const filerRedux = mapFilterRedux;
     localStorage.setItem( "filterData", JSON.stringify(filerRedux));
@@ -198,8 +198,8 @@ export default function KakaoMap({status}) {
 
   // 임시 더미 데이터
   useEffect(() => {
-    console.log('===>>>페이지 로드 시점 실행or 리덕스데이터 변경시마다 실행(idle->getproduct fetch api정보 리덕스 저장->리덕스데이터 state에저장.)::');
-    console.log('===>>productRedux::',productRedux);
+    //console.log('===>>>페이지 로드 시점 실행or 리덕스데이터 변경시마다 실행(idle->getproduct fetch api정보 리덕스 저장->리덕스데이터 state에저장.)::');
+    //console.log('===>>productRedux::',productRedux);
 
     let exclusive_kakaomap_elements=[];
     for(let b=0; b<productRedux.exclusive.length; b++){
@@ -293,7 +293,7 @@ export default function KakaoMap({status}) {
     setKakaoMap(map); 
 
     kakao.maps.event.addListener(map, 'idle', (e) => {
-      console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
+     //console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
       var level = map.getLevel();
       var lng = map.getCenter().La.toFixed(11);
       var lat = map.getCenter().Ma.toFixed(9);
@@ -327,10 +327,20 @@ export default function KakaoMap({status}) {
   }, [mapRightRedux.isExclusive.is, kakaoMap])
   //전속매물 요소 state 배열리스트(마커배열) 변동시마다실행
   useEffect( () => {
-    console.log('===>>>전속매물 관련 state마커배열요소 변동시마다 실행:',exclusiveArr);
+    //console.log('===>>>전속매물 관련 state마커배열요소 변동시마다 실행:',exclusiveArr);
     //전속매물 체크된 상태에서만 실행한다.그린다.마커,클러스트
     
-    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3);
+    mapRightRedux.isExclusive.is 
+    ?
+    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
+    :
+    setExcClusterer(clusterer => {
+      console.log('===>>>setExccluster함수 실행::',clusterer);
+      if(!clusterer){return clusterer};
+      console.log('clusterer clear::',clusterer.clear,clusterer);
+      clusterer.clear();
+      return clusterer;
+    });
     
   },[exclusiveArr]);
 
@@ -352,10 +362,20 @@ export default function KakaoMap({status}) {
   }, [mapRightRedux.isProbroker.is, kakaoMap])
   //전문중개사 요소 state 관련마커배열 리스트 변동시마다 실행
   useEffect(() => {
-    console.log('====>>전문중개사요소 관련 state마커배열요소 변동시마다 실행:',probrokerArr);
+    //console.log('====>>전문중개사요소 관련 state마커배열요소 변동시마다 실행:',probrokerArr);
     //전문중개사 체크된 상태에서만 idle로인한 state리스트 변동때마다. 마커,클러스트 그린다.매 변동되는 마커배열요소에 따른 변동 클러스터생성(기존것 소멸 갱신)
     
-    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4);
+    mapRightRedux.isProbroker.is
+    ?
+    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
+    :
+    setProClusterer(clusterer => {
+      console.log('====>>setProClusterer함수 실행::',clusterer);
+      if(!clusterer){return clusterer;}
+      console.log('clustere clear::',clusterer.clear,clusterer);
+      clusterer.clear();
+      return clusterer;
+    });
     
   },[probrokerArr]);
 
@@ -376,9 +396,19 @@ export default function KakaoMap({status}) {
   }, [mapRightRedux.isBlock.is, kakaoMap]);
   //단지별요소 state관련 마커배열 리스트 변동시마다 실행
   useEffect(() => {
-    console.log('단지별요소 관련 state마커배열요소 변동시마다 실행::',blockArr);
+    //console.log('단지별요소 관련 state마커배열요소 변동시마다 실행::',blockArr);
     
-    addMarkClustBlock(blockArr, setBlockClusterer, blockMarker,blockClustererImg, 5);
+    mapRightRedux.isBlock.is
+    ?
+    addMarkClustBlock(blockArr, setBlockClusterer, blockMarker,blockClustererImg, 5)
+    :
+    setBlockClusterer(clusterer=>{
+      console.log('===>>setBlocklcustere함수 실행::',clusterer);
+      if(!clusterer){return clusterer;}
+      console.log('clusterer clear::',clusterer.clear,clusterer);
+      clusterer.clear();
+      return clusterer;
+    });
     
   },[blockArr]);
 
