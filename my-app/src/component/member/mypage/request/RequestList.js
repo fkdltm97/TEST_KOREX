@@ -74,7 +74,7 @@ export default function RequestL({filter, setFilter, mannerModal, cancleModal,st
                           <InDiv onClick={()=>{cancleModal();}}>의뢰 철회</InDiv>
                         </Div>
                         <Div>
-                          <Link to="/EditRequest"  className={["data_link", "linkToDiv"]}/>
+                          <Link to="/EditRequest"  className={["data_link"]}/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div>

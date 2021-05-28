@@ -35,6 +35,9 @@ export default function MainHeader({containerRef}) {
 
     // Init Status
     useEffect(() => {
+      setTimeout(() => {
+        console.clear();
+      }, 500)
       MapRight.updateExclusive({  isExclusive: {is:true} });
       MapRight.updateProbroker({  isProbroker: {is:true} });
       MapRight.updateBlock({  isBlock: {is:false} });
@@ -42,46 +45,70 @@ export default function MainHeader({containerRef}) {
 
     // Exclusive Click
     const onClickExclusive = () => {
+      if(isAllFalse() == 1){
+        excRef.current.checked = false;
+        MapRight.updateExclusive({  isExclusive: {is:true} });
+        return;
+      }
       if(containerRef){
         containerRef.current.scrollTop=0;
       }
       if(!excRef.current.checked){
         setIsFilter(true);
-        blockText.current.classList.remove("select");
-        MapRight.updateBlock({  isBlock: {is:false} });
+        // blockText.current.classList.remove("select");
+        // MapRight.updateBlock({  isBlock: {is:false} });
         MapRight.updateExclusive({  isExclusive: {is:true} });
       }else{
-        setIsFilter(false);
+        setIsFilter(false); 
         MapRight.updateExclusive({  isExclusive: {is:false} });
       }
     };
 
+    // 모두 꺼졌는지 체크
+    const isAllFalse = () => {
+      const isExc = excRef.current.checked;
+      const isPro = proText.current.classList.contains("select");
+      const isBlo = blockText.current.classList.contains("select");
+      let count = 0;
+      if(isExc){count++};
+      if(isPro){count++};
+      if(isBlo){count++};
+      return(count);
+    }
+
     // Build Click
     const onClickBuildType = (e) => {
+      // select가 포함되어 있을때
       if(e.target.classList.contains("select")){
-        e.target.classList.remove("select");
-        initSelectBuild();
-        return;
+        // 전속매물이 꺼져있을때
+        if(!excRef.current.checked){
+          if(isAllFalse() == 1){
+            console.log("onClickBuildType")
+            return;
+          }
+        }else{ // 전속 매물이 꺼져있을때
+          initSelectBuild();
+          return;
+        } 
       }
       initSelectBuild();
-      
       e.target.classList.add("select");
-      
       if(e.target.id == "probrokerBuild"){
         MapRight.updateProbroker({  isProbroker: {is:true} });
       }
 
       if(e.target.id == "blockBuild"){
-        setIsFilter(false);
-        MapRight.updateExclusive({  isExclusive: {is:false} });
+        // setIsFilter(false);
+        // MapRight.updateExclusive({  isExclusive: {is:false} });
         MapRight.updateBlock({  isBlock: {is:true} });
-        excRef.current.checked = false;
+        // excRef.current.checked = false;
       }
 
-      if(e.target.id == "aroundBuild"){
-        aroundAlRef.current.classList.remove("hidden");
-      }
 
+
+      // if(e.target.id == "aroundBuild"){
+      //   aroundAlRef.current.classList.remove("hidden");
+      // }
     }
 
     // Build Init
@@ -89,19 +116,31 @@ export default function MainHeader({containerRef}) {
       if(containerRef){
         containerRef.current.scrollTop=0;
       }
-      aroundAlRef.current.classList.add("hidden");
+      // aroundAlRef.current.classList.add("hidden");
       mapAlRef.current.classList.add("hidden");
       setIsMapStyle(false);
       
       proText.current.classList.remove("select");
       blockText.current.classList.remove("select");
-      aroundText.current.classList.remove("select");
+      // aroundText.current.classList.remove("select");
       
       distanceEndRef.current.classList.add("hidden");
       MapRight.updateProbroker({ isProbroker: {is:false} });
       MapRight.updateBlock({ isBlock: {is:false} });
-      MapRight.updateAround({ around: { is:"" } });
+      // MapRight.updateAround({ around: { is:"" } });
       MapRight.updateDistance({ isDistance: {is:false} });
+    }
+
+    // 주변 버튼 클릭
+    const onClickAround = (e) => {
+      if(e.target.classList.contains("select")){
+        e.target.classList.remove("select");
+        aroundAlRef.current.classList.add("hidden");
+        MapRight.updateAround({ around: { is:"" } });
+      }else{
+        e.target.classList.add("select");
+        aroundAlRef.current.classList.remove("hidden");
+      }
     }
 
     // Around  Item Click
@@ -228,11 +267,14 @@ export default function MainHeader({containerRef}) {
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="blockBuild" ref={blockText} className={[""]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
+                  <RadioSpan id="blockBuild" ref={blockText} className={["changeBtn"]} onClick={(e)=>{onClickBuildType(e)}}>단지별 실거래</RadioSpan>
                 </RadioBox>
                 <Part/>{/*분기 라인*/}
                 <RadioBox>
-                  <RadioSpan id="aroundBuild" ref={aroundText} onClick={(e)=>{onClickBuildType(e)}}>주변</RadioSpan>
+                  <RadioSpan id="aroundBuild" ref={aroundText}
+                  // onClick={(e)=>{onClickBuildType(e)}}
+                  onClick={(e)=>{onClickAround(e)}}
+                  >주변</RadioSpan>
                 </RadioBox>
 
                 <RadioAlert ref={aroundAlRef} className={["hidden"]} >
