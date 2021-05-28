@@ -22,7 +22,6 @@ import { Mobile, PC } from "../../../../MediaQuery"
 //component
 
 import BrokerInfoLess from './component/BrokerInfoLess';
-import ModalMap from './modal/ModalMap';
 import NewRequestTopInfos from './NewRequestTopInfos';
 
 //redux addons saseests.
@@ -167,16 +166,8 @@ export default function Request({setFilter,value,type,successModal,failModal}) {
             <TopTitle>기본정보 입력</TopTitle>
             <NewRequestTopInfos/>
             <WrapBrokerInfo>
-              <BrokerInfoLess setMap={setMap}/>{/* 05.21 BrokerInfo.js 는 주소+매매까지 나와있고 BrokerLess파일은 중개사명 / 대표명만 나와있습니다. */}
+              <BrokerInfoLess/>{/* 05.21 BrokerInfo.js 는 주소+매매까지 나와있고 BrokerLess파일은 중개사명 / 대표명만 나와있습니다. */}
             </WrapBrokerInfo>
-
-            {
-              map ?
-              <ModalMap map={map} setMap={setMap}/>
-              :
-              null
-
-            }
             <WrapBox>
               <Box>
                 <SubTitle>

@@ -33,7 +33,7 @@ import { useSelector } from 'react-redux';
 export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,setReport,updown,setUpDown, status, containerRef}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [tapStatus, setTapStatus] = useState(0);
-    const [isInit, setIsInit] = useState(true);
+    // const [isInit, setIsInit] = useState(true);
     const [typeStatus, setTypeStatus] = useState("");
     const mapRightRedux = useSelector(state=>{ return state.mapRight});
     const productRedux = useSelector(state=>{ return state.mapProductEls});
@@ -43,7 +43,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
       setActiveIndex(0);
       setTapStatus(0)
       setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});
-      setIsInit(false);
+      // setIsInit(false);
     }, [])
 
     useEffect(() => {
@@ -68,12 +68,16 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
 
     // 분기처리  
     useEffect(() => {
+      
       // 전속매물, 전문중개사 
       if(mapRightRedux.isExclusive.is && mapRightRedux.isProbroker.is){
         setTapStatus(3)
-        if(isInit){return;}
-      } // 존속매물
-      else if(mapRightRedux.isExclusive.is){
+        // if(isInit){return;}
+      } // 전속매물, 단지별 실거래
+      else if(mapRightRedux.isExclusive.is && mapRightRedux.isBlock.is){
+        setTapStatus(5)
+      } // 전속매물
+      else if(mapRightRedux.isExclusive.is){ 
         setActiveIndex(0);
         setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});
         setTapStatus(0);
@@ -107,7 +111,19 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(1);setHistoryInfo(e => {e.prevTab = 1; return JSON.parse(JSON.stringify(e));});}}>전문중개사 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>{productRedux.probroker.length}</Orange></Span2>
           </WrapTabBtn>
         )
-      }else if(tapStatus == 0){ // 전속매물 active
+      }else if(tapStatus == 5){
+        return(
+          <WrapTabBtn>
+            <Mobile>{/*모바일 open List Btn*/}
+              <OpenListImg onClick={() => {setUpDown(!updown)}}/>
+            </Mobile>
+            <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>{typeStatus}{productRedux.exclusive.length}</Span>
+            <Part/>
+            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(2);setHistoryInfo(e => {e.prevTab = 2; return JSON.parse(JSON.stringify(e));});}}>아파트 단지 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>{productRedux.block.length}</Orange></Span2>
+          </WrapTabBtn>
+        )
+      }
+      else if(tapStatus == 0){ // 전속매물 active
         return(
           <TopMenu typeStatus={typeStatus} length={productRedux.exclusive.length} updown={updown} setHistoryInfo={setHistoryInfo} setUpDown={setUpDown}/>
         )

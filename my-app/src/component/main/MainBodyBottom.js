@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 //swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
+import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 
 
 //css
@@ -17,7 +17,7 @@ import IconSearch from '../../img/main/icon_search.png';
 import SwiperImg from '../../img/main/img01.png'
 import PCLogo from '../../img/main/pc_header_logo.png';
 
-SwiperCore.use([Navigation, Pagination]);
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 export default function MainBody() {
     return (
         <Container>
@@ -27,7 +27,8 @@ export default function MainBody() {
                     spaceBetween={5}
                     slidesPerView={1}
                     loop={true}
-                    autoplay={true}
+                    autoplay={{ delay: 2000 }}
+                    speed={2000}
                     navigation
                     pagination={{ clickable: true }}
                     onSlideChange={() => console.log('slide change')}
@@ -76,7 +77,6 @@ const Mb = styled.b`
 const Container = styled.div`
   width:935px;
   margin:0 auto 0;
-  backround:beige;
   padding-bottom:203px;
   @media ${(props) => props.theme.mobile} {
         width:calc(100vw*(360/428));

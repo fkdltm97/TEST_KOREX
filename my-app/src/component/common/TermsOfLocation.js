@@ -40,6 +40,9 @@ export default function ModalTest3({ termlocation, openTermLocation }) {
             </PrevTerms>
             */}
           </ModalTop>
+          <TextArea>
+            이용약관이 들어가는 곳입니다.
+          </TextArea>
         </ModalContent>
 
       </Container>
@@ -123,6 +126,20 @@ const Title = styled.h1`
   font-weight:600;transform:skew(-0.1deg);
   @media ${(props) => props.theme.mobile} {
       font-size:calc(100vw*(13/428));
+      margin-right:0;
+    }
+`
+const TextArea = styled.div`
+  width:100%;
+  height:90%;
+  overflow-y:scroll;
+  font-size:13px;
+  color:#555;
+  transform:skew(-0.1deg);
+    padding:10px;
+  @media ${(props) => props.theme.mobile} {
+      font-size:calc(100vw*(13/428));
+      padding:calc(100vw*(10/428));
       margin-right:0;
     }
 `

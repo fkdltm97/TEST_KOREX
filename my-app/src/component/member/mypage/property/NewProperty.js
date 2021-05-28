@@ -14,8 +14,8 @@ import SearchStoreOffice from "./SearchStoreOffice";
 import SearchApartOfficetelSelectInfo from "./SearchApartOfficetelSelectInfo";
 
 export default function Property({setFilter,value,type}) {
-  const [activeIndex,setActiveIndex] = useState(-1);
-  const [openApart, setOpenApart] = useState(false);
+  const [activeIndex,setActiveIndex] = useState(0);
+  const [openApart, setOpenApart] = useState(true);
   const [openStore, setOpenStore] = useState(false);
   const [selectInfo,setSelectInfo] = useState(false);
 
