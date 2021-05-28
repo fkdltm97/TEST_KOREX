@@ -36,25 +36,25 @@ const initialState = {
 // immer 를 사용하여 값을 수정하는 리듀서입니다.
 export default handleActions({
   [UPDATE_EXCLUSIVE]: (state, action) => {
-    console.log('UPDATE EXCULSIVE>>>:',action);
+    // console.log('UPDATE EXCULSIVE>>>:',action);
     return produce(state, draft => {
         draft.exclusive = action.payload.exclusive ? action.payload.exclusive : draft.exclusive;
     });
   },
   [UPDATE_PROBROKER]: (state, action) => {
-    console.log('UPDATE PROBROKER>>>:',action);
+    // console.log('UPDATE PROBROKER>>>:',action);
     return produce(state, draft => {
         draft.probroker = action.payload.probroker ? action.payload.probroker : draft.probroker;
     });
   },
   [UPDATE_BROKERPRODUCT]: (state, action) => {
-    console.log('UPDATE BROKERPRODUCT>>>:',action);
+    // console.log('UPDATE BROKERPRODUCT>>>:',action);
     return produce(state, draft => {
         draft.brokerProduct = action.payload.brokerProduct ? action.payload.brokerProduct : draft.brokerProduct;
     });
   },
   [UPDATE_BLOCK]: (state, action) => {
-    console.log('UPDATE BLOCK>>>:',action);
+    // console.log('UPDATE BLOCK>>>:',action);
     return produce(state, draft => {
         draft.block = action.payload.block ? action.payload.block : draft.block;
     });
