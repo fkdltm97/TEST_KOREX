@@ -11,6 +11,7 @@ import mapFilter from './mapfilter';
 import mapProductEls from './mapProductEls';
 import temp_selectComplexinfo from './temp_selectComplexinfo';
 import searchdetailorigin from './searchdetailorigin';
+import mapHeader from './mapHeader';
 
 export default combineReducers({
   my,
@@ -24,5 +25,6 @@ export default combineReducers({
   mapFilter,
   mapProductEls,
   temp_selectComplexinfo,
-  searchdetailorigin
+  searchdetailorigin,
+  mapHeader
 });

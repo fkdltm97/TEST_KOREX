@@ -12,6 +12,9 @@ import styled from "styled-components"
 
 import { Mobile, PC } from "../../MediaQuery"
 
+//redux
+import {mapHeader} from '../../store/actionCreators';
+
 export default function MainBody({}) {
     const [activeIndex,setActiveIndex] = useState(0);
     const [activeText, setActiveText] = useState("apart");
@@ -19,10 +22,12 @@ export default function MainBody({}) {
     const onClickTab = (e) => {
       const text = e.target.dataset.text;
       const num = e.target.dataset.num;
-      setActiveIndex(num)
-      setActiveText(text)
-    }
+      setActiveIndex(num);
+      setActiveText(text);
 
+      mapHeader.updateprdtype({prdtypes : text});
+    }
+    
     return (
         <Container>
           <MainBodyTop>

@@ -37,7 +37,8 @@ export default function PcSearchMain({activeText}) {
       id_val : id,
       screen_width : window.innerWidth,//px
       screen_height : window.innerHeight,
-      level : 3
+      level : 3 , 
+      prdtype_val : activeText //물건타입을 보낸다 선택된 물건타입에 대해서만 나오게 한다.초기검색.
     };
     let searchdetail_originresult= await serverController.connectFetchController('/api/matterial/main_searchresult_clickDetail','POST',JSON.stringify(body_info));
 
