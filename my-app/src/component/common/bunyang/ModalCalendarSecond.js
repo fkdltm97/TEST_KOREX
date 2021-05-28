@@ -18,7 +18,7 @@ import ko from "date-fns/locale/ko";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
-export default function ModalCal({cal, setCal, updatePageIndex ,SelectDate, setSelectDate, setSelectTime}) {
+export default function ModalCal({cal, setCal, updatePageIndex ,SelectDate, setSelectDate, setSelectTime,checkedTime, setcheckedTime}) {
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
@@ -110,6 +110,7 @@ useEffect(() => {
             type="button"
             onClick={() => {
               updatePageIndex(2);
+              setcheckedTime(startDate)
             }}
           >
             다음

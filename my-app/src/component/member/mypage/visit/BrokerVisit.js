@@ -82,11 +82,11 @@ export default function BrokerVisitt({setMap,setFilter,setVisit,setVCal,calModal
             <TopTitle>내 방문예약</TopTitle>
             <TopInfo>
               <All>총 <GreenColor>{VisitListItem.length}</GreenColor> 건</All>
-              <Link onClick={() => {setFilter(true);updateModal();}}/>
+              {/* <Link onClick={() => {setFilter(true);updateModal();}}/> */}
               {/* <All>총 <GreenColor>3</GreenColor> 건</All> */}
-              {/* <div onClick={() => {setFilter(true);updateModal();}} className="linkToDiv"> */}
-                <FilterImg  onClick={() => {setFilter(true);updateModal();}} src={Filter} alt="filter"/>
-              {/* </div> */}
+              <Link onClick={() => {setFilter(true);updateModal();}} className="linkToDiv">
+                <FilterImg src={Filter} alt="filter"/>
+              </Link>
             </TopInfo>
             <ReserveList>
             {
@@ -179,7 +179,6 @@ const GreenColor = styled(All)`
 const FilterImg = styled.img`
   display:inline-block;
   width:18px;
-  cursor:pointer;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(18/428));
   }

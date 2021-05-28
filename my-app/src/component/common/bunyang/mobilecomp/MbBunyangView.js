@@ -96,7 +96,7 @@ export default function BunyangDetail({setLive, setDetailImg,setCal, status}){
               </Link>
             </BunyangImg>
             {/*hastags*/}
-            <HashTag>
+            {/* <HashTag> */}
               {/* -- 수정코드입니다. */}
               {/* {
                 data.hashtag.map((item, index) => {
@@ -109,7 +109,7 @@ export default function BunyangDetail({setLive, setDetailImg,setCal, status}){
                 <Tag>#hashtag</Tag>
                 <Tag>#hashtag</Tag>
               */}
-            </HashTag>
+            {/* </HashTag> */}
             {/*홈페이지,예약등*/}
             <LeftButtons>
               <Button>
