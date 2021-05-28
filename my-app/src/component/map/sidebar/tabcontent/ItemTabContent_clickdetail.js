@@ -19,7 +19,7 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import { MapProductEls } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index, productList, containerRef}) {
+export default function ItemTabContent({updatePageIndex, setHistoryInfo,setReport,index, matchdatalist, containerRef}) {
 
   const onClickEl = (value) => {
     if(containerRef){
@@ -36,7 +36,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
   return (
     <Container>
       {
-        productList.map((value, index) => {
+        matchdatalist.map((value, index) => {
             //초기엔 10개까지만 최초 보여주다가 스크롤이벤트 발생시마다 추가로 보여줌.
           return(
             <TabContent key={index}>
@@ -46,7 +46,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
                 {
                  //value.isExc && 
                   <TopBox>
-                    <ColorGreen>전속매물</ColorGreen>
+                    <ColorGreen>전속매물 {value.prd_id}<br/>{value.prd_latitude}<br/>{value.prd_longitude}</ColorGreen>
                     <WrapDate>
                       <StartDate>20.05.05</StartDate>
                       <Line>~</Line>

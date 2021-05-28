@@ -15,6 +15,7 @@ import MainSideBar from './MainSideBar';
 import SideBarItemDetail from './SideBarItemDetail';
 import SideBarBrokerDetail from './SideBarBrokerDetail';
 import SideBarDanjiDetail from './SideBarDanjiDetail';
+import ClickMarkerClustSidebar from './clickMarkerClustSidebar';
 
 // redux
 import { MapProductEls } from '../../../store/actionCreators';
@@ -26,20 +27,26 @@ import ModalReserve from '../../../component/member/mypage/reservation/ModalRese
 //server process
 import serverController from '../../../server/serverController';
 
-export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
+export default function WrapSideBar({ containerRef, setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
+  console.log('mainWrpasidebar실행>>>');
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
   const [historyInfo , setHistoryInfo] = useState({pageIndex:1,prevTab:"",prevIndex:[]});
   const [updown,setUpDown] = useState(false);
-  const [click_prdidentityid,setClick_prdidentityid] = useState('');
+  const [click_prdidentityid,setClick_prdidentityid] = useState('');//클릭한 매물 아이디이(상세매물위함)
+  const [click_complexid, setClick_complexid] = useState('');//클릭한 단지 아이디(상세단지정보위함->단지정보 단지 실거래정보)
+
   const [reservationId,setReservationId] = useState({id:0 ,text:""});
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
   const mapRightRedux = useSelector(state=>{ return state.mapRight});
   const login_userinfo= useSelector(data => data.login_user);
 
+  console.log(productRedux.clickmarker);
+  //const [ismarkerclick,setIsmarkerclick] = useState(productRedux.clickmarker);
+  
   // const containerRef = useRef();
-
+  
   const position=()=>{
     if(updown == true) {
       return "absolute"
@@ -81,20 +88,24 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
       case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown} containerRef={containerRef}/>;
       case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={updateReserveModals} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
-      case 3: return <SideBarDanjiDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;// 단지별 실거래 상세페이지
+      case 3: return <SideBarDanjiDetail click_complexid={click_complexid} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;// 단지별 실거래 상세페이지
       default :return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
     }
   }
-  const updatePageIndex = (index,click_prd_identity_id) =>{
+  const updatePageIndex = (index,id) =>{
     if(index < 0){
       setPageIndex(0);
     }
     else if(index == 1){
       setPageIndex(1);
-      setClick_prdidentityid(click_prd_identity_id); //클릭한 prd_idnentity매물아디값 mainWrapsidebar state상태값으로 관리.
+      setClick_prdidentityid(id); //클릭한 prd_idnentity매물아디값 mainWrapsidebar state상태값으로 관리.
     }
     else if(index == 2){
       setPageIndex(2);
+    }
+    else if(index == 3){
+      setPageIndex(3);
+      setClick_complexid(id);
     }
     else{
       setPageIndex(index);
@@ -160,7 +171,7 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
     console.log('===>>currsent.scrollheight,scrolltop,.clientheight:',containerRef.current.scrollHeight,containerRef.current.scrollTop,containerRef.current.clientHeight);
     if(containerRef.current.scrollHeight <= containerRef.current.scrollTop+containerRef.current.clientHeight + 50){
       // 전속 매물 || 전문 중개사 상세--------------
-      if(mapRightRedux.isExclusive.is){
+      /*if(mapRightRedux.isExclusive.is){
         const currentArr = JSON.parse(JSON.stringify(productRedux.exclusive));
         currentArr.push({
           isExc:true,
@@ -229,7 +240,7 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
           desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
         })
         MapProductEls.updateBrokerProduct({ brokerProduct : currentArr });
-      }
+      }*/
       console.log("end");
     }
 
@@ -240,11 +251,16 @@ export default function WrapSideBar({containerRef, setReport,pageIndex,setPageIn
     updatePageIndex(0);
   }, [mapRightRedux])
   
-
     return (
       <Container pageIndex={pageIndex} position={position} overflow={overflow} top={top} ref={containerRef} className="sideBarWrap" onScroll={()=>onScrollList()}>
         {
           pageLoader(updateReserveModal)
+        }
+        {
+          productRedux.clickmarker.isclick? 
+          <ClickMarkerClustSidebar setReport={setReport} updown={updown} setUpDown={setUpDown} containerRef={containerRef} status={productRedux.clickmarker.click_type}></ClickMarkerClustSidebar>
+          :
+          null
         }
         <ModalCommon modalOption={modalOption}/>
       </Container>

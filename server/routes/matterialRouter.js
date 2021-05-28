@@ -509,20 +509,20 @@ router.post('/mapchange_searchresult',async function(request,response){
 
         //해당 범위의 startx~endx,starty~endy 모두 만족하는 범위들 구한다. 만족하는 전문중개사들(company),단지별실거래(complex),매물(product:오피아파트이면 complexid에서 가져온 x,y값이고, 상가사무실이면 floor에서있던 x,y들 가져온것) x,y를 기준으로 만족 되는 범위의 것들 구한다.
         if(isblock){
-            //mapRight체크된 상태에서 단지별실거래 체크된상태에서 온 경우만 쿼리진행.
-            var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
+            //mapRight체크된 상태에서 단지별실거래 체크된상태에서 온 경우만 쿼리진행.일단 천개까지만 제한한다.
+            var [search_complex_result] = await connection.query("select * from complex where x >= ? and x <= ? and y >= ? and y <= ? limit 500",[level_zido_startx,level_zido_endx, level_zido_starty,level_zido_endy]);
         }else{
             var search_complex_result = [];
         }
         
         if(isexclusive){
-            var [search_product_result] = await connection.query("select * from product where prd_type=? and prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ?",[prd_type,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+            var [search_product_result] = await connection.query("select * from product where prd_type=? and prd_longitude >= ? and prd_longitude <= ? and prd_latitude >= ? and prd_latitude <= ? limit 500",[prd_type,level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
         }else{
             var search_product_result = [];
         }
         
         if(isprobroker){
-            var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ?",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
+            var [search_company_result] = await connection.query("select * from company where x >= ? and x <= ? and y >= ? and y <= ? limit 500",[level_zido_startx,level_zido_endx,level_zido_starty,level_zido_endy]);
         }else{
             var search_company_result = [];
         }
@@ -553,6 +553,30 @@ router.post('/mapchange_searchresult',async function(request,response){
         connection.release();
 
         return response.status(403).json({success:false, message:'server query problme error!',result:[], match_matterial: [] });
+    }
+});
+router.post('/complexdetail_infoget',async function(request,response){
+    console.log('complexdetail info get테스트 요청:',request.body);
+
+    var req_body= request.body;
+
+    const connection = await pool.getConnection(async conn => conn);
+    try{
+        var complex_id= req_body.complex_id;
+        var [complex_detailrow]= await connection.query("select * from complex where complex_id=?",[complex_id]);
+
+        var [actual_transaction_price_complex] = await connection.query("select * from area_info join actual_transaction_price on area_info.area_id=actual_transaction_price.area_id where complex_id=?",[complex_id]);//해당 complexid에 해당하는 정보를 구한다.
+
+        console.log('compelx_detailrow,actua단지별실거래정보:',complex_detailrow,actual_transaction_price_complex);
+        connection.release();
+
+        return response.json({success:true,message:'sucecess queryss', result:[complex_detailrow, actual_transaction_price_complex]});
+
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[] });
     }
 });
 router.get('/getXY',async function(request,response){
@@ -616,6 +640,37 @@ router.post('/getFloor_xy',async function(request,response){
         return response.status(403).json({success:false, message:'server query problme error!',result:[], match_matterial: [] });
     }
 });
+//반대로 보내온 좌표x,y값 마커형클러스터 한개에 대한 정보를 보낸다.그 좌표에 대한 매물들(동일좌표에 여러개 있을수도있음.) 전문중개사or전속매물or단지들 데이터를 불러온다.
+router.post('/clickMarker_match_infoget',async function(request,response){
+    console.log('get clickMarker_match_infoget >>>:',request.body);
+
+    const connection = await pool.getConnection(async conn => conn);
+    var req_body=request.body;
+
+    try{       
+        var lat= req_body.lat;
+        var lng= req_body.lng;
+        var click_type =req_body.click_type;
+
+        if(click_type == 'probroker'){
+            var [match_element_list] = await connection.query("select * from company where y=? and x=?",[lat, lng]);//해당 지점의 전문중개사들 구한다.
+        }else if(click_type == 'block'){
+            var [match_element_list] = await connection.query("select * from complex where y=? and x=?",[lat, lng]);//해당 지점의 단지들 구한다.
+        }else if(click_type == 'exclusive'){
+            var [match_element_list] = await connection.query("select * from product where prd_latitude=? and prd_longitude=?",[lat, lng]);//해당 지점의 전속매물들 구한다.
+        }
+        console.log('검색타입 및 해당 테이블 검색결과',click_type, match_element_list);
+
+        return response.json({success:true,message:'sucecess queryss',result: match_element_list });
+
+    }catch(err){
+        console.log('server query error:',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query problme error!',result:[] });
+    }
+});
+
 router.get('/dummy_insert_test',async function(request,response){
     console.log('insert store dummyinsert test::');
 

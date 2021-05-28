@@ -28,6 +28,7 @@ import style from './kakaoMap.css';
 
 //server
 import serverController from '../../../server/serverController';
+import mapProductEls from "../../../store/modules/mapProductEls";
 
 export default function KakaoMap({status}) {
   const [kakaoMap, setKakaoMap] = useState(null);
@@ -93,76 +94,74 @@ export default function KakaoMap({status}) {
     var res_results= await serverController.connectFetchController('/api/matterial/mapchange_searchresult','POST',JSON.stringify(idle_mapdata));
     
     if(res_results){
+       // 전속 매물
+      if(mapRightRedux.isExclusive.is){
+        let match_matterial_exclusive= res_results.match_matterial[0];
 
-    }
-
-      // 전속 매물
-    if(mapRightRedux.isExclusive.is){
-      let match_matterial_exclusive= res_results.match_matterial[0];
-
-      /*for(let i = 0 ; i < match_matterial_exclusive.length ; i++){
-        newArr.push({
-          isExc:true,
-          item_id : i,
-          path:"/",
-          startDate:"20.00.00",
-          endDate: "20.00.00",
-          kind:"아파트",
-          detail:`자이 10${i}동`,
-          type:"전세",
-          price:`1${i}억 5,000`,
-          floor:"층수",
-          area:"공급면적",
-          expenses:"관리비",
-          desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
-        });
-      }*/
-      MapProductEls.updateExclusive({ exclusive : match_matterial_exclusive });
-    }else{
-      MapProductEls.updateExclusive({ exclusive: []});//강제 빈배열 넣기.
-    }
-    // 전문 중개사
-    if(mapRightRedux.isProbroker.is){
-      let match_matterial_probroker = res_results.match_matterial[1];
-      /*
-      let newArr = [];
-      for(let i = 0 ; i < 10 ; i++){
-        newArr.push({
-          broker_id : i,
-          path:"/",
-          tag1:"아파트·현대아이리스",
-          tag2:"상가",
-          tag3:"사무실",
-          name:`럭키 공인중개사${i}`,
-          address:"강남구 논현동 104-5",
-          sell_kind1:2,
-          sell_kind2:7,
-          sell_kind3:9,
-        });
-      }*/
-      MapProductEls.updateProbroker({ probroker : match_matterial_probroker });
-    }else{
-      MapProductEls.updateProbroker({ probroker : []});
-    }
-    // 단지별 실거래
-    if(mapRightRedux.isBlock.is){
-      let match_matterial_block = res_results.match_matterial[2];
-      /*let newArr = [];
-      for(let i = 0 ; i < 10 ; i++){
-        newArr.push({
-          danji_id : i,
-          path:"/",
-          title:`골든카운티${i}`,
-          address:"서울특별시 강남구 삼성동 200-13",
-          date:"21.02.01",
-          price:"매매 3억5,000",
-          floor:"7층",
-        });
-      }*/
-      MapProductEls.updateBlock({ block : match_matterial_block });
-    }else{
-      MapProductEls.updateBlock({ block : []});
-    }
+        /*for(let i = 0 ; i < match_matterial_exclusive.length ; i++){
+          newArr.push({
+            isExc:true,
+            item_id : i,
+            path:"/",
+            startDate:"20.00.00",
+            endDate: "20.00.00",
+            kind:"아파트",
+            detail:`자이 10${i}동`,
+            type:"전세",
+            price:`1${i}억 5,000`,
+            floor:"층수",
+            area:"공급면적",
+            expenses:"관리비",
+            desc:"매물특징 칸입니다. 작은설명작은설명작은설명작은설명"
+          });
+        }*/
+        MapProductEls.updateExclusive({ exclusive : match_matterial_exclusive });
+      }else{
+        MapProductEls.updateExclusive({ exclusive: []});//강제 빈배열 넣기.
+      }
+      // 전문 중개사
+      if(mapRightRedux.isProbroker.is){
+        let match_matterial_probroker = res_results.match_matterial[1];
+        /*
+        let newArr = [];
+        for(let i = 0 ; i < 10 ; i++){
+          newArr.push({
+            broker_id : i,
+            path:"/",
+            tag1:"아파트·현대아이리스",
+            tag2:"상가",
+            tag3:"사무실",
+            name:`럭키 공인중개사${i}`,
+            address:"강남구 논현동 104-5",
+            sell_kind1:2,
+            sell_kind2:7,
+            sell_kind3:9,
+          });
+        }*/
+        MapProductEls.updateProbroker({ probroker : match_matterial_probroker });
+      }else{
+        MapProductEls.updateProbroker({ probroker : []});
+      }
+      // 단지별 실거래
+      if(mapRightRedux.isBlock.is){
+        let match_matterial_block = res_results.match_matterial[2];
+        /*let newArr = [];
+        for(let i = 0 ; i < 10 ; i++){
+          newArr.push({
+            danji_id : i,
+            path:"/",
+            title:`골든카운티${i}`,
+            address:"서울특별시 강남구 삼성동 200-13",
+            date:"21.02.01",
+            price:"매매 3억5,000",
+            floor:"7층",
+          });
+        }*/
+        MapProductEls.updateBlock({ block : match_matterial_block });
+      }else{
+        MapProductEls.updateBlock({ block : []});
+      }
+    } 
   }
 
   /*
@@ -170,9 +169,9 @@ export default function KakaoMap({status}) {
     각 클러스터러와 마커를 초기화시키는 함수를 만들었습니다.
     새로운 마커를 표시하기 전 함수를 실행하여 이전에 있던 클러스터러를 지웠습니다.
   */
-
   const initExcCluster = () => {
     setExcClusterer(clusterer=>{ 
+      console.log('==>>setExcCLUSTER initcluster:',clusterer);
       if(!clusterer){return clusterer}; 
       clusterer.clear(); 
       return clusterer;
@@ -180,6 +179,7 @@ export default function KakaoMap({status}) {
   }
   const initProCluster = () => {
     setProClusterer(clusterer=>{ 
+      console.log('====>setRroclustere initcluster:',clusterer);
       if(!clusterer){return clusterer}; 
       clusterer.clear(); 
       return clusterer;
@@ -187,6 +187,7 @@ export default function KakaoMap({status}) {
   }
   const initBlockCluster =  () => {
     setBlockClusterer(clusterer=>{ 
+      console.log('====>>setblockClustere initcluster:',clusterer);
       if(!clusterer){return clusterer}; 
       clusterer.clear(); 
       return clusterer;
@@ -343,7 +344,7 @@ export default function KakaoMap({status}) {
     // console.log('====>>전속매물 토글링시에',mapRightRedux.isExclusive.is, exclusiveArr);
     mapRightRedux.isExclusive.is
     ?
-    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
+    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3 , 'exclusive')
     :
     initExcCluster();
   }, [mapRightRedux.isExclusive.is])
@@ -354,7 +355,7 @@ export default function KakaoMap({status}) {
     
     /*mapRightRedux.isExclusive.is 
     ?*/
-    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
+    //addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
     /*:
     setExcClusterer(clusterer => {
       console.log('===>>>setExccluster함수 실행::',clusterer);
@@ -372,7 +373,7 @@ export default function KakaoMap({status}) {
     //   return clusterer;
     // });
     initExcCluster();
-    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3);
+    addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3 ,'exclusive');
   },[exclusiveArr]);
 
   // 전문 중개사 토글 --- 
@@ -381,7 +382,7 @@ export default function KakaoMap({status}) {
     
     mapRightRedux.isProbroker.is
     ?
-    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
+    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4 , 'probroker')
     :
     initProCluster();
   }, [mapRightRedux.isProbroker.is])
@@ -392,7 +393,7 @@ export default function KakaoMap({status}) {
     
     /*mapRightRedux.isProbroker.is
     ?*/
-    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
+    //addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
     /*:
     setProClusterer(clusterer => {
       console.log('====>>setProClusterer함수 실행::',clusterer);
@@ -405,7 +406,7 @@ export default function KakaoMap({status}) {
     // console.log('====>>전문중개사요소 관련 state마커배열요소 변동시마다 실행:',probrokerArr);
     //전문중개사 체크된 상태에서만 idle로인한 state리스트 변동때마다. 마커,클러스트 그린다.매 변동되는 마커배열요소에 따른 변동 클러스터생성(기존것 소멸 갱신)
     initProCluster();
-    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4);
+    addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4 , 'probroker');
     
   },[probrokerArr]);
 
@@ -422,23 +423,23 @@ export default function KakaoMap({status}) {
   useEffect(() => {
 
     //console.log('단지별요소 관련 state마커배열요소 변동시마다 실행::',blockArr);    
-    mapRightRedux.isBlock.is
-    ?
+    /*mapRightRedux.isBlock.is
+    ?*/
     addMarkClustBlock(blockArr, setBlockClusterer, blockMarker,blockClustererImg, 5)
-    :
+    /*:
     setBlockClusterer(clusterer=>{
       console.log('===>>setBlocklcustere함수 실행::',clusterer);
       if(!clusterer){return clusterer;}
       console.log('clusterer clear::',clusterer.clear,clusterer);
       clusterer.clear();
       return clusterer;
-    });
+    });*/
     
   },[blockArr]);
 
 
   // 마커/클러스터러 함수
-  const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
+  const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel , element_type) => {
     // console.log('======addmarkcluster함수 실행:',array,setClusterer);
     /*if(array.length == 0){
       return;
@@ -454,14 +455,33 @@ export default function KakaoMap({status}) {
         image: markerImage,
         opacity:1
       })
-      kakao.maps.event.addListener(markerEl, 'click', function() {
-        // console.log('markelElement클릭:',markerEl, item.Ma, item.La);
-        setClickMarker({
+      kakao.maps.event.addListener(markerEl, 'click', async function() {
+         console.log('markelElement클릭:',markerEl, item.Ma, item.La, element_type);
+         setClickMarker({
           lat:item.Ma,
-          lng:item.La
-        })
+          lng:item.La,
+          click_type : element_type
+        });
+
+        MapProductEls.updateClickMarker({clickmarker : {lat:item.Ma, lng:item.La, click_type: element_type, isclick:true}});
+
+        //clickcMkarker state변경처리를 하고 나서, 서버에 비동기 요청을 한다.해당 요청한는것은 어떤 전문중개사,어떤매물,어떤 단지에 대해서 리스트구하는건지(한개)
+        let body_info = {
+          lat:item.Ma,
+          lng:item.La,
+          click_type: element_type
+        }
+        var res_results= await serverController.connectFetchController('/api/matterial/clickMarker_match_infoget','POST',JSON.stringify(body_info));
+    
+        if(res_results){
+          console.log('=====>>>clickmarker match infogetss::',res_results);
+
+          if(res_results.result){
+            MapProductEls.updateClickMarker_matchdata({clickmarker_matchdata : res_results.result});
+          }
+        }
       });
-      markers.push( markerEl );
+     markers.push( markerEl );
     })
     //// console.log('===>>>markesrs::',markers);
     
@@ -512,7 +532,7 @@ export default function KakaoMap({status}) {
     // console.log('==>>>make clusterer::',clusterer);
 
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-      // console.log('클릭클러스터:',cluster,cluster._center.toLatLng());
+      console.log('클릭클러스터:',cluster,cluster._center.toLatLng());
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
         lng:cluster._center.toLatLng().La
@@ -536,16 +556,33 @@ export default function KakaoMap({status}) {
           position: new kakao.maps.LatLng(item.Ma, item.La),
           content: content,
         });
-        kakao.maps.event.addListener(customOverlay,'click',function(){
-          // console.log('customOverlay크릭:',customOverlay,item.Ma,item.La);
+        console.log('==customoverlay핸들러 등록::');
+        kakao.maps.event.addListener(customOverlay,'click',async function(){
+          console.log('customOverlay크릭:',customOverlay,item.Ma,item.La);
           setClickMarker({
             lat : item.Ma,
-            lng: item.La
-          })
+            lng: item.La,
+            click_type : 'block'
+          });
+
+          MapProductEls.updateClickMarker({clickmarker : {lat:item.Ma, lng:item.La, click_type: 'block', isclick: true}});
+
+          //clickcMkarker state변경처리를 하고 나서, 서버에 비동기 요청을 한다.해당 요청한는것은 어떤 전문중개사,어떤매물,어떤 단지에 대해서 리스트구하는건지(한개)
+          let body_info = {
+            lat:item.Ma,
+            lng:item.La,
+            click_type: 'block'
+          }
+          var res_results= await serverController.connectFetchController('/api/matterial/clickMarker_match_infoget','POST',JSON.stringify(body_info));
+      
+          if(res_results){
+            console.log('=====>>>clickmarker match infogetss::',res_results);
+          }
         });
       markers.push(customOverlay);
       customOverlay.setMap(kakaoMap);
-    })
+    });
+
     var clusterer = new kakao.maps.MarkerClusterer({
       map: kakaoMap, 
       averageCenter: true, 
@@ -590,7 +627,7 @@ export default function KakaoMap({status}) {
     });
     clusterer.addMarkers(markers);
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-      // console.log('->>>clustser요소 클릭::',cluster,cluster._center.toLatLng());
+       console.log('->>>block_clustser요소 클릭::',cluster,cluster._center.toLatLng());
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
         lng:cluster._center.toLatLng().La
