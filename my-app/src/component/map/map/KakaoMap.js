@@ -63,7 +63,7 @@ export default function KakaoMap({status}) {
   var dots = [];
 
   var searchdetail_origindata = JSON.parse(localStorage.getItem("searchdetail_origin"));
-  console.log('==>>kakaomap실행 및 초기화::',searchdetail_origindata, status, mapHeaderRedux, mapRightRedux,mapFilterRedux);
+  // console.log('==>>kakaomap실행 및 초기화::',searchdetail_origindata, status, mapHeaderRedux, mapRightRedux,mapFilterRedux);
   
   
   // 호출 상황 --------
@@ -77,7 +77,7 @@ export default function KakaoMap({status}) {
     // 지도에 띄울 좌표(마커/클러스터러), 매물 리스트 받아와야 합니다.
 
     // fetch api요청 해당 현재 지도의 change 중심좌표,레벨,화면스크린크기 등을 보낸다.그에 따른 그 지도상화면에서 보이는 주변 매물들 결과얻는다.
-    console.log('-=======>>getProduct함수 실행::',mapData);
+    // console.log('-=======>>getProduct함수 실행::',mapData);
     var mapData = JSON.parse(localStorage.getItem("mapData"));
     var idle_mapdata={
       level : mapData.level,
@@ -93,7 +93,7 @@ export default function KakaoMap({status}) {
     var res_results= await serverController.connectFetchController('/api/matterial/mapchange_searchresult','POST',JSON.stringify(idle_mapdata));
     
     if(res_results){
-      console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',res_results.match_matterial[0],res_results.match_matterial[1],res_results.match_matterial[2]);
+      // console.log('idle or 필터변경,첫로드or오른쪽메뉴변경등 상황때 호출getproudct에 의한 요소들데이터 얻기:',res_results.match_matterial[0],res_results.match_matterial[1],res_results.match_matterial[2]);
     }
 
     // 전속 매물
@@ -163,7 +163,34 @@ export default function KakaoMap({status}) {
     }else{
       MapProductEls.updateBlock({ block : []});
     }
+  }
 
+  /*
+    전속매물, 전문중개사, 단지별 실거래
+    각 클러스터러와 마커를 초기화시키는 함수를 만들었습니다.
+    새로운 마커를 표시하기 전 함수를 실행하여 이전에 있던 클러스터러를 지웠습니다.
+
+  */
+  const initExcCluster = () => {
+    setExcClusterer(clusterer=>{ 
+      if(!clusterer){return clusterer}; 
+      clusterer.clear(); 
+      return clusterer;
+    });
+  }
+  const initProCluster = () => {
+    setProClusterer(clusterer=>{ 
+      if(!clusterer){return clusterer}; 
+      clusterer.clear(); 
+      return clusterer;
+    });
+  }
+  const initBlockCluster =  () => {
+    setBlockClusterer(clusterer=>{ 
+      if(!clusterer){return clusterer}; 
+      clusterer.clear(); 
+      return clusterer;
+    });
   }
 
   // 제거
@@ -173,7 +200,7 @@ export default function KakaoMap({status}) {
   
   // 필터/메뉴 바뀔때마다 이벤트 발생
   useEffect(() => {
-    console.log('===>>필터 right메뉴, 카카오맵등 바뀔떄마다 이벤트 발생:');
+    // console.log('===>>필터 right메뉴, 카카오맵등 바뀔떄마다 이벤트 발생:');
     if(!kakaoMap){return;};
     const filerRedux = mapFilterRedux;
     localStorage.setItem( "filterData", JSON.stringify(filerRedux));
@@ -198,8 +225,8 @@ export default function KakaoMap({status}) {
 
   // 임시 더미 데이터
   useEffect(() => {
-    console.log('===>>>페이지 로드 시점 실행or 리덕스데이터 변경시마다 실행(idle->getproduct fetch api정보 리덕스 저장->리덕스데이터 state에저장.)::');
-    console.log('===>>productRedux::',productRedux);
+    // console.log('===>>>페이지 로드 시점 실행or 리덕스데이터 변경시마다 실행(idle->getproduct fetch api정보 리덕스 저장->리덕스데이터 state에저장.)::');
+    // console.log('===>>productRedux::',productRedux);
 
     let exclusive_kakaomap_elements=[];
     for(let b=0; b<productRedux.exclusive.length; b++){
@@ -254,18 +281,18 @@ export default function KakaoMap({status}) {
   // 지도 생성
   useEffect(() => {
     let searchdetail_origindata = JSON.parse(localStorage.getItem("searchdetail_origin"));
-    console.log('==>>>useEffect load continaer: 상위부모요소 실행을 통해 해당요소 실행또는 맵 실행시점 or mapHeader리덕스요소 변경시마다',searchdetail_origindata);
+    // console.log('==>>>useEffect load continaer: 상위부모요소 실행을 통해 해당요소 실행또는 맵 실행시점 or mapHeader리덕스요소 변경시마다',searchdetail_origindata);
 
     let mapData = JSON.parse(localStorage.getItem("mapData"));
     
     if(searchdetail_origindata && (searchdetail_origindata.y && searchdetail_origindata.x)){
       //map/xxxx/url:xxparams에 정보가 있어서 origin center지점에 대한 정보가 있는경우.메인검색을 통해서 눌러서 온 경우에는 기존 데이터로 해서 하진 않음.
-      console.log('======>>main start search or mapheader검색를 통해 접근한경우::',searchdetail_origindata.x,searchdetail_origindata.y);
+      // console.log('======>>main start search or mapheader검색를 통해 접근한경우::',searchdetail_origindata.x,searchdetail_origindata.y);
       var center = new kakao.maps.LatLng(searchdetail_origindata.y, searchdetail_origindata.x);
       var level = 3;
 
       /*if(mapData){
-        console.log('===>>mapData정보 있던경우::',mapData);
+        // console.log('===>>mapData정보 있던경우::',mapData);
         center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
         level = mapData.level;
       }*/
@@ -277,7 +304,7 @@ export default function KakaoMap({status}) {
 
       // local에 정보가 있을 경우
       if(mapData){
-        console.log('===>>mapData정보 있던경우::',mapData);
+        // console.log('===>>mapData정보 있던경우::',mapData);
         center = new kakao.maps.LatLng(Number(mapData.lat), Number(mapData.lng));
         level = mapData.level;
       }
@@ -286,14 +313,14 @@ export default function KakaoMap({status}) {
       center,
       level: level
     };
-    console.log('options::',options);
+    // console.log('options::',options);
     const map = new kakao.maps.Map(container.current, options);
-    console.log('====>>지도생성 및 초기화:',map);
+    // console.log('====>>지도생성 및 초기화:',map);
 
     setKakaoMap(map); 
 
     kakao.maps.event.addListener(map, 'idle', (e) => {
-      console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
+      // console.log('====>kakao maps idle이벤트 핸들러등록 발생::',e,map);
       var level = map.getLevel();
       var lng = map.getCenter().La.toFixed(11);
       var lat = map.getCenter().Ma.toFixed(9);
@@ -309,74 +336,59 @@ export default function KakaoMap({status}) {
     
   }, [container, mapHeaderRedux.origin]);
 
-  // 전속매물 토글
+  // 전속매물 토글 --- 
   useEffect(() => {
-    console.log('====>>전속매물 토글링시에',mapRightRedux.isExclusive.is, exclusiveArr);
-    
+    // console.log('====>>전속매물 토글링시에',mapRightRedux.isExclusive.is, exclusiveArr);
     mapRightRedux.isExclusive.is
     ?
     addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3)
     :
-    setExcClusterer(clusterer=>{ 
-      console.log('==>>>setExccluster함수 실행:',clusterer);
-      if(!clusterer){return clusterer}; 
-      console.log('cluster clear::',clusterer.clear,clusterer);
-      clusterer.clear(); 
-      return clusterer;
-    });
-  }, [mapRightRedux.isExclusive.is, kakaoMap])
+    initExcCluster();
+  }, [mapRightRedux.isExclusive.is])
   //전속매물 요소 state 배열리스트(마커배열) 변동시마다실행
   useEffect( () => {
-    console.log('===>>>전속매물 관련 state마커배열요소 변동시마다 실행:',exclusiveArr);
+    // console.log('===>>>전속매물 관련 state마커배열요소 변동시마다 실행:',exclusiveArr);
     //전속매물 체크된 상태에서만 실행한다.그린다.마커,클러스트
-    
+    // setExcClusterer(clusterer=>{ 
+    //   if(!clusterer){return clusterer}; 
+    //   clusterer.clear(); 
+    //   return clusterer;
+    // });
+    initExcCluster();
     addMarkClust(exclusiveArr, setExcClusterer, exclusiveMarker, excClusterer, 3);
-    
   },[exclusiveArr]);
 
-  // 전문 중개사 토글
+  // 전문 중개사 토글 --- 
   useEffect(() => {
-    console.log('===>>전문중개사 토글링시에',mapRightRedux.isProbroker, probrokerArr);
+    // console.log('===>>전문중개사 토글링시에',mapRightRedux.isProbroker, probrokerArr);
     
     mapRightRedux.isProbroker.is
     ?
     addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4)
     :
-    setProClusterer(clusterer=>{
-      console.log('==>>>setProclusterer함수 실행:',clusterer);
-      if(!clusterer){return clusterer;}
-      console.log('cluster clear::',clusterer.clear,clusterer);
-      clusterer.clear(); 
-      return clusterer;
-    });
-  }, [mapRightRedux.isProbroker.is, kakaoMap])
+    initProCluster();
+  }, [mapRightRedux.isProbroker.is])
   //전문중개사 요소 state 관련마커배열 리스트 변동시마다 실행
   useEffect(() => {
-    console.log('====>>전문중개사요소 관련 state마커배열요소 변동시마다 실행:',probrokerArr);
+    // console.log('====>>전문중개사요소 관련 state마커배열요소 변동시마다 실행:',probrokerArr);
     //전문중개사 체크된 상태에서만 idle로인한 state리스트 변동때마다. 마커,클러스트 그린다.매 변동되는 마커배열요소에 따른 변동 클러스터생성(기존것 소멸 갱신)
-    
+    initProCluster();
     addMarkClust(probrokerArr, setProClusterer, probrokerMarker, proClusterer, 4);
     
   },[probrokerArr]);
 
-  // 단지별 실거래 토글
+  // 단지별 실거래 토글 --- 
   useEffect(() => {
-    console.log('===>>>단지별실거래 토글링시에',mapRightRedux.isBlock.is, blockArr);
+    // console.log('===>>>단지별실거래 토글링시에',mapRightRedux.isBlock.is, blockArr);
     mapRightRedux.isBlock.is
     ?
     addMarkClustBlock(blockArr, setBlockClusterer, blockMarker, blockClustererImg, 5)
     :
-    setBlockClusterer(clusterer=>{
-      console.log('==>>setBlockClusterser함수 실행 ::',clusterer);
-      if(!clusterer){return clusterer;}
-      console.log('cluster clear::',clusterer.clear,clusterer);
-      clusterer.clear();
-      return clusterer;
-    });
-  }, [mapRightRedux.isBlock.is, kakaoMap]);
+    initBlockCluster();
+  }, [mapRightRedux.isBlock.is]);
   //단지별요소 state관련 마커배열 리스트 변동시마다 실행
   useEffect(() => {
-    console.log('단지별요소 관련 state마커배열요소 변동시마다 실행::',blockArr);
+    // console.log('단지별요소 관련 state마커배열요소 변동시마다 실행::',blockArr);
     
     addMarkClustBlock(blockArr, setBlockClusterer, blockMarker,blockClustererImg, 5);
     
@@ -385,7 +397,7 @@ export default function KakaoMap({status}) {
 
   // 마커/클러스터러 함수
   const addMarkClust = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
-    console.log('======addmarkcluster함수 실행:',array,setClusterer);
+    // console.log('======addmarkcluster함수 실행:',array,setClusterer);
     /*if(array.length == 0){
       return;
     }*/
@@ -401,7 +413,7 @@ export default function KakaoMap({status}) {
         opacity:1
       })
       kakao.maps.event.addListener(markerEl, 'click', function() {
-        console.log('markelElement클릭:',markerEl, item.Ma, item.La);
+        // console.log('markelElement클릭:',markerEl, item.Ma, item.La);
         setClickMarker({
           lat:item.Ma,
           lng:item.La
@@ -409,7 +421,7 @@ export default function KakaoMap({status}) {
       });
       markers.push( markerEl );
     })
-    //console.log('===>>>markesrs::',markers);
+    //// console.log('===>>>markesrs::',markers);
     
     var clusterer = new kakao.maps.MarkerClusterer({
       map: kakaoMap, 
@@ -455,22 +467,23 @@ export default function KakaoMap({status}) {
     });
     
     clusterer.addMarkers(markers);
-    console.log('==>>>make clusterer::',clusterer);
+    // console.log('==>>>make clusterer::',clusterer);
 
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-      console.log('클릭클러스터:',cluster,cluster._center.toLatLng());
+      // console.log('클릭클러스터:',cluster,cluster._center.toLatLng());
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
         lng:cluster._center.toLatLng().La
       })
     });
-
     setClusterer(clusterer);
   }
 
   // 단지별 실거래 마커/클러스터러 함수
   const addMarkClustBlock = (array, setClusterer, markerImg, clustererImg, cluLevel) => {
-    console.log('======>>addMakrclusterblock함수실행:',array,setClusterer);
+
+    initBlockCluster();
+    // console.log('======>>addMakrclusterblock함수실행:',array,setClusterer);
     /*if(array.length == 0){return;}*/
     let markers = [];
     // **api 서버에서 받아온 정보들을 토대로 분기처리
@@ -482,7 +495,7 @@ export default function KakaoMap({status}) {
           content: content,
         });
         kakao.maps.event.addListener(customOverlay,'click',function(){
-          console.log('customOverlay크릭:',customOverlay,item.Ma,item.La);
+          // console.log('customOverlay크릭:',customOverlay,item.Ma,item.La);
           setClickMarker({
             lat : item.Ma,
             lng: item.La
@@ -535,7 +548,7 @@ export default function KakaoMap({status}) {
     });
     clusterer.addMarkers(markers);
     kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-      console.log('->>>clustser요소 클릭::',cluster,cluster._center.toLatLng());
+      // console.log('->>>clustser요소 클릭::',cluster,cluster._center.toLatLng());
       setCenterClusterer({
         lat:cluster._center.toLatLng().Ma,
         lng:cluster._center.toLatLng().La
@@ -585,19 +598,19 @@ export default function KakaoMap({status}) {
       });
       clusterer.addMarkers(markers);
       setRoadClusterer(clusterer);
-      console.log('===>>roadview 지도유형 선택하여 실행 함수 구문 rvmarkers설정 및 markers정보:',markers,clusterer);
+      // console.log('===>>roadview 지도유형 선택하여 실행 함수 구문 rvmarkers설정 및 markers정보:',markers,clusterer);
 
       var clickHandler = function(mouseEvent) {    
         var position = mouseEvent.latLng; 
-        console.log('로드뷰 지도유형상태값 상태에서 카카오맵 임의지점 클릭핸들러:',position);
+        // console.log('로드뷰 지도유형상태값 상태에서 카카오맵 임의지점 클릭핸들러:',position);
         rvMarker.setPosition(position);
         toggleRoadview(position);
       }; 
 
       function toggleRoadview(position){
-        console.log('=====>>toggleRoadview함수실행>>:',position);
+        // console.log('=====>>toggleRoadview함수실행>>:',position);
         rvClient.getNearestPanoId(position, 50, function(panoId) {
-          console.log('rvCLIENT 클릭지점 근처의 파노라마id값 관련 콜백함수실행>>:',panoId);
+          // console.log('rvCLIENT 클릭지점 근처의 파노라마id값 관련 콜백함수실행>>:',panoId);
             if (panoId === null) {
               roadViewRef.current.style.display = 'none';
               rvWrapperRef.current.style.pointerEvents  = 'none';
@@ -643,13 +656,13 @@ export default function KakaoMap({status}) {
   // **api 선택한 클러스터러의 좌표를 서버에 보내고 해당 목록 데이터를 받아와야합니다.
   // 목록 데이터는 mapProductEl 저장하여 화면에 띄어야 합니다. 
   useEffect(() => {
-    // console.log(centerClusterer);
+    // // console.log(centerClusterer);
   }, [centerClusterer])
 
   // 마커 클릭
   // **api 선택한 마커의 좌표 혹은 아이디를 서버에 보내고 해당 데이터를 받아와야합니다.
   useEffect(() => {
-    // console.log(clickMarker);
+    // // console.log(clickMarker);
   }, [clickMarker])
 
   // 줌인
@@ -670,13 +683,13 @@ export default function KakaoMap({status}) {
 
   // 주변
   useEffect(() => {
-    console.log('===>>>mapRightRedux.around 변화에따른 감지::',mapRightRedux.around);
+    // console.log('===>>>mapRightRedux.around 변화에따른 감지::',mapRightRedux.around);
     if(!kakaoMap ||  mapRightRedux.around.is == ""){
       return;
     }
 
     const searchPlace = () => {
-      console.log('===>>searchPlace함수실행 주변검색 주변의 시설검색::');
+      // console.log('===>>searchPlace함수실행 주변검색 주변의 시설검색::');
       setAroundClusterer(clusterer=>{if(!clusterer){return;} clusterer.clear(); return clusterer;});
       places.categorySearch(mapRightRedux.around.is, callback, {
         location: new kakao.maps.LatLng(kakaoMap.getCenter().Ma, kakaoMap.getCenter().La)
@@ -691,10 +704,10 @@ export default function KakaoMap({status}) {
     })
 
     var places = new kakao.maps.services.Places(kakaoMap);
-    console.log('places::',places);
+    // console.log('places::',places);
 
     var callback = function(data, status, pagination) {
-      console.log('==>>searhcplace> categorySDearch callbackfucntion call',data);
+      // console.log('==>>searhcplace> categorySDearch callbackfucntion call',data);
       if (status === kakao.maps.services.Status.OK) {
         let newArr = [];
         data.map(item => {
@@ -709,7 +722,7 @@ export default function KakaoMap({status}) {
 
   // 주변 업데이트
   useEffect(() => {
-    //console.log('===>>>arouindArr,맵변경,idle,around>>>');
+    //// console.log('===>>>arouindArr,맵변경,idle,around>>>');
     if(!kakaoMap){return;}
 
     switch (mapRightRedux.around.is){
@@ -774,7 +787,7 @@ export default function KakaoMap({status}) {
 
   // 거리재기
   useEffect(() => {
-    console.log('==>>mapright.istinace.is상태값변경 거리재기right요소 변경시마다 실행:거래재기상태값false이면 카카오맵핸들러click,mousemove미등록',moveLine);
+    // console.log('==>>mapright.istinace.is상태값변경 거리재기right요소 변경시마다 실행:거래재기상태값false이면 카카오맵핸들러click,mousemove미등록',moveLine);
     if(!kakaoMap || !mapRightRedux.isDistance.is){return}
 
     if(mapRightRedux.isDistance.is){
@@ -795,14 +808,14 @@ export default function KakaoMap({status}) {
     const distanceEnd = document.querySelector(".distanceEnd");
     distanceEnd.addEventListener("click", () => {
       // 지도 오른쪽 클릭 이벤트가 발생했는데 선을 그리고있는 상태이면
-      console.log('distanceEnd거리측정 버튼 클릭시에 실행 이벤트핸들러:',drawingFlag,moveLine);
+      // console.log('distanceEnd거리측정 버튼 클릭시에 실행 이벤트핸들러:',drawingFlag,moveLine);
       if (drawingFlag && moveLine) {
         // 마우스무브로 그려진 선은 지도에서 제거합니다
         moveLine.setMap(null);
         moveLine = null;  
         // 마우스 클릭으로 그린 선의 좌표 배열을 얻어옵니다
         var path = clickLine.getPath();
-        console.log('마지막클릭까지의 클릭좌표들값 불러오기:',path);
+        // console.log('마지막클릭까지의 클릭좌표들값 불러오기:',path);
 
         // 선을 구성하는 좌표의 개수가 2개 이상이면
         if (path.length > 1) {
@@ -828,7 +841,7 @@ export default function KakaoMap({status}) {
 
     // Click
     function clickMap(mouseEvent){
-      console.log("clickMap function call:");
+      // console.log("clickMap function call:");
       var clickPosition = mouseEvent.latLng;
       // 첫 클릭
       if (!drawingFlag) {
@@ -855,7 +868,7 @@ export default function KakaoMap({status}) {
         displayCircleDot(clickPosition, 0);
       } else {  // 첫 클릭 X
         var path = clickLine.getPath();  // clickLine의 좌표배열을 가져온다.
-        console.log('첫클릭clikcmamp아님 클릭한 좌표배열 가져오기:',path);
+        // console.log('첫클릭clikcmamp아님 클릭한 좌표배열 가져오기:',path);
         path.push(clickPosition); // 클릭 좌표를 넣는다.
         clickLine.setPath(path); // 패스를 설정한다.
         var distance = Math.round(clickLine.getLength()); // 거리 계산
@@ -868,7 +881,7 @@ export default function KakaoMap({status}) {
       
       if (drawingFlag){
         var mousePosition = mouseEvent.latLng; 
-        console.log('====>mousemove이벤트 발생>>>>',drawingFlag,clickLine,clickLine.getPath());
+        // console.log('====>mousemove이벤트 발생>>>>',drawingFlag,clickLine,clickLine.getPath());
         // 마지막과 현재 좌표를 가져와 연결한다.
         var path = clickLine.getPath();
         var movepath = [path[path.length-1], mousePosition];  
@@ -883,7 +896,7 @@ export default function KakaoMap({status}) {
 
     // Init
     function initLineDot(){
-      console.log('initilinedot실행 초기함수:',clickLine,distanceOverlay,dots);
+      // console.log('initilinedot실행 초기함수:',clickLine,distanceOverlay,dots);
       if (clickLine) {
         clickLine.setMap(null);    
         clickLine = null;        
@@ -947,7 +960,7 @@ export default function KakaoMap({status}) {
 
     // Dot Custom Overay
     function displayCircleDot(position, distance) {
-      console.log('=>>>displayCircleodot function calls: mouseClickmap에 의해 촉발',position,distance);
+      // console.log('=>>>displayCircleodot function calls: mouseClickmap에 의해 촉발',position,distance);
       var circleOverlay = new kakao.maps.CustomOverlay({
           content: `<div class="dot"></div>`,
           position: position,
@@ -969,20 +982,20 @@ export default function KakaoMap({status}) {
 
       // 배열에 추가합니다
       dots.push({circle:circleOverlay, distance: distanceOverlay});
-      console.log('update된 점좌표들 dots::',dots);
+      // console.log('update된 점좌표들 dots::',dots);
     }
 
     // Move Custom Overay
     function showDistance(content, position) {
-      console.log('=-==>>mousemove function에 or 마지막거리측정(end)클릭에 의해 촉발된 showdistance:',content,position);
+      // console.log('=-==>>mousemove function에 or 마지막거리측정(end)클릭에 의해 촉발된 showdistance:',content,position);
       if (distanceOverlay) { // 커스텀오버레이가 생성된 상태이면
-        console.log('distanceoverlay prev 생성상태:',distanceOverlay)
+        // console.log('distanceoverlay prev 생성상태:',distanceOverlay)
         // 커스텀 오버레이의 위치와 표시할 내용을 설정합니다
         distanceOverlay.setPosition(position);
         distanceOverlay.setContent(content);
       } else { // 커스텀 오버레이가 생성되지 않은 상태이면
         // 커스텀 오버레이를 생성하고 지도에 표시합니다
-        console.log('distanceoverlay prev 미생성 없는 상태:',distanceOverlay);
+        // console.log('distanceoverlay prev 미생성 없는 상태:',distanceOverlay);
         distanceOverlay = new kakao.maps.CustomOverlay({
           map: kakaoMap, // 커스텀오버레이를 표시할 지도입니다
           content: content,  // 커스텀오버레이에 표시할 내용입니다
