@@ -207,13 +207,12 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   rigthDetailData.map((item, index) => {
                     return(
                       <Desc key={index}>
-                        <DTitle>{item.title}</DTitle>
-                        <DescInfo>{item.content}</DescInfo>
+                        <DTitle active={index==rigthDetailData.length-1?true:false}>{item.title}</DTitle>
+                        <DescInfo active={index==rigthDetailData.length-1?true:false}>{item.content}</DescInfo>
                       </Desc>
                     ) 
                     })   
                 }
-                
                 {/*
                   <Desc>
                     <DTitle>분양세대</DTitle>
@@ -469,12 +468,24 @@ const DTitle = styled.p`
       width:calc(100vw*(170/1436));
       font-size:calc(100vw*(15/1436));
     }
+    ${({active}) => {
+    return active?
+    `color:red;` 
+    :
+    ``
+  }}
 `
 const DescInfo = styled(DTitle)`
   width:auto;
   color:#707070;
   text-align:right;
   word-break:keep-all;
+  ${({active}) => {
+    return active?
+    `color:red;`
+    :
+    ``
+  }}
 `
 
 const Wrap = styled.div`
