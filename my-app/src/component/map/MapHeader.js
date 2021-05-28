@@ -18,12 +18,18 @@ import Close from '../../img/main/modal_close.png';
 import { Mobile, PC } from "../../MediaQuery";
 
 // redux
-import { MapFilterRedux } from '../../store/actionCreators';
+import { MapFilterRedux, MapProductEls , mapHeader } from '../../store/actionCreators';
 // Init
 import initFilter from './initFilter';
 
 //범용 주소 검색 api
 import AddressSearchApi from '../common/addressSearchApi';
+
+//redux
+import {useSelector} from 'react-redux';
+
+//server controller
+import serverController from '../../server/serverController';
 
 export default function MainHeader({openBunyang, rank}) {
   const history = useHistory();
@@ -31,7 +37,10 @@ export default function MainHeader({openBunyang, rank}) {
 
   const [addressApi,setAddressApi] = useState(false);
   const [search_address,setSearch_address] = useState('');
-
+  
+  const mapRightRedux = useSelector(state=>{ return state.mapRight});
+  const mapHeaderRedux = useSelector(data => data.mapHeader);
+  console.log('MAPHDAER ACTION:',mapHeader);
     /*const onClickSearch = () => {
       MapFilterRedux.updateFilterRest(initFilter);
       switch (selectRef.current.value){
@@ -52,30 +61,100 @@ export default function MainHeader({openBunyang, rank}) {
       }
       setAddressApi(true);
     }*/
-  const onClickSearch = () => {
-    MapFilterRedux.updateFilterRest(initFilter);
-    history.push(`/map/${currentTab}`);
-  }
+    const searchtype_change = (e) => {
+      console.log('변화 발생시에 mapheader select박스:',e.target.value);
+      mapHeader.updateprdtype({prdtypes: e.target.value});
+      setCurrentTab(e.target.value);
+    }
 
+  const onClickSearch = async () => {
+    console.log('onclicksearch실행,currentTab::',search_address);
+    MapFilterRedux.updateFilterRest(initFilter);
+
+    //해당 검색어 일단은 도로명주소에 대해서 검색시에 해당 위치x,y 를 center로 해서 그 위치 기준 주변 불러온다.
+    console.log('window.innerWIdht,height:',window.innerWidth,window.innerHeight);
+    if(currentTab=='' || search_address['roadaddress_val']==''){
+      return; //아무것도 하지 않는다.
+    }
+    let body_info = {
+      screen_width : window.innerWidth,
+      screen_height : window.innerHeight,
+      level : 3,
+      prdtype_val : currentTab,
+      search_road_address: search_address['roadaddress_val'],
+      isexclusive_val : mapRightRedux.isExclusive.is,
+      isprobroker_val : mapRightRedux.isProbroker.is,
+      isblock_val : mapRightRedux.isBlock.is
+    };
+    //해당 매물종류, 화면크기,레벨기본값, 도로명주소를 보낸다. 도로명주소x,y변환하여 그 위치를 기준으로 검색한다.
+    let searchdetail_originresult = await serverController.connectFetchController('/api/matterial/main_searchresult_roadaddress','POST',JSON.stringify(body_info));
+
+    if(searchdetail_originresult){
+      console.log('====>>>>main serachdetail_ioriginresult::',searchdetail_originresult);
+
+      localStorage.setItem('searchdetail_origin',JSON.stringify(searchdetail_originresult.result_origin));
+      console.log('==>>>mapProuddtels에 정보 저장::',MapProductEls);
+      MapProductEls.updateBlock({block: searchdetail_originresult.match_matterial[2]});
+      MapProductEls.updateExclusive({exclusive: searchdetail_originresult.match_matterial[0]});
+      MapProductEls.updateProbroker({probroker: searchdetail_originresult.match_matterial[1]});
+
+      mapHeader.updateorigin({origins : searchdetail_originresult.result_origin});
+      mapHeader.updateprdtype({prdtypes : currentTab});
+      mapHeader.updateroadaddress({roadaddresss: search_address['roadaddress_val']});
+    }
+
+    history.push(`/map/${currentTab}`);
+    
+  }
+  
   const headerLogo = (isPc) => {
-    return(
-      <HederLogo>
-        <Link to="/">
-          <LogoImg src={isPc?PCLogo:Logo}/>
-        </Link>
-        <HeaderSearch>
-          <SearchSelect onChange={(e) => setCurrentTab(e.target.value)} >
-            <Option value={"apart"}>아파트</Option>
-            <Option value={"officetel"}>오피스텔</Option>
-            <Option value={"store"}>상가</Option>
-            <Option value={"office"}>사무실</Option>
-          </SearchSelect>
-          <Line/>
-          <SearchInput type="search" name=""/>
-          <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
-        </HeaderSearch>
-      </HederLogo>
-    )
+    if(addressApi){
+      return(
+        <div>
+        <HederLogo>
+          <Link to="/">
+            <LogoImg src={isPc?PCLogo:Logo}/>
+          </Link>
+          <HeaderSearch>
+            <SearchSelect onChange={searchtype_change}>
+              <Option value={"apart"} selected={mapHeaderRedux.prdtype=='apart'?true:false}>아파트</Option>
+              <Option value={"officetel"} selected={mapHeaderRedux.prdtype=='officetel'?true:false}>오피스텔</Option>
+              <Option value={"store"} selected={mapHeaderRedux.prdtype=='store'?true:false}> 상가</Option>
+              <Option value={"office"} selected={mapHeaderRedux.prdtype=='office'?true:false}>사무실</Option>
+            </SearchSelect>
+            <Line/>
+            <SearchInput type="search" name="" onClick={()=> {setAddressApi(true)}} value={search_address['roadaddress_val']} placeholder='도로명 주소입력'/>
+            <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
+          </HeaderSearch>
+        </HederLogo>
+         <AddressApi>
+         <CloseImg src={Close} onClick={() => setAddressApi(false)}/>
+         <AddressSearchApi setSearch_address={setSearch_address} setAddressApi={setAddressApi}/>
+         </AddressApi>
+         </div>
+       );
+    }else{
+      return(
+        <div>
+        <HederLogo>
+          <Link to="/">
+            <LogoImg src={isPc?PCLogo:Logo}/>
+          </Link>
+          <HeaderSearch>
+            <SearchSelect onChange={searchtype_change} >
+              <Option value={"apart"} selected={mapHeaderRedux.prdtype=='apart'?true:false}>아파트</Option>
+              <Option value={"officetel"} selected={mapHeaderRedux.prdtype=='officetel'?true:false}>오피스텔</Option>
+              <Option value={"store"} selected={mapHeaderRedux.prdtype=='store'?true:false}>상가</Option>
+              <Option value={"office"} selected={mapHeaderRedux.prdtype=='office'?true:false}>사무실</Option>
+            </SearchSelect>
+            <Line/>
+            <SearchInput type="search" name="" onClick={()=> {setAddressApi(true)}} value={search_address['roadaddress_val']} placeholder='도로명 주소입력'/>
+            <SearchBtn type="submit" onClick={() => onClickSearch() } name=""/>
+          </HeaderSearch>
+        </HederLogo>
+         </div>
+       );
+    }   
   }
 
   return (
@@ -200,7 +279,7 @@ const Container = styled.header`
       }
 `
 const AddressApi = styled.div`
-  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  position:fixed;left:50%;top:10%;transform:translateX(-50%);
   width:450px;height:auto;z-index:2;
   border:1px solid #eee;
   background:#fff;

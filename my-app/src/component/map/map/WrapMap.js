@@ -35,7 +35,7 @@ export default function WrapMap({openBunyang, rank, open, setOpen, status, conta
 
   return (
       <Container>
-        <KakaoMap/>
+        <KakaoMap status={status}/>
         <MapRightMenu containerRef={containerRef}/>
         <div ref={filterRef}>
           <WrapMapFilter setOpen={setOpen} status={status} />

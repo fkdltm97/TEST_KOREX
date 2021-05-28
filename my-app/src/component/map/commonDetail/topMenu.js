@@ -27,7 +27,6 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             return(<Green>{length}</Green>);
         }
     }
-
     
     const onClickEls = (e) => {
         console.log(e.target.dataset.num);

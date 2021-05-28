@@ -8,7 +8,6 @@ import styled from "styled-components"
 import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
 import NoticeListBody from '../../component/notice/NoticeListBody';
-import NoticeListPagenation from '../../component/notice/NoticeListPagenation';
 import MainFooter from '../../component/common/MainFooter';
 import TermService from '../../component/common/TermsOfService';
 import TermPrivacy from '../../component/common/TermsOfPrivacy';
@@ -53,8 +52,6 @@ export default function Notice() {
           <Container>
               <SubTitle title={"공지사항"}/>
               <NoticeListBody/>
-          {/*Notice 페이지네이션은 ListBody가 6개 이상일때 부터 노출되어야 합니다.*/}
-              <NoticeListPagenation/>
           </Container>
           <CommonFooter/>
           {/* <TermService termservice={termservice} openTermService={openTermService}/>
