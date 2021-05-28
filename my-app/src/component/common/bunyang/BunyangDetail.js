@@ -43,6 +43,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
       number:"2D0000324",
       option:["충청남도", "아파트", "민간분양"],
       address:"충청남도 홍성군 홍북읍 신경리 947번지",
+      LikeChecked : true,
     })
 
     // 우측 하단 데이터입니다.
@@ -95,6 +96,15 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
 
 
   const [active,setActive] = useState(false);
+
+  const LikeBtnEvent=()=>{
+    if(rightTopData.LikeChecked === true){
+      setRightTopData({...rightTopData ,LikeChecked:false})
+    }else if(rightTopData.LikeChecked === false){
+      setRightTopData({...rightTopData ,LikeChecked:true})
+    }
+  }
+
 
     return (
       <Container>
@@ -188,7 +198,7 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
                 */}
                 <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1" checked={BunyangDate.LikeChecked} ></Like>
+                  <Like type="checkbox" name="" id="Like1" checked={rightTopData.LikeChecked} onClick={LikeBtnEvent}></Like>
                   <Label for="Like1" className="check_label"></Label>
                 </LikeBtn>
               </RightTop>
@@ -449,7 +459,7 @@ const RightBottom = styled.div`
 const Desc = styled.div`
   display:flex;justify-content:space-between;
   margin-bottom:12px;
-
+  
 `
 const DTitle = styled.p`
   width:170px;
@@ -459,7 +469,6 @@ const DTitle = styled.p`
       width:calc(100vw*(170/1436));
       font-size:calc(100vw*(15/1436));
     }
-
 `
 const DescInfo = styled(DTitle)`
   width:auto;
