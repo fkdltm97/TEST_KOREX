@@ -559,7 +559,7 @@ app.post('/api/auth/member/login',async function(req,res,next){
 
     let body=req.body;
     //console.log('request_origin:',req);
-    console.log('req,body:',body);
+    console.log('req.body:',body);
     var req_email=body.login_email;
     var req_password=body.login_password;
 

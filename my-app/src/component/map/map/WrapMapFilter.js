@@ -49,9 +49,9 @@ export default function MapFilter({status}) {
 
   const padding=()=>{
     if(open == true) {
-      return "calc(100vw*(6/428)) calc(100vw*(10/428)) calc(100vw*(80/428))"
+      return "calc(100vw*(10/428)) calc(100vw*(10/428)) calc(100vw*(80/428))"
     }else{
-      return "calc(100vw*(6/428)) calc(100vw*(10/428)) 0"
+      return "calc(100vw*(10/428)) calc(100vw*(10/428)) 0"
     }
   }
 
@@ -446,7 +446,7 @@ const WrapFilter = styled.div`
     top:0;
     width:100%;
     padding:${({padding}) => padding};
-    z-index:3;
+    z-index:1;
     left:0;
     height:auto;
     max-height:100vh;
@@ -468,7 +468,7 @@ margin-bottom:16px;
 const FliterEa = styled.p`
   position:relative;
   height:30px;
-  padding: 6px 10px;
+  padding: 6px 20px;
   border-radius: 15px;
   border: solid 1px #e4e4e4;
   background-color: #f8f7f7;
@@ -481,26 +481,26 @@ const FliterEa = styled.p`
     margin-right: 10px;
     white-space: nowrap;
     overflow: hidden;
-    width: 120px;
+    width: auto !important;
   // display:inline-block;
   
   @media ${(props) => props.theme.mobile} {
     height:calc(100vw*(30/428));
     font-size:calc(100vw*(14/428));
     width:auto;
+    padding:calc(100vw*(6/428)) calc(100vw*(20/428));
   }
 `
 const CloseFilter = styled.div`
   display:inline-block;
-  position:absolute;right:5px;top:50%;transform:translateY(-50%);
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
   width:8px;height:8px;
   background:url(${FilterClose}) no-repeat;background-size:100% 100%;
   vertical-align:middle;
-  margin-left:5px;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(8/428));
     height:calc(100vw*(8/428));
-    margin-left:calc(100vw*(5/428));
+    right:calc(100vw*(7/428));
   }
 `
 const FilterDownArrow = styled.div`

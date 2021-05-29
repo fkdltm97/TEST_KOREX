@@ -28,11 +28,12 @@ import DanjiDetailView from "./tabcontent/DanjiDetailView";
 import { MapProductEls } from '../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
+//server
+import serverController from '../../../server/serverController';
+
 SwiperCore.use([Navigation, Pagination]);
 
-
 export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo, map,setMap}) {
-
 
   const [topDesc, setTopDesc] = useState({
     title:"",
@@ -51,11 +52,21 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
 
-
-
   // **api 클릭한 아이디를 통하여 서버에서 데이터를 가져와야 합니다.
-  useEffect(() => {
-    // console.log(productRedux.clickBlo)  클릭 아이디
+  useEffect(async () => {
+     console.log(productRedux.clickBlo);
+
+     let body_info = {
+       complex_id : productRedux.clickBlo
+     };
+     let res_result=await serverController.connectFetchController('/api/matterial/complexdetail_infoget','POST',JSON.stringify(body_info));
+
+     if(res_result){
+        console.log('==>>>sidebardandetail페잊 ㅣ실행되며 로드시점 서버에 요청, 해당 단지관련 모드넞ㅇ보:',res_result);
+
+        var complex_data= res_result.result[0][0];//어차피 하나이기에.
+        var transaction_actual_price_data=res_result.result[1];//배열.
+     }
     // 면적 단위 
     setArea([
       {
@@ -113,11 +124,11 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     ]);
     // 상단 설명
     setTopDesc({
-      title:"SM 드림빌", // 제목
-      acceptDate:"2017.04.14", // 날짜
+      title:complex_data.complex_name, // 제목
+      acceptDate:complex_data.approval_date, // 날짜
       danji:150, // 세대 수
-      address:"서울특별시 강남구 삼성동 200-13", // 주소
-      roadAddress:"도로명 주소 -- " // 도로명 주소
+      address:complex_data.addr_jibun, // 주소
+      roadAddress:complex_data.addr_road // 도로명 주소
     })
     // 단지 내 면적별 정보 정보
     setDanjiDesc({

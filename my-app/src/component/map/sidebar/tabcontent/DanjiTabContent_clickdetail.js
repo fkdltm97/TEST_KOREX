@@ -18,7 +18,7 @@ import { Mobile, PC } from "../../../../MediaQuery";
 import { MapProductEls } from '../../../../store/actionCreators';
 import { useSelector } from 'react-redux';
 
-export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) {
+export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap,matchdatalist}) {
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
   //console.log('===>>>itemtTABCONENT:',productRedux);
@@ -32,7 +32,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
   return (
     <Container>
       {
-        productRedux.block.map((value, index) => {
+        matchdatalist.map((value, index) => {
           //console.log('values::',value);
           if(index < 10){
           return(
@@ -42,9 +42,9 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
                 <Title>{value.complex_name}</Title>
                 <Address>{value.addr_jibun}({value.addr_road})</Address>
                 <DanjiInfo>
-                  <Date>{value.approval_date}</Date>
-                  <Price>동수:{value.dong_cnt}</Price>
-                  <Floor></Floor>
+                  <Date>2021.05.05</Date>
+                  <Price>전세 7800만</Price>
+                  <Floor>8층</Floor>
                 </DanjiInfo>
                 <LeftImg>
                   <Img src={FilterNext}/>

@@ -35,7 +35,7 @@ import KakaoMapSide from '../map/map/KakaoMapSide';
 SwiperCore.use([Navigation, Pagination]);
 
 
-export default function PreviewPage({updateReserveModal,reportModal}) {
+export default function PreviewPage({updateReserveModal,reportModal,rejectModal,confirmModal}) {
   const [slideUp, setSlideUp] = useState(false);
   const [slideUp2, setSlideUp2] = useState(false);
   const [slideUp3, setSlideUp3] = useState(false);
@@ -54,7 +54,7 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
                     <Swiper
                         slidesPerView={1}
                         loop={false}
-                        autoplay={true}
+                        autoplay={false}
                         navigation={{ clickable: true }}
                         onSlideChange={() => console.log('slide change')}
                         onSwiper={(swiper) => console.log(swiper)}
@@ -336,8 +336,8 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
                 
                 </WrapTradeInfo>
             </WrapAllInfos>
-            {/*전문중개사 정보*/}
-            <BrokerInfo>
+      {/* //05.28 주석처리 전문중개사 정보  */}
+            {/* <BrokerInfo>
                 <TopBox>
                 <Tag>아파트·현대아이리스</Tag>
                 <Tag>상가</Tag>
@@ -374,8 +374,14 @@ export default function PreviewPage({updateReserveModal,reportModal}) {
                     <BottomTxt>채팅 상담</BottomTxt>
                 </ToChat>
                 </BottomBox>
-            </BrokerInfo>
-            </WrapDetail>
+            </BrokerInfo> */}
+
+            <BottomButtons>
+              <ButtonGray type="button" onClick={()=>{rejectModal();}}>거절</ButtonGray>
+              <ButtonGreen type="button" onClick={()=>{confirmModal();}}>거래 개시</ButtonGreen> 
+            </BottomButtons>
+            
+          </WrapDetail>
         </Container>
   );
 }
@@ -879,4 +885,38 @@ const LongPart = styled.p`
     height:calc(100vw*(30/428));
     margin:0 calc(100vw*(20/428));
   }
+`
+const BottomButtons = styled.div`
+  width:100%;margin-top:45px;
+  display:flex;justify-content:center;
+  align-items:center;
+  @media ${(props) => props.theme.mobile} {
+    margin-top:calc(100vw*(45/428));
+  }
+`
+const ButtonGray = styled.button`
+  width:200px;height:66px;
+  line-height:60px;
+  border:3px solid #e4e4e4;
+  background:#979797;
+  border-radius:11px;
+  font-size: 20px;
+  font-weight: 800;
+  margin-right:8px;
+  transform:skew(-0.1deg);
+  text-align: center;
+  color: #ffffff;
+  @media ${(props) => props.theme.mobile} {
+    width:calc(100vw*(200/428));
+    height:calc(100vw*(60/428));
+    font-size:calc(100vw*(18/428));
+    line-height:calc(100vw*(54/428));
+    margin-right:calc(100vw*(8/428));
+  }
+`
+const ButtonGreen = styled(ButtonGray)`
+  border:3px solid #04966d;
+  background:#01684b;
+  margin-right:0;
+
 `

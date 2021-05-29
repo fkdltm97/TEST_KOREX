@@ -70,7 +70,7 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
       setModalOption({
         show: true,
         setShow: offModal
-        ,title: "등록",
+        ,title: "방문예약세팅",
         content: {type: "text", text: `방문예약세팅을 활성화 하시겠습니까?`,component: "",},
         submitnone: {show: true,title: "확인",event: () => {offModal();setOnOff(!onOff);},},
         cancle: {show: true,title: "취소",event: () => { offModal(); },},
@@ -81,7 +81,7 @@ export default function VisitSetting({ setCal, setAdd, setEdit, setCancle }) {
       setModalOption({ //활성화 상태
         show: true,
         setShow: offModal,
-        title: "등록",
+        title: "방문예약세팅",
         content: {type: "text",text: `방문예약세팅을 비활성화 하시겠습니까?`,component: "",},
         submitnone: {show: true,title: "확인",event: () => {offModal();setOnOff(!onOff);},},
         cancle: {show: true,title: "취소",event: () => {offModal();},},

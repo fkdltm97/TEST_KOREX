@@ -31,8 +31,8 @@ export default function JoinInput() {
   const [active2,setActive2] = useState(false);
 
   const emailChange = (e) =>{ setEmail(e.target.value); }
-  const nameChange = (e) =>{ setName(e.target.value); }
-  const phoneChange = (e) =>{ setPhone(e.target.value); }
+  // const nameChange = (e) =>{ setName(e.target.value); }
+  // const phoneChange = (e) =>{ setPhone(e.target.value); }
   const cernumChange = (e) =>{ setCernum(e.target.value); }
   
   const coolSmsSend= async (e) => { 
@@ -110,17 +110,17 @@ export default function JoinInput() {
             <InputTop>
               <InputTitle>이메일</InputTitle>
               <Input type="email" name="" placeholder="이메일을 입력해주세요." onChange={emailChange}/>
-              <InputTitle>이름</InputTitle>
+              {/* <InputTitle>이름</InputTitle>
               <Input type="text" name="" placeholder="이름을 입력해주세요." onChange={nameChange}/>
               <InputTitle>휴대전화</InputTitle>
-              <Input type="text" name="" placeholder="휴대번호를 '-'를 빼고 입력해주세요." onChange={phoneChange}/>
+              <Input type="text" name="" placeholder="휴대번호를 '-'를 빼고 입력해주세요." onChange={phoneChange}/> */}
               {/*NextBtn(인증번호발송) 버튼 눌렀을때 show*/}
               <InputCerNum type="text" name="" placeholder="인증번호를 입력하세요." id='inputcernum' style={{display:'none'}} onChange={cernumChange} />
               {/*인증번호가 일치하지 않을때 Msg*/}
               <ErrorMsg style={{display:"none"}}>휴대전화 인증번호가 일치하지 않습니다.</ErrorMsg>
             </InputTop>
             <SubmitButton>
-                <NextBtn type="button" name="" active={active} onClick={coolSmsSend}>인증번호 발송</NextBtn>
+                <NextBtn type="button" name="" active={active} onClick={coolSmsSend}>인증메일 받기</NextBtn>
                 {/*NextBtn(인증번호발송) 눌렀을때 show*/}
                 <Link to="/MemJoinAgree" onClick={nextStep} id='memjoinagree_move' style={{display:'none'}}>
                   <Submit type="submit" name="" active2={active2}>다음</Submit>

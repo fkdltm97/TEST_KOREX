@@ -16,6 +16,7 @@ import MainWrapSideBar from './sidebar/MainWrapSideBar';
 import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 
 export default function MainHeader({openBunyang, rank, setReport,reserveModal,setMap, status}){
+    //console.log('mainMap실행>>');
     const [pageIndex , setPageIndex] = useState(0);
 
     const containerRef = useRef();

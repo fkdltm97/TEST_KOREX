@@ -5,17 +5,9 @@ import {Link} from "react-router-dom";
 import styled from "styled-components"
 
 //component
-import MainHeader from '../../component/common/MainHeader';
 import SubTitle from '../../component/common/SubTitle';
 import NoticeListBody from '../../component/notice/NoticeListBody';
-import MainFooter from '../../component/common/MainFooter';
-import TermService from '../../component/common/TermsOfService';
-import TermPrivacy from '../../component/common/TermsOfPrivacy';
-import TermLocation from '../../component/common/TermsOfLocation';
-import Bunyang from '../../component/common/bunyang/Bunyang';
-import ImgDetail from "../../component/common/bunyang/ImgDetail";
-import LiveModal from "../../component/common/bunyang/LiveModal";
-import ModalCalendar from "../../component/common/bunyang/ModalCalendar";
+
 
 import CommonHeader from '../../component/common/commonHeader';
 import CommonFooter from '../../component/common/commonFooter';

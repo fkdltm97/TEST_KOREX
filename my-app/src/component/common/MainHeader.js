@@ -12,6 +12,7 @@ import Mypage from '../../img/main/mypage_icon.png';
 // components
 import { Mobile, PC } from "../../MediaQuery";
 export default function MainHeader({openBunyang, rank}) {
+
     return (
         <Container>
           <WrapHeader>

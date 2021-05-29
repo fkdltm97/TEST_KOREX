@@ -18,10 +18,7 @@ import Call from "../../../img/main/call.png";
 import Live from "../../../img/main/live.png";
 import Chat from "../../../img/main/chat.png";
 import BackBtn from '../../../img/notice/back_btn.png';
-import CloseIcon from "../../../img/main/modal_close.png";
-import Check from "../../../img/member/check.png";
-import Checked from "../../../img/member/checked.png";
-import CloseBtn from '../../../img/main/w_close_btn.png';
+
 
 SwiperCore.use([Navigation]);
 export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal, BunyangDate, clickId, setImgArr, imgArr}){
@@ -169,11 +166,11 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                 <IconImg src={Exit}/>
                 <Txt>방문예약</Txt>
               </Button>
-              <Button>
+              <ButtonOrange>
                 <Link onClick={() => {setLive(true)}} className="data_link"></Link>
                 <IconImg src={Live}/>
-                <Txt>Live 시청예약</Txt>
-              </Button>
+                <TxtOrange>Live 시청예약</TxtOrange>
+              </ButtonOrange>
             </LeftButtons>
           </LeftDetail>
           {/*RightDetail*/}
@@ -188,8 +185,8 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
                   <Address>충청남도 홍성군 홍북읍 신경리 947번지</Address>
                 */}
                 <LikeBtn>
-                  <Like type="checkbox" name="" id="Like1" checked={BunyangDate.LikeChecked}></Like>
-                  <Label for="Like1" className="check_label"></Label>
+                  <Like type="checkbox" id="like" ></Like>{/*checked={BunyangDate.LikeChecked}*/}
+                  <Label for="like" className="check_label"></Label>
                 </LikeBtn>
               </RightTop>
               <RightBottom>
@@ -347,6 +344,9 @@ const Button = styled.div`
   &:last-child{margin-right:0;}
 
 `
+const ButtonOrange = styled(Button)`
+  border:1px solid #fe7a01;
+`
 const IconImg = styled.img`
   display:block;
   width:20px;height:20px;
@@ -366,8 +366,9 @@ const Txt = styled.p`
   @media ${(props) => props.theme.container} {
       margin-top:calc(100vw*(6/1436));
     }
-
-
+`
+const TxtOrange = styled(Txt)`
+  color:#fe7a01;
 `
 const RightDetail = styled.div`
   position:relative;
@@ -431,8 +432,8 @@ const LikeBtn = styled.div`
 const Like = styled.input`
   display:none;
   &:checked + .check_label{width:29px;height:29px;background:url(${HeartCheck}) no-repeat center center;background-size:17px 17px;}
-
 `
+
 const Label = styled.label`
   display:inline-block;
   width:29px;height:29px;
@@ -469,7 +470,13 @@ const DescInfo = styled(DTitle)`
   text-align:right;
   word-break:keep-all;
 `
+const DTitleOrange = styled(DTitle)`
+ color:#fe7a01;
 
+`
+const DescInfoOrange = styled(DescInfo)`
+  color:#fe7a01;
+`
 const Wrap = styled.div`
   display:flex;justify-content:center;align-items:center;
   width:365px;
@@ -661,143 +668,4 @@ const Checkbox = styled.div`
     }
 
 `
-const CheckInput = styled.input`
-  display:none;
-  &:checked + .check_label .chk_on_off{width:16px;height:16px;background:url(${Checked}) no-repeat;background-size:100% 100%;}
-  @media ${(props) => props.theme.container} {
-    &:checked + .check_label .chk_on_off{width:calc(100vw*(16/1436));height:calc(100vw*(16/1436));background:url(${Checked}) no-repeat;background-size:100% 100%;}
-    }
-  @media ${(props) => props.theme.mobile} {
-    &:checked + .check_label .chk_on_off{width:calc(100vw*(16/428));height:calc(100vw*(16/428));background:url(${Checked}) no-repeat;background-size:100% 100%;}
-    }
-`
-const LiveLabel = styled.label`
-  font-size:12px;
-  transform:skew(-0.1deg);
-  font-weight:bold;color:#4a4a4a;
-  @media ${(props) => props.theme.container} {
-    font-size:calc(100vw*(12/1436));
-  }
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(12/428));
-    }
 
-`
-const Span = styled.span`
-  display:inline-block;
-  margin-right:12px;
-  width:16px;height:16px;
-  background:url(${Check}) no-repeat;
-  background-size:100% 100%;
-  vertical-align:middle;
-  transform:skew(-0.1deg);
-  @media ${(props) => props.theme.container} {
-    margin-right:calc(100vw*(12/1436));
-    width:calc(100vw*(16/1436));height:calc(100vw*(16/1436));
-  }
-  @media ${(props) => props.theme.mobile} {
-    margin-right:calc(100vw*(12/428));
-    width:calc(100vw*(16/428));height:calc(100vw*(16/428));
-  }
-`
-const ViewTerm = styled.p`
-  display:inline-block;
-  font-size:12px;
-  color:#a0a0a0;
-  font-weight:600;
-  transform:skew(-0.1deg);
-  vertical-align:text-bottom;
-  margin-left:20px;
-  @media ${(props) => props.theme.container} {
-    font-size:calc(100vw*(12/1436));
-    margin-left:calc(100vw*(20/1436));
-  }
-  @media ${(props) => props.theme.mobile} {
-    font-size:calc(100vw*(12/428));
-    margin-left:calc(100vw*(12/428));
-  }
-`
-const ModalBtn = styled.div`
-    width:100%;
-`
-const Confirm = styled.div`
-    width:100%;text-align:center;
-    background:#979797;
-    border:3px solid #e4e4e4;
-    border-radius:11px;
-    height:66px;
-    line-height:60px;
-    color:#fff;
-    font-size:20px;font-weight:600;
-    @media ${(props) => props.theme.container} {
-      height:calc(100vw*(66/1436));
-      line-height:calc(100vw*(60/1436));
-      font-size:calc(100vw*(20/1436));
-    }
-    @media ${(props) => props.theme.mobile} {
-      height:calc(100vw*(60/428));
-      line-height:calc(100vw*(54/428));
-      font-size:calc(100vw*(15/428));
-    }
-`
-
-const SwiperBg = styled.div`
-  position:fixed;
-  width:100%;
-  z-index:900;
-  height:100%;left:0;top:0;display:block;content:'';
-  background:rgba(0,0,0,0.05);z-index:-1;
-`
-const SwiperCloseImg = styled.div`
-  position:absolute;
-  top:44px;right:42px;
-  width:25px;
-  z-index:3;
-  @media ${(props) => props.theme.container} {
-        width:calc(100vw*(29/1436));
-    }
-  @media ${(props) => props.theme.mobile} {
-      z-index:3;
-      top:calc(100vw*(-30/428));
-      right:calc(100vw*(20/428));
-      width:calc(100vw*(18/428));
-    }
-`
-const SwipeClose = styled.img`
-  width:100%;
-`
-const SwiperWrap = styled.div`
-  position:fixed;
-  left:50%;top:50%;transform:translate(-50%,-50%);
-  width:100%;
-  height:100%;
-  z-index:1000;
-  background:rgba(255,255,255,0.7);
-  @media ${(props) => props.theme.container} {
-      width:calc(100vw*(1100/1436));
-    }
-  @media ${(props) => props.theme.mobile} {
-      width:100%;
-    }
-`
-const Imgbox = styled.div`
-  width:100%;
-  padding:0 40px;
-  @media ${(props) => props.theme.container} {
-      padding:0 calc(100vw*(40/1436));
-    }
-  @media ${(props) => props.theme.mobile} {
-      width:100%;
-      padding:0;
-    }
-`
-const SwipeImg = styled.img`
-  width:100%;
-  height:700px;
-  @media ${(props) => props.theme.container} {
-      height:calc(100vw*(800/1436));
-    }
-  @media ${(props) => props.theme.mobile} {
-      height:auto;
-    }
-`

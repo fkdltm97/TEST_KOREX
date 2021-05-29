@@ -81,11 +81,11 @@ export default function Request({value, type}) {
                         {value.prd_status == '검토대기' ?
                         <InMenu>
                         <Div onClick={() => history.push(`/RequestReview/${value.prd_identity_id}`)}>
-                          <div to={`/RequestReview/${value.prd_identity_id}`}  className={["data_link", "linkToDiv"]}/>
+                          <div to={`/RequestReview/${value.prd_identity_id}`}  className="data_link linkToDiv"/>
                           <InDiv>검토</InDiv>
                         </Div>
                         <Div>
-                          <div to="/ConditionChange"  className={["data_link", "linkToDiv"]}/>
+                          <div to="/ConditionChange"  className="data_link linkToDiv"/>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         </InMenu>
@@ -96,27 +96,27 @@ export default function Request({value, type}) {
                       {value.prd_status == '거래준비' ?
                         <InMenu>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>거래개시승인 요청</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>수임 취소</InDiv>
                         </Div>
                         <Div onClick={() => history.push("/ConditionChange")}>
-                          <div to="/ConditionChange"className={["data_link", "linkToDiv"]}/>
+                          <div to="/ConditionChange"className="data_link linkToDiv"/>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div onClick={() => history.push(`/PropertyTourSetting/${value.prd_identity_id}`)}>
-                          <div to={`/PropertyTourSetting/${value.prd_identity_id}`}  className={["data_link", "linkToDiv"]}/>
+                          <div to={`/PropertyTourSetting/${value.prd_identity_id}`}  className="data_link linkToDiv"/>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>삭제</InDiv>
                         </Div>
                         </InMenu>:
@@ -127,31 +127,31 @@ export default function Request({value, type}) {
                         value.prd_status == '거래개시' ?
                         <InMenu>
                         <Div>
-                          <div  className={["data_link", "linkToDiv"]}/>
+                          <div  className="data_link linkToDiv"/>
                           <InDiv>거래개시승인 요청</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>거래완료승인 요청</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>수임 취소</InDiv>
                         </Div>
                         <Div onClick={() => history.push(`/ConditionChange`)}>
-                          <Link to="/ConditionChange"  className={["data_link", "linkToDiv"]}/>
+                          <Link to="/ConditionChange"  className="data_link linkToDiv"/>
                           <InDiv>상태변경 내역</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>수정</InDiv>
                         </Div>
                         <Div onClick={() => history.push(`/PropertyTourSetting/${value.prd_identity_id}`)}>
-                          <Link to={`/PropertyTourSetting/${value.prd_identity_id}`}  className={["data_link", "linkToDiv"]}/>
+                          <Link to={`/PropertyTourSetting/${value.prd_identity_id}`}  className="data_link linkToDiv"/>
                           <InDiv>물건투어예약셋팅</InDiv>
                         </Div>
                         <Div>
-                          <div className={["data_link", "linkToDiv"]}/>
+                          <div className="data_link linkToDiv"/>
                           <InDiv>삭제</InDiv>
                         </Div>
                         </InMenu>
