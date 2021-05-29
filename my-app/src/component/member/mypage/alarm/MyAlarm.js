@@ -75,19 +75,7 @@ export default function Like({setFilter,value,type}) {
                 )
               }
               </Tab>
-
-              <Tab label="전속매물 공급" className="count_num">
-              <ItemTopInfo/>
-              {
-                  AlarmListItem.map((value) => {
-                    return(
-                      <ItemTabList value={value}/>
-                    )
-                  }
-                )
-              }
-              </Tab>
-
+{/*
               <Tab label="분양 수요">
               <ItemTopInfo/>
               {
@@ -99,7 +87,18 @@ export default function Like({setFilter,value,type}) {
                 )
               }
               </Tab>
-
+*/} 
+              <Tab label="전속매물 공급" className="count_num">
+              <ItemTopInfo/>
+              {
+                  AlarmListItem.map((value) => {
+                    return(
+                      <ItemTabList value={value}/>
+                    )
+                  }
+                )
+              }
+              </Tab>             
 {/*
               <Tab label="분양 공급">
               <ItemTopInfo/>

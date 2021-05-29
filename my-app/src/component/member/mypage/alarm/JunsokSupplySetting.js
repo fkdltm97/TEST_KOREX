@@ -38,28 +38,6 @@ export default function ItemTabList({value}) {
                   전송 시간을 맞춤설정하려면 탭하세요.
                   </Desc>
                 </Checkbox>
-                <Checkbox>
-                  <Input type="checkbox" id="check2" defaultChecked/>
-                  <Label for="check2">
-                    <Span/>
-                    알림케이스
-                  </Label>
-                </Checkbox>
-                <Checkbox>
-                  <Input type="checkbox" id="check3" defaultChecked/>
-                  <Label for="check3">
-                    <Span/>
-                    알림케이스
-                  </Label>
-                </Checkbox>
-                <Checkbox>
-                  <Input type="checkbox" id="check4" defaultChecked/>
-                  <Label for="check4">
-                    <Span/>
-                    알림케이스
-                  </Label>
-                </Checkbox>
-            {/*!!!!!!!전문중개사인 경우!!!!!*/}
                 <ItemSetting onClick={() =>{setItem(true)}}>
                   <Txt>물건설정</Txt>
                   <Desc>
@@ -68,23 +46,23 @@ export default function ItemTabList({value}) {
                   <ArrowImg src={Arrow}/>
                 </ItemSetting>
                 <Checkbox>
-                  <Input type="checkbox" id="check4" defaultChecked/>
-                  <Label for="check4">
+                  <Input type="checkbox" id="check2" defaultChecked/>
+                  <Label for="check2">
                     <Span/>
                     물건관리
                   </Label>
                   <Desc>
-                    상태변경에 대한 알림 수신
+                    알림수신: 상태 변경시
                   </Desc>
                 </Checkbox>
                 <Checkbox>
-                  <Input type="checkbox" id="check4" defaultChecked/>
-                  <Label for="check4">
+                  <Input type="checkbox" id="check3" defaultChecked/>
+                  <Label for="check3">
                     <Span/>
                     물건투어예약접수 관리
                   </Label>
                   <Desc>
-                    물건투어예약 접수되면 알림 수신
+                    알림수신: 예약 접수시
                   </Desc>
                 </Checkbox>
               </WrapCheckBox>

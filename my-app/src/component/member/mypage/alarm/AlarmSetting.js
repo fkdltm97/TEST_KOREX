@@ -20,7 +20,10 @@ import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery";
-import JunsokSetting from "./JunsokSetting";
+import JunsokDemandSetting from "./JunsokDemandSetting";
+import BunyangDemandSetting from "./BunyangDemandSetting";
+import JunsokSupplySetting from "./JunsokSupplySetting";
+import BunyangSupplySetting from "./BunyangSupplySetting";
 import CommonSetting from "./CommonSetting";
 
 export default function Like({setFilter,value,type}) {
@@ -46,14 +49,21 @@ export default function Like({setFilter,value,type}) {
 
               */}
               <Tab label="전속매물 수요">
-                <JunsokSetting/>
+                <JunsokDemandSetting/>
               </Tab>
+{/* 
               <Tab label="분양 수요">
-                <JunsokSetting/>
+                <BunyangDemandSetting/>
               </Tab>
+*/}
               <Tab label="전속매물 공급">
-                <JunsokSetting/>
+                <JunsokSupplySetting/>
               </Tab>
+{/* 
+              <Tab label="분양 공급">
+                <BunyangSupplySetting/>
+              </Tab>
+*/}              
               <Tab label="공통">
                 <CommonSetting/>
               </Tab>
