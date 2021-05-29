@@ -64,7 +64,7 @@ export default function Like({setFilter,value,type}) {
               분양프로젝트 팀원 : 분양 공급 I 공통
 
               */}
-              <Tab label="전속매물 수요" className="count_num">
+              <Tab label="전속매물 수요">
               <ItemTopInfo/>
               {
                   AlarmListItem.map((value) => {
@@ -76,7 +76,7 @@ export default function Like({setFilter,value,type}) {
               }
               </Tab>
 {/*
-              <Tab label="분양 수요">
+              <Tab label="분양 수요" >
               <ItemTopInfo/>
               {
                   AlarmListItem.map((value) => {

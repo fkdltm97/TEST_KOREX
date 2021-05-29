@@ -244,7 +244,7 @@ export default function JoinInput({profileedit,profileeditCheck}) {
                 </Li>
                 <Li>
                   <Link to="/MyLike" className="data_link"></Link>
-                  <LinkTxt>내 관심222222</LinkTxt>
+                  <LinkTxt>내 관심</LinkTxt>
                   <Arrow src={RightArrow}/>
                 </Li>
                 <Li>
