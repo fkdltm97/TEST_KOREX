@@ -15,7 +15,6 @@ import MainSideBar from './MainSideBar';
 import SideBarItemDetail from './SideBarItemDetail';
 import SideBarBrokerDetail from './SideBarBrokerDetail';
 import SideBarDanjiDetail from './SideBarDanjiDetail';
-import ClickMarkerClustSidebar from './clickMarkerClustSidebar';
 
 // redux
 import { MapProductEls } from '../../../store/actionCreators';
@@ -27,7 +26,7 @@ import ModalReserve from '../../../component/member/mypage/reservation/ModalRese
 //server process
 import serverController from '../../../server/serverController';
 
-export default function WrapSideBar({ containerRef, setReport,pageIndex,setPageIndex,reserveModal, status, setMap}) {
+export default function WrapSideBar({ containerRef, setReport,pageIndex,setPageIndex,reserveModal, status, setMap, setDangimap_data}) {
   console.log('mainWrpasidebar실행>>>');
   //사이드 내 페이지 이동
   // const [pageIndex , setPageIndex] = useState(0);
@@ -88,7 +87,7 @@ export default function WrapSideBar({ containerRef, setReport,pageIndex,setPageI
       case 0: return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown} containerRef={containerRef}/>;
       case 1: return <SideBarItemDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setReport={setReport} updateReserveModal={updateReserveModals} click_prdidentityid={click_prdidentityid}/>; //물건 상세페이지
       case 2: return <SideBarBrokerDetail updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo}/>;//전문중개사 상세페이지
-      case 3: return <SideBarDanjiDetail click_complexid={click_complexid} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap}/>;// 단지별 실거래 상세페이지
+      case 3: return <SideBarDanjiDetail click_complexid={click_complexid} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} setMap={setMap} setDangimap_data={setDangimap_data}/>;// 단지별 실거래 상세페이지
       default :return <MainSideBar status={status} updatePageIndex={updatePageIndex} historyInfo={historyInfo} setHistoryInfo={setHistoryInfo} updown={updown} setUpDown={setUpDown}/>;
     }
   }
@@ -256,11 +255,12 @@ export default function WrapSideBar({ containerRef, setReport,pageIndex,setPageI
         {
           pageLoader(updateReserveModal)
         }
-        {
+        {/*
           productRedux.clickmarker.isclick? 
           <ClickMarkerClustSidebar setReport={setReport} updown={updown} setUpDown={setUpDown} containerRef={containerRef} status={productRedux.clickmarker.click_type}></ClickMarkerClustSidebar>
           :
           null
+          */
         }
         <ModalCommon modalOption={modalOption}/>
       </Container>

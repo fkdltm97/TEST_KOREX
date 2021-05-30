@@ -23,30 +23,67 @@ import { Mobile, PC } from "../../../../MediaQuery";
 
 SwiperCore.use([Navigation, Pagination]);
 // export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
-export default function SideItemDetail({list, danjiDesc, typeIndex, setTypeIndex}) {
-
+export default function SideItemDetail({ topDesc ,list, areaIndex , setList, danjiDesc, areainfo_structure, typeIndex, setTypeIndex}) {
+    console.log('===>danjdetailview시행:::',list);
     return (
         <Container>
             <DanjiWidthList>
               <TopInfo>
                 <TextLine>
                   <Title>공급/전용면적</Title>
-                  <Data>{danjiDesc.area}</Data>
+                  <Data>{danjiDesc['area']}</Data>
                 </TextLine>
                 <TextLine>
                   <Title>해당타입세대수</Title>
-                  <Data>{danjiDesc.typeNum}</Data>
+                  <Data>{topDesc['danji']}/{danjiDesc['typeNum']}</Data>
                 </TextLine>
               </TopInfo>
               <WrapPriceList>
                 <PriceListTop>
                   <Title>실거래가</Title>
                   <TabBtn>
-                    <Tab active={typeIndex == 0 } onClick={()=>{setTypeIndex(0)}}>전세</Tab>
+                    <Tab active={typeIndex == 0 } onClick={()=>{
+                      setTypeIndex(0);
+                      let transaction_typelist=[];
+                      for(let d=0; d<areainfo_structure[areaIndex]['jeonsetransaction'].length; d++){
+                        transaction_typelist[d]={};
+                        transaction_typelist[d]['contract_ym'] = areainfo_structure[areaIndex]['jeonsetransaction'][d]['contract_ym'];
+                        transaction_typelist[d]['contract_dt'] = areainfo_structure[areaIndex]['jeonsetransaction'][d]['contract_dt'];
+                        transaction_typelist[d]['type'] = areainfo_structure[areaIndex]['jeonsetransaction'][d]['type'];
+                        transaction_typelist[d]['deposit'] = areainfo_structure[areaIndex]['jeonsetransaction'][d]['deposit'];
+                        transaction_typelist[d]['floor'] = areainfo_structure[areaIndex]['jeonsetransaction'][d]['floor'];
+                      }
+                      setList(transaction_typelist);
+                    }}>전세</Tab>
                     <Part/>
-                    <Tab active={typeIndex == 1 } onClick={()=>{setTypeIndex(1)}}>매매</Tab>
+                    <Tab active={typeIndex == 1 } onClick={()=>{
+                      setTypeIndex(1);
+                      let transaction_typelist=[];
+                      for(let d=0; d<areainfo_structure[areaIndex]['mametransaction'].length; d++){
+                        transaction_typelist[d]={};
+                        transaction_typelist[d]['contract_ym'] = areainfo_structure[areaIndex]['mametransaction'][d]['contract_ym'];
+                        transaction_typelist[d]['contract_dt'] = areainfo_structure[areaIndex]['mametransaction'][d]['contract_dt'];
+                        transaction_typelist[d]['type'] = areainfo_structure[areaIndex]['mametransaction'][d]['type'];
+                        transaction_typelist[d]['deposit'] = areainfo_structure[areaIndex]['mametransaction'][d]['deposit'];
+                        transaction_typelist[d]['floor'] = areainfo_structure[areaIndex]['mametransaction'][d]['floor'];
+                      }
+                      setList(transaction_typelist);
+                    }}>매매</Tab>
                     <Part/>
-                    <Tab active={typeIndex == 2 } onClick={()=>{setTypeIndex(2)}}>전월세</Tab>
+                    <Tab active={typeIndex == 2 } onClick={()=>{
+                      setTypeIndex(2);
+                      let transaction_typelist=[];
+                      for(let d=0; d<areainfo_structure[areaIndex]['walsetransaction'].length; d++){
+                        transaction_typelist[d]={};
+                        transaction_typelist[d]['contract_ym'] = areainfo_structure[areaIndex]['walsetransaction'][d]['contract_ym'];
+                        transaction_typelist[d]['contract_dt'] = areainfo_structure[areaIndex]['walsetransaction'][d]['contract_dt'];
+                        transaction_typelist[d]['type'] = areainfo_structure[areaIndex]['walsetransaction'][d]['type'];
+                        transaction_typelist[d]['deposit'] = areainfo_structure[areaIndex]['walsetransaction'][d]['deposit'];
+                        transaction_typelist[d]['floor'] = areainfo_structure[areaIndex]['walsetransaction'][d]['floor'];
+                      }
+
+                      setList(transaction_typelist);
+                    }}>전월세</Tab>
                   </TabBtn>
                 </PriceListTop>
                 <PriceList>
@@ -61,9 +98,9 @@ export default function SideItemDetail({list, danjiDesc, typeIndex, setTypeIndex
                     list.map((value, index) => {
                       return(
                         <DivCont key={index}>
-                          <Divv>{value.date}</Divv>
-                          <Divv>{value.trade}</Divv>
-                          <Divv>{value.price}</Divv>
+                          <Divv>{value.contract_ym}{value.contract_dt}</Divv>
+                          <Divv>{value.type}</Divv>
+                          <Divv>{value.deposit}</Divv>
                           <Divv>{value.floor}</Divv>
                         </DivCont>
                       )

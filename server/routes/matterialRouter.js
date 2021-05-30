@@ -295,7 +295,7 @@ router.post('/main_searchresult_clickDetail',async function(request,response){
 
         console.log('만족 complexss::======================',search_complex_result.length);
         for(let c=0; c<search_complex_result.length; c++){
-            console.log('x,y:',search_complex_result[c].x,search_complex_result[c].y);
+            console.log('x,y,comple_name,approvla_date:',search_complex_result[c].x,search_complex_result[c].y,search_complex_result[c].complex_name,search_complex_result[c].approval_date);
         }
         console.log('만족 products::======================',search_product_result.length);
         for(let c=0; c<search_product_result.length; c++){
@@ -564,13 +564,35 @@ router.post('/complexdetail_infoget',async function(request,response){
     try{
         var complex_id= req_body.complex_id;
         var [complex_detailrow]= await connection.query("select * from complex where complex_id=?",[complex_id]);
+        var [complex_total_sadecnt]= await connection.query("select count(*) as cnt from complex c join buildings bd on c.complex_id=bd.complex_id join floor f on bd.bld_id=f.bld_id join ho_info h on f.flr_id=h.flr_id where c.complex_id=?",[complex_id]);//해당 단지의 총 세대수
 
-        var [actual_transaction_price_complex] = await connection.query("select * from area_info join actual_transaction_price on area_info.area_id=actual_transaction_price.area_id where complex_id=?",[complex_id]);//해당 complexid에 해당하는 정보를 구한다.
+        var [areainfo_rows] = await connection.query("select * from area_info where complex_id=?",[complex_id]);//해당 단지에 관련된 있는 모든 면적들(평,m2)구한다.
+        var areainfo_info_structure=[];//각 면적당 정보로하고 값은 각 면적당 정보를 담고있음.
+        for(let a=0; a<areainfo_rows.length; a++){
+            let area_id_loca= areainfo_rows[a].area_id;
 
-        console.log('compelx_detailrow,actua단지별실거래정보:',complex_detailrow,actual_transaction_price_complex);
+            areainfo_info_structure[a] = {};
+            areainfo_info_structure[a]['key'] = area_id_loca;
+            areainfo_info_structure[a]['info'] = areainfo_rows[a];
+            let [sadecnt_perArea] = await connection.query("select count(*) cnt from ho_info where area_id=?",[area_id_loca]);//해당 면적id를 사용하고있는 임의의 모든 호실정보들..카운트는 각 면적을 사용하는 모든 세대수(호) 면적별 세대수
+            areainfo_info_structure[a]['sadecnt'] = sadecnt_perArea[0]['cnt'];
+
+            let [match_transaction_mametype] = await connection.query("select * from actual_transaction_price where area_id=? and type='매매'",[area_id_loca]);
+            let [match_transaction_walsetype] = await connection.query("select * from actual_transaction_price where area_id=? and type='월세'",[area_id_loca]);
+            let [match_transaction_jeonsetype] = await connection.query("select * from actual_transaction_price where area_id=? and type='전세'",[area_id_loca]);
+            areainfo_info_structure[a]['mametransaction']= match_transaction_mametype;
+            areainfo_info_structure[a]['walsetransaction']=match_transaction_walsetype;
+            areainfo_info_structure[a]['jeonsetransaction']=match_transaction_jeonsetype;
+
+            console.log(match_transaction_mametype,match_transaction_walsetype,match_transaction_jeonsetype)
+        }
+       // var [actual_transaction_price_complex] = await connection.query("select * from area_info join actual_transaction_price on area_info.area_id=actual_transaction_price.area_id where complex_id=?",[complex_id]);//해당 complexid에 해당하는 정보를 구한다.
+        
+        console.log('compelx_detailrow,actua단지별실거래정보 관련 젇보들:',complex_detailrow,complex_total_sadecnt,areainfo_info_structure);
+
         connection.release();
 
-        return response.json({success:true,message:'sucecess queryss', result:[complex_detailrow, actual_transaction_price_complex]});
+        return response.json({success:true,message:'sucecess queryss', result:[complex_detailrow, complex_total_sadecnt, areainfo_info_structure]});
 
     }catch(err){
         console.log('server query error:',err);
@@ -648,18 +670,76 @@ router.post('/clickMarker_match_infoget',async function(request,response){
     var req_body=request.body;
 
     try{       
-        var lat= req_body.lat;
-        var lng= req_body.lng;
+        var lat= req_body.lat.toFixed(12);//소수점 12자리까지.
+        var lng= req_body.lng.toFixed(12);
         var click_type =req_body.click_type;
+        //var id=req_body.id;//company_id,prd_id or prdidnentityid , compellx_id추가검색
+        console.log('request_pos::',lat,lng);
+
+        var match_element_list=[];var match_cnt=0;
 
         if(click_type == 'probroker'){
-            var [match_element_list] = await connection.query("select * from company where y=? and x=?",[lat, lng]);//해당 지점의 전문중개사들 구한다.
+            var [all_probroker_data] = await connection.query("select * from company");
+            for(let a=0; a<all_probroker_data.length; a++){
+                let data_item_x=parseFloat(all_probroker_data[a].x);//나온 소수점의 정밀도 12으로 한다.이리할시 딱 한개가 아니라 그 연관된 자리수의 여러개n개 나올가능성도 있음.
+                let data_item_y=parseFloat(all_probroker_data[a].y);
+                data_item_x= data_item_x.toFixed(12);
+                data_item_y= data_item_y.toFixed(12);
+                if(data_item_x == lng && data_item_y == lat){
+                    //해당 각도좌표축 소수점 12자리로 확장(범위키움)이면서 동시에 해당 comapnyid에 해당하는 전문중개사 구하기.
+                    console.log('match_data:',all_probroker_data[a]);
+                    match_element_list[match_cnt] = all_probroker_data[a];
+                   
+                    match_cnt++;
+                }
+            }
+           // var [match_element_list] = await connection.query("select * from company where y=? and x=? and ",[lat, lng]);//해당 지점의 전문중개사들 구한다.
+           console.log('match_probroker_elementlist:',match_element_list);//해당 범위or값에 해당하는 전문중개사 n개구함.그 해당 값좌표축과 동일했던.녀석들 모두 나올것임. 동일하지 않아도 근사값으로 같았던 녀석들도 나올 가능성 있음. 정확도 증가하는 알고리즘 적용 추후필요.
         }else if(click_type == 'block'){
-            var [match_element_list] = await connection.query("select * from complex where y=? and x=?",[lat, lng]);//해당 지점의 단지들 구한다.
+            var [all_complex_data] = await connection.query("select * from complex");
+            for(let a=0; a<all_complex_data.length; a++){
+                let data_item_x=parseFloat(all_complex_data[a].x);//나온 소수점의 정밀도 12으로 한다.이리할시 딱 한개가 아니라 그 연관된 자리수의 여러개n개 나올가능성도 있음.
+                let data_item_y=parseFloat(all_complex_data[a].y);
+                data_item_x= data_item_x.toFixed(12);
+                data_item_y= data_item_y.toFixed(12);
+
+                if(data_item_x == lng && data_item_y == lat){
+                    //해당 각도좌표축 소수점 12자리로 확장(범위키움)이면서 동시에 해당 comapnyid에 해당하는 전문중개사 구하기.
+                    console.log('match_data:',all_complex_data[a]);
+                    match_element_list[match_cnt] = all_complex_data[a];
+                   
+                    match_cnt++;
+                }
+            }
+
+           // var [match_element_list] = await connection.query("select * from complex where y=? and x=?",[lat, lng]);//해당 지점의 단지들 구한다.
+           console.log('match_complex_elementlist:',match_element_list);//해당 범위or값에 해당하는 전문중개사 n개구함.그 해당 값좌표축과 동일했던.녀석들 모두 나올것임.
+
         }else if(click_type == 'exclusive'){
-            var [match_element_list] = await connection.query("select * from product where prd_latitude=? and prd_longitude=?",[lat, lng]);//해당 지점의 전속매물들 구한다.
+            var [all_exclusive_data] = await connection.query("select * from product");
+            for(let a=0; a<all_exclusive_data.length; a++){
+                let data_item_x=parseFloat(all_exclusive_data[a].prd_longitude);//나온 소수점의 정밀도 12으로 한다.이리할시 딱 한개가 아니라 그 연관된 자리수의 여러개n개 나올가능성도 있음.
+                let data_item_y=parseFloat(all_exclusive_data[a].prd_latitude);
+                data_item_x= data_item_x.toFixed(12);
+                data_item_y= data_item_y.toFixed(12);
+
+                //console.log('dataitemx,y:',data_item_x,data_item_y,typeof(data_item_x));
+                if(data_item_x == lng && data_item_y == lat){
+                    //해당 각도좌표축 소수점 12자리로 확장(범위키움)이면서 동시에 해당 comapnyid에 해당하는 전문중개사 구하기.
+                    console.log('match_data:',all_exclusive_data[a]);
+                    match_element_list[match_cnt] = all_exclusive_data[a];
+                   
+                    match_cnt++;
+                   
+                }
+            }
+
+           // var [match_element_list] = await connection.query("select * from product where y=? and x=?",[lat, lng]);//해당 지점의 단지들 구한다.
+           //console.log('match_exclusive_elementlist:',match_element_list);//해당 범위or값에 해당하는 전문중개사 n개구함.그 해당 값좌표축과 동일했던.녀석들 모두 나올것임.
         }
+
         console.log('검색타입 및 해당 테이블 검색결과',click_type, match_element_list);
+        connection.release();
 
         return response.json({success:true,message:'sucecess queryss',result: match_element_list });
 
@@ -685,7 +765,7 @@ router.get('/dummy_insert_test',async function(request,response){
             
             console.log('insert_query_res::',insert_query_res);
         }
-
+        connection.release();
         return response.status(403).json({success:false, message:'success!!',result:[]});
     }catch(err){
         console.log('server query error:',err);
@@ -708,7 +788,7 @@ router.get('/dummy_insert_testproduct',async function(request,response){
 
             console.log('insert_query_rows::',insert_query_rows);
         }
-
+        connection.release();
         return response.json({success:false, message:'success!!',result:[]});
     }catch(err){
         console.log('server query error:',err);
@@ -734,7 +814,7 @@ router.get('/dummy_update_prdtype_randomly',async function(request,response){
     
             console.log('update randomqueryss::',random_query);
         }
-
+        connection.release();
         return response.json({success:false, message:'success!!',result:[]});
     }catch(err){
         console.log('server query error:',err);

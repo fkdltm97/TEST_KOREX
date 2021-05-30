@@ -52,6 +52,10 @@ export default function PcSearchMain({activeText}) {
       MapProductEls.updateBlock({block : searchdetail_originresult.match_matterial[2]});
       MapProductEls.updateExclusive({exclusive : searchdetail_originresult.match_matterial[0]});
       MapProductEls.updateProbroker({probroker : searchdetail_originresult.match_matterial[1]});
+
+      MapProductEls.updateBlock_zido({block_zido : searchdetail_originresult.match_matterial[2]});
+      MapProductEls.updateExclusive_zido({exclusive_zido : searchdetail_originresult.match_matterial[0]});
+      MapProductEls.updateProbroker_zido({probroker_zido : searchdetail_originresult.match_matterial[1]});
     }
 
     history.push(`/Map/${activeText}`);//저기로 이동을 해버리면, 저기 페이지 요소가 실행되겠지.

@@ -35,9 +35,9 @@ export default function MainHeader({containerRef}) {
 
     // Init Status
     useEffect(() => {
-      setTimeout(() => {
+      /*setTimeout(() => {
         console.clear();
-      }, 500)
+      }, 500)*/
       MapRight.updateExclusive({  isExclusive: {is:true} });
       MapRight.updateProbroker({  isProbroker: {is:true} });
       MapRight.updateBlock({  isBlock: {is:false} });

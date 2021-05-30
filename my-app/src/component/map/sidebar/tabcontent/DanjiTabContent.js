@@ -40,7 +40,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo,setMap}) 
               <Link onClick={() => onClickEl(value) } className="data_link"></Link>
               <TopBox>
                 <Title>{value.complex_name}</Title>
-                <Address>{value.addr_jibun}({value.addr_road})</Address>
+                <Address>{value.addr_jibun}({value.addr_road}) pos: <small>{value.x}/{value.y}</small></Address>
                 <DanjiInfo>
                   <Date>{value.approval_date}</Date>
                   <Price>동수:{value.dong_cnt}</Price>

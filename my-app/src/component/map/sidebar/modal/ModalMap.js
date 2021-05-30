@@ -23,7 +23,7 @@ import ArrowDown from '../../../../img/member/arrow_down.png';
 import KakaoMapSide from '../../map/KakaoMapSide';
 
 //지도 모달
-export default function ModalMapReserve({ map, setMap }) {
+export default function ModalMapReserve({ dangimap_data,map, setMap }) {
   if(map == false)
     return null;
     return (
@@ -38,7 +38,7 @@ export default function ModalMapReserve({ map, setMap }) {
               </MapCloseBtn>
               <ModalMapTitle>단지위치</ModalMapTitle>
               <ModalMapAddress>
-                <AddressTxt>서울시 구로구 신도림동 131-13 103동11</AddressTxt>
+                <AddressTxt>{dangimap_data.roadaddress}</AddressTxt>
                 <ChangeAddress>
                   <div className="linkToDiv">
                     <ChangeImg src={Change}/>
@@ -47,7 +47,7 @@ export default function ModalMapReserve({ map, setMap }) {
                 </ChangeAddress>
               </ModalMapAddress>
               <ShowMap>
-                <KakaoMapSide cutomImg={Marker} centerLat={"37.496463"} centerLng={"127.029358"} markerLat={"37.496463"} markerLng={"127.029358"}/>
+                <KakaoMapSide cutomImg={Marker} centerLat={dangimap_data.y} centerLng={dangimap_data.x} markerLat={dangimap_data.y} markerLng={dangimap_data.x}/>
               </ShowMap>
             </ModalMap>
           </WrapModalMap>

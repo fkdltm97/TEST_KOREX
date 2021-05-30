@@ -52,7 +52,8 @@ export default function NoticeDetail({status}) {
   const [report,setReport] = useState(false);
   //단지위치 모달
   const [map,setMap] = useState(false);
-  
+  const [dangimap_data,setDangimap_data] = useState({});
+
   const [modalOption,setModalOption] = useState({show : false,setShow:null,link:"",title:"",submit:{},cancle:{},confirm:{},confirmgreen:{},confirmgreennone:{},content:{}});
   
   
@@ -86,9 +87,9 @@ export default function NoticeDetail({status}) {
       <Bunyang bunyang={bunyang} openBunyang={openBunyang} setLive={setLive} setDetailImg={setDetailImg} setCal={setCal}/>
       <MapHeader  openBunyang={openBunyang}/>
       <Container>
-          <ModalMap map={map} setMap={setMap}/>
+          <ModalMap dangimap_data={dangimap_data} map={map} setMap={setMap}/>
           <ReportModal report={report} setReport={setReport}/>
-          <MainMap setReport={setReport} setMap={setMap} status={status}  reserveModal={reserveModal}/>
+          <MainMap setReport={setReport} setDangimap_data={setDangimap_data} setMap={setMap} status={status}  reserveModal={reserveModal}/>
           <ModalCommon modalOption={modalOption}/>
       </Container>
     </>

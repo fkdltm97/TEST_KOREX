@@ -25,9 +25,15 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
     if(containerRef){
       containerRef.current.scrollTop=0;
     }
-    MapProductEls.updateClickExc({ clickExc : value.prd_identity_id });
-    // updatePageIndex(1,value.item_id);
-    updatePageIndex(1,value.prd_identity_id);
+    if(value.prd_name == '더미매물'){
+      MapProductEls.updateClickExc({ clickExc : { id: value.prd_id , type:'dummy'}});
+      // updatePageIndex(1,value.item_id);
+      updatePageIndex(1,value.prd_id);
+    }else{
+      MapProductEls.updateClickExc({ clickExc : { id: value.prd_identity_id , type:'standard'}});
+      // updatePageIndex(1,value.item_id);
+      updatePageIndex(1,value.prd_identity_id);
+    }
     
     setHistoryInfo(e => {e.prevIndex.push(index);
     return JSON.parse(JSON.stringify(e));});
@@ -46,6 +52,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
                 {
                  //value.isExc && 
                   <TopBox>
+                    
                     <ColorGreen>전속매물</ColorGreen>
                     <WrapDate>
                       <StartDate>20.05.05</StartDate>
@@ -66,7 +73,7 @@ export default function ItemTabContent({updatePageIndex, setHistoryInfo,setRepor
                     <Area>{value.supply_space}</Area>
                     <Expenses>{value.managecost}만원</Expenses>
                   </Option>
-                  <Desc>{value.maemul_description}</Desc>
+                  <Desc><small>{value.prd_longitude}/{value.prd_latitude}</small>{value.maemul_description}</Desc>
                 </ItemInfo>
               </LeftContent>
               <RightContent>
@@ -201,9 +208,10 @@ const Expenses = styled(Floor)`
 `
 const Desc = styled(Expenses)`
   width:196px;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  overflow:hidden;
+  //white-space:nowrap;
+  //text-overflow:ellipsis;
+
+  //overflow:hidden;
   @media ${(props) => props.theme.mobile} {
     width:calc(100vw*(196/428));
   }

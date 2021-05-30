@@ -55,6 +55,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
   //해당 매물 아이템에 대한 투어예약셋팅 정보로써 고유한 state로써 취급한다.
   const [except_datelist,setExcept_datelist] = useState([]);//표현에서 제외할 특정날짜리스트
   const [result_usedatalist,setResult_usedatalist] = useState([]);//사용할 표현할 최종데이터리스트 초기값 배열
+  
   const [slideImg, setSlideImg] = useState([]);
   const [isSlide, setIsSlide] = useState(false);
   const [item, setItem] = useState([]);
@@ -72,87 +73,99 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
 
   // **api 아이디값을 서버에 보내서 정보를 받아와야 합니다.
   // 서버에서 받아온 데이터는 각 state의 title과 desc에 넣으면 됩니다.
-  useEffect(() => {
-    // console.log(mapProduct.clickExc); // 선택 아이디 
-    // 슬라이드 이미지
-    setSlideImg([
-      Detail, Detail, Detail
-    ])
-    setIsSlide(true);
-    // 아파트 정보
-    setProduct({
-      number:123456789,
-      startDate:"20.00.00",
-      endDate:"20.00.00",
-      kind:"아파트",
-      address:"자이 109동",
-      type:"전세",
-      price:"12억 5,000",
-      desc:"매물특징 칸입니다. 작은 설명 칸입니다."
-    })
-    // 물건
-    setItem([
-      {title:"해당층/총층", desc:"4/20층"},
-      {title:"공급/전용면적", desc:"60/52.89m²", descM:"18평", ChangeM:ChangeM},
-      {title:"방/욕실 수", desc:"2/1개"},
-      {title:"방향", desc:"방향"},
-      {title:"현관구조", desc:"현관구조"},
-      {title:"난방", desc:"난방"},
-    ])
-    // 거래
-    setDeal([
-      {title:"관리비", desc:"5만원"},
-      {title:"관리비 포함", desc:"전기, 가스, 수도, 인터넷, 티비"},
-      {title:"입주가능일", desc:"2016.05.10"},
-      {title:"계약갱신청구권행사여부 확인", desc:"확인"},
-      {title:"융자금", desc:"00원"},
-      {title:"기보증금/월세", desc:"-"},
-    ])
-    // 옵션
-    setOption([
-      {title:"공간", desc:"발코니"},
-    ])
-    // 단지/건물
-    setDanji([
-      {title:"사용승인일", desc:"2016.05.10"},
-      {title:"총세대수", desc:"300 세대"},
-      {title:"총주차대수", desc:"21대 / 세대당 0.55대 협의주차"},
-    ])
-    // 매물설명
-    setDesc([
-      [
-        "논현동 서울세관 블럭에 위치한 신축 2룸입니다",
-        " 7호선 강남구청역"
-      ],
-      [
-        "건물외관부터 내부관리상태 A급으로 유지중입니다^_^",
-        "고급마감재사용 및 옵션으로 고풍스러운 실내분위기연출",
-        "채광이 좋아 밝고 화사한 분위기로 아주 세련된 투룸입니다",
-        "2룸구조에 침실과 드레스룸으로 꾸며져 있어 수납이 정말 좋습니다",
-      ]
-    ])
-    // 위치
-    setPosition({
-      address:"강남구 논현동 104-5", // 주소
-      roadAddress:"도로명 주소 --", // 도로명 주소
-      lat:"37.496463",  // 마커, 중점좌표
-      lng:"127.029358", // 마커, 중점좌표
-    })
-    // 중개사 정보
-    setBroker({
-      tag_1:"아파트·현대아이리스",
-      tag_2:"상가",
-      tag_3:"사무실",
-      name:"럭키 공인중개사",
-      address:"강남구 논현동 104-5",
-      trade:2,
-      jeonse:7,
-      monthly:9,
-      profile:Profile
-    })
-  }, [])
+  useEffect(async () => {
+    console.log('===>>매물상세페이지 로드 시점 관련 정보 쿼리::',mapProduct.clickExc); // 선택 아이디 
+    //일단 클릭한 prd_idneityid(일반매물)에 대해서 처리, 더미매물(prd_id)에대한 정보 쿼리한다.
+     
+    let send_info = {
+      click_id : mapProduct.clickExc.id,
+      temp_type : mapProduct.clickExc.type
+    }
+    var maemul_detailresult= await serverController.connectFetchController("/api/broker/brokerproduct_detailinfo_get",'POST',JSON.stringify(send_info));
 
-  useEffect( async () => {
+    if(maemul_detailresult){
+      console.log('maemul_detailresult::',maemul_detailresult);
+      
+      var maemul_data=maemul_detailresult.result_data[0];
+      if(maemul_data){
+        // 슬라이드 이미지
+      setSlideImg([
+        Detail, Detail, Detail
+      ])
+      setIsSlide(true);
+      // 아파트 정보
+      setProduct({
+        number:123456789,
+        startDate:"20.00.00",
+        endDate:"20.00.00",
+        kind:maemul_data.p_prd_type,
+        address:/*"자이 109동"*/maemul_data.p_prd_name+' '+maemul_data.p_address_detail,
+        type:maemul_data.prd_sel_type?maemul_data.p_prd_sel_type:'전세',
+        price:maemul_data.p_prd_price,
+        desc:maemul_data.p_maemul_description
+      })
+      // 물건
+      setItem([
+        {title:"해당층/총층", desc:maemul_data.grd_floor+maemul_data.udgrd_floor},
+        {title:"공급/전용면적", desc:/*"60/52.89m²"*/maemul_data.p_supply_space+'/'+maemul_data.p_exculsive_space, descM:"18평", ChangeM:ChangeM},
+        {title:"방/욕실 수", desc:maemul_data.room_count+'/'+maemul_data.bathroom_count},
+        {title:"방향", desc:maemul_data.direction},
+        {title:"현관구조", desc:maemul_data.entrance},
+        {title:"난방", desc:maemul_data.heat_method_type+'/'+maemul_data.heat_fuel_type},
+      ])
+      // 거래
+      setDeal([
+        {title:"관리비", desc:maemul_data.managecost},
+        {title:"관리비 포함", desc:maemul_data.managecostincludes},
+        {title:"입주가능일", desc:maemul_data.ibju_isinstant!=0?maemul_data.ibju_specifydate:'즉시가능'},
+        {title:"계약갱신청구권행사여부 확인", desc:maemul_data.isconractrenewal?'확인':'미확인'},
+        {title:"융자금", desc:maemul_data.loanprice+'만원'},
+        {title:"기보증금/월세", desc:maemul_data.month_base_guaranteeprice+'만원'},
+      ])
+      // 옵션
+      setOption([
+        {title:"공간", desc:maemul_data.p_prd_type=='아파트'?maemul_data.apartspaceoption:maemul_data.spaceoption},
+      ])
+      // 단지/건물
+      setDanji([
+        {title:"사용승인일", desc:maemul_data.approval_date},
+        {title:"총세대수", desc:maemul_data.household_cnt},
+        {title:"총주차대수", desc:maemul_data.total_parking_cnt},
+      ])
+      // 매물설명
+      setDesc([
+        [
+          maemul_data.maemul_description
+        ],
+        [
+          maemul_data.maemul_descriptiondetail
+        ]
+      ])
+      // 위치
+      setPosition({
+        address:maemul_data.p_addressjibun, // 주소
+        roadAddress:maemul_data.p_addressroad, // 도로명 주소
+        lat:maemul_data.p_prd_latitude,  // 마커, 중점좌표
+        lng:maemul_data.p_prd_longitude, // 마커, 중점좌표
+      })
+      // 중개사 정보
+      setBroker({
+        tag_1:"아파트·현대아이리스",
+        tag_2:"상가",
+        tag_3:"사무실",
+        name:maemul_data.biz_name,
+        address:maemul_data.cp_addr_road,
+        trade:2,
+        jeonse:7,
+        monthly:9,
+        profile:Profile
+      });
+      }
+      
+    }
+    
+
+    //매물>투어예약셋팅 날짜리스트 정보쿼리.
     let body_info = {
       id : click_prdidentityid
     }
@@ -304,8 +317,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
     }else{
 
     }
-    
-  },[]);
+  }, [])
 
   // 리스트 토글
   const onCLickBox = (index) => {

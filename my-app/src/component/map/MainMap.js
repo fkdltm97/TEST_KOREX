@@ -15,7 +15,7 @@ import WrapMap from './map/WrapMap';
 import MainWrapSideBar from './sidebar/MainWrapSideBar';
 import DanjiWrapSideBar from './sidebar/DanjiWrapSideBar';
 
-export default function MainHeader({openBunyang, rank, setReport,reserveModal,setMap, status}){
+export default function MainHeader({openBunyang, rank, setReport,reserveModal,setMap,setDangimap_data, status}){
     //console.log('mainMap실행>>');
     const [pageIndex , setPageIndex] = useState(0);
 
@@ -34,7 +34,7 @@ export default function MainHeader({openBunyang, rank, setReport,reserveModal,se
             null
           }
         </Mobile>
-        <MainWrapSideBar containerRef={containerRef} setMap={setMap} status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
+        <MainWrapSideBar containerRef={containerRef} setDangimap_data={setDangimap_data} setMap={setMap} status={status} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex} reserveModal={reserveModal}/>{/*메인 사이드바 컴포넌트*/}
         {/*<DanjiWrapSideBar setMap={setMap} setReport={setReport} pageIndex={pageIndex} setPageIndex={setPageIndex}/>*/}{/*단지 사이드바 컴포넌트*/}
       </Container>
     );

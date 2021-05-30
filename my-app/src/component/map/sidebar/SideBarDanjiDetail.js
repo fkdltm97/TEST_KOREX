@@ -33,7 +33,7 @@ import serverController from '../../../server/serverController';
 
 SwiperCore.use([Navigation, Pagination]);
 
-export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo, map,setMap}) {
+export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo, map,setMap,setDangimap_data}) {
 
   const [topDesc, setTopDesc] = useState({
     title:"",
@@ -48,6 +48,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
   const [danjiDesc, setDanjiDesc] = useState([]); // 면적, 세대수
   const [typeIndex, setTypeIndex] = useState(0); // 전세, 매매, 월세
   const [isAddress, setIsAddress] = useState(true); // 삳단 주소 <-> 도로명주소
+  const [areainfo_structure,setAreainfo_structure] = useState([]);
   const [isWidth, setIsWidth] = useState(true); // 면적 단위 평 <-> m²
 
   const productRedux = useSelector(state=>{ return state.mapProductEls});
@@ -64,88 +65,61 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
      if(res_result){
         console.log('==>>>sidebardandetail페잊 ㅣ실행되며 로드시점 서버에 요청, 해당 단지관련 모드넞ㅇ보:',res_result);
 
-        var complex_data= res_result.result[0][0];//어차피 하나이기에.
-        var transaction_actual_price_data=res_result.result[1];//배열.
+        if(res_result.result){
+          var complex_data= res_result.result[0][0];//어차피 하나이기에.
+          var complex_total_sadecnt = res_result.result[1][0];//해당 단지에 대한 총 세대수
+          var areainfo_info_structure = res_result.result[2];          
+        }
      }
     // 면적 단위 
-    setArea([
-      {
-        w_id : 0, // 아이디
-        width:"92", //  m² 면적 
-        widthPyeong:"35", // 평수 면적
-      },
-      {
-        w_id : 1,
-        width:"99",
-        widthPyeong:"40",
-      },
-      {
-        w_id : 2,
-        width:"122",
-        widthPyeong:"45",
-      },
-      {
-        w_id : 3,
-        width:"126",
-        widthPyeong:"50",
-      },
-      {
-        w_id : 4,
-        width:"167",
-        widthPyeong:"55",
-      },
-      {
-        w_id : 5,
-        width:"174",
-        widthPyeong:"60",
-      },
-      {
-        w_id : 6,
-        width:"180",
-        widthPyeong:"65",
-      }
-    ]);
-    // 계약일, 거래유형, 거래금액, 층수 정보
-    setList([
-      {
-        t_id : 0,
-        date:"21.02.01",
-        trade:"매매",
-        price:"18억,2000",
-        floor:"7층"
-      },
-      {
-        t_id : 1,
-        date:"21.02.01",
-        trade:"매매",
-        price:"18억,2000",
-        floor:"7층"
-      },
-    ]);
+    /*setArea(  
+      areainfo_array    
+    );*/
+    // 계약일, 거래유형, 거래금액, 층수 정보 각 면적별 정보리스트저장. 
+    setAreainfo_structure(areainfo_info_structure);
+    setAreaIndex(0);
     // 상단 설명
     setTopDesc({
+      x:complex_data.x,
+      y:complex_data.y,
       title:complex_data.complex_name, // 제목
       acceptDate:complex_data.approval_date, // 날짜
-      danji:150, // 세대 수
+      danji:complex_total_sadecnt['cnt'], // 세대 수
       address:complex_data.addr_jibun, // 주소
       roadAddress:complex_data.addr_road // 도로명 주소
     })
     // 단지 내 면적별 정보 정보
     setDanjiDesc({
-      area:"60/52.89m²", // 공급/전용면적
-      typeNum:"2/1개", // 해당타입세대수
-    })
+      area: parseFloat(areainfo_info_structure[0]['info']['supply_area']).toFixed(3)+'/'+parseFloat(areainfo_info_structure[0]['info']['exclusive_area']).toFixed(3), // 공급/전용면적
+      typeNum:areainfo_info_structure[0]['sadecnt'], // 해당타입세대수
+    });
+    //단지 내 면적별 거래 정보 초기값 전세유형, 유형별로매번 바뀔수있음.
+    //기본값은 전세거래타입 결과배열의 각 정보들 전세거래정보들 불러온다.
+    var default_jeonse_list=[];
+    for(let d=0; d<areainfo_info_structure[0]['jeonsetransaction'].length; d++){
+      default_jeonse_list[d]={};
+      default_jeonse_list[d]['contract_ym'] = areainfo_info_structure[0]['jeonsetransaction'][d]['contract_ym'];
+      default_jeonse_list[d]['contract_dt'] = areainfo_info_structure[0]['jeonsetransaction'][d]['contract_dt'];
+      default_jeonse_list[d]['type'] = areainfo_info_structure[0]['jeonsetransaction'][d]['type'];
+      default_jeonse_list[d]['deposit'] = areainfo_info_structure[0]['jeonsetransaction'][d]['deposit'];
+      default_jeonse_list[d]['floor'] = areainfo_info_structure[0]['jeonsetransaction'][d]['floor'];
+    }
+    setList(
+      //계약일, 거래유형, 거래금액, 층수 정보
+      //conract_ym, contract_dt, type, deposit, floor
+      default_jeonse_list
+    );
     setIsArea(true);
   }, []);
 
   
   // **api  서버에 정보를 보내 해달 정보를 받아온다.
   // 처음에 정보들을 다 받아와도 괜찮을 것 같습니다.
-  useEffect(() => {
+  //useEffect(() => {
     // console.log(areaIndex); // 면적별 정보의 id 값
     // console.log(typeIndex); // 0 전세, 1 매매, 2 전월세
     // setList([]);
-  }, [areaIndex, typeIndex])
+  //}, [areaIndex, typeIndex])
 
   return (
     <Container>
@@ -156,7 +130,7 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           <Danji>{topDesc.danji}세대</Danji>
         </FirstLine>
         <SecondLine>
-          <Address onClick={()=>{setMap(true)}}>{isAddress?topDesc.address:topDesc.roadAddress}</Address>
+          <Address onClick={()=>{setMap(true); setDangimap_data({address:topDesc.address, roadaddress:topDesc.roadAddress, x: topDesc.x, y:topDesc.y})}}>{isAddress?topDesc.address:topDesc.roadAddress}</Address>
           <ChangeAddress onClick={() => setIsAddress(!isAddress)}>
             <ChangeImg src={Change}/>
             <Span>도로명</Span>
@@ -172,8 +146,8 @@ export default function SideItemDetail({openBunyang, rank, updatePageIndex,histo
           </ChangeM2>
         </DanjiTitle>
         {/*컴포넌트! map > sidebar > tabcontent*/}
-        <DanjiDetailTabContent isArea={isArea} area={area} areaIndex={areaIndex} setAreaIndex={setAreaIndex} isWidth={isWidth}/>
-        <DanjiDetailView list={list} danjiDesc={danjiDesc} typeIndex={typeIndex} setTypeIndex={setTypeIndex}/>
+        <DanjiDetailTabContent setDanjiDesc={setDanjiDesc} setList={setList} areainfo_structure={areainfo_structure} isArea={isArea} areaIndex={areaIndex} setAreaIndex={setAreaIndex}setTypeIndex={setTypeIndex} isWidth={isWidth}/>
+        <DanjiDetailView topDesc={topDesc} list={list} areaIndex={areaIndex} setList={setList} danjiDesc={danjiDesc} areainfo_structure={areainfo_structure} typeIndex={typeIndex} setTypeIndex={setTypeIndex}/>
       </DanjiInfo>
     </Container>
   );

@@ -73,7 +73,8 @@ export default function MainHeader({openBunyang, rank}) {
 
     //해당 검색어 일단은 도로명주소에 대해서 검색시에 해당 위치x,y 를 center로 해서 그 위치 기준 주변 불러온다.
     console.log('window.innerWIdht,height:',window.innerWidth,window.innerHeight);
-    if(currentTab=='' || search_address['roadaddress_val']==''){
+    if(currentTab=='' || search_address=='' || search_address['roadaddress_val']==''){
+      alert('도로명 주소를 입력해주세요!');
       return; //아무것도 하지 않는다.
     }
     let body_info = {
@@ -97,6 +98,10 @@ export default function MainHeader({openBunyang, rank}) {
       MapProductEls.updateBlock({block: searchdetail_originresult.match_matterial[2]});
       MapProductEls.updateExclusive({exclusive: searchdetail_originresult.match_matterial[0]});
       MapProductEls.updateProbroker({probroker: searchdetail_originresult.match_matterial[1]});
+
+      MapProductEls.updateBlock_zido({block_zido: searchdetail_originresult.match_matterial[2]});
+      MapProductEls.updateExclusive_zido({exclusive_zido: searchdetail_originresult.match_matterial[0]});
+      MapProductEls.updateProbroker_zido({probroker_zido: searchdetail_originresult.match_matterial[1]});
 
       mapHeader.updateorigin({origins : searchdetail_originresult.result_origin});
       mapHeader.updateprdtype({prdtypes : currentTab});

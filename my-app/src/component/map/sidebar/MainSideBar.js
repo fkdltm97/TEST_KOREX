@@ -119,7 +119,7 @@ export default function MainHeader({updatePageIndex,historyInfo,setHistoryInfo,s
             </Mobile>
             <Span className="tab ApartTab" active={activeIndex == 0} onClick={()=>{setActiveIndex(0);setHistoryInfo(e => {e.prevTab = 0; return JSON.parse(JSON.stringify(e));});}}>{typeStatus}{productRedux.exclusive.length}</Span>
             <Part/>
-            <Span2 className="tab ApartTab" active={activeIndex == 1} onClick={()=>{setActiveIndex(2);setHistoryInfo(e => {e.prevTab = 2; return JSON.parse(JSON.stringify(e));});}}>아파트 단지 <Orange active={activeIndex == 1} onClick={()=>{setActiveIndex(1);}}>{productRedux.block.length}</Orange></Span2>
+            <Span2 className="tab ApartTab" active={activeIndex == 2} onClick={()=>{setActiveIndex(2);setHistoryInfo(e => {e.prevTab = 2; return JSON.parse(JSON.stringify(e));});}}>아파트 단지 <Orange active={activeIndex == 2} onClick={()=>{setActiveIndex(2);}}>{productRedux.block.length}</Orange></Span2>
           </WrapTabBtn>
         )
       }

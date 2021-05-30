@@ -53,12 +53,17 @@
 
 .markerWrap{
     background-image: url('../../../img/map/blockMarker.png');
-    width: 66px;
-    height: 69px;
-    color: #fff;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    font-size: 14px;
-    padding-top: 6px;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+    width: 120px;/*66/69*/
+    height: calc(120px * (69/66));
+    
+    display: block;
+   
+    padding-top:20%;
+}
+.markerWrap p{
+    font-size: 14px; display:block; text-align:center; white-space:normal;
+    height:auto; line-height:20px; color: #fff; width:90%; margin:0 auto 
 }

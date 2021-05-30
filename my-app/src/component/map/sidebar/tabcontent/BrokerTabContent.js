@@ -43,6 +43,7 @@ export default function ItemTabContent({updatePageIndex,setHistoryInfo, containe
                       <Tag>아파트.대림 / 오피스텔.천호</Tag>
                       <Tag>상가</Tag>
                       <Tag>사무실</Tag>
+                      <Tag><small>{value.x}/{value.y}</small></Tag>
                     </TopBox>
                     <BottomBox>
                       <LeftContent>

@@ -357,6 +357,41 @@ router.post('/brokerRequest_productview',async function(request,response){
         return response.status(403).json({success:false, message:'server query full problem error!'});
     }
 });
+//지도페이지 매물리스트->매물상세 조회시에.
+router.post('/brokerproduct_detailinfo_get',async function(request,response){
+    console.log('=============>>>request.body:',request.body);
+
+    var req_body=request.body;
+
+    const connection=await pool.getConnection(async conn=> conn);
+    
+    //try catch문 mysql 구문 실행구조.
+    try{
+        var id = req_body.click_id;
+        var type = req_body.temp_type;
+
+        if(type == 'dummy'){
+            //그 특정 더미매물 하나에 대한 정보를 보여준다.
+            var [brokerRequest_product_query_row]=await connection.query("select * from product where prd_id=? and prd_name='더미매물'",[id]);
+
+        }else if(type == 'standard'){
+            var [brokerRequest_product_query_row]=await connection.query("select p.company_id as p_company_id,p.prd_name as p_prd_name, p.prd_img as p_prd_img, p.prd_imgs as p_prd_imgs , p.prd_type as p_prd_type, p.prd_sel_type as p_prd_sel_type, p.prd_price p_prd_price , p.prd_month_price as p_prd_month_price,p.prd_latitude as p_prd_latitude,p.prd_longitude as p_prd_longitude, p.prd_exculsive_start_date as exculsive_start_date, p.prd_exculsive_end_date as exculsive_end_date, p.address_detail as p_address_detail, p.supply_space as p_supply_space, p.exculsive_space as p_exculsive_space, p.direction as p_direction, p.bathroom_count as bathroom_count, p.room_count as room_count, p.heat_method_type as heat_method_type, p.heat_fuel_type as heat_fuel_type, p.managecost as managecost, p.ibju_isinstant as ibju_isinstant, p.ibju_specifydate as ibju_specifydate, p.entrance as entrance,p.apartspaceoption as apartspaceoption,p.spaceoption as spaceoption, p.iscontractrenewal as iscontractrenewal, p.loanprice as loanprice, p.month_base_guaranteeprice as month_base_guaranteeprice, p.maemul_description as maemul_description, p.maemul_descriptiondetail as maemul_descriptiondetail,p.managecostincludes as managecostincludes, p.bld_id as bld_id, p.ho_id as ho_id, p.addressjibun as p_addressjibun, p.addressroad as p_addressroad , bd.bld_id as bd_bld_id, bd.dong_name as bld_dong_name, bd.grd_floor as grd_floor, bd.udgrd_floor as udgrd_floor, c.complex_name as complex_name, c.dong_cnt as dong_cnt, c.addr_jibun as c_addr_jibun, c.addr_road as c_addr_road, c.approval_date as approval_date, c.total_parking_cnt as total_parking_cnt,c.household_cnt as household_cnt, cp.mng_no as mng_no, cp.biz_name as biz_name, cp.addr_jibun as cp_addr_jibun, cp.addr_road as cp_addr_road, cp.x as cp_x, cp.y as cp_y from product p join buildings bd on p.bld_id=bd.bld_id join complex c on bd.complex_id=c.complex_id join company cp on p.company_id=cp.company_id where prd_identity_id=? order by prd_id desc",[id]);//해당 그룹prdid에 대해 서 수정된 내역중가장 최근것 보여줘야한다.(가장 최근 매물수정된 내역)
+            
+        }
+        
+        console.log('brokerReuqest speicfy target query row:',brokerRequest_product_query_row);    
+        connection.release();
+
+        return response.json({success:true, message:'product server query success!!', result_data: brokerRequest_product_query_row});      
+        
+    }catch(err){
+        console.log('server query error',err);
+        connection.release();
+
+        return response.status(403).json({success:false, message:'server query full problem error!'});
+    }
+});
+
 //중개사가 중개의뢰온 매물상품에 대해서 확인하고 수정할시에 실행.
 router.post('/brokerRequest_productconfirmupdate',async function(request,response){
     console.log('=============>>>request.body:',request.body);

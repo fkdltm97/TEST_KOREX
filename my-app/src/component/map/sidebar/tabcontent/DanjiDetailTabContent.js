@@ -24,8 +24,8 @@ import { Mobile, PC } from "../../../../MediaQuery";
 
 SwiperCore.use([Navigation, Pagination]);
 // export default function SideItemDetail({openBunyang, rank, updatePageIndex,historyInfo,setMap}) {
-export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex, isWidth}) {
-
+export default function SideItemDetail({setDanjiDesc, setList, areainfo_structure,isArea, areaIndex, setAreaIndex, setTypeIndex,isWidth}) {
+    
     return (
         <Container>
             <DanjiWidthList>
@@ -40,15 +40,40 @@ export default function SideItemDetail({area, isArea, areaIndex, setAreaIndex, i
                           onSlideChange={() => console.log('slide change')}
                           onSwiper={(swiper) => console.log(swiper)}>
                           {
-                            area.map((value, index) => {
+
+                            areainfo_structure.map((value,index)=>{
+                              let key_val=value['key'];
+                              let information= value['info'];
                               return(
                                 <SwiperSlide key={index}>
-                                  <Width active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}>{isWidth?`${value.width}m²`:`${value.widthPyeong}평`}</Width>
-                                  <Line active={areaIndex == value.w_id} onClick={()=>{setAreaIndex(value.w_id)}}/>
+                                  <Width active={areaIndex == index} onClick={()=>{
+                                    setAreaIndex(index);
+                                    setDanjiDesc({
+                                      area : parseFloat(areainfo_structure[index]['info']['supply_area']).toFixed(3)+'/'+parseFloat(areainfo_structure[index]['info']['exclusive_area']).toFixed(3),
+                                      typeNum: areainfo_structure[index]['sadecnt']
+                                    });
+
+                                    var transaction_typelist=[];
+                                    for(let d=0; d<areainfo_structure[index]['jeonsetransaction'].length; d++){
+                                      transaction_typelist[d]={};
+                                      transaction_typelist[d]['contract_ym'] = areainfo_structure[index]['jeonsetransaction'][d]['contract_ym'];
+                                      transaction_typelist[d]['contract_dt'] = areainfo_structure[index]['jeonsetransaction'][d]['contract_dt'];
+                                      transaction_typelist[d]['type'] = areainfo_structure[index]['jeonsetransaction'][d]['type'];
+                                      transaction_typelist[d]['deposit'] = areainfo_structure[index]['jeonsetransaction'][d]['deposit'];
+                                      transaction_typelist[d]['floor'] = areainfo_structure[index]['jeonsetransaction'][d]['floor'];
+                                    }
+                                    setList(
+            
+                                      transaction_typelist
+                                    );
+                                    setTypeIndex(0);//0:전세, 1:매매,2:월세 그 typeindex샅개밧에 따라서 디테일뷰처리펭지에서 보여주는 거래타입을 달리한다.
+                                    
+                                  }}>{isWidth?`${parseFloat(information['exclusive_area']).toFixed(0)+'('+index+')'}m²`:`${parseFloat(information['exclusive_area']).toFixed(0)}평`}</Width>
+                                  <Line active={areaIndex == index} onClick={()=>{setAreaIndex(index)}}/>
                                 </SwiperSlide>
-                              )
-                            })
-                          }
+                              )     
+                          })
+                         }
                         </Swiper>
                       }
               </SwiperBennerWrap>
