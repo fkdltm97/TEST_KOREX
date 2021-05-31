@@ -92,6 +92,13 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
 
 
   const [active,setActive] = useState(false);
+  const LikeBtnEvent=()=>{
+    if(rightTopData.LikeChecked === true){
+      setRightTopData({...rightTopData ,LikeChecked:false})
+    }else if(rightTopData.LikeChecked === false){
+      setRightTopData({...rightTopData ,LikeChecked:true})
+    }
+  }
 
     return (
       <Container>
