@@ -94,9 +94,6 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
     return optionText;
   }
 
-
-  const [active,setActive] = useState(false);
-
   const LikeBtnEvent=()=>{
     if(rightTopData.LikeChecked === true){
       setRightTopData({...rightTopData ,LikeChecked:false})
@@ -104,7 +101,6 @@ export default function BunyangList({updatePageIndex,setLive,setDetailImg,setCal
       setRightTopData({...rightTopData ,LikeChecked:true})
     }
   }
-
 
     return (
       <Container>
