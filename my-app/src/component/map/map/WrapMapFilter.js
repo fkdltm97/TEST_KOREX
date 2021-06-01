@@ -428,7 +428,7 @@ const WrapFilter = styled.div`
   }
 
   position:absolute;
-  width: 390px;
+  width: 360px;
   height: auto;
   max-height:85vh;
   padding:15px 20px 0;

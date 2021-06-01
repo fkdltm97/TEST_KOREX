@@ -249,6 +249,7 @@ export default function ProfileBottomElement({open,setOpen}) {
           }else if(login_userinfodata.mem_admin=='team'){
             return(
             <div>
+              {commonProjectMana()}
               <CommonList array={listData.bunyangTeam} />
             </div>
             );

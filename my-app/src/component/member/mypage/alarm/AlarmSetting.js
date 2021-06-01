@@ -20,7 +20,10 @@ import Marker from '../../../../img/member/marker.png';
 import ArrowDown from '../../../../img/member/arrow_down.png';
 
 import { Mobile, PC } from "../../../../MediaQuery";
-import JunsokSetting from "./JunsokSetting";
+import JunsokDemandSetting from "./JunsokDemandSetting";
+import BunyangDemandSetting from "./BunyangDemandSetting";
+import JunsokSupplySetting from "./JunsokSupplySetting";
+import BunyangSupplySetting from "./BunyangSupplySetting";
 import CommonSetting from "./CommonSetting";
 
 export default function Like({setFilter,value,type}) {
@@ -37,16 +40,30 @@ export default function Like({setFilter,value,type}) {
             <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab">
             {/*
               ** 분기처리 **
-              개인 : 전속매물 공급 I 공통
-              기업 : 전속매물 공급 I 공통
-              중개사 : 분양수요 I 공통
-              전문중개사 : 분양수요 I 전속매물 공급 I 공통
-              분양프로젝트 팀원 : 분양공급 I 공통
+              cf.전속매물 수요 관련 화면설계 : #86:1-a, #87:2-a
+              개인 : 전속매물 수요 I 전속매물 공급 I 공통
+              기업 : 전속매물 수요 I 전속매물 공급 I 공통
+              중개사 : 전속매물 수요 I 분양 수요 I 공통
+              전문중개사 : 전속매물 수요 I 분양 수요 I 전속매물 공급 I 공통
+              분양프로젝트 팀원 : 분양 공급 I 공통
 
               */}
-              <Tab label="전속매물 공급">
-                <JunsokSetting/>
+              <Tab label="전속매물 수요">
+                <JunsokDemandSetting/>
               </Tab>
+{/* 
+              <Tab label="분양 수요">
+                <BunyangDemandSetting/>
+              </Tab>
+*/}
+              <Tab label="전속매물 공급">
+                <JunsokSupplySetting/>
+              </Tab>
+{/* 
+              <Tab label="분양 공급">
+                <BunyangSupplySetting/>
+              </Tab>
+*/}              
               <Tab label="공통">
                 <CommonSetting/>
               </Tab>

@@ -51,18 +51,43 @@ export default function Like({setFilter,value,type}) {
   ]
     return (
         <Container>
-          <WrapRequest count1={1} count2={2} count3={0}>
+          <WrapRequest count1={1} count2={2} count3={0} count4={0}>
             <TopTitle>내 알림</TopTitle>
             <Tabs onSelect={(index, label) => console.log(label + ' selected')} className="like_tab alarm_tab pr">
             {/*
               ** 분기처리 **
-              개인 : 전속매물 공급 I 공통
-              기업 : 전속매물 공급 I 공통
-              중개사 : 분양수요 I 공통
-              전문중개사 : 분양수요 I 전속매물 공급 I 공통
-              분양프로젝트 팀원 : 분양공급 I 공통
+              cf.전속매물 수요 관련 화면설계 : #86_v1.2 의 1-a, #87_v1.2 의 2-a
+              개인 : 전속매물 수요 I 전속매물 공급 I 공통
+              기업 : 전속매물 수요 I 전속매물 공급 I 공통
+              중개사 : 전속매물 수요 I 분양수요 I 공통
+              전문중개사 : 전속매물 수요 I 분양 수요 I 전속매물 공급 I 공통
+              분양프로젝트 팀원 : 분양 공급 I 공통
 
               */}
+              <Tab label="전속매물 수요">
+              <ItemTopInfo/>
+              {
+                  AlarmListItem.map((value) => {
+                    return(
+                      <ItemTabList value={value}/>
+                    )
+                  }
+                )
+              }
+              </Tab>
+{/*
+              <Tab label="분양 수요" >
+              <ItemTopInfo/>
+              {
+                  AlarmListItem.map((value) => {
+                    return(
+                      <ItemTabList value={value}/>
+                    )
+                  }
+                )
+              }
+              </Tab>
+*/} 
               <Tab label="전속매물 공급" className="count_num">
               <ItemTopInfo/>
               {
@@ -73,22 +98,9 @@ export default function Like({setFilter,value,type}) {
                   }
                 )
               }
-              </Tab>
+              </Tab>             
 {/*
-              <Tab label="분양수요">
-              <ItemTopInfo/>
-              {
-                  AlarmListItem.map((value) => {
-                    return(
-                      <ItemTabList value={value}/>
-                    )
-                  }
-                )
-              }
-              </Tab>
-*/}
-{/*
-              <Tab label="분양공급">
+              <Tab label="분양 공급">
               <ItemTopInfo/>
               {
                   AlarmListItem.map((value) => {
@@ -101,7 +113,15 @@ export default function Like({setFilter,value,type}) {
               </Tab>
 */}
               <Tab label="공통">
-                <CommonList/>
+              <ItemTopInfo/>
+              {
+                  AlarmListItem.map((value) => {
+                    return(
+                      <ItemTabList value={value}/>
+                    )
+                  }
+                )
+              }
               </Tab>
           </Tabs>
 
@@ -137,7 +157,8 @@ const WrapRequest = styled.div`
   & > div > ul > li:nth-child(1) > a::before {
     content: '${({count1})=>count1}';
     position:absolute;
-    top:50%;transform:translateY(-50%);    right:0;
+    top:50%;transform:translateY(-50%);
+    right:0;
     width:15px;
     height:15px;
     line-height:15px;
@@ -155,7 +176,8 @@ const WrapRequest = styled.div`
   & > div > ul > li:nth-child(2) > a::before {
     content: '${({count2})=>count2}';
     position:absolute;
-    top:50%;transform:translateY(-50%);    right:0;
+    top:50%;transform:translateY(-50%);
+    right:0;
     width:15px;
     height:15px;text-align:center;
     line-height:15px;
@@ -172,6 +194,25 @@ const WrapRequest = styled.div`
   }
   & > div > ul > li:nth-child(3) > a::before {
     content: '${({count3})=>count3}';
+    position:absolute;
+    top:50%;transform:translateY(-50%);
+    right:0;
+    width:15px;
+    height:15px;text-align:center;
+    line-height:15px;
+    display:block;
+    background:#fe7a01;
+    color:#fff;
+    font-size:11px;border-radius:100%;
+    @media screen and (max-width:1024px){
+      width: calc(100vw*(15/428));
+      height: calc(100vw*(15/428));
+      line-height: calc(100vw*(15/428));
+      font-size: calc(100vw*(10/428));
+    }
+  }
+  & > div > ul > li:nth-child(4) > a::before {
+    content: '${({count4})=>count4}';
     position:absolute;
     top:50%;transform:translateY(-50%);
     right:0;
